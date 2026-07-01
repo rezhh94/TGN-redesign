@@ -1,3 +1,9 @@
+import { Hero } from "@/components/Hero";
+
 export default function Home() {
-  return <main id="main" className="page-shell" aria-label="Tigon Studio redesign base" />;
+  return (
+    <main id="main" className="page-shell">
+      <Hero />
+    </main>
+  );
 }

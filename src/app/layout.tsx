@@ -5,10 +5,11 @@ import "@/styles/tokens.css";
 import "@/styles/base.css";
 import "@/styles/typography.css";
 import "@/styles/nav.css";
+import "@/styles/hero.css";
 
 export const metadata: Metadata = {
-  title: "Tigon Studio",
-  description: "Ren redesign-base for Tigon Studio.",
+  title: "Tigon Studio | Nettsider og apper som blir funnet",
+  description: "Tigon Studio bygger nettsider og apper som blir funnet, forstått og valgt.",
 };
 
 export default function RootLayout({
