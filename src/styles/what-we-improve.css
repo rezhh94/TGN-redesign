@@ -1,0 +1,214 @@
+.what-improve {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, #080908 0%, #11120e 46%, #070807 100%);
+  color: var(--color-on-dark);
+}
+
+.what-improve__inner {
+  width: min(100%, 2560px);
+  margin: 0 auto;
+  padding: clamp(136px, 17vh, 218px) clamp(24px, 5vw, 150px) clamp(128px, 16vh, 214px);
+}
+
+.what-improve__label,
+.what-improve__number {
+  color: rgba(242, 241, 235, 0.62);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+}
+
+.what-improve__canvas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: minmax(360px, auto) minmax(360px, auto);
+  gap: clamp(84px, 10vh, 150px) clamp(44px, 7vw, 128px);
+  margin-top: clamp(60px, 8vh, 98px);
+}
+
+.what-improve__title {
+  display: contents;
+}
+
+.what-improve__word {
+  display: block;
+  color: rgba(242, 241, 235, 0.24);
+  font-family: var(--font-display);
+  font-size: clamp(88px, 10.2vw, 214px);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.78;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.what-improve__word[data-outcome="funnet"] {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  justify-self: start;
+  color: rgba(242, 241, 235, 0.94);
+}
+
+.what-improve__word[data-outcome="forstatt"] {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  justify-self: end;
+  color: rgba(242, 241, 235, 0.36);
+}
+
+.what-improve__word[data-outcome="valgt"] {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: start;
+  justify-self: start;
+  color: rgba(242, 241, 235, 0.34);
+}
+
+.what-improve__word[data-outcome="malt"] {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  justify-self: end;
+  color: rgba(242, 241, 235, 0.58);
+}
+
+.what-improve__annotation {
+  width: min(100%, 440px);
+  align-self: start;
+  z-index: 1;
+}
+
+.what-improve__annotation--funnet {
+  grid-column: 1;
+  grid-row: 1;
+  margin-top: clamp(118px, 10.4vw, 208px);
+  margin-left: clamp(6px, 1.6vw, 34px);
+}
+
+.what-improve__annotation--forstatt {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  margin-top: clamp(128px, 10.8vw, 218px);
+  margin-right: clamp(0px, 1.2vw, 28px);
+}
+
+.what-improve__annotation--valgt {
+  grid-column: 1;
+  grid-row: 2;
+  margin-top: clamp(102px, 9.2vw, 188px);
+  margin-left: clamp(6px, 1.8vw, 38px);
+}
+
+.what-improve__annotation--malt {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: end;
+  margin-top: clamp(92px, 8.2vw, 166px);
+  margin-right: clamp(0px, 1.2vw, 28px);
+}
+
+.what-improve__description {
+  margin-top: 14px;
+  color: rgba(242, 241, 235, 0.72);
+  font-family: var(--font-sans);
+  font-size: clamp(17px, 1.18vw, 21px);
+  font-weight: 400;
+  line-height: 1.42;
+}
+
+@media (max-width: 1180px) {
+  .what-improve__canvas {
+    grid-template-rows: minmax(320px, auto) minmax(320px, auto);
+    gap: 72px 36px;
+  }
+
+  .what-improve__word {
+    font-size: clamp(76px, 10vw, 118px);
+  }
+
+  .what-improve__annotation {
+    width: min(100%, 350px);
+  }
+
+  .what-improve__annotation--funnet,
+  .what-improve__annotation--forstatt {
+    margin-top: 120px;
+  }
+
+  .what-improve__annotation--valgt,
+  .what-improve__annotation--malt {
+    margin-top: 104px;
+  }
+}
+
+@media (max-width: 760px) {
+  .what-improve__inner {
+    padding: 108px 20px 112px;
+  }
+
+  .what-improve__canvas {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, minmax(188px, auto));
+    gap: 44px;
+    margin-top: 42px;
+  }
+
+  .what-improve__word {
+    font-size: clamp(50px, 16vw, 78px);
+    line-height: 0.84;
+  }
+
+  .what-improve__word[data-outcome],
+  .what-improve__annotation {
+    grid-column: 1;
+  }
+
+  .what-improve__word[data-outcome="funnet"],
+  .what-improve__annotation--funnet {
+    grid-row: 1;
+  }
+
+  .what-improve__word[data-outcome="forstatt"],
+  .what-improve__annotation--forstatt {
+    grid-row: 2;
+  }
+
+  .what-improve__word[data-outcome="valgt"],
+  .what-improve__annotation--valgt {
+    grid-row: 3;
+  }
+
+  .what-improve__word[data-outcome="malt"],
+  .what-improve__annotation--malt {
+    grid-row: 4;
+  }
+
+  .what-improve__word[data-outcome="forstatt"],
+  .what-improve__word[data-outcome="malt"],
+  .what-improve__annotation--forstatt,
+  .what-improve__annotation--malt {
+    justify-self: end;
+  }
+
+  .what-improve__annotation {
+    width: min(100%, 310px);
+    margin-top: 72px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .what-improve__annotation--forstatt {
+    margin-top: 74px;
+  }
+
+  .what-improve__description {
+    font-size: 16px;
+    line-height: 1.44;
+  }
+}

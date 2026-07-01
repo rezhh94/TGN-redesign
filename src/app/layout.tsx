@@ -8,6 +8,7 @@ import "@/styles/nav.css";
 import "@/styles/hero.css";
 import "@/styles/approach-statement-bridge.css";
 import "@/styles/what-we-build.css";
+import "@/styles/what-we-improve.css";
 
 export const metadata: Metadata = {
   title: "Tigon Studio | Nettsider og apper som blir funnet",
