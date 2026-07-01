@@ -18,10 +18,10 @@ Tigon gjør uklare prosjekter tydelige nok til å bygges riktig.
 
 ## Focal point
 
-The first thing the user should notice is one large JUSTSans editorial statement:
+The first thing the user should notice is one large typographic display statement:
 
-"Vi gjør uklare prosjekter
-tydelige nok til å bygges riktig."
+"UKLART
+blir byggbart."
 
 ## Tone
 
@@ -37,7 +37,7 @@ Centered editorial statement.
 
 Suggested static layout:
 - small CalebMono label
-- large JUSTSans statement
+- large typographic display statement
 - compact supporting paragraph
 - generous vertical whitespace
 - no visual object
@@ -47,7 +47,8 @@ Suggested static layout:
 Hero is cinematic, brand-heavy and display-type driven with a large visual field.
 
 This bridge should be quieter and more text-led:
-- JUSTSans instead of TGSPerfect for the main statement
+- shortened display copy treated as a typographic moment
+- JUSTSans reserved for supporting text
 - no large visual
 - no CTA
 - no service links
@@ -63,8 +64,8 @@ Internal order:
 This is the second page block after Hero, but the visible section numbering starts after Hero.
 
 Main statement:
-Vi gjør uklare prosjekter
-tydelige nok til å bygges riktig.
+UKLART
+blir byggbart.
 
 Supporting text:
 Før design, kode og animasjon kommer struktur:
@@ -80,7 +81,10 @@ None.
 ## Must include
 
 - The section must appear after Hero and before Services when implemented.
-- The main statement must use JUSTSans, not TGSPerfect.
+- The main statement may use TGSPerfect for "UKLART" if it is treated as a typographic moment.
+- "blir byggbart." should use JUSTSans.
+- JUSTSans should remain the body/supporting font.
+- Do not recreate the old "STRUKTUR / FØR / PYNT" section.
 - The label should use CalebMono.
 - Important text must be server-rendered HTML.
 - The section must preserve Header + Hero exactly unless explicitly approved otherwise.
