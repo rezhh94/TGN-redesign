@@ -2,6 +2,13 @@
 
 Before coding this section, this contract must be approved.
 
+Revision note (2026-07-02):
+This contract is revised after the static design audit of the built first version.
+The first static build preserved all content requirements but is not approved.
+The audit found concrete weaknesses in the CTA zone, the closing composition,
+the footer index presentation and the wordmark motif. This revision tightens
+the design direction for a second static pass. Content requirements are unchanged.
+
 ## Section name
 
 07 / Contact Footer / Kontakt
@@ -59,6 +66,92 @@ Suggested static layout:
 - no icons
 - no contact form in first build
 - no orange
+
+## Audit findings driving this revision
+
+From the static audit of the first build (desktop 1440px):
+
+- The two CTA pills stacked vertically with different widths and read as
+  unfinished, not composed. Cause: the actions column was locked to a narrow
+  grid track while the pills flex-wrapped.
+- The closing block forced height via min-height (up to 92svh) without content
+  to fill it, leaving dead vertical air between the lead and the contact zone.
+- The footer index used standard four-column footer grammar (mono column title
+  + plain vertical link lists). It read as a normal SaaS footer. The Steder
+  column with four "Webutvikling X" links in a row read as SEO farm even
+  though the links are legitimate.
+- The ghost wordmark at the bottom duplicated the ghost "TIGON" motif already
+  used in 04 / Arbeid, weakening both.
+
+## Redesign direction (contract clarifications)
+
+### 1. CTA system
+
+- The CTAs must not stack accidentally on desktop.
+- Primary and secondary CTA must sit as a deliberate CTA row or a clear
+  compositional pair. Their alignment, spacing and relative widths must look
+  authored at all desktop widths.
+- The primary CTA must visually match the hero/page CTA system.
+- The secondary CTA must be calmer than the primary, but must not look like a
+  default outline button. It needs its own considered treatment within the
+  page's design language.
+
+### 2. Closing composition
+
+- The closing block must not contain dead vertical air. Height must come from
+  content and composition, not from a forced min-height.
+- Email/phone may be used as a large contact focal element in the closing.
+- hello@tigon.no must feel like a premium contact surface — a designed focal
+  moment — not just NAP text.
+
+### 3. Footer index
+
+- The footer index must not look like a normal SaaS footer or a link farm.
+- All links must be preserved, but presented as editorial index/metadata:
+  something that reads as part of the page's editorial language (index,
+  ledger, numbered register or similar), not as generic footer columns.
+- The Steder links must be typographically subdued/structured so they do not
+  read as an SEO farm.
+- The footer index must support the closing, not compete with it.
+
+### 4. Wordmark
+
+- Do not reuse the same ghost-wordmark trick as Work Showcase if it makes the
+  page expression repetitive.
+- Either the footer wordmark is a clear, intentional bookend of the Hero, or
+  the ghost wordmark is toned down or removed.
+
+## SEO contract reference
+
+docs/homepage-seo-contract.md (dated 2026-06-30) is a preservation contract for
+the live tigon.no homepage. It appeared in the repo after the first build of
+this section and is now the reference for which links/NAP the live site
+carries. It documents the live site's old component structure, so it maps to
+the redesign only at the content/URL level.
+
+Confirmed by that contract and already covered here:
+- Footer NAP, phone and email (identical values).
+- Primary CTA `Få gratis analyse` -> /kontakt and secondary
+  `Book en rask gjennomgang (15 min)` -> /kontakt?emne=Rask gjennomgang (15 min).
+- The regional Webutvikling links (Oslo/Bergen/Trondheim/Stavanger), case links
+  and the resource links listed in Content below.
+
+Open deltas — live homepage links NOT in this footer index. Decision needed
+(re-home to footer index, cover via hub pages like /ressurser and /steder, or
+document the omission) before the redesign replaces the live page. Do not add
+them unilaterally in the static build:
+- `Vilkår`/`Juridisk` -> /vilkar (live footer navigation)
+- `Om oss` -> /om-oss and `Kontakt` -> /kontakt (live footer navigation; in the
+  redesign these live in the header)
+- Resource links visible on live homepage but not here:
+  `Hva koster digital plattform?` -> /hva-koster-digital-plattform,
+  `Mobilapp eller webapp?` -> /mobilapp-eller-webapp
+- The Oslo-cluster SEO/dev/app links (Frogner, Majorstuen, Bærum, Asker) from
+  the live regional section — these belong to a homepage-level decision, not
+  necessarily the footer.
+
+This section's contract does not change metadata, schema, canonical, sitemap,
+robots or URL structure. Those are governed by docs/homepage-seo-contract.md.
 
 ## Why this layout is different from the previous section
 
@@ -149,6 +242,8 @@ Kontakt/NAP:
 - Lead/body/footer links should use JUSTSans.
 - Labels and metadata should use CalebMono.
 - Footer-index should feel like editorial metadata, not a giant SEO link farm.
+- CTA row/pair composed per the CTA system clarification above.
+- Closing composition without dead vertical air.
 
 ## Must not include
 
@@ -163,6 +258,10 @@ Kontakt/NAP:
 - imported old styles.css
 - imported old signature.css
 - imported old main.js
+- accidental CTA stacking on desktop
+- forced min-height that creates empty vertical space
+- default-looking outline button as secondary CTA
+- a ghost wordmark that repeats the Work Showcase motif unchanged
 
 ## Motion plan
 
@@ -176,11 +275,19 @@ Future motion idea:
 
 ## Static acceptance criteria
 
+Contact/Footer is not approved until all of the following hold:
+
+- CTA-sonen føles ferdig: primary og secondary ligger som en bevisst rad/pair,
+  uten tilfeldig stacking eller ulik bredde på desktop.
+- Footer-index føles ikke billig: den leser som editorial index/metadata,
+  ikke som vanlig SaaS-footer eller link farm.
+- Steder-lenkene er typografisk dempet/strukturert og leser ikke som SEO-farm.
+- NAP og samtlige footer-index-lenker er bevart som server-rendrede lenker.
+- Closing føles som en premium avslutning: ingen død vertikal luft,
+  hello@tigon.no fungerer som premium kontaktflate.
+- Wordmark-valget er bevisst: tydelig bookend eller nedtonet/fjernet ghost.
 - Avslutter siden tydelig med en sterk closing hero.
 - Har premium closing-feeling, ikke vanlig liten footer.
-- Bevarer kontaktvei og NAP.
-- Bevarer viktige tjeneste-, case-, ressurs- og stedlenker i en kompakt footer-index.
-- Footer-index føles som editorial metadata, ikke link farm.
 - Fungerer uten JS.
 - Ser premium ut statisk.
 - Ingen cards.
@@ -192,12 +299,10 @@ For this contract pass:
 - docs/sections/07-contact-footer.md
 
 For later static implementation:
-- src/app/page.tsx
-- src/app/layout.tsx if new CSS import is needed
 - src/components/ContactFooter.tsx
 - src/styles/contact-footer.css
 
-Do not touch existing sections unless explicitly approved.
+Do not touch existing sections, page.tsx or layout.tsx unless explicitly approved.
 
 ## Validation
 
