@@ -1,4 +1,4 @@
-const footerGroups = [
+const footerIndex = [
   {
     title: "Tjenester",
     links: [
@@ -30,6 +30,7 @@ const footerGroups = [
   },
   {
     title: "Steder",
+    subdued: true,
     links: [
       { label: "Steder", href: "/steder" },
       { label: "Webutvikling Oslo", href: "/tjenester/webutvikling-nextjs/oslo/oslo" },
@@ -55,66 +56,69 @@ export function ContactFooter() {
             <p className="contact-footer__lead">
               Vi gjør det tydeligere. Fortell kort hva du vurderer å bygge, så svarer vi med hva som bør gjøres først.
             </p>
+          </div>
+        </div>
 
-            <div className="contact-footer__contact-zone">
-              <div className="contact-footer__actions" aria-label="Kontaktvalg">
-                <a className="contact-footer__action contact-footer__action--primary" href="/kontakt">
-                  Få gratis analyse
-                </a>
-                <a
-                  className="contact-footer__action contact-footer__action--secondary"
-                  href="/kontakt?emne=Rask%20gjennomgang%20%2815%20min%29"
-                >
-                  Book 15 min
-                </a>
-              </div>
+        <div className="contact-footer__contact">
+          <div className="contact-footer__direct" aria-label="Direkte kontakt">
+            <p className="contact-footer__direct-label">Direkte</p>
+            <a className="contact-footer__email" href="mailto:hello@tigon.no">
+              hello@tigon.no
+            </a>
+            <a className="contact-footer__phone" href="tel:+4741760149">
+              +47 41 76 01 49
+            </a>
+          </div>
 
-              <div className="contact-footer__direct" aria-label="Direkte kontakt">
-                <p className="contact-footer__direct-label">Direkte</p>
-                <a className="contact-footer__email" href="mailto:hello@tigon.no">
-                  hello@tigon.no
-                </a>
-                <a className="contact-footer__phone" href="tel:+4741760149">
-                  +47 41 76 01 49
-                </a>
-              </div>
-            </div>
+          <div className="contact-footer__actions" aria-label="Kontaktvalg">
+            <a className="contact-footer__action contact-footer__action--primary" href="/kontakt">
+              Få gratis analyse
+              <span className="contact-footer__action-arrow" aria-hidden="true" />
+            </a>
+            <a
+              className="contact-footer__action contact-footer__action--secondary"
+              href="/kontakt?emne=Rask%20gjennomgang%20%2815%20min%29"
+            >
+              Book 15 min
+            </a>
           </div>
         </div>
 
         <footer className="contact-footer__index" aria-label="Tigon footer">
-          <div className="contact-footer__groups">
-            {footerGroups.map((group) => (
-              <nav className="contact-footer__group" aria-label={group.title} key={group.title}>
-                <h3 className="contact-footer__group-title">{group.title}</h3>
-                <ul className="contact-footer__links">
-                  {group.links.map((link) => (
-                    <li className="contact-footer__item" key={link.href}>
-                      <a className="contact-footer__link" href={link.href}>
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            ))}
-          </div>
+          {footerIndex.map((group) => (
+            <nav
+              className={`contact-footer__row${group.subdued ? " contact-footer__row--subdued" : ""}`}
+              aria-label={group.title}
+              key={group.title}
+            >
+              <p className="contact-footer__row-label">{group.title}</p>
+              <ul className="contact-footer__row-links">
+                {group.links.map((link) => (
+                  <li className="contact-footer__item" key={link.href}>
+                    <a className="contact-footer__link" href={link.href}>
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
 
-          <div className="contact-footer__nap" aria-label="Kontaktinformasjon">
-            <p className="contact-footer__group-title">Kontakt</p>
+          <div className="contact-footer__row contact-footer__row--nap" aria-label="Kontaktinformasjon">
+            <p className="contact-footer__row-label">Kontakt</p>
             <address className="contact-footer__address">
               <span>Tigon Studio AS</span>
               <span>Lindeberg Næringsvei 20</span>
               <span>1067 Oslo, NO</span>
               <a href="mailto:hello@tigon.no">hello@tigon.no</a>
               <a href="tel:+4741760149">+47 41 76 01 49</a>
+              <span className="contact-footer__copyright">© 2026 Tigon Studio AS</span>
             </address>
-            <p className="contact-footer__copyright">© 2026 Tigon Studio AS</p>
           </div>
         </footer>
 
         <p className="contact-footer__wordmark" aria-hidden="true">
-          TIGON STUDIO
+          <span>TIGON</span> <span>STUDIO</span>
         </p>
       </div>
     </section>
