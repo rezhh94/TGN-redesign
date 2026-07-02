@@ -1,50 +1,34 @@
-/* 05 / Prosess — production scene. One dark scene, three zones: a giant
-   input object ("Uklart inn."), four full-width production strata on a single
-   drawn axis, and a giant output object ("Målbart ut."). Material solidifies
-   layer by layer: each stratum is a touch lighter, its type a touch more
-   solid, its node a touch more filled. No plate, no boxes, no map — the
-   section itself is the machine. Calm, directed motion only: axis draw,
-   stratum settle, output-state slide, one masked landing. */
+/* 05 / Prosess — layer assembly stage. One dark scene: a four-plate system
+   object in shallow 3D (SCOPE / STRUKTUR / UI+KODE / MÅLING) under a giant
+   ghost "Uklart", with the four phases taking the floor one by one.
 
-.process-layers {
+   Two modes:
+   - Default (no JS / mobile / reduced motion): calm document flow — title,
+     the fully assembled stack, all four phases listed. Everything readable.
+   - .process-stage--scene (added by JS on desktop + motion): pinned 100vh
+     stage; GSAP scatters the plates and assembles them with scroll while
+     phase text swaps bottom-left and the title completes itself. */
+
+.process-stage {
   --pad: clamp(24px, 5vw, 150px);
-  --axis-x: calc(var(--pad) + clamp(4px, 0.6vw, 10px));
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, #080908 0%, #101109 48%, #0a0b0a 100%);
+  background: linear-gradient(180deg, #080908 0%, #101109 52%, #0a0b0a 100%);
   color: var(--color-on-dark);
 }
 
-.process-layers__inner {
+.process-stage__inner {
+  position: relative;
   width: min(100%, 2560px);
   margin: 0 auto;
   /* extra top room: the light 04-plate overlaps down into this section */
-  padding: calc(clamp(118px, 15vh, 190px) + var(--work-overlap)) var(--pad)
-    clamp(128px, 17vh, 220px);
+  padding: calc(clamp(110px, 14vh, 170px) + var(--work-overlap)) var(--pad)
+    clamp(120px, 16vh, 200px);
 }
 
-.process-layers__sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  clip-path: inset(50%);
-  overflow: hidden;
-  white-space: nowrap;
-}
+/* Head */
 
-/* Zone 1 — input. The unclear material: huge, soft, slightly foggy. */
-
-.process-layers__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.process-layers__label {
+.process-stage__label {
   color: rgba(242, 241, 235, 0.62);
   font-family: var(--font-mono);
   font-size: 12px;
@@ -52,376 +36,476 @@
   line-height: 1.2;
 }
 
-.process-layers__meta {
-  color: rgba(242, 241, 235, 0.34);
+.process-stage__title {
+  margin-top: clamp(30px, 4.6vh, 56px);
+  font-family: var(--font-sans);
+  font-size: clamp(48px, 5.2vw, 108px);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.process-stage__title-line {
+  display: block;
+}
+
+.process-stage__title-line[data-stage-title-out] {
+  color: var(--color-on-dark);
+}
+
+.process-stage__lead {
+  max-width: 420px;
+  margin-top: clamp(22px, 3.4vh, 36px);
+  color: rgba(242, 241, 235, 0.6);
+  font-family: var(--font-sans);
+  font-size: clamp(15.5px, 1.1vw, 18px);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Object — ghost word + 3D stack + io registers */
+
+.process-stage__object {
+  position: relative;
+  margin-top: clamp(64px, 10vh, 130px);
+}
+
+.process-stage__ghost {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  color: rgba(242, 241, 235, 0.055);
+  font-family: var(--font-sans);
+  font-size: clamp(110px, 16vw, 340px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translate(-50%, -54%);
+  pointer-events: none;
+}
+
+.process-stage__scene3d {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  perspective: 1700px;
+  /* generous: the rotated stack projects far outside its layout box */
+  padding: clamp(120px, 18vh, 210px) 0 clamp(110px, 16vh, 190px);
+}
+
+.process-stage__stack {
+  position: relative;
+  width: clamp(280px, 30vw, 520px);
+  aspect-ratio: 16 / 10;
+  transform-style: preserve-3d;
+  transform: rotateX(56deg) rotateZ(-34deg);
+}
+
+/* Plates. --i = layer index (set per plate), --edge = border strength.
+   Default transform is the assembled stack; the scene timeline owns the
+   transform entirely when JS takes over. */
+
+.process-stage__plate {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(242, 241, 235, var(--edge, 0.3));
+  background:
+    linear-gradient(128deg, rgba(242, 241, 235, 0.07) 0%, rgba(242, 241, 235, 0.015) 55%, rgba(242, 241, 235, 0) 100%),
+    rgba(13, 14, 12, 0.92);
+  box-shadow: -18px 26px 60px rgba(0, 0, 0, 0.42);
+  transform: translateZ(calc(var(--i) * 44px));
+}
+
+.process-stage__plate--scope {
+  --i: 0;
+  --edge: 0.22;
+}
+
+.process-stage__plate--struktur {
+  --i: 1;
+  --edge: 0.28;
+}
+
+.process-stage__plate--kode {
+  --i: 2;
+  --edge: 0.34;
+}
+
+.process-stage__plate--maling {
+  --i: 3;
+  --edge: 0.45;
+}
+
+.process-stage__plate-index {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  color: rgba(242, 241, 235, 0.42);
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  line-height: 1.2;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.process-stage__plate-label {
+  position: absolute;
+  bottom: 10px;
+  left: 14px;
+  color: rgba(242, 241, 235, 0.78);
+  font-family: var(--font-mono);
+  font-size: clamp(13px, 1.15vw, 19px);
+  letter-spacing: 0.09em;
+  line-height: 1;
   text-transform: uppercase;
 }
 
-.process-layers__title {
-  margin-top: clamp(48px, 8vh, 110px);
-  font-family: var(--font-sans);
-  font-size: clamp(64px, 9.4vw, 210px);
-  font-weight: 400;
-  letter-spacing: -0.04em;
-  line-height: 0.94;
+/* Plate faces — one restrained technical drawing each */
+
+.process-stage__corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 0 solid rgba(242, 241, 235, 0.4);
 }
 
-.process-layers__title-in {
-  display: block;
-  color: rgba(242, 241, 235, 0.58);
-  /* the fog: a soft static bloom, not an effect */
-  text-shadow: 0 0 32px rgba(242, 241, 235, 0.22);
-  filter: blur(0);
+.process-stage__corner--tl {
+  top: 10px;
+  left: 12px;
+  border-top-width: 1px;
+  border-left-width: 1px;
 }
 
-.process-layers__lead {
-  max-width: 540px;
-  margin: clamp(30px, 4.8vh, 60px) 0 0 auto;
-  color: rgba(242, 241, 235, 0.62);
-  font-family: var(--font-sans);
-  font-size: clamp(17px, 1.25vw, 23px);
-  font-weight: 400;
-  line-height: 1.45;
+.process-stage__corner--tr {
+  top: 28px;
+  right: 12px;
+  border-top-width: 1px;
+  border-right-width: 1px;
 }
 
-/* Zone 2 — the machine. Full-bleed strata; the axis is the only line. */
-
-.process-layers__machine {
-  position: relative;
-  margin: clamp(76px, 12vh, 160px) calc(-1 * var(--pad)) 0;
+.process-stage__corner--bl {
+  bottom: 28px;
+  left: 12px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
 }
 
-.process-layers__axis {
+.process-stage__corner--br {
+  bottom: 10px;
+  right: 12px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+.process-stage__scope-frame {
+  position: absolute;
+  inset: 22% 20%;
+  border: 1px solid rgba(242, 241, 235, 0.16);
+}
+
+.process-stage__tree {
+  position: absolute;
+  inset: 12% 14% 20%;
+  width: 72%;
+  height: 68%;
+  stroke: rgba(242, 241, 235, 0.3);
+  stroke-width: 1;
+}
+
+.process-stage__ui-block {
+  position: absolute;
+  top: 18%;
+  left: 8%;
+  width: 30%;
+  height: 26%;
+  background: rgba(242, 241, 235, 0.1);
+}
+
+.process-stage__ui-line {
+  position: absolute;
+  left: 8%;
+  height: 2px;
+  background: rgba(242, 241, 235, 0.22);
+}
+
+.process-stage__ui-line--wide {
+  top: 56%;
+  width: 34%;
+}
+
+.process-stage__ui-line:not(.process-stage__ui-line--wide) {
+  top: 66%;
+  width: 22%;
+}
+
+.process-stage__code-bar {
+  position: absolute;
+  right: 10%;
+  height: 3px;
+  background: rgba(242, 241, 235, 0.26);
+}
+
+.process-stage__code-bar:nth-of-type(1) {
+  top: 24%;
+}
+
+.process-stage__code-bar:nth-of-type(2) {
+  top: 36%;
+}
+
+.process-stage__code-bar:nth-of-type(3) {
+  top: 48%;
+}
+
+.process-stage__code-bar {
+  max-width: 34%;
+}
+
+.process-stage__spark {
+  position: absolute;
+  inset: 14% 12% 22%;
+  width: 76%;
+  height: 64%;
+  stroke: rgba(242, 241, 235, 0.34);
+  stroke-width: 1.2;
+}
+
+.process-stage__spark circle {
+  fill: rgba(242, 241, 235, 0.6);
+  stroke: none;
+}
+
+/* IO registers */
+
+.process-stage__io {
+  color: rgba(242, 241, 235, 0.5);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.process-stage__io--in {
   position: absolute;
   top: 0;
-  bottom: calc(-1 * clamp(56px, 9vh, 120px));
-  left: var(--axis-x);
-  width: 1px;
-  overflow: hidden;
+  left: 0;
 }
 
-.process-layers__axis-line {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(242, 241, 235, 0.1) 0%,
-    rgba(242, 241, 235, 0.34) 100%
-  );
-  transform-origin: top center;
+.process-stage__io--out {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: rgba(242, 241, 235, 0.72);
 }
 
-.process-layers__stages {
+/* Phases — default: all four listed, calm editorial column */
+
+.process-stage__phases {
+  max-width: 620px;
+  margin-top: clamp(56px, 9vh, 110px);
+}
+
+.process-stage__ticks {
+  display: none;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Stratum. --solid = how finished the material is at this layer,
-   --fill = node fill, --tone = background lift. --on drives the active
-   reading-band brightening; defaults keep everything readable without JS. */
-
-.process-layers__stage {
-  --on: 1;
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(72px, 0.1fr) minmax(0, 1.05fr) minmax(0, 1fr) minmax(150px, 0.4fr);
-  column-gap: clamp(24px, 3.4vw, 64px);
-  align-items: start;
-  padding: clamp(46px, 7vh, 96px) var(--pad) clamp(46px, 7vh, 96px)
-    calc(var(--axis-x) + clamp(28px, 3vw, 64px));
-  background: rgba(242, 241, 235, var(--tone));
+.process-stage__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.process-layers__stage:nth-child(1) {
-  --solid: 0.68;
-  --fill: 0;
-  --tone: 0;
+.process-stage__phase {
+  padding: clamp(26px, 4vh, 44px) 0;
+  border-top: 1px solid rgba(242, 241, 235, 0.1);
 }
 
-.process-layers__stage:nth-child(2) {
-  --solid: 0.79;
-  --fill: 0.25;
-  --tone: 0.014;
-}
-
-.process-layers__stage:nth-child(3) {
-  --solid: 0.9;
-  --fill: 0.55;
-  --tone: 0.028;
-}
-
-.process-layers__stage:nth-child(4) {
-  --solid: 1;
-  --fill: 1;
-  --tone: 0.045;
-}
-
-.process-layers__stage.is-dimmed {
-  --on: 0.55;
-}
-
-.process-layers__stage.is-active {
-  --on: 1;
-}
-
-.process-layers__stage-line {
-  position: absolute;
-  top: 0;
-  right: var(--pad);
-  left: var(--pad);
-  height: 1px;
-  background: rgba(242, 241, 235, 0.11);
-  transform-origin: left center;
-}
-
-.process-layers__node {
-  position: absolute;
-  top: calc(clamp(46px, 7vh, 96px) + 0.6em);
-  left: var(--axis-x);
-  width: 9px;
-  height: 9px;
-  border: 1px solid rgba(242, 241, 235, calc(0.35 + 0.55 * var(--fill)));
-  border-radius: 50%;
-  background: rgba(242, 241, 235, var(--fill));
-  transform: translateX(-50%);
-}
-
-.process-layers__code {
-  padding-top: 0.55em;
-  color: rgba(242, 241, 235, calc(0.55 * var(--solid) * var(--on)));
+.process-stage__phase-code {
+  color: rgba(242, 241, 235, 0.48);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.05em;
-  line-height: 1.2;
-  transition: color var(--motion-base) var(--ease-standard);
 }
 
-.process-layers__verb {
-  color: rgba(242, 241, 235, calc(0.96 * var(--solid) * var(--on)));
-  font-family: var(--font-sans);
-  font-size: clamp(40px, 4.6vw, 96px);
-  font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 0.98;
-  transition: color var(--motion-base) var(--ease-standard);
-}
-
-.process-layers__desc {
-  max-width: 480px;
-  padding-top: 0.6em;
-  color: rgba(242, 241, 235, calc(0.6 * var(--on)));
-  font-family: var(--font-sans);
-  font-size: clamp(15.5px, 1.1vw, 19px);
-  font-weight: 400;
-  line-height: 1.5;
-  transition: color var(--motion-base) var(--ease-standard);
-}
-
-/* The material state leaving each layer — the technical register */
-
-.process-layers__out {
-  display: flex;
-  align-items: baseline;
-  gap: 0.55em;
-  justify-self: end;
-  padding-top: 0.35em;
-  color: rgba(242, 241, 235, calc(0.88 * var(--solid) * var(--on)));
-  font-family: var(--font-mono);
-  font-size: clamp(19px, 1.9vw, 38px);
-  letter-spacing: 0.05em;
-  line-height: 1.1;
-  text-transform: uppercase;
-  transition: color var(--motion-base) var(--ease-standard);
-}
-
-.process-layers__out-arrow {
-  color: rgba(242, 241, 235, calc(0.4 * var(--on)));
-  font-size: 0.72em;
-  transition: color var(--motion-base) var(--ease-standard);
-}
-
-/* Zone 3 — output. The finished material: sharp, bright, landed. */
-
-.process-layers__result {
-  position: relative;
-  margin-top: clamp(56px, 9vh, 120px);
-  padding-left: calc(clamp(4px, 0.6vw, 10px) + clamp(28px, 3vw, 64px));
-}
-
-.process-layers__result-node {
-  position: absolute;
-  top: 0.52em;
-  left: clamp(4px, 0.6vw, 10px);
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--color-on-dark);
-  transform: translateX(-50%);
-  font-size: clamp(64px, 9.4vw, 210px);
-}
-
-.process-layers__result-word {
-  overflow: hidden;
-  font-family: var(--font-sans);
-  font-size: clamp(64px, 9.4vw, 210px);
-  font-weight: 400;
-  letter-spacing: -0.04em;
-  line-height: 0.94;
-}
-
-.process-layers__result-inner {
-  display: block;
+.process-stage__phase-verb {
+  margin-top: 10px;
   color: var(--color-on-dark);
+  font-family: var(--font-sans);
+  font-size: clamp(32px, 3.2vw, 58px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1;
 }
 
-/* The compressed system readout — one strip, not a diagram */
+.process-stage__phase-line {
+  max-width: 480px;
+  margin-top: 12px;
+  color: rgba(242, 241, 235, 0.62);
+  font-family: var(--font-sans);
+  font-size: clamp(15.5px, 1.1vw, 18px);
+  line-height: 1.5;
+}
 
-.process-layers__chain {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 0.9em;
-  row-gap: 10px;
-  margin-top: clamp(34px, 5vh, 60px);
-  color: rgba(242, 241, 235, 0.68);
+.process-stage__phase-ref {
+  margin-top: 14px;
+  color: rgba(242, 241, 235, 0.55);
   font-family: var(--font-mono);
-  font-size: clamp(12px, 0.95vw, 15px);
-  letter-spacing: 0.07em;
-  line-height: 1.4;
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.process-layers__chain-item {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.9em;
+/* ————————————————————————————————————————————————————————————————
+   Scene mode — desktop + JS + motion. Pinned 100vh stage: head top-left,
+   object right, phase floor bottom-left. GSAP owns plate transforms,
+   phase visibility, ghost, title completion and io states. */
+
+.process-stage--scene .process-stage__inner {
+  display: block;
+  height: 100vh;
+  padding: calc(var(--header-height) + clamp(22px, 4vh, 48px)) var(--pad)
+    clamp(36px, 5vh, 64px);
 }
 
-.process-layers__chain-arrow {
-  color: rgba(242, 241, 235, 0.32);
+.process-stage--scene .process-stage__head {
+  position: relative;
+  z-index: 2;
+  max-width: min(44vw, 760px);
 }
 
-.process-layers__chain-note {
-  color: rgba(242, 241, 235, 0.38);
+.process-stage--scene .process-stage__title {
+  margin-top: clamp(20px, 3.2vh, 40px);
+  font-size: clamp(44px, 4.6vw, 96px);
 }
 
-@media (max-width: 1080px) {
-  .process-layers__stage {
-    grid-template-columns: minmax(0, 1fr) minmax(130px, 0.4fr);
-    row-gap: 14px;
-  }
+.process-stage--scene .process-stage__lead {
+  max-width: 360px;
+}
 
-  .process-layers__code {
-    grid-column: 1 / -1;
-    padding-top: 0;
-  }
+.process-stage--scene .process-stage__object {
+  position: absolute;
+  top: 50%;
+  right: var(--pad);
+  z-index: 1;
+  width: min(52vw, 980px);
+  margin-top: 0;
+  transform: translateY(-50%);
+}
 
-  .process-layers__desc {
-    grid-column: 1;
-    padding-top: 0;
-    margin-top: 6px;
-  }
+.process-stage--scene .process-stage__ghost {
+  color: rgba(242, 241, 235, 0.1);
+  font-size: clamp(140px, 13vw, 300px);
+}
 
-  .process-layers__out {
-    grid-row: 2 / span 2;
-    grid-column: 2;
-    padding-top: 0.55em;
-  }
+.process-stage--scene .process-stage__scene3d {
+  padding: clamp(64px, 11vh, 130px) 0;
+}
+
+.process-stage--scene .process-stage__stack {
+  width: clamp(320px, 27vw, 500px);
+}
+
+.process-stage--scene .process-stage__phases {
+  position: absolute;
+  bottom: clamp(36px, 6vh, 72px);
+  left: var(--pad);
+  z-index: 2;
+  width: min(38vw, 520px);
+  margin-top: 0;
+}
+
+.process-stage--scene .process-stage__ticks {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.process-stage__tick {
+  color: rgba(242, 241, 235, 0.3);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  transition: color var(--motion-base) var(--ease-standard);
+}
+
+.process-stage__tick.is-active {
+  color: rgba(242, 241, 235, 0.9);
+}
+
+.process-stage--scene .process-stage__list {
+  position: relative;
+  height: clamp(170px, 24vh, 230px);
+}
+
+.process-stage--scene .process-stage__phase {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 0;
+  border-top: 0;
 }
 
 @media (max-width: 640px) {
-  .process-layers {
-    --axis-x: 20px;
+  .process-stage__inner {
+    padding: calc(96px + var(--work-overlap)) 20px 104px;
   }
 
-  .process-layers__inner {
-    padding: calc(96px + var(--work-overlap)) 20px 112px;
+  .process-stage__title {
+    margin-top: 26px;
+    font-size: clamp(44px, 12.8vw, 62px);
   }
 
-  .process-layers__head {
-    flex-direction: column;
-    gap: 10px;
+  .process-stage__lead {
+    margin-top: 20px;
+    font-size: 15.5px;
   }
 
-  .process-layers__title {
-    margin-top: 44px;
-    font-size: clamp(52px, 14.6vw, 84px);
-    letter-spacing: -0.035em;
+  .process-stage__object {
+    margin-top: 52px;
   }
 
-  .process-layers__lead {
-    margin: 26px 0 0;
-    font-size: 17px;
+  .process-stage__ghost {
+    font-size: clamp(84px, 26vw, 120px);
   }
 
-  .process-layers__machine {
-    margin: 64px -20px 0;
+  .process-stage__scene3d {
+    padding: 108px 0 100px;
   }
 
-  .process-layers__axis {
-    bottom: -48px;
+  .process-stage__stack {
+    width: min(64vw, 300px);
   }
 
-  .process-layers__stage {
-    grid-template-columns: 1fr;
-    row-gap: 10px;
-    padding: 40px 20px 44px 48px;
+  .process-stage__plate {
+    box-shadow: -10px 16px 34px rgba(0, 0, 0, 0.4);
   }
 
-  .process-layers__stage-line {
-    right: 20px;
-    left: 20px;
+  .process-stage__io {
+    font-size: 11px;
   }
 
-  .process-layers__node {
-    top: calc(40px + 1.9em);
+  /* flow order on mobile: INN over stacken, UT under — no plate collision */
+  .process-stage__io--in {
+    position: static;
   }
 
-  .process-layers__code {
-    grid-column: 1;
-    padding-top: 0;
+  .process-stage__io--out {
+    position: static;
+    margin-top: 6px;
+    text-align: right;
   }
 
-  .process-layers__verb {
-    grid-column: 1;
-    font-size: clamp(38px, 10.6vw, 52px);
+  .process-stage__phases {
+    margin-top: 48px;
   }
 
-  .process-layers__desc {
-    grid-column: 1;
-    margin-top: 4px;
-  }
-
-  .process-layers__out {
-    grid-row: auto;
-    grid-column: 1;
-    justify-self: start;
-    margin-top: 10px;
-    font-size: 19px;
-  }
-
-  .process-layers__result {
-    margin-top: 56px;
-    padding-left: 28px;
-  }
-
-  .process-layers__result-node {
-    left: 0;
-    width: 9px;
-    height: 9px;
-    font-size: clamp(52px, 14.6vw, 84px);
-  }
-
-  .process-layers__result-word {
-    font-size: clamp(52px, 14.6vw, 84px);
-  }
-
-  .process-layers__chain {
-    margin-top: 30px;
+  .process-stage__phase-verb {
+    font-size: 32px;
   }
 }

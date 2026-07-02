@@ -313,119 +313,140 @@ function workReveal(parallax: boolean) {
   }
 }
 
-// 05 / Prosess — production scene. Motion explains the machine: the unclear
-// input settles out of a fog, the axis draws with scroll, each stratum sets
-// calmly with its hairline and material state, and the finished output lands
-// out of a mask. FROM-tweens only — fully readable without JS.
-function processScene(full: boolean) {
-  const section = document.querySelector<HTMLElement>(".process-layers");
-  if (!section) return;
+// 05 / Prosess — layer assembly stage. Desktop pins the scene and assembles
+// the four-plate system object with scroll: plates fly in from a scattered
+// state, the ghost "Uklart" dissolves, one phase holds the floor at a time
+// and the title completes itself ("System ut."). Non-pinned contexts get the
+// calm assembled flow layout with one-time reveals.
+function processStage(full: boolean) {
+  const section = document.querySelector<HTMLElement>(".process-stage");
+  if (!section) return () => {};
 
-  const intro = section.querySelector<HTMLElement>("[data-process-in]");
-  if (intro) {
-    gsap.from(intro, {
-      autoAlpha: 0,
-      y: 30,
-      filter: full ? "blur(14px)" : "blur(0px)",
-      duration: 1,
-      ease: "power3.out",
-      scrollTrigger: { trigger: intro, start: "top 80%", once: true },
+  const object = section.querySelector<HTMLElement>("[data-stage-object]");
+  const phases = gsap.utils.toArray<HTMLElement>("[data-stage-phase]", section);
+
+  if (!full) {
+    const head = section.querySelector<HTMLElement>(".process-stage__head");
+    if (head) {
+      gsap.from(head, {
+        autoAlpha: 0,
+        y: 24,
+        duration: 0.7,
+        ease: "power3.out",
+        scrollTrigger: { trigger: section, start: "top 80%", once: true },
+      });
+    }
+    if (object) {
+      gsap.from(object, {
+        autoAlpha: 0,
+        y: 34,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: { trigger: object, start: "top 84%", once: true },
+      });
+    }
+    for (const phase of phases) {
+      gsap.from(phase, {
+        autoAlpha: 0,
+        y: 22,
+        duration: 0.55,
+        ease: "power3.out",
+        scrollTrigger: { trigger: phase, start: "top 88%", once: true },
+      });
+    }
+    return () => {};
+  }
+
+  section.classList.add("process-stage--scene");
+
+  const plates = gsap.utils.toArray<HTMLElement>("[data-stage-plate]", section);
+  const labels = plates.map((plate) =>
+    plate.querySelector<HTMLElement>(".process-stage__plate-label")
+  );
+  const ticks = gsap.utils.toArray<HTMLElement>("[data-stage-tick]", section);
+  const ghost = section.querySelector<HTMLElement>("[data-stage-ghost]");
+  const titleOut = section.querySelector<HTMLElement>("[data-stage-title-out]");
+  const ioIn = section.querySelector<HTMLElement>("[data-stage-io-in]");
+  const ioOut = section.querySelector<HTMLElement>("[data-stage-io-out]");
+
+  // Scattered start state — the unclear pile the scroll assembles.
+  const scatter = [
+    { x: -300, y: 230, rotation: -14 },
+    { x: 320, y: -210, rotation: 10 },
+    { x: -260, y: -250, rotation: -8 },
+    { x: 350, y: 190, rotation: 14 },
+  ];
+
+  plates.forEach((plate, index) => {
+    gsap.set(plate, {
+      x: scatter[index].x,
+      y: scatter[index].y,
+      z: index * 44,
+      rotation: scatter[index].rotation,
+      autoAlpha: 0.3,
     });
-  }
+  });
+  labels.forEach((label) => label && gsap.set(label, { opacity: 0.3 }));
+  phases.forEach((phase) => gsap.set(phase, { autoAlpha: 0, y: 26 }));
+  if (titleOut) gsap.set(titleOut, { opacity: 0.2 });
+  if (ioOut) gsap.set(ioOut, { opacity: 0.25 });
 
-  const lead = section.querySelector<HTMLElement>("[data-process-lead]");
-  if (lead) {
-    gsap.from(lead, {
-      autoAlpha: 0,
-      y: 16,
-      duration: 0.6,
-      ease: "power2.out",
-      scrollTrigger: { trigger: lead, start: "top 86%", once: true },
-    });
-  }
+  // Normalized progress where each phase takes the floor (segment starts of
+  // the timeline below) — drives the tick register bidirectionally.
+  const thresholds = [0.06, 0.28, 0.5, 0.72];
 
-  const axis = section.querySelector<HTMLElement>("[data-process-axis]");
-  if (axis && full) {
-    gsap.fromTo(
-      axis,
-      { scaleY: 0 },
-      {
-        scaleY: 1,
-        ease: "none",
-        transformOrigin: "top center",
-        scrollTrigger: {
-          trigger: "[data-process-machine]",
-          start: "top 74%",
-          end: "bottom 40%",
-          scrub: 0.5,
-        },
-      }
-    );
-  }
-
-  const stages = gsap.utils.toArray<HTMLElement>("[data-process-stage]", section);
-
-  const activate = (index: number) => {
-    stages.forEach((stage, i) => {
-      stage.classList.toggle("is-active", i === index);
-      stage.classList.toggle("is-dimmed", i !== index);
+  const setTicks = (progress: number) => {
+    ticks.forEach((tick, index) => {
+      tick.classList.toggle("is-active", progress >= thresholds[index]);
     });
   };
 
-  stages.forEach((stage, index) => {
-    const line = stage.querySelector<HTMLElement>("[data-stage-line]");
-    const out = stage.querySelector<HTMLElement>("[data-stage-out]");
-    const copy = stage.querySelectorAll<HTMLElement>(
-      ".process-layers__code, .process-layers__verb, .process-layers__desc"
-    );
-
-    const tl = gsap.timeline({
-      defaults: { ease: "power3.out" },
-      scrollTrigger: { trigger: stage, start: "top 82%", once: true },
-    });
-
-    if (line) {
-      tl.from(line, { scaleX: 0, transformOrigin: "left center", duration: 0.8, ease: "expo.out" });
-    }
-    if (copy.length) {
-      tl.from(copy, { y: 26, autoAlpha: 0, duration: 0.6, stagger: 0.04 }, "-=0.55");
-    }
-    if (out) {
-      tl.from(out, { x: 24, autoAlpha: 0, duration: 0.55 }, "-=0.35");
-    }
-
-    if (full) {
-      ScrollTrigger.create({
-        trigger: stage,
-        start: "top 58%",
-        end: "bottom 40%",
-        onEnter: () => activate(index),
-        onEnterBack: () => activate(index),
-      });
-    }
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: "+=260%",
+      pin: true,
+      scrub: 0.5,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => setTicks(self.progress),
+    },
   });
 
-  const outWord = section.querySelector<HTMLElement>("[data-process-out]");
-  if (outWord) {
-    gsap.from(outWord, {
-      yPercent: 112,
-      duration: 0.85,
-      ease: "power3.out",
-      scrollTrigger: { trigger: outWord, start: "top 86%", once: true },
-    });
-  }
+  // Intro hold — scattered pile under the ghost word.
+  tl.to({}, { duration: 0.35 });
 
-  const chainItems = section.querySelectorAll<HTMLElement>("[data-process-chain] > span");
-  if (chainItems.length) {
-    gsap.from(chainItems, {
-      autoAlpha: 0,
-      y: 10,
-      duration: 0.45,
-      ease: "power2.out",
-      stagger: 0.06,
-      scrollTrigger: { trigger: "[data-process-chain]", start: "top 90%", once: true },
-    });
-  }
+  phases.forEach((phase, index) => {
+    if (index > 0) {
+      tl.to(phases[index - 1], { autoAlpha: 0, y: -18, duration: 0.25, ease: "none" });
+    }
+    tl.to(phase, { autoAlpha: 1, y: 0, duration: 0.3, ease: "none" }, index > 0 ? ">-0.08" : ">");
+    tl.to(
+      plates[index],
+      { x: 0, y: 0, rotation: 0, autoAlpha: 1, duration: 0.8, ease: "power2.inOut" },
+      "<"
+    );
+    if (labels[index]) {
+      tl.to(labels[index], { opacity: 1, duration: 0.3, ease: "none" }, "<0.45");
+    }
+    if (index === 0 && ghost) {
+      tl.to(ghost, { autoAlpha: 0, duration: 0.75, ease: "none" }, "<");
+    }
+    tl.to({}, { duration: 0.35 });
+  });
+
+  // Finale — the stack compresses and the system locks in.
+  tl.to(plates, { z: (index: number) => index * 32, duration: 0.5, ease: "power2.inOut" });
+  if (titleOut) tl.to(titleOut, { opacity: 1, duration: 0.4, ease: "none" }, "<");
+  if (ioOut) tl.to(ioOut, { opacity: 1, duration: 0.4, ease: "none" }, "<");
+  if (ioIn) tl.to(ioIn, { opacity: 0.28, duration: 0.4, ease: "none" }, "<");
+  tl.to({}, { duration: 0.3 });
+
+  return () => {
+    section.classList.remove("process-stage--scene");
+    ticks.forEach((tick) => tick.classList.remove("is-active"));
+  };
 }
 
 // 04 / Arbeid — the standards ledger: rows rise once as they cross the
@@ -578,12 +599,13 @@ export function HomeMotion() {
       const teardownStage = effectStage(true);
       workReveal(true);
       ledgerReveal();
-      processScene(true);
+      const teardownProcess = processStage(true);
       manifestoReveal();
       footerReveals();
       return () => {
         teardownGhost();
         teardownStage();
+        teardownProcess();
       };
     });
 
@@ -594,7 +616,7 @@ export function HomeMotion() {
       effectStage(false);
       workReveal(false);
       ledgerReveal();
-      processScene(false);
+      processStage(false);
       manifestoReveal();
       footerReveals();
     });
