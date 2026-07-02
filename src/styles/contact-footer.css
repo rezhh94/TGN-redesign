@@ -351,6 +351,11 @@
 }
 
 @media (max-width: 1080px) {
+  .contact-footer__lead {
+    width: min(100%, 620px);
+    margin-left: 0;
+  }
+
   .contact-footer__contact {
     flex-direction: column;
     align-items: flex-start;
@@ -464,5 +469,35 @@
 
   .contact-footer__wordmark span {
     display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-footer__row {
+    padding: 24px 0;
+  }
+
+  .contact-footer__row-links {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .contact-footer__item {
+    display: block;
+  }
+
+  .contact-footer__link {
+    line-height: 1.35;
+  }
+
+  .contact-footer__row--subdued .contact-footer__link {
+    font-size: 14px;
+  }
+
+  .contact-footer__wordmark {
+    margin-top: 56px;
+    margin-bottom: -0.08em;
+    font-size: clamp(54px, 18vw, 82px);
   }
 }
