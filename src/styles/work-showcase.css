@@ -126,7 +126,7 @@
   top: 0;
   right: 0;
   width: min(100%, 1040px);
-  height: 76%;
+  aspect-ratio: 3 / 2;
   z-index: 1;
 }
 
@@ -134,7 +134,7 @@
   right: 3%;
   bottom: 6%;
   width: min(44%, 460px);
-  height: 34%;
+  aspect-ratio: 4 / 3;
   z-index: 2;
   background:
     linear-gradient(140deg, rgba(242, 241, 235, 0.15) 0%, rgba(242, 241, 235, 0.045) 44%, rgba(0, 0, 0, 0.18) 100%),
@@ -253,18 +253,13 @@
   }
 
   .work-showcase__visuals {
-    min-height: 470px;
-  }
-
-  .work-showcase__visual--main {
-    height: 70%;
+    min-height: clamp(360px, 84vw, 470px);
   }
 
   .work-showcase__visual--detail {
     right: 0;
-    bottom: 7%;
+    bottom: 10%;
     width: 68%;
-    height: 32%;
   }
 
   .work-showcase__surface-word {
