@@ -1,11 +1,11 @@
 .approach-bridge {
   position: relative;
   overflow: hidden;
-  min-height: clamp(680px, 92svh, 980px);
+  min-height: clamp(560px, 74svh, 820px);
   display: flex;
   align-items: center;
   background:
-    linear-gradient(180deg, rgba(18, 18, 15, 1) 0%, rgba(21, 22, 18, 1) 34%, rgba(16, 17, 14, 1) 100%);
+    linear-gradient(180deg, rgba(16, 17, 14, 1) 0%, rgba(18, 19, 16, 1) 54%, rgba(14, 15, 13, 1) 100%);
   color: var(--color-on-dark);
   isolation: isolate;
 }
@@ -39,16 +39,16 @@
   z-index: 1;
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(92px, 13vh, 164px) clamp(24px, 5vw, 150px);
+  padding: clamp(104px, 14vh, 178px) clamp(24px, 5vw, 150px);
 }
 
 .approach-bridge__content {
-  max-width: 1360px;
-  margin-left: clamp(0px, 6vw, 150px);
+  max-width: 1180px;
+  margin-left: clamp(0px, 11vw, 240px);
 }
 
 .approach-bridge__label {
-  color: rgba(242, 241, 235, 0.72);
+  color: rgba(242, 241, 235, 0.66);
   font-family: var(--font-mono);
   font-size: clamp(11px, 0.78vw, 12px);
   letter-spacing: 0.02em;
@@ -56,8 +56,8 @@
 }
 
 .approach-bridge__statement {
-  max-width: 760px;
-  margin-top: clamp(36px, 7vh, 88px);
+  max-width: 980px;
+  margin-top: clamp(42px, 8vh, 100px);
   color: var(--color-on-dark);
   letter-spacing: 0;
 }
@@ -67,29 +67,31 @@
 }
 
 .approach-bridge__statement-display {
-  font-family: var(--font-display);
-  font-size: clamp(92px, 10.4vw, 196px);
-  font-weight: 700;
-  line-height: 0.88;
+  color: rgba(242, 241, 235, 0.76);
+  font-family: var(--font-sans);
+  font-size: clamp(58px, 6.2vw, 118px);
+  font-weight: 400;
+  line-height: 0.98;
   text-transform: uppercase;
 }
 
 .approach-bridge__statement-sans {
-  margin-top: clamp(6px, 1vh, 14px);
+  max-width: 760px;
+  margin-top: clamp(18px, 2.4vh, 30px);
   font-family: var(--font-sans);
-  font-size: clamp(40px, 4.8vw, 86px);
+  font-size: clamp(46px, 5.6vw, 106px);
   font-weight: 400;
   letter-spacing: 0;
   line-height: 1.04;
 }
 
 .approach-bridge__support {
-  max-width: 540px;
-  margin-top: clamp(28px, 5vh, 58px);
-  margin-left: min(28vw, 450px);
-  color: rgba(242, 241, 235, 0.6);
+  max-width: 600px;
+  margin-top: clamp(36px, 6vh, 68px);
+  margin-left: clamp(0px, 23vw, 420px);
+  color: rgba(242, 241, 235, 0.64);
   font-family: var(--font-sans);
-  font-size: clamp(17px, 1.15vw, 22px);
+  font-size: clamp(17px, 1.05vw, 20px);
   font-weight: 400;
   line-height: 1.45;
 }
@@ -104,16 +106,16 @@
   }
 
   .approach-bridge__statement {
-    max-width: 680px;
+    max-width: 720px;
   }
 
   .approach-bridge__statement-display {
-    font-size: clamp(84px, 16vw, 154px);
-    line-height: 0.9;
+    font-size: clamp(56px, 12vw, 94px);
+    line-height: 1;
   }
 
   .approach-bridge__statement-sans {
-    font-size: clamp(36px, 7vw, 68px);
+    font-size: clamp(38px, 7vw, 72px);
     line-height: 1.05;
   }
 
@@ -137,13 +139,13 @@
   }
 
   .approach-bridge__statement-display {
-    font-size: clamp(70px, 20vw, 104px);
-    line-height: 0.92;
+    font-size: clamp(46px, 14vw, 74px);
+    line-height: 1;
   }
 
   .approach-bridge__statement-sans {
-    margin-top: 8px;
-    font-size: clamp(33px, 10vw, 50px);
+    margin-top: 14px;
+    font-size: clamp(32px, 9vw, 48px);
     line-height: 1.06;
   }
 

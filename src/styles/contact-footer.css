@@ -91,14 +91,14 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: clamp(40px, 6vw, 120px);
-  margin-top: clamp(56px, 9vh, 122px);
+  margin-top: clamp(64px, 10vh, 134px);
   border-top: 1px solid rgba(242, 241, 235, 0.14);
-  padding: clamp(40px, 6vh, 78px) 0 clamp(76px, 11vh, 152px);
+  padding: clamp(44px, 6.4vh, 84px) 0 clamp(84px, 12vh, 164px);
 }
 
 .contact-footer__direct {
   display: grid;
-  gap: clamp(16px, 2.4vh, 26px);
+  gap: clamp(18px, 2.8vh, 32px);
   min-width: 0;
 }
 
@@ -107,10 +107,10 @@
   max-width: 100%;
   color: rgba(242, 241, 235, 0.94);
   font-family: var(--font-sans);
-  font-size: clamp(46px, 6.6vw, 132px);
+  font-size: clamp(52px, 7.2vw, 142px);
   font-weight: 400;
-  letter-spacing: -0.055em;
-  line-height: 0.95;
+  letter-spacing: 0;
+  line-height: 1;
   overflow-wrap: anywhere;
   text-decoration: none;
   transition: color var(--motion-fast) ease-out;
@@ -122,7 +122,7 @@
   font-family: var(--font-sans);
   font-size: clamp(19px, 1.7vw, 32px);
   font-weight: 400;
-  letter-spacing: -0.025em;
+  letter-spacing: 0;
   line-height: 1.1;
   text-decoration: none;
   transition: color var(--motion-fast) ease-out;
@@ -335,13 +335,13 @@
 /* Wordmark — deliberate hero bookend: solid, baseline-cropped */
 
 .contact-footer__wordmark {
-  margin: clamp(64px, 10vh, 138px) 0 -0.16em;
-  color: rgba(242, 241, 235, 0.9);
+  margin: clamp(56px, 9vh, 118px) 0 -0.08em;
+  color: rgba(242, 241, 235, 0.82);
   font-family: var(--font-display);
   font-size: clamp(74px, 22.4vw, 480px);
   font-weight: 800;
-  letter-spacing: -0.012em;
-  line-height: 0.78;
+  letter-spacing: 0;
+  line-height: 0.82;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -412,7 +412,7 @@
 
   .contact-footer__email {
     font-size: clamp(36px, 11vw, 58px);
-    letter-spacing: -0.045em;
+    letter-spacing: 0;
   }
 
   .contact-footer__phone {

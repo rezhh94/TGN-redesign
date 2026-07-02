@@ -1,10 +1,11 @@
 .work-showcase {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background:
-    linear-gradient(180deg, #090a09 0%, #11120e 48%, #080908 100%);
-  color: var(--color-on-dark);
+    linear-gradient(180deg, #e8e3d8 0%, var(--color-bg) 42%, #eee9dd 100%);
+  color: var(--color-ink);
   isolation: isolate;
+  z-index: 2;
 }
 
 .work-showcase::before,
@@ -20,15 +21,16 @@
   right: clamp(24px, 5vw, 150px);
   left: clamp(24px, 5vw, 150px);
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(242, 241, 235, 0.1) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(16, 16, 15, 0.22) 50%, transparent 100%);
 }
 
 .work-showcase::after {
   right: 0;
   bottom: 0;
   left: 0;
-  height: clamp(92px, 12vh, 164px);
-  background: linear-gradient(180deg, transparent 0%, #080908 100%);
+  height: clamp(108px, 13vh, 184px);
+  background: linear-gradient(180deg, transparent 0%, rgba(8, 9, 8, 0.9) 100%);
+  transform: translateY(1px);
 }
 
 .work-showcase__inner {
@@ -49,7 +51,7 @@
 .work-showcase__label,
 .work-showcase__meta-label {
   flex: none;
-  color: rgba(242, 241, 235, 0.62);
+  color: var(--color-muted);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.03em;
@@ -61,18 +63,18 @@
 }
 
 .work-showcase__title {
-  color: var(--color-on-dark);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: clamp(58px, 7.4vw, 156px);
   font-weight: 400;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   line-height: 0.96;
 }
 
 .work-showcase__lead {
   width: min(100%, 620px);
   margin-top: clamp(30px, 4.8vh, 62px);
-  color: rgba(242, 241, 235, 0.64);
+  color: rgba(16, 16, 15, 0.68);
   font-family: var(--font-sans);
   font-size: clamp(19px, 1.35vw, 25px);
   font-weight: 400;
@@ -94,7 +96,7 @@
 
 .work-showcase__meta-stack {
   margin-top: 18px;
-  color: rgba(242, 241, 235, 0.84);
+  color: rgba(16, 16, 15, 0.84);
   font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 400;
@@ -103,7 +105,7 @@
 
 .work-showcase__caption {
   margin-top: clamp(34px, 5vh, 64px);
-  color: rgba(242, 241, 235, 0.58);
+  color: rgba(16, 16, 15, 0.66);
   font-family: var(--font-sans);
   font-size: clamp(16px, 1.1vw, 19px);
   font-weight: 400;
@@ -119,14 +121,15 @@
 .work-showcase__visual {
   position: absolute;
   overflow: hidden;
-  border: 1px solid rgba(242, 241, 235, 0.12);
+  border: 1px solid rgba(16, 16, 15, 0.2);
   background:
-    linear-gradient(125deg, rgba(242, 241, 235, 0.12) 0%, rgba(242, 241, 235, 0.035) 32%, rgba(242, 241, 235, 0) 72%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, rgba(0, 0, 0, 0.16) 100%),
-    #10110e;
+    linear-gradient(125deg, rgba(246, 245, 241, 0.16) 0%, rgba(246, 245, 241, 0.04) 32%, rgba(246, 245, 241, 0) 72%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.18) 100%),
+    #141510;
   box-shadow:
-    0 46px 120px rgba(0, 0, 0, 0.34),
-    inset 0 1px 0 rgba(242, 241, 235, 0.1),
+    0 48px 120px rgba(16, 16, 15, 0.24),
+    0 14px 36px rgba(16, 16, 15, 0.12),
+    inset 0 1px 0 rgba(246, 245, 241, 0.12),
     inset 0 -1px 0 rgba(0, 0, 0, 0.42);
 }
 
@@ -140,13 +143,13 @@
 .work-showcase__visual::before {
   inset: 0;
   background:
-    linear-gradient(112deg, transparent 0%, transparent 34%, rgba(242, 241, 235, 0.06) 45%, transparent 61%),
-    linear-gradient(90deg, rgba(242, 241, 235, 0.05), transparent 24%, transparent 76%, rgba(0, 0, 0, 0.2));
+    linear-gradient(112deg, transparent 0%, transparent 34%, rgba(246, 245, 241, 0.08) 45%, transparent 61%),
+    linear-gradient(90deg, rgba(246, 245, 241, 0.06), transparent 24%, transparent 76%, rgba(0, 0, 0, 0.24));
 }
 
 .work-showcase__visual::after {
   inset: 1px;
-  border: 1px solid rgba(242, 241, 235, 0.045);
+  border: 1px solid rgba(246, 245, 241, 0.055);
 }
 
 .work-showcase__visual--main {
@@ -159,30 +162,39 @@
 
 .work-showcase__visual--detail {
   right: 3%;
-  bottom: 6%;
+  bottom: clamp(-78px, -4.4vw, -42px);
   width: min(44%, 460px);
   aspect-ratio: 4 / 3;
   z-index: 2;
   background:
-    linear-gradient(140deg, rgba(242, 241, 235, 0.15) 0%, rgba(242, 241, 235, 0.045) 44%, rgba(0, 0, 0, 0.18) 100%),
-    #151611;
+    linear-gradient(140deg, rgba(16, 16, 15, 0.08) 0%, rgba(16, 16, 15, 0.02) 44%, rgba(255, 255, 255, 0.2) 100%),
+    #f5f2e9;
   box-shadow:
-    0 34px 88px rgba(0, 0, 0, 0.38),
-    inset 0 1px 0 rgba(242, 241, 235, 0.12);
+    0 36px 84px rgba(16, 16, 15, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.work-showcase__visual--detail::before {
+  background:
+    linear-gradient(112deg, transparent 0%, transparent 35%, rgba(16, 16, 15, 0.05) 48%, transparent 64%),
+    linear-gradient(90deg, rgba(16, 16, 15, 0.04), transparent 25%, transparent 76%, rgba(16, 16, 15, 0.06));
+}
+
+.work-showcase__visual--detail::after {
+  border-color: rgba(16, 16, 15, 0.08);
 }
 
 .work-showcase__surface {
   position: absolute;
   inset: clamp(28px, 4vw, 70px);
-  border-top: 1px solid rgba(242, 241, 235, 0.1);
+  border-top: 1px solid rgba(246, 245, 241, 0.12);
   z-index: 1;
 }
 
-.work-showcase__surface-line,
-.work-showcase__detail-lines span {
+.work-showcase__surface-line {
   display: block;
   height: 1px;
-  background: rgba(242, 241, 235, 0.1);
+  background: rgba(246, 245, 241, 0.13);
 }
 
 .work-showcase__surface-line {
@@ -203,7 +215,7 @@
   position: absolute;
   right: -0.04em;
   bottom: -0.04em;
-  color: rgba(242, 241, 235, 0.085);
+  color: rgba(246, 245, 241, 0.1);
   font-family: var(--font-display);
   font-size: clamp(84px, 12vw, 220px);
   font-weight: 700;
@@ -219,6 +231,12 @@
   justify-content: flex-end;
   gap: clamp(16px, 2.4vh, 28px);
   z-index: 1;
+}
+
+.work-showcase__detail-lines span {
+  display: block;
+  height: 1px;
+  background: rgba(16, 16, 15, 0.2);
 }
 
 .work-showcase__detail-lines span:nth-child(1) {
@@ -254,6 +272,10 @@
   .work-showcase__visuals {
     min-height: 640px;
   }
+
+  .work-showcase__visual--detail {
+    bottom: 4%;
+  }
 }
 
 @media (max-width: 640px) {
@@ -267,7 +289,7 @@
 
   .work-showcase__title {
     font-size: clamp(48px, 13.6vw, 72px);
-    letter-spacing: -0.035em;
+    letter-spacing: 0;
   }
 
   .work-showcase__lead {
