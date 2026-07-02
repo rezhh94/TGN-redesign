@@ -24,8 +24,10 @@ const footerIndex = [
       { label: "Ressurser", href: "/ressurser" },
       { label: "Hva koster en nettside?", href: "/hva-koster-nettside" },
       { label: "Nettside eller webapp?", href: "/nettside-eller-webapp" },
-      { label: "Next.js vs WordPress", href: "/nextjs-vs-wordpress" },
       { label: "Hvorfor får nettsiden ingen leads?", href: "/hvorfor-far-nettsiden-ingen-leads" },
+      { label: "Hva koster digital plattform?", href: "/hva-koster-digital-plattform" },
+      { label: "Mobilapp eller webapp?", href: "/mobilapp-eller-webapp" },
+      { label: "Next.js vs WordPress", href: "/nextjs-vs-wordpress" },
     ],
   },
   {
@@ -37,6 +39,16 @@ const footerIndex = [
       { label: "Webutvikling Bergen", href: "/tjenester/webutvikling-nextjs/vestland/bergen" },
       { label: "Webutvikling Trondheim", href: "/tjenester/webutvikling-nextjs/trondelag/trondheim" },
       { label: "Webutvikling Stavanger", href: "/tjenester/webutvikling-nextjs/rogaland/stavanger" },
+    ],
+  },
+  {
+    title: "Studio",
+    subdued: true,
+    links: [
+      { label: "Tjenester", href: "/tjenester" },
+      { label: "Om oss", href: "/om-oss" },
+      { label: "Kontakt", href: "/kontakt" },
+      { label: "Vilkår", href: "/vilkar" },
     ],
   },
 ];

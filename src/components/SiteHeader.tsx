@@ -9,6 +9,7 @@ const navItems = [
   { href: "/ressurser", label: "Ressurser" },
   { href: "/steder", label: "Steder" },
   { href: "/om-oss", label: "Om oss" },
+  { href: "/kontakt", label: "Kontakt" },
 ];
 
 function DotEnvelope() {
@@ -128,9 +129,6 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
-          <Link href="/kontakt" onClick={closeMenu}>
-            Kontakt
-          </Link>
         </nav>
 
         <div className="mobile-menu__foot" aria-label="Studio status">
