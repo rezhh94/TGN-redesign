@@ -54,7 +54,11 @@ export function WhatWeBuild() {
           </div>
         </header>
 
-        <ol className="what-build__list" aria-label="Tjenester" data-build-list>
+        <div className="what-build__list-frame">
+          <span className="what-build__ghost" aria-hidden="true" data-build-ghost>
+            01
+          </span>
+          <ol className="what-build__list" aria-label="Tjenester" data-build-list>
           {services.map((service) => (
             <li
               className="what-build__row"
@@ -90,7 +94,8 @@ export function WhatWeBuild() {
               </div>
             </li>
           ))}
-        </ol>
+          </ol>
+        </div>
       </div>
     </section>
   );

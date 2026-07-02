@@ -75,9 +75,32 @@
   font-size: 17px;
 }
 
-/* Service list — list-as-interaction. Row anatomy: number / title / mono meta / icon. */
+/* Service list — list-as-interaction. Row anatomy: number / title / mono meta / icon.
+   A ghost index numeral tracks the active row behind the list (custom detail,
+   JS-driven; invisible noise without it). */
+
+.what-build__list-frame {
+  position: relative;
+}
+
+.what-build__ghost {
+  position: absolute;
+  top: 50%;
+  right: clamp(-30px, -1.4vw, -10px);
+  z-index: 0;
+  color: rgba(242, 241, 235, 0.045);
+  font-family: var(--font-display);
+  font-size: clamp(240px, 26vw, 520px);
+  font-weight: 800;
+  line-height: 0.8;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+}
 
 .what-build__list {
+  position: relative;
+  z-index: 1;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -85,8 +108,26 @@
 }
 
 .what-build__row {
+  position: relative;
   border-bottom: 1px solid rgba(242, 241, 235, 0.14);
   transition: background var(--motion-fast) var(--ease-standard);
+}
+
+/* Open-state marker — a precise hairline on the left edge of the active row */
+
+.what-build__row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 1px;
+  background: rgba(242, 241, 235, 0);
+  transition: background var(--motion-base) var(--ease-standard);
+}
+
+.what-build__row[data-open]::before {
+  background: rgba(242, 241, 235, 0.55);
 }
 
 .what-build__row:hover {
@@ -255,6 +296,10 @@
 }
 
 @media (max-width: 1080px) {
+  .what-build__ghost {
+    display: none;
+  }
+
   .what-build__top {
     grid-template-columns: 1fr;
     gap: 30px;

@@ -114,6 +114,56 @@
   background-size: 100% 2px;
 }
 
+.contact-footer__direct-row {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(20px, 2.4vw, 40px);
+}
+
+.contact-footer__copy {
+  border: 0;
+  background: none;
+  color: rgba(242, 241, 235, 0.5);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  padding: 4px 0;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: rgba(242, 241, 235, 0.24);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.42em;
+  cursor: pointer;
+  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
+}
+
+.contact-footer__copy:hover,
+.contact-footer__copy:focus-visible {
+  color: var(--color-on-dark);
+  text-decoration-color: rgba(242, 241, 235, 0.85);
+}
+
+.contact-footer__copy:focus-visible {
+  outline: 2px solid rgba(242, 241, 235, 0.78);
+  outline-offset: 4px;
+}
+
+.contact-footer__copy[data-copied] {
+  color: var(--color-on-dark);
+  text-decoration: none;
+}
+
+.contact-footer__status {
+  margin-top: clamp(10px, 1.6vh, 18px);
+  color: rgba(242, 241, 235, 0.38);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
 .contact-footer__phone {
   width: fit-content;
   color: rgba(242, 241, 235, 0.56);

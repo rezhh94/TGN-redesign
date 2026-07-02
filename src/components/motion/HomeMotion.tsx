@@ -55,6 +55,63 @@ function setupServiceAccordion() {
   };
 }
 
+// One-time opening scene: title lines rise, then panel and bar settle.
+// FROM-tweens only — without JS everything is simply visible (no CLS).
+function heroEntrance(full: boolean) {
+  const titleLines = gsap.utils.toArray<HTMLElement>(".hero__title span");
+  if (!titleLines.length) return;
+
+  const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+  tl.from(titleLines, { yPercent: 26, autoAlpha: 0, duration: 0.8, stagger: 0.09 });
+
+  if (full) {
+    tl.from(".hero__visual", { autoAlpha: 0, y: 26, duration: 0.7 }, "-=0.55");
+  }
+  tl.from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.4");
+}
+
+// Ghost index numeral behind the service list tracks hover/open row.
+function setupBuildGhost() {
+  const ghost = document.querySelector<HTMLElement>("[data-build-ghost]");
+  const list = document.querySelector<HTMLElement>("[data-build-list]");
+  if (!ghost || !list) return () => {};
+
+  const numberFor = (row: Element | null) =>
+    row?.querySelector(".what-build__number")?.textContent?.trim() ?? null;
+
+  const openNumber = () => numberFor(list.querySelector("[data-build-row][data-open]"));
+
+  let current = ghost.textContent?.trim() ?? "";
+  const swap = (value: string | null) => {
+    if (!value || value === current) return;
+    current = value;
+    gsap
+      .timeline()
+      .to(ghost, { autoAlpha: 0, y: 18, duration: 0.16, ease: "power2.in" })
+      .call(() => {
+        ghost.textContent = value;
+      })
+      .to(ghost, { autoAlpha: 1, y: 0, duration: 0.34, ease: "power3.out" });
+  };
+
+  const onOver = (event: Event) => {
+    const row = (event.target as HTMLElement).closest("[data-build-row]");
+    if (row) swap(numberFor(row));
+  };
+  const onLeave = () => swap(openNumber());
+  const onClick = () => swap(openNumber());
+
+  swap(openNumber());
+  list.addEventListener("pointerover", onOver);
+  list.addEventListener("pointerleave", onLeave);
+  list.addEventListener("click", onClick);
+  return () => {
+    list.removeEventListener("pointerover", onOver);
+    list.removeEventListener("pointerleave", onLeave);
+    list.removeEventListener("click", onClick);
+  };
+}
+
 function approachFill(scrub: boolean) {
   const section = document.querySelector(".approach-bridge");
   if (!section) return;
@@ -94,101 +151,118 @@ function serviceReveals() {
   });
 }
 
-function effectSequence(pinned: boolean) {
+// 03 / Effekt — the page's single pinned moment. One outcome on stage at a
+// time; scroll swaps FUNNET → FORSTÅTT → VALGT → MÅLT while the spine indexes
+// the sequence. Non-pinned contexts get simple one-time reveals of the list.
+function effectStage(pinned: boolean) {
   const section = document.querySelector<HTMLElement>(".what-improve");
-  if (!section) return;
+  if (!section) return () => {};
 
   const order = ["funnet", "forstatt", "valgt", "malt"];
   const word = (key: string) =>
     section.querySelector<HTMLElement>(`[data-outcome-word][data-outcome="${key}"]`);
-  const annotation = (key: string) =>
-    section.querySelector<HTMLElement>(`.what-improve__annotation--${key}`);
+  const note = (key: string) =>
+    section.querySelector<HTMLElement>(`[data-outcome-note="${key}"]`);
+  const spineItem = (key: string) =>
+    section.querySelector<HTMLElement>(`[data-spine="${key}"]`);
 
   if (!pinned) {
     for (const key of order) {
       const w = word(key);
-      const a = annotation(key);
-      if (!w || !a) continue;
-      gsap.from(w, {
-        color: `rgba(${ON_DARK}, 0.2)`,
-        duration: 0.7,
-        ease: "power2.out",
-        scrollTrigger: { trigger: w, start: "top 78%", once: true },
-      });
-      gsap.from(a, {
-        autoAlpha: 0,
-        y: 18,
-        duration: 0.55,
-        ease: "power3.out",
-        scrollTrigger: { trigger: a, start: "top 84%", once: true },
-      });
+      const n = note(key);
+      if (w) {
+        gsap.from(w, {
+          color: `rgba(${ON_DARK}, 0.2)`,
+          duration: 0.7,
+          ease: "power2.out",
+          scrollTrigger: { trigger: w, start: "top 80%", once: true },
+        });
+      }
+      if (n) {
+        gsap.from(n, {
+          autoAlpha: 0,
+          y: 18,
+          duration: 0.55,
+          ease: "power3.out",
+          scrollTrigger: { trigger: n, start: "top 86%", once: true },
+        });
+      }
     }
-    return;
+    return () => {};
   }
 
-  // The page's single pinned moment: scroll drives the sequence —
-  // found before understood before chosen before measured.
-  gsap.set(
-    order.map(word),
-    { color: `rgba(${ON_DARK}, 0.18)` }
-  );
-  gsap.set(
-    order.map(annotation),
-    { autoAlpha: 0.15, y: 10 }
-  );
+  section.classList.add("what-improve--stage");
+
+  const setSpine = (active: number) => {
+    order.forEach((key, index) => {
+      spineItem(key)?.classList.toggle("is-active", index === active);
+    });
+  };
+
+  order.forEach((key, index) => {
+    gsap.set(
+      [word(key), note(key)],
+      index === 0 ? { autoAlpha: 1, yPercent: 0 } : { autoAlpha: 0, yPercent: 12 }
+    );
+  });
+  setSpine(0);
+
+  // Normalized progress where each outcome takes the stage (mid-swap points
+  // of the timeline below) — drives the spine bidirectionally.
+  const thresholds = [0, 0.22, 0.5, 0.78];
 
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,
       start: "top top",
-      end: "+=220%",
+      end: "+=280%",
       pin: true,
       scrub: 0.6,
       anticipatePin: 1,
       invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        let active = 0;
+        for (let i = 0; i < thresholds.length; i += 1) {
+          if (self.progress >= thresholds[i]) active = i;
+        }
+        setSpine(active);
+      },
     },
   });
 
+  // Long holds, quick controlled swaps: hold(1) → out(0.45)/in(0.55) → hold(1)
   order.forEach((key, index) => {
-    const w = word(key);
-    const a = annotation(key);
-    if (!w || !a) return;
-
-    const at = index === 0 ? 0.15 : `>+0.25`;
-    tl.to(w, { color: `rgba(${ON_DARK}, 0.94)`, duration: 1, ease: "none" }, at);
-    tl.to(a, { autoAlpha: 1, y: 0, duration: 0.6, ease: "none" }, "<");
-
-    if (index > 0) {
-      const prev = word(order[index - 1]);
-      if (prev) tl.to(prev, { color: `rgba(${ON_DARK}, 0.58)`, duration: 0.8, ease: "none" }, "<");
+    if (index === 0) {
+      tl.to({}, { duration: 1 });
+      return;
     }
+    const prevKey = order[index - 1];
+    tl.to([word(prevKey), note(prevKey)], {
+      autoAlpha: 0,
+      yPercent: -10,
+      duration: 0.45,
+      ease: "none",
+    });
+    tl.fromTo(
+      [word(key), note(key)],
+      { autoAlpha: 0, yPercent: 12 },
+      { autoAlpha: 1, yPercent: 0, duration: 0.55, ease: "none", immediateRender: false },
+      ">-0.12"
+    );
+    tl.to({}, { duration: 1 });
   });
 
-  // settle: brief tail so the last state can be read before unpinning
-  tl.to({}, { duration: 0.5 });
-
-  // The canvas is taller than the viewport on most screens; while pinned the
-  // bottom words (MÅLT) would sit below the fold for the whole sequence.
-  // Drift the inner content up by exactly the overflow across the scrub so
-  // each word is on screen when its turn comes.
-  const inner = section.querySelector<HTMLElement>(".what-improve__inner");
-  if (inner) {
-    tl.to(
-      inner,
-      {
-        y: () => -Math.max(0, section.offsetHeight - window.innerHeight),
-        duration: tl.duration(),
-        ease: "none",
-      },
-      0
-    );
-  }
+  return () => {
+    section.classList.remove("what-improve--stage");
+    order.forEach((key) => spineItem(key)?.classList.remove("is-active"));
+  };
 }
 
 function workReveal(parallax: boolean) {
   const section = document.querySelector<HTMLElement>(".work-showcase");
   if (!section) return;
 
+  const layout = section.querySelector<HTMLElement>(".work-showcase__layout");
   const main = section.querySelector<HTMLElement>('[data-work-visual="main"]');
   const detail = section.querySelector<HTMLElement>('[data-work-visual="detail"]');
   const metaItems = section.querySelectorAll<HTMLElement>(".work-showcase__meta > *");
@@ -198,7 +272,7 @@ function workReveal(parallax: boolean) {
       clipPath: "inset(0 0 100% 0)",
       duration: 0.9,
       ease: "expo.out",
-      scrollTrigger: { trigger: section, start: "top 62%", once: true },
+      scrollTrigger: { trigger: layout ?? section, start: "top 62%", once: true },
     });
   }
 
@@ -208,7 +282,7 @@ function workReveal(parallax: boolean) {
       autoAlpha: 0,
       duration: 0.7,
       ease: "power3.out",
-      scrollTrigger: { trigger: section, start: "top 52%", once: true },
+      scrollTrigger: { trigger: layout ?? section, start: "top 52%", once: true },
     });
   }
 
@@ -219,7 +293,7 @@ function workReveal(parallax: boolean) {
       duration: 0.5,
       ease: "power2.out",
       stagger: 0.05,
-      scrollTrigger: { trigger: section, start: "top 58%", once: true },
+      scrollTrigger: { trigger: layout ?? section, start: "top 58%", once: true },
     });
   }
 
@@ -230,37 +304,58 @@ function workReveal(parallax: boolean) {
       {
         yPercent: -3.5,
         ease: "none",
-        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 0.8 },
+        scrollTrigger: { trigger: layout ?? section, start: "top bottom", end: "bottom top", scrub: 0.8 },
       }
     );
   }
 }
 
-function processStack(full: boolean) {
-  const layers = gsap.utils.toArray<HTMLElement>("[data-process-layer]");
-  if (!layers.length) return;
+// 05 / Prosess — calm, secondary: the spine line draws with scroll, nodes
+// fill and the active phase brightens as it crosses the reading band.
+function processMap(full: boolean) {
+  const steps = gsap.utils.toArray<HTMLElement>("[data-process-layer]");
+  if (!steps.length) return;
 
   const activate = (index: number) => {
-    layers.forEach((layer, i) => {
-      layer.classList.toggle("is-active", i === index);
-      layer.classList.toggle("is-dimmed", i !== index);
+    steps.forEach((step, i) => {
+      step.classList.toggle("is-active", i === index);
+      step.classList.toggle("is-dimmed", i !== index);
     });
   };
 
-  layers.forEach((layer, index) => {
-    gsap.from(layer, {
-      y: full ? 64 : 32,
+  const line = document.querySelector<HTMLElement>("[data-process-line]");
+  if (line && full) {
+    gsap.fromTo(
+      line,
+      { scaleY: 0 },
+      {
+        scaleY: 1,
+        ease: "none",
+        transformOrigin: "top center",
+        scrollTrigger: {
+          trigger: "[data-process-map]",
+          start: "top 72%",
+          end: "bottom 46%",
+          scrub: 0.5,
+        },
+      }
+    );
+  }
+
+  steps.forEach((step, index) => {
+    gsap.from(step, {
+      y: 28,
       autoAlpha: 0,
       duration: 0.6,
       ease: "power3.out",
-      scrollTrigger: { trigger: layer, start: "top 86%", once: true },
+      scrollTrigger: { trigger: step, start: "top 86%", once: true },
     });
 
     if (full) {
       ScrollTrigger.create({
-        trigger: layer,
-        start: "top 62%",
-        end: "bottom 38%",
+        trigger: step,
+        start: "top 58%",
+        end: "bottom 40%",
         onEnter: () => activate(index),
         onEnterBack: () => activate(index),
       });
@@ -281,29 +376,111 @@ function footerReveals() {
   }
 }
 
+// Utility enhancements — run whenever JS is available (not motion-gated):
+// live Oslo clock in the footer status line and copy-to-clipboard for email.
+function setupFooterUtilities() {
+  const cleanups: Array<() => void> = [];
+
+  const clockEl = document.querySelector<HTMLElement>("[data-local-time]");
+  if (clockEl) {
+    const format = new Intl.DateTimeFormat("no-NO", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+      timeZone: "Europe/Oslo",
+    });
+    const tick = () => {
+      clockEl.textContent = format.format(new Date());
+    };
+    tick();
+    const id = window.setInterval(tick, 1000);
+    cleanups.push(() => window.clearInterval(id));
+  }
+
+  const copyButton = document.querySelector<HTMLButtonElement>("[data-copy-email]");
+  if (copyButton) {
+    const idleLabel = copyButton.textContent;
+    let resetTimer = 0;
+    copyButton.hidden = false;
+
+    const legacyCopy = (text: string) => {
+      const scratch = document.createElement("textarea");
+      scratch.value = text;
+      scratch.setAttribute("readonly", "");
+      scratch.style.position = "fixed";
+      scratch.style.opacity = "0";
+      document.body.appendChild(scratch);
+      scratch.select();
+      const ok = document.execCommand("copy");
+      scratch.remove();
+      return ok ? Promise.resolve() : Promise.reject(new Error("copy failed"));
+    };
+
+    const confirmCopied = () => {
+      copyButton.setAttribute("data-copied", "");
+      copyButton.textContent = "Kopiert ✓";
+      window.clearTimeout(resetTimer);
+      resetTimer = window.setTimeout(() => {
+        copyButton.removeAttribute("data-copied");
+        copyButton.textContent = idleLabel;
+      }, 2000);
+    };
+
+    const onClick = () => {
+      const email = copyButton.getAttribute("data-copy-email") ?? "";
+      const write = navigator.clipboard?.writeText
+        ? navigator.clipboard.writeText(email).catch(() => legacyCopy(email))
+        : legacyCopy(email);
+      write.then(confirmCopied).catch(() => {});
+    };
+
+    copyButton.addEventListener("click", onClick);
+    cleanups.push(() => {
+      copyButton.removeEventListener("click", onClick);
+      window.clearTimeout(resetTimer);
+      copyButton.removeAttribute("data-copied");
+      copyButton.textContent = idleLabel;
+      copyButton.hidden = true;
+    });
+  }
+
+  return () => {
+    for (const cleanup of cleanups) cleanup();
+  };
+}
+
 export function HomeMotion() {
   useEffect(() => {
     const teardownAccordion = setupServiceAccordion();
+    const teardownUtilities = setupFooterUtilities();
     const lenis = initLenis({ lerp: 0.12 });
     lenis?.lenis.on("scroll", ScrollTrigger.update);
 
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
+      heroEntrance(true);
+      const teardownGhost = setupBuildGhost();
       approachFill(true);
       serviceReveals();
-      effectSequence(true);
+      const teardownStage = effectStage(true);
       workReveal(true);
-      processStack(true);
+      processMap(true);
       footerReveals();
+      return () => {
+        teardownGhost();
+        teardownStage();
+      };
     });
 
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
+      heroEntrance(false);
       approachFill(false);
       serviceReveals();
-      effectSequence(false);
+      effectStage(false);
       workReveal(false);
-      processStack(false);
+      processMap(false);
       footerReveals();
     });
 
@@ -314,6 +491,7 @@ export function HomeMotion() {
       lenis?.lenis.off("scroll", ScrollTrigger.update);
       destroyLenis();
       teardownAccordion();
+      teardownUtilities();
     };
   }, []);
 

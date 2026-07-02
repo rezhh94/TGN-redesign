@@ -29,7 +29,15 @@ export function Hero() {
             </h1>
           </div>
 
-          <div className="hero__visual" aria-hidden="true" />
+          <div className="hero__visual" aria-hidden="true">
+            <span className="hero__visual-grid" />
+            <span className="hero__visual-mark" />
+            <p className="hero__visual-tag">TGN—STUDIO / OSLO 59.91°N</p>
+            <p className="hero__visual-status">
+              <span className="hero__visual-status-dot" />
+              TILGJENGELIG FOR PROSJEKTER
+            </p>
+          </div>
         </div>
 
         <div className="hero__bar">

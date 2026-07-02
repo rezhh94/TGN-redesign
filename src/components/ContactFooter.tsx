@@ -65,9 +65,22 @@ export function ContactFooter() {
             <a className="contact-footer__email" href="mailto:hello@tigon.no">
               hello@tigon.no
             </a>
-            <a className="contact-footer__phone" href="tel:+4741760149">
-              +47 41 76 01 49
-            </a>
+            <div className="contact-footer__direct-row">
+              <a className="contact-footer__phone" href="tel:+4741760149">
+                +47 41 76 01 49
+              </a>
+              <button
+                className="contact-footer__copy"
+                type="button"
+                data-copy-email="hello@tigon.no"
+                hidden
+              >
+                Kopier adresse
+              </button>
+            </div>
+            <p className="contact-footer__status" aria-hidden="true">
+              OSLO 59.91°N / 10.75°Ø — <span data-local-time>––:––:––</span>
+            </p>
           </div>
 
           <div className="contact-footer__actions" aria-label="Kontaktvalg">

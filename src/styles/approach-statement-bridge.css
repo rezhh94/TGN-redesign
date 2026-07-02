@@ -1,5 +1,5 @@
 .approach-bridge {
-  min-height: clamp(680px, 96svh, 1020px);
+  min-height: clamp(720px, 104svh, 1120px);
   display: flex;
   align-items: center;
   background:

@@ -29,32 +29,47 @@ export function WhatWeImprove() {
   return (
     <section className="what-improve" aria-labelledby="what-improve-title">
       <div className="what-improve__inner">
-        <p className="what-improve__label">03 / Effekt</p>
+        <div className="what-improve__top">
+          <p className="what-improve__label">03 / Effekt</p>
+          <p className="what-improve__kicker">Alt vi bygger, bygges for å bli —</p>
+        </div>
 
-        <div className="what-improve__canvas">
-          <h2 className="what-improve__title" id="what-improve-title">
+        <div className="what-improve__stage-area">
+          <div className="what-improve__stage">
+            <h2 className="what-improve__title" id="what-improve-title">
+              {outcomes.map((outcome) => (
+                <span
+                  className="what-improve__word"
+                  data-outcome-word
+                  data-outcome={outcome.key}
+                  key={outcome.key}
+                >
+                  {outcome.title}
+                </span>
+              ))}
+            </h2>
+
             {outcomes.map((outcome) => (
-              <span
-                className="what-improve__word"
-                data-outcome-word
-                data-outcome={outcome.key}
-                key={outcome.title}
+              <div
+                className="what-improve__note"
+                data-outcome-note={outcome.key}
+                data-outcome-pos={outcome.key}
+                key={outcome.key}
               >
-                {outcome.title}
-              </span>
+                <p className="what-improve__number">{outcome.number} / 04</p>
+                <p className="what-improve__description">{outcome.description}</p>
+              </div>
             ))}
-          </h2>
+          </div>
 
-          {outcomes.map((outcome) => (
-            <div
-              className={`what-improve__annotation what-improve__annotation--${outcome.key}`}
-              data-outcome={outcome.key}
-              key={outcome.number}
-            >
-              <p className="what-improve__number">{outcome.number}</p>
-              <p className="what-improve__description">{outcome.description}</p>
-            </div>
-          ))}
+          <ol className="what-improve__spine" aria-hidden="true">
+            {outcomes.map((outcome) => (
+              <li className="what-improve__spine-item" data-spine={outcome.key} key={outcome.key}>
+                <span className="what-improve__spine-number">{outcome.number}</span>
+                <span className="what-improve__spine-word">{outcome.title}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>
