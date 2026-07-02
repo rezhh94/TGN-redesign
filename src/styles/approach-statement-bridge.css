@@ -1,13 +1,42 @@
 .approach-bridge {
+  position: relative;
+  overflow: hidden;
   min-height: clamp(680px, 92svh, 980px);
   display: flex;
   align-items: center;
   background:
     linear-gradient(180deg, rgba(18, 18, 15, 1) 0%, rgba(21, 22, 18, 1) 34%, rgba(16, 17, 14, 1) 100%);
   color: var(--color-on-dark);
+  isolation: isolate;
+}
+
+.approach-bridge::before,
+.approach-bridge::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.approach-bridge::before {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: clamp(94px, 12vh, 168px);
+  background: linear-gradient(180deg, transparent 0%, rgba(16, 17, 14, 0.78) 100%);
+}
+
+.approach-bridge::after {
+  right: clamp(24px, 5vw, 150px);
+  bottom: 0;
+  left: clamp(24px, 5vw, 150px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(242, 241, 235, 0.16) 50%, transparent 100%);
 }
 
 .approach-bridge__inner {
+  position: relative;
+  z-index: 1;
   width: min(100%, 2560px);
   margin: 0 auto;
   padding: clamp(92px, 13vh, 164px) clamp(24px, 5vw, 150px);

@@ -2,14 +2,41 @@
   position: relative;
   overflow: hidden;
   background:
-    linear-gradient(180deg, #080908 0%, #11120e 46%, #070807 100%);
+    linear-gradient(180deg, #080908 0%, #11120e 44%, #090a09 100%);
   color: var(--color-on-dark);
+  isolation: isolate;
+}
+
+.what-improve::before,
+.what-improve::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.what-improve::before {
+  top: 0;
+  right: clamp(24px, 5vw, 150px);
+  left: clamp(24px, 5vw, 150px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(242, 241, 235, 0.11) 50%, transparent 100%);
+}
+
+.what-improve::after {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: clamp(86px, 11vh, 156px);
+  background: linear-gradient(180deg, transparent 0%, #090a09 100%);
 }
 
 .what-improve__inner {
+  position: relative;
+  z-index: 1;
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(136px, 17vh, 218px) clamp(24px, 5vw, 150px) clamp(128px, 16vh, 214px);
+  padding: clamp(148px, 18vh, 232px) clamp(24px, 5vw, 150px) clamp(138px, 17vh, 226px);
 }
 
 .what-improve__label,

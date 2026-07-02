@@ -3,15 +3,29 @@
   overflow: hidden;
   background:
     linear-gradient(118deg, rgba(242, 241, 235, 0.05) 0%, transparent 31%),
-    linear-gradient(180deg, #070807 0%, #11120e 48%, #050605 100%);
+    linear-gradient(180deg, #090a09 0%, #11120e 48%, #050605 100%);
   color: var(--color-on-dark);
+  isolation: isolate;
+}
+
+.contact-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: clamp(24px, 5vw, 150px);
+  left: clamp(24px, 5vw, 150px);
+  z-index: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(242, 241, 235, 0.17) 50%, transparent 100%);
+  pointer-events: none;
 }
 
 .contact-footer__inner {
   position: relative;
+  z-index: 1;
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(118px, 14vh, 190px) clamp(24px, 5vw, 150px) 0;
+  padding: clamp(136px, 16vh, 220px) clamp(24px, 5vw, 150px) 0;
 }
 
 .contact-footer__label,
