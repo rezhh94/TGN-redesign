@@ -71,6 +71,10 @@ export function WhatWeImprove() {
             ))}
           </ol>
         </div>
+
+        <div className="what-improve__progress" aria-hidden="true">
+          <span className="what-improve__progress-bar" data-effect-progress-bar />
+        </div>
       </div>
     </section>
   );

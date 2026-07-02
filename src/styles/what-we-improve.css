@@ -102,6 +102,28 @@
   list-style: none;
 }
 
+/* Progress hairline — only exists in stage mode. Fills with the pin scrub so
+   the visitor can read how far into the sequence they are. */
+
+.what-improve__progress {
+  display: none;
+}
+
+.what-improve--stage .what-improve__progress {
+  display: block;
+  height: 1px;
+  margin-top: clamp(24px, 4vh, 44px);
+  background: rgba(242, 241, 235, 0.12);
+}
+
+.what-improve__progress-bar {
+  display: block;
+  height: 100%;
+  background: rgba(242, 241, 235, 0.66);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
 /* Stage mode — JS-enhanced desktop: one outcome at a time on a full-height
    stage; the spine indexes the sequence on the right. */
 

@@ -56,6 +56,103 @@
   line-height: 1.42;
 }
 
+/* Ledger — anonymous proof as fixed delivery standards (the Furusten move):
+   digital-counter values in mono, hairline rows, museum-caption precision.
+   Commitments, not invented case metrics — proof that stays honest. */
+
+.work-showcase__ledger {
+  margin-top: clamp(64px, 10vh, 140px);
+}
+
+.work-showcase__ledger-kicker {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.work-showcase__ledger-list {
+  margin: clamp(18px, 2.6vh, 30px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.work-showcase__ledger-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(130px, 0.22fr) minmax(220px, 0.36fr) minmax(150px, 0.22fr) minmax(0, 1fr);
+  gap: clamp(20px, 3.4vw, 64px);
+  align-items: baseline;
+  padding: clamp(22px, 3.4vh, 38px) 0;
+}
+
+.work-showcase__ledger-row::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--color-line);
+  transform-origin: left center;
+}
+
+.work-showcase__ledger-index {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+.work-showcase__ledger-value {
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: clamp(30px, 3.3vw, 62px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.work-showcase__ledger-name {
+  color: var(--color-ink-soft);
+  font-family: var(--font-sans);
+  font-size: clamp(17px, 1.2vw, 22px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.work-showcase__ledger-desc {
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.05vw, 18px);
+  font-weight: 400;
+  line-height: 1.45;
+  max-width: 520px;
+}
+
+/* Sector line — honest, anonymous trace of the delivered work */
+
+.work-showcase__sectors {
+  margin-top: clamp(22px, 3.4vh, 40px);
+  color: var(--color-ink-soft);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
+.work-showcase__sectors-label {
+  display: block;
+  color: var(--color-muted);
+  margin-bottom: 4px;
+}
+
 /* Spread — meta column + visual plane.
    The container bleeds past the section edge into 05 (authored transition). */
 
@@ -372,9 +469,52 @@
   }
 }
 
+@media (max-width: 1080px) {
+  .work-showcase__ledger-row {
+    grid-template-columns: minmax(90px, 0.2fr) minmax(0, 1fr);
+    gap: 16px 24px;
+  }
+
+  .work-showcase__ledger-value {
+    grid-column: 2;
+  }
+
+  .work-showcase__ledger-index {
+    grid-row: 1;
+  }
+
+  .work-showcase__ledger-name {
+    grid-column: 2;
+  }
+
+  .work-showcase__ledger-desc {
+    grid-column: 2;
+  }
+}
+
 @media (max-width: 640px) {
   .work-showcase__inner {
     padding: 96px 20px 0;
+  }
+
+  .work-showcase__ledger {
+    margin-top: 56px;
+  }
+
+  .work-showcase__ledger-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 20px 0;
+  }
+
+  .work-showcase__ledger-value,
+  .work-showcase__ledger-name,
+  .work-showcase__ledger-desc {
+    grid-column: 1;
+  }
+
+  .work-showcase__ledger-value {
+    font-size: 34px;
   }
 
   .work-showcase__intro {

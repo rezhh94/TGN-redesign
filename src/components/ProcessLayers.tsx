@@ -31,7 +31,7 @@ const processLayers = [
 
 export function ProcessLayers() {
   return (
-    <section className="process-layers" aria-labelledby="process-layers-title">
+    <section className="process-layers" id="prosess" aria-labelledby="process-layers-title">
       <div className="process-layers__inner">
         <header className="process-layers__header">
           <p className="process-layers__label">05 / Prosess</p>
@@ -43,6 +43,10 @@ export function ProcessLayers() {
             </h2>
             <p className="process-layers__lead">
               Ikke et langt byråløp. En kontrollert produksjon fra avklaring til lansering.
+            </p>
+            <p className="process-layers__meta">
+              04 faser <span aria-hidden="true">/</span> definert inn og ut{" "}
+              <span aria-hidden="true">/</span> målt fra dag én
             </p>
           </div>
         </header>
@@ -76,6 +80,11 @@ export function ProcessLayers() {
             </article>
           ))}
         </div>
+
+        <p className="process-layers__protocol">
+          Ingen fase starter uklart. Neste steg er alltid definert — det er det som gjør
+          produksjonen rask.
+        </p>
       </div>
     </section>
   );

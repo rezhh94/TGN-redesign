@@ -288,6 +288,67 @@
   padding-bottom: clamp(22px, 3vh, 34px);
 }
 
+/* Foot strip — closes the chapter and hands off to 05 / Prosess.
+   Quiet ledger register: one fact, one line of copy, one directional link. */
+
+.what-build__foot {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(24px, 4vw, 72px);
+  margin-top: clamp(30px, 4.6vh, 52px);
+}
+
+.what-build__foot-note {
+  flex: none;
+  color: rgba(242, 241, 235, 0.62);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.what-build__foot-copy {
+  color: rgba(242, 241, 235, 0.52);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.05vw, 18px);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.what-build__foot-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  color: rgba(242, 241, 235, 0.74);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: rgba(242, 241, 235, 0.28);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.42em;
+  white-space: nowrap;
+  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
+}
+
+.what-build__foot-link:hover,
+.what-build__foot-link:focus-visible {
+  color: var(--color-on-dark);
+  text-decoration-color: var(--color-on-dark);
+}
+
+.what-build__foot-arrow {
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg) translateY(-1px);
+}
+
 @media (max-width: 1440px) {
   .what-build__title {
     margin-left: -24px;
@@ -417,5 +478,16 @@
     margin-top: -6px;
     font-size: 11px;
     padding-bottom: 32px;
+  }
+
+  .what-build__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 34px;
+  }
+
+  .what-build__foot-link {
+    margin-left: 0;
   }
 }

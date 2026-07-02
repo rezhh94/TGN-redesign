@@ -1,3 +1,30 @@
+const standards = [
+  {
+    index: "K—01",
+    value: "< 2,0 s",
+    name: "Ytelse",
+    description: "LCP under to sekunder på ekte enheter, ikke bare i test.",
+  },
+  {
+    index: "K—02",
+    value: "Dag én",
+    name: "Synlighet",
+    description: "Indekserbar struktur, ren HTML og måling fra lansering.",
+  },
+  {
+    index: "K—03",
+    value: "WCAG AA",
+    name: "Tilgjengelighet",
+    description: "Kontrast, navigasjon og semantikk som grunnlinje, ikke tillegg.",
+  },
+  {
+    index: "K—04",
+    value: "0 maler",
+    name: "Eierskap",
+    description: "Egen kode uten temaer og lisenslås. Alt kan endres senere.",
+  },
+];
+
 export function WorkShowcase() {
   return (
     <section className="work-showcase" aria-labelledby="work-showcase-title">
@@ -17,6 +44,22 @@ export function WorkShowcase() {
           </div>
         </div>
 
+        <div className="work-showcase__ledger" data-work-ledger>
+          <p className="work-showcase__ledger-kicker">Bygget etter faste krav — uansett prosjekt</p>
+          <ol className="work-showcase__ledger-list" aria-label="Leveransekrav">
+            {standards.map((standard) => (
+              <li className="work-showcase__ledger-row" data-ledger-row key={standard.index}>
+                <span className="work-showcase__ledger-index" aria-hidden="true">
+                  {standard.index}
+                </span>
+                <span className="work-showcase__ledger-value">{standard.value}</span>
+                <span className="work-showcase__ledger-name">{standard.name}</span>
+                <p className="work-showcase__ledger-desc">{standard.description}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
         <div className="work-showcase__layout">
           <div className="work-showcase__meta">
             <p className="work-showcase__meta-label">01 / Systemflate</p>
@@ -24,6 +67,10 @@ export function WorkShowcase() {
             <p className="work-showcase__caption">
               En digital flate skal ikke bare se bra ut. Den må være rask, forståelig og bygget
               for å bli valgt.
+            </p>
+            <p className="work-showcase__sectors">
+              <span className="work-showcase__sectors-label">Levert innen</span>
+              VVS · Hudklinikk · Sanering · B2B-tjenester
             </p>
             <a className="work-showcase__case-link" href="/arkiv">
               Se arkivet

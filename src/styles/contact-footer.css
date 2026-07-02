@@ -383,6 +383,7 @@
 /* Wordmark — deliberate hero bookend: solid, baseline-cropped */
 
 .contact-footer__wordmark {
+  position: relative;
   border-top: 1px solid rgba(242, 241, 235, 0.14);
   margin: clamp(92px, 14vh, 190px) 0 -0.16em;
   padding-top: clamp(28px, 4vh, 52px);
@@ -398,6 +399,30 @@
 
 .contact-footer__wordmark span {
   display: inline-block;
+}
+
+/* Echo layers — the wordmark leaves faint print traces above itself
+   (the Suero exit move). Static by design; hidden on small screens. */
+
+.contact-footer__wordmark-face {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-footer__wordmark-echo {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0.34em;
+  z-index: 0;
+  color: rgba(242, 241, 235, 0.06);
+  pointer-events: none;
+  user-select: none;
+}
+
+.contact-footer__wordmark-echo--far {
+  bottom: 0.68em;
+  color: rgba(242, 241, 235, 0.028);
 }
 
 @media (max-width: 1080px) {
@@ -514,5 +539,9 @@
 
   .contact-footer__wordmark span {
     display: block;
+  }
+
+  .contact-footer__wordmark-echo {
+    display: none;
   }
 }

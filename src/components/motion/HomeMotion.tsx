@@ -211,6 +211,8 @@ function effectStage(pinned: boolean) {
   // of the timeline below) — drives the spine bidirectionally.
   const thresholds = [0, 0.22, 0.5, 0.78];
 
+  const progressBar = section.querySelector<HTMLElement>("[data-effect-progress-bar]");
+
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: section,
@@ -226,6 +228,7 @@ function effectStage(pinned: boolean) {
           if (self.progress >= thresholds[i]) active = i;
         }
         setSpine(active);
+        if (progressBar) gsap.set(progressBar, { scaleX: self.progress });
       },
     },
   });
@@ -363,6 +366,52 @@ function processMap(full: boolean) {
   });
 }
 
+// 04 / Arbeid — the standards ledger: rows rise once as they cross the
+// reading band; each row's hairline draws in with it.
+function ledgerReveal() {
+  const rows = gsap.utils.toArray<HTMLElement>("[data-ledger-row]");
+  if (!rows.length) return;
+
+  for (const row of rows) {
+    gsap.from(row, {
+      y: 22,
+      autoAlpha: 0,
+      duration: 0.55,
+      ease: "power3.out",
+      scrollTrigger: { trigger: row, start: "top 86%", once: true },
+    });
+  }
+}
+
+// 06 / System — manifesto lines rise out of their masks once; support and
+// corner marks settle after. The page's quietest reveal.
+function manifestoReveal() {
+  const section = document.querySelector<HTMLElement>(".system-manifesto");
+  if (!section) return;
+
+  const lines = gsap.utils.toArray<HTMLElement>(
+    ".system-manifesto__line-inner",
+    section
+  );
+  const support = section.querySelector("[data-manifesto-support]");
+  const corners = section.querySelectorAll(".system-manifesto__corner");
+
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: section, start: "top 64%", once: true },
+    defaults: { ease: "power3.out" },
+  });
+
+  if (lines.length) {
+    tl.from(lines, { yPercent: 108, duration: 0.8, stagger: 0.12 });
+  }
+  if (support) {
+    tl.from(support, { autoAlpha: 0, y: 16, duration: 0.55 }, "-=0.35");
+  }
+  if (corners.length) {
+    tl.from(corners, { autoAlpha: 0, duration: 0.45, stagger: 0.05 }, "-=0.4");
+  }
+}
+
 function footerReveals() {
   const wordmark = document.querySelector<HTMLElement>(".contact-footer__wordmark");
   if (wordmark) {
@@ -466,7 +515,9 @@ export function HomeMotion() {
       serviceReveals();
       const teardownStage = effectStage(true);
       workReveal(true);
+      ledgerReveal();
       processMap(true);
+      manifestoReveal();
       footerReveals();
       return () => {
         teardownGhost();
@@ -480,7 +531,9 @@ export function HomeMotion() {
       serviceReveals();
       effectStage(false);
       workReveal(false);
+      ledgerReveal();
       processMap(false);
+      manifestoReveal();
       footerReveals();
     });
 

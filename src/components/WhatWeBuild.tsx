@@ -12,24 +12,28 @@ const services = [
     title: "Webapper",
     description: "Portaler, dashboards og digitale verktøy bygget for reell arbeidsflyt.",
     meta: "PORTALER / DASHBOARDS",
+    tagline: "Innlogging / Roller / Integrasjoner / Datamodell / Drift",
   },
   {
     number: "03",
     title: "Apper",
     description: "App-løsninger for mobil og web når produktet må være mer enn en nettside.",
     meta: "MOBIL / WEB",
+    tagline: "Mobil / Web / Push / Innlogging / Publisering",
   },
   {
     number: "04",
     title: "AI-systemer",
     description: "Automatisering, søk, assistenter og interne workflows koblet til ekte data.",
     meta: "AUTOMASJON / SØK / DATA",
+    tagline: "Automasjon / Søk / Assistenter / Interne verktøy / Ekte data",
   },
   {
     number: "05",
     title: "SEO & AI-søk",
     description: "Innhold og struktur som gjør løsningen lettere å finne, forstå og velge.",
     meta: "INNHOLD / STRUKTUR",
+    tagline: "Teknisk SEO / Innholdsstruktur / AI-synlighet / Lokal synlighet / Måling",
   },
 ];
 
@@ -96,6 +100,17 @@ export function WhatWeBuild() {
           ))}
           </ol>
         </div>
+
+        <footer className="what-build__foot">
+          <p className="what-build__foot-note">05 tjenester — én produksjon</p>
+          <p className="what-build__foot-copy">
+            Alt bygges på samme grunnmur: struktur, fart, søkbarhet og måling.
+          </p>
+          <a className="what-build__foot-link" href="#prosess">
+            Se hvordan vi produserer
+            <span className="what-build__foot-arrow" aria-hidden="true" />
+          </a>
+        </footer>
       </div>
     </section>
   );

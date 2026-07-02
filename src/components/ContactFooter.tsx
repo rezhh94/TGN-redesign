@@ -46,7 +46,7 @@ export function ContactFooter() {
     <section className="contact-footer" aria-labelledby="contact-footer-title">
       <div className="contact-footer__inner">
         <div className="contact-footer__closing">
-          <p className="contact-footer__label">06 / Kontakt</p>
+          <p className="contact-footer__label">07 / Kontakt</p>
 
           <div className="contact-footer__statement">
             <h2 className="contact-footer__title" id="contact-footer-title">
@@ -130,9 +130,17 @@ export function ContactFooter() {
           </div>
         </footer>
 
-        <p className="contact-footer__wordmark" aria-hidden="true">
-          <span>TIGON</span> <span>STUDIO</span>
-        </p>
+        <div className="contact-footer__wordmark" aria-hidden="true">
+          <p className="contact-footer__wordmark-echo contact-footer__wordmark-echo--far">
+            <span>TIGON</span> <span>STUDIO</span>
+          </p>
+          <p className="contact-footer__wordmark-echo">
+            <span>TIGON</span> <span>STUDIO</span>
+          </p>
+          <p className="contact-footer__wordmark-face">
+            <span>TIGON</span> <span>STUDIO</span>
+          </p>
+        </div>
       </div>
     </section>
   );
