@@ -131,7 +131,17 @@ Hva vi ikke skal kopiere:
 - Ikke gjøre Tigon for stille eller anonym.
 - Ikke miste den mørke, brutale Tigon-identiteten.
 
-Legg dette helt til slutt:
+## Salo
+
+Filer:
+- salo_work
+- salo_work1
+
+Hva jeg liker:
+- Siden føles som en reise.
+- Seksjonene har stor variasjon.
+- Gode break-ups mellom kapitler.
+- Tigon bør lære hvordan scrollen kan føles mer regissert uten å bli rotete.
 
 # Viktigste oppgave for Fable
 
