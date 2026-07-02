@@ -74,6 +74,38 @@ Målet er å gjøre Tigon mer premium, mer regissert og mer Awwwards-inspirert u
 
 # Referanser
 
+## Referanse-lenker
+
+Dette er ikke sider vi skal kopiere. Bruk dem for å forstå pacing, break-ups, layout, typografi, motion og seksjonsvariasjon.
+
+- https://lessestudio.com/
+  Rolle: hovedreferanse.
+  Liker: premium ro, mørk/lys-rytme, editorial pacing, knapper, små mono/ascii-detaljer, tjenester som liste i stedet for card grid.
+
+- https://www.verteal.com/
+  Rolle: hero-referanse.
+  Liker: komponert hero, sterk første scene, premium layout.
+
+- https://lamalama.com/
+  Rolle: layout + interaksjon.
+  Liker: seksjonsoppsett, custom følelse, cursor/interaksjoner, variasjon mellom seksjoner.
+
+- https://salo.uk/
+  Rolle: journey-referanse.
+  Liker: stor variasjon mellom seksjoner, siden føles som en reise, gode break-ups.
+
+- https://www.grilledpixels.com/
+  Rolle: typografi / premium setup.
+  Liker: fontbruk, tung typografisk identitet, visuelt sterk retning.
+
+- https://www.ethansuero.com/
+  Rolle: seksjonsvariasjon / break-ups.
+  Liker: forskjellige seksjoner, personlig/custom følelse, ikke flat template.
+
+- https://www.dragonfly.xyz/
+  Rolle: tech/dev/ascii.
+  Liker: teknisk følelse, mono/ascii-detaljer, developer-stemning uten vanlig dashboard-klisjé.
+
 ## Lessestudio
 
 Filer:
