@@ -1,5 +1,6 @@
 const featuredService = {
   number: "01",
+  href: "/tjenester/webutvikling-nextjs",
   title: "Nettsider",
   description: "Raske nettsider med tydelig struktur, teknisk SEO og måling fra start.",
   tags: ["Teknisk SEO", "Core Web Vitals", "Struktur", "Måling", "Konvertering", "Next.js"],
@@ -8,21 +9,25 @@ const featuredService = {
 const collapsedServices = [
   {
     number: "02",
+    href: "/tjenester/custom-software",
     title: "Webapper",
     description: "Portaler, dashboards og digitale verktøy bygget for reell arbeidsflyt.",
   },
   {
     number: "03",
+    href: "/tjenester/app-utvikling",
     title: "Apper",
     description: "App-løsninger for mobil og web når produktet må være mer enn en nettside.",
   },
   {
     number: "04",
+    href: "/tjenester/ai-implementering",
     title: "AI-systemer",
     description: "Automatisering, søk, assistenter og interne workflows koblet til ekte data.",
   },
   {
     number: "05",
+    href: "/tjenester/seo-optimalisering",
     title: "SEO & AI-søk",
     description: "Innhold og struktur som gjør løsningen lettere å finne, forstå og velge.",
   },
@@ -50,39 +55,43 @@ export function WhatWeBuild() {
         </header>
 
         <ol className="what-build__accordion" aria-label="Tjenester">
-          <li className="what-build__row what-build__row--open">
-            <div className="what-build__row-heading">
-              <span className="what-build__number">{featuredService.number}</span>
-              <h3 className="what-build__service-title">{featuredService.title}</h3>
-            </div>
+          <li>
+            <a className="what-build__row what-build__row--open" href={featuredService.href}>
+              <div className="what-build__row-heading">
+                <span className="what-build__number">{featuredService.number}</span>
+                <h3 className="what-build__service-title">{featuredService.title}</h3>
+              </div>
 
-            <div className="what-build__featured-body">
-              <p className="what-build__featured-description">{featuredService.description}</p>
-              <ul className="what-build__tags" aria-label="Nettsider inkluderer">
-                {featuredService.tags.map((tag) => (
-                  <li className="what-build__tag" key={tag}>
-                    {tag}
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <div className="what-build__featured-body">
+                <p className="what-build__featured-description">{featuredService.description}</p>
+                <ul className="what-build__tags" aria-label="Nettsider inkluderer">
+                  {featuredService.tags.map((tag) => (
+                    <li className="what-build__tag" key={tag}>
+                      {tag}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            <span className="what-build__icon" aria-hidden="true">
-              -
-            </span>
+              <span className="what-build__icon" aria-hidden="true">
+                →
+              </span>
+            </a>
           </li>
 
           {collapsedServices.map((service) => (
-            <li className="what-build__row what-build__row--collapsed" key={service.number}>
-              <div className="what-build__row-heading">
-                <span className="what-build__number">{service.number}</span>
-                <h3 className="what-build__service-title">{service.title}</h3>
-              </div>
+            <li key={service.number}>
+              <a className="what-build__row what-build__row--collapsed" href={service.href}>
+                <div className="what-build__row-heading">
+                  <span className="what-build__number">{service.number}</span>
+                  <h3 className="what-build__service-title">{service.title}</h3>
+                </div>
 
-              <p className="what-build__collapsed-description">{service.description}</p>
-              <span className="what-build__icon" aria-hidden="true">
-                +
-              </span>
+                <p className="what-build__collapsed-description">{service.description}</p>
+                <span className="what-build__icon" aria-hidden="true">
+                  →
+                </span>
+              </a>
             </li>
           ))}
         </ol>

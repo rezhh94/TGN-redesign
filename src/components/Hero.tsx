@@ -8,11 +8,11 @@ const serviceLinks = [
     label: "Apputvikling",
   },
   {
-    href: "/tjenester/seo-ai-sok/oslo/oslo",
+    href: "/tjenester/seo-optimalisering",
     label: "SEO / AI-søk",
   },
   {
-    href: "/tjenester/ai-integrasjon/oslo/oslo",
+    href: "/tjenester/digital-infrastruktur",
     label: "Digitale systemer",
   },
 ];
@@ -37,7 +37,6 @@ export function Hero() {
             <p className="hero__support">Nettsider og apper som blir funnet, forstått og valgt.</p>
 
             <nav className="hero__services" aria-label="Tjenester">
-              {/* TODO: Foreløpige href-er til SEO-kontrakt og endelig rutestruktur er bekreftet. */}
               {serviceLinks.map((link) => (
                 <a key={link.href} href={link.href}>
                   {link.label}

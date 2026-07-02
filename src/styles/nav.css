@@ -185,6 +185,10 @@
   color: var(--color-on-dark);
 }
 
+.mobile-menu[hidden] {
+  display: none;
+}
+
 .mobile-menu__top {
   min-height: 50px;
   display: flex;

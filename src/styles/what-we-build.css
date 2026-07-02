@@ -87,6 +87,8 @@
   grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr) 38px;
   gap: clamp(28px, 5vw, 96px);
   border-bottom: 1px solid rgba(242, 241, 235, 0.14);
+  color: inherit;
+  text-decoration: none;
 }
 
 .what-build__row--open {
@@ -99,6 +101,11 @@
   min-height: 128px;
   align-items: center;
   padding: 34px 0;
+}
+
+.what-build__row:focus-visible {
+  outline: 1px solid rgba(242, 241, 235, 0.72);
+  outline-offset: -1px;
 }
 
 .what-build__row-heading {
