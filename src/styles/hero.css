@@ -139,7 +139,9 @@
 .hero__support {
   max-width: 30ch;
   color: var(--color-on-dark);
+  font-family: var(--font-sans);
   font-size: clamp(16px, 1.35vw, 21px);
+  font-weight: 400;
   line-height: 1.36;
 }
 

@@ -23,10 +23,10 @@ export function Hero() {
       <div className="hero__inner">
         <div className="hero__stage">
           <div className="hero__copy">
-            <h1 className="hero__title" id="hero-title">
+            <div className="hero__title" aria-hidden="true">
               <span>TIGON</span>
               <span>STUDIO</span>
-            </h1>
+            </div>
           </div>
 
           <div className="hero__visual" aria-hidden="true" />
@@ -34,7 +34,9 @@ export function Hero() {
 
         <div className="hero__bar">
           <div className="hero__bar-main">
-            <p className="hero__support">Nettsider og apper som blir funnet, forstått og valgt.</p>
+            <h1 className="hero__support" id="hero-title">
+              Nettsider og apper som blir funnet, forstått og valgt.
+            </h1>
 
             <nav className="hero__services" aria-label="Tjenester">
               {serviceLinks.map((link) => (
