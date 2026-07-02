@@ -35,8 +35,9 @@
   position: relative;
   z-index: 1;
   width: min(100%, 2560px);
+  min-height: 100svh;
   margin: 0 auto;
-  padding: clamp(148px, 18vh, 232px) clamp(24px, 5vw, 150px) clamp(138px, 17vh, 226px);
+  padding: clamp(72px, 9vh, 128px) clamp(24px, 5vw, 150px) clamp(70px, 8vh, 118px);
 }
 
 .what-improve__label,
@@ -51,9 +52,9 @@
 .what-improve__canvas {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  grid-template-rows: minmax(360px, auto) minmax(360px, auto);
-  gap: clamp(84px, 10vh, 150px) clamp(44px, 7vw, 128px);
-  margin-top: clamp(60px, 8vh, 98px);
+  grid-template-rows: repeat(2, minmax(clamp(214px, 29vh, 320px), auto));
+  gap: clamp(34px, 6vh, 84px) clamp(44px, 7vw, 128px);
+  margin-top: clamp(34px, 5vh, 70px);
 }
 
 .what-improve__title {
@@ -62,7 +63,7 @@
 
 .what-improve__word {
   display: block;
-  color: rgba(242, 241, 235, 0.24);
+  color: rgba(242, 241, 235, 0.52);
   font-family: var(--font-display);
   font-size: clamp(88px, 10.2vw, 214px);
   font-weight: 700;
@@ -70,6 +71,7 @@
   line-height: 0.78;
   text-transform: uppercase;
   white-space: nowrap;
+  will-change: color, text-shadow;
 }
 
 .what-improve__word[data-outcome="funnet"] {
@@ -77,7 +79,6 @@
   grid-row: 1;
   align-self: start;
   justify-self: start;
-  color: rgba(242, 241, 235, 0.94);
 }
 
 .what-improve__word[data-outcome="forstatt"] {
@@ -85,7 +86,6 @@
   grid-row: 1;
   align-self: start;
   justify-self: end;
-  color: rgba(242, 241, 235, 0.36);
 }
 
 .what-improve__word[data-outcome="valgt"] {
@@ -93,7 +93,6 @@
   grid-row: 2;
   align-self: start;
   justify-self: start;
-  color: rgba(242, 241, 235, 0.34);
 }
 
 .what-improve__word[data-outcome="malt"] {
@@ -101,13 +100,26 @@
   grid-row: 2;
   align-self: start;
   justify-self: end;
-  color: rgba(242, 241, 235, 0.58);
 }
 
 .what-improve__annotation {
+  --annotation-line-alpha: 0.18;
+  position: relative;
   width: min(100%, 440px);
+  padding-left: clamp(16px, 1.35vw, 24px);
   align-self: start;
   z-index: 1;
+  will-change: transform;
+}
+
+.what-improve__annotation::before {
+  content: "";
+  position: absolute;
+  top: 0.12em;
+  bottom: 0.18em;
+  left: 0;
+  width: 1px;
+  background: rgba(242, 241, 235, var(--annotation-line-alpha));
 }
 
 .what-improve__annotation--funnet {
@@ -151,8 +163,8 @@
 
 @media (max-width: 1180px) {
   .what-improve__canvas {
-    grid-template-rows: minmax(320px, auto) minmax(320px, auto);
-    gap: 72px 36px;
+    grid-template-rows: repeat(2, minmax(246px, auto));
+    gap: 58px 36px;
   }
 
   .what-improve__word {
@@ -176,6 +188,7 @@
 
 @media (max-width: 760px) {
   .what-improve__inner {
+    min-height: auto;
     padding: 108px 20px 112px;
   }
 

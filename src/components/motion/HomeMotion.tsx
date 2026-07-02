@@ -7,6 +7,18 @@ import { prefersReducedMotion } from "@/lib/motion";
 
 const revealEase = "power3.out";
 const quickEase = "power2.out";
+const outcomeOrder = ["funnet", "forstatt", "valgt", "malt"] as const;
+const outcomePinLength = 1.62;
+const outcomeTransitionDuration = 0.22;
+const outcomeHoldDuration = 0.24;
+const outcomeEdgeHoldDuration = 0.2;
+
+type OutcomeMotionTarget = {
+  word: HTMLElement;
+  annotation: HTMLElement;
+  number: HTMLElement;
+  description: HTMLElement;
+};
 
 function scrollReveal(
   targets: gsap.TweenTarget,
@@ -29,6 +41,204 @@ function scrollReveal(
   });
 }
 
+function setupWhatImproveSignatureMotion() {
+  const section = document.querySelector<HTMLElement>(".what-improve");
+  const canvas = section?.querySelector<HTMLElement>(".what-improve__canvas");
+
+  if (!section || !canvas) return;
+
+  const targets = outcomeOrder
+    .map((outcome) => {
+      const word = section.querySelector<HTMLElement>(
+        `.what-improve__word[data-outcome="${outcome}"]`
+      );
+      const annotation = section.querySelector<HTMLElement>(
+        `.what-improve__annotation[data-outcome="${outcome}"]`
+      );
+      const number = annotation?.querySelector<HTMLElement>(
+        ".what-improve__number"
+      );
+      const description = annotation?.querySelector<HTMLElement>(
+        ".what-improve__description"
+      );
+
+      if (!word || !annotation || !number || !description) return null;
+
+      return {
+        word,
+        annotation,
+        number,
+        description,
+      };
+    })
+    .filter((target): target is OutcomeMotionTarget => Boolean(target));
+
+  if (targets.length !== outcomeOrder.length) return;
+
+  const inactiveWord = "rgba(242, 241, 235, 0.28)";
+  const activeWord = "rgba(242, 241, 235, 0.96)";
+  const inactiveNumber = "rgba(242, 241, 235, 0.42)";
+  const activeNumber = "rgba(242, 241, 235, 0.78)";
+  const inactiveDescription = "rgba(242, 241, 235, 0.56)";
+  const activeDescription = "rgba(242, 241, 235, 0.86)";
+  const activeGlow = "0 0 34px rgba(242, 241, 235, 0.12)";
+
+  const words = targets.map((target) => target.word);
+  const annotations = targets.map((target) => target.annotation);
+  const numbers = targets.map((target) => target.number);
+  const descriptions = targets.map((target) => target.description);
+
+  const setActiveOutcome = (activeIndex: number) => {
+    const inactiveTargets = targets.filter((_, index) => index !== activeIndex);
+    const activeTarget = targets[activeIndex];
+
+    gsap.set(inactiveTargets.map((target) => target.word), {
+      color: inactiveWord,
+      textShadow: "0 0 0 rgba(242, 241, 235, 0)",
+    });
+    gsap.set(inactiveTargets.map((target) => target.annotation), {
+      "--annotation-line-alpha": 0.12,
+      y: 0,
+    });
+    gsap.set(inactiveTargets.map((target) => target.number), {
+      color: inactiveNumber,
+    });
+    gsap.set(inactiveTargets.map((target) => target.description), {
+      color: inactiveDescription,
+    });
+
+    gsap.set(activeTarget.word, {
+      color: activeWord,
+      textShadow: activeGlow,
+    });
+    gsap.set(activeTarget.annotation, {
+      "--annotation-line-alpha": 0.42,
+      y: -4,
+    });
+    gsap.set(activeTarget.number, {
+      color: activeNumber,
+    });
+    gsap.set(activeTarget.description, {
+      color: activeDescription,
+    });
+  };
+
+  const tweenActiveOutcome = (
+    timeline: gsap.core.Timeline,
+    activeIndex: number
+  ) => {
+    const inactiveTargets = targets.filter((_, index) => index !== activeIndex);
+    const activeTarget = targets[activeIndex];
+
+    timeline
+      .to(
+        inactiveTargets.map((target) => target.word),
+        {
+          color: inactiveWord,
+          textShadow: "0 0 0 rgba(242, 241, 235, 0)",
+          duration: outcomeTransitionDuration,
+        }
+      )
+      .to(
+        inactiveTargets.map((target) => target.annotation),
+        {
+          "--annotation-line-alpha": 0.12,
+          y: 0,
+          duration: outcomeTransitionDuration,
+        },
+        "<"
+      )
+      .to(
+        inactiveTargets.map((target) => target.number),
+        {
+          color: inactiveNumber,
+          duration: outcomeTransitionDuration,
+        },
+        "<"
+      )
+      .to(
+        inactiveTargets.map((target) => target.description),
+        {
+          color: inactiveDescription,
+          duration: outcomeTransitionDuration,
+        },
+        "<"
+      )
+      .to(
+        activeTarget.word,
+        {
+          color: activeWord,
+          textShadow: activeGlow,
+          duration: outcomeTransitionDuration,
+        },
+        "<"
+      )
+      .to(
+        activeTarget.annotation,
+        {
+          "--annotation-line-alpha": 0.42,
+          y: -4,
+          duration: outcomeTransitionDuration,
+        },
+        "<"
+      )
+      .to(
+        activeTarget.number,
+        {
+          color: activeNumber,
+          duration: outcomeTransitionDuration,
+        },
+        "<"
+      )
+      .to(
+        activeTarget.description,
+        {
+          color: activeDescription,
+          duration: outcomeTransitionDuration,
+        },
+        "<"
+      )
+      .to({}, { duration: outcomeHoldDuration });
+  };
+
+  gsap.set(words, {
+    color: inactiveWord,
+    textShadow: "0 0 0 rgba(242, 241, 235, 0)",
+  });
+  gsap.set(annotations, {
+    "--annotation-line-alpha": 0.12,
+    y: 0,
+  });
+  gsap.set(numbers, {
+    color: inactiveNumber,
+  });
+  gsap.set(descriptions, {
+    color: inactiveDescription,
+  });
+  setActiveOutcome(0);
+
+  const timeline = gsap.timeline({
+    defaults: {
+      ease: "none",
+    },
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: () => `+=${Math.round(window.innerHeight * outcomePinLength)}`,
+      scrub: 0.32,
+      pin: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  timeline.to({}, { duration: outcomeEdgeHoldDuration });
+  tweenActiveOutcome(timeline, 1);
+  tweenActiveOutcome(timeline, 2);
+  tweenActiveOutcome(timeline, 3);
+  timeline.to({}, { duration: outcomeEdgeHoldDuration });
+}
+
 export function HomeMotion() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -44,10 +254,13 @@ export function HomeMotion() {
         {
           isDesktop: "(min-width: 900px)",
           isMobile: "(max-width: 899px)",
+          canPinEffect:
+            "(min-width: 1181px) and (min-height: 760px) and (hover: hover) and (pointer: fine)",
         },
         ({ conditions }) => {
           const isDesktop = Boolean(conditions?.isDesktop);
           const isMobile = Boolean(conditions?.isMobile);
+          const canPinEffect = Boolean(conditions?.canPinEffect);
 
           const heroTimeline = gsap.timeline({ delay: 0.08 });
           heroTimeline
@@ -114,6 +327,10 @@ export function HomeMotion() {
             duration: 0.38,
             stagger: isMobile ? 0.035 : 0.045,
           });
+
+          if (canPinEffect) {
+            setupWhatImproveSignatureMotion();
+          }
 
           scrollReveal(
             [
