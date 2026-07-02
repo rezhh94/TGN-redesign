@@ -93,13 +93,25 @@
   max-width: 100%;
   color: rgba(242, 241, 235, 0.94);
   font-family: var(--font-sans);
-  font-size: clamp(46px, 6.6vw, 132px);
+  font-size: clamp(52px, 8.2vw, 164px);
   font-weight: 400;
   letter-spacing: -0.055em;
   line-height: 0.95;
   overflow-wrap: anywhere;
   text-decoration: none;
-  transition: color var(--motion-fast) ease-out;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  padding-bottom: 0.06em;
+  transition:
+    color var(--motion-fast) ease-out,
+    background-size var(--motion-medium) var(--ease-out-expo);
+}
+
+.contact-footer__email:hover,
+.contact-footer__email:focus-visible {
+  background-size: 100% 2px;
 }
 
 .contact-footer__phone {
@@ -321,7 +333,9 @@
 /* Wordmark — deliberate hero bookend: solid, baseline-cropped */
 
 .contact-footer__wordmark {
-  margin: clamp(64px, 10vh, 138px) 0 -0.16em;
+  border-top: 1px solid rgba(242, 241, 235, 0.14);
+  margin: clamp(92px, 14vh, 190px) 0 -0.16em;
+  padding-top: clamp(28px, 4vh, 52px);
   color: rgba(242, 241, 235, 0.9);
   font-family: var(--font-display);
   font-size: clamp(74px, 22.4vw, 480px);

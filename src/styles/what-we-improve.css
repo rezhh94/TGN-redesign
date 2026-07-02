@@ -33,9 +33,12 @@
   display: contents;
 }
 
+/* Static end state: every word filled. This is what mobile and
+   prefers-reduced-motion get; the scrubbed sequence starts muted via JS only. */
+
 .what-improve__word {
   display: block;
-  color: rgba(242, 241, 235, 0.24);
+  color: rgba(242, 241, 235, 0.94);
   font-family: var(--font-display);
   font-size: clamp(88px, 10.2vw, 214px);
   font-weight: 700;
@@ -45,12 +48,14 @@
   white-space: nowrap;
 }
 
+/* Staggered baselines: the four words step diagonally so the layout
+   reads as an ordered sequence, not a 2x2 grid. */
+
 .what-improve__word[data-outcome="funnet"] {
   grid-column: 1;
   grid-row: 1;
   align-self: start;
   justify-self: start;
-  color: rgba(242, 241, 235, 0.94);
 }
 
 .what-improve__word[data-outcome="forstatt"] {
@@ -58,7 +63,7 @@
   grid-row: 1;
   align-self: start;
   justify-self: end;
-  color: rgba(242, 241, 235, 0.36);
+  margin-top: clamp(64px, 6.4vw, 132px);
 }
 
 .what-improve__word[data-outcome="valgt"] {
@@ -66,7 +71,8 @@
   grid-row: 2;
   align-self: start;
   justify-self: start;
-  color: rgba(242, 241, 235, 0.34);
+  margin-top: clamp(-20px, -1.4vw, -8px);
+  margin-left: clamp(24px, 3.4vw, 88px);
 }
 
 .what-improve__word[data-outcome="malt"] {
@@ -74,7 +80,7 @@
   grid-row: 2;
   align-self: start;
   justify-self: end;
-  color: rgba(242, 241, 235, 0.58);
+  margin-top: clamp(72px, 7vw, 148px);
 }
 
 .what-improve__annotation {
@@ -94,14 +100,14 @@
   grid-column: 2;
   grid-row: 1;
   justify-self: end;
-  margin-top: clamp(128px, 10.8vw, 218px);
+  margin-top: clamp(192px, 17.2vw, 350px);
   margin-right: clamp(0px, 1.2vw, 28px);
 }
 
 .what-improve__annotation--valgt {
   grid-column: 1;
   grid-row: 2;
-  margin-top: clamp(102px, 9.2vw, 188px);
+  margin-top: clamp(84px, 7.8vw, 172px);
   margin-left: clamp(6px, 1.8vw, 38px);
 }
 
@@ -109,7 +115,7 @@
   grid-column: 2;
   grid-row: 2;
   justify-self: end;
-  margin-top: clamp(92px, 8.2vw, 166px);
+  margin-top: clamp(164px, 15.2vw, 314px);
   margin-right: clamp(0px, 1.2vw, 28px);
 }
 
@@ -136,14 +142,20 @@
     width: min(100%, 350px);
   }
 
-  .what-improve__annotation--funnet,
-  .what-improve__annotation--forstatt {
+  .what-improve__annotation--funnet {
     margin-top: 120px;
   }
 
-  .what-improve__annotation--valgt,
+  .what-improve__annotation--forstatt {
+    margin-top: clamp(150px, 18.5vw, 218px);
+  }
+
+  .what-improve__annotation--valgt {
+    margin-top: 96px;
+  }
+
   .what-improve__annotation--malt {
-    margin-top: 104px;
+    margin-top: clamp(146px, 17.5vw, 206px);
   }
 }
 
@@ -162,6 +174,11 @@
   .what-improve__word {
     font-size: clamp(50px, 16vw, 78px);
     line-height: 0.84;
+  }
+
+  .what-improve__word[data-outcome] {
+    margin-top: 0;
+    margin-left: 0;
   }
 
   .what-improve__word[data-outcome],

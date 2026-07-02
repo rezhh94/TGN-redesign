@@ -9,7 +9,9 @@
 .process-layers__inner {
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(118px, 15vh, 190px) clamp(24px, 5vw, 150px) clamp(128px, 17vh, 220px);
+  /* extra top room: the light 04-plate overlaps down into this section */
+  padding: calc(clamp(118px, 15vh, 190px) + var(--work-overlap)) clamp(24px, 5vw, 150px)
+    clamp(128px, 17vh, 220px);
 }
 
 .process-layers__header {
@@ -19,13 +21,21 @@
   align-items: start;
 }
 
-.process-layers__label,
-.process-layers__number {
+.process-layers__label {
   color: rgba(242, 241, 235, 0.62);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.03em;
   line-height: 1.2;
+}
+
+.process-layers__number {
+  color: rgba(242, 241, 235, var(--layer-number-alpha, 0.62));
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  transition: color var(--motion-base) var(--ease-standard);
 }
 
 .process-layers__copy {
@@ -106,6 +116,9 @@
   margin-top: clamp(-44px, -3.5vw, -24px);
 }
 
+/* Static depth hierarchy: the stack reads as a progression, not four equal
+   plates. Layer 1 is active/front by default; JS moves .is-active on scroll. */
+
 .process-layers__layer[data-process-index="1"] {
   width: 74%;
   margin-left: 5%;
@@ -116,18 +129,40 @@
   width: 84%;
   margin-left: 13%;
   z-index: 2;
+  --layer-title-alpha: 0.58;
+  --layer-desc-alpha: 0.4;
+  --layer-number-alpha: 0.44;
 }
 
 .process-layers__layer[data-process-index="3"] {
   width: 91%;
   margin-left: 6%;
   z-index: 3;
+  --layer-title-alpha: 0.44;
+  --layer-desc-alpha: 0.3;
+  --layer-number-alpha: 0.36;
 }
 
 .process-layers__layer[data-process-index="4"] {
   width: 100%;
   margin-left: 0;
   z-index: 4;
+  --layer-title-alpha: 0.36;
+  --layer-desc-alpha: 0.24;
+  --layer-number-alpha: 0.3;
+}
+
+.process-layers__layer.is-dimmed {
+  --layer-title-alpha: 0.5;
+  --layer-desc-alpha: 0.34;
+  --layer-number-alpha: 0.4;
+}
+
+.process-layers__layer[data-process-index="1"]:not(.is-dimmed),
+.process-layers__layer.is-active {
+  --layer-title-alpha: 0.95;
+  --layer-desc-alpha: 0.66;
+  --layer-number-alpha: 0.92;
 }
 
 .process-layers__number {
@@ -135,22 +170,24 @@
 }
 
 .process-layers__layer-title {
-  color: rgba(242, 241, 235, 0.94);
+  color: rgba(242, 241, 235, var(--layer-title-alpha, 0.95));
   font-family: var(--font-sans);
   font-size: clamp(38px, 5.2vw, 96px);
   font-weight: 400;
   letter-spacing: -0.035em;
   line-height: 0.98;
+  transition: color var(--motion-base) var(--ease-standard);
 }
 
 .process-layers__description {
   max-width: 620px;
   margin-top: clamp(18px, 2.6vh, 34px);
-  color: rgba(242, 241, 235, 0.62);
+  color: rgba(242, 241, 235, var(--layer-desc-alpha, 0.66));
   font-family: var(--font-sans);
   font-size: clamp(16px, 1.15vw, 20px);
   font-weight: 400;
   line-height: 1.45;
+  transition: color var(--motion-base) var(--ease-standard);
 }
 
 @media (max-width: 1080px) {
