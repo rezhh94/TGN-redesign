@@ -313,50 +313,90 @@ function workReveal(parallax: boolean) {
   }
 }
 
-// 05 / Prosess — calm, secondary: the spine line draws with scroll, nodes
-// fill and the active phase brightens as it crosses the reading band.
-function processMap(full: boolean) {
-  const steps = gsap.utils.toArray<HTMLElement>("[data-process-layer]");
-  if (!steps.length) return;
+// 05 / Prosess — production scene. Motion explains the machine: the unclear
+// input settles out of a fog, the axis draws with scroll, each stratum sets
+// calmly with its hairline and material state, and the finished output lands
+// out of a mask. FROM-tweens only — fully readable without JS.
+function processScene(full: boolean) {
+  const section = document.querySelector<HTMLElement>(".process-layers");
+  if (!section) return;
 
-  const activate = (index: number) => {
-    steps.forEach((step, i) => {
-      step.classList.toggle("is-active", i === index);
-      step.classList.toggle("is-dimmed", i !== index);
+  const intro = section.querySelector<HTMLElement>("[data-process-in]");
+  if (intro) {
+    gsap.from(intro, {
+      autoAlpha: 0,
+      y: 30,
+      filter: full ? "blur(14px)" : "blur(0px)",
+      duration: 1,
+      ease: "power3.out",
+      scrollTrigger: { trigger: intro, start: "top 80%", once: true },
     });
-  };
+  }
 
-  const line = document.querySelector<HTMLElement>("[data-process-line]");
-  if (line && full) {
+  const lead = section.querySelector<HTMLElement>("[data-process-lead]");
+  if (lead) {
+    gsap.from(lead, {
+      autoAlpha: 0,
+      y: 16,
+      duration: 0.6,
+      ease: "power2.out",
+      scrollTrigger: { trigger: lead, start: "top 86%", once: true },
+    });
+  }
+
+  const axis = section.querySelector<HTMLElement>("[data-process-axis]");
+  if (axis && full) {
     gsap.fromTo(
-      line,
+      axis,
       { scaleY: 0 },
       {
         scaleY: 1,
         ease: "none",
         transformOrigin: "top center",
         scrollTrigger: {
-          trigger: "[data-process-map]",
-          start: "top 72%",
-          end: "bottom 46%",
+          trigger: "[data-process-machine]",
+          start: "top 74%",
+          end: "bottom 40%",
           scrub: 0.5,
         },
       }
     );
   }
 
-  steps.forEach((step, index) => {
-    gsap.from(step, {
-      y: 28,
-      autoAlpha: 0,
-      duration: 0.6,
-      ease: "power3.out",
-      scrollTrigger: { trigger: step, start: "top 86%", once: true },
+  const stages = gsap.utils.toArray<HTMLElement>("[data-process-stage]", section);
+
+  const activate = (index: number) => {
+    stages.forEach((stage, i) => {
+      stage.classList.toggle("is-active", i === index);
+      stage.classList.toggle("is-dimmed", i !== index);
     });
+  };
+
+  stages.forEach((stage, index) => {
+    const line = stage.querySelector<HTMLElement>("[data-stage-line]");
+    const out = stage.querySelector<HTMLElement>("[data-stage-out]");
+    const copy = stage.querySelectorAll<HTMLElement>(
+      ".process-layers__code, .process-layers__verb, .process-layers__desc"
+    );
+
+    const tl = gsap.timeline({
+      defaults: { ease: "power3.out" },
+      scrollTrigger: { trigger: stage, start: "top 82%", once: true },
+    });
+
+    if (line) {
+      tl.from(line, { scaleX: 0, transformOrigin: "left center", duration: 0.8, ease: "expo.out" });
+    }
+    if (copy.length) {
+      tl.from(copy, { y: 26, autoAlpha: 0, duration: 0.6, stagger: 0.04 }, "-=0.55");
+    }
+    if (out) {
+      tl.from(out, { x: 24, autoAlpha: 0, duration: 0.55 }, "-=0.35");
+    }
 
     if (full) {
       ScrollTrigger.create({
-        trigger: step,
+        trigger: stage,
         start: "top 58%",
         end: "bottom 40%",
         onEnter: () => activate(index),
@@ -364,6 +404,28 @@ function processMap(full: boolean) {
       });
     }
   });
+
+  const outWord = section.querySelector<HTMLElement>("[data-process-out]");
+  if (outWord) {
+    gsap.from(outWord, {
+      yPercent: 112,
+      duration: 0.85,
+      ease: "power3.out",
+      scrollTrigger: { trigger: outWord, start: "top 86%", once: true },
+    });
+  }
+
+  const chainItems = section.querySelectorAll<HTMLElement>("[data-process-chain] > span");
+  if (chainItems.length) {
+    gsap.from(chainItems, {
+      autoAlpha: 0,
+      y: 10,
+      duration: 0.45,
+      ease: "power2.out",
+      stagger: 0.06,
+      scrollTrigger: { trigger: "[data-process-chain]", start: "top 90%", once: true },
+    });
+  }
 }
 
 // 04 / Arbeid — the standards ledger: rows rise once as they cross the
@@ -516,7 +578,7 @@ export function HomeMotion() {
       const teardownStage = effectStage(true);
       workReveal(true);
       ledgerReveal();
-      processMap(true);
+      processScene(true);
       manifestoReveal();
       footerReveals();
       return () => {
@@ -532,7 +594,7 @@ export function HomeMotion() {
       effectStage(false);
       workReveal(false);
       ledgerReveal();
-      processMap(false);
+      processScene(false);
       manifestoReveal();
       footerReveals();
     });

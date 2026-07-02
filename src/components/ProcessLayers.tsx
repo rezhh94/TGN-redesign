@@ -1,90 +1,113 @@
-const processLayers = [
+const stages = [
   {
-    number: "01",
+    code: "ST—01",
     title: "Avklar",
-    description: "Hva skal bygges, hvorfor, og hva må det løse?",
-    input: "Uklart behov",
-    output: "Definert scope",
+    description: "Behov, mål og rammer avklares — og prioriteres — før noe designes.",
+    output: "Scope",
   },
   {
-    number: "02",
+    code: "ST—02",
     title: "Strukturér",
-    description: "Innhold, flyt, søkbarhet og måling settes før designet låses.",
-    input: "Definert scope",
-    output: "Struktur og målplan",
+    description: "Innhold, flyt, søkbarhet og målepunkter settes før designet låses.",
+    output: "Struktur",
   },
   {
-    number: "03",
+    code: "ST—03",
     title: "Bygg",
-    description: "Design, kode og integrasjoner utvikles med rask feedback.",
-    input: "Struktur og målplan",
-    output: "Fungerende løsning",
+    description: "Design, kode og integrasjoner utvikles på samme grunnmur, med rask feedback.",
+    output: "System",
   },
   {
-    number: "04",
+    code: "ST—04",
     title: "Lanser",
-    description: "Siden publiseres med måling, teknisk sjekk og tydelig neste steg.",
-    input: "Fungerende løsning",
-    output: "Live løsning, målt fra dag én",
+    description: "Publisering med teknisk sjekk. Skjema, telefon og hendelser spores fra dag én.",
+    output: "Live",
   },
 ];
+
+const chain = ["Uklart", "Scope", "Struktur", "System", "Live"];
 
 export function ProcessLayers() {
   return (
     <section className="process-layers" id="prosess" aria-labelledby="process-layers-title">
       <div className="process-layers__inner">
-        <header className="process-layers__header">
+        <header className="process-layers__head">
           <p className="process-layers__label">05 / Prosess</p>
-          <div className="process-layers__copy">
-            <h2 className="process-layers__title" id="process-layers-title">
-              Fra første samtale
-              <br />
-              til ferdig løsning.
-            </h2>
-            <p className="process-layers__lead">
-              Ikke et langt byråløp. En kontrollert produksjon fra avklaring til lansering.
-            </p>
-            <p className="process-layers__meta">
-              04 faser <span aria-hidden="true">/</span> definert inn og ut{" "}
-              <span aria-hidden="true">/</span> målt fra dag én
-            </p>
-          </div>
+          <p className="process-layers__meta" aria-hidden="true">
+            TGN — Produksjonslinje / fire lag
+          </p>
         </header>
 
-        <div className="process-layers__map" aria-label="Produksjonsflyt" data-process-map>
-          <span className="process-layers__line" aria-hidden="true" data-process-line />
+        {/* The scene's input object. "Målbart ut." is printed as the closing
+            object below the strata; kept in the heading for AT/SEO. */}
+        <h2 className="process-layers__title" id="process-layers-title">
+          <span className="process-layers__title-in" data-process-in>
+            Uklart inn.
+          </span>
+          <span className="process-layers__sr">Målbart ut.</span>
+        </h2>
 
-          {processLayers.map((layer, index) => (
-            <article
-              className="process-layers__step"
-              data-process-layer
-              data-process-index={index + 1}
-              key={layer.number}
-            >
-              <span className="process-layers__node" aria-hidden="true" />
-              <p className="process-layers__number">{layer.number}</p>
-              <div className="process-layers__step-copy">
-                <h3 className="process-layers__layer-title">{layer.title}</h3>
-                <p className="process-layers__description">{layer.description}</p>
-              </div>
-              <dl className="process-layers__io">
-                <div className="process-layers__io-row">
-                  <dt>Inn</dt>
-                  <dd>{layer.input}</dd>
-                </div>
-                <div className="process-layers__io-row">
-                  <dt>Ut</dt>
-                  <dd>{layer.output}</dd>
-                </div>
-              </dl>
-            </article>
-          ))}
+        <p className="process-layers__lead" data-process-lead>
+          Ikke et byråløp på magefølelse. Ett produksjonssystem: alt som er uklart går inn i
+          toppen — og kommer målbart ut i bunnen.
+        </p>
+
+        {/* The machine — four full-width strata on one production axis.
+            Material solidifies layer by layer; no plate, no boxes. */}
+        <div className="process-layers__machine" data-process-machine>
+          <span className="process-layers__axis" aria-hidden="true">
+            <span className="process-layers__axis-line" data-process-axis />
+          </span>
+
+          <ol className="process-layers__stages">
+            {stages.map((stage, index) => (
+              <li
+                className="process-layers__stage"
+                data-process-stage
+                data-stage-index={index}
+                key={stage.code}
+              >
+                <span className="process-layers__stage-line" aria-hidden="true" data-stage-line />
+                <span className="process-layers__node" aria-hidden="true" />
+
+                <p className="process-layers__code">{stage.code}</p>
+                <h3 className="process-layers__verb">{stage.title}</h3>
+                <p className="process-layers__desc">{stage.description}</p>
+
+                <p className="process-layers__out" data-stage-out>
+                  <span className="process-layers__out-arrow" aria-hidden="true">
+                    →
+                  </span>
+                  {stage.output}
+                </p>
+              </li>
+            ))}
+          </ol>
         </div>
 
-        <p className="process-layers__protocol">
-          Ingen fase starter uklart. Neste steg er alltid definert — det er det som gjør
-          produksjonen rask.
-        </p>
+        {/* The scene's output object + the compressed system readout */}
+        <div className="process-layers__result">
+          <span className="process-layers__result-node" aria-hidden="true" />
+          <p className="process-layers__result-word" aria-hidden="true">
+            <span className="process-layers__result-inner" data-process-out>
+              Målbart ut.
+            </span>
+          </p>
+
+          <p className="process-layers__chain" data-process-chain>
+            {chain.map((word, index) => (
+              <span className="process-layers__chain-item" key={word}>
+                {index > 0 && (
+                  <span className="process-layers__chain-arrow" aria-hidden="true">
+                    →
+                  </span>
+                )}
+                {word}
+              </span>
+            ))}
+            <span className="process-layers__chain-note">— målt fra dag én</span>
+          </p>
+        </div>
       </div>
     </section>
   );
