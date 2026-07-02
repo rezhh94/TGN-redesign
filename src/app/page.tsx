@@ -1,4 +1,5 @@
 import { ApproachStatementBridge } from "@/components/ApproachStatementBridge";
+import { ContactFooter } from "@/components/ContactFooter";
 import { Hero } from "@/components/Hero";
 import { ProcessLayers } from "@/components/ProcessLayers";
 import { WorkShowcase } from "@/components/WorkShowcase";
@@ -14,6 +15,7 @@ export default function Home() {
       <WhatWeImprove />
       <WorkShowcase />
       <ProcessLayers />
+      <ContactFooter />
     </main>
   );
 }

@@ -11,6 +11,7 @@ import "@/styles/what-we-build.css";
 import "@/styles/what-we-improve.css";
 import "@/styles/work-showcase.css";
 import "@/styles/process-layers.css";
+import "@/styles/contact-footer.css";
 
 export const metadata: Metadata = {
   title: "Tigon Studio | Nettsider og apper som blir funnet",

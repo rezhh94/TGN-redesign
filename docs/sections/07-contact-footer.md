@@ -14,11 +14,13 @@ This is the final main page block after 05 / Prosess. The visible section number
 
 ## Role in page journey
 
-This section is the closing CTA and premium footer index.
+This section is a closing CTA hero and premium footer index.
 
-It should end the journey with a clear contact path while preserving important SEO/CRO links in a compact, intentional way.
+It should bookend the Hero and end the journey with a strong, memorable contact section.
 
-It must not become a large SEO section or generic SaaS footer.
+It should create a clear contact path while preserving important SEO/CRO links in a compact, intentional way.
+
+It must not become a small normal footer, a large SEO section or a generic SaaS footer.
 
 ## One idea
 
@@ -26,7 +28,9 @@ Hvis prosjektet er uklart, starter vi med å gjøre neste steg tydelig.
 
 ## Focal point
 
-The first thing the user should notice is a calm closing statement with a clear primary contact action.
+The first thing the user should notice is a large, memorable closing statement.
+
+The contact action should feel like the natural next step after that statement.
 
 The footer index should support the close, not compete with it.
 
@@ -34,19 +38,22 @@ The footer index should support the close, not compete with it.
 
 Dark, calm, premium, editorial and safe.
 
-The section should echo the Hero as a closing moment, but feel quieter and more action-oriented.
+The section should echo the Hero as a closing moment, but feel more direct and action-oriented.
 
 ## Layout archetype
 
-Dark closing statement + footer index.
+Dark closing hero + premium footer index.
 
 Suggested static layout:
 - near-black background
-- large calm JUSTSans closing statement
-- short lead
+- large TGSPerfect closing statement
+- JUSTSans lead/body
+- CalebMono labels/metadata
+- large calm CTA zone
 - one clear primary CTA
 - smaller secondary CTA
-- compact footer index at the bottom
+- oversized email/contact may be used as a premium focal element
+- compact footer index at the bottom as editorial metadata
 - services, work, resources, places and contact/NAP links
 - no cards
 - no icons
@@ -59,10 +66,10 @@ Prosess is an operational production-flow section with layered workflow surfaces
 
 Kontakt should close the page:
 - less workflow-led
-- more direct and conversion-led
+- more direct, memorable and conversion-led
 - footer-index instead of stacked surfaces
 - contact/NAP and key links without turning into an SEO link farm
-- calmer than Hero, but with a clear final action
+- bookends the Hero, but with a clear final action
 
 ## Content
 
@@ -70,11 +77,11 @@ Visible label:
 06 / Kontakt
 
 Hovedstatement:
-Har du et prosjekt
-som må bli tydeligere?
+SEND OSS
+NOE UKLART.
 
 Lead:
-Fortell kort hva du vurderer å bygge. Så svarer vi med hva som bør gjøres først.
+Vi gjør det tydeligere. Fortell kort hva du vurderer å bygge, så svarer vi med hva som bør gjøres først.
 
 CTA:
 
@@ -138,6 +145,10 @@ Kontakt/NAP:
   - © 2026 Tigon Studio AS
 - Layout that works without JavaScript.
 - Clear differentiation from Prosess, Arbeid, Effekt and Tjenester.
+- Closing statement should use TGSPerfect / display type.
+- Lead/body/footer links should use JUSTSans.
+- Labels and metadata should use CalebMono.
+- Footer-index should feel like editorial metadata, not a giant SEO link farm.
 
 ## Must not include
 
@@ -160,16 +171,16 @@ No motion in the first build.
 Future motion idea:
 - closing statement line-mask reveal
 - CTA hover microinteraction
-- footer links subtle underline reveal
-- possible oversized wordmark / exhale later
+- footer links underline reveal
 - no pin
 
 ## Static acceptance criteria
 
-- Avslutter siden tydelig.
-- Har premium closing-feeling, ikke vanlig footer.
+- Avslutter siden tydelig med en sterk closing hero.
+- Har premium closing-feeling, ikke vanlig liten footer.
 - Bevarer kontaktvei og NAP.
 - Bevarer viktige tjeneste-, case-, ressurs- og stedlenker i en kompakt footer-index.
+- Footer-index føles som editorial metadata, ikke link farm.
 - Fungerer uten JS.
 - Ser premium ut statisk.
 - Ingen cards.
