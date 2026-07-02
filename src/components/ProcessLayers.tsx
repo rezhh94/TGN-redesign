@@ -59,7 +59,9 @@ export function ProcessLayers() {
           </p>
 
           <div className="process-stage__scene3d">
+            <div className="process-stage__floor" data-stage-floor aria-hidden="true" />
             <div className="process-stage__stack">
+              <span className="process-stage__stack-shadow" aria-hidden="true" />
               <div className="process-stage__plate process-stage__plate--scope" data-stage-plate>
                 <span className="process-stage__plate-index">L1</span>
                 <span className="process-stage__plate-label">Scope</span>

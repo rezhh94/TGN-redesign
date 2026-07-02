@@ -1,0 +1,123 @@
+/* 02→03 / Overlevering — handoff band. Quietest dark chapter on the page:
+   one signal rail crossing the room, two IO registers, one short brutal
+   statement. Deliberately NOT the approach-bridge archetype (no display
+   font, no word-fill) — this one is horizontal, technical, line-driven.
+
+   Default (no JS / reduced motion): rail fully drawn, registers visible.
+   JS scrubs the rail fill and hands the statement over on scroll. */
+
+.effect-bridge {
+  position: relative;
+  overflow: hidden;
+  background: #0b0c0b;
+  color: var(--color-on-dark);
+}
+
+.effect-bridge__inner {
+  position: relative;
+  width: min(100%, 2560px);
+  margin: 0 auto;
+  padding: clamp(84px, 12vh, 150px) clamp(24px, 5vw, 150px) clamp(96px, 14vh, 170px);
+}
+
+.effect-bridge__label {
+  color: rgba(242, 241, 235, 0.62);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+}
+
+/* IO registers — the same system voice as 05 (inn/ut) */
+
+.effect-bridge__io {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: clamp(44px, 7vh, 84px);
+}
+
+.effect-bridge__register {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(242, 241, 235, 0.55);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.effect-bridge__register--in {
+  color: rgba(242, 241, 235, 0.72);
+}
+
+.effect-bridge__register-node {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border: 1px solid rgba(242, 241, 235, 0.55);
+  transform: rotate(45deg);
+}
+
+.effect-bridge__register--in .effect-bridge__register-node {
+  background: rgba(242, 241, 235, 0.72);
+  border-color: transparent;
+}
+
+/* Rail — the handoff itself */
+
+.effect-bridge__rail {
+  height: 1px;
+  margin-top: 14px;
+  background: rgba(242, 241, 235, 0.12);
+}
+
+.effect-bridge__rail-fill {
+  display: block;
+  height: 100%;
+  background: rgba(242, 241, 235, 0.6);
+  transform-origin: left center;
+}
+
+/* Statement — short, brutal, sans (not the display font: the neighbours
+   own the condensed voice) */
+
+.effect-bridge__statement {
+  margin-top: clamp(52px, 9vh, 110px);
+  font-family: var(--font-sans);
+  font-size: clamp(38px, 5vw, 104px);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+.effect-bridge__statement-line {
+  display: block;
+}
+
+.effect-bridge__statement-line--muted {
+  color: rgba(242, 241, 235, 0.45);
+}
+
+@media (max-width: 640px) {
+  .effect-bridge__inner {
+    padding: 84px 20px 96px;
+  }
+
+  .effect-bridge__io {
+    margin-top: 40px;
+  }
+
+  .effect-bridge__register {
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+  }
+
+  .effect-bridge__statement {
+    margin-top: 48px;
+    font-size: clamp(34px, 9.6vw, 46px);
+  }
+}

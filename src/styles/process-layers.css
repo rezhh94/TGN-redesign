@@ -96,12 +96,41 @@
   padding: clamp(120px, 18vh, 210px) 0 clamp(110px, 16vh, 190px);
 }
 
+/* Floor — the production ground the stack is assembled on: a measured grid
+   plane lying in the same 3D orientation, faded out toward its edges. */
+
+.process-stage__floor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(520px, 58vw, 1060px);
+  aspect-ratio: 1;
+  background-image:
+    linear-gradient(90deg, rgba(242, 241, 235, 0.14) 0, rgba(242, 241, 235, 0.14) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(242, 241, 235, 0.14) 0, rgba(242, 241, 235, 0.14) 1px, transparent 1px);
+  background-size: calc(100% / 12) calc(100% / 12);
+  transform: translate(-50%, -50%) rotateX(56deg) rotateZ(-34deg) translateZ(-36px);
+  -webkit-mask-image: radial-gradient(closest-side, #000 48%, transparent 92%);
+  mask-image: radial-gradient(closest-side, #000 48%, transparent 92%);
+  pointer-events: none;
+}
+
 .process-stage__stack {
   position: relative;
   width: clamp(280px, 30vw, 520px);
   aspect-ratio: 16 / 10;
   transform-style: preserve-3d;
   transform: rotateX(56deg) rotateZ(-34deg);
+}
+
+/* Shadow pool — grounds the stack physically on the floor plane */
+
+.process-stage__stack-shadow {
+  position: absolute;
+  inset: -16% -20%;
+  background: radial-gradient(ellipse at 50% 52%, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.25) 44%, transparent 72%);
+  transform: translateZ(-28px);
+  pointer-events: none;
 }
 
 /* Plates. --i = layer index (set per plate), --edge = border strength.
@@ -408,6 +437,10 @@
 
 .process-stage--scene .process-stage__stack {
   width: clamp(320px, 27vw, 500px);
+}
+
+.process-stage--scene .process-stage__floor {
+  width: clamp(520px, 46vw, 920px);
 }
 
 .process-stage--scene .process-stage__phases {

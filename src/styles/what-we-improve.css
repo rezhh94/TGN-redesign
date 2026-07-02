@@ -1,6 +1,8 @@
 /* 03 / Effekt — showpiece. One outcome on stage at a time; the other
-   outcomes live as a mono spine on the right. Flattest, darkest surface on
-   the page: the tonal floor right before the light 04 break-up.
+   outcomes live as an indexed spine on the right. Flattest, darkest surface
+   on the page — but not empty: an engineered measurement grid, crosshair
+   registrations, a signal line per outcome and a ruler along the floor make
+   the room read as the measuring chamber the copy claims it is.
 
    Default layout (no JS, mobile, PRM) is a simple stacked list — every word
    and note visible and readable. JS adds .what-improve--stage on desktop. */
@@ -12,7 +14,36 @@
   color: var(--color-on-dark);
 }
 
+/* Engineered backdrop — vertical measure lines + one horizontal axis.
+   Masked top/bottom so the grid reads as a room, not wallpaper. */
+
+.what-improve__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(180deg, transparent calc(46% - 1px), rgba(242, 241, 235, 0.05) calc(46% - 1px), rgba(242, 241, 235, 0.05) 46%, transparent 46%),
+    linear-gradient(90deg, rgba(242, 241, 235, 0.035) 0, rgba(242, 241, 235, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, calc(100% / 12) 100%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 84%, transparent 100%);
+}
+
+.what-improve__cross {
+  position: absolute;
+  color: rgba(242, 241, 235, 0.3);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1;
+}
+
+.what-improve__cross--tl { top: 24%; left: clamp(24px, 5vw, 150px); }
+.what-improve__cross--tr { top: 24%; right: clamp(24px, 5vw, 150px); }
+.what-improve__cross--bl { bottom: 22%; left: clamp(24px, 5vw, 150px); }
+.what-improve__cross--br { bottom: 22%; right: clamp(24px, 5vw, 150px); }
+
 .what-improve__inner {
+  position: relative;
   width: min(100%, 2560px);
   margin: 0 auto;
   padding: clamp(120px, 16vh, 200px) clamp(24px, 5vw, 150px) clamp(120px, 16vh, 200px);
@@ -84,6 +115,18 @@
 .what-improve__note[data-outcome-note="valgt"] { grid-row: 6; }
 .what-improve__note[data-outcome-note="malt"] { grid-row: 8; }
 
+/* Signal line — the measurement layer: what this outcome is read on */
+
+.what-improve__signal {
+  margin-top: 10px;
+  color: rgba(242, 241, 235, 0.5);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
 .what-improve__description {
   margin-top: 12px;
   color: rgba(242, 241, 235, 0.72);
@@ -95,30 +138,70 @@
 
 /* Spine — decorative index; only shown in stage mode */
 
-.what-improve__spine {
+.what-improve__spine-wrap {
   display: none;
+}
+
+.what-improve__spine {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Progress hairline — only exists in stage mode. Fills with the pin scrub so
-   the visitor can read how far into the sequence they are. */
+/* Ruler + progress — only exist in stage mode. The scrub fills the hairline
+   and lights the ticks so the visitor reads the sequence like a scale. */
 
 .what-improve__progress {
   display: none;
 }
 
 .what-improve--stage .what-improve__progress {
+  position: relative;
   display: block;
-  height: 1px;
   margin-top: clamp(24px, 4vh, 44px);
+  padding-bottom: 11px;
+}
+
+.what-improve__ruler {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 14px;
+}
+
+.what-improve__ruler-tick {
+  width: 1px;
+  height: 7px;
+  background: rgba(242, 241, 235, 0.16);
+  transition: background var(--motion-base) var(--ease-standard);
+}
+
+.what-improve__ruler-tick:nth-child(10n + 1) {
+  height: 14px;
+}
+
+.what-improve__ruler-tick.is-lit {
+  background: rgba(242, 241, 235, 0.68);
+}
+
+.what-improve__progress::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
   background: rgba(242, 241, 235, 0.12);
 }
 
 .what-improve__progress-bar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
   display: block;
-  height: 100%;
+  height: 1px;
   background: rgba(242, 241, 235, 0.66);
   transform: scaleX(0);
   transform-origin: left center;
@@ -172,10 +255,34 @@
   margin-left: 0;
 }
 
+/* Spine with rail — a vertical measure the scrub fills top-to-bottom */
+
+.what-improve--stage .what-improve__spine-wrap {
+  display: flex;
+  gap: clamp(18px, 1.8vw, 30px);
+  align-self: center;
+}
+
+.what-improve__spine-rail {
+  position: relative;
+  width: 1px;
+  background: rgba(242, 241, 235, 0.14);
+}
+
+.what-improve__spine-rail-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(242, 241, 235, 0.72);
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
 .what-improve--stage .what-improve__spine {
   display: grid;
   gap: clamp(16px, 2.8vh, 28px);
-  align-self: center;
 }
 
 .what-improve__spine-item {
@@ -208,6 +315,10 @@
     background var(--motion-base) var(--ease-standard);
 }
 
+.what-improve__spine-item.is-done {
+  color: rgba(242, 241, 235, 0.55);
+}
+
 .what-improve__spine-item.is-active {
   color: rgba(242, 241, 235, 0.92);
 }
@@ -220,6 +331,14 @@
 @media (max-width: 760px) {
   .what-improve__inner {
     padding: 108px 20px 112px;
+  }
+
+  .what-improve__grid {
+    background-size: 100% 100%, calc(100% / 6) 100%;
+  }
+
+  .what-improve__cross {
+    display: none;
   }
 
   .what-improve__kicker {
@@ -244,6 +363,10 @@
     width: min(100%, 340px);
     margin-left: 0;
     margin-bottom: 26px;
+  }
+
+  .what-improve__signal {
+    font-size: 10.5px;
   }
 
   .what-improve__description {

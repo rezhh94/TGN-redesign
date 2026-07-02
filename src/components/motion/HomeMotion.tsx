@@ -137,6 +137,38 @@ function approachFill(scrub: boolean) {
   }
 }
 
+// 02→03 / Overlevering — the handoff band: the signal rail draws from the
+// "ut" register to the "inn" register, then the statement lands. Scrubbed on
+// desktop (the line literally carries you across); one-time reveal on mobile.
+function effectBridge(scrub: boolean) {
+  const section = document.querySelector<HTMLElement>(".effect-bridge");
+  if (!section) return;
+
+  const line = section.querySelector<HTMLElement>("[data-bridge-line]");
+  const registers = gsap.utils.toArray<HTMLElement>("[data-bridge-register]", section);
+  const words = gsap.utils.toArray<HTMLElement>("[data-bridge-word]", section);
+
+  const tl = gsap.timeline({
+    scrollTrigger: scrub
+      ? { trigger: section, start: "top 80%", end: "center 44%", scrub: 0.5 }
+      : { trigger: section, start: "top 74%", once: true },
+    defaults: { ease: scrub ? "none" : "power3.out" },
+  });
+
+  if (registers[0]) {
+    tl.from(registers[0], { autoAlpha: 0, x: -14, duration: 0.3 });
+  }
+  if (line) {
+    tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 1 }, "<");
+  }
+  if (registers[1]) {
+    tl.from(registers[1], { autoAlpha: 0, x: 14, duration: 0.3 }, ">-0.25");
+  }
+  if (words.length) {
+    tl.from(words, { autoAlpha: 0, y: 22, duration: 0.5, stagger: 0.14 }, ">-0.2");
+  }
+}
+
 function serviceReveals() {
   const rows = gsap.utils.toArray<HTMLElement>("[data-build-row]");
   if (!rows.length) return;
@@ -195,15 +227,20 @@ function effectStage(pinned: boolean) {
 
   const setSpine = (active: number) => {
     order.forEach((key, index) => {
-      spineItem(key)?.classList.toggle("is-active", index === active);
+      const item = spineItem(key);
+      item?.classList.toggle("is-active", index === active);
+      item?.classList.toggle("is-done", index < active);
     });
   };
 
+  // Words swap with a measured wipe (clip), notes with a quiet fade.
+  const CLIP_VISIBLE = "inset(0% 0% 0% 0%)";
+  const CLIP_BEFORE = "inset(0% 100% 0% 0%)";
+  const CLIP_AFTER = "inset(0% 0% 0% 100%)";
+
   order.forEach((key, index) => {
-    gsap.set(
-      [word(key), note(key)],
-      index === 0 ? { autoAlpha: 1, yPercent: 0 } : { autoAlpha: 0, yPercent: 12 }
-    );
+    gsap.set(word(key), { clipPath: index === 0 ? CLIP_VISIBLE : CLIP_BEFORE });
+    gsap.set(note(key), index === 0 ? { autoAlpha: 1, yPercent: 0 } : { autoAlpha: 0, yPercent: 12 });
   });
   setSpine(0);
 
@@ -212,6 +249,8 @@ function effectStage(pinned: boolean) {
   const thresholds = [0, 0.22, 0.5, 0.78];
 
   const progressBar = section.querySelector<HTMLElement>("[data-effect-progress-bar]");
+  const railFill = section.querySelector<HTMLElement>("[data-spine-rail-fill]");
+  const rulerTicks = gsap.utils.toArray<HTMLElement>("[data-ruler-tick]", section);
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -229,6 +268,13 @@ function effectStage(pinned: boolean) {
         }
         setSpine(active);
         if (progressBar) gsap.set(progressBar, { scaleX: self.progress });
+        if (railFill) gsap.set(railFill, { scaleY: self.progress });
+        if (rulerTicks.length) {
+          const lit = Math.round(self.progress * (rulerTicks.length - 1));
+          rulerTicks.forEach((tick, index) => {
+            tick.classList.toggle("is-lit", index <= lit);
+          });
+        }
       },
     },
   });
@@ -240,24 +286,27 @@ function effectStage(pinned: boolean) {
       return;
     }
     const prevKey = order[index - 1];
-    tl.to([word(prevKey), note(prevKey)], {
-      autoAlpha: 0,
-      yPercent: -10,
-      duration: 0.45,
-      ease: "none",
-    });
+    tl.to(word(prevKey), { clipPath: CLIP_AFTER, duration: 0.45, ease: "none" });
+    tl.to(note(prevKey), { autoAlpha: 0, yPercent: -10, duration: 0.45, ease: "none" }, "<");
     tl.fromTo(
-      [word(key), note(key)],
+      word(key),
+      { clipPath: CLIP_BEFORE },
+      { clipPath: CLIP_VISIBLE, duration: 0.55, ease: "none", immediateRender: false },
+      ">-0.12"
+    );
+    tl.fromTo(
+      note(key),
       { autoAlpha: 0, yPercent: 12 },
       { autoAlpha: 1, yPercent: 0, duration: 0.55, ease: "none", immediateRender: false },
-      ">-0.12"
+      "<"
     );
     tl.to({}, { duration: 1 });
   });
 
   return () => {
     section.classList.remove("what-improve--stage");
-    order.forEach((key) => spineItem(key)?.classList.remove("is-active"));
+    order.forEach((key) => spineItem(key)?.classList.remove("is-active", "is-done"));
+    rulerTicks.forEach((tick) => tick.classList.remove("is-lit"));
   };
 }
 
@@ -297,6 +346,18 @@ function workReveal(parallax: boolean) {
       ease: "power2.out",
       stagger: 0.05,
       scrollTrigger: { trigger: layout ?? section, start: "top 58%", once: true },
+    });
+  }
+
+  // Registration marks settle after the plates — the proof gets "approved".
+  const regs = section.querySelectorAll<HTMLElement>(".work-showcase__reg");
+  if (regs.length) {
+    gsap.from(regs, {
+      autoAlpha: 0,
+      duration: 0.4,
+      ease: "power2.out",
+      stagger: 0.05,
+      scrollTrigger: { trigger: layout ?? section, start: "top 50%", once: true },
     });
   }
 
@@ -364,6 +425,8 @@ function processStage(full: boolean) {
     plate.querySelector<HTMLElement>(".process-stage__plate-label")
   );
   const ticks = gsap.utils.toArray<HTMLElement>("[data-stage-tick]", section);
+  const floor = section.querySelector<HTMLElement>("[data-stage-floor]");
+  const stackShadow = section.querySelector<HTMLElement>(".process-stage__stack-shadow");
   const ghost = section.querySelector<HTMLElement>("[data-stage-ghost]");
   const titleOut = section.querySelector<HTMLElement>("[data-stage-title-out]");
   const ioIn = section.querySelector<HTMLElement>("[data-stage-io-in]");
@@ -390,6 +453,8 @@ function processStage(full: boolean) {
   phases.forEach((phase) => gsap.set(phase, { autoAlpha: 0, y: 26 }));
   if (titleOut) gsap.set(titleOut, { opacity: 0.2 });
   if (ioOut) gsap.set(ioOut, { opacity: 0.25 });
+  if (floor) gsap.set(floor, { autoAlpha: 0.3 });
+  if (stackShadow) gsap.set(stackShadow, { autoAlpha: 0.2 });
 
   // Normalized progress where each phase takes the floor (segment starts of
   // the timeline below) — drives the tick register bidirectionally.
@@ -417,6 +482,12 @@ function processStage(full: boolean) {
   // Intro hold — scattered pile under the ghost word.
   tl.to({}, { duration: 0.35 });
 
+  // The floor and the shadow pool build with the assembly across the scene.
+  if (floor) tl.to(floor, { autoAlpha: 1, duration: 5, ease: "none" }, 0);
+  if (stackShadow) tl.to(stackShadow, { autoAlpha: 1, duration: 5, ease: "none" }, 0);
+
+  const plateEdges = [0.22, 0.28, 0.34, 0.45];
+
   phases.forEach((phase, index) => {
     if (index > 0) {
       tl.to(phases[index - 1], { autoAlpha: 0, y: -18, duration: 0.25, ease: "none" });
@@ -427,8 +498,19 @@ function processStage(full: boolean) {
       { x: 0, y: 0, rotation: 0, autoAlpha: 1, duration: 0.8, ease: "power2.inOut" },
       "<"
     );
+    // Landing pulse — the plate's edge flashes as it locks into the stack.
+    tl.to(
+      plates[index],
+      { borderColor: "rgba(242, 241, 235, 0.85)", duration: 0.12, ease: "none" },
+      ">-0.12"
+    );
+    tl.to(plates[index], {
+      borderColor: `rgba(242, 241, 235, ${plateEdges[index]})`,
+      duration: 0.3,
+      ease: "none",
+    });
     if (labels[index]) {
-      tl.to(labels[index], { opacity: 1, duration: 0.3, ease: "none" }, "<0.45");
+      tl.to(labels[index], { opacity: 1, duration: 0.3, ease: "none" }, "<");
     }
     if (index === 0 && ghost) {
       tl.to(ghost, { autoAlpha: 0, duration: 0.75, ease: "none" }, "<");
@@ -449,21 +531,20 @@ function processStage(full: boolean) {
   };
 }
 
-// 04 / Arbeid — the standards ledger: rows rise once as they cross the
-// reading band; each row's hairline draws in with it.
-function ledgerReveal() {
-  const rows = gsap.utils.toArray<HTMLElement>("[data-ledger-row]");
-  if (!rows.length) return;
+// 04 / Arbeid — the standard strip: the four commitments rise once as one
+// colophon band crossing the reading line.
+function specsReveal() {
+  const items = gsap.utils.toArray<HTMLElement>("[data-spec-item]");
+  if (!items.length) return;
 
-  for (const row of rows) {
-    gsap.from(row, {
-      y: 22,
-      autoAlpha: 0,
-      duration: 0.55,
-      ease: "power3.out",
-      scrollTrigger: { trigger: row, start: "top 86%", once: true },
-    });
-  }
+  gsap.from(items, {
+    y: 20,
+    autoAlpha: 0,
+    duration: 0.55,
+    ease: "power3.out",
+    stagger: 0.07,
+    scrollTrigger: { trigger: ".work-showcase__specs", start: "top 84%", once: true },
+  });
 }
 
 // 06 / System — manifesto lines rise out of their masks once; support and
@@ -596,9 +677,10 @@ export function HomeMotion() {
       const teardownGhost = setupBuildGhost();
       approachFill(true);
       serviceReveals();
+      effectBridge(true);
       const teardownStage = effectStage(true);
       workReveal(true);
-      ledgerReveal();
+      specsReveal();
       const teardownProcess = processStage(true);
       manifestoReveal();
       footerReveals();
@@ -613,9 +695,10 @@ export function HomeMotion() {
       heroEntrance(false);
       approachFill(false);
       serviceReveals();
+      effectBridge(false);
       effectStage(false);
       workReveal(false);
-      ledgerReveal();
+      specsReveal();
       processStage(false);
       manifestoReveal();
       footerReveals();

@@ -8,6 +8,7 @@ import "@/styles/nav.css";
 import "@/styles/hero.css";
 import "@/styles/approach-statement-bridge.css";
 import "@/styles/what-we-build.css";
+import "@/styles/effect-bridge.css";
 import "@/styles/what-we-improve.css";
 import "@/styles/work-showcase.css";
 import "@/styles/process-layers.css";
