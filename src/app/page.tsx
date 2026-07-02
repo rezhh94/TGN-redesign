@@ -1,8 +1,9 @@
 import { ApproachStatementBridge } from "@/components/ApproachStatementBridge";
+import { HomeMotion } from "@/components/motion/HomeMotion";
 import { ContactFooter } from "@/components/ContactFooter";
 import { Hero } from "@/components/Hero";
-import { HomeMotion } from "@/components/motion/HomeMotion";
 import { ProcessLayers } from "@/components/ProcessLayers";
+import { SystemManifesto } from "@/components/SystemManifesto";
 import { WorkShowcase } from "@/components/WorkShowcase";
 import { WhatWeBuild } from "@/components/WhatWeBuild";
 import { WhatWeImprove } from "@/components/WhatWeImprove";
@@ -16,6 +17,7 @@ export default function Home() {
       <WhatWeImprove />
       <WorkShowcase />
       <ProcessLayers />
+      <SystemManifesto />
       <ContactFooter />
       <HomeMotion />
     </main>

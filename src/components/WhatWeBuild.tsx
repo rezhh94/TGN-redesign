@@ -1,35 +1,39 @@
-const featuredService = {
-  number: "01",
-  href: "/tjenester/webutvikling-nextjs",
-  title: "Nettsider",
-  description: "Raske nettsider med tydelig struktur, teknisk SEO og måling fra start.",
-  tags: ["Teknisk SEO", "Core Web Vitals", "Struktur", "Måling", "Konvertering", "Next.js"],
-};
-
-const collapsedServices = [
+const services = [
+  {
+    number: "01",
+    title: "Nettsider",
+    description: "Raske nettsider med tydelig struktur, teknisk SEO og måling fra start.",
+    meta: "NEXT.JS / SEO / CWV",
+    tagline: "Teknisk SEO / Core Web Vitals / Struktur / Måling / Konvertering / Next.js",
+    open: true,
+  },
   {
     number: "02",
-    href: "/tjenester/custom-software",
     title: "Webapper",
     description: "Portaler, dashboards og digitale verktøy bygget for reell arbeidsflyt.",
+    meta: "PORTALER / DASHBOARDS",
+    tagline: "Innlogging / Roller / Integrasjoner / Datamodell / Drift",
   },
   {
     number: "03",
-    href: "/tjenester/app-utvikling",
     title: "Apper",
     description: "App-løsninger for mobil og web når produktet må være mer enn en nettside.",
+    meta: "MOBIL / WEB",
+    tagline: "Mobil / Web / Push / Innlogging / Publisering",
   },
   {
     number: "04",
-    href: "/tjenester/ai-implementering",
     title: "AI-systemer",
     description: "Automatisering, søk, assistenter og interne workflows koblet til ekte data.",
+    meta: "AUTOMASJON / SØK / DATA",
+    tagline: "Automasjon / Søk / Assistenter / Interne verktøy / Ekte data",
   },
   {
     number: "05",
-    href: "/tjenester/seo-optimalisering",
     title: "SEO & AI-søk",
     description: "Innhold og struktur som gjør løsningen lettere å finne, forstå og velge.",
+    meta: "INNHOLD / STRUKTUR",
+    tagline: "Teknisk SEO / Innholdsstruktur / AI-synlighet / Lokal synlighet / Måling",
   },
 ];
 
@@ -54,47 +58,59 @@ export function WhatWeBuild() {
           </div>
         </header>
 
-        <ol className="what-build__accordion" aria-label="Tjenester">
-          <li>
-            <a className="what-build__row what-build__row--open" href={featuredService.href}>
-              <div className="what-build__row-heading">
-                <span className="what-build__number">{featuredService.number}</span>
-                <h3 className="what-build__service-title">{featuredService.title}</h3>
-              </div>
-
-              <div className="what-build__featured-body">
-                <p className="what-build__featured-description">{featuredService.description}</p>
-                <ul className="what-build__tags" aria-label="Nettsider inkluderer">
-                  {featuredService.tags.map((tag) => (
-                    <li className="what-build__tag" key={tag}>
-                      {tag}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <span className="what-build__icon" aria-hidden="true">
-                →
-              </span>
-            </a>
-          </li>
-
-          {collapsedServices.map((service) => (
-            <li key={service.number}>
-              <a className="what-build__row what-build__row--collapsed" href={service.href}>
-                <div className="what-build__row-heading">
+        <div className="what-build__list-frame">
+          <span className="what-build__ghost" aria-hidden="true" data-build-ghost>
+            01
+          </span>
+          <ol className="what-build__list" aria-label="Tjenester" data-build-list>
+          {services.map((service) => (
+            <li
+              className="what-build__row"
+              data-build-row
+              data-open={service.open ? "" : undefined}
+              key={service.number}
+            >
+              <h3 className="what-build__row-heading">
+                <button
+                  className="what-build__row-trigger"
+                  type="button"
+                  aria-controls={`service-body-${service.number}`}
+                  data-build-trigger
+                >
                   <span className="what-build__number">{service.number}</span>
-                  <h3 className="what-build__service-title">{service.title}</h3>
-                </div>
+                  <span className="what-build__service-title">{service.title}</span>
+                  <span className="what-build__row-meta">{service.meta}</span>
+                  <span className="what-build__icon" aria-hidden="true" />
+                </button>
+              </h3>
 
-                <p className="what-build__collapsed-description">{service.description}</p>
-                <span className="what-build__icon" aria-hidden="true">
-                  →
-                </span>
-              </a>
+              <div
+                className="what-build__body"
+                id={`service-body-${service.number}`}
+                data-build-body
+              >
+                <div className="what-build__body-inner">
+                  <p className="what-build__description">{service.description}</p>
+                  {service.tagline ? (
+                    <p className="what-build__tagline">{service.tagline}</p>
+                  ) : null}
+                </div>
+              </div>
             </li>
           ))}
-        </ol>
+          </ol>
+        </div>
+
+        <footer className="what-build__foot">
+          <p className="what-build__foot-note">05 tjenester — én produksjon</p>
+          <p className="what-build__foot-copy">
+            Alt bygges på samme grunnmur: struktur, fart, søkbarhet og måling.
+          </p>
+          <a className="what-build__foot-link" href="#prosess">
+            Se hvordan vi produserer
+            <span className="what-build__foot-arrow" aria-hidden="true" />
+          </a>
+        </footer>
       </div>
     </section>
   );

@@ -3,29 +3,15 @@
   overflow: hidden;
   background:
     linear-gradient(118deg, rgba(242, 241, 235, 0.05) 0%, transparent 31%),
-    linear-gradient(180deg, #090a09 0%, #11120e 48%, #050605 100%);
+    linear-gradient(180deg, #070807 0%, #11120e 48%, #050605 100%);
   color: var(--color-on-dark);
-  isolation: isolate;
-}
-
-.contact-footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: clamp(24px, 5vw, 150px);
-  left: clamp(24px, 5vw, 150px);
-  z-index: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(242, 241, 235, 0.17) 50%, transparent 100%);
-  pointer-events: none;
 }
 
 .contact-footer__inner {
   position: relative;
-  z-index: 1;
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(136px, 16vh, 220px) clamp(24px, 5vw, 150px) 0;
+  padding: clamp(118px, 14vh, 190px) clamp(24px, 5vw, 150px) 0;
 }
 
 .contact-footer__label,
@@ -91,14 +77,14 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: clamp(40px, 6vw, 120px);
-  margin-top: clamp(64px, 10vh, 134px);
+  margin-top: clamp(56px, 9vh, 122px);
   border-top: 1px solid rgba(242, 241, 235, 0.14);
-  padding: clamp(44px, 6.4vh, 84px) 0 clamp(84px, 12vh, 164px);
+  padding: clamp(40px, 6vh, 78px) 0 clamp(76px, 11vh, 152px);
 }
 
 .contact-footer__direct {
   display: grid;
-  gap: clamp(18px, 2.8vh, 32px);
+  gap: clamp(16px, 2.4vh, 26px);
   min-width: 0;
 }
 
@@ -107,13 +93,75 @@
   max-width: 100%;
   color: rgba(242, 241, 235, 0.94);
   font-family: var(--font-sans);
-  font-size: clamp(52px, 7.2vw, 142px);
+  font-size: clamp(52px, 8.2vw, 164px);
   font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
   overflow-wrap: anywhere;
   text-decoration: none;
-  transition: color var(--motion-fast) ease-out;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  padding-bottom: 0.06em;
+  transition:
+    color var(--motion-fast) ease-out,
+    background-size var(--motion-medium) var(--ease-out-expo);
+}
+
+.contact-footer__email:hover,
+.contact-footer__email:focus-visible {
+  background-size: 100% 2px;
+}
+
+.contact-footer__direct-row {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(20px, 2.4vw, 40px);
+}
+
+.contact-footer__copy {
+  border: 0;
+  background: none;
+  color: rgba(242, 241, 235, 0.5);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  padding: 4px 0;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: rgba(242, 241, 235, 0.24);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.42em;
+  cursor: pointer;
+  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
+}
+
+.contact-footer__copy:hover,
+.contact-footer__copy:focus-visible {
+  color: var(--color-on-dark);
+  text-decoration-color: rgba(242, 241, 235, 0.85);
+}
+
+.contact-footer__copy:focus-visible {
+  outline: 2px solid rgba(242, 241, 235, 0.78);
+  outline-offset: 4px;
+}
+
+.contact-footer__copy[data-copied] {
+  color: var(--color-on-dark);
+  text-decoration: none;
+}
+
+.contact-footer__status {
+  margin-top: clamp(10px, 1.6vh, 18px);
+  color: rgba(242, 241, 235, 0.38);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .contact-footer__phone {
@@ -122,7 +170,7 @@
   font-family: var(--font-sans);
   font-size: clamp(19px, 1.7vw, 32px);
   font-weight: 400;
-  letter-spacing: 0;
+  letter-spacing: -0.025em;
   line-height: 1.1;
   text-decoration: none;
   transition: color var(--motion-fast) ease-out;
@@ -335,13 +383,16 @@
 /* Wordmark — deliberate hero bookend: solid, baseline-cropped */
 
 .contact-footer__wordmark {
-  margin: clamp(56px, 9vh, 118px) 0 -0.08em;
-  color: rgba(242, 241, 235, 0.82);
+  position: relative;
+  border-top: 1px solid rgba(242, 241, 235, 0.14);
+  margin: clamp(92px, 14vh, 190px) 0 -0.16em;
+  padding-top: clamp(28px, 4vh, 52px);
+  color: rgba(242, 241, 235, 0.9);
   font-family: var(--font-display);
   font-size: clamp(74px, 22.4vw, 480px);
   font-weight: 800;
-  letter-spacing: 0;
-  line-height: 0.82;
+  letter-spacing: -0.012em;
+  line-height: 0.78;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -350,12 +401,31 @@
   display: inline-block;
 }
 
-@media (max-width: 1080px) {
-  .contact-footer__lead {
-    width: min(100%, 620px);
-    margin-left: 0;
-  }
+/* Echo layers — the wordmark leaves faint print traces above itself
+   (the Suero exit move). Static by design; hidden on small screens. */
 
+.contact-footer__wordmark-face {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-footer__wordmark-echo {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0.34em;
+  z-index: 0;
+  color: rgba(242, 241, 235, 0.06);
+  pointer-events: none;
+  user-select: none;
+}
+
+.contact-footer__wordmark-echo--far {
+  bottom: 0.68em;
+  color: rgba(242, 241, 235, 0.028);
+}
+
+@media (max-width: 1080px) {
   .contact-footer__contact {
     flex-direction: column;
     align-items: flex-start;
@@ -412,7 +482,7 @@
 
   .contact-footer__email {
     font-size: clamp(36px, 11vw, 58px);
-    letter-spacing: 0;
+    letter-spacing: -0.045em;
   }
 
   .contact-footer__phone {
@@ -470,34 +540,8 @@
   .contact-footer__wordmark span {
     display: block;
   }
-}
 
-@media (max-width: 480px) {
-  .contact-footer__row {
-    padding: 24px 0;
-  }
-
-  .contact-footer__row-links {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .contact-footer__item {
-    display: block;
-  }
-
-  .contact-footer__link {
-    line-height: 1.35;
-  }
-
-  .contact-footer__row--subdued .contact-footer__link {
-    font-size: 14px;
-  }
-
-  .contact-footer__wordmark {
-    margin-top: 56px;
-    margin-bottom: -0.08em;
-    font-size: clamp(54px, 18vw, 82px);
+  .contact-footer__wordmark-echo {
+    display: none;
   }
 }

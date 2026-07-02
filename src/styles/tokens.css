@@ -27,6 +27,9 @@
   --fz-small: 13px;
 
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --work-overlap: clamp(64px, 10vh, 150px);
   --motion-fast: 200ms;
   --motion-base: 300ms;
   --motion-medium: 500ms;

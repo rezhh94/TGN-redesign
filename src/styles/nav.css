@@ -171,6 +171,10 @@
   transform: translateY(-7px) rotate(-45deg);
 }
 
+.mobile-menu[hidden] {
+  display: none;
+}
+
 .mobile-menu {
   position: fixed;
   inset: 0;
@@ -183,10 +187,6 @@
     radial-gradient(circle at 78% 18%, rgba(242, 241, 235, 0.055), transparent 36%),
     linear-gradient(150deg, #151612 0%, var(--color-dark) 48%, #080908 100%);
   color: var(--color-on-dark);
-}
-
-.mobile-menu[hidden] {
-  display: none;
 }
 
 .mobile-menu__top {

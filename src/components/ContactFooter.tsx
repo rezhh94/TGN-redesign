@@ -24,10 +24,8 @@ const footerIndex = [
       { label: "Ressurser", href: "/ressurser" },
       { label: "Hva koster en nettside?", href: "/hva-koster-nettside" },
       { label: "Nettside eller webapp?", href: "/nettside-eller-webapp" },
-      { label: "Hvorfor får nettsiden ingen leads?", href: "/hvorfor-far-nettsiden-ingen-leads" },
-      { label: "Hva koster digital plattform?", href: "/hva-koster-digital-plattform" },
-      { label: "Mobilapp eller webapp?", href: "/mobilapp-eller-webapp" },
       { label: "Next.js vs WordPress", href: "/nextjs-vs-wordpress" },
+      { label: "Hvorfor får nettsiden ingen leads?", href: "/hvorfor-far-nettsiden-ingen-leads" },
     ],
   },
   {
@@ -41,16 +39,6 @@ const footerIndex = [
       { label: "Webutvikling Stavanger", href: "/tjenester/webutvikling-nextjs/rogaland/stavanger" },
     ],
   },
-  {
-    title: "Studio",
-    subdued: true,
-    links: [
-      { label: "Tjenester", href: "/tjenester" },
-      { label: "Om oss", href: "/om-oss" },
-      { label: "Kontakt", href: "/kontakt" },
-      { label: "Vilkår", href: "/vilkar" },
-    ],
-  },
 ];
 
 export function ContactFooter() {
@@ -58,7 +46,7 @@ export function ContactFooter() {
     <section className="contact-footer" aria-labelledby="contact-footer-title">
       <div className="contact-footer__inner">
         <div className="contact-footer__closing">
-          <p className="contact-footer__label">06 / Kontakt</p>
+          <p className="contact-footer__label">07 / Kontakt</p>
 
           <div className="contact-footer__statement">
             <h2 className="contact-footer__title" id="contact-footer-title">
@@ -77,9 +65,22 @@ export function ContactFooter() {
             <a className="contact-footer__email" href="mailto:hello@tigon.no">
               hello@tigon.no
             </a>
-            <a className="contact-footer__phone" href="tel:+4741760149">
-              +47 41 76 01 49
-            </a>
+            <div className="contact-footer__direct-row">
+              <a className="contact-footer__phone" href="tel:+4741760149">
+                +47 41 76 01 49
+              </a>
+              <button
+                className="contact-footer__copy"
+                type="button"
+                data-copy-email="hello@tigon.no"
+                hidden
+              >
+                Kopier adresse
+              </button>
+            </div>
+            <p className="contact-footer__status" aria-hidden="true">
+              OSLO 59.91°N / 10.75°Ø — <span data-local-time>––:––:––</span>
+            </p>
           </div>
 
           <div className="contact-footer__actions" aria-label="Kontaktvalg">
@@ -129,9 +130,17 @@ export function ContactFooter() {
           </div>
         </footer>
 
-        <p className="contact-footer__wordmark" aria-hidden="true">
-          <span>TIGON</span> <span>STUDIO</span>
-        </p>
+        <div className="contact-footer__wordmark" aria-hidden="true">
+          <p className="contact-footer__wordmark-echo contact-footer__wordmark-echo--far">
+            <span>TIGON</span> <span>STUDIO</span>
+          </p>
+          <p className="contact-footer__wordmark-echo">
+            <span>TIGON</span> <span>STUDIO</span>
+          </p>
+          <p className="contact-footer__wordmark-face">
+            <span>TIGON</span> <span>STUDIO</span>
+          </p>
+        </div>
       </div>
     </section>
   );

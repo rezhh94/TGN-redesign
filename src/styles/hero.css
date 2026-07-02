@@ -119,6 +119,84 @@
   pointer-events: none;
 }
 
+/* Authored emptiness — dot-grid (DotEnvelope motif), spec tag and
+   availability status give the panel a job until real assets land. */
+
+.hero__visual-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(242, 241, 235, 0.13) 1px, transparent 1.4px);
+  background-size: clamp(22px, 2.4vw, 34px) clamp(22px, 2.4vw, 34px);
+  background-position: center;
+  -webkit-mask-image: radial-gradient(70% 62% at 66% 44%, rgba(0, 0, 0, 0.85), transparent 78%);
+  mask-image: radial-gradient(70% 62% at 66% 44%, rgba(0, 0, 0, 0.85), transparent 78%);
+  pointer-events: none;
+}
+
+.hero__visual-mark {
+  position: absolute;
+  top: clamp(26px, 3.4vh, 44px);
+  right: clamp(26px, 2.6vw, 46px);
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.hero__visual-mark::before,
+.hero__visual-mark::after {
+  content: "";
+  position: absolute;
+  background: rgba(242, 241, 235, 0.4);
+}
+
+.hero__visual-mark::before {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+}
+
+.hero__visual-mark::after {
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+}
+
+.hero__visual-tag,
+.hero__visual-status {
+  position: absolute;
+  margin: 0;
+  color: rgba(242, 241, 235, 0.44);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.hero__visual-tag {
+  right: clamp(26px, 2.6vw, 46px);
+  bottom: clamp(26px, 3.4vh, 44px);
+}
+
+.hero__visual-status {
+  top: clamp(26px, 3.4vh, 44px);
+  left: 44%;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(242, 241, 235, 0.56);
+}
+
+.hero__visual-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(242, 241, 235, 0.85);
+  flex: none;
+}
+
 .hero__bar {
   position: relative;
   z-index: 4;
@@ -139,9 +217,7 @@
 .hero__support {
   max-width: 30ch;
   color: var(--color-on-dark);
-  font-family: var(--font-sans);
   font-size: clamp(16px, 1.35vw, 21px);
-  font-weight: 400;
   line-height: 1.36;
 }
 
@@ -290,6 +366,22 @@
   .hero__inner {
     padding: 98px 20px 30px;
     gap: 28px;
+  }
+
+  .hero__visual-status {
+    top: 20px;
+    left: 20px;
+    white-space: nowrap;
+  }
+
+  .hero__visual-tag {
+    right: 20px;
+    bottom: 20px;
+  }
+
+  .hero__visual-mark {
+    top: 20px;
+    right: 20px;
   }
 
   .hero__title {

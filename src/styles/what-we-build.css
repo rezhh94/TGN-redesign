@@ -2,41 +2,14 @@
   position: relative;
   overflow: hidden;
   background:
-    linear-gradient(180deg, #10110e 0%, #151611 42%, #080908 100%);
+    linear-gradient(180deg, #10110e 0%, #151611 44%, #0c0d0b 100%);
   color: var(--color-on-dark);
-  isolation: isolate;
-}
-
-.what-build::before,
-.what-build::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.what-build::before {
-  top: 0;
-  right: clamp(24px, 5vw, 150px);
-  left: clamp(24px, 5vw, 150px);
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(242, 241, 235, 0.13) 50%, transparent 100%);
-}
-
-.what-build::after {
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: clamp(96px, 12vh, 172px);
-  background: linear-gradient(180deg, transparent 0%, #080908 100%);
 }
 
 .what-build__inner {
-  position: relative;
-  z-index: 1;
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(118px, 16vh, 204px) clamp(24px, 5vw, 150px) clamp(128px, 17vh, 228px);
+  padding: clamp(104px, 15vh, 186px) clamp(24px, 5vw, 150px) clamp(116px, 16vh, 212px);
 }
 
 .what-build__top {
@@ -102,175 +75,278 @@
   font-size: 17px;
 }
 
-.what-build__accordion {
+/* Service list — list-as-interaction. Row anatomy: number / title / mono meta / icon.
+   A ghost index numeral tracks the active row behind the list (custom detail,
+   JS-driven; invisible noise without it). */
+
+.what-build__list-frame {
+  position: relative;
+}
+
+.what-build__ghost {
+  position: absolute;
+  top: 50%;
+  right: clamp(-30px, -1.4vw, -10px);
+  z-index: 0;
+  color: rgba(242, 241, 235, 0.045);
+  font-family: var(--font-display);
+  font-size: clamp(240px, 26vw, 520px);
+  font-weight: 800;
+  line-height: 0.8;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+}
+
+.what-build__list {
+  position: relative;
+  z-index: 1;
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid rgba(242, 241, 235, 0.22);
+  border-top: 1px solid rgba(242, 241, 235, 0.16);
 }
 
 .what-build__row {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr) 38px;
-  gap: clamp(28px, 5vw, 96px);
   border-bottom: 1px solid rgba(242, 241, 235, 0.14);
-  color: inherit;
-  text-decoration: none;
-  transition:
-    background var(--motion-fast) ease-out,
-    border-color var(--motion-fast) ease-out;
+  transition: background var(--motion-fast) var(--ease-standard);
 }
+
+/* Open-state marker — a precise hairline on the left edge of the active row */
 
 .what-build__row::before {
   content: "";
   position: absolute;
-  top: clamp(22px, 4vh, 42px);
-  bottom: clamp(22px, 4vh, 42px);
   left: 0;
+  top: 18%;
+  bottom: 18%;
   width: 1px;
-  background: rgba(242, 241, 235, 0.32);
-  opacity: 0;
-  transition: opacity var(--motion-fast) ease-out;
+  background: rgba(242, 241, 235, 0);
+  transition: background var(--motion-base) var(--ease-standard);
 }
 
-.what-build__row--open {
-  min-height: 390px;
-  align-items: start;
-  background: linear-gradient(90deg, rgba(242, 241, 235, 0.035) 0%, transparent 44%);
-  padding: clamp(42px, 6vh, 76px) 0 clamp(48px, 7vh, 86px);
+.what-build__row[data-open]::before {
+  background: rgba(242, 241, 235, 0.55);
 }
 
-.what-build__row--open::before {
-  opacity: 1;
-}
-
-.what-build__row--collapsed {
-  min-height: 128px;
-  align-items: center;
-  padding: 34px 0;
-}
-
-.what-build__row:focus-visible {
-  outline: 1px solid rgba(242, 241, 235, 0.72);
-  outline-offset: -1px;
+.what-build__row:hover {
+  background: rgba(242, 241, 235, 0.04);
 }
 
 .what-build__row-heading {
-  min-width: 0;
+  margin: 0;
+  font-weight: 500;
+}
+
+.what-build__row-trigger {
   display: grid;
-  grid-template-columns: 74px minmax(0, 1fr);
+  width: 100%;
+  grid-template-columns: 74px minmax(0, 1fr) auto 38px;
   gap: clamp(20px, 3vw, 48px);
   align-items: baseline;
+  border: 0;
+  background: none;
+  color: inherit;
+  padding: clamp(30px, 4.4vh, 46px) clamp(10px, 1vw, 18px) clamp(30px, 4.4vh, 46px) 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.what-build__row-trigger:focus-visible {
+  outline: 2px solid rgba(242, 241, 235, 0.78);
+  outline-offset: -2px;
 }
 
 .what-build__number {
   padding-top: 0.25em;
 }
 
-.what-build__row--open .what-build__number {
-  color: rgba(242, 241, 235, 0.84);
-}
-
 .what-build__service-title {
   min-width: 0;
-  color: var(--color-on-dark);
-  font-family: var(--font-sans);
-  font-weight: 500;
-  letter-spacing: 0;
-}
-
-.what-build__row--open .what-build__service-title {
-  font-size: 108px;
-  line-height: 0.9;
-}
-
-.what-build__row--collapsed .what-build__service-title {
-  font-size: 62px;
-  line-height: 0.96;
-}
-
-.what-build__featured-body {
-  align-self: end;
-  padding-bottom: 6px;
-}
-
-.what-build__featured-description {
-  max-width: 620px;
   color: rgba(242, 241, 235, 0.86);
   font-family: var(--font-sans);
-  font-size: 32px;
-  font-weight: 400;
-  line-height: 1.18;
+  font-size: clamp(40px, 3.9vw, 74px);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 0.96;
+  transition:
+    color var(--motion-fast) var(--ease-standard),
+    transform var(--motion-base) var(--ease-out-expo);
 }
 
-.what-build__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 0;
-  margin: clamp(24px, 3.4vh, 36px) 0 0;
-  padding: 0;
-  list-style: none;
+.what-build__row:hover .what-build__service-title,
+.what-build__row[data-open] .what-build__service-title {
+  color: var(--color-on-dark);
 }
 
-.what-build__tag {
-  position: relative;
-  color: rgba(242, 241, 235, 0.64);
+.what-build__row:hover .what-build__service-title {
+  transform: translateX(clamp(4px, 0.6vw, 10px));
+}
+
+.what-build__row[data-open] .what-build__service-title {
+  font-size: clamp(52px, 5.4vw, 104px);
+}
+
+.what-build__row-meta {
+  color: rgba(242, 241, 235, 0.44);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+
+.what-build__row:hover .what-build__row-meta {
+  color: rgba(242, 241, 235, 0.72);
+}
+
+/* Icon — precise plus that rotates to a close-cross when open */
+
+.what-build__icon {
+  position: relative;
+  justify-self: end;
+  align-self: center;
+  width: 18px;
+  height: 18px;
+  transition: transform var(--motion-base) var(--ease-out-expo);
+}
+
+.what-build__icon::before,
+.what-build__icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(242, 241, 235, 0.78);
+}
+
+.what-build__icon::after {
+  transform: rotate(90deg);
+}
+
+.what-build__row[data-open] .what-build__icon {
+  transform: rotate(45deg);
+}
+
+/* Body — always in the DOM. Default (no JS): every body visible.
+   JS adds .what-build--enhanced and collapses rows without [data-open]. */
+
+.what-build__body {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.what-build__body-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.what-build--enhanced .what-build__row:not([data-open]) .what-build__body {
+  grid-template-rows: 0fr;
+}
+
+.what-build--enhanced .what-build__body {
+  transition: grid-template-rows 400ms var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .what-build--enhanced .what-build__body,
+  .what-build__icon,
+  .what-build__service-title {
+    transition: none;
+  }
+}
+
+.what-build__description {
+  max-width: 640px;
+  margin-left: calc(74px + clamp(20px, 3vw, 48px));
+  color: rgba(242, 241, 235, 0.82);
+  font-family: var(--font-sans);
+  font-size: clamp(20px, 1.7vw, 30px);
   font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.35;
-  padding-right: 18px;
+  line-height: 1.28;
+  padding-bottom: clamp(34px, 5vh, 58px);
+}
+
+.what-build__tagline {
+  margin-left: calc(74px + clamp(20px, 3vw, 48px));
+  margin-top: -10px;
+  color: rgba(242, 241, 235, 0.5);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  padding-bottom: clamp(38px, 5.6vh, 64px);
+}
+
+.what-build__row[data-open] .what-build__description {
+  padding-bottom: clamp(22px, 3vh, 34px);
+}
+
+/* Foot strip — closes the chapter and hands off to 05 / Prosess.
+   Quiet ledger register: one fact, one line of copy, one directional link. */
+
+.what-build__foot {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(24px, 4vw, 72px);
+  margin-top: clamp(30px, 4.6vh, 52px);
+}
+
+.what-build__foot-note {
+  flex: none;
+  color: rgba(242, 241, 235, 0.62);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
-.what-build__tag + .what-build__tag {
-  padding-left: 18px;
-}
-
-.what-build__tag + .what-build__tag::before {
-  content: "/";
-  position: absolute;
-  left: 0;
-  color: rgba(242, 241, 235, 0.28);
-}
-
-.what-build__collapsed-description {
-  max-width: 580px;
-  color: rgba(242, 241, 235, 0.62);
+.what-build__foot-copy {
+  color: rgba(242, 241, 235, 0.52);
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: clamp(15px, 1.05vw, 18px);
   font-weight: 400;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
-.what-build__icon {
-  justify-self: end;
-  color: rgba(242, 241, 235, 0.78);
+.what-build__foot-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  color: rgba(242, 241, 235, 0.74);
   font-family: var(--font-mono);
-  font-size: 34px;
-  font-weight: 400;
-  line-height: 1;
-  transition:
-    color var(--motion-fast) ease-out,
-    transform var(--motion-fast) ease-out;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: rgba(242, 241, 235, 0.28);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.42em;
+  white-space: nowrap;
+  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
 }
 
-@media (hover: hover) {
-  .what-build__row:hover {
-    border-bottom-color: rgba(242, 241, 235, 0.26);
-    background: rgba(242, 241, 235, 0.045);
-  }
+.what-build__foot-link:hover,
+.what-build__foot-link:focus-visible {
+  color: var(--color-on-dark);
+  text-decoration-color: var(--color-on-dark);
+}
 
-  .what-build__row:hover::before {
-    opacity: 1;
-  }
-
-  .what-build__row:hover .what-build__icon {
-    color: var(--color-on-dark);
-    transform: translateX(6px);
-  }
+.what-build__foot-arrow {
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg) translateY(-1px);
 }
 
 @media (max-width: 1440px) {
@@ -281,6 +357,10 @@
 }
 
 @media (max-width: 1080px) {
+  .what-build__ghost {
+    display: none;
+  }
+
   .what-build__top {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -301,39 +381,27 @@
     margin-top: 8px;
   }
 
-  .what-build__row {
-    grid-template-columns: minmax(0, 1fr) 34px;
-    gap: 28px 24px;
-  }
-
-  .what-build__row-heading {
-    grid-column: 1;
-    grid-template-columns: 62px minmax(0, 1fr);
+  .what-build__row-trigger {
+    grid-template-columns: 62px minmax(0, 1fr) 28px;
     gap: 24px;
   }
 
-  .what-build__icon {
-    grid-column: 2;
-    grid-row: 1;
+  .what-build__row-meta {
+    display: none;
   }
 
-  .what-build__featured-body,
-  .what-build__collapsed-description {
-    grid-column: 1 / -1;
-    max-width: 720px;
+  .what-build__service-title {
+    font-size: clamp(36px, 5.4vw, 56px);
+  }
+
+  .what-build__row[data-open] .what-build__service-title {
+    font-size: clamp(46px, 7.6vw, 82px);
+  }
+
+  .what-build__description,
+  .what-build__tagline {
     margin-left: 86px;
-  }
-
-  .what-build__row--open {
-    min-height: 0;
-  }
-
-  .what-build__row--open .what-build__service-title {
-    font-size: 82px;
-  }
-
-  .what-build__row--collapsed .what-build__service-title {
-    font-size: 52px;
+    max-width: 720px;
   }
 }
 
@@ -367,60 +435,59 @@
     font-size: 17px;
   }
 
-  .what-build__row {
-    grid-template-columns: 1fr 28px;
-    gap: 18px 18px;
-  }
-
-  .what-build__row--open {
-    padding: 34px 0 42px;
-  }
-
-  .what-build__row--collapsed {
-    min-height: 0;
-    padding: 28px 0;
-  }
-
-  .what-build__row-heading {
-    display: block;
+  .what-build__row-trigger {
+    grid-template-columns: minmax(0, 1fr) 22px;
+    gap: 14px 18px;
+    padding: 26px 0;
   }
 
   .what-build__number {
-    display: block;
-    margin-bottom: 18px;
+    grid-column: 1 / -1;
+    padding-top: 0;
   }
 
-  .what-build__row--open .what-build__service-title {
-    font-size: 54px;
-    line-height: 0.94;
+  .what-build__service-title {
+    font-size: clamp(30px, 9vw, 40px);
   }
 
-  .what-build__row--collapsed .what-build__service-title {
-    font-size: 38px;
-    line-height: 1;
-  }
-
-  .what-build__featured-body,
-  .what-build__collapsed-description {
-    margin-left: 0;
-  }
-
-  .what-build__featured-description {
-    font-size: 24px;
-    line-height: 1.24;
-  }
-
-  .what-build__collapsed-description {
-    margin-top: 2px;
-    font-size: 16px;
-  }
-
-  .what-build__tag {
-    padding: 7px 9px 6px;
-    font-size: 11px;
+  .what-build__row[data-open] .what-build__service-title {
+    font-size: clamp(38px, 11.4vw, 52px);
   }
 
   .what-build__icon {
-    font-size: 28px;
+    width: 15px;
+    height: 15px;
+  }
+
+  .what-build__row:hover .what-build__service-title {
+    transform: none;
+  }
+
+  .what-build__description,
+  .what-build__tagline {
+    margin-left: 0;
+  }
+
+  .what-build__description {
+    font-size: 20px;
+    line-height: 1.3;
+    padding-bottom: 28px;
+  }
+
+  .what-build__tagline {
+    margin-top: -6px;
+    font-size: 11px;
+    padding-bottom: 32px;
+  }
+
+  .what-build__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 34px;
+  }
+
+  .what-build__foot-link {
+    margin-left: 0;
   }
 }
