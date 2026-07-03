@@ -1,96 +1,72 @@
 # Tigon Redesign — Agent Instructions
 
-This project is a clean redesign of Tigon Studio.
+## Goal
 
-## Working principle
-
-We build one section at a time.
-
-Do not build the whole homepage in one task.
-Do not continue to the next section until the current section is approved.
-
-## Current state
-
-The clean base is built.
-Header + Hero are built and treated as the current approved foundation.
-
-Next work must preserve Header + Hero unless explicitly told otherwise.
-
-## Design goal
-
-Tigon should feel like a premium digital studio:
+Build Tigon as a premium digital studio homepage:
 - editorial
 - restrained
 - typographic
 - confident
 - near-monochrome
-- high spacing discipline
 - custom, not template-like
-- not SaaS
-- not SEO-portal
-- not AI slop
+- not SaaS, SEO-portal or AI slop
 
-## Source doctrine
+## Work Mode
 
-Read and follow:
-- docs/tigon-design-operating-system.md
-- docs/section-storyboard.md
-- docs/section-contract-template.md
+Follow the user's current task.
+Do not over-plan.
 
-The uploaded "Tigon Design Doctrine" PDF is a strategic reference, not a rigid template.
+Prefer focused tasks, but multi-section work is allowed when the user asks for a connected journey, transition or effects sequence.
 
-## Hard guardrails
+Use a section contract when helpful, but do not over-plan when the task is clear.
 
-Do not:
-- import old styles.css
-- import old signature.css
-- import old main.js
-- recreate the old "STRUKTUR / FØR / PYNT + 4 rows" intro
-- create Veivalg
-- create Før du bygger
-- create guide/article/resource modules in the main flow
-- add orange unless explicitly requested
-- add random component-library effects
-- add cards unless the section contract asks for cards
-- build multiple sections in one task
-- add GSAP/ScrollTrigger before static layout is approved
-- commit unless explicitly requested
+## Hard Preservation Rules
 
-## Flexible, not locked
+Do not, unless explicitly requested:
+- change SEO metadata, schema, sitemap, robots or canonical
+- change URLs or slugs
+- change Header or Hero
+- change footer/NAP/important links
+- import old `styles.css`, `signature.css` or `main.js`
+- import MadeWithGSAP CSS, JS, fonts or assets directly
+- use visible orange
+- make the design SaaS, card-grid or dashboard-like
+- commit or push
 
-The layout is allowed to change per section.
+## Design Freedom
 
-Each section should have:
-- one idea
-- one focal point
-- a different layout archetype from its neighbor
-- a clear tonal or pacing role
-- motion only if it supports the section idea
+Layout and structure may change when the user asks for redesign.
 
-## Build process
+Static-first is preferred, but GSAP/MadeWithGSAP/effects tasks may implement structure and motion together when explicitly requested.
 
-For each section:
+GSAP is allowed when the user explicitly asks for an effect or motion implementation.
 
-1. Create a section contract.
-2. Build static layout only.
-3. Show result.
-4. Wait for approval.
-5. Add motion in a separate pass.
-6. Validate.
-7. Then move to next section.
+External effects are motion architecture only. The visual design must stay Tigon: premium, editorial, typographic and near-monochrome.
 
-## Validation
+Rejected old directions should not control new work unless the user reopens them.
 
-After code changes run:
+## Motion Rules
 
-npm run build
-npx tsc --noEmit
-git diff --check
+Respect:
+- reduced motion
+- mobile/touch UX
+- no-JS readability
+- server-rendered important text and links
 
-Report:
+Scope GSAP to the relevant section or journey.
+Avoid global kills.
+Avoid duplicate triggers.
+Avoid blurry text from heavy transforms.
+Do not hide critical content behind JavaScript.
+
+## Reporting
+
+Keep reports short unless the user asks for an audit.
+
+After changes, report:
 - files changed
-- what section was touched
+- what scope was touched
 - whether Header/Hero changed
 - whether motion was added
-- whether old CSS/JS was imported
+- whether old CSS/JS/MWG files were imported
 - whether orange appears
