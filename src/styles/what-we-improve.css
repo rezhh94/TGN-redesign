@@ -1,52 +1,42 @@
-/* 03 / Effekt — showpiece. One outcome on stage at a time; the other
-   outcomes live as an indexed spine on the right. Flattest, darkest surface
-   on the page — but not empty: an engineered measurement grid, crosshair
-   registrations, a signal line per outcome and a ruler along the floor make
-   the room read as the measuring chamber the copy claims it is.
+/* 03 / Effekt — MWG 006-oversatt split scene. Venstre: fire outcome-avsnitt
+   stablet i samme celle; scroll bytter dem ord for ord gjennom masker.
+   Høyre: én mørk måleflate — ghost-numeral, scan-linje, rail og readout som
+   leser det aktive outcomet.
 
-   Default layout (no JS, mobile, PRM) is a simple stacked list — every word
-   and note visible and readable. JS adds .what-improve--stage on desktop. */
+   Default (no JS, mobil, PRM) er en enkel stablet liste — alle ord og notater
+   synlige og skarpe. JS legger på .what-improve--stage på desktop; først da
+   finnes pin-høyde, stabling og måleflate. */
 
 .what-improve {
   position: relative;
-  overflow: hidden;
   background: #060706;
   color: var(--color-on-dark);
 }
 
-/* Engineered backdrop — vertical measure lines + one horizontal axis.
-   Masked top/bottom so the grid reads as a room, not wallpaper. */
+.what-improve__pin,
+.what-improve__frame {
+  position: relative;
+}
+
+/* Engineered backdrop — vertical measure lines masked top/bottom so the
+   grid reads as a room, not wallpaper. Lives in the frame so it pins along. */
 
 .what-improve__grid {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(180deg, transparent calc(46% - 1px), rgba(242, 241, 235, 0.05) calc(46% - 1px), rgba(242, 241, 235, 0.05) 46%, transparent 46%),
     linear-gradient(90deg, rgba(242, 241, 235, 0.035) 0, rgba(242, 241, 235, 0.035) 1px, transparent 1px);
-  background-size: 100% 100%, calc(100% / 12) 100%;
+  background-size: calc(100% / 12) 100%;
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 84%, transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 84%, transparent 100%);
 }
-
-.what-improve__cross {
-  position: absolute;
-  color: rgba(242, 241, 235, 0.3);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  line-height: 1;
-}
-
-.what-improve__cross--tl { top: 24%; left: clamp(24px, 5vw, 150px); }
-.what-improve__cross--tr { top: 24%; right: clamp(24px, 5vw, 150px); }
-.what-improve__cross--bl { bottom: 22%; left: clamp(24px, 5vw, 150px); }
-.what-improve__cross--br { bottom: 22%; right: clamp(24px, 5vw, 150px); }
 
 .what-improve__inner {
   position: relative;
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(120px, 16vh, 200px) clamp(24px, 5vw, 150px) clamp(120px, 16vh, 200px);
+  padding: clamp(110px, 15vh, 190px) clamp(24px, 5vw, 150px);
 }
 
 .what-improve__label,
@@ -60,7 +50,7 @@
 
 .what-improve__kicker {
   max-width: 620px;
-  margin-top: clamp(34px, 5vh, 62px);
+  margin-top: clamp(28px, 4.4vh, 54px);
   color: rgba(242, 241, 235, 0.6);
   font-family: var(--font-sans);
   font-size: clamp(19px, 1.5vw, 27px);
@@ -69,65 +59,58 @@
   line-height: 1.3;
 }
 
-/* List mode (default): interleave word/note pairs via explicit grid rows —
-   DOM keeps all words inside the single h2 for clean semantics. */
+/* Word mask — MWG 006-prinsippet. Padding gir rom for overheng (Å-ringen,
+   descenders) inne i masken; negativ margin gjenoppretter linjerytmen.
+   I ro står alt på 0 — kun stage-timelinen flytter inner-spans. */
 
-.what-improve__stage-area {
+.what-improve__mw {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  margin: -0.16em 0;
+  vertical-align: top;
+}
+
+.what-improve__mw-inner {
+  display: block;
+  padding: 0.16em 0;
+}
+
+/* Default / list mode — stacked outcomes, plate hidden */
+
+.what-improve__scene {
   margin-top: clamp(48px, 7vh, 90px);
 }
 
-.what-improve__stage {
+.what-improve__copy {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: clamp(22px, 3.6vh, 40px);
-}
-
-.what-improve__title {
-  display: contents;
+  gap: clamp(56px, 9vh, 110px);
 }
 
 .what-improve__word {
-  display: block;
+  margin-top: 14px;
   color: rgba(242, 241, 235, 0.94);
   font-family: var(--font-display);
   font-size: clamp(64px, 9.4vw, 190px);
   font-weight: 700;
   letter-spacing: 0;
-  line-height: 0.8;
+  line-height: 0.86;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-.what-improve__word[data-outcome="funnet"] { grid-row: 1; }
-.what-improve__word[data-outcome="forstatt"] { grid-row: 3; }
-.what-improve__word[data-outcome="valgt"] { grid-row: 5; }
-.what-improve__word[data-outcome="malt"] { grid-row: 7; }
-
-.what-improve__note {
-  width: min(100%, 460px);
-  border-top: 1px solid rgba(242, 241, 235, 0.14);
-  padding-top: 16px;
-  margin-left: clamp(4px, 4vw, 96px);
-}
-
-.what-improve__note[data-outcome-note="funnet"] { grid-row: 2; }
-.what-improve__note[data-outcome-note="forstatt"] { grid-row: 4; }
-.what-improve__note[data-outcome-note="valgt"] { grid-row: 6; }
-.what-improve__note[data-outcome-note="malt"] { grid-row: 8; }
-
-/* Signal line — the measurement layer: what this outcome is read on */
-
 .what-improve__signal {
-  margin-top: 10px;
+  margin-top: clamp(14px, 2vh, 22px);
   color: rgba(242, 241, 235, 0.5);
   font-family: var(--font-mono);
   font-size: 11.5px;
   letter-spacing: 0.08em;
-  line-height: 1.4;
+  line-height: 1.5;
   text-transform: uppercase;
 }
 
 .what-improve__description {
+  max-width: 520px;
   margin-top: 12px;
   color: rgba(242, 241, 235, 0.72);
   font-family: var(--font-sans);
@@ -136,322 +119,240 @@
   line-height: 1.42;
 }
 
-/* Measure layer — the dimension line laid over the active word. The chamber
-   actually measures what is on stage: JS sizes the line to the word, the
-   readout carries the outcome's målepunkt. Stage mode only. */
-
-.what-improve__measure {
+.what-improve__plate {
   display: none;
 }
 
-.what-improve--stage .what-improve__measure {
-  position: absolute;
-  top: 0;
-  left: 2px;
-  z-index: 1;
-  display: block;
-  width: 320px;
-  pointer-events: none;
+/* ---------------------------------------------------------------------------
+   Stage mode — JS-enhanced desktop. MWG 006-arkitektur: pin-høyden driver
+   scrubben, framen er den pinnede 100vh-scenen. */
+
+.what-improve--stage .what-improve__pin {
+  height: 380vh;
 }
 
-.what-improve__measure-readout {
-  position: absolute;
-  bottom: 12px;
-  left: 0;
-  color: rgba(242, 241, 235, 0.55);
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.1em;
-  line-height: 1.2;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.what-improve__measure-line {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 1px;
-  background: rgba(242, 241, 235, 0.14);
-}
-
-.what-improve__measure-fill {
-  position: absolute;
-  inset: 0;
-  background: rgba(242, 241, 235, 0.7);
-  transform-origin: left center;
-}
-
-.what-improve__measure-tick {
-  position: absolute;
-  bottom: -9px;
-  width: 1px;
-  height: 9px;
-  background: rgba(242, 241, 235, 0.55);
-}
-
-.what-improve__measure-tick--start {
-  left: 0;
-}
-
-.what-improve__measure-tick--end {
-  right: 0;
-}
-
-/* Spine — decorative index; only shown in stage mode */
-
-.what-improve__spine-wrap {
-  display: none;
-}
-
-.what-improve__spine {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* Ruler + progress — only exist in stage mode. The scrub fills the hairline
-   and lights the ticks so the visitor reads the sequence like a scale. */
-
-.what-improve__progress {
-  display: none;
-}
-
-.what-improve--stage .what-improve__progress {
-  position: relative;
-  display: block;
-  margin-top: clamp(24px, 4vh, 44px);
-  padding-bottom: 11px;
-}
-
-.what-improve__ruler {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  height: 14px;
-}
-
-.what-improve__ruler-tick {
-  width: 1px;
-  height: 7px;
-  background: rgba(242, 241, 235, 0.16);
-  transition: background var(--motion-base) var(--ease-standard);
-}
-
-.what-improve__ruler-tick:nth-child(10n + 1) {
-  height: 14px;
-}
-
-.what-improve__ruler-tick.is-lit {
-  background: rgba(242, 241, 235, 0.68);
-}
-
-.what-improve__progress::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 1px;
-  background: rgba(242, 241, 235, 0.12);
-}
-
-.what-improve__progress-bar {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  display: block;
-  height: 1px;
-  background: rgba(242, 241, 235, 0.66);
-  transform: scaleX(0);
-  transform-origin: left center;
-}
-
-/* Stage mode — JS-enhanced desktop: one outcome at a time on a full-height
-   stage; the spine indexes the sequence on the right. */
-
-/* The room gets a light pool centre-stage — the word stands in light, the
-   edges stay dark. Kills dead black without adding objects. */
-
-.what-improve--stage .what-improve__grid {
-  background-image:
-    radial-gradient(ellipse 52% 38% at 30% 44%, rgba(242, 241, 235, 0.05) 0%, transparent 74%),
-    linear-gradient(180deg, transparent calc(46% - 1px), rgba(242, 241, 235, 0.05) calc(46% - 1px), rgba(242, 241, 235, 0.05) 46%, transparent 46%),
-    linear-gradient(90deg, rgba(242, 241, 235, 0.035) 0, rgba(242, 241, 235, 0.035) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, calc(100% / 12) 100%;
-}
-
-/* The measure line carries the målepunkt in stage mode — the note keeps
-   only number + description on the floor. */
-
-.what-improve--stage .what-improve__signal {
-  display: none;
+.what-improve--stage .what-improve__frame {
+  height: 100vh;
+  overflow: hidden;
 }
 
 .what-improve--stage .what-improve__inner {
   display: flex;
   flex-direction: column;
-  min-height: 100svh;
-  padding-top: calc(var(--header-height) + clamp(30px, 5vh, 62px));
+  height: 100%;
+  padding-top: calc(var(--header-height) + clamp(28px, 4.6vh, 56px));
   padding-bottom: clamp(36px, 6vh, 72px);
 }
 
 .what-improve--stage .what-improve__kicker {
-  margin-top: clamp(22px, 3.6vh, 44px);
+  margin-top: clamp(20px, 3.2vh, 40px);
 }
 
-.what-improve--stage .what-improve__stage-area {
+.what-improve--stage .what-improve__scene {
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(40px, 6vw, 130px);
+  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+  align-items: stretch;
+  gap: clamp(40px, 5.5vw, 120px);
+  min-height: 0;
   margin-top: clamp(20px, 3vh, 40px);
 }
 
-.what-improve--stage .what-improve__stage {
-  position: relative;
-  display: block;
-  height: 100%;
-  min-height: clamp(440px, 62vh, 720px);
+/* All four outcomes share the same cell; the timeline decides which words
+   stand in the masks. */
+
+.what-improve--stage .what-improve__copy {
+  display: grid;
+  align-content: center;
+  gap: 0;
+  min-width: 0;
 }
 
-.what-improve--stage .what-improve__word {
-  position: absolute;
-  top: 40%;
-  left: 0;
-  transform: translateY(-50%);
-  font-size: clamp(130px, 17.5vw, 360px);
-  line-height: 0.8;
-}
-
-.what-improve--stage .what-improve__note {
-  position: absolute;
-  bottom: 4%;
-  left: clamp(8px, 7vw, 170px);
-  width: min(100%, 520px);
-  margin-left: 0;
-}
-
-/* Spine with rail — a vertical measure the scrub fills top-to-bottom */
-
-.what-improve--stage .what-improve__spine-wrap {
-  display: flex;
-  gap: clamp(18px, 1.8vw, 30px);
+.what-improve--stage .what-improve__outcome {
+  grid-area: 1 / 1;
   align-self: center;
 }
 
-.what-improve__spine-rail {
+.what-improve--stage .what-improve__word {
+  margin-top: 18px;
+  font-size: clamp(96px, 10.6vw, 250px);
+  line-height: 0.86;
+}
+
+.what-improve--stage .what-improve__signal {
+  margin-top: clamp(18px, 3vh, 30px);
+}
+
+.what-improve--stage .what-improve__description {
+  margin-top: 14px;
+}
+
+/* Måleflaten — én instrumentert, mørk Tigon-flate. Ikke bilde, ikke media:
+   en flate som leser sekvensen. */
+
+.what-improve--stage .what-improve__plate {
   position: relative;
+  display: block;
+  align-self: stretch;
+  min-height: clamp(420px, 58vh, 700px);
+  border: 1px solid rgba(242, 241, 235, 0.13);
+  background:
+    radial-gradient(ellipse 70% 52% at 50% 42%, rgba(242, 241, 235, 0.045) 0%, transparent 72%),
+    linear-gradient(180deg, #0a0b0a 0%, #070807 100%);
+}
+
+.what-improve__plate-corner {
+  position: absolute;
+  color: rgba(242, 241, 235, 0.3);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.what-improve__plate-corner--tl { top: 14px; left: 16px; }
+.what-improve__plate-corner--tr { top: 14px; right: 16px; }
+.what-improve__plate-corner--bl { bottom: 14px; left: 16px; }
+.what-improve__plate-corner--br { bottom: 14px; right: 16px; }
+
+.what-improve__plate-id,
+.what-improve__plate-range {
+  position: absolute;
+  top: 38px;
+  color: rgba(242, 241, 235, 0.42);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.what-improve__plate-id { left: 40px; }
+.what-improve__plate-range { right: 40px; }
+
+/* Ghost-numeral — samme maske-swap som ordene, synkront i timelinen */
+
+.what-improve__plate-index {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  height: 1.04em;
+  overflow: hidden;
+  transform: translateY(-50%);
+  font-size: clamp(180px, 17vw, 380px);
+  pointer-events: none;
+}
+
+.what-improve__plate-index span {
+  grid-area: 1 / 1;
+  color: rgba(242, 241, 235, 0.09);
+  font-family: var(--font-display);
+  font-size: inherit;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Scan-linje — vandrer nedover flaten med scrubben */
+
+.what-improve__plate-scan {
+  position: absolute;
+  top: 72px;
+  right: 40px;
+  left: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(242, 241, 235, 0.24), rgba(242, 241, 235, 0.05));
+}
+
+/* Rail — den vertikale målestokken scrubben fyller */
+
+.what-improve__plate-rail {
+  position: absolute;
+  top: 72px;
+  right: 24px;
+  bottom: 72px;
   width: 1px;
   background: rgba(242, 241, 235, 0.14);
 }
 
-.what-improve__spine-rail-fill {
+.what-improve__plate-rail-fill {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(242, 241, 235, 0.72);
+  inset: 0;
+  background: rgba(242, 241, 235, 0.7);
   transform: scaleY(0);
   transform-origin: top center;
 }
 
-.what-improve--stage .what-improve__spine {
-  display: grid;
-  gap: clamp(16px, 2.8vh, 28px);
-}
+/* Readout — aktivt målepunkt, maske-swap i bunnen av flaten */
 
-.what-improve__spine-item {
-  position: relative;
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  padding-left: 30px;
-  color: rgba(242, 241, 235, 0.32);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  line-height: 1.2;
-  text-transform: uppercase;
-  transition: color var(--motion-base) var(--ease-standard);
-}
-
-.what-improve__spine-item::before {
-  content: "";
+.what-improve__plate-readout {
   position: absolute;
-  left: 0;
-  top: 50%;
-  width: 16px;
-  height: 1px;
-  background: rgba(242, 241, 235, 0.24);
-  transform: scaleX(0.4);
-  transform-origin: left center;
-  transition:
-    transform var(--motion-base) var(--ease-out-expo),
-    background var(--motion-base) var(--ease-standard);
+  right: 40px;
+  bottom: 38px;
+  left: 40px;
+  display: grid;
+  overflow: hidden;
 }
 
-.what-improve__spine-item.is-done {
+.what-improve__plate-readout span {
+  grid-area: 1 / 1;
   color: rgba(242, 241, 235, 0.55);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.what-improve__spine-item.is-active {
-  color: rgba(242, 241, 235, 0.92);
-}
-
-.what-improve__spine-item.is-active::before {
-  background: rgba(242, 241, 235, 0.85);
-  transform: scaleX(1);
-}
+/* ---------------------------------------------------------------------------
+   Mobil — ingen pin, ingen scrub-scene: ett outcome per ~85svh i naturlig
+   flyt. Stort ord, signal og beskrivelse — alt skarpt, ingen maskebevegelse. */
 
 @media (max-width: 760px) {
   .what-improve__inner {
-    padding: 108px 20px 112px;
+    padding: 96px 20px;
   }
 
   .what-improve__grid {
-    background-size: 100% 100%, calc(100% / 6) 100%;
-  }
-
-  .what-improve__cross {
-    display: none;
+    background-size: calc(100% / 6) 100%;
   }
 
   .what-improve__kicker {
-    margin-top: 28px;
+    margin-top: 24px;
     font-size: 18px;
   }
 
-  .what-improve__stage-area {
-    margin-top: 44px;
+  .what-improve__scene {
+    margin-top: 12px;
   }
 
-  .what-improve__stage {
-    gap: 18px;
+  .what-improve__copy {
+    gap: 0;
+  }
+
+  .what-improve__outcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 85svh;
   }
 
   .what-improve__word {
-    font-size: clamp(50px, 16vw, 78px);
-    line-height: 0.84;
-  }
-
-  .what-improve__note {
-    width: min(100%, 340px);
-    margin-left: 0;
-    margin-bottom: 26px;
+    margin-top: 12px;
+    font-size: clamp(56px, 17vw, 92px);
+    line-height: 0.9;
+    white-space: normal;
   }
 
   .what-improve__signal {
+    margin-top: 16px;
     font-size: 10.5px;
   }
 
   .what-improve__description {
+    max-width: 340px;
     font-size: 16px;
     line-height: 1.44;
   }

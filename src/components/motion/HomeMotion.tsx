@@ -195,189 +195,120 @@ function serviceReveals() {
   });
 }
 
-// 03 / Effekt — the page's single pinned moment. One outcome on stage at a
-// time; scroll swaps FUNNET → FORSTÅTT → VALGT → MÅLT while the spine indexes
-// the sequence. Non-pinned contexts get simple one-time reveals of the list.
+// 03 / Effekt — MWG 006-adapted split scene. A tall pin-height wrapper
+// drives the scrub while the 100vh frame is pinned; the four outcome
+// paragraphs sit stacked in the same cell and swap word by word through
+// masks (old words push down and out, new words drop in from above). The
+// plate's ghost numeral and readout swap in the same timeline; rail fill
+// and scan line track raw progress. Non-pinned contexts get one-time
+// reveals of the stacked list.
 function effectStage(pinned: boolean) {
   const section = document.querySelector<HTMLElement>(".what-improve");
   if (!section) return () => {};
 
   const order = ["funnet", "forstatt", "valgt", "malt"];
-  const word = (key: string) =>
-    section.querySelector<HTMLElement>(`[data-outcome-word][data-outcome="${key}"]`);
-  const note = (key: string) =>
-    section.querySelector<HTMLElement>(`[data-outcome-note="${key}"]`);
-  const spineItem = (key: string) =>
-    section.querySelector<HTMLElement>(`[data-spine="${key}"]`);
+  const block = (key: string) =>
+    section.querySelector<HTMLElement>(`[data-outcome-block="${key}"]`);
+  const wordsOf = (key: string) =>
+    gsap.utils.toArray<HTMLElement>(".what-improve__mw-inner", block(key));
+  const numeral = (key: string) =>
+    section.querySelector<HTMLElement>(`[data-plate-numeral="${key}"]`);
+  const readout = (key: string) =>
+    section.querySelector<HTMLElement>(`[data-plate-readout="${key}"]`);
 
   if (!pinned) {
     for (const key of order) {
-      const w = word(key);
-      const n = note(key);
-      if (w) {
-        gsap.from(w, {
-          color: `rgba(${ON_DARK}, 0.2)`,
-          duration: 0.7,
-          ease: "power2.out",
-          scrollTrigger: { trigger: w, start: "top 80%", once: true },
-        });
-      }
-      if (n) {
-        gsap.from(n, {
-          autoAlpha: 0,
-          y: 18,
-          duration: 0.55,
-          ease: "power3.out",
-          scrollTrigger: { trigger: n, start: "top 86%", once: true },
-        });
-      }
+      const b = block(key);
+      if (!b) continue;
+      gsap.from(b, {
+        autoAlpha: 0,
+        y: 24,
+        duration: 0.6,
+        ease: "power3.out",
+        scrollTrigger: { trigger: b, start: "top 82%", once: true },
+      });
     }
     return () => {};
   }
 
   section.classList.add("what-improve--stage");
 
-  const setSpine = (active: number) => {
-    order.forEach((key, index) => {
-      const item = spineItem(key);
-      item?.classList.toggle("is-active", index === active);
-      item?.classList.toggle("is-done", index < active);
-    });
-  };
-
-  // Words swap with a measured wipe (clip), notes with a quiet fade.
-  const CLIP_VISIBLE = "inset(0% 0% 0% 0%)";
-  const CLIP_BEFORE = "inset(0% 100% 0% 0%)";
-  const CLIP_AFTER = "inset(0% 0% 0% 100%)";
-
-  order.forEach((key, index) => {
-    gsap.set(word(key), { clipPath: index === 0 ? CLIP_VISIBLE : CLIP_BEFORE });
-    gsap.set(note(key), index === 0 ? { autoAlpha: 1, yPercent: 0 } : { autoAlpha: 0, yPercent: 12 });
-  });
-  setSpine(0);
-
-  // Measure layer — the chamber lays a dimension line over the active word
-  // and re-measures on every swap. The readout carries the målepunkt.
-  const measure = section.querySelector<HTMLElement>("[data-measure]");
-  const measureFill = section.querySelector<HTMLElement>("[data-measure-fill]");
-  const measureReadout = section.querySelector<HTMLElement>("[data-measure-readout]");
-  const signals = order.map(
-    (key) => note(key)?.querySelector(".what-improve__signal")?.textContent?.trim() ?? ""
-  );
-
-  let lastActive = -1;
-
-  const stage = section.querySelector<HTMLElement>(".what-improve__stage");
-
-  // rect-based: the words sit on translateY(-50%), which offsetTop ignores
-  const layoutMeasure = (index: number) => {
-    const w = word(order[index]);
-    if (!measure || !w || !stage) return;
-    const wordRect = w.getBoundingClientRect();
-    const stageRect = stage.getBoundingClientRect();
-    gsap.set(measure, { top: wordRect.top - stageRect.top - 30, width: wordRect.width });
-  };
-
-  if (measure) {
-    gsap.set(measure, { autoAlpha: 0 });
-    if (measureFill) gsap.set(measureFill, { scaleX: 0 });
-    layoutMeasure(0);
+  const pinHeight = section.querySelector<HTMLElement>("[data-effect-pin]");
+  const frame = section.querySelector<HTMLElement>("[data-effect-frame]");
+  if (!pinHeight || !frame) {
+    section.classList.remove("what-improve--stage");
+    return () => {};
   }
-  const remeasure = () => layoutMeasure(Math.max(lastActive, 0));
-  ScrollTrigger.addEventListener("refresh", remeasure);
 
-  const measureTo = (active: number) => {
-    if (!measure) return;
-    const w = word(order[active]);
-    if (measureReadout && signals[active]) measureReadout.textContent = signals[active];
-    if (lastActive === -1) {
-      gsap.to(measure, { autoAlpha: 1, duration: 0.5, ease: "power2.out" });
-    }
-    if (w) {
-      gsap.to(measure, {
-        width: w.getBoundingClientRect().width,
-        duration: 0.45,
-        ease: "power3.out",
-        overwrite: "auto",
-      });
-    }
-    if (measureFill) {
-      gsap.fromTo(
-        measureFill,
-        { scaleX: 0.25 },
-        { scaleX: 1, duration: 0.6, ease: "power2.out", overwrite: "auto" }
-      );
-    }
-  };
+  // Later outcomes wait above their masks; only JS ever hides them, so the
+  // no-JS/PRM document stays fully readable.
+  order.forEach((key, index) => {
+    if (index === 0) return;
+    gsap.set(wordsOf(key), { yPercent: -112 });
+    gsap.set(numeral(key), { yPercent: -112 });
+    gsap.set(readout(key), { yPercent: -112 });
+  });
 
-  // Normalized progress where each outcome takes the stage (mid-swap points
-  // of the timeline below) — drives the spine bidirectionally.
-  const thresholds = [0, 0.22, 0.5, 0.78];
+  const railFill = section.querySelector<HTMLElement>("[data-plate-rail-fill]");
+  const scan = section.querySelector<HTMLElement>("[data-plate-scan]");
+  const plate = section.querySelector<HTMLElement>(".what-improve__plate");
 
-  const progressBar = section.querySelector<HTMLElement>("[data-effect-progress-bar]");
-  const railFill = section.querySelector<HTMLElement>("[data-spine-rail-fill]");
-  const rulerTicks = gsap.utils.toArray<HTMLElement>("[data-ruler-tick]", section);
+  // MWG 006: the pin-height wrapper is the trigger, the frame is pinned.
+  ScrollTrigger.create({
+    trigger: pinHeight,
+    start: "top top",
+    end: "bottom bottom",
+    pin: frame,
+    pinSpacing: false,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+  });
 
   const tl = gsap.timeline({
     scrollTrigger: {
-      trigger: section,
+      trigger: pinHeight,
       start: "top top",
-      end: "+=280%",
-      pin: true,
-      scrub: 0.6,
-      anticipatePin: 1,
+      end: "bottom bottom",
+      scrub: 0.7,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
-        let active = 0;
-        for (let i = 0; i < thresholds.length; i += 1) {
-          if (self.progress >= thresholds[i]) active = i;
-        }
-        setSpine(active);
-        if (active !== lastActive) {
-          measureTo(active);
-          lastActive = active;
-        }
-        if (progressBar) gsap.set(progressBar, { scaleX: self.progress });
         if (railFill) gsap.set(railFill, { scaleY: self.progress });
-        if (rulerTicks.length) {
-          const lit = Math.round(self.progress * (rulerTicks.length - 1));
-          rulerTicks.forEach((tick, index) => {
-            tick.classList.toggle("is-lit", index <= lit);
-          });
+        if (scan && plate) {
+          // Keep the scan inside the plate: it starts 72px down and must
+          // stop above the readout zone at the bottom.
+          const travel = Math.max(plate.clientHeight - 190, 0);
+          gsap.set(scan, { y: self.progress * travel });
         }
       },
     },
   });
 
-  // Long holds, quick controlled swaps: hold(1) → out(0.45)/in(0.55) → hold(1)
+  // Hold → swap → hold. Old words push out downward (power4.in), new words
+  // drop in from above (power4.out) while the exit is still finishing.
+  tl.to({}, { duration: 0.7 });
   order.forEach((key, index) => {
-    if (index === 0) {
-      tl.to({}, { duration: 1 });
-      return;
-    }
-    const prevKey = order[index - 1];
-    tl.to(word(prevKey), { clipPath: CLIP_AFTER, duration: 0.45, ease: "none" });
-    tl.to(note(prevKey), { autoAlpha: 0, yPercent: -10, duration: 0.45, ease: "none" }, "<");
-    tl.fromTo(
-      word(key),
-      { clipPath: CLIP_BEFORE },
-      { clipPath: CLIP_VISIBLE, duration: 0.55, ease: "none", immediateRender: false },
-      ">-0.12"
+    if (index === 0) return;
+    const prev = order[index - 1];
+    tl.to(wordsOf(prev), {
+      yPercent: 112,
+      duration: 0.55,
+      stagger: { amount: 0.3 },
+      ease: "power4.in",
+    });
+    tl.to(
+      wordsOf(key),
+      { yPercent: 0, duration: 0.55, stagger: { amount: 0.3 }, ease: "power4.out" },
+      "<0.45"
     );
-    tl.fromTo(
-      note(key),
-      { autoAlpha: 0, yPercent: 12 },
-      { autoAlpha: 1, yPercent: 0, duration: 0.55, ease: "none", immediateRender: false },
-      "<"
-    );
+    tl.to(numeral(prev), { yPercent: 112, duration: 0.5, ease: "power4.in" }, "<-0.3");
+    tl.to(numeral(key), { yPercent: 0, duration: 0.5, ease: "power4.out" }, "<0.35");
+    tl.to(readout(prev), { yPercent: 112, duration: 0.5, ease: "power4.in" }, "<");
+    tl.to(readout(key), { yPercent: 0, duration: 0.5, ease: "power4.out" }, "<0.35");
     tl.to({}, { duration: 1 });
   });
 
   return () => {
-    ScrollTrigger.removeEventListener("refresh", remeasure);
     section.classList.remove("what-improve--stage");
-    order.forEach((key) => spineItem(key)?.classList.remove("is-active", "is-done"));
-    rulerTicks.forEach((tick) => tick.classList.remove("is-lit"));
   };
 }
 
