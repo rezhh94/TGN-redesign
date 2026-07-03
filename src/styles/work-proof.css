@@ -1,0 +1,387 @@
+/* 04 / Arbeid — FINAL: Split Proof / System Slab.
+   One stone room. Left: the charcoal proof monolith — flush with 03 at the
+   top, stopped short of the floor so the stone shows under it. Right: a
+   cast slab leaning through the canvas, cropped by the chapter's right and
+   bottom edge (it exits into dark 05). Three cuts with hard back-plates
+   carry the standards. Stone stays cool — never warm cream. */
+
+.work-proof {
+  --wp-stone: #e9e8e4;
+  --wp-dark: #0f0f0e;
+
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  background: var(--wp-stone);
+}
+
+.work-proof__split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
+  min-height: min(104vh, 1100px);
+}
+
+/* Left — the proof monolith. Lands in the light room: stone floor under. */
+
+.work-proof__panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: clamp(64px, 10vh, 130px);
+  background: var(--wp-dark);
+  color: var(--color-on-dark);
+  box-shadow: 0 60px 120px rgba(16, 16, 15, 0.32);
+  padding: clamp(120px, 16vh, 200px) clamp(28px, 3.4vw, 70px) clamp(44px, 6vh, 80px)
+    clamp(24px, 5vw, 150px);
+}
+
+.work-proof__label {
+  color: rgba(242, 241, 235, 0.6);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.work-proof__title {
+  margin-top: clamp(40px, 6vh, 76px);
+}
+
+.work-proof__word {
+  display: block;
+  color: rgba(242, 241, 235, 0.95);
+  font-family: var(--font-display);
+  font-size: clamp(56px, 5.4vw, 122px);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.84;
+  text-transform: uppercase;
+}
+
+.work-proof__word--dim {
+  color: rgba(242, 241, 235, 0.26);
+}
+
+.work-proof__lead {
+  margin-top: clamp(30px, 4.6vh, 54px);
+  color: rgba(242, 241, 235, 0.62);
+  font-family: var(--font-sans);
+  font-size: clamp(15.5px, 1.1vw, 18px);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.work-proof__link {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: clamp(18px, 2.8vh, 30px);
+  color: rgba(242, 241, 235, 0.85);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: rgba(242, 241, 235, 0.3);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.42em;
+  transition: text-decoration-color var(--motion-fast) ease-out;
+}
+
+.work-proof__link:hover,
+.work-proof__link:focus-visible {
+  text-decoration-color: rgba(242, 241, 235, 0.85);
+}
+
+.work-proof__foot {
+  margin-top: auto;
+  padding-top: 44px;
+  color: rgba(242, 241, 235, 0.42);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* Right — the staged surface. Section clips; the slab exits the frame. */
+
+.work-proof__surface {
+  position: relative;
+}
+
+/* The slab — two cast layers, leaning, cropped right + bottom */
+
+.work-proof__slab {
+  position: absolute;
+  top: 21%;
+  right: -14%;
+  bottom: -12%;
+  left: 21%;
+  transform: rotate(-2.4deg);
+}
+
+.work-proof__slab-back {
+  position: absolute;
+  inset: 0;
+  transform: translate(-26px, 26px);
+  background: #0b0b0a;
+  opacity: 0.85;
+}
+
+.work-proof__slab-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(118deg, rgba(242, 241, 235, 0.09) 0%, rgba(242, 241, 235, 0.02) 38%, rgba(242, 241, 235, 0) 64%),
+    linear-gradient(180deg, #161613 0%, #0e0e0c 74%, #0a0a09 100%);
+  box-shadow:
+    0 80px 160px rgba(16, 16, 15, 0.36),
+    0 26px 60px rgba(16, 16, 15, 0.22),
+    0 8px 20px rgba(16, 16, 15, 0.14);
+}
+
+.work-proof__slab-face::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border: 1px solid rgba(242, 241, 235, 0.05);
+  pointer-events: none;
+}
+
+.work-proof__slab-kicker {
+  position: absolute;
+  top: clamp(16px, 2vw, 30px);
+  left: clamp(18px, 2.2vw, 34px);
+  color: rgba(242, 241, 235, 0.42);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.work-proof__slab-block {
+  position: absolute;
+  top: 22%;
+  left: clamp(18px, 2.2vw, 34px);
+  width: 30%;
+  height: 9%;
+  background: rgba(242, 241, 235, 0.1);
+}
+
+.work-proof__slab-line {
+  position: absolute;
+  top: 38%;
+  left: clamp(18px, 2.2vw, 34px);
+  width: 46%;
+  height: 1px;
+  background: rgba(242, 241, 235, 0.14);
+}
+
+/* Embossed wordmark — cast into the material */
+
+.work-proof__engrave {
+  position: absolute;
+  left: 3%;
+  bottom: 22%;
+  color: rgba(242, 241, 235, 0.045);
+  font-family: var(--font-display);
+  font-size: clamp(150px, 17vw, 400px);
+  font-weight: 700;
+  line-height: 0.76;
+  text-shadow:
+    -2px -2px 2px rgba(0, 0, 0, 0.55),
+    2px 2px 2px rgba(242, 241, 235, 0.05);
+}
+
+/* Cuts — standards sampled off the slab. Hard offset back-plates give them
+   the same cast material as the slab: objects, not boxes. */
+
+.work-proof__cut {
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid rgba(242, 241, 235, 0.14);
+  color: var(--color-on-dark);
+  box-shadow:
+    -16px 18px 0 rgba(11, 11, 10, 0.92),
+    0 34px 80px rgba(16, 16, 15, 0.36),
+    0 10px 26px rgba(16, 16, 15, 0.2);
+}
+
+.work-proof__cut-tag {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  color: rgba(242, 241, 235, 0.46);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.work-proof__cut-value {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  color: rgba(242, 241, 235, 0.85);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.work-proof__cut--contrast {
+  bottom: 20%;
+  left: -11%;
+  z-index: 2;
+  width: 29%;
+  aspect-ratio: 1 / 1;
+  background: #161614;
+}
+
+.work-proof__cut-glyph {
+  position: absolute;
+  right: 7%;
+  bottom: 8%;
+  color: rgba(242, 241, 235, 0.9);
+  font-family: var(--font-sans);
+  font-size: clamp(60px, 6.4vw, 140px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.work-proof__cut--struktur {
+  top: 6%;
+  left: 18%;
+  z-index: 2;
+  width: 24%;
+  aspect-ratio: 4 / 3;
+  background: #1b1b18;
+}
+
+.work-proof__cut-grid {
+  position: absolute;
+  inset: 34% 12% 30%;
+  background-image:
+    linear-gradient(90deg, rgba(242, 241, 235, 0.18) 0, rgba(242, 241, 235, 0.18) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(242, 241, 235, 0.18) 0, rgba(242, 241, 235, 0.18) 1px, transparent 1px);
+  background-size: calc(100% / 6) calc(100% / 3);
+}
+
+.work-proof__cut--fart {
+  right: 5%;
+  bottom: 7%;
+  z-index: 2;
+  width: 37%;
+  aspect-ratio: 16 / 9;
+  background: #121210;
+}
+
+.work-proof__cut-figure {
+  position: absolute;
+  left: 12px;
+  bottom: 30%;
+  color: rgba(242, 241, 235, 0.9);
+  font-family: var(--font-mono);
+  font-size: clamp(30px, 2.8vw, 58px);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.work-proof__cut-scale {
+  position: absolute;
+  right: 12px;
+  bottom: 16%;
+  left: 12px;
+  height: 8px;
+  background-image: linear-gradient(90deg, rgba(242, 241, 235, 0.34) 0, rgba(242, 241, 235, 0.34) 1px, transparent 1px);
+  background-size: calc(100% / 24) 100%;
+}
+
+@media (max-width: 1080px) {
+  .work-proof__split {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .work-proof__panel {
+    margin-bottom: 0;
+    padding: 96px 24px 56px;
+  }
+
+  .work-proof__surface {
+    min-height: 122vw;
+  }
+
+  .work-proof__slab {
+    top: 10%;
+    right: -16%;
+    bottom: -8%;
+    left: 6%;
+    transform: rotate(-2deg);
+  }
+
+  .work-proof__cut--contrast {
+    left: 5%;
+    bottom: 6%;
+  }
+}
+
+@media (max-width: 640px) {
+  .work-proof__panel {
+    padding: 88px 20px 48px;
+  }
+
+  .work-proof__word {
+    font-size: clamp(48px, 15vw, 72px);
+  }
+
+  .work-proof__lead {
+    margin-top: 24px;
+    font-size: 15.5px;
+  }
+
+  .work-proof__foot {
+    padding-top: 36px;
+    font-size: 10px;
+  }
+
+  .work-proof__slab-back {
+    transform: translate(-14px, 14px);
+  }
+
+  .work-proof__engrave {
+    font-size: clamp(110px, 40vw, 170px);
+  }
+
+  .work-proof__cut {
+    box-shadow:
+      -10px 11px 0 rgba(11, 11, 10, 0.92),
+      0 22px 50px rgba(16, 16, 15, 0.34);
+  }
+
+  .work-proof__cut--struktur {
+    top: 4%;
+    left: 12%;
+    width: 34%;
+  }
+
+  .work-proof__cut--fart {
+    right: 4%;
+    bottom: 24%;
+    width: 50%;
+  }
+
+  .work-proof__cut--contrast {
+    width: 38%;
+    bottom: 5%;
+  }
+
+  .work-proof__cut-tag {
+    font-size: 8.5px;
+  }
+}
