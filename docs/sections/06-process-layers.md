@@ -1,7 +1,5 @@
 # 06 / Process Layers / Prosess
 
-Before coding this section, this contract must be approved.
-
 ## Section name
 
 06 / Process Layers / Prosess
@@ -14,164 +12,154 @@ This is the next visible page block after 04 / Arbeid. The visible section numbe
 
 ## Role in page journey
 
-After visual proof / Arbeid, this section should explain how it is to work with Tigon.
+After visual proof / Arbeid, this section explains how it is to work with Tigon.
 
-It should reduce buyer risk and show a controlled path from first conversation to launched solution.
-
-It must not become a generic agency process list.
+It should reduce buyer risk while acting as a controlled scroll-motion signature based on MWG 031.
 
 ## One idea
 
-Tigon jobber gjennom en kontrollert produksjonsflyt — fra avklaring til lansering.
+Tigon jobber gjennom fire kontrollerte steg fra uklart behov til lansert, målbart system.
 
 ## Focal point
 
-The first thing the user should notice is a layered production workflow, not a list.
+The user should notice a split-screen process system: fixed intro copy on the left, and receding process cards on the right.
 
-The section should feel like stacked workflow surfaces / production layers.
+Each right-side card pins for one scroll beat, then recedes backward in 3D before the next card takes over.
 
 ## Tone
 
-Premium, controlled, studio-operational.
+Premium, restrained, editorial and studio-operational.
 
-Dark base is preferred for first build, with layered surfaces inside.
-Do not use a full light/off-white template section for this first build.
+All four cards use the same dark color as the rest of the section. Text is off-white. No orange.
 
 ## Layout archetype
 
-Production Layers / stacked workflow surfaces.
+MWG 031-inspired vertical pinned card sequence in a split-screen layout.
 
-Suggested static layout:
-- dark / near-black background
-- large calm statement
-- four process layers
-- each layer offset or stacked
-- no cards
-- no icons
-- no generic timeline
-- no horizontal scroll in static build
-- enough depth to support later GSAP stacking motion
+Static structure:
+- sticky dark intro column on the left
+- four right-side process cards
+- `slide -> content-wrapper -> content` structure adapted to React
+- one process step per slide
+- large JUSTSans title
+- small CalebMono `05` marker beside the visual surface
+- right-side production surface replacing MWG image assets
+- CalebMono labels and output metadata
+- no imported MWG CSS, JS, fonts or media files
 
 ## Why this layout is different from the previous section
 
-Arbeid is a visual showcase with mockup/surface slots.
+Arbeid is a split proof/material composition.
 
-Prosess should be operational:
-- less image-led
-- more workflow-led
-- layered structure instead of visual mockup
-- planned future stacking motion
-- not another service index or typographic outcome map
+Prosess becomes a vertical editorial sequence:
+- dark right-side cards instead of a separate light-card surface
+- pinned card handoff instead of static list
+- process copy instead of proof standards
+- a deliberate tonal break from the preceding dark sections
 
 ## Content
 
 Visible label:
 05 / Prosess
 
-Hovedstatement:
-Fra første samtale
-til ferdig løsning.
+01 / Avklaring
+Behovet presses ned til scope.
+Før noe tegnes, avklarer vi hva som faktisk skal bygges, hvorfor det trengs og hva som må velges bort.
+Output: Definert retning.
 
-Lead:
-Ikke et langt byråløp. En kontrollert produksjon fra avklaring til lansering.
+02 / Struktur
+Innholdet får en teknisk rekkefølge.
+Sider, flyt, internlenker, søkbarhet og målepunkter legges som system før uttrykket låses.
+Output: Søkbar arkitektur.
 
-Process layers:
+03 / Produksjon
+Design og kode bygges som ett materiale.
+UI, komponenter, ytelse og integrasjoner utvikles sammen, med rask feedback og ryddig prioritering.
+Output: Levende løsning.
 
-01 Avklar
-Hva skal bygges, hvorfor, og hva må det løse?
-
-02 Strukturér
-Innhold, flyt, søkbarhet og måling settes før designet låses.
-
-03 Bygg
-Design, kode og integrasjoner utvikles med rask feedback.
-
-04 Lanser
-Siden publiseres med måling, teknisk sjekk og tydelig neste steg.
+04 / Lansering
+Siden går live med måling fra dag én.
+Publisering, teknisk sjekk, skjema, telefon, e-post og hendelser kobles til en tydelig neste beslutning.
+Output: Målbar kontaktvei.
 
 ## Must include
 
 - A visible label: 05 / Prosess.
-- The approved statement and lead.
-- Four process layers.
+- A sticky left intro with `Uklart inn. System ut.` and the process lead.
 - Real HTML text.
-- Layout that works without JavaScript.
+- Four right-side process cards.
+- Same dark card color as the rest of the section.
+- MWG 031-style pinned vertical card recession on desktop.
+- Large title, small `05` marker and visual surface per card.
+- Layout that remains readable without JavaScript.
+- Mobile fallback that stacks cards naturally.
 - Clear differentiation from Arbeid, Effekt and Tjenester.
-- Classes/data attributes may be prepared for later GSAP, but no motion in first build.
 
 ## Must not include
 
-- card grid
-- 4 equal SaaS cards
-- icons
-- generic timeline
-- orange
-- images
-- fake metrics
-- testimonials
-- customer logos
-- CTA block
-- GSAP or motion in first build
-- horizontal scroll in first build
+- imported MWG CSS
+- imported MWG JS
+- imported MWG fonts
+- imported MWG media files
 - old prototype imports
 - imported old styles.css
 - imported old signature.css
 - imported old main.js
+- orange
+- fake metrics
+- testimonials
+- customer logos
+- CTA block
 
 ## Motion plan
 
-No motion in the first build.
+Implemented in this pass because the user explicitly requested matching `mwg_031.zip`.
 
-Future motion idea:
-- candidate signature motion section
-- sticky/stacking production layers on desktop
-- layers advance with scroll
-- active layer highlight
-- inactive layers muted
-- subtle depth shift
-- mobile fallback: no sticky, normal stacked content
+Desktop:
+- each slide is 100vh
+- each slide's content-wrapper pins while the card recedes
+- card content rotates subtly on Z
+- card content scales down
+- card content rotates back on X
+- card fades after it has moved past the viewport
 
-No horizontal scroll unless separately approved later.
+Mobile/reduced motion:
+- no desktop pinning
+- cards stack vertically
+- reduced motion keeps everything static
 
-## Static acceptance criteria
+## Acceptance criteria
 
-- Seksjonen føles som en produksjonsflyt, ikke en liste.
-- Den er tydelig annerledes enn Arbeid.
-- Den fungerer uten bilder og JS.
-- Den ser premium ut statisk.
-- Den har ingen cards.
-- Den har ingen icons.
-- Den har ingen orange.
-- Den gir grunnlag for senere GSAP stacking/layer motion.
+- The section resembles MWG 031's vertical pinned card model, adapted into a two-column screen.
+- All four cards use the same dark color as the surrounding section.
+- The section is readable without JS.
+- Mobile has no broken horizontal overflow.
+- The left intro and right card column exit together after the final card.
+- The next light section must not appear underneath the final pinned card.
+- No orange appears.
+- No old CSS/JS or MWG source files are imported.
+- Header/Hero, Tjenester and Footer are not changed.
 
 ## Files expected to change
 
-For this contract pass:
-- docs/motion-and-assets-roadmap.md
+For this pass:
 - docs/sections/06-process-layers.md
-
-For later static implementation:
-- src/app/page.tsx
-- src/app/layout.tsx if new CSS import is needed
 - src/components/ProcessLayers.tsx
 - src/styles/process-layers.css
+- src/components/motion/HomeMotion.tsx
 
-Do not touch existing sections unless explicitly approved.
+Do not touch Header, Hero, 01, 02 / Tjenester, 06 / Kontakt/Footer/NAP/lenker, H1, metadata, schema, sitemap, robots, canonical, URL-er or slugs.
 
 ## Validation
 
-For this contract pass:
-- git diff --check
-- git status --short
-
-For a later static implementation:
 - npm run build
 - npx tsc --noEmit
 - git diff --check
 
 Report:
 - files changed
-- whether existing sections changed
+- what section was touched
+- whether Header/Hero changed
 - whether motion was added
 - whether old CSS/JS was imported
 - whether orange appears

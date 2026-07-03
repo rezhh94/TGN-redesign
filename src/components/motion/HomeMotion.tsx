@@ -447,161 +447,81 @@ function workProofScene(scrub: boolean) {
   });
 }
 
-// 05 / Prosess — layer assembly stage. Desktop pins the scene and assembles
-// the four-plate system object with scroll: plates fly in from a scattered
-// state, the ghost "Uklart" dissolves, one phase holds the floor at a time
-// and the title completes itself ("System ut."). Non-pinned contexts get the
-// calm assembled flow layout with one-time reveals.
+// 05 / Prosess — MWG 031-adapted vertical card sequence. Each content-wrapper
+// pins for one viewport while the card recedes with scale, rotationX, a small
+// deterministic rotationZ and then fades out.
 function processStage(full: boolean) {
-  const section = document.querySelector<HTMLElement>(".process-stage");
+  const section = document.querySelector<HTMLElement>(".process-layers");
   if (!section) return () => {};
 
-  const object = section.querySelector<HTMLElement>("[data-stage-object]");
-  const phases = gsap.utils.toArray<HTMLElement>("[data-stage-phase]", section);
+  const ctx = gsap.context(() => {
+    const intro = section.querySelector<HTMLElement>("[data-process-intro]");
+    const slides = gsap.utils.toArray<HTMLElement>("[data-process-slide]", section);
 
-  if (!full) {
-    const head = section.querySelector<HTMLElement>(".process-stage__head");
-    if (head) {
-      gsap.from(head, {
-        autoAlpha: 0,
-        y: 24,
-        duration: 0.7,
-        ease: "power3.out",
-        scrollTrigger: { trigger: section, start: "top 80%", once: true },
+    if (full) {
+      if (intro) {
+        gsap.from(intro.children, {
+          autoAlpha: 0,
+          y: 22,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.08,
+        });
+      }
+
+      slides.forEach((slide, index) => {
+        const contentWrapper = slide.querySelector<HTMLElement>("[data-process-wrapper]");
+        const content = slide.querySelector<HTMLElement>("[data-process-content]");
+        if (!contentWrapper || !content) return;
+
+        gsap.to(content, {
+          rotationZ: [-2.6, 2.2, -1.6, 2.8][index] ?? 0,
+          scale: 0.7,
+          rotationX: 40,
+          ease: "power1.in",
+          scrollTrigger: {
+            pin: contentWrapper,
+            trigger: slide,
+            start: "top 0%",
+            end: () => `+=${window.innerHeight}`,
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        gsap.to(content, {
+          autoAlpha: 0,
+          ease: "power1.in",
+          scrollTrigger: {
+            trigger: content,
+            start: "top -80%",
+            end: () => `+=${0.2 * window.innerHeight}`,
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        });
       });
+
+      return;
     }
-    if (object) {
-      gsap.from(object, {
+
+    slides.forEach((slide) => {
+      gsap.from(slide, {
         autoAlpha: 0,
-        y: 34,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: object, start: "top 84%", once: true },
-      });
-    }
-    for (const phase of phases) {
-      gsap.from(phase, {
-        autoAlpha: 0,
-        y: 22,
+        y: 26,
         duration: 0.55,
         ease: "power3.out",
-        scrollTrigger: { trigger: phase, start: "top 88%", once: true },
+        scrollTrigger: {
+          trigger: slide,
+          start: "top 88%",
+          once: true,
+        },
       });
-    }
-    return () => {};
-  }
-
-  section.classList.add("process-stage--scene");
-
-  const plates = gsap.utils.toArray<HTMLElement>("[data-stage-plate]", section);
-  const labels = plates.map((plate) =>
-    plate.querySelector<HTMLElement>(".process-stage__plate-label")
-  );
-  const ticks = gsap.utils.toArray<HTMLElement>("[data-stage-tick]", section);
-  const floor = section.querySelector<HTMLElement>("[data-stage-floor]");
-  const stackShadow = section.querySelector<HTMLElement>(".process-stage__stack-shadow");
-  const ghost = section.querySelector<HTMLElement>("[data-stage-ghost]");
-  const titleOut = section.querySelector<HTMLElement>("[data-stage-title-out]");
-  const ioIn = section.querySelector<HTMLElement>("[data-stage-io-in]");
-  const ioOut = section.querySelector<HTMLElement>("[data-stage-io-out]");
-
-  // Scattered start state — the unclear pile hovers loose above the floor;
-  // each plate physically drops onto the stack when its phase takes over.
-  const scatter = [
-    { x: -300, y: 230, rotation: -14, z: 340 },
-    { x: 320, y: -210, rotation: 10, z: 260 },
-    { x: -260, y: -250, rotation: -8, z: 420 },
-    { x: 350, y: 190, rotation: 14, z: 300 },
-  ];
-
-  plates.forEach((plate, index) => {
-    gsap.set(plate, {
-      x: scatter[index].x,
-      y: scatter[index].y,
-      z: index * 44 + scatter[index].z,
-      rotation: scatter[index].rotation,
-      autoAlpha: 0.3,
     });
-  });
-  labels.forEach((label) => label && gsap.set(label, { opacity: 0.3 }));
-  phases.forEach((phase) => gsap.set(phase, { autoAlpha: 0, y: 26 }));
-  if (titleOut) gsap.set(titleOut, { opacity: 0.2 });
-  if (ioOut) gsap.set(ioOut, { opacity: 0.25 });
-  if (floor) gsap.set(floor, { autoAlpha: 0.3 });
-  if (stackShadow) gsap.set(stackShadow, { autoAlpha: 0.2 });
-
-  // Normalized progress where each phase takes the floor (segment starts of
-  // the timeline below) — drives the tick register bidirectionally.
-  const thresholds = [0.06, 0.28, 0.5, 0.72];
-
-  const setTicks = (progress: number) => {
-    ticks.forEach((tick, index) => {
-      tick.classList.toggle("is-active", progress >= thresholds[index]);
-    });
-  };
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: section,
-      start: "top top",
-      end: "+=260%",
-      pin: true,
-      scrub: 0.5,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => setTicks(self.progress),
-    },
-  });
-
-  // Intro hold — scattered pile under the ghost word.
-  tl.to({}, { duration: 0.35 });
-
-  // The floor and the shadow pool build with the assembly across the scene.
-  if (floor) tl.to(floor, { autoAlpha: 1, duration: 5, ease: "none" }, 0);
-  if (stackShadow) tl.to(stackShadow, { autoAlpha: 1, duration: 5, ease: "none" }, 0);
-
-  const plateEdges = [0.22, 0.28, 0.34, 0.45];
-
-  phases.forEach((phase, index) => {
-    if (index > 0) {
-      tl.to(phases[index - 1], { autoAlpha: 0, y: -18, duration: 0.25, ease: "none" });
-    }
-    tl.to(phase, { autoAlpha: 1, y: 0, duration: 0.3, ease: "none" }, index > 0 ? ">-0.08" : ">");
-    tl.to(
-      plates[index],
-      { x: 0, y: 0, z: index * 44, rotation: 0, autoAlpha: 1, duration: 0.8, ease: "power2.inOut" },
-      "<"
-    );
-    // Landing pulse — the plate's edge flashes as it locks into the stack.
-    tl.to(
-      plates[index],
-      { borderColor: "rgba(242, 241, 235, 0.85)", duration: 0.12, ease: "none" },
-      ">-0.12"
-    );
-    tl.to(plates[index], {
-      borderColor: `rgba(242, 241, 235, ${plateEdges[index]})`,
-      duration: 0.3,
-      ease: "none",
-    });
-    if (labels[index]) {
-      tl.to(labels[index], { opacity: 1, duration: 0.3, ease: "none" }, "<");
-    }
-    if (index === 0 && ghost) {
-      tl.to(ghost, { autoAlpha: 0, duration: 0.75, ease: "none" }, "<");
-    }
-    tl.to({}, { duration: 0.35 });
-  });
-
-  // Finale — the stack compresses and the system locks in.
-  tl.to(plates, { z: (index: number) => index * 32, duration: 0.5, ease: "power2.inOut" });
-  if (titleOut) tl.to(titleOut, { opacity: 1, duration: 0.4, ease: "none" }, "<");
-  if (ioOut) tl.to(ioOut, { opacity: 1, duration: 0.4, ease: "none" }, "<");
-  if (ioIn) tl.to(ioIn, { opacity: 0.28, duration: 0.4, ease: "none" }, "<");
-  tl.to({}, { duration: 0.3 });
+  }, section);
 
   return () => {
-    section.classList.remove("process-stage--scene");
-    ticks.forEach((tick) => tick.classList.remove("is-active"));
+    ctx.revert();
   };
 }
 

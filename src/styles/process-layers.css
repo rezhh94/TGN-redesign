@@ -1,542 +1,370 @@
-/* 05 / Prosess — layer assembly stage. One dark scene: a four-plate system
-   object in shallow 3D (SCOPE / STRUKTUR / UI+KODE / MÅLING) under a giant
-   ghost "Uklart", with the four phases taking the floor one by one.
+/* 05 / Prosess — MWG 031-inspired vertical pinned cards.
+   Adapted structure: slide -> content-wrapper -> content. The effect is
+   rebuilt locally with Tigon typography and text; no MWG files are imported. */
 
-   Two modes:
-   - Default (no JS / mobile / reduced motion): calm document flow — title,
-     the fully assembled stack, all four phases listed. Everything readable.
-   - .process-stage--scene (added by JS on desktop + motion): pinned 100vh
-     stage; GSAP scatters the plates and assembles them with scroll while
-     phase text swaps bottom-left and the title completes itself. */
-
-.process-stage {
-  --pad: clamp(24px, 5vw, 150px);
+.process-layers {
+  --process-card: #121212;
+  --process-ink: #f1f1ef;
+  --process-muted: rgba(241, 241, 239, 0.62);
+  --process-on-dark: #f1f1ef;
+  display: grid;
+  grid-template-columns: minmax(340px, 42vw) minmax(0, 58vw);
   position: relative;
-  overflow: hidden;
-  background: linear-gradient(180deg, #080908 0%, #101109 52%, #0a0b0a 100%);
-  color: var(--color-on-dark);
+  overflow: clip;
+  padding: 0;
+  background: #121212;
+  color: var(--process-ink);
 }
 
-.process-stage__inner {
-  position: relative;
-  width: min(100%, 2560px);
-  margin: 0 auto;
-  padding: clamp(110px, 14vh, 170px) var(--pad) clamp(120px, 16vh, 200px);
+.process-layers__intro {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100svh;
+  min-height: 0;
+  padding: clamp(82px, 14vh, 150px) clamp(22px, 4.4vw, 82px) clamp(34px, 7vh, 78px);
+  background: #121212;
+  color: var(--process-on-dark);
 }
 
-/* Head */
-
-.process-stage__label {
-  color: rgba(242, 241, 235, 0.62);
+.process-layers__intro-label {
+  margin: 0;
+  color: rgba(241, 241, 239, 0.6);
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.03em;
-  line-height: 1.2;
+  font-size: clamp(11px, 0.84vw, 13px);
+  letter-spacing: 0.07em;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
-.process-stage__title {
-  margin-top: clamp(30px, 4.6vh, 56px);
+.process-layers__intro-title {
+  align-self: center;
+  max-width: 8ch;
+  margin: 0;
+  color: var(--process-on-dark);
   font-family: var(--font-sans);
-  font-size: clamp(48px, 5.2vw, 108px);
+  font-size: clamp(64px, 7.2vw, 132px);
   font-weight: 400;
-  letter-spacing: -0.035em;
-  line-height: 1;
+  letter-spacing: 0;
+  line-height: 0.92;
 }
 
-.process-stage__title-line {
+.process-layers__intro-title span {
   display: block;
 }
 
-.process-stage__title-line[data-stage-title-out] {
-  color: var(--color-on-dark);
-}
-
-.process-stage__lead {
-  max-width: 420px;
-  margin-top: clamp(22px, 3.4vh, 36px);
-  color: rgba(242, 241, 235, 0.6);
+.process-layers__intro-text {
+  max-width: 430px;
+  margin: 0;
+  color: rgba(241, 241, 239, 0.66);
   font-family: var(--font-sans);
-  font-size: clamp(15.5px, 1.1vw, 18px);
-  font-weight: 400;
-  line-height: 1.5;
+  font-size: clamp(18px, 1.32vw, 26px);
+  letter-spacing: 0;
+  line-height: 1.08;
 }
 
-/* Object — ghost word + 3D stack + io registers */
-
-.process-stage__object {
+.process-layers__slides {
   position: relative;
-  margin-top: clamp(64px, 10vh, 130px);
+  z-index: 2;
+  min-width: 0;
 }
 
-.process-stage__ghost {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 0;
-  color: rgba(242, 241, 235, 0.055);
-  font-family: var(--font-sans);
-  font-size: clamp(110px, 16vw, 340px);
-  font-weight: 400;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  white-space: nowrap;
-  transform: translate(-50%, -54%);
-  pointer-events: none;
-}
-
-.process-stage__scene3d {
+.process-slide {
   position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  perspective: 1700px;
-  /* generous: the rotated stack projects far outside its layout box */
-  padding: clamp(120px, 18vh, 210px) 0 clamp(110px, 16vh, 190px);
+  height: 100svh;
+  box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.14);
 }
 
-/* Floor — the production ground the stack is assembled on: a measured grid
-   plane lying in the same 3D orientation, faded out toward its edges. */
-
-.process-stage__floor {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: clamp(520px, 58vw, 1060px);
-  aspect-ratio: 1;
-  background-image:
-    linear-gradient(90deg, rgba(242, 241, 235, 0.19) 0, rgba(242, 241, 235, 0.19) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(242, 241, 235, 0.19) 0, rgba(242, 241, 235, 0.19) 1px, transparent 1px);
-  background-size: calc(100% / 12) calc(100% / 12);
-  transform: translate(-50%, -50%) rotateX(56deg) rotateZ(-34deg) translateZ(-36px);
-  -webkit-mask-image: radial-gradient(closest-side, #000 52%, transparent 94%);
-  mask-image: radial-gradient(closest-side, #000 52%, transparent 94%);
-  pointer-events: none;
+.process-slide:last-child {
+  margin-bottom: 100svh;
 }
 
-.process-stage__stack {
-  position: relative;
-  width: clamp(280px, 30vw, 520px);
-  aspect-ratio: 16 / 10;
-  transform-style: preserve-3d;
-  transform: rotateX(56deg) rotateZ(-34deg);
+.process-slide__wrapper {
+  width: 100%;
+  height: 100%;
+  perspective: 250vw;
 }
 
-/* Shadow pool — grounds the stack physically on the floor plane */
-
-.process-stage__stack-shadow {
-  position: absolute;
-  inset: -16% -20%;
-  background: radial-gradient(ellipse at 50% 52%, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.25) 44%, transparent 72%);
-  transform: translateZ(-28px);
-  pointer-events: none;
-}
-
-/* Plates. --i = layer index (set per plate), --edge = border strength.
-   Default transform is the assembled stack; the scene timeline owns the
-   transform entirely when JS takes over. */
-
-.process-stage__plate {
+.process-slide__content {
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(242, 241, 235, var(--edge, 0.3));
-  background:
-    linear-gradient(128deg, rgba(242, 241, 235, 0.07) 0%, rgba(242, 241, 235, 0.015) 55%, rgba(242, 241, 235, 0) 100%),
-    rgba(13, 14, 12, 0.92);
-  box-shadow: -18px 26px 60px rgba(0, 0, 0, 0.42);
-  transform: translateZ(calc(var(--i) * 44px));
-}
-
-.process-stage__plate--scope {
-  --i: 0;
-  --edge: 0.22;
-}
-
-.process-stage__plate--struktur {
-  --i: 1;
-  --edge: 0.28;
-}
-
-.process-stage__plate--kode {
-  --i: 2;
-  --edge: 0.34;
-}
-
-.process-stage__plate--maling {
-  --i: 3;
-  --edge: 0.45;
-}
-
-.process-stage__plate-index {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  color: rgba(242, 241, 235, 0.42);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-}
-
-.process-stage__plate-label {
-  position: absolute;
-  bottom: 10px;
-  left: 14px;
-  color: rgba(242, 241, 235, 0.78);
-  font-family: var(--font-mono);
-  font-size: clamp(13px, 1.15vw, 19px);
-  letter-spacing: 0.09em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-/* Plate faces — one restrained technical drawing each */
-
-.process-stage__corner {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border: 0 solid rgba(242, 241, 235, 0.4);
-}
-
-.process-stage__corner--tl {
-  top: 10px;
-  left: 12px;
-  border-top-width: 1px;
-  border-left-width: 1px;
-}
-
-.process-stage__corner--tr {
-  top: 28px;
-  right: 12px;
-  border-top-width: 1px;
-  border-right-width: 1px;
-}
-
-.process-stage__corner--bl {
-  bottom: 28px;
-  left: 12px;
-  border-bottom-width: 1px;
-  border-left-width: 1px;
-}
-
-.process-stage__corner--br {
-  bottom: 10px;
-  right: 12px;
-  border-bottom-width: 1px;
-  border-right-width: 1px;
-}
-
-.process-stage__scope-frame {
-  position: absolute;
-  inset: 22% 20%;
-  border: 1px solid rgba(242, 241, 235, 0.16);
-}
-
-.process-stage__tree {
-  position: absolute;
-  inset: 12% 14% 20%;
-  width: 72%;
-  height: 68%;
-  stroke: rgba(242, 241, 235, 0.3);
-  stroke-width: 1;
-}
-
-.process-stage__ui-block {
-  position: absolute;
-  top: 18%;
-  left: 8%;
-  width: 30%;
-  height: 26%;
-  background: rgba(242, 241, 235, 0.1);
-}
-
-.process-stage__ui-line {
-  position: absolute;
-  left: 8%;
-  height: 2px;
-  background: rgba(242, 241, 235, 0.22);
-}
-
-.process-stage__ui-line--wide {
-  top: 56%;
-  width: 34%;
-}
-
-.process-stage__ui-line:not(.process-stage__ui-line--wide) {
-  top: 66%;
-  width: 22%;
-}
-
-.process-stage__code-bar {
-  position: absolute;
-  right: 10%;
-  height: 3px;
-  background: rgba(242, 241, 235, 0.26);
-}
-
-.process-stage__code-bar:nth-of-type(1) {
-  top: 24%;
-}
-
-.process-stage__code-bar:nth-of-type(2) {
-  top: 36%;
-}
-
-.process-stage__code-bar:nth-of-type(3) {
-  top: 48%;
-}
-
-.process-stage__code-bar {
-  max-width: 34%;
-}
-
-.process-stage__spark {
-  position: absolute;
-  inset: 14% 12% 22%;
-  width: 76%;
-  height: 64%;
-  stroke: rgba(242, 241, 235, 0.34);
-  stroke-width: 1.2;
-}
-
-.process-stage__spark circle {
-  fill: rgba(242, 241, 235, 0.6);
-  stroke: none;
-}
-
-/* IO registers */
-
-.process-stage__io {
-  color: rgba(242, 241, 235, 0.5);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.process-stage__io--in {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.process-stage__io--out {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  color: rgba(242, 241, 235, 0.72);
-}
-
-/* Phases — default: all four listed, calm editorial column */
-
-.process-stage__phases {
-  max-width: 620px;
-  margin-top: clamp(56px, 9vh, 110px);
-}
-
-.process-stage__ticks {
-  display: none;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.process-stage__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.process-stage__phase {
-  padding: clamp(26px, 4vh, 44px) 0;
-  border-top: 1px solid rgba(242, 241, 235, 0.1);
-}
-
-.process-stage__phase-code {
-  color: rgba(242, 241, 235, 0.48);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.05em;
-}
-
-.process-stage__phase-verb {
-  margin-top: 10px;
-  color: var(--color-on-dark);
-  font-family: var(--font-sans);
-  font-size: clamp(32px, 3.2vw, 58px);
-  font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 1;
-}
-
-.process-stage__phase-line {
-  max-width: 480px;
-  margin-top: 12px;
-  color: rgba(242, 241, 235, 0.62);
-  font-family: var(--font-sans);
-  font-size: clamp(15.5px, 1.1vw, 18px);
-  line-height: 1.5;
-}
-
-.process-stage__phase-ref {
-  margin-top: 14px;
-  color: rgba(242, 241, 235, 0.55);
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-/* ————————————————————————————————————————————————————————————————
-   Scene mode — desktop + JS + motion. Pinned 100vh stage: head top-left,
-   object right, phase floor bottom-left. GSAP owns plate transforms,
-   phase visibility, ghost, title completion and io states. */
-
-.process-stage--scene .process-stage__inner {
-  display: block;
-  height: 100vh;
-  padding: calc(var(--header-height) + clamp(22px, 4vh, 48px)) var(--pad)
-    clamp(36px, 5vh, 64px);
-}
-
-.process-stage--scene .process-stage__head {
-  position: relative;
-  z-index: 2;
-  max-width: min(44vw, 760px);
-}
-
-.process-stage--scene .process-stage__title {
-  margin-top: clamp(20px, 3.2vh, 40px);
-  font-size: clamp(44px, 4.6vw, 96px);
-}
-
-.process-stage--scene .process-stage__lead {
-  max-width: 360px;
-}
-
-.process-stage--scene .process-stage__object {
-  position: absolute;
-  top: 50%;
-  right: var(--pad);
-  z-index: 1;
-  width: min(52vw, 980px);
-  margin-top: 0;
-  transform: translateY(-50%);
-}
-
-.process-stage--scene .process-stage__ghost {
-  color: rgba(242, 241, 235, 0.1);
-  font-size: clamp(140px, 13vw, 300px);
-}
-
-.process-stage--scene .process-stage__scene3d {
-  padding: clamp(64px, 11vh, 130px) 0;
-}
-
-.process-stage--scene .process-stage__stack {
-  width: clamp(320px, 27vw, 500px);
-}
-
-.process-stage--scene .process-stage__floor {
-  width: clamp(520px, 46vw, 920px);
-}
-
-.process-stage--scene .process-stage__phases {
-  position: absolute;
-  bottom: clamp(36px, 6vh, 72px);
-  left: var(--pad);
-  z-index: 2;
-  width: min(38vw, 520px);
-  margin-top: 0;
-}
-
-.process-stage--scene .process-stage__ticks {
   display: flex;
-  gap: 18px;
-  margin-bottom: 18px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(18px, 2vw, 32px) clamp(18px, 2.6vw, 46px) clamp(28px, 4vw, 64px)
+    clamp(18px, 2.4vw, 42px);
+  background: var(--process-card);
+  color: var(--process-ink);
+  transform-origin: 50% 10%;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
 }
 
-.process-stage__tick {
-  color: rgba(242, 241, 235, 0.3);
+.process-slide__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.process-slide__label {
+  margin: 0 0 clamp(10px, 1vh, 18px);
+  color: var(--process-muted);
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  transition: color var(--motion-base) var(--ease-standard);
+  font-size: clamp(11px, 0.84vw, 13px);
+  letter-spacing: 0.07em;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
-.process-stage__tick.is-active {
-  color: rgba(242, 241, 235, 0.9);
+.process-slide__title {
+  margin: 0;
+  color: var(--process-ink);
+  font-family: var(--font-sans);
+  font-size: clamp(66px, 8.2vw, 156px);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.83;
 }
 
-.process-stage--scene .process-stage__list {
+.process-slide__mark {
+  flex: 0 0 auto;
+  width: clamp(52px, 4.6vw, 82px);
+  height: auto;
+  color: var(--process-ink);
+}
+
+.process-slide__bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(22px, 4vw, 70px);
+}
+
+.process-slide__text {
+  width: min(25vw, 440px);
+  margin: 0;
+  color: var(--process-ink);
+  font-family: var(--font-sans);
+  font-size: clamp(18px, 1.55vw, 30px);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.02;
+}
+
+.process-slide__visual-group {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(12px, 1.4vw, 22px);
+}
+
+.process-slide__num {
+  margin: 0;
+  padding-top: clamp(8px, 1.1vw, 16px);
+  color: var(--process-muted);
+  font-family: var(--font-mono);
+  font-size: clamp(11px, 0.84vw, 13px);
+  font-weight: 400;
+  letter-spacing: 0.07em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.process-slide__visual {
   position: relative;
-  height: clamp(170px, 24vh, 230px);
+  width: min(23vw, 400px);
+  min-width: 260px;
+  aspect-ratio: 1 / 1.15;
+  overflow: hidden;
+  border: 1px solid rgba(241, 241, 239, 0.14);
+  background: #121212;
+  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.24);
 }
 
-.process-stage--scene .process-stage__phase {
+.process-slide__visual-kicker {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 0;
-  border-top: 0;
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  color: rgba(241, 241, 239, 0.72);
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 0.76vw, 12px);
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
-@media (max-width: 640px) {
-  .process-stage__inner {
-    padding: 96px 20px 104px;
+.process-slide__visual-title {
+  position: absolute;
+  top: 22%;
+  left: 18px;
+  right: 18px;
+  color: var(--process-ink);
+  font-family: var(--font-sans);
+  font-size: clamp(22px, 2.2vw, 42px);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.93;
+}
+
+.process-slide__visual-line {
+  position: absolute;
+  right: 18px;
+  left: 18px;
+  height: 1px;
+  background: rgba(241, 241, 239, 0.28);
+}
+
+.process-slide__visual-line--a {
+  top: 57%;
+}
+
+.process-slide__visual-line--b {
+  top: 70%;
+}
+
+.process-slide__visual-block {
+  position: absolute;
+  background: rgba(241, 241, 239, 0.88);
+}
+
+.process-slide__visual-block--a {
+  right: 22px;
+  bottom: 22px;
+  width: 42%;
+  height: 20%;
+}
+
+.process-slide__visual-block--b {
+  left: 22px;
+  bottom: 22px;
+  width: 26%;
+  height: 13%;
+  opacity: 0.72;
+}
+
+.process-slide__visual-block--c {
+  right: 22px;
+  bottom: 29%;
+  width: 30%;
+  height: 8%;
+  opacity: 0.78;
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .process-layers {
+    display: block;
+    padding: 0;
+    overflow: hidden;
   }
 
-  .process-stage__title {
-    margin-top: 26px;
-    font-size: clamp(44px, 12.8vw, 62px);
+  .process-layers__intro {
+    position: relative;
+    top: auto;
+    min-height: 92svh;
+    height: auto;
+    padding: 88px 18px 30px;
   }
 
-  .process-stage__lead {
-    margin-top: 20px;
-    font-size: 15.5px;
+  .process-layers__intro-title {
+    font-size: clamp(56px, 18vw, 92px);
   }
 
-  .process-stage__object {
-    margin-top: 52px;
+  .process-layers__intro-text {
+    max-width: 100%;
+    font-size: 22px;
   }
 
-  .process-stage__ghost {
-    font-size: clamp(84px, 26vw, 120px);
+  .process-slide {
+    height: auto;
+    min-height: 100svh;
   }
 
-  .process-stage__scene3d {
-    padding: 108px 0 100px;
+  .process-slide__wrapper {
+    height: auto;
+    perspective: none;
   }
 
-  .process-stage__stack {
-    width: min(64vw, 300px);
+  .process-slide__content {
+    position: relative;
+    min-height: 100svh;
+    padding: 18px;
+    transform: none !important;
   }
 
-  .process-stage__plate {
-    box-shadow: -10px 16px 34px rgba(0, 0, 0, 0.4);
+  .process-slide__top {
+    display: block;
   }
 
-  .process-stage__io {
-    font-size: 11px;
+  .process-slide__title {
+    font-size: clamp(58px, 17vw, 92px);
   }
 
-  /* flow order on mobile: INN over stacken, UT under — no plate collision */
-  .process-stage__io--in {
-    position: static;
+  .process-slide__mark {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 58px;
   }
 
-  .process-stage__io--out {
-    position: static;
-    margin-top: 6px;
-    text-align: right;
+  .process-slide__bottom {
+    flex-direction: column;
+    gap: 18px;
+    align-items: stretch;
+    margin-top: 16px;
   }
 
-  .process-stage__phases {
-    margin-top: 48px;
+  .process-slide__text {
+    order: 2;
+    width: 100%;
+    font-size: 22px;
+    line-height: 1.08;
   }
 
-  .process-stage__phase-verb {
-    font-size: 32px;
+  .process-slide__visual-group {
+    display: block;
+  }
+
+  .process-slide__num {
+    margin-bottom: 12px;
+  }
+
+  .process-slide__visual {
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-layers {
+    display: block;
+    padding: 0;
+  }
+
+  .process-layers__intro {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 70svh;
+  }
+
+  .process-slide {
+    height: auto;
+    min-height: 100svh;
+  }
+
+  .process-slide__wrapper {
+    height: auto;
+    perspective: none;
+  }
+
+  .process-slide__content {
+    position: relative;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 }
