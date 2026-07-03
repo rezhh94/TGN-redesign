@@ -21,9 +21,7 @@
   position: relative;
   width: min(100%, 2560px);
   margin: 0 auto;
-  /* extra top room: the light 04-plate overlaps down into this section */
-  padding: calc(clamp(110px, 14vh, 170px) + var(--work-overlap)) var(--pad)
-    clamp(120px, 16vh, 200px);
+  padding: clamp(110px, 14vh, 170px) var(--pad) clamp(120px, 16vh, 200px);
 }
 
 /* Head */
@@ -106,12 +104,12 @@
   width: clamp(520px, 58vw, 1060px);
   aspect-ratio: 1;
   background-image:
-    linear-gradient(90deg, rgba(242, 241, 235, 0.14) 0, rgba(242, 241, 235, 0.14) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(242, 241, 235, 0.14) 0, rgba(242, 241, 235, 0.14) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(242, 241, 235, 0.19) 0, rgba(242, 241, 235, 0.19) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(242, 241, 235, 0.19) 0, rgba(242, 241, 235, 0.19) 1px, transparent 1px);
   background-size: calc(100% / 12) calc(100% / 12);
   transform: translate(-50%, -50%) rotateX(56deg) rotateZ(-34deg) translateZ(-36px);
-  -webkit-mask-image: radial-gradient(closest-side, #000 48%, transparent 92%);
-  mask-image: radial-gradient(closest-side, #000 48%, transparent 92%);
+  -webkit-mask-image: radial-gradient(closest-side, #000 52%, transparent 94%);
+  mask-image: radial-gradient(closest-side, #000 52%, transparent 94%);
   pointer-events: none;
 }
 
@@ -486,7 +484,7 @@
 
 @media (max-width: 640px) {
   .process-stage__inner {
-    padding: calc(96px + var(--work-overlap)) 20px 104px;
+    padding: 96px 20px 104px;
   }
 
   .process-stage__title {

@@ -50,6 +50,20 @@ export function WhatWeImprove() {
 
         <div className="what-improve__stage-area">
           <div className="what-improve__stage">
+            {/* Measure layer — a dimension line the chamber lays over the
+                active word; the målepunkt reads as its instrument label.
+                Stage mode only (JS sizes it to the word). */}
+            <div className="what-improve__measure" data-measure aria-hidden="true">
+              <span className="what-improve__measure-readout" data-measure-readout>
+                {outcomes[0].signal}
+              </span>
+              <span className="what-improve__measure-line">
+                <span className="what-improve__measure-fill" data-measure-fill />
+              </span>
+              <span className="what-improve__measure-tick what-improve__measure-tick--start" />
+              <span className="what-improve__measure-tick what-improve__measure-tick--end" />
+            </div>
+
             <h2 className="what-improve__title" id="what-improve-title">
               {outcomes.map((outcome) => (
                 <span

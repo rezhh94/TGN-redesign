@@ -70,6 +70,7 @@
 /* Rail — the handoff itself */
 
 .effect-bridge__rail {
+  position: relative;
   height: 1px;
   margin-top: 14px;
   background: rgba(242, 241, 235, 0.12);
@@ -82,13 +83,28 @@
   transform-origin: left center;
 }
 
+/* Carrier — the finished surface itself, riding the rail from UT to INN.
+   Default (no JS / reduced motion): already arrived at the measuring side. */
+
+.effect-bridge__carrier {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 9px);
+  width: 9px;
+  height: 9px;
+  margin-top: -4.5px;
+  background: rgba(242, 241, 235, 0.92);
+  box-shadow: 0 0 18px rgba(242, 241, 235, 0.35);
+  transform: rotate(45deg);
+}
+
 /* Statement — short, brutal, sans (not the display font: the neighbours
    own the condensed voice) */
 
 .effect-bridge__statement {
   margin-top: clamp(52px, 9vh, 110px);
   font-family: var(--font-sans);
-  font-size: clamp(38px, 5vw, 104px);
+  font-size: clamp(40px, 5.6vw, 116px);
   font-weight: 400;
   letter-spacing: -0.035em;
   line-height: 1.02;

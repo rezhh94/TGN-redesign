@@ -12,7 +12,8 @@
   position: relative;
   z-index: 2;
   overflow: hidden;
-  background: var(--wp-stone);
+  /* the stone room has a light direction — brighter high, floor falls off */
+  background: linear-gradient(180deg, #eeede9 0%, var(--wp-stone) 46%, #e2e1dc 100%);
 }
 
 .work-proof__split {
@@ -36,6 +37,16 @@
     clamp(24px, 5vw, 150px);
 }
 
+/* Cast material — the monolith catches the room's light on its top edge */
+
+.work-proof__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(168deg, rgba(242, 241, 235, 0.07) 0%, rgba(242, 241, 235, 0.015) 30%, transparent 52%);
+  pointer-events: none;
+}
+
 .work-proof__label {
   color: rgba(242, 241, 235, 0.6);
   font-family: var(--font-mono);
@@ -52,10 +63,10 @@
   display: block;
   color: rgba(242, 241, 235, 0.95);
   font-family: var(--font-display);
-  font-size: clamp(56px, 5.4vw, 122px);
+  font-size: clamp(60px, 6.2vw, 140px);
   font-weight: 700;
   letter-spacing: 0;
-  line-height: 0.84;
+  line-height: 0.82;
   text-transform: uppercase;
 }
 
@@ -114,10 +125,10 @@
 
 .work-proof__slab {
   position: absolute;
-  top: 21%;
+  top: 25%;
   right: -14%;
   bottom: -12%;
-  left: 21%;
+  left: 23%;
   transform: rotate(-2.4deg);
 }
 
@@ -134,8 +145,8 @@
   inset: 0;
   overflow: hidden;
   background:
-    linear-gradient(118deg, rgba(242, 241, 235, 0.09) 0%, rgba(242, 241, 235, 0.02) 38%, rgba(242, 241, 235, 0) 64%),
-    linear-gradient(180deg, #161613 0%, #0e0e0c 74%, #0a0a09 100%);
+    linear-gradient(118deg, rgba(242, 241, 235, 0.14) 0%, rgba(242, 241, 235, 0.03) 38%, rgba(242, 241, 235, 0) 64%),
+    linear-gradient(180deg, #191916 0%, #0e0e0c 74%, #0a0a09 100%);
   box-shadow:
     0 80px 160px rgba(16, 16, 15, 0.36),
     0 26px 60px rgba(16, 16, 15, 0.22),
@@ -185,7 +196,7 @@
   position: absolute;
   left: 3%;
   bottom: 22%;
-  color: rgba(242, 241, 235, 0.045);
+  color: rgba(242, 241, 235, 0.06);
   font-family: var(--font-display);
   font-size: clamp(150px, 17vw, 400px);
   font-weight: 700;
@@ -201,7 +212,7 @@
 .work-proof__cut {
   position: absolute;
   overflow: hidden;
-  border: 1px solid rgba(242, 241, 235, 0.14);
+  border: 1px solid rgba(242, 241, 235, 0.22);
   color: var(--color-on-dark);
   box-shadow:
     -16px 18px 0 rgba(11, 11, 10, 0.92),
@@ -255,8 +266,8 @@
 }
 
 .work-proof__cut--struktur {
-  top: 6%;
-  left: 18%;
+  top: 11%;
+  left: 16%;
   z-index: 2;
   width: 24%;
   aspect-ratio: 4 / 3;

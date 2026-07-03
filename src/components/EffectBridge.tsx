@@ -22,6 +22,7 @@ export function EffectBridge() {
 
         <div className="effect-bridge__rail" aria-hidden="true">
           <span className="effect-bridge__rail-fill" data-bridge-line />
+          <span className="effect-bridge__carrier" data-bridge-carrier />
         </div>
 
         <h2 className="effect-bridge__statement" id="effect-bridge-title">

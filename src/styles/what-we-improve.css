@@ -136,6 +136,70 @@
   line-height: 1.42;
 }
 
+/* Measure layer — the dimension line laid over the active word. The chamber
+   actually measures what is on stage: JS sizes the line to the word, the
+   readout carries the outcome's målepunkt. Stage mode only. */
+
+.what-improve__measure {
+  display: none;
+}
+
+.what-improve--stage .what-improve__measure {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  z-index: 1;
+  display: block;
+  width: 320px;
+  pointer-events: none;
+}
+
+.what-improve__measure-readout {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  color: rgba(242, 241, 235, 0.55);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.what-improve__measure-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: rgba(242, 241, 235, 0.14);
+}
+
+.what-improve__measure-fill {
+  position: absolute;
+  inset: 0;
+  background: rgba(242, 241, 235, 0.7);
+  transform-origin: left center;
+}
+
+.what-improve__measure-tick {
+  position: absolute;
+  bottom: -9px;
+  width: 1px;
+  height: 9px;
+  background: rgba(242, 241, 235, 0.55);
+}
+
+.what-improve__measure-tick--start {
+  left: 0;
+}
+
+.what-improve__measure-tick--end {
+  right: 0;
+}
+
 /* Spine — decorative index; only shown in stage mode */
 
 .what-improve__spine-wrap {
@@ -209,6 +273,24 @@
 
 /* Stage mode — JS-enhanced desktop: one outcome at a time on a full-height
    stage; the spine indexes the sequence on the right. */
+
+/* The room gets a light pool centre-stage — the word stands in light, the
+   edges stay dark. Kills dead black without adding objects. */
+
+.what-improve--stage .what-improve__grid {
+  background-image:
+    radial-gradient(ellipse 52% 38% at 30% 44%, rgba(242, 241, 235, 0.05) 0%, transparent 74%),
+    linear-gradient(180deg, transparent calc(46% - 1px), rgba(242, 241, 235, 0.05) calc(46% - 1px), rgba(242, 241, 235, 0.05) 46%, transparent 46%),
+    linear-gradient(90deg, rgba(242, 241, 235, 0.035) 0, rgba(242, 241, 235, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, calc(100% / 12) 100%;
+}
+
+/* The measure line carries the målepunkt in stage mode — the note keeps
+   only number + description on the floor. */
+
+.what-improve--stage .what-improve__signal {
+  display: none;
+}
 
 .what-improve--stage .what-improve__inner {
   display: flex;

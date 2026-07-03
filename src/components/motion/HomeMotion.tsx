@@ -145,12 +145,14 @@ function effectBridge(scrub: boolean) {
   if (!section) return;
 
   const line = section.querySelector<HTMLElement>("[data-bridge-line]");
+  const carrier = section.querySelector<HTMLElement>("[data-bridge-carrier]");
+  const rail = section.querySelector<HTMLElement>(".effect-bridge__rail");
   const registers = gsap.utils.toArray<HTMLElement>("[data-bridge-register]", section);
   const words = gsap.utils.toArray<HTMLElement>("[data-bridge-word]", section);
 
   const tl = gsap.timeline({
     scrollTrigger: scrub
-      ? { trigger: section, start: "top 80%", end: "center 44%", scrub: 0.5 }
+      ? { trigger: section, start: "top 80%", end: "center 44%", scrub: 0.5, invalidateOnRefresh: true }
       : { trigger: section, start: "top 74%", once: true },
     defaults: { ease: scrub ? "none" : "power3.out" },
   });
@@ -160,6 +162,16 @@ function effectBridge(scrub: boolean) {
   }
   if (line) {
     tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 1 }, "<");
+  }
+  if (carrier && rail) {
+    // The finished surface rides the tip of the rail from UT to INN.
+    gsap.set(carrier, { left: 0 });
+    tl.fromTo(
+      carrier,
+      { x: 0 },
+      { x: () => rail.clientWidth - 9, duration: 1, ease: scrub ? "none" : "power2.inOut" },
+      "<"
+    );
   }
   if (registers[1]) {
     tl.from(registers[1], { autoAlpha: 0, x: 14, duration: 0.3 }, ">-0.25");
@@ -244,6 +256,60 @@ function effectStage(pinned: boolean) {
   });
   setSpine(0);
 
+  // Measure layer — the chamber lays a dimension line over the active word
+  // and re-measures on every swap. The readout carries the målepunkt.
+  const measure = section.querySelector<HTMLElement>("[data-measure]");
+  const measureFill = section.querySelector<HTMLElement>("[data-measure-fill]");
+  const measureReadout = section.querySelector<HTMLElement>("[data-measure-readout]");
+  const signals = order.map(
+    (key) => note(key)?.querySelector(".what-improve__signal")?.textContent?.trim() ?? ""
+  );
+
+  let lastActive = -1;
+
+  const stage = section.querySelector<HTMLElement>(".what-improve__stage");
+
+  // rect-based: the words sit on translateY(-50%), which offsetTop ignores
+  const layoutMeasure = (index: number) => {
+    const w = word(order[index]);
+    if (!measure || !w || !stage) return;
+    const wordRect = w.getBoundingClientRect();
+    const stageRect = stage.getBoundingClientRect();
+    gsap.set(measure, { top: wordRect.top - stageRect.top - 30, width: wordRect.width });
+  };
+
+  if (measure) {
+    gsap.set(measure, { autoAlpha: 0 });
+    if (measureFill) gsap.set(measureFill, { scaleX: 0 });
+    layoutMeasure(0);
+  }
+  const remeasure = () => layoutMeasure(Math.max(lastActive, 0));
+  ScrollTrigger.addEventListener("refresh", remeasure);
+
+  const measureTo = (active: number) => {
+    if (!measure) return;
+    const w = word(order[active]);
+    if (measureReadout && signals[active]) measureReadout.textContent = signals[active];
+    if (lastActive === -1) {
+      gsap.to(measure, { autoAlpha: 1, duration: 0.5, ease: "power2.out" });
+    }
+    if (w) {
+      gsap.to(measure, {
+        width: w.getBoundingClientRect().width,
+        duration: 0.45,
+        ease: "power3.out",
+        overwrite: "auto",
+      });
+    }
+    if (measureFill) {
+      gsap.fromTo(
+        measureFill,
+        { scaleX: 0.25 },
+        { scaleX: 1, duration: 0.6, ease: "power2.out", overwrite: "auto" }
+      );
+    }
+  };
+
   // Normalized progress where each outcome takes the stage (mid-swap points
   // of the timeline below) — drives the spine bidirectionally.
   const thresholds = [0, 0.22, 0.5, 0.78];
@@ -267,6 +333,10 @@ function effectStage(pinned: boolean) {
           if (self.progress >= thresholds[i]) active = i;
         }
         setSpine(active);
+        if (active !== lastActive) {
+          measureTo(active);
+          lastActive = active;
+        }
         if (progressBar) gsap.set(progressBar, { scaleX: self.progress });
         if (railFill) gsap.set(railFill, { scaleY: self.progress });
         if (rulerTicks.length) {
@@ -304,74 +374,77 @@ function effectStage(pinned: boolean) {
   });
 
   return () => {
+    ScrollTrigger.removeEventListener("refresh", remeasure);
     section.classList.remove("what-improve--stage");
     order.forEach((key) => spineItem(key)?.classList.remove("is-active", "is-done"));
     rulerTicks.forEach((tick) => tick.classList.remove("is-lit"));
   };
 }
 
-function workReveal(parallax: boolean) {
-  const section = document.querySelector<HTMLElement>(".work-showcase");
+// 04 / Arbeid — split proof staged. One-time entrance: the statement words
+// rise out of the monolith, the slab settles into its lean, the cuts land
+// with their hard shadows. Then depth: slab and cuts drift at their own
+// rates while the chapter crosses the viewport (desktop scrub only).
+function workProofScene(scrub: boolean) {
+  const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return;
 
-  const layout = section.querySelector<HTMLElement>(".work-showcase__layout");
-  const main = section.querySelector<HTMLElement>('[data-work-visual="main"]');
-  const detail = section.querySelector<HTMLElement>('[data-work-visual="detail"]');
-  const metaItems = section.querySelectorAll<HTMLElement>(".work-showcase__meta > *");
+  const words = gsap.utils.toArray<HTMLElement>(".work-proof__word", section);
+  const lead = section.querySelector<HTMLElement>(".work-proof__lead");
+  const link = section.querySelector<HTMLElement>(".work-proof__link");
+  const slab = section.querySelector<HTMLElement>(".work-proof__slab");
+  const cuts = gsap.utils.toArray<HTMLElement>(".work-proof__cut", section);
 
-  if (main) {
-    gsap.from(main, {
-      clipPath: "inset(0 0 100% 0)",
-      duration: 0.9,
-      ease: "expo.out",
-      scrollTrigger: { trigger: layout ?? section, start: "top 62%", once: true },
-    });
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: section, start: "top 64%", once: true },
+    defaults: { ease: "power3.out" },
+  });
+
+  if (words.length) {
+    tl.from(words, { yPercent: 34, autoAlpha: 0, duration: 0.75, stagger: 0.09 });
+  }
+  if (slab) {
+    // The slab is laid down: arrives lower and steeper, settles into place.
+    tl.from(slab, { y: 90, rotation: -5.2, autoAlpha: 0, duration: 1.1, ease: "expo.out" }, 0.15);
+  }
+  if (cuts.length) {
+    // yPercent here — the scrub depth pass below owns plain y.
+    tl.from(cuts, { yPercent: 26, autoAlpha: 0, duration: 0.7, stagger: 0.12 }, 0.5);
+  }
+  if (lead) {
+    tl.from(lead, { autoAlpha: 0, y: 16, duration: 0.5 }, 0.55);
+  }
+  if (link) {
+    tl.from(link, { autoAlpha: 0, y: 12, duration: 0.45 }, 0.7);
   }
 
-  if (detail) {
-    gsap.from(detail, {
-      y: 44,
-      autoAlpha: 0,
-      duration: 0.7,
-      ease: "power3.out",
-      scrollTrigger: { trigger: layout ?? section, start: "top 52%", once: true },
-    });
-  }
+  if (!scrub) return;
 
-  if (metaItems.length) {
-    gsap.from(metaItems, {
-      y: 16,
-      autoAlpha: 0,
-      duration: 0.5,
-      ease: "power2.out",
-      stagger: 0.05,
-      scrollTrigger: { trigger: layout ?? section, start: "top 58%", once: true },
-    });
-  }
-
-  // Registration marks settle after the plates — the proof gets "approved".
-  const regs = section.querySelectorAll<HTMLElement>(".work-showcase__reg");
-  if (regs.length) {
-    gsap.from(regs, {
-      autoAlpha: 0,
-      duration: 0.4,
-      ease: "power2.out",
-      stagger: 0.05,
-      scrollTrigger: { trigger: layout ?? section, start: "top 50%", once: true },
-    });
-  }
-
-  if (parallax && main) {
+  // Depth pass — the cast objects sit at different distances from the wall.
+  if (slab) {
     gsap.fromTo(
-      main,
-      { yPercent: 3.5 },
+      slab,
+      { yPercent: 2.5 },
       {
-        yPercent: -3.5,
+        yPercent: -2.5,
         ease: "none",
-        scrollTrigger: { trigger: layout ?? section, start: "top bottom", end: "bottom top", scrub: 0.8 },
+        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 0.8 },
       }
     );
   }
+  const depths = [10, 6, 14];
+  cuts.forEach((cut, index) => {
+    const depth = depths[index % depths.length];
+    gsap.fromTo(
+      cut,
+      { y: depth },
+      {
+        y: -depth,
+        ease: "none",
+        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 0.8 },
+      }
+    );
+  });
 }
 
 // 05 / Prosess — layer assembly stage. Desktop pins the scene and assembles
@@ -432,19 +505,20 @@ function processStage(full: boolean) {
   const ioIn = section.querySelector<HTMLElement>("[data-stage-io-in]");
   const ioOut = section.querySelector<HTMLElement>("[data-stage-io-out]");
 
-  // Scattered start state — the unclear pile the scroll assembles.
+  // Scattered start state — the unclear pile hovers loose above the floor;
+  // each plate physically drops onto the stack when its phase takes over.
   const scatter = [
-    { x: -300, y: 230, rotation: -14 },
-    { x: 320, y: -210, rotation: 10 },
-    { x: -260, y: -250, rotation: -8 },
-    { x: 350, y: 190, rotation: 14 },
+    { x: -300, y: 230, rotation: -14, z: 340 },
+    { x: 320, y: -210, rotation: 10, z: 260 },
+    { x: -260, y: -250, rotation: -8, z: 420 },
+    { x: 350, y: 190, rotation: 14, z: 300 },
   ];
 
   plates.forEach((plate, index) => {
     gsap.set(plate, {
       x: scatter[index].x,
       y: scatter[index].y,
-      z: index * 44,
+      z: index * 44 + scatter[index].z,
       rotation: scatter[index].rotation,
       autoAlpha: 0.3,
     });
@@ -495,7 +569,7 @@ function processStage(full: boolean) {
     tl.to(phase, { autoAlpha: 1, y: 0, duration: 0.3, ease: "none" }, index > 0 ? ">-0.08" : ">");
     tl.to(
       plates[index],
-      { x: 0, y: 0, rotation: 0, autoAlpha: 1, duration: 0.8, ease: "power2.inOut" },
+      { x: 0, y: 0, z: index * 44, rotation: 0, autoAlpha: 1, duration: 0.8, ease: "power2.inOut" },
       "<"
     );
     // Landing pulse — the plate's edge flashes as it locks into the stack.
@@ -529,22 +603,6 @@ function processStage(full: boolean) {
     section.classList.remove("process-stage--scene");
     ticks.forEach((tick) => tick.classList.remove("is-active"));
   };
-}
-
-// 04 / Arbeid — the standard strip: the four commitments rise once as one
-// colophon band crossing the reading line.
-function specsReveal() {
-  const items = gsap.utils.toArray<HTMLElement>("[data-spec-item]");
-  if (!items.length) return;
-
-  gsap.from(items, {
-    y: 20,
-    autoAlpha: 0,
-    duration: 0.55,
-    ease: "power3.out",
-    stagger: 0.07,
-    scrollTrigger: { trigger: ".work-showcase__specs", start: "top 84%", once: true },
-  });
 }
 
 // 06 / System — manifesto lines rise out of their masks once; support and
@@ -679,8 +737,7 @@ export function HomeMotion() {
       serviceReveals();
       effectBridge(true);
       const teardownStage = effectStage(true);
-      workReveal(true);
-      specsReveal();
+      workProofScene(true);
       const teardownProcess = processStage(true);
       manifestoReveal();
       footerReveals();
@@ -697,8 +754,7 @@ export function HomeMotion() {
       serviceReveals();
       effectBridge(false);
       effectStage(false);
-      workReveal(false);
-      specsReveal();
+      workProofScene(false);
       processStage(false);
       manifestoReveal();
       footerReveals();
