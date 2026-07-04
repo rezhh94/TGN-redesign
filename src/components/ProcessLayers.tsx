@@ -4,6 +4,7 @@ const processPanels = [
     tone: "stone",
     title: "Avklaring",
     label: "05 / Prosess / Scope",
+    statement: "Behovet presses ned til scope.",
     body: "Før noe tegnes, avklarer vi hva som faktisk skal bygges, hvorfor det trengs og hva som må velges bort.",
     output: "Definert retning.",
   },
@@ -12,6 +13,7 @@ const processPanels = [
     tone: "dark",
     title: "Struktur",
     label: "05 / Prosess / Arkitektur",
+    statement: "Innholdet får en teknisk rekkefølge.",
     body: "Sider, flyt, internlenker, søkbarhet og målepunkter legges som system før uttrykket låses.",
     output: "Søkbar arkitektur.",
   },
@@ -20,6 +22,7 @@ const processPanels = [
     tone: "stone2",
     title: "Produksjon",
     label: "05 / Prosess / Bygg",
+    statement: "Design og kode bygges som ett materiale.",
     body: "UI, komponenter, ytelse og integrasjoner utvikles sammen, med rask feedback og ryddig prioritering.",
     output: "Levende løsning.",
   },
@@ -28,6 +31,7 @@ const processPanels = [
     tone: "deep",
     title: "Lansering",
     label: "05 / Prosess / Live",
+    statement: "Siden går live med måling fra dag én.",
     body: "Publisering, teknisk sjekk, skjema, telefon, e-post og hendelser kobles til en tydelig neste beslutning.",
     output: "Målbar kontaktvei.",
   },
@@ -64,6 +68,7 @@ export function ProcessLayers() {
               <div className="process-layers__body">
                 <p className="process-layers__label">{panel.label}</p>
                 <h3 className="process-layers__phase">{panel.title}</h3>
+                <p className="process-layers__statement">{panel.statement}</p>
                 <p className="process-layers__text">{panel.body}</p>
                 <p className="process-layers__output">Ut — {panel.output}</p>
               </div>

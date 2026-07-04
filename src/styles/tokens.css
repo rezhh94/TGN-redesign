@@ -12,6 +12,21 @@
   --color-on-dark-muted: #b6b4aa;
   --color-signal: #c44414;
 
+  /* Varm nøytral-stige — lyse rom skiller seg tonalt uten å bli rene hvite.
+     Namma-referansens grå, oversatt til Tigons varme skala. */
+  --paper: #faf9f5;
+  --off-white: #f6f5f1;
+  --bone: #eeece5;
+  --stein: #e4e2da;
+  --greige: #cfccc2;
+  --blekk: #12120f;
+
+  /* Premium-aksent — dempet furugrønn. KUN mikro-elementer (statusprikk,
+     aktiv/hover, focus, nummer, tynne linjer, små mono-detaljer).
+     Aldri stor bakgrunnsflate. Erstatter --color-signal (bannlyst oransje). */
+  --pine: #33453b;
+  --pine-tint: #dbe2dc;
+
   --font-display: "TGS Perfect", "Arial Narrow", "Arial Black", sans-serif;
   --font-sans: "JUST Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "Caleb Mono", "SFMono-Regular", Consolas, monospace;
@@ -23,6 +38,11 @@
   --fz-hero: clamp(54px, 9vw, 156px);
   --fz-section: clamp(38px, 7vw, 124px);
   --fz-lead: clamp(17px, 1.35vw, 20px);
+  /* Lead-skala i tre trinn — rydder de ad hoc ledetekst-størrelsene.
+     Primær opasitet ~.80, sekundær ~.58 (settes per flate). */
+  --fz-lead-l: clamp(21px, 1.9vw, 27px);
+  --fz-lead-m: clamp(18px, 1.4vw, 20px);
+  --fz-lead-s: clamp(15px, 1.1vw, 17px);
   --fz-body: 16px;
   --fz-small: 13px;
 

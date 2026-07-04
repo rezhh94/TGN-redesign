@@ -44,8 +44,8 @@ video {
 }
 
 ::selection {
-  background: var(--color-ink);
-  color: var(--color-bg);
+  background: var(--pine);
+  color: var(--paper);
 }
 
 .page-shell {

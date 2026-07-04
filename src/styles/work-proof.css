@@ -10,19 +10,23 @@
 
 .work-proof {
   position: relative;
-  background: #0d0e0c;
-  color: var(--color-on-dark);
+  /* Lyst galleri/proof-rom — den andre lyse pausen. Proof-kortene leser som
+     objekter på en utstillingsvegg, ikke som mørke thumbnails. */
+  background:
+    linear-gradient(180deg, #e8e6df 0%, var(--stein) 50%, #dedcd2 100%);
+  color: var(--blekk);
   overflow: hidden;
 }
 
 .work-proof__intro {
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(96px, 13vh, 170px) clamp(24px, 5vw, 150px) clamp(44px, 7vh, 90px);
+  /* Mer sjenerøs luft — intro skal ikke være klemt mot karusellen */
+  padding: clamp(104px, 14vh, 184px) clamp(24px, 5vw, 150px) clamp(60px, 9vh, 120px);
 }
 
 .work-proof__label {
-  color: rgba(242, 241, 235, 0.62);
+  color: rgba(16, 16, 15, 0.55);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.03em;
@@ -32,7 +36,8 @@
 .work-proof__title {
   max-width: 13ch;
   margin-top: clamp(26px, 4vh, 48px);
-  color: rgba(242, 241, 235, 0.94);
+  /* Tittel i blekk på Stein — Tier 3 kapittel-mid */
+  color: var(--blekk);
   font-family: var(--font-display);
   font-size: clamp(44px, 6vw, 120px);
   font-weight: 700;
@@ -46,7 +51,20 @@
 }
 
 .work-proof__word--dim {
-  color: rgba(242, 241, 235, 0.45);
+  color: rgba(16, 16, 15, 0.4);
+}
+
+/* Editorial caption — gjeninnført fra arbeids-kontrakten (den meningsbærende
+   linjen som karusell-rebuilden droppet). */
+.work-proof__caption {
+  max-width: 46ch;
+  margin-top: clamp(26px, 4vh, 46px);
+  color: rgba(16, 16, 15, 0.82);
+  font-family: var(--font-sans);
+  font-size: var(--fz-lead-l);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
 }
 
 .work-proof__meta {
@@ -54,35 +72,48 @@
   flex-wrap: wrap;
   gap: 18px 44px;
   align-items: baseline;
-  margin-top: clamp(28px, 4.4vh, 52px);
+  margin-top: clamp(34px, 5.2vh, 64px);
 }
 
 .work-proof__lead {
-  color: rgba(242, 241, 235, 0.72);
+  color: rgba(16, 16, 15, 0.72);
   font-family: var(--font-sans);
-  font-size: var(--fz-lead);
+  font-size: var(--fz-lead-m);
   font-weight: 400;
   line-height: 1.4;
 }
 
+/* Metadata — gjeninnført spec-linje (fagfelt + stack) */
+.work-proof__spec {
+  color: rgba(16, 16, 15, 0.5);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
 .work-proof__link {
-  color: rgba(242, 241, 235, 0.9);
+  color: var(--blekk);
   font-family: var(--font-mono);
   font-size: 12.5px;
   letter-spacing: 0.08em;
   line-height: 1.2;
   text-decoration: underline;
+  text-decoration-color: rgba(16, 16, 15, 0.3);
   text-transform: uppercase;
   text-underline-offset: 4px;
+  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
 }
 
 .work-proof__link:hover {
-  color: var(--color-on-dark);
+  color: var(--pine);
+  text-decoration-color: var(--pine);
 }
 
 .work-proof__foot {
   margin-left: auto;
-  color: rgba(242, 241, 235, 0.42);
+  color: rgba(16, 16, 15, 0.45);
   font-family: var(--font-mono);
   font-size: 11.5px;
   letter-spacing: 0.08em;
@@ -96,7 +127,7 @@
 .work-proof__carousel {
   overflow-x: auto;
   overflow-y: hidden;
-  padding-bottom: clamp(56px, 9vh, 120px);
+  padding-bottom: clamp(76px, 11vh, 148px);
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
@@ -107,15 +138,21 @@
 
 .work-proof__track {
   display: flex;
-  gap: 1vw;
+  gap: 1.3vw;
   width: max-content;
   padding: 0 clamp(24px, 5vw, 150px);
 }
 
 .work-proof__card {
   flex: 0 0 auto;
-  width: 25vw;
+  /* Litt større flater — mer galleri-presence, mindre klemt */
+  width: 27vw;
   aspect-ratio: 1;
+  /* Fysisk løft mot den lyse Stein-flaten — objekt, ikke thumbnail. */
+  border-radius: 7px;
+  box-shadow:
+    0 34px 66px -34px rgba(18, 20, 12, 0.42),
+    0 10px 24px -16px rgba(18, 20, 12, 0.3);
 }
 
 .work-proof__card img {
@@ -123,7 +160,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 7px;
+  border: 1px solid rgba(16, 16, 15, 0.08);
   pointer-events: none;
   user-select: none;
 }
@@ -142,11 +180,15 @@
 
 @media (max-width: 768px) {
   .work-proof__intro {
-    padding: 88px 20px 40px;
+    padding: 92px 20px 52px;
   }
 
   .work-proof__title {
     font-size: clamp(38px, 11vw, 56px);
+  }
+
+  .work-proof__caption {
+    font-size: 18px;
   }
 
   .work-proof__foot {
@@ -154,6 +196,6 @@
   }
 
   .work-proof__card {
-    width: 42vw;
+    width: 64vw;
   }
 }

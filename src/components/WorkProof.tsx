@@ -24,8 +24,13 @@ export function WorkProof() {
           <span className="work-proof__word">riktig.</span>
         </h2>
 
+        <p className="work-proof__caption">
+          En digital flate skal ikke bare se bra ut. Den må være rask, forståelig og bygget for å bli valgt.
+        </p>
+
         <div className="work-proof__meta">
           <p className="work-proof__lead">Standarden under alt vi leverer —</p>
+          <p className="work-proof__spec">Webutvikling — Next.js / SEO / Måling / Struktur</p>
           <a className="work-proof__link" href="/arkiv">
             Se arkivet
           </a>

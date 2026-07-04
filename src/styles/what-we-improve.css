@@ -10,7 +10,9 @@
 .what-improve {
   position: relative;
   overflow: hidden;
-  background: #060706;
+  /* Løftet fra #060706 — mindre tungt, men fortsatt mørk topp mellom de
+     lyse rommene 02 og 04. */
+  background: #0d0e0c;
   color: var(--color-on-dark);
 }
 
@@ -29,14 +31,27 @@
 }
 
 .what-improve__kicker {
-  max-width: 620px;
-  margin-top: clamp(28px, 4.4vh, 54px);
-  color: rgba(242, 241, 235, 0.6);
+  max-width: 640px;
+  margin-top: clamp(26px, 4vh, 46px);
+  color: rgba(242, 241, 235, 0.85);
   font-family: var(--font-sans);
-  font-size: clamp(19px, 1.5vw, 27px);
-  font-weight: 300;
+  /* Løftet til et tydelig anker for 03 — men fortsatt under outcome-
+     tekstene (max(20px,3vw)), så FUNNET/FORSTÅTT/VALGT/MÅLT eier fokus. */
+  font-size: clamp(20px, 1.6vw, 30px);
+  font-weight: 400;
   letter-spacing: -0.015em;
   line-height: 1.3;
+}
+
+/* Pine-tick over kickeren — det stille ankeret som erstatter en stor
+   «Effekt»-tittel. Mikro-detalj, aldri flate. */
+.what-improve__kicker::before {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 2px;
+  margin-bottom: clamp(18px, 2.6vh, 26px);
+  background: var(--pine);
 }
 
 /* Containeren er målebredden linjene parkeres over (MWG 097 sin
@@ -55,7 +70,8 @@
 
 .what-improve__title {
   margin: clamp(64px, 10vh, 110px) 0 clamp(16px, 2.4vh, 26px);
-  color: rgba(242, 241, 235, 0.5);
+  /* Outcome-eyebrow — litt sterkere så FUNNET/FORSTÅTT/VALGT/MÅLT registrerer */
+  color: rgba(242, 241, 235, 0.64);
   font-family: var(--font-mono);
   font-size: 12.5px;
   font-weight: 500;

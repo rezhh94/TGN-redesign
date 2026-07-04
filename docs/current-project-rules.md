@@ -67,3 +67,13 @@ Do not recreate:
 - Veivalg
 - Før du bygger
 - guide/article/resource modules in the main flow
+
+## Design-System Test (2026-07-04)
+
+Static system pass from `forside-audit.md`, to be validated visually before commit:
+
+- **Aksent:** dempet furugrønn `--pine #33453b` / `--pine-tint #dbe2dc`. Kun mikro-elementer (statusprikk, hover/focus, nummer, tynne linjer). Aldri stor flate. Ingen oransje (`--color-signal` forblir ubrukt).
+- **Varm nøytral-stige:** `--paper #faf9f5`, `--off-white #f6f5f1`, `--bone #eeece5`, `--stein #e4e2da`, `--greige #cfccc2`, `--blekk #12120f`.
+- **Lyse rom:** 02/Tjenester → Bone (mørke slabs, ikke card-grid), 04/Arbeid → Stein (galleri/proof). 03/Effekt løftet fra `#060706` til `#0d0e0c`. Resten mørk/veksling som før.
+- **Tittelstige:** Tier 1 monumental (Hero, 07-closing), Tier 2 kapittel-stor ~170 (01, 02/BYGGER), Tier 3 kapittel-mid ~112 (04, 05). Bro 02→03 sans ~96, sentrert. 03 får pine-tick-anker + løftet kicker uten stor «Effekt»-tittel.
+- **Lead-skala:** `--fz-lead-l/m/s` (~27/20/17), primær opasitet ~.80, sekundær ~.58.
