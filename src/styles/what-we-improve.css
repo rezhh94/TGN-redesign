@@ -1,46 +1,26 @@
-/* 03 / Effekt — MWG 006-oversatt split scene. Venstre: fire outcome-avsnitt
-   stablet i samme celle; scroll bytter dem ord for ord gjennom masker.
-   Høyre: én mørk måleflate — ghost-numeral, scan-linje, rail og readout som
-   leser det aktive outcomet.
+/* 03 / Effekt — MWG 097-oversatt «tightening word lines». Fire outcome-
+   avsnitt i én sentrert tekstkolonne; JS parkerer hver linje fullt justert
+   over hele containerbredden og strammer den tilbake til naturlig bredde
+   linje for linje mens den krysser viewport. Teksten «kommer i fokus».
 
-   Default (no JS, mobil, PRM) er en enkel stablet liste — alle ord og notater
-   synlige og skarpe. JS legger på .what-improve--stage på desktop; først da
-   finnes pin-høyde, stabling og måleflate. */
+   Default (no JS / PRM) er nøyaktig dette dokumentet — statisk, sentrert,
+   skarpt. Ingen pin, ingen stage-klasse: effekten er kun transforms på
+   runtime-splittede ord. */
 
 .what-improve {
   position: relative;
+  overflow: hidden;
   background: #060706;
   color: var(--color-on-dark);
 }
 
-.what-improve__pin,
-.what-improve__frame {
-  position: relative;
-}
-
-/* Engineered backdrop — vertical measure lines masked top/bottom so the
-   grid reads as a room, not wallpaper. Lives in the frame so it pins along. */
-
-.what-improve__grid {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(90deg, rgba(242, 241, 235, 0.035) 0, rgba(242, 241, 235, 0.035) 1px, transparent 1px);
-  background-size: calc(100% / 12) 100%;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 84%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 84%, transparent 100%);
-}
-
 .what-improve__inner {
-  position: relative;
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(110px, 15vh, 190px) clamp(24px, 5vw, 150px);
+  padding: clamp(110px, 15vh, 190px) clamp(24px, 5vw, 150px) clamp(120px, 16vh, 210px);
 }
 
-.what-improve__label,
-.what-improve__number {
+.what-improve__label {
   color: rgba(242, 241, 235, 0.62);
   font-family: var(--font-mono);
   font-size: 12px;
@@ -59,49 +39,47 @@
   line-height: 1.3;
 }
 
-/* Word mask — MWG 006-prinsippet. Padding gir rom for overheng (Å-ringen,
-   descenders) inne i masken; negativ margin gjenoppretter linjerytmen.
-   I ro står alt på 0 — kun stage-timelinen flytter inner-spans. */
+/* Containeren er målebredden linjene parkeres over (MWG 097 sin
+   .container); tekstkolonnen er smalere, så parkerte linjer starter
+   bredere enn kolonnen og strammes inn i den. */
 
-.what-improve__mw {
+.what-improve__container {
   position: relative;
-  display: inline-block;
-  overflow: hidden;
-  margin: -0.16em 0;
-  vertical-align: top;
+  margin-top: clamp(64px, 10vh, 130px);
 }
 
-.what-improve__mw-inner {
-  display: block;
-  padding: 0.16em 0;
+.what-improve__content {
+  width: min(72%, 960px);
+  margin: 0 auto;
 }
 
-/* Default / list mode — stacked outcomes, plate hidden */
-
-.what-improve__scene {
-  margin-top: clamp(48px, 7vh, 90px);
-}
-
-.what-improve__copy {
-  display: grid;
-  gap: clamp(56px, 9vh, 110px);
-}
-
-.what-improve__word {
-  margin-top: 14px;
-  color: rgba(242, 241, 235, 0.94);
-  font-family: var(--font-display);
-  font-size: clamp(64px, 9.4vw, 190px);
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 0.86;
+.what-improve__title {
+  margin: clamp(64px, 10vh, 110px) 0 clamp(16px, 2.4vh, 26px);
+  color: rgba(242, 241, 235, 0.5);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
   text-transform: uppercase;
-  white-space: nowrap;
+}
+
+.what-improve__content > .what-improve__title:first-child {
+  margin-top: 0;
+}
+
+.what-improve__text {
+  color: rgba(242, 241, 235, 0.92);
+  font-family: var(--font-sans);
+  font-size: max(20px, 2.6vw);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.24;
 }
 
 .what-improve__signal {
   margin-top: clamp(14px, 2vh, 22px);
-  color: rgba(242, 241, 235, 0.5);
+  color: rgba(242, 241, 235, 0.42);
   font-family: var(--font-mono);
   font-size: 11.5px;
   letter-spacing: 0.08em;
@@ -109,214 +87,20 @@
   text-transform: uppercase;
 }
 
-.what-improve__description {
-  max-width: 520px;
-  margin-top: 12px;
-  color: rgba(242, 241, 235, 0.72);
-  font-family: var(--font-sans);
-  font-size: clamp(16px, 1.18vw, 21px);
-  font-weight: 400;
-  line-height: 1.42;
+/* SplitText-linjer (JS-runtime): linjen må være max-content slik at
+   ordene kan transformeres fritt uten re-wrapping — MWG 097 verbatim. */
+
+.what-improve .wi-line {
+  width: max-content;
 }
 
-.what-improve__plate {
-  display: none;
+.what-improve .wi-word {
+  will-change: transform;
 }
 
-/* ---------------------------------------------------------------------------
-   Stage mode — JS-enhanced desktop. MWG 006-arkitektur: pin-høyden driver
-   scrubben, framen er den pinnede 100vh-scenen. */
-
-.what-improve--stage .what-improve__pin {
-  height: 380vh;
-}
-
-.what-improve--stage .what-improve__frame {
-  height: 100vh;
-  overflow: hidden;
-}
-
-.what-improve--stage .what-improve__inner {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding-top: calc(var(--header-height) + clamp(28px, 4.6vh, 56px));
-  padding-bottom: clamp(36px, 6vh, 72px);
-}
-
-.what-improve--stage .what-improve__kicker {
-  margin-top: clamp(20px, 3.2vh, 40px);
-}
-
-.what-improve--stage .what-improve__scene {
-  flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
-  align-items: stretch;
-  gap: clamp(40px, 5.5vw, 120px);
-  min-height: 0;
-  margin-top: clamp(20px, 3vh, 40px);
-}
-
-/* All four outcomes share the same cell; the timeline decides which words
-   stand in the masks. */
-
-.what-improve--stage .what-improve__copy {
-  display: grid;
-  align-content: center;
-  gap: 0;
-  min-width: 0;
-}
-
-.what-improve--stage .what-improve__outcome {
-  grid-area: 1 / 1;
-  align-self: center;
-}
-
-.what-improve--stage .what-improve__word {
-  margin-top: 18px;
-  font-size: clamp(96px, 10.6vw, 250px);
-  line-height: 0.86;
-}
-
-.what-improve--stage .what-improve__signal {
-  margin-top: clamp(18px, 3vh, 30px);
-}
-
-.what-improve--stage .what-improve__description {
-  margin-top: 14px;
-}
-
-/* Måleflaten — én instrumentert, mørk Tigon-flate. Ikke bilde, ikke media:
-   en flate som leser sekvensen. */
-
-.what-improve--stage .what-improve__plate {
-  position: relative;
-  display: block;
-  align-self: stretch;
-  min-height: clamp(420px, 58vh, 700px);
-  border: 1px solid rgba(242, 241, 235, 0.13);
-  background:
-    radial-gradient(ellipse 70% 52% at 50% 42%, rgba(242, 241, 235, 0.045) 0%, transparent 72%),
-    linear-gradient(180deg, #0a0b0a 0%, #070807 100%);
-}
-
-.what-improve__plate-corner {
-  position: absolute;
-  color: rgba(242, 241, 235, 0.3);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  line-height: 1;
-}
-
-.what-improve__plate-corner--tl { top: 14px; left: 16px; }
-.what-improve__plate-corner--tr { top: 14px; right: 16px; }
-.what-improve__plate-corner--bl { bottom: 14px; left: 16px; }
-.what-improve__plate-corner--br { bottom: 14px; right: 16px; }
-
-.what-improve__plate-id,
-.what-improve__plate-range {
-  position: absolute;
-  top: 38px;
-  color: rgba(242, 241, 235, 0.42);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.what-improve__plate-id { left: 40px; }
-.what-improve__plate-range { right: 40px; }
-
-/* Ghost-numeral — samme maske-swap som ordene, synkront i timelinen */
-
-.what-improve__plate-index {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  left: 0;
-  display: grid;
-  place-items: center;
-  height: 1.04em;
-  overflow: hidden;
-  transform: translateY(-50%);
-  font-size: clamp(180px, 17vw, 380px);
-  pointer-events: none;
-}
-
-.what-improve__plate-index span {
-  grid-area: 1 / 1;
-  color: rgba(242, 241, 235, 0.09);
-  font-family: var(--font-display);
-  font-size: inherit;
-  font-weight: 700;
-  line-height: 1;
-}
-
-/* Scan-linje — vandrer nedover flaten med scrubben */
-
-.what-improve__plate-scan {
-  position: absolute;
-  top: 72px;
-  right: 40px;
-  left: 40px;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(242, 241, 235, 0.24), rgba(242, 241, 235, 0.05));
-}
-
-/* Rail — den vertikale målestokken scrubben fyller */
-
-.what-improve__plate-rail {
-  position: absolute;
-  top: 72px;
-  right: 24px;
-  bottom: 72px;
-  width: 1px;
-  background: rgba(242, 241, 235, 0.14);
-}
-
-.what-improve__plate-rail-fill {
-  position: absolute;
-  inset: 0;
-  background: rgba(242, 241, 235, 0.7);
-  transform: scaleY(0);
-  transform-origin: top center;
-}
-
-/* Readout — aktivt målepunkt, maske-swap i bunnen av flaten */
-
-.what-improve__plate-readout {
-  position: absolute;
-  right: 40px;
-  bottom: 38px;
-  left: 40px;
-  display: grid;
-  overflow: hidden;
-}
-
-.what-improve__plate-readout span {
-  grid-area: 1 / 1;
-  color: rgba(242, 241, 235, 0.55);
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.1em;
-  line-height: 1.4;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-/* ---------------------------------------------------------------------------
-   Mobil — ingen pin, ingen scrub-scene: ett outcome per ~85svh i naturlig
-   flyt. Stort ord, signal og beskrivelse — alt skarpt, ingen maskebevegelse. */
-
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .what-improve__inner {
-    padding: 96px 20px;
-  }
-
-  .what-improve__grid {
-    background-size: calc(100% / 6) 100%;
+    padding: 96px 20px 110px;
   }
 
   .what-improve__kicker {
@@ -324,36 +108,16 @@
     font-size: 18px;
   }
 
-  .what-improve__scene {
-    margin-top: 12px;
+  .what-improve__container {
+    margin-top: 56px;
   }
 
-  .what-improve__copy {
-    gap: 0;
+  .what-improve__content {
+    width: 88%;
   }
 
-  .what-improve__outcome {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 85svh;
-  }
-
-  .what-improve__word {
-    margin-top: 12px;
-    font-size: clamp(56px, 17vw, 92px);
-    line-height: 0.9;
-    white-space: normal;
-  }
-
-  .what-improve__signal {
-    margin-top: 16px;
-    font-size: 10.5px;
-  }
-
-  .what-improve__description {
-    max-width: 340px;
-    font-size: 16px;
-    line-height: 1.44;
+  .what-improve__text {
+    font-size: 20px;
+    line-height: 1.32;
   }
 }

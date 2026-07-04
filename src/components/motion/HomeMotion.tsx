@@ -3,9 +3,10 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import { destroyLenis, initLenis } from "@/lib/motion";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
@@ -199,187 +200,180 @@ function serviceReveals() {
   });
 }
 
-// 03 / Effekt — MWG 006-adapted split scene. A tall pin-height wrapper
-// drives the scrub while the 100vh frame is pinned; the four outcome
-// paragraphs sit stacked in the same cell and swap word by word through
-// masks (old words push down and out, new words drop in from above). The
-// plate's ghost numeral and readout swap in the same timeline; rail fill
-// and scan line track raw progress. Non-pinned contexts get one-time
-// reveals of the stacked list.
-function effectStage(pinned: boolean) {
+// 03 / Effekt — MWG 097-adapted tightening word lines. The content column
+// is split into lines/words at runtime (after fonts load, so line breaks
+// are final); every line is parked fully justified across the container
+// width and a scrubbed tween pulls each word back to x:0 as the line
+// crosses the viewport — the copy tightens back into focus. Not pinned.
+// Teardown reverts the splits so the original SSR text is restored.
+function improveScene() {
   const section = document.querySelector<HTMLElement>(".what-improve");
   if (!section) return () => {};
 
-  const order = ["funnet", "forstatt", "valgt", "malt"];
-  const block = (key: string) =>
-    section.querySelector<HTMLElement>(`[data-outcome-block="${key}"]`);
-  const wordsOf = (key: string) =>
-    gsap.utils.toArray<HTMLElement>(".what-improve__mw-inner", block(key));
-  const numeral = (key: string) =>
-    section.querySelector<HTMLElement>(`[data-plate-numeral="${key}"]`);
-  const readout = (key: string) =>
-    section.querySelector<HTMLElement>(`[data-plate-readout="${key}"]`);
+  const container = section.querySelector<HTMLElement>("[data-improve-container]");
+  const content = section.querySelector<HTMLElement>("[data-improve-content]");
+  if (!container || !content) return () => {};
 
-  if (!pinned) {
-    for (const key of order) {
-      const b = block(key);
-      if (!b) continue;
-      gsap.from(b, {
-        autoAlpha: 0,
-        y: 24,
-        duration: 0.6,
-        ease: "power3.out",
-        scrollTrigger: { trigger: b, start: "top 82%", once: true },
-      });
-    }
-    return () => {};
-  }
+  let cancelled = false;
+  const splits: SplitText[] = [];
+  const ctx = gsap.context(() => {}, section);
 
-  section.classList.add("what-improve--stage");
+  const setup = () => {
+    if (cancelled) return;
+    ctx.add(() => {
+      const paragraphs = gsap.utils.toArray<HTMLElement>(
+        "[data-improve-content] > *",
+        section
+      );
+      for (const paragraph of paragraphs) {
+        splits.push(
+          SplitText.create(paragraph, {
+            type: "lines, words",
+            linesClass: "wi-line",
+            wordsClass: "wi-word",
+          })
+        );
+      }
 
-  const pinHeight = section.querySelector<HTMLElement>("[data-effect-pin]");
-  const frame = section.querySelector<HTMLElement>("[data-effect-frame]");
-  if (!pinHeight || !frame) {
-    section.classList.remove("what-improve--stage");
-    return () => {};
-  }
+      const lines = gsap.utils.toArray<HTMLElement>(".wi-line", section);
+      const containerWidth = container.clientWidth;
+      const containerRect = container.getBoundingClientRect();
 
-  // Later outcomes wait above their masks; only JS ever hides them, so the
-  // no-JS/PRM document stays fully readable.
-  order.forEach((key, index) => {
-    if (index === 0) return;
-    gsap.set(wordsOf(key), { yPercent: -112 });
-    gsap.set(numeral(key), { yPercent: -112 });
-    gsap.set(readout(key), { yPercent: -112 });
-  });
+      for (const line of lines) {
+        const words = Array.from(line.querySelectorAll<HTMLElement>(".wi-word"));
 
-  const railFill = section.querySelector<HTMLElement>("[data-plate-rail-fill]");
-  const scan = section.querySelector<HTMLElement>("[data-plate-scan]");
-  const plate = section.querySelector<HTMLElement>(".what-improve__plate");
+        const totalWordsWidth = words.reduce(
+          (acc, word) => acc + word.getBoundingClientRect().width,
+          0
+        );
+        const gaps = words.length - 1;
+        const freeSpace = Math.max(containerWidth - totalWordsWidth, 0);
+        const gapSize = gaps > 0 ? freeSpace / gaps : 0;
 
-  // MWG 006: the pin-height wrapper is the trigger, the frame is pinned.
-  ScrollTrigger.create({
-    trigger: pinHeight,
-    start: "top top",
-    end: "bottom bottom",
-    pin: frame,
-    pinSpacing: false,
-    anticipatePin: 1,
-    invalidateOnRefresh: true,
-  });
+        let targetLeft = 0;
+        words.forEach((word, index) => {
+          const rect = word.getBoundingClientRect();
+          const currentLeft = rect.left - containerRect.left;
+          gsap.set(word, { x: targetLeft - currentLeft });
+          targetLeft += rect.width + (index < words.length - 1 ? gapSize : 0);
+        });
 
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: pinHeight,
-      start: "top top",
-      end: "bottom bottom",
-      scrub: 0.7,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        if (railFill) gsap.set(railFill, { scaleY: self.progress });
-        if (scan && plate) {
-          // Keep the scan inside the plate: it starts 72px down and must
-          // stop above the readout zone at the bottom.
-          const travel = Math.max(plate.clientHeight - 190, 0);
-          gsap.set(scan, { y: self.progress * travel });
-        }
-      },
-    },
-  });
-
-  // Hold → swap → hold. Old words push out downward (power4.in), new words
-  // drop in from above (power4.out) while the exit is still finishing.
-  tl.to({}, { duration: 0.7 });
-  order.forEach((key, index) => {
-    if (index === 0) return;
-    const prev = order[index - 1];
-    tl.to(wordsOf(prev), {
-      yPercent: 112,
-      duration: 0.55,
-      stagger: { amount: 0.3 },
-      ease: "power4.in",
+        gsap.to(words, {
+          x: 0,
+          ease: "power2.out",
+          scrollTrigger: { trigger: line, start: "top bottom", end: "top 60%", scrub: 0.2 },
+        });
+      }
     });
-    tl.to(
-      wordsOf(key),
-      { yPercent: 0, duration: 0.55, stagger: { amount: 0.3 }, ease: "power4.out" },
-      "<0.45"
-    );
-    tl.to(numeral(prev), { yPercent: 112, duration: 0.5, ease: "power4.in" }, "<-0.3");
-    tl.to(numeral(key), { yPercent: 0, duration: 0.5, ease: "power4.out" }, "<0.35");
-    tl.to(readout(prev), { yPercent: 112, duration: 0.5, ease: "power4.in" }, "<");
-    tl.to(readout(key), { yPercent: 0, duration: 0.5, ease: "power4.out" }, "<0.35");
-    tl.to({}, { duration: 1 });
-  });
+  };
+
+  // Split only when line breaks are final.
+  (document.fonts?.ready ?? Promise.resolve()).then(setup);
 
   return () => {
-    section.classList.remove("what-improve--stage");
+    cancelled = true;
+    ctx.revert();
+    for (const split of splits) split.revert();
   };
 }
 
-// 04 / Arbeid — split proof staged. One-time entrance: the statement words
-// rise out of the monolith, the slab settles into its lean, the cuts land
-// with their hard shadows. Then depth: slab and cuts drift at their own
-// rates while the chapter crosses the viewport (desktop scrub only).
-function workProofScene(scrub: boolean) {
+// 04 / Arbeid — MWG 082-adapted mockup stack. Intro band gets a one-time
+// reveal; the stage pins for 400vh while every mockup pops in centered
+// (elastic reveal timeline played from the scrubbed master), recedes into
+// depth with a random tilt and exits upward. Scrolling back re-hides each
+// mockup via onReverseComplete, exactly like the reference.
+function workScene() {
   const section = document.querySelector<HTMLElement>(".work-proof");
-  if (!section) return;
+  if (!section) return () => {};
 
-  const words = gsap.utils.toArray<HTMLElement>(".work-proof__word", section);
-  const lead = section.querySelector<HTMLElement>(".work-proof__lead");
-  const link = section.querySelector<HTMLElement>(".work-proof__link");
-  const slab = section.querySelector<HTMLElement>(".work-proof__slab");
-  const cuts = gsap.utils.toArray<HTMLElement>(".work-proof__cut", section);
+  const pinHeight = section.querySelector<HTMLElement>("[data-work-pin]");
+  const stage = section.querySelector<HTMLElement>("[data-work-stage]");
+  const medias = gsap.utils.toArray<HTMLElement>("[data-work-media]", section);
+  if (!pinHeight || !stage || !medias.length) return () => {};
 
-  const tl = gsap.timeline({
-    scrollTrigger: { trigger: section, start: "top 64%", once: true },
-    defaults: { ease: "power3.out" },
-  });
+  // The stage class must exist before ScrollTrigger measures the runway.
+  section.classList.add("work-proof--stage");
 
-  if (words.length) {
-    tl.from(words, { yPercent: 34, autoAlpha: 0, duration: 0.75, stagger: 0.09 });
-  }
-  if (slab) {
-    // The slab is laid down: arrives lower and steeper, settles into place.
-    tl.from(slab, { y: 90, rotation: -5.2, autoAlpha: 0, duration: 1.1, ease: "expo.out" }, 0.15);
-  }
-  if (cuts.length) {
-    // yPercent here — the scrub depth pass below owns plain y.
-    tl.from(cuts, { yPercent: 26, autoAlpha: 0, duration: 0.7, stagger: 0.12 }, 0.5);
-  }
-  if (lead) {
-    tl.from(lead, { autoAlpha: 0, y: 16, duration: 0.5 }, 0.55);
-  }
-  if (link) {
-    tl.from(link, { autoAlpha: 0, y: 12, duration: 0.45 }, 0.7);
-  }
+  const ctx = gsap.context(() => {
+    const intro = section.querySelector<HTMLElement>(".work-proof__intro");
+    if (intro) {
+      gsap.from(intro.children, {
+        autoAlpha: 0,
+        y: 22,
+        duration: 0.65,
+        ease: "power3.out",
+        stagger: 0.07,
+        scrollTrigger: { trigger: intro, start: "top 78%", once: true },
+      });
+    }
 
-  if (!scrub) return;
+    // Paused elastic pop per mockup — played in real time from the scrub.
+    const revealTimelines = medias.map((media, index) => {
+      const tlReveal = gsap.timeline({ paused: true });
+      tlReveal.set(media, { autoAlpha: 1 }, "media" + index);
+      tlReveal.fromTo(
+        media,
+        { scaleX: 0.9, scaleY: 0.9 },
+        {
+          scaleX: 1,
+          scaleY: 1,
+          immediateRender: false,
+          ease: "elastic.out(2, 0.6)",
+          duration: 0.5,
+        },
+        "<"
+      );
+      return tlReveal;
+    });
 
-  // Depth pass — the cast objects sit at different distances from the wall.
-  if (slab) {
-    gsap.fromTo(
-      slab,
-      { yPercent: 2.5 },
-      {
-        yPercent: -2.5,
-        ease: "none",
-        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 0.8 },
-      }
-    );
-  }
-  const depths = [10, 6, 14];
-  cuts.forEach((cut, index) => {
-    const depth = depths[index % depths.length];
-    gsap.fromTo(
-      cut,
-      { y: depth },
-      {
-        y: -depth,
-        ease: "none",
-        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 0.8 },
-      }
-    );
-  });
+    const master = gsap.timeline({
+      scrollTrigger: {
+        trigger: pinHeight,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true,
+        pin: stage,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    medias.forEach((media, i) => {
+      const tl = gsap.timeline({
+        onStart: () => {
+          revealTimelines[i].play();
+        },
+        onReverseComplete: () => {
+          revealTimelines[i].progress(-1).pause();
+        },
+      });
+
+      const angle = (Math.random() - 0.5) * 40;
+
+      tl.to(media, {
+        z: () => -window.innerWidth,
+        rotation: angle,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+      tl.to(
+        media,
+        {
+          x: () => angle * 0.01 * window.innerWidth,
+          y: () => -2 * window.innerHeight,
+          duration: 0.6,
+          ease: "power1.in",
+        },
+        "<+=0.4"
+      );
+      master.add(tl, 0.1 * i);
+    });
+  }, section);
+
+  return () => {
+    ctx.revert();
+    section.classList.remove("work-proof--stage");
+  };
 }
 
 // 05 / Prosess — MWG 073-adapted horizontal timeline. The 500vh pin-height
@@ -594,14 +588,15 @@ export function HomeMotion() {
       approachFill(true);
       serviceReveals();
       effectBridge(true);
-      const teardownStage = effectStage(true);
-      workProofScene(true);
+      const teardownImprove = improveScene();
+      const teardownWork = workScene();
       const teardownProcess = processStage();
       manifestoReveal();
       footerReveals();
       return () => {
         teardownGhost();
-        teardownStage();
+        teardownImprove();
+        teardownWork();
         teardownProcess();
       };
     });
@@ -611,12 +606,14 @@ export function HomeMotion() {
       approachFill(false);
       serviceReveals();
       effectBridge(false);
-      effectStage(false);
-      workProofScene(false);
+      const teardownImprove = improveScene();
+      const teardownWork = workScene();
       const teardownProcess = processStage();
       manifestoReveal();
       footerReveals();
       return () => {
+        teardownImprove();
+        teardownWork();
         teardownProcess();
       };
     });

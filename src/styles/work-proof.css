@@ -1,398 +1,170 @@
-/* 04 / Arbeid — FINAL: Split Proof / System Slab.
-   One stone room. Left: the charcoal proof monolith — flush with 03 at the
-   top, stopped short of the floor so the stone shows under it. Right: a
-   cast slab leaning through the canvas, cropped by the chapter's right and
-   bottom edge (it exits into dark 05). Three cuts with hard back-plates
-   carry the standards. Stone stays cool — never warm cream. */
+/* 04 / Arbeid — MWG 082-oversatt mockup-stabel. Intro-bånd med statement
+   og arkiv-lenke, deretter en pinnet 100vh-scene der mockups lander
+   sentrert ett og ett (elastisk pop), trekker bakover i dybden med en
+   tilfeldig helning og forlater rammen oppover.
+
+   Default (no JS / PRM) er et enkelt synlig rutenett — ingenting gjemmes
+   bak JavaScript. JS legger på .work-proof--stage; først da finnes
+   pin-høyde, perspektiv og opacity-0-utgangspunktet.
+
+   Bildene er MWG-demo-placeholders til Envato-mockups m/ Tigon-logo. */
 
 .work-proof {
-  --wp-stone: #e9e8e4;
-  --wp-dark: #0f0f0e;
-
   position: relative;
-  z-index: 2;
-  overflow: hidden;
-  /* the stone room has a light direction — brighter high, floor falls off */
-  background: linear-gradient(180deg, #eeede9 0%, var(--wp-stone) 46%, #e2e1dc 100%);
-}
-
-.work-proof__split {
-  display: grid;
-  grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
-  min-height: min(104vh, 1100px);
-}
-
-/* Left — the proof monolith. Lands in the light room: stone floor under. */
-
-.work-proof__panel {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: clamp(64px, 10vh, 130px);
-  background: var(--wp-dark);
+  background: #0d0e0c;
   color: var(--color-on-dark);
-  box-shadow: 0 60px 120px rgba(16, 16, 15, 0.32);
-  padding: clamp(120px, 16vh, 200px) clamp(28px, 3.4vw, 70px) clamp(44px, 6vh, 80px)
-    clamp(24px, 5vw, 150px);
 }
 
-/* Cast material — the monolith catches the room's light on its top edge */
-
-.work-proof__panel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(168deg, rgba(242, 241, 235, 0.07) 0%, rgba(242, 241, 235, 0.015) 30%, transparent 52%);
-  pointer-events: none;
+.work-proof__intro {
+  width: min(100%, 2560px);
+  margin: 0 auto;
+  padding: clamp(96px, 13vh, 170px) clamp(24px, 5vw, 150px) clamp(44px, 7vh, 90px);
 }
 
 .work-proof__label {
-  color: rgba(242, 241, 235, 0.6);
+  color: rgba(242, 241, 235, 0.62);
   font-family: var(--font-mono);
   font-size: 12px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   line-height: 1.2;
 }
 
 .work-proof__title {
-  margin-top: clamp(40px, 6vh, 76px);
+  max-width: 13ch;
+  margin-top: clamp(26px, 4vh, 48px);
+  color: rgba(242, 241, 235, 0.94);
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6vw, 120px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 0.94;
+  text-transform: uppercase;
 }
 
 .work-proof__word {
-  display: block;
-  color: rgba(242, 241, 235, 0.95);
-  font-family: var(--font-display);
-  font-size: clamp(60px, 6.2vw, 140px);
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 0.82;
-  text-transform: uppercase;
+  display: inline-block;
 }
 
 .work-proof__word--dim {
-  color: rgba(242, 241, 235, 0.26);
+  color: rgba(242, 241, 235, 0.45);
+}
+
+.work-proof__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 44px;
+  align-items: baseline;
+  margin-top: clamp(28px, 4.4vh, 52px);
 }
 
 .work-proof__lead {
-  margin-top: clamp(30px, 4.6vh, 54px);
-  color: rgba(242, 241, 235, 0.62);
+  color: rgba(242, 241, 235, 0.72);
   font-family: var(--font-sans);
-  font-size: clamp(15.5px, 1.1vw, 18px);
+  font-size: var(--fz-lead);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .work-proof__link {
-  display: inline-block;
-  align-self: flex-start;
-  margin-top: clamp(18px, 2.8vh, 30px);
-  color: rgba(242, 241, 235, 0.85);
+  color: rgba(242, 241, 235, 0.9);
   font-family: var(--font-mono);
   font-size: 12.5px;
-  line-height: 1;
-  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
   text-decoration: underline;
-  text-decoration-color: rgba(242, 241, 235, 0.3);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.42em;
-  transition: text-decoration-color var(--motion-fast) ease-out;
+  text-transform: uppercase;
+  text-underline-offset: 4px;
 }
 
-.work-proof__link:hover,
-.work-proof__link:focus-visible {
-  text-decoration-color: rgba(242, 241, 235, 0.85);
+.work-proof__link:hover {
+  color: var(--color-on-dark);
 }
 
 .work-proof__foot {
-  margin-top: auto;
-  padding-top: 44px;
+  margin-left: auto;
   color: rgba(242, 241, 235, 0.42);
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
   line-height: 1.4;
   text-transform: uppercase;
 }
 
-/* Right — the staged surface. Section clips; the slab exits the frame. */
+/* Default / grid mode — alt innhold synlig uten JS */
 
-.work-proof__surface {
+.work-proof__pin,
+.work-proof__stage {
   position: relative;
 }
 
-/* The slab — two cast layers, leaning, cropped right + bottom */
+.work-proof__stage {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  width: min(100%, 2560px);
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 150px) clamp(96px, 13vh, 170px);
+}
 
-.work-proof__slab {
+.work-proof__media {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+/* ---------------------------------------------------------------------------
+   Stage mode — JS-enhanced. MWG 082-geometri verbatim: 400vh runway,
+   pinnet 100vh scene med perspective:100vh, alle medier absolutt i samme
+   senterslot, 25vw kvadrat, object-fit contain, usynlige til reveal. */
+
+.work-proof--stage .work-proof__pin {
+  height: 400vh;
+}
+
+.work-proof--stage .work-proof__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  perspective: 100vh;
+}
+
+.work-proof--stage .work-proof__media {
   position: absolute;
-  top: 25%;
-  right: -14%;
-  bottom: -12%;
-  left: 23%;
-  transform: rotate(-2.4deg);
+  width: 25vw;
+  aspect-ratio: 1;
+  object-fit: contain;
+  opacity: 0;
+  will-change: transform, opacity;
 }
 
-.work-proof__slab-back {
-  position: absolute;
-  inset: 0;
-  transform: translate(-26px, 26px);
-  background: #0b0b0a;
-  opacity: 0.85;
-}
-
-.work-proof__slab-face {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  background:
-    linear-gradient(118deg, rgba(242, 241, 235, 0.14) 0%, rgba(242, 241, 235, 0.03) 38%, rgba(242, 241, 235, 0) 64%),
-    linear-gradient(180deg, #191916 0%, #0e0e0c 74%, #0a0a09 100%);
-  box-shadow:
-    0 80px 160px rgba(16, 16, 15, 0.36),
-    0 26px 60px rgba(16, 16, 15, 0.22),
-    0 8px 20px rgba(16, 16, 15, 0.14);
-}
-
-.work-proof__slab-face::after {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border: 1px solid rgba(242, 241, 235, 0.05);
-  pointer-events: none;
-}
-
-.work-proof__slab-kicker {
-  position: absolute;
-  top: clamp(16px, 2vw, 30px);
-  left: clamp(18px, 2.2vw, 34px);
-  color: rgba(242, 241, 235, 0.42);
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.work-proof__slab-block {
-  position: absolute;
-  top: 22%;
-  left: clamp(18px, 2.2vw, 34px);
-  width: 30%;
-  height: 9%;
-  background: rgba(242, 241, 235, 0.1);
-}
-
-.work-proof__slab-line {
-  position: absolute;
-  top: 38%;
-  left: clamp(18px, 2.2vw, 34px);
-  width: 46%;
-  height: 1px;
-  background: rgba(242, 241, 235, 0.14);
-}
-
-/* Embossed wordmark — cast into the material */
-
-.work-proof__engrave {
-  position: absolute;
-  left: 3%;
-  bottom: 22%;
-  color: rgba(242, 241, 235, 0.06);
-  font-family: var(--font-display);
-  font-size: clamp(150px, 17vw, 400px);
-  font-weight: 700;
-  line-height: 0.76;
-  text-shadow:
-    -2px -2px 2px rgba(0, 0, 0, 0.55),
-    2px 2px 2px rgba(242, 241, 235, 0.05);
-}
-
-/* Cuts — standards sampled off the slab. Hard offset back-plates give them
-   the same cast material as the slab: objects, not boxes. */
-
-.work-proof__cut {
-  position: absolute;
-  overflow: hidden;
-  border: 1px solid rgba(242, 241, 235, 0.22);
-  color: var(--color-on-dark);
-  box-shadow:
-    -16px 18px 0 rgba(11, 11, 10, 0.92),
-    0 34px 80px rgba(16, 16, 15, 0.36),
-    0 10px 26px rgba(16, 16, 15, 0.2);
-}
-
-.work-proof__cut-tag {
-  position: absolute;
-  top: 10px;
-  left: 12px;
-  color: rgba(242, 241, 235, 0.46);
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  letter-spacing: 0.12em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.work-proof__cut-value {
-  position: absolute;
-  bottom: 10px;
-  left: 12px;
-  color: rgba(242, 241, 235, 0.85);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.work-proof__cut--contrast {
-  bottom: 20%;
-  left: -11%;
-  z-index: 2;
-  width: 29%;
-  aspect-ratio: 1 / 1;
-  background: #161614;
-}
-
-.work-proof__cut-glyph {
-  position: absolute;
-  right: 7%;
-  bottom: 8%;
-  color: rgba(242, 241, 235, 0.9);
-  font-family: var(--font-sans);
-  font-size: clamp(60px, 6.4vw, 140px);
-  font-weight: 400;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-
-.work-proof__cut--struktur {
-  top: 11%;
-  left: 16%;
-  z-index: 2;
-  width: 24%;
-  aspect-ratio: 4 / 3;
-  background: #1b1b18;
-}
-
-.work-proof__cut-grid {
-  position: absolute;
-  inset: 34% 12% 30%;
-  background-image:
-    linear-gradient(90deg, rgba(242, 241, 235, 0.18) 0, rgba(242, 241, 235, 0.18) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(242, 241, 235, 0.18) 0, rgba(242, 241, 235, 0.18) 1px, transparent 1px);
-  background-size: calc(100% / 6) calc(100% / 3);
-}
-
-.work-proof__cut--fart {
-  right: 5%;
-  bottom: 7%;
-  z-index: 2;
-  width: 37%;
-  aspect-ratio: 16 / 9;
-  background: #121210;
-}
-
-.work-proof__cut-figure {
-  position: absolute;
-  left: 12px;
-  bottom: 30%;
-  color: rgba(242, 241, 235, 0.9);
-  font-family: var(--font-mono);
-  font-size: clamp(30px, 2.8vw, 58px);
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
-.work-proof__cut-scale {
-  position: absolute;
-  right: 12px;
-  bottom: 16%;
-  left: 12px;
-  height: 8px;
-  background-image: linear-gradient(90deg, rgba(242, 241, 235, 0.34) 0, rgba(242, 241, 235, 0.34) 1px, transparent 1px);
-  background-size: calc(100% / 24) 100%;
-}
-
-@media (max-width: 1080px) {
-  .work-proof__split {
-    grid-template-columns: 1fr;
-    min-height: 0;
+@media (max-width: 768px) {
+  .work-proof__intro {
+    padding: 88px 20px 40px;
   }
 
-  .work-proof__panel {
-    margin-bottom: 0;
-    padding: 96px 24px 56px;
-  }
-
-  .work-proof__surface {
-    min-height: 122vw;
-  }
-
-  .work-proof__slab {
-    top: 10%;
-    right: -16%;
-    bottom: -8%;
-    left: 6%;
-    transform: rotate(-2deg);
-  }
-
-  .work-proof__cut--contrast {
-    left: 5%;
-    bottom: 6%;
-  }
-}
-
-@media (max-width: 640px) {
-  .work-proof__panel {
-    padding: 88px 20px 48px;
-  }
-
-  .work-proof__word {
-    font-size: clamp(48px, 15vw, 72px);
-  }
-
-  .work-proof__lead {
-    margin-top: 24px;
-    font-size: 15.5px;
+  .work-proof__title {
+    font-size: clamp(38px, 11vw, 56px);
   }
 
   .work-proof__foot {
-    padding-top: 36px;
-    font-size: 10px;
+    margin-left: 0;
   }
 
-  .work-proof__slab-back {
-    transform: translate(-14px, 14px);
+  .work-proof__stage {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 20px 88px;
   }
 
-  .work-proof__engrave {
-    font-size: clamp(110px, 40vw, 170px);
+  .work-proof--stage .work-proof__stage {
+    padding: 0;
+    perspective: 50vw;
   }
 
-  .work-proof__cut {
-    box-shadow:
-      -10px 11px 0 rgba(11, 11, 10, 0.92),
-      0 22px 50px rgba(16, 16, 15, 0.34);
-  }
-
-  .work-proof__cut--struktur {
-    top: 4%;
-    left: 12%;
-    width: 34%;
-  }
-
-  .work-proof__cut--fart {
-    right: 4%;
-    bottom: 24%;
-    width: 50%;
-  }
-
-  .work-proof__cut--contrast {
-    width: 38%;
-    bottom: 5%;
-  }
-
-  .work-proof__cut-tag {
-    font-size: 8.5px;
+  .work-proof--stage .work-proof__media {
+    width: 70vw;
   }
 }
