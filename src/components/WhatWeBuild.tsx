@@ -1,14 +1,13 @@
 const services = [
   {
-    number: "01",
     title: "Nettsider",
     description: "Raske nettsider med tydelig struktur, teknisk SEO og måling fra start.",
     meta: "NEXT.JS / SEO / CWV",
     tagline: "Teknisk SEO / Core Web Vitals / Struktur / Måling / Konvertering / Next.js",
     href: "/tjenester/webutvikling-nextjs",
+    open: true,
   },
   {
-    number: "02",
     title: "Webapper",
     description: "Portaler, dashboards og digitale verktøy bygget for reell arbeidsflyt.",
     meta: "PORTALER / DASHBOARDS",
@@ -16,7 +15,6 @@ const services = [
     href: "/tjenester",
   },
   {
-    number: "03",
     title: "Apper",
     description: "App-løsninger for mobil og web når produktet må være mer enn en nettside.",
     meta: "MOBIL / WEB",
@@ -24,7 +22,6 @@ const services = [
     href: "/tjenester/app-utvikling",
   },
   {
-    number: "04",
     title: "AI-systemer",
     description: "Automatisering, søk, assistenter og interne workflows koblet til ekte data.",
     meta: "AUTOMASJON / SØK / DATA",
@@ -32,7 +29,6 @@ const services = [
     href: "/tjenester/ai-implementering",
   },
   {
-    number: "05",
     title: "SEO & AI-søk",
     description: "Innhold og struktur som gjør løsningen lettere å finne, forstå og velge.",
     meta: "INNHOLD / STRUKTUR",
@@ -42,7 +38,7 @@ const services = [
 ];
 
 /* Tjenester uten eget kort — SEO-teksten og internlenkene bor i et stille
-   register etter stabelen. Slugs fylles inn etter hvert som sidene finnes. */
+   register etter listen. Slugs fylles inn etter hvert som sidene finnes. */
 const moreServices: Array<{ title: string; href?: string }> = [
   { title: "UX/UI-design" },
   { title: "E-handel", href: "/tjenester/e-handel-losninger" },
@@ -52,11 +48,10 @@ const moreServices: Array<{ title: string; href?: string }> = [
   { title: "Vedlikehold & sikkerhet" },
 ];
 
-/* 02 / Tjenester — MWG 031 architecture: every service is a full inset card;
-   each card pins for one viewport while the next scrolls over it and the
-   pinned one recedes into perspective (rotationX + random tilt + scale).
-   Default (no-JS/PRM) is simply the stacked cards — all text server-rendered.
-   The «Les mer»-cursor pill is decorative, JS/pointer-fine only. */
+/* 02 / Tjenester — Fabrica-adaptert tjeneste-akkordeon (uten nummer-etiketter):
+   full-bredde rader med tittel + sirkel-toggle; klikk åpner én rad og avslører
+   beskrivelse + kategori-brikker + «Les mer»-lenke. Default (no-JS/PRM) viser
+   alle rader åpne — all tekst og alle lenker server-rendret. */
 export function WhatWeBuild() {
   return (
     <section className="what-build" aria-labelledby="what-build-title">
@@ -77,40 +72,56 @@ export function WhatWeBuild() {
             </div>
           </div>
         </header>
-      </div>
 
-      <ol className="what-build__stack" aria-label="Tjenester" data-build-stack>
-        {services.map((service) => (
-          <li className="what-build__slide" data-build-slide key={service.number}>
-            <div className="what-build__card-pin" data-build-pin>
-              <a className="what-build__card" href={service.href} data-build-card>
-                <header className="what-build__card-top">
-                  <div>
-                    <h3 className="what-build__card-title">{service.title}</h3>
-                    <p className="what-build__card-meta">{service.meta}</p>
+        <ol className="what-build__list" aria-label="Tjenester" data-build-list>
+          {services.map((service, index) => {
+            const bodyId = `service-body-${index + 1}`;
+            const categories = service.tagline.split(" / ");
+            return (
+              <li
+                className="what-build__row"
+                data-build-row
+                data-open={service.open ? "" : undefined}
+                key={service.title}
+              >
+                <h3 className="what-build__row-heading">
+                  <button
+                    className="what-build__row-trigger"
+                    type="button"
+                    aria-controls={bodyId}
+                    data-build-trigger
+                  >
+                    <span className="what-build__service-title">{service.title}</span>
+                    <span className="what-build__row-meta">{service.meta}</span>
+                    <span className="what-build__toggle" aria-hidden="true" />
+                  </button>
+                </h3>
+
+                <div className="what-build__body" id={bodyId} data-build-body>
+                  <div className="what-build__body-inner">
+                    <div className="what-build__body-grid">
+                      <p className="what-build__description">{service.description}</p>
+                      <div className="what-build__cats">
+                        <p className="what-build__cats-label">Kategorier</p>
+                        <ul className="what-build__cat-list">
+                          {categories.map((cat) => (
+                            <li className="what-build__cat" key={cat}>
+                              {cat}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <a className="what-build__row-link" href={service.href}>
+                        Les mer
+                        <span className="what-build__foot-arrow" aria-hidden="true" />
+                      </a>
+                    </div>
                   </div>
-                  <p className="what-build__card-num">({service.number})</p>
-                </header>
-                <p className="what-build__card-description">{service.description}</p>
-                <div className="what-build__card-bottom">
-                  {service.tagline ? (
-                    <p className="what-build__card-tags">{service.tagline}</p>
-                  ) : null}
-                  <img
-                    className="what-build__card-media"
-                    src={`/services/${service.number}.png`}
-                    alt=""
-                    loading="lazy"
-                  />
                 </div>
-              </a>
-            </div>
-          </li>
-        ))}
-      </ol>
-
-      <div className="what-build__cursor" aria-hidden="true" data-build-cursor>
-        Les mer
+              </li>
+            );
+          })}
+        </ol>
       </div>
 
       <div className="what-build__inner what-build__inner--foot">
