@@ -7,6 +7,10 @@ import { destroyLenis, initLenis } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Mobile address-bar show/hide fires resize; refreshing mid-pin makes
+// pinned scenes jump. Dimension changes from real rotation still refresh.
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 const ON_DARK = "242, 241, 235";
 
 function setupServiceAccordion() {
@@ -384,25 +388,12 @@ function workProofScene(scrub: boolean) {
 // numeral gets two scrubbed hinge tweens driven by containerAnimation:
 // it arrives from the top edge as its panel enters (left 100% → 0%) and
 // exits rotated -90° along the right edge as it leaves (left 0% → -100%).
-function processStage(full: boolean) {
+// Runs on both desktop and mobile (like the reference — the mobile layout
+// only re-indents the columns in CSS). PRM/no-JS never reach this call and
+// keep the static banded list.
+function processStage() {
   const section = document.querySelector<HTMLElement>(".process-layers");
   if (!section) return () => {};
-
-  if (!full) {
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>("[data-process-panel]", section).forEach((panel) => {
-        gsap.from(panel.children, {
-          autoAlpha: 0,
-          y: 26,
-          duration: 0.55,
-          ease: "power3.out",
-          stagger: 0.08,
-          scrollTrigger: { trigger: panel, start: "top 82%", once: true },
-        });
-      });
-    }, section);
-    return () => ctx.revert();
-  }
 
   // The stage class must exist before ScrollTrigger measures the runway.
   section.classList.add("process-layers--stage");
@@ -605,7 +596,7 @@ export function HomeMotion() {
       effectBridge(true);
       const teardownStage = effectStage(true);
       workProofScene(true);
-      const teardownProcess = processStage(true);
+      const teardownProcess = processStage();
       manifestoReveal();
       footerReveals();
       return () => {
@@ -622,7 +613,7 @@ export function HomeMotion() {
       effectBridge(false);
       effectStage(false);
       workProofScene(false);
-      const teardownProcess = processStage(false);
+      const teardownProcess = processStage();
       manifestoReveal();
       footerReveals();
       return () => {
