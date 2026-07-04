@@ -12,8 +12,6 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 // pinned scenes jump. Dimension changes from real rotation still refresh.
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-const ON_DARK = "242, 241, 235";
-
 function setupServiceAccordion() {
   const list = document.querySelector<HTMLElement>("[data-build-list]");
   if (!list) return () => {};
@@ -117,73 +115,150 @@ function setupBuildGhost() {
   };
 }
 
-function approachFill(scrub: boolean) {
-  const section = document.querySelector(".approach-bridge");
-  if (!section) return;
+// 01 / Tilnærming — MWG 049-adapted defying gravity. The statement pins at
+// the top of its 100vh container while every runtime-wrapped letter starts
+// offset downward by a random distance and scrubs back into place over
+// exactly that distance — the sentence assembles as you scroll. Teardown
+// restores the original markup.
+function approachScene() {
+  const section = document.querySelector<HTMLElement>(".approach-bridge");
+  if (!section) return () => {};
 
-  const words = gsap.utils.toArray<HTMLElement>("[data-fill-word]");
-  const support = section.querySelector("[data-fill-support]");
+  const container = section.querySelector<HTMLElement>("[data-approach-container]");
+  const title = section.querySelector<HTMLElement>("[data-approach-title]");
+  const support = section.querySelector<HTMLElement>("[data-approach-support]");
+  if (!container || !title) return () => {};
 
-  const tl = gsap.timeline({
-    scrollTrigger: scrub
-      ? { trigger: section, start: "top 78%", end: "center 42%", scrub: 0.5 }
-      : { trigger: section, start: "top 70%", once: true },
-  });
-
-  tl.from(words, {
-    color: `rgba(${ON_DARK}, 0.14)`,
-    stagger: scrub ? 0.35 : 0.12,
-    duration: scrub ? 1 : 0.7,
-    ease: scrub ? "none" : "power2.out",
-  });
-
-  if (support) {
-    tl.from(support, { autoAlpha: 0, y: 14, duration: scrub ? 0.6 : 0.5, ease: "power2.out" }, "<55%");
+  // Wrap every character in a span (MWG 049 util) — screen readers keep the
+  // full statement via aria-label; the spans are presentation only.
+  const lines = gsap.utils.toArray<HTMLElement>(".approach-bridge__line", title);
+  const originals = lines.map((line) => line.innerHTML);
+  title.setAttribute("aria-label", (title.textContent ?? "").replace(/\s+/g, " ").trim());
+  for (const line of lines) {
+    const text = line.textContent ?? "";
+    line.setAttribute("aria-hidden", "true");
+    line.innerHTML = text
+      .split("")
+      .map((char) =>
+        char === " " ? '<span class="ab-letter">&nbsp;</span>' : `<span class="ab-letter">${char}</span>`
+      )
+      .join("");
   }
+
+  const ctx = gsap.context(() => {
+    const dist = container.clientHeight - title.clientHeight;
+
+    ScrollTrigger.create({
+      trigger: container,
+      pin: title,
+      start: "top top",
+      end: "+=" + dist,
+    });
+
+    // NB: the reference triggers on the title, but its title sits flush with
+    // the container top. Ours is offset by the fixed header, so the title
+    // never reaches 'top top' — trigger on the container instead, which is
+    // exactly where the pin starts.
+    const letters = title.querySelectorAll<HTMLElement>(".ab-letter");
+    letters.forEach((letter) => {
+      const randomDistance = Math.random() * dist;
+      gsap.from(letter, {
+        y: randomDistance,
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          start: "top top",
+          end: "+=" + randomDistance,
+          scrub: true,
+        },
+      });
+    });
+
+    if (support) {
+      gsap.from(support, {
+        autoAlpha: 0,
+        y: 18,
+        duration: 0.6,
+        ease: "power2.out",
+        scrollTrigger: { trigger: support, start: "top 88%", once: true },
+      });
+    }
+  }, section);
+
+  return () => {
+    ctx.revert();
+    lines.forEach((line, index) => {
+      line.innerHTML = originals[index];
+      line.removeAttribute("aria-hidden");
+    });
+    title.removeAttribute("aria-label");
+  };
 }
 
-// 02→03 / Overlevering — the handoff band: the signal rail draws from the
-// "ut" register to the "inn" register, then the statement lands. Scrubbed on
-// desktop (the line literally carries you across); one-time reveal on mobile.
-function effectBridge(scrub: boolean) {
+// 02→03 / Overlevering — MWG 024-adapted opposite-direction marquees. The
+// band pins for 200vh; both phrases loop infinitely in opposite directions
+// (started after fonts.ready so widths are final) while the scrub masks
+// phrase one upward and reveals phrase two.
+function bridgeScene() {
   const section = document.querySelector<HTMLElement>(".effect-bridge");
-  if (!section) return;
+  if (!section) return () => {};
 
-  const line = section.querySelector<HTMLElement>("[data-bridge-line]");
-  const carrier = section.querySelector<HTMLElement>("[data-bridge-carrier]");
-  const rail = section.querySelector<HTMLElement>(".effect-bridge__rail");
-  const registers = gsap.utils.toArray<HTMLElement>("[data-bridge-register]", section);
-  const words = gsap.utils.toArray<HTMLElement>("[data-bridge-word]", section);
+  const pinHeight = section.querySelector<HTMLElement>("[data-bridge-pin]");
+  const container = section.querySelector<HTMLElement>("[data-bridge-container]");
+  const sentence1 = section.querySelector<HTMLElement>('[data-bridge-sentence="1"]');
+  const sentence2 = section.querySelector<HTMLElement>('[data-bridge-sentence="2"]');
+  if (!pinHeight || !container || !sentence1 || !sentence2) return () => {};
 
-  const tl = gsap.timeline({
-    scrollTrigger: scrub
-      ? { trigger: section, start: "top 80%", end: "center 44%", scrub: 0.5, invalidateOnRefresh: true }
-      : { trigger: section, start: "top 74%", once: true },
-    defaults: { ease: scrub ? "none" : "power3.out" },
+  // The stage class must exist before ScrollTrigger measures the runway.
+  section.classList.add("effect-bridge--stage");
+
+  let disposed = false;
+  const ctx = gsap.context(() => {
+    ScrollTrigger.create({
+      trigger: pinHeight,
+      start: "top top",
+      end: "bottom bottom",
+      pin: container,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    });
+
+    gsap.to([sentence1, sentence2], {
+      yPercent: "-=100",
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: pinHeight,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.4,
+      },
+    });
+  }, section);
+
+  // Infinite loops need final font metrics for a seamless wrap.
+  (document.fonts?.ready ?? Promise.resolve()).then(() => {
+    if (disposed) return;
+    ctx.add(() => {
+      gsap.to(sentence1, {
+        x: -sentence1.clientWidth / 2,
+        ease: "none",
+        duration: 10,
+        repeat: -1,
+      });
+      gsap.from(sentence2, {
+        x: -sentence2.clientWidth / 2,
+        ease: "none",
+        duration: 10,
+        repeat: -1,
+      });
+    });
   });
 
-  if (registers[0]) {
-    tl.from(registers[0], { autoAlpha: 0, x: -14, duration: 0.3 });
-  }
-  if (line) {
-    tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 1 }, "<");
-  }
-  if (carrier && rail) {
-    // The finished surface rides the tip of the rail from UT to INN.
-    gsap.set(carrier, { left: 0 });
-    tl.fromTo(
-      carrier,
-      { x: 0 },
-      { x: () => rail.clientWidth - 9, duration: 1, ease: scrub ? "none" : "power2.inOut" },
-      "<"
-    );
-  }
-  if (registers[1]) {
-    tl.from(registers[1], { autoAlpha: 0, x: 14, duration: 0.3 }, ">-0.25");
-  }
-  if (words.length) {
-    tl.from(words, { autoAlpha: 0, y: 22, duration: 0.5, stagger: 0.14 }, ">-0.2");
-  }
+  return () => {
+    disposed = true;
+    ctx.revert();
+    section.classList.remove("effect-bridge--stage");
+  };
 }
 
 function serviceReveals() {
@@ -585,9 +660,9 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
       const teardownGhost = setupBuildGhost();
-      approachFill(true);
+      const teardownApproach = approachScene();
       serviceReveals();
-      effectBridge(true);
+      const teardownBridge = bridgeScene();
       const teardownImprove = improveScene();
       const teardownWork = workScene();
       const teardownProcess = processStage();
@@ -595,6 +670,8 @@ export function HomeMotion() {
       footerReveals();
       return () => {
         teardownGhost();
+        teardownApproach();
+        teardownBridge();
         teardownImprove();
         teardownWork();
         teardownProcess();
@@ -603,15 +680,17 @@ export function HomeMotion() {
 
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
-      approachFill(false);
+      const teardownApproach = approachScene();
       serviceReveals();
-      effectBridge(false);
+      const teardownBridge = bridgeScene();
       const teardownImprove = improveScene();
       const teardownWork = workScene();
       const teardownProcess = processStage();
       manifestoReveal();
       footerReveals();
       return () => {
+        teardownApproach();
+        teardownBridge();
         teardownImprove();
         teardownWork();
         teardownProcess();
