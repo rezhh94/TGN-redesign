@@ -39,7 +39,8 @@
 .approach-bridge__statement {
   color: var(--color-on-dark);
   font-family: var(--font-display);
-  font-size: clamp(64px, 8.6vw, 190px);
+  /* Tier 1 i den typografiske stigen — deles med 02s BYGGER-tittel */
+  font-size: clamp(64px, 8.6vw, 170px);
   font-weight: 700;
   letter-spacing: 0.01em;
   line-height: 0.92;

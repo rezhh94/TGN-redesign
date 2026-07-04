@@ -16,7 +16,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: clamp(560px, 88vh, 940px);
+  min-height: clamp(640px, 100vh, 1120px);
   width: min(100%, 2560px);
   margin: 0 auto;
   padding: clamp(120px, 16vh, 200px) clamp(24px, 5vw, 150px);
@@ -97,7 +97,7 @@
 
 @media (max-width: 640px) {
   .system-manifesto__inner {
-    min-height: 72vh;
+    min-height: 84vh;
     padding: 104px 20px;
   }
 

@@ -1,6 +1,14 @@
+/* 02 / Tjenester — MWG 031-oversatt «scrolling sections» à la Brand Appart:
+   hver tjeneste er et innfelt, avrundet kort som pinnes én viewport mens
+   neste kort ruller over; det pinnede kortet trekker seg inn i perspektivet
+   (rotationX 40 + tilfeldig tilt + scale 0.7 + fade). Kortene veksler
+   stein/koks — tonal i stedet for Brand Apparts fargekort.
+
+   Default (no JS / PRM): kortene ligger stablet statisk — all tekst SSR.
+   Cursor-pillen «Les mer» er JS + pointer:fine, alltid aria-hidden. */
+
 .what-build {
   position: relative;
-  overflow: hidden;
   background:
     linear-gradient(180deg, #10110e 0%, #151611 44%, #0c0d0b 100%);
   color: var(--color-on-dark);
@@ -9,7 +17,14 @@
 .what-build__inner {
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(104px, 15vh, 186px) clamp(24px, 5vw, 150px) clamp(116px, 16vh, 212px);
+  padding: clamp(104px, 15vh, 186px) clamp(24px, 5vw, 150px) clamp(48px, 7vh, 96px);
+}
+
+.what-build__inner--foot {
+  /* Kort 5 er ferdig fadet først ~én viewport etter pin-slipp — registeret
+     trenger en full viewport topp-luft for å entre alene og lesbart. */
+  padding-top: clamp(480px, 100vh, 1040px);
+  padding-bottom: clamp(116px, 16vh, 212px);
 }
 
 .what-build__top {
@@ -17,11 +32,9 @@
   grid-template-columns: minmax(130px, 0.22fr) minmax(0, 1fr);
   gap: clamp(32px, 7vw, 128px);
   align-items: start;
-  padding-bottom: clamp(32px, 5vh, 62px);
 }
 
-.what-build__label,
-.what-build__number {
+.what-build__label {
   color: rgba(242, 241, 235, 0.64);
   font-family: var(--font-mono);
   font-size: 12px;
@@ -39,10 +52,12 @@
 
 .what-build__title {
   grid-column: 1 / -1;
-  margin-left: -34px;
+  /* Optisk venstre-bleed som skalerer med fonten (~ -34px ved 276px) */
+  margin-left: -0.12em;
   color: var(--color-on-dark);
   font-family: var(--font-display);
-  font-size: 276px;
+  /* Tier 1 i den typografiske stigen — samme skala som 01-statementet */
+  font-size: clamp(64px, 8.6vw, 170px);
   font-weight: 700;
   letter-spacing: 0;
   line-height: 0.76;
@@ -75,217 +90,216 @@
   font-size: 17px;
 }
 
-/* Service list — list-as-interaction. Row anatomy: number / title / mono meta / icon.
-   A ghost index numeral tracks the active row behind the list (custom detail,
-   JS-driven; invisible noise without it). */
+/* ---------------------------------------------------------------------------
+   Kortstabelen — MWG 031-geometri: 100vh slide, pin-wrapper med perspektiv,
+   kortet absolutt innfelt (Brand Appart-innrykket, ikke full bredde). */
 
-.what-build__list-frame {
-  position: relative;
-}
-
-.what-build__ghost {
-  position: absolute;
-  top: 50%;
-  right: clamp(-30px, -1.4vw, -10px);
-  z-index: 0;
-  color: rgba(242, 241, 235, 0.045);
-  font-family: var(--font-display);
-  font-size: clamp(240px, 26vw, 520px);
-  font-weight: 800;
-  line-height: 0.8;
-  transform: translateY(-50%);
-  pointer-events: none;
-  user-select: none;
-}
-
-.what-build__list {
-  position: relative;
-  z-index: 1;
+.what-build__stack {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid rgba(242, 241, 235, 0.16);
 }
 
-.what-build__row {
-  position: relative;
-  border-bottom: 1px solid rgba(242, 241, 235, 0.14);
-  transition: background var(--motion-fast) var(--ease-standard);
+.what-build__slide {
+  height: 100vh;
 }
 
-/* Open-state marker — a precise hairline on the left edge of the active row */
-
-.what-build__row::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 18%;
-  bottom: 18%;
-  width: 1px;
-  background: rgba(242, 241, 235, 0);
-  transition: background var(--motion-base) var(--ease-standard);
-}
-
-.what-build__row[data-open]::before {
-  background: rgba(242, 241, 235, 0.55);
-}
-
-.what-build__row:hover {
-  background: rgba(242, 241, 235, 0.04);
-}
-
-.what-build__row-heading {
-  margin: 0;
-  font-weight: 500;
-}
-
-.what-build__row-trigger {
-  display: grid;
+.what-build__card-pin {
   width: 100%;
-  grid-template-columns: 74px minmax(0, 1fr) auto 38px;
-  gap: clamp(20px, 3vw, 48px);
-  align-items: baseline;
-  border: 0;
-  background: none;
+  height: 100%;
+  perspective: 250vw;
+}
+
+.what-build__card {
+  position: absolute;
+  /* Brand Appart-innrykket — kortet er markant smalere enn viewporten */
+  inset: clamp(10px, 1.6vh, 20px) clamp(24px, 12.5vw, 380px);
   color: inherit;
-  padding: clamp(30px, 4.4vh, 46px) clamp(10px, 1vw, 18px) clamp(30px, 4.4vh, 46px) 0;
-  text-align: left;
-  cursor: pointer;
+  text-decoration: none;
+  transform-style: preserve-3d;
+  transform-origin: 50% 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(24px, 4vh, 44px);
+  /* Toppen må klarere den faste headeren når kortet er pinnet */
+  padding: max(clamp(24px, 3vw, 60px), calc(var(--header-height) + 6px)) clamp(24px, 3vw, 60px)
+    clamp(24px, 3vw, 60px);
+  border-radius: clamp(18px, 1.8vw, 30px);
+  overflow: hidden;
 }
 
-.what-build__row-trigger:focus-visible {
-  outline: 2px solid rgba(242, 241, 235, 0.78);
-  outline-offset: -2px;
+/* Tonal veksling — stein/koks i stedet for Brand Apparts fargekort */
+
+.what-build__slide:nth-child(odd) .what-build__card {
+  background: #e9e8e4;
+  color: #16170f;
 }
 
-.what-build__number {
-  padding-top: 0.25em;
-}
-
-.what-build__service-title {
-  min-width: 0;
-  color: rgba(242, 241, 235, 0.86);
-  font-family: var(--font-sans);
-  font-size: clamp(40px, 3.9vw, 74px);
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  line-height: 0.96;
-  transition:
-    color var(--motion-fast) var(--ease-standard),
-    transform var(--motion-base) var(--ease-out-expo);
-}
-
-.what-build__row:hover .what-build__service-title,
-.what-build__row[data-open] .what-build__service-title {
+.what-build__slide:nth-child(even) .what-build__card {
+  background: #191a15;
   color: var(--color-on-dark);
+  border: 1px solid rgba(242, 241, 235, 0.12);
 }
 
-.what-build__row:hover .what-build__service-title {
-  transform: translateX(clamp(4px, 0.6vw, 10px));
+.what-build__card:focus-visible {
+  outline: 2px solid rgba(242, 241, 235, 0.8);
+  outline-offset: 4px;
 }
 
-.what-build__row[data-open] .what-build__service-title {
-  font-size: clamp(52px, 5.4vw, 104px);
+.what-build__card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: clamp(24px, 4vw, 72px);
 }
 
-.what-build__row-meta {
-  color: rgba(242, 241, 235, 0.44);
+.what-build__card-title {
+  font-family: var(--font-sans);
+  font-size: clamp(38px, 4.6vw, 84px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+.what-build__card-meta {
+  margin-top: clamp(14px, 2vh, 22px);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.04em;
   line-height: 1.2;
-  white-space: nowrap;
-  transition: color var(--motion-fast) var(--ease-standard);
+  opacity: 0.55;
 }
 
-.what-build__row:hover .what-build__row-meta {
-  color: rgba(242, 241, 235, 0.72);
-}
-
-/* Icon — precise plus that rotates to a close-cross when open */
-
-.what-build__icon {
-  position: relative;
-  justify-self: end;
-  align-self: center;
-  width: 18px;
-  height: 18px;
-  transition: transform var(--motion-base) var(--ease-out-expo);
-}
-
-.what-build__icon::before,
-.what-build__icon::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: rgba(242, 241, 235, 0.78);
-}
-
-.what-build__icon::after {
-  transform: rotate(90deg);
-}
-
-.what-build__row[data-open] .what-build__icon {
-  transform: rotate(45deg);
-}
-
-/* Body — always in the DOM. Default (no JS): every body visible.
-   JS adds .what-build--enhanced and collapses rows without [data-open]. */
-
-.what-build__body {
-  display: grid;
-  grid-template-rows: 1fr;
-}
-
-.what-build__body-inner {
-  overflow: hidden;
-  min-height: 0;
-}
-
-.what-build--enhanced .what-build__row:not([data-open]) .what-build__body {
-  grid-template-rows: 0fr;
-}
-
-.what-build--enhanced .what-build__body {
-  transition: grid-template-rows 400ms var(--ease-out-expo);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .what-build--enhanced .what-build__body,
-  .what-build__icon,
-  .what-build__service-title {
-    transition: none;
-  }
-}
-
-.what-build__description {
-  max-width: 640px;
-  margin-left: calc(74px + clamp(20px, 3vw, 48px));
-  color: rgba(242, 241, 235, 0.82);
+.what-build__card-num {
+  flex: none;
   font-family: var(--font-sans);
-  font-size: clamp(20px, 1.7vw, 30px);
+  font-size: clamp(20px, 1.9vw, 34px);
   font-weight: 400;
-  line-height: 1.28;
-  padding-bottom: clamp(34px, 5vh, 58px);
+  letter-spacing: -0.01em;
+  line-height: 1;
+  opacity: 0.45;
 }
 
-.what-build__tagline {
-  margin-left: calc(74px + clamp(20px, 3vw, 48px));
-  margin-top: -10px;
-  color: rgba(242, 241, 235, 0.5);
+/* Beskrivelsen ligger som eget flex-barn — space-between setter den i
+   kortets midtfelt, som hos Brand Appart. */
+
+.what-build__card-description {
+  max-width: 560px;
+  font-family: var(--font-sans);
+  font-size: clamp(18px, 1.45vw, 26px);
+  font-weight: 400;
+  line-height: 1.3;
+  opacity: 0.82;
+}
+
+.what-build__card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: clamp(24px, 4vw, 72px);
+}
+
+.what-build__card-tags {
+  max-width: 420px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.what-build__card-media {
+  flex: none;
+  width: clamp(200px, 21vw, 400px);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: clamp(10px, 0.9vw, 16px);
+}
+
+/* Cursor-pillen — følger pekeren over kortene (JS setter x/y/scale) */
+
+.what-build__cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  display: none;
+  padding: 15px 24px;
+  border-radius: 999px;
+  background: #f2f1eb;
+  color: #12120f;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.what-build--stage .what-build__cursor {
+  display: block;
+}
+
+/* «Flere tjenester» — stille SSR-register for tjenestene uten kort:
+   internlenkene og søketeksten bor her, presentasjonen forblir rolig. */
+
+.what-build__more {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(24px, 4vw, 72px);
+  margin-bottom: clamp(44px, 7vh, 84px);
+  padding-bottom: clamp(24px, 3.6vh, 42px);
+  border-bottom: 1px solid rgba(242, 241, 235, 0.14);
+}
+
+.what-build__more-label {
+  flex: none;
+  color: rgba(242, 241, 235, 0.62);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.04em;
-  line-height: 1.6;
+  line-height: 1.2;
   text-transform: uppercase;
-  padding-bottom: clamp(38px, 5.6vh, 64px);
 }
 
-.what-build__row[data-open] .what-build__description {
-  padding-bottom: clamp(22px, 3vh, 34px);
+.what-build__more-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px clamp(18px, 2vw, 34px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.what-build__more-item {
+  color: rgba(242, 241, 235, 0.66);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.1vw, 19px);
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.what-build__more-item a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(242, 241, 235, 0.26);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.32em;
+  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
+}
+
+.what-build__more-item a:hover,
+.what-build__more-item a:focus-visible {
+  color: var(--color-on-dark);
+  text-decoration-color: var(--color-on-dark);
+}
+
+.what-build__more .what-build__foot-link {
+  align-self: baseline;
 }
 
 /* Foot strip — closes the chapter and hands off to 05 / Prosess.
@@ -295,7 +309,6 @@
   display: flex;
   align-items: baseline;
   gap: clamp(24px, 4vw, 72px);
-  margin-top: clamp(30px, 4.6vh, 52px);
 }
 
 .what-build__foot-note {
@@ -349,18 +362,7 @@
   transform: rotate(45deg) translateY(-1px);
 }
 
-@media (max-width: 1440px) {
-  .what-build__title {
-    margin-left: -24px;
-    font-size: 216px;
-  }
-}
-
 @media (max-width: 1080px) {
-  .what-build__ghost {
-    display: none;
-  }
-
   .what-build__top {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -370,53 +372,65 @@
     grid-template-columns: 1fr;
   }
 
-  .what-build__title {
-    margin-left: -16px;
-    font-size: 156px;
-  }
-
   .what-build__intro-stack {
     grid-column: 1;
     max-width: 620px;
     margin-top: 8px;
   }
+}
 
-  .what-build__row-trigger {
-    grid-template-columns: 62px minmax(0, 1fr) 28px;
-    gap: 24px;
+@media (max-width: 768px) {
+  .what-build__card {
+    inset: 10px 12px;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: calc(var(--header-height) + 10px) 20px 20px;
   }
 
-  .what-build__row-meta {
-    display: none;
+  .what-build__card-title {
+    font-size: clamp(34px, 9vw, 46px);
   }
 
-  .what-build__service-title {
-    font-size: clamp(36px, 5.4vw, 56px);
+  .what-build__card-meta {
+    margin-top: 10px;
   }
 
-  .what-build__row[data-open] .what-build__service-title {
-    font-size: clamp(46px, 7.6vw, 82px);
+  .what-build__card-description {
+    font-size: 18px;
   }
 
-  .what-build__description,
-  .what-build__tagline {
-    margin-left: 86px;
-    max-width: 720px;
+  .what-build__card-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .what-build__card-tags {
+    order: 2;
+    max-width: none;
+  }
+
+  .what-build__card-media {
+    width: 100%;
+    aspect-ratio: 16 / 10;
   }
 }
 
 @media (max-width: 640px) {
   .what-build__inner {
-    padding: 92px 20px 108px;
+    padding: 92px 20px 40px;
+  }
+
+  .what-build__inner--foot {
+    padding-top: 0;
+    padding-bottom: 108px;
   }
 
   .what-build__top {
     gap: 30px;
-    padding-bottom: 38px;
   }
 
   .what-build__title {
-    margin-left: -7px;
     font-size: 78px;
     line-height: 0.82;
   }
@@ -435,56 +449,20 @@
     font-size: 17px;
   }
 
-  .what-build__row-trigger {
-    grid-template-columns: minmax(0, 1fr) 22px;
-    gap: 14px 18px;
-    padding: 26px 0;
+  .what-build__more {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
   }
 
-  .what-build__number {
-    grid-column: 1 / -1;
-    padding-top: 0;
-  }
-
-  .what-build__service-title {
-    font-size: clamp(30px, 9vw, 40px);
-  }
-
-  .what-build__row[data-open] .what-build__service-title {
-    font-size: clamp(38px, 11.4vw, 52px);
-  }
-
-  .what-build__icon {
-    width: 15px;
-    height: 15px;
-  }
-
-  .what-build__row:hover .what-build__service-title {
-    transform: none;
-  }
-
-  .what-build__description,
-  .what-build__tagline {
-    margin-left: 0;
-  }
-
-  .what-build__description {
-    font-size: 20px;
-    line-height: 1.3;
-    padding-bottom: 28px;
-  }
-
-  .what-build__tagline {
-    margin-top: -6px;
-    font-size: 11px;
-    padding-bottom: 32px;
+  .what-build__more-item {
+    white-space: normal;
   }
 
   .what-build__foot {
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
-    margin-top: 34px;
   }
 
   .what-build__foot-link {

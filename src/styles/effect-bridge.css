@@ -1,12 +1,11 @@
-/* 02→03 / Overlevering — MWG 024-oversatt motsatt-retning-marquee.
-   To fraser i uendelig løp i hver sin retning; mens båndet er pinnet
-   maskerer scrubben «Ferdig bygget» oppover og avdekker «er ikke ferdig.»
-   — overleveringen skjer bokstavelig i båndet. Diamant-glyfen fra den
-   gamle carrier-noden skiller frasene.
+/* 02→03 / Overlevering — MWG 015-oversatt «title mask effect». Hvert ord
+   ligger dobbelt i en klippet maske; når statementet krysser viewport ruller
+   den synlige kopien ned og ut mens duplikatet ruller inn ovenfra — mot
+   scrollretningen. Målestemmen (JUST Sans), ingen pin: etter den pinnede
+   kortstabelen i 02 skal broen flyte, ikke holde fast.
 
-   Default (no JS / PRM): kun det statiske statementet + meta-linjen.
-   JS legger på .effect-bridge--stage; først da finnes pin-høyde og
-   marquee-DOM (som alltid er aria-hidden). */
+   Default (no JS / PRM): duplikatene er translatert -100 % og klippet bort
+   av masken (ren CSS) — statementet står statisk og komplett. */
 
 .effect-bridge {
   position: relative;
@@ -14,149 +13,88 @@
   color: var(--color-on-dark);
 }
 
-.effect-bridge__pin,
-.effect-bridge__container {
-  position: relative;
+.effect-bridge__inner {
+  width: min(100%, 2560px);
+  margin: 0 auto;
+  padding: clamp(120px, 20vh, 260px) clamp(24px, 5vw, 150px);
 }
 
-.effect-bridge__container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: clamp(96px, 14vh, 180px) clamp(24px, 5vw, 150px);
+.effect-bridge__label {
+  margin-bottom: clamp(40px, 7vh, 80px);
+  color: rgba(242, 241, 235, 0.62);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
 }
-
-/* Default: statisk statement, marquee skjult */
 
 .effect-bridge__statement {
   color: var(--color-on-dark);
-  font-family: var(--font-display);
-  font-size: clamp(40px, 5.6vw, 110px);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 0.96;
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: clamp(30px, 4.5vw, 96px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
 }
 
-.effect-bridge__statement-line {
+.effect-bridge__line {
   display: block;
 }
 
-.effect-bridge__statement-line--muted {
+.effect-bridge__line--muted {
   color: rgba(242, 241, 235, 0.5);
 }
 
-.effect-bridge__sentences {
-  display: none;
-}
+/* Ordmasken — MWG 015 verbatim: inline-block med clip, duplikatet ligger
+   absolutt over og er translatert -100 % (usynlig til JS ruller det inn). */
 
-.effect-bridge__meta {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  margin-top: clamp(28px, 4.4vh, 52px);
-  padding-top: clamp(14px, 2vh, 22px);
-  border-top: 1px solid rgba(242, 241, 235, 0.14);
-  color: rgba(242, 241, 235, 0.55);
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.08em;
-  line-height: 1.3;
-  text-transform: uppercase;
-}
-
-/* ---------------------------------------------------------------------------
-   Stage mode — MWG 024-geometri verbatim: 200vh pin-høyde, 100vh sentrert
-   container, to marquee-rader der rad to ligger absolutt over rad én og
-   starter translatert 100 % ned (maskene er overflow:hidden per rad). */
-
-.effect-bridge--stage .effect-bridge__pin {
-  height: 200vh;
-}
-
-.effect-bridge--stage .effect-bridge__container {
-  height: 100vh;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-/* Det semantiske statementet beholdes for skjermlesere, men skjules
-   visuelt — marqueen er nå den visuelle teksten. */
-
-.effect-bridge--stage .effect-bridge__statement {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  clip-path: inset(50%);
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.effect-bridge--stage .effect-bridge__sentences {
-  display: block;
+.effect-bridge__word {
+  display: inline-block;
   position: relative;
-  font-family: var(--font-display);
-  font-size: 9vw;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1.18;
-  text-transform: uppercase;
-  color: var(--color-on-dark);
+  clip-path: inset(0);
 }
 
-.effect-bridge--stage .effect-bridge__sentence {
-  overflow: hidden;
+.effect-bridge__word:not(:last-child) {
+  margin-right: 0.26em;
 }
 
-.effect-bridge--stage .effect-bridge__sentence p {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  white-space: nowrap;
+.effect-bridge__copy {
+  display: inline-block;
   will-change: transform;
 }
 
-.effect-bridge--stage .effect-bridge__sentence--one p {
-  color: rgba(242, 241, 235, 0.5);
-}
-
-.effect-bridge--stage .effect-bridge__sentence--two {
+.effect-bridge__copy--hidden {
   position: absolute;
   top: 0;
   left: 0;
-  /* Absolutt-posisjonerte bokser shrink-to-fit'er til innholdet (260vw+)
-     og drar med seg document-scrollbredden — lås til maskebredden. */
-  width: 100%;
+  transform: translate(0, -100%);
 }
 
-.effect-bridge--stage .effect-bridge__sentence--two p {
-  transform: translate(0, 100%);
-}
-
-/* Diamanten — arvet fra den gamle carrier-noden */
-
-.effect-bridge--stage .effect-bridge__glyph {
-  display: inline-block;
-  width: 0.38em;
-  height: 0.38em;
-  margin: 0 0.3em;
-  background: rgba(242, 241, 235, 0.85);
-  transform: rotate(45deg);
-  flex: none;
+.effect-bridge__support {
+  max-width: 560px;
+  margin-top: clamp(30px, 5vh, 56px);
+  color: rgba(242, 241, 235, 0.62);
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 1.15vw, 20px);
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 @media (max-width: 768px) {
-  .effect-bridge__container {
-    padding: 88px 20px;
+  .effect-bridge__inner {
+    padding: 100px 20px;
   }
 
-  .effect-bridge__meta {
-    font-size: 9.5px;
-    gap: 10px;
+  .effect-bridge__label {
+    margin-bottom: 36px;
   }
 
-  .effect-bridge--stage .effect-bridge__sentences {
-    font-size: 58px;
+  .effect-bridge__statement {
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .effect-bridge__support {
+    margin-top: 24px;
+    font-size: 16px;
   }
 }

@@ -1,53 +1,44 @@
-import { Fragment } from "react";
+const lines = [
+  { id: "out", muted: true, words: ["Ferdig", "bygget"] },
+  { id: "in", muted: false, words: ["er", "ikke", "ferdig."] },
+];
 
-const repetitions = [0, 1, 2, 3];
-
-/* 02→03 / Overlevering — MWG 024 architecture: the two statement lines run
-   as infinite marquees in opposite directions; while the band is pinned,
-   the scrub masks «Ferdig bygget» upward and reveals «er ikke ferdig.».
-   The plain h2 is the default (no-JS/PRM) rendering — the marquee DOM is
-   decorative, aria-hidden and only displayed in stage mode. */
+/* 02→03 / Overlevering — MWG 015 architecture: every word exists twice
+   inside a clipped mask; as the statement crosses the viewport the visible
+   copy rolls down and out while the duplicate rolls in from above, against
+   the scroll direction. No pin — the bridge is a flowing moment between the
+   pinned 02 stack and 03. The duplicates are baked into the SSR markup
+   (aria-hidden); without JS only the visible copies show, statically. */
 export function EffectBridge() {
   return (
     <section className="effect-bridge" aria-labelledby="effect-bridge-title">
-      <div className="effect-bridge__pin" data-bridge-pin>
-        <div className="effect-bridge__container" data-bridge-container>
-          <h2 className="effect-bridge__statement" id="effect-bridge-title">
-            <span className="effect-bridge__statement-line effect-bridge__statement-line--muted">
-              Ferdig bygget
-            </span>{" "}
-            <span className="effect-bridge__statement-line">er ikke ferdig.</span>
-          </h2>
+      <div className="effect-bridge__inner">
+        <p className="effect-bridge__label">02 → 03 / Overlevering</p>
 
-          <div className="effect-bridge__sentences" aria-hidden="true">
-            <div className="effect-bridge__sentence effect-bridge__sentence--one">
-              <p data-bridge-sentence="1">
-                {repetitions.map((index) => (
-                  <Fragment key={index}>
-                    <span>&nbsp;Ferdig bygget&nbsp;</span>
-                    <span className="effect-bridge__glyph" />
-                  </Fragment>
-                ))}
-              </p>
-            </div>
-            <div className="effect-bridge__sentence effect-bridge__sentence--two">
-              <p data-bridge-sentence="2">
-                {repetitions.map((index) => (
-                  <Fragment key={index}>
-                    <span>&nbsp;er ikke ferdig.&nbsp;</span>
-                    <span className="effect-bridge__glyph" />
-                  </Fragment>
-                ))}
-              </p>
-            </div>
-          </div>
+        <h2 className="effect-bridge__statement" id="effect-bridge-title">
+          {lines.map((line) => (
+            <span
+              key={line.id}
+              className={
+                "effect-bridge__line" + (line.muted ? " effect-bridge__line--muted" : "")
+              }
+            >
+              {line.words.map((word) => (
+                <span className="effect-bridge__word" data-bridge-word key={word}>
+                  <span
+                    className="effect-bridge__copy effect-bridge__copy--hidden"
+                    aria-hidden="true"
+                  >
+                    {word}
+                  </span>
+                  <span className="effect-bridge__copy">{word}</span>
+                </span>
+              ))}
+            </span>
+          ))}
+        </h2>
 
-          <div className="effect-bridge__meta">
-            <p>Ut — ferdig flate</p>
-            <p>02 → 03 / Overlevering</p>
-            <p>Inn — måling</p>
-          </div>
-        </div>
+        <p className="effect-bridge__support">Etter lansering begynner målingen.</p>
       </div>
     </section>
   );

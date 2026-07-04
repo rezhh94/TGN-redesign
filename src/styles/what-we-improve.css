@@ -71,7 +71,7 @@
 .what-improve__text {
   color: rgba(242, 241, 235, 0.92);
   font-family: var(--font-sans);
-  font-size: max(20px, 2.6vw);
+  font-size: max(20px, 3vw);
   font-weight: 500;
   letter-spacing: -0.015em;
   line-height: 1.24;

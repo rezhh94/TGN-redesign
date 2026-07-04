@@ -12,49 +12,98 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 // pinned scenes jump. Dimension changes from real rotation still refresh.
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-function setupServiceAccordion() {
-  const list = document.querySelector<HTMLElement>("[data-build-list]");
-  if (!list) return () => {};
+// 02 / Tjenester — MWG 031-adapted scrolling sections. Every service card
+// pins for exactly one viewport while the next slide scrolls over it; the
+// pinned card recedes into the wrapper's perspective (rotationX 40, random
+// tilt, scale 0.7) and fades once it is mostly gone — verbatim reference
+// values. Without JS the cards are simply stacked (all text SSR).
+function buildStackScene() {
+  const section = document.querySelector<HTMLElement>(".what-build");
+  if (!section) return () => {};
 
-  // Collapse without transition so the page height is final before
-  // ScrollTrigger measures positions (the 400ms collapse otherwise leaves
-  // late triggers with stale, unreachable start values).
-  const bodies = Array.from(list.querySelectorAll<HTMLElement>("[data-build-body]"));
-  for (const body of bodies) body.style.transition = "none";
-  list.classList.add("what-build--enhanced");
-  void list.offsetHeight;
-  requestAnimationFrame(() => {
-    for (const body of bodies) body.style.transition = "";
-  });
+  const slides = gsap.utils.toArray<HTMLElement>("[data-build-slide]", section);
+  if (!slides.length) return () => {};
 
-  const rows = Array.from(list.querySelectorAll<HTMLElement>("[data-build-row]"));
-  const syncAria = () => {
-    for (const row of rows) {
-      const trigger = row.querySelector<HTMLButtonElement>("[data-build-trigger]");
-      trigger?.setAttribute("aria-expanded", row.hasAttribute("data-open") ? "true" : "false");
+  section.classList.add("what-build--stage");
+
+  const ctx = gsap.context(() => {
+    for (const slide of slides) {
+      const pin = slide.querySelector<HTMLElement>("[data-build-pin]");
+      const card = slide.querySelector<HTMLElement>("[data-build-card]");
+      if (!pin || !card) continue;
+
+      gsap.to(card, {
+        rotationZ: (Math.random() - 0.5) * 10,
+        scale: 0.7,
+        rotationX: 40,
+        ease: "power1.in",
+        scrollTrigger: {
+          pin,
+          trigger: slide,
+          start: "top 0%",
+          end: () => "+=" + window.innerHeight,
+          scrub: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      gsap.to(card, {
+        autoAlpha: 0,
+        ease: "power1.in",
+        scrollTrigger: {
+          trigger: card,
+          start: "top -80%",
+          end: () => "+=" + 0.2 * window.innerHeight,
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
     }
-  };
-  syncAria();
+  }, section);
 
-  const onClick = (event: Event) => {
-    const trigger = (event.target as HTMLElement).closest("[data-build-trigger]");
-    if (!trigger || !list.contains(trigger)) return;
-    const row = trigger.closest<HTMLElement>("[data-build-row]");
-    if (!row) return;
-
-    const wasOpen = row.hasAttribute("data-open");
-    for (const other of rows) other.removeAttribute("data-open");
-    if (!wasOpen) row.setAttribute("data-open", "");
-    syncAria();
-  };
-
-  list.addEventListener("click", onClick);
   return () => {
-    list.removeEventListener("click", onClick);
-    list.classList.remove("what-build--enhanced");
-    for (const row of rows) {
-      row.querySelector("[data-build-trigger]")?.removeAttribute("aria-expanded");
+    ctx.revert();
+    section.classList.remove("what-build--stage");
+  };
+}
+
+// «Les mer»-pill that trails the pointer across the service cards
+// (Brand Appart register). Pointer-fine only; purely decorative.
+function setupBuildCursor() {
+  const section = document.querySelector<HTMLElement>(".what-build");
+  const stack = section?.querySelector<HTMLElement>("[data-build-stack]");
+  const pill = section?.querySelector<HTMLElement>("[data-build-cursor]");
+  if (!section || !stack || !pill) return () => {};
+  if (!window.matchMedia("(pointer: fine)").matches) return () => {};
+
+  gsap.set(pill, { xPercent: -50, yPercent: -50, scale: 0, autoAlpha: 0 });
+  const xTo = gsap.quickTo(pill, "x", { duration: 0.4, ease: "power3" });
+  const yTo = gsap.quickTo(pill, "y", { duration: 0.4, ease: "power3" });
+
+  const onMove = (event: PointerEvent) => {
+    xTo(event.clientX);
+    yTo(event.clientY);
+  };
+  const onOver = (event: PointerEvent) => {
+    if ((event.target as HTMLElement).closest("[data-build-card]")) {
+      xTo(event.clientX);
+      yTo(event.clientY);
+      gsap.to(pill, { scale: 1, autoAlpha: 1, duration: 0.3, ease: "power3.out" });
     }
+  };
+  const onLeave = () => {
+    gsap.to(pill, { scale: 0, autoAlpha: 0, duration: 0.25, ease: "power3.in" });
+  };
+
+  stack.addEventListener("pointermove", onMove);
+  stack.addEventListener("pointerover", onOver);
+  stack.addEventListener("pointerleave", onLeave);
+  return () => {
+    stack.removeEventListener("pointermove", onMove);
+    stack.removeEventListener("pointerover", onOver);
+    stack.removeEventListener("pointerleave", onLeave);
+    gsap.set(pill, { clearProps: "all" });
   };
 }
 
@@ -71,48 +120,6 @@ function heroEntrance(full: boolean) {
     tl.from(".hero__visual", { autoAlpha: 0, y: 26, duration: 0.7 }, "-=0.55");
   }
   tl.from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.4");
-}
-
-// Ghost index numeral behind the service list tracks hover/open row.
-function setupBuildGhost() {
-  const ghost = document.querySelector<HTMLElement>("[data-build-ghost]");
-  const list = document.querySelector<HTMLElement>("[data-build-list]");
-  if (!ghost || !list) return () => {};
-
-  const numberFor = (row: Element | null) =>
-    row?.querySelector(".what-build__number")?.textContent?.trim() ?? null;
-
-  const openNumber = () => numberFor(list.querySelector("[data-build-row][data-open]"));
-
-  let current = ghost.textContent?.trim() ?? "";
-  const swap = (value: string | null) => {
-    if (!value || value === current) return;
-    current = value;
-    gsap
-      .timeline()
-      .to(ghost, { autoAlpha: 0, y: 18, duration: 0.16, ease: "power2.in" })
-      .call(() => {
-        ghost.textContent = value;
-      })
-      .to(ghost, { autoAlpha: 1, y: 0, duration: 0.34, ease: "power3.out" });
-  };
-
-  const onOver = (event: Event) => {
-    const row = (event.target as HTMLElement).closest("[data-build-row]");
-    if (row) swap(numberFor(row));
-  };
-  const onLeave = () => swap(openNumber());
-  const onClick = () => swap(openNumber());
-
-  swap(openNumber());
-  list.addEventListener("pointerover", onOver);
-  list.addEventListener("pointerleave", onLeave);
-  list.addEventListener("click", onClick);
-  return () => {
-    list.removeEventListener("pointerover", onOver);
-    list.removeEventListener("pointerleave", onLeave);
-    list.removeEventListener("click", onClick);
-  };
 }
 
 // 01 / Tilnærming — MWG 049-adapted defying gravity. The statement pins at
@@ -195,84 +202,34 @@ function approachScene() {
   };
 }
 
-// 02→03 / Overlevering — MWG 024-adapted opposite-direction marquees. The
-// band pins for 200vh; both phrases loop infinitely in opposite directions
-// (started after fonts.ready so widths are final) while the scrub masks
-// phrase one upward and reveals phrase two.
+// 02→03 / Overlevering — MWG 015-adapted title mask effect. Every word
+// exists twice inside a clipped mask (SSR markup); as the statement crosses
+// the viewport each word's children roll yPercent +100 — the visible copy
+// rolls out downward while the duplicate rolls in from above, against the
+// scroll direction. No pin, no runtime splitting.
 function bridgeScene() {
   const section = document.querySelector<HTMLElement>(".effect-bridge");
   if (!section) return () => {};
 
-  const pinHeight = section.querySelector<HTMLElement>("[data-bridge-pin]");
-  const container = section.querySelector<HTMLElement>("[data-bridge-container]");
-  const sentence1 = section.querySelector<HTMLElement>('[data-bridge-sentence="1"]');
-  const sentence2 = section.querySelector<HTMLElement>('[data-bridge-sentence="2"]');
-  if (!pinHeight || !container || !sentence1 || !sentence2) return () => {};
+  const words = gsap.utils.toArray<HTMLElement>("[data-bridge-word]", section);
+  if (!words.length) return () => {};
 
-  // The stage class must exist before ScrollTrigger measures the runway.
-  section.classList.add("effect-bridge--stage");
-
-  let disposed = false;
   const ctx = gsap.context(() => {
-    ScrollTrigger.create({
-      trigger: pinHeight,
-      start: "top top",
-      end: "bottom bottom",
-      pin: container,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-    });
-
-    gsap.to([sentence1, sentence2], {
-      yPercent: "-=100",
-      ease: "power1.inOut",
-      scrollTrigger: {
-        trigger: pinHeight,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 0.4,
-      },
-    });
+    for (const word of words) {
+      gsap.to(word.children, {
+        yPercent: "+=100",
+        ease: "expo.inOut",
+        scrollTrigger: {
+          trigger: word,
+          start: "bottom bottom",
+          end: "top 55%",
+          scrub: 0.4,
+        },
+      });
+    }
   }, section);
 
-  // Infinite loops need final font metrics for a seamless wrap.
-  (document.fonts?.ready ?? Promise.resolve()).then(() => {
-    if (disposed) return;
-    ctx.add(() => {
-      gsap.to(sentence1, {
-        x: -sentence1.clientWidth / 2,
-        ease: "none",
-        duration: 10,
-        repeat: -1,
-      });
-      gsap.from(sentence2, {
-        x: -sentence2.clientWidth / 2,
-        ease: "none",
-        duration: 10,
-        repeat: -1,
-      });
-    });
-  });
-
-  return () => {
-    disposed = true;
-    ctx.revert();
-    section.classList.remove("effect-bridge--stage");
-  };
-}
-
-function serviceReveals() {
-  const rows = gsap.utils.toArray<HTMLElement>("[data-build-row]");
-  if (!rows.length) return;
-
-  gsap.from(rows, {
-    y: 26,
-    autoAlpha: 0,
-    duration: 0.55,
-    ease: "power3.out",
-    stagger: 0.06,
-    scrollTrigger: { trigger: "[data-build-list]", start: "top 82%", once: true },
-  });
+  return () => ctx.revert();
 }
 
 // 03 / Effekt — MWG 097-adapted tightening word lines. The content column
@@ -650,7 +607,6 @@ function setupFooterUtilities() {
 
 export function HomeMotion() {
   useEffect(() => {
-    const teardownAccordion = setupServiceAccordion();
     const teardownUtilities = setupFooterUtilities();
     const lenis = initLenis({ lerp: 0.12 });
     lenis?.lenis.on("scroll", ScrollTrigger.update);
@@ -659,9 +615,9 @@ export function HomeMotion() {
 
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
-      const teardownGhost = setupBuildGhost();
       const teardownApproach = approachScene();
-      serviceReveals();
+      const teardownBuild = buildStackScene();
+      const teardownCursor = setupBuildCursor();
       const teardownBridge = bridgeScene();
       const teardownImprove = improveScene();
       const teardownWork = workScene();
@@ -669,8 +625,9 @@ export function HomeMotion() {
       manifestoReveal();
       footerReveals();
       return () => {
-        teardownGhost();
         teardownApproach();
+        teardownBuild();
+        teardownCursor();
         teardownBridge();
         teardownImprove();
         teardownWork();
@@ -681,7 +638,7 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownApproach = approachScene();
-      serviceReveals();
+      const teardownBuild = buildStackScene();
       const teardownBridge = bridgeScene();
       const teardownImprove = improveScene();
       const teardownWork = workScene();
@@ -690,6 +647,7 @@ export function HomeMotion() {
       footerReveals();
       return () => {
         teardownApproach();
+        teardownBuild();
         teardownBridge();
         teardownImprove();
         teardownWork();
@@ -703,7 +661,6 @@ export function HomeMotion() {
       mm.revert();
       lenis?.lenis.off("scroll", ScrollTrigger.update);
       destroyLenis();
-      teardownAccordion();
       teardownUtilities();
     };
   }, []);
