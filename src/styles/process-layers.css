@@ -1,370 +1,276 @@
-/* 05 / Prosess — MWG 031-inspired vertical pinned cards.
-   Adapted structure: slide -> content-wrapper -> content. The effect is
-   rebuilt locally with Tigon typography and text; no MWG files are imported. */
+/* 05 / Prosess — MWG 073-oversatt horisontal produksjonslinje. Fire
+   fullskjerms-kapitler på en horisontal rail; kjempenumeraler hengsler inn
+   fra toppen og ut langs høyrekanten mens railen dras sideveis av scrubben.
+
+   Default (no JS, mobil, PRM) er en vertikal, banded liste — alt innhold
+   synlig og skarpt. JS legger på .process-layers--stage på desktop; først da
+   finnes pin-høyde, rail og hengsel-geometri. */
 
 .process-layers {
-  --process-card: #121212;
-  --process-ink: #f1f1ef;
-  --process-muted: rgba(241, 241, 239, 0.62);
-  --process-on-dark: #f1f1ef;
-  display: grid;
-  grid-template-columns: minmax(340px, 42vw) minmax(0, 58vw);
   position: relative;
-  overflow: clip;
-  padding: 0;
-  background: #121212;
-  color: var(--process-ink);
 }
 
-.process-layers__intro {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  height: 100svh;
-  min-height: 0;
-  padding: clamp(82px, 14vh, 150px) clamp(22px, 4.4vw, 82px) clamp(34px, 7vh, 78px);
-  background: #121212;
-  color: var(--process-on-dark);
-}
-
-.process-layers__intro-label {
-  margin: 0;
-  color: rgba(241, 241, 239, 0.6);
-  font-family: var(--font-mono);
-  font-size: clamp(11px, 0.84vw, 13px);
-  letter-spacing: 0.07em;
-  line-height: 1.1;
-  text-transform: uppercase;
-}
-
-.process-layers__intro-title {
-  align-self: center;
-  max-width: 8ch;
-  margin: 0;
-  color: var(--process-on-dark);
-  font-family: var(--font-sans);
-  font-size: clamp(64px, 7.2vw, 132px);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 0.92;
-}
-
-.process-layers__intro-title span {
-  display: block;
-}
-
-.process-layers__intro-text {
-  max-width: 430px;
-  margin: 0;
-  color: rgba(241, 241, 239, 0.66);
-  font-family: var(--font-sans);
-  font-size: clamp(18px, 1.32vw, 26px);
-  letter-spacing: 0;
-  line-height: 1.08;
-}
-
-.process-layers__slides {
+.process-layers__pin,
+.process-layers__rail {
   position: relative;
-  z-index: 2;
-  min-width: 0;
 }
 
-.process-slide {
+/* Tone per panel — MWG 073 sin fargeblokk-rytme oversatt til monokrom:
+   stein → koks → stein → nær-svart. Panel 01 fortsetter steinen fra 04;
+   panel 04 leverer mørkt inn mot 06. */
+
+.process-layers__panel {
+  --pl-bg: #e9e8e4;
+  --pl-ink: #141511;
+  --pl-ink-soft: rgba(16, 16, 15, 0.74);
+  --pl-muted: rgba(16, 16, 15, 0.55);
+  --pl-line: rgba(16, 16, 15, 0.18);
   position: relative;
-  height: 100svh;
-  box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.14);
-}
-
-.process-slide:last-child {
-  margin-bottom: 100svh;
-}
-
-.process-slide__wrapper {
-  width: 100%;
-  height: 100%;
-  perspective: 250vw;
-}
-
-.process-slide__content {
-  position: absolute;
-  inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(18px, 2vw, 32px) clamp(18px, 2.6vw, 46px) clamp(28px, 4vw, 64px)
-    clamp(18px, 2.4vw, 42px);
-  background: var(--process-card);
-  color: var(--process-ink);
-  transform-origin: 50% 10%;
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
+  padding: clamp(72px, 11vh, 140px) var(--gutter);
+  background: var(--pl-bg);
+  color: var(--pl-ink);
 }
 
-.process-slide__top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 32px;
+.process-layers__panel--dark {
+  --pl-bg: #12120f;
+  --pl-ink: var(--color-on-dark);
+  --pl-ink-soft: rgba(242, 241, 235, 0.78);
+  --pl-muted: rgba(242, 241, 235, 0.55);
+  --pl-line: rgba(242, 241, 235, 0.18);
 }
 
-.process-slide__label {
-  margin: 0 0 clamp(10px, 1vh, 18px);
-  color: var(--process-muted);
-  font-family: var(--font-mono);
-  font-size: clamp(11px, 0.84vw, 13px);
-  letter-spacing: 0.07em;
-  line-height: 1.1;
+.process-layers__panel--stone2 {
+  --pl-bg: #e2e1dc;
+}
+
+.process-layers__panel--deep {
+  --pl-bg: #060706;
+  --pl-ink: var(--color-on-dark);
+  --pl-ink-soft: rgba(242, 241, 235, 0.78);
+  --pl-muted: rgba(242, 241, 235, 0.55);
+  --pl-line: rgba(242, 241, 235, 0.18);
+}
+
+/* Default / list mode — numeral først, lead (panel 01), så body */
+
+.process-layers__index {
+  order: -1;
+  margin: 0 0 clamp(20px, 3vh, 36px);
+  color: var(--pl-ink);
+  font-family: var(--font-display);
+  font-size: clamp(72px, 13vw, 150px);
+  font-weight: 700;
+  line-height: 0.9;
+}
+
+.process-layers__lead {
+  margin-bottom: clamp(40px, 6vh, 72px);
+}
+
+.process-layers__title {
+  color: var(--pl-ink);
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.4vw, 96px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
   text-transform: uppercase;
 }
 
-.process-slide__title {
-  margin: 0;
-  color: var(--process-ink);
-  font-family: var(--font-sans);
-  font-size: clamp(66px, 8.2vw, 156px);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 0.83;
+.process-layers__title span {
+  display: block;
+  color: var(--pl-muted);
 }
 
-.process-slide__mark {
-  flex: 0 0 auto;
-  width: clamp(52px, 4.6vw, 82px);
-  height: auto;
-  color: var(--process-ink);
-}
-
-.process-slide__bottom {
+.process-layers__lead-note {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: clamp(22px, 4vw, 70px);
-}
-
-.process-slide__text {
-  width: min(25vw, 440px);
-  margin: 0;
-  color: var(--process-ink);
-  font-family: var(--font-sans);
-  font-size: clamp(18px, 1.55vw, 30px);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.02;
-}
-
-.process-slide__visual-group {
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(12px, 1.4vw, 22px);
-}
-
-.process-slide__num {
-  margin: 0;
-  padding-top: clamp(8px, 1.1vw, 16px);
-  color: var(--process-muted);
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(18px, 3vh, 30px);
+  color: var(--pl-muted);
   font-family: var(--font-mono);
-  font-size: clamp(11px, 0.84vw, 13px);
-  font-weight: 400;
-  letter-spacing: 0.07em;
-  line-height: 1.1;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
-.process-slide__visual {
-  position: relative;
-  width: min(23vw, 400px);
-  min-width: 260px;
-  aspect-ratio: 1 / 1.15;
-  overflow: hidden;
-  border: 1px solid rgba(241, 241, 239, 0.14);
-  background: #121212;
-  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.24);
+.process-layers__lead-mark {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid currentColor;
 }
 
-.process-slide__visual-kicker {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  right: 18px;
-  color: rgba(241, 241, 239, 0.72);
+.process-layers__label {
+  color: var(--pl-muted);
   font-family: var(--font-mono);
-  font-size: clamp(9px, 0.76vw, 12px);
+  font-size: 12px;
   letter-spacing: 0.06em;
-  line-height: 1.1;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
-.process-slide__visual-title {
-  position: absolute;
-  top: 22%;
-  left: 18px;
-  right: 18px;
-  color: var(--process-ink);
+.process-layers__phase {
+  margin-top: 16px;
+  color: var(--pl-ink);
+  font-family: var(--font-display);
+  font-size: clamp(30px, 2.8vw, 48px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.process-layers__text {
+  max-width: 30ch;
+  margin-top: clamp(16px, 2.4vh, 24px);
+  color: var(--pl-ink-soft);
   font-family: var(--font-sans);
-  font-size: clamp(22px, 2.2vw, 42px);
+  font-size: clamp(19px, 1.55vw, 27px);
   font-weight: 400;
-  letter-spacing: 0;
-  line-height: 0.93;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
-.process-slide__visual-line {
+.process-layers__output {
+  margin-top: clamp(20px, 3vh, 30px);
+  color: var(--pl-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------------------
+   Stage mode — JS-enhanced desktop. MWG 073-geometri: 500vh runway,
+   pinned 100vh rail med width:max-content, 100vw-paneler. */
+
+.process-layers--stage .process-layers__pin {
+  height: 500vh;
+  overflow: hidden;
+}
+
+.process-layers--stage .process-layers__rail {
+  display: flex;
+  height: 100vh;
+  width: max-content;
+}
+
+.process-layers--stage .process-layers__panel {
+  flex-direction: row;
+  width: 100vw;
+  height: 100%;
+  padding: 0;
+}
+
+/* Målelinjen — én kontinuerlig horisontal hairline over hele stripen
+   (per panel, tonet per flate). Starter ved midten på panel 01 slik at
+   leaden står fritt, akkurat som referansen. */
+
+.process-layers--stage .process-layers__panel::before {
+  content: "";
   position: absolute;
-  right: 18px;
-  left: 18px;
+  top: 50%;
+  right: 0;
+  left: 0;
   height: 1px;
-  background: rgba(241, 241, 239, 0.28);
+  background: var(--pl-line);
+  z-index: 1;
 }
 
-.process-slide__visual-line--a {
-  top: 57%;
+.process-layers--stage .process-layers__panel:first-child::before {
+  left: 50%;
 }
 
-.process-slide__visual-line--b {
-  top: 70%;
+.process-layers--stage .process-layers__lead {
+  position: relative;
+  width: 50%;
+  margin: 0;
+  padding: calc(var(--header-height) + clamp(20px, 4vh, 44px)) 40px 0 var(--gutter);
 }
 
-.process-slide__visual-block {
+.process-layers--stage .process-layers__title {
+  max-width: 560px;
+  font-size: clamp(40px, 3.9vw, 78px);
+}
+
+/* Noten sitter PÅ målelinjen, som referansens venstre-label */
+
+.process-layers--stage .process-layers__lead-note {
   position: absolute;
-  background: rgba(241, 241, 239, 0.88);
+  top: 50%;
+  left: var(--gutter);
+  margin: 0;
+  transform: translateY(-50%);
 }
 
-.process-slide__visual-block--a {
-  right: 22px;
-  bottom: 22px;
-  width: 42%;
-  height: 20%;
+.process-layers--stage .process-layers__body {
+  position: relative;
+  width: 50%;
+  margin-left: auto;
+  padding: calc(var(--header-height) + clamp(20px, 4vh, 44px)) 16vw 0 0;
 }
 
-.process-slide__visual-block--b {
-  left: 22px;
-  bottom: 22px;
-  width: 26%;
-  height: 13%;
-  opacity: 0.72;
+/* Registermerket — kvadratet som sitter på linjen ved kolonnestart */
+
+.process-layers--stage .process-layers__body::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 5px);
+  left: 0;
+  width: 11px;
+  height: 11px;
+  background: var(--pl-ink);
+  z-index: 2;
 }
 
-.process-slide__visual-block--c {
-  right: 22px;
-  bottom: 29%;
-  width: 30%;
-  height: 8%;
-  opacity: 0.78;
+/* Kjempenumeralet — MWG 073 sin hengsel-geometri, verbatim: bunnlinjen
+   senkes 2.3vw under panelkanten og rotasjonspivoten ligger 2.3vw over
+   boksens topp. GSAP roterer ±90° rundt akkurat dette punktet.
+   mix-blend-mode: difference gir automatisk kontrast når numeralet
+   krysser stein- og koks-flater under transitten. */
+
+.process-layers--stage .process-layers__index {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  order: 0;
+  width: max-content;
+  margin: 0 0 -2.3vw;
+  padding: 0 0 0 32px;
+  color: #f2f1eb;
+  font-size: 17vw;
+  line-height: 1.3;
+  mix-blend-mode: difference;
+  transform-origin: 0 -2.3vw;
+  will-change: transform;
 }
 
-@media (max-aspect-ratio: 1/1) {
-  .process-layers {
-    display: block;
-    padding: 0;
-    overflow: hidden;
+/* ---------------------------------------------------------------------------
+   Mobil — banded vertikal liste, tettere skala */
+
+@media (max-width: 768px) {
+  .process-layers__panel {
+    padding: 88px 20px;
   }
 
-  .process-layers__intro {
-    position: relative;
-    top: auto;
-    min-height: 92svh;
-    height: auto;
-    padding: 88px 18px 30px;
+  .process-layers__index {
+    font-size: clamp(64px, 22vw, 110px);
   }
 
-  .process-layers__intro-title {
-    font-size: clamp(56px, 18vw, 92px);
+  .process-layers__title {
+    font-size: clamp(36px, 11vw, 56px);
   }
 
-  .process-layers__intro-text {
-    max-width: 100%;
-    font-size: 22px;
-  }
-
-  .process-slide {
-    height: auto;
-    min-height: 100svh;
-  }
-
-  .process-slide__wrapper {
-    height: auto;
-    perspective: none;
-  }
-
-  .process-slide__content {
-    position: relative;
-    min-height: 100svh;
-    padding: 18px;
-    transform: none !important;
-  }
-
-  .process-slide__top {
-    display: block;
-  }
-
-  .process-slide__title {
-    font-size: clamp(58px, 17vw, 92px);
-  }
-
-  .process-slide__mark {
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    width: 58px;
-  }
-
-  .process-slide__bottom {
-    flex-direction: column;
-    gap: 18px;
-    align-items: stretch;
-    margin-top: 16px;
-  }
-
-  .process-slide__text {
-    order: 2;
-    width: 100%;
-    font-size: 22px;
-    line-height: 1.08;
-  }
-
-  .process-slide__visual-group {
-    display: block;
-  }
-
-  .process-slide__num {
-    margin-bottom: 12px;
-  }
-
-  .process-slide__visual {
-    width: 100%;
-    min-width: 0;
-    aspect-ratio: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .process-layers {
-    display: block;
-    padding: 0;
-  }
-
-  .process-layers__intro {
-    position: relative;
-    top: auto;
-    height: auto;
-    min-height: 70svh;
-  }
-
-  .process-slide {
-    height: auto;
-    min-height: 100svh;
-  }
-
-  .process-slide__wrapper {
-    height: auto;
-    perspective: none;
-  }
-
-  .process-slide__content {
-    position: relative;
-    transform: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+  .process-layers__text {
+    font-size: 17px;
+    line-height: 1.4;
   }
 }

@@ -378,74 +378,89 @@ function workProofScene(scrub: boolean) {
   });
 }
 
-// 05 / Prosess — MWG 031-adapted vertical card sequence. Each content-wrapper
-// pins for one viewport while the card recedes with scale, rotationX, a small
-// deterministic rotationZ and then fades out.
+// 05 / Prosess — MWG 073-adapted horizontal timeline. The 500vh pin-height
+// wrapper is the trigger; the rail is pinned and pulled left until exactly
+// one viewport remains (xPercent -100 + x innerWidth). Each giant index
+// numeral gets two scrubbed hinge tweens driven by containerAnimation:
+// it arrives from the top edge as its panel enters (left 100% → 0%) and
+// exits rotated -90° along the right edge as it leaves (left 0% → -100%).
 function processStage(full: boolean) {
   const section = document.querySelector<HTMLElement>(".process-layers");
   if (!section) return () => {};
 
-  const ctx = gsap.context(() => {
-    const intro = section.querySelector<HTMLElement>("[data-process-intro]");
-    const slides = gsap.utils.toArray<HTMLElement>("[data-process-slide]", section);
-
-    if (full) {
-      if (intro) {
-        gsap.from(intro.children, {
+  if (!full) {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>("[data-process-panel]", section).forEach((panel) => {
+        gsap.from(panel.children, {
           autoAlpha: 0,
-          y: 22,
-          duration: 0.7,
+          y: 26,
+          duration: 0.55,
           ease: "power3.out",
           stagger: 0.08,
-        });
-      }
-
-      slides.forEach((slide, index) => {
-        const contentWrapper = slide.querySelector<HTMLElement>("[data-process-wrapper]");
-        const content = slide.querySelector<HTMLElement>("[data-process-content]");
-        if (!contentWrapper || !content) return;
-
-        gsap.to(content, {
-          rotationZ: [-2.6, 2.2, -1.6, 2.8][index] ?? 0,
-          scale: 0.7,
-          rotationX: 40,
-          ease: "power1.in",
-          scrollTrigger: {
-            pin: contentWrapper,
-            trigger: slide,
-            start: "top 0%",
-            end: () => `+=${window.innerHeight}`,
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
-        });
-
-        gsap.to(content, {
-          autoAlpha: 0,
-          ease: "power1.in",
-          scrollTrigger: {
-            trigger: content,
-            start: "top -80%",
-            end: () => `+=${0.2 * window.innerHeight}`,
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
+          scrollTrigger: { trigger: panel, start: "top 82%", once: true },
         });
       });
+    }, section);
+    return () => ctx.revert();
+  }
 
-      return;
-    }
+  // The stage class must exist before ScrollTrigger measures the runway.
+  section.classList.add("process-layers--stage");
 
-    slides.forEach((slide) => {
-      gsap.from(slide, {
-        autoAlpha: 0,
-        y: 26,
-        duration: 0.55,
-        ease: "power3.out",
+  const pinHeight = section.querySelector<HTMLElement>("[data-process-pin]");
+  const rail = section.querySelector<HTMLElement>("[data-process-rail]");
+  if (!pinHeight || !rail) {
+    section.classList.remove("process-layers--stage");
+    return () => {};
+  }
+
+  const ctx = gsap.context(() => {
+    const scrollTween = gsap.to(rail, {
+      xPercent: -100,
+      x: () => window.innerWidth,
+      ease: "none",
+      scrollTrigger: {
+        trigger: pinHeight,
+        start: "top top",
+        end: "bottom bottom",
+        pin: rail,
+        scrub: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    gsap.utils.toArray<HTMLElement>("[data-process-index]", section).forEach((title) => {
+      // Exit hinge: as the panel crosses the viewport's left edge the
+      // numeral swings -90° and lands along the right edge.
+      gsap.to(title, {
+        rotation: -90,
+        x: () => window.innerWidth - title.offsetHeight,
+        y: () => title.offsetHeight,
+        ease: "expo.inOut",
         scrollTrigger: {
-          trigger: slide,
-          start: "top 88%",
-          once: true,
+          trigger: title.parentElement,
+          containerAnimation: scrollTween,
+          start: "left 0%",
+          end: "left -100%",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+      // Entrance hinge: mirrored — the numeral drops in from the top edge
+      // while its panel crosses the viewport from the right.
+      gsap.from(title, {
+        rotation: 90,
+        y: () => -window.innerHeight + title.offsetHeight,
+        x: () => title.offsetHeight,
+        ease: "expo.inOut",
+        scrollTrigger: {
+          trigger: title.parentElement,
+          containerAnimation: scrollTween,
+          start: "left 100%",
+          end: "left 0%",
+          scrub: true,
+          invalidateOnRefresh: true,
         },
       });
     });
@@ -453,6 +468,7 @@ function processStage(full: boolean) {
 
   return () => {
     ctx.revert();
+    section.classList.remove("process-layers--stage");
   };
 }
 
@@ -606,9 +622,12 @@ export function HomeMotion() {
       effectBridge(false);
       effectStage(false);
       workProofScene(false);
-      processStage(false);
+      const teardownProcess = processStage(false);
       manifestoReveal();
       footerReveals();
+      return () => {
+        teardownProcess();
+      };
     });
 
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
