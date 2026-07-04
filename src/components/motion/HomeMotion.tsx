@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import { Observer } from "gsap/Observer";
 import { destroyLenis, initLenis } from "@/lib/motion";
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger, SplitText, Observer);
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
@@ -309,102 +310,74 @@ function improveScene() {
   };
 }
 
-// 04 / Arbeid — MWG 082-adapted mockup stack. Intro band gets a one-time
-// reveal; the stage pins for 400vh while every mockup pops in centered
-// (elastic reveal timeline played from the scrubbed master), recedes into
-// depth with a random tilt and exits upward. Scrolling back re-hides each
-// mockup via onReverseComplete, exactly like the reference.
-function workScene() {
+// 04 / Arbeid — MWG 008-adapted draggable carousel. The track holds every
+// card twice; x is wrapped over half its width for a seamless infinite loop,
+// a gsap.ticker drives a slow auto-scroll and an Observer lets the user drag
+// it — with a small tilt/scale "wow" while pressed. No pin, no page-scroll
+// takeover. PRM / no-JS keep the plain scrollable strip.
+function workCarousel() {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
-  const pinHeight = section.querySelector<HTMLElement>("[data-work-pin]");
-  const stage = section.querySelector<HTMLElement>("[data-work-stage]");
-  const medias = gsap.utils.toArray<HTMLElement>("[data-work-media]", section);
-  if (!pinHeight || !stage || !medias.length) return () => {};
+  const carousel = section.querySelector<HTMLElement>("[data-work-carousel]");
+  const track = section.querySelector<HTMLElement>("[data-work-track]");
+  const cards = gsap.utils.toArray<HTMLElement>(".work-proof__card", section);
+  if (!carousel || !track || cards.length < 2) return () => {};
 
-  // The stage class must exist before ScrollTrigger measures the runway.
-  section.classList.add("work-proof--stage");
+  section.classList.add("work-proof--drag");
 
-  const ctx = gsap.context(() => {
-    const intro = section.querySelector<HTMLElement>(".work-proof__intro");
-    if (intro) {
-      gsap.from(intro.children, {
-        autoAlpha: 0,
-        y: 22,
-        duration: 0.65,
-        ease: "power3.out",
-        stagger: 0.07,
-        scrollTrigger: { trigger: intro, start: "top 78%", once: true },
-      });
-    }
+  const cardsLength = cards.length / 2;
+  const half = track.clientWidth / 2;
+  const wrap = gsap.utils.wrap(-half, 0);
 
-    // Paused elastic pop per mockup — played in real time from the scrub.
-    const revealTimelines = medias.map((media, index) => {
-      const tlReveal = gsap.timeline({ paused: true });
-      tlReveal.set(media, { autoAlpha: 1 }, "media" + index);
-      tlReveal.fromTo(
-        media,
-        { scaleX: 0.9, scaleY: 0.9 },
-        {
-          scaleX: 1,
-          scaleY: 1,
-          immediateRender: false,
-          ease: "elastic.out(2, 0.6)",
-          duration: 0.5,
-        },
-        "<"
-      );
-      return tlReveal;
-    });
+  let total = 0;
+  const xTo = gsap.quickTo(track, "x", {
+    duration: 0.5,
+    ease: "power3",
+    modifiers: { x: gsap.utils.unitize(wrap) },
+  });
 
-    const master = gsap.timeline({
-      scrollTrigger: {
-        trigger: pinHeight,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true,
-        pin: stage,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      },
-    });
+  // A precomputed random offset per card for the press "wow".
+  const itemValues: number[] = [];
+  for (let i = 0; i < cardsLength; i++) {
+    itemValues.push((Math.random() - 0.5) * 20);
+  }
 
-    medias.forEach((media, i) => {
-      const tl = gsap.timeline({
-        onStart: () => {
-          revealTimelines[i].play();
-        },
-        onReverseComplete: () => {
-          revealTimelines[i].progress(-1).pause();
-        },
-      });
+  const pressTl = gsap.timeline({ paused: true });
+  pressTl.to(cards, {
+    rotate: (index: number) => itemValues[index % cardsLength],
+    xPercent: (index: number) => itemValues[index % cardsLength],
+    yPercent: (index: number) => itemValues[index % cardsLength],
+    scale: 0.95,
+    duration: 0.5,
+    ease: "back.inOut(3)",
+  });
 
-      const angle = (Math.random() - 0.5) * 40;
+  const observer = Observer.create({
+    target: carousel,
+    type: "pointer,touch",
+    onPress: () => pressTl.play(),
+    onDrag: (self) => {
+      total += self.deltaX;
+      xTo(total);
+    },
+    onRelease: () => pressTl.reverse(),
+    onStop: () => pressTl.reverse(),
+  });
 
-      tl.to(media, {
-        z: () => -window.innerWidth,
-        rotation: angle,
-        duration: 1,
-        ease: "power1.inOut",
-      });
-      tl.to(
-        media,
-        {
-          x: () => angle * 0.01 * window.innerWidth,
-          y: () => -2 * window.innerHeight,
-          duration: 0.6,
-          ease: "power1.in",
-        },
-        "<+=0.4"
-      );
-      master.add(tl, 0.1 * i);
-    });
-  }, section);
+  const tick = (_time: number, deltaTime: number) => {
+    total -= deltaTime / 10;
+    xTo(total);
+  };
+  gsap.ticker.add(tick);
 
   return () => {
-    ctx.revert();
-    section.classList.remove("work-proof--stage");
+    gsap.ticker.remove(tick);
+    observer.kill();
+    pressTl.kill();
+    gsap.set(track, { clearProps: "x,transform" });
+    gsap.set(cards, { clearProps: "transform,rotate,scale" });
+    section.classList.remove("work-proof--drag");
   };
 }
 
@@ -620,7 +593,7 @@ export function HomeMotion() {
       const teardownCursor = setupBuildCursor();
       const teardownBridge = bridgeScene();
       const teardownImprove = improveScene();
-      const teardownWork = workScene();
+      const teardownWork = workCarousel();
       const teardownProcess = processStage();
       manifestoReveal();
       footerReveals();
@@ -641,7 +614,7 @@ export function HomeMotion() {
       const teardownBuild = buildStackScene();
       const teardownBridge = bridgeScene();
       const teardownImprove = improveScene();
-      const teardownWork = workScene();
+      const teardownWork = workCarousel();
       const teardownProcess = processStage();
       manifestoReveal();
       footerReveals();

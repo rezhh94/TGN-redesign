@@ -1,16 +1,16 @@
-const mockups = Array.from({ length: 16 }, (_, index) =>
-  String(index + 1).padStart(2, "0")
-);
+const cards = ["01", "02", "03", "04", "05", "06", "07"];
 
-/* 04 / Arbeid — MWG 082 architecture: an intro band (statement, arkiv link)
-   followed by a tall pin-height wrapper whose 100vh stage centers every
-   mockup in the same slot. JS adds .work-proof--stage; the scrub then pops
-   each mockup in with an elastic reveal, recedes it into depth with a
-   random tilt and sends it upward out of frame. Without JS the images are
-   a plain visible grid.
+/* 04 / Arbeid — MWG 008-architecture: a draggable, auto-scrolling, infinitely
+   looping carousel of work cards under the intro band. The track holds every
+   card twice; JS wraps its x over half the width for a seamless loop, adds a
+   gsap.ticker auto-scroll and an Observer that lets the user drag it (with a
+   small tilt/scale "wow" while pressed).
 
-   NB: bildene er MWG-demoens placeholders (kopiert på eksplisitt ordre fra
-   bruker) — byttes ut med Envato-mockups med Tigon-logo. */
+   Default (no JS / PRM) is a plain horizontally scrollable strip — every card
+   is visible and reachable without JavaScript.
+
+   NB: kortene er MWG-demoens placeholders (kopiert på eksplisitt ordre fra
+   bruker) — byttes ut med Tigon-mockups m/ logo. */
 export function WorkProof() {
   return (
     <section className="work-proof" aria-labelledby="work-proof-title">
@@ -33,17 +33,19 @@ export function WorkProof() {
         </div>
       </div>
 
-      <div className="work-proof__pin" data-work-pin>
-        <div className="work-proof__stage" data-work-stage>
-          {mockups.map((number) => (
-            <img
-              className="work-proof__media"
-              data-work-media
-              key={number}
-              src={`/work/mockups/${number}.png`}
-              alt=""
-              loading="lazy"
-            />
+      <div className="work-proof__carousel" data-work-carousel>
+        <div className="work-proof__track" data-work-track>
+          {cards.map((number) => (
+            <div className="work-proof__card" key={number}>
+              <img src={`/work/carousel/${number}.png`} alt="" loading="lazy" />
+            </div>
+          ))}
+
+          {/* Duplicate for the infinite loop */}
+          {cards.map((number) => (
+            <div className="work-proof__card" key={`dup-${number}`} aria-hidden="true">
+              <img src={`/work/carousel/${number}.png`} alt="" loading="lazy" />
+            </div>
           ))}
         </div>
       </div>

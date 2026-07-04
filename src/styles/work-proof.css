@@ -1,18 +1,18 @@
-/* 04 / Arbeid — MWG 082-oversatt mockup-stabel. Intro-bånd med statement
-   og arkiv-lenke, deretter en pinnet 100vh-scene der mockups lander
-   sentrert ett og ett (elastisk pop), trekker bakover i dybden med en
-   tilfeldig helning og forlater rammen oppover.
+/* 04 / Arbeid — MWG 008-oversatt kort-karusell. Intro-bånd med statement og
+   arkiv-lenke, deretter en dragbar, auto-scrollende og uendelig loopet rad
+   med kort.
 
-   Default (no JS / PRM) er et enkelt synlig rutenett — ingenting gjemmes
-   bak JavaScript. JS legger på .work-proof--stage; først da finnes
-   pin-høyde, perspektiv og opacity-0-utgangspunktet.
+   Default (no JS / PRM) er en enkel horisontalt scrollbar stripe — alle kort
+   synlige og nåbare uten JavaScript. JS legger på .work-proof--drag; først da
+   klippes overflow og Observer + auto-scroll + tilt aktiveres.
 
-   Bildene er MWG-demo-placeholders til Envato-mockups m/ Tigon-logo. */
+   Kortene er MWG-demo-placeholders til Tigon-mockups m/ logo. */
 
 .work-proof {
   position: relative;
   background: #0d0e0c;
   color: var(--color-on-dark);
+  overflow: hidden;
 }
 
 .work-proof__intro {
@@ -90,55 +90,54 @@
   text-transform: uppercase;
 }
 
-/* Default / grid mode — alt innhold synlig uten JS */
-
-.work-proof__pin,
-.work-proof__stage {
-  position: relative;
-}
-
-.work-proof__stage {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  width: min(100%, 2560px);
-  margin: 0 auto;
-  padding: 0 clamp(24px, 5vw, 150px) clamp(96px, 13vh, 170px);
-}
-
-.work-proof__media {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-}
-
 /* ---------------------------------------------------------------------------
-   Stage mode — JS-enhanced. MWG 082-geometri verbatim: 400vh runway,
-   pinnet 100vh scene med perspective:100vh, alle medier absolutt i samme
-   senterslot, 25vw kvadrat, object-fit contain, usynlige til reveal. */
+   Carousel — default (no JS): a horizontally scrollable strip. */
 
-.work-proof--stage .work-proof__pin {
-  height: 400vh;
+.work-proof__carousel {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: clamp(56px, 9vh, 120px);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-.work-proof--stage .work-proof__stage {
+.work-proof__carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.work-proof__track {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: auto;
-  margin: 0;
-  padding: 0;
-  perspective: 100vh;
+  gap: 1vw;
+  width: max-content;
+  padding: 0 clamp(24px, 5vw, 150px);
 }
 
-.work-proof--stage .work-proof__media {
-  position: absolute;
+.work-proof__card {
+  flex: 0 0 auto;
   width: 25vw;
   aspect-ratio: 1;
-  object-fit: contain;
-  opacity: 0;
-  will-change: transform, opacity;
+}
+
+.work-proof__card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Drag mode — JS-enhanced. Clip overflow, free the track for transforms and
+   show the grab cursor. */
+
+.work-proof--drag .work-proof__carousel {
+  overflow: clip;
+  cursor: grab;
+}
+
+.work-proof--drag .work-proof__track {
+  padding: 0;
 }
 
 @media (max-width: 768px) {
@@ -154,17 +153,7 @@
     margin-left: 0;
   }
 
-  .work-proof__stage {
-    grid-template-columns: repeat(2, 1fr);
-    padding: 0 20px 88px;
-  }
-
-  .work-proof--stage .work-proof__stage {
-    padding: 0;
-    perspective: 50vw;
-  }
-
-  .work-proof--stage .work-proof__media {
-    width: 70vw;
+  .work-proof__card {
+    width: 42vw;
   }
 }
