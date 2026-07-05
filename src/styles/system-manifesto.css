@@ -17,9 +17,9 @@
   align-items: center;
   justify-content: center;
   min-height: clamp(640px, 100vh, 1120px);
-  width: min(100%, 2560px);
+  width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(120px, 16vh, 200px) clamp(24px, 5vw, 150px);
+  padding: clamp(120px, 16vh, 200px) var(--gutter);
   text-align: center;
 }
 
@@ -77,22 +77,22 @@
 
 .system-manifesto__corner--tl {
   top: clamp(28px, 4vh, 52px);
-  left: clamp(24px, 5vw, 150px);
+  left: var(--gutter);
 }
 
 .system-manifesto__corner--tr {
   top: clamp(28px, 4vh, 52px);
-  right: clamp(24px, 5vw, 150px);
+  right: var(--gutter);
 }
 
 .system-manifesto__corner--bl {
   bottom: clamp(28px, 4vh, 52px);
-  left: clamp(24px, 5vw, 150px);
+  left: var(--gutter);
 }
 
 .system-manifesto__corner--br {
   bottom: clamp(28px, 4vh, 52px);
-  right: clamp(24px, 5vw, 150px);
+  right: var(--gutter);
 }
 
 @media (max-width: 640px) {

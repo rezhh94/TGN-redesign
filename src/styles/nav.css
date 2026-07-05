@@ -11,10 +11,10 @@
 }
 
 .site-header__inner {
-  width: min(100%, 2560px);
+  width: min(100%, var(--page-max));
   min-height: 44px;
   margin: 0 auto;
-  padding: 0 clamp(24px, 5vw, 150px);
+  padding: 0 var(--gutter);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;

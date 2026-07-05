@@ -13,9 +13,9 @@
 }
 
 .what-improve__inner {
-  width: min(100%, 2560px);
+  width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(110px, 15vh, 190px) clamp(24px, 5vw, 150px) clamp(120px, 16vh, 210px);
+  padding: clamp(110px, 15vh, 190px) var(--gutter) clamp(120px, 16vh, 210px);
 }
 
 .what-improve__label {

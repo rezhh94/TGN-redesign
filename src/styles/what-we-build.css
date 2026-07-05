@@ -7,7 +7,7 @@
    JS legger til .what-build--enhanced og kollapser rader uten [data-open]. */
 
 .what-build {
-  --build-px: clamp(24px, 5vw, 150px);
+  --build-px: var(--gutter);
   position: relative;
   overflow: hidden;
   /* --ink-surface (= #1a1c1c). Pixel-identisk med før — services skal ikke røres. */
@@ -16,7 +16,7 @@
 }
 
 .what-build__inner {
-  width: min(100%, 2560px);
+  width: min(100%, var(--page-max));
   margin: 0 auto;
   padding: clamp(104px, 15vh, 186px) var(--build-px) clamp(48px, 7vh, 96px);
 }
@@ -99,7 +99,7 @@
 
 .what-build__list {
   position: relative;
-  width: min(100%, 2560px);
+  width: min(100%, var(--page-max));
   margin: 0 auto;
   padding: 0;
   list-style: none;

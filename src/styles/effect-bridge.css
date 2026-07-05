@@ -19,9 +19,9 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  width: min(100%, 2560px);
+  width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(80px, 12vh, 160px) clamp(24px, 5vw, 150px);
+  padding: clamp(80px, 12vh, 160px) var(--gutter);
   text-align: center;
 }
 

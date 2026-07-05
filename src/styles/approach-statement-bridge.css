@@ -12,9 +12,9 @@
 }
 
 .approach-bridge__inner {
-  width: min(100%, 2560px);
+  width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: 0 clamp(24px, 5vw, 150px) clamp(96px, 14vh, 180px);
+  padding: 0 var(--gutter) clamp(96px, 14vh, 180px);
 }
 
 /* 100vh-containeren er scatter-rommet: tittelen pinnes i toppen av den,

@@ -55,8 +55,11 @@
   --font-sans: "JUST Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "Caleb Mono", "SFMono-Regular", Consolas, monospace;
 
-  --page-max: 1600px;
-  --gutter: clamp(20px, 5vw, 80px);
+  /* Innholdsbredde + horisontal gutter — én kilde for alle seksjoner. Før:
+     --gutter (maks 80) kun i Prosess, resten hardkodet maks 150 → ulik
+     venstrekant. --page-max var 1600 og helt ubrukt; faktisk bredde er 2560. */
+  --page-max: 2560px;
+  --gutter: clamp(24px, 5vw, 150px);
   --header-height: 76px;
 
   --fz-hero: clamp(54px, 9vw, 156px);

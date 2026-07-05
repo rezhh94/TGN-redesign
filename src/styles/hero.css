@@ -36,10 +36,10 @@
 }
 
 .hero__inner {
-  width: min(100%, 2560px);
+  width: min(100%, var(--page-max));
   min-height: 100svh;
   margin: 0 auto;
-  padding: clamp(110px, 14vh, 178px) clamp(24px, 5vw, 150px) clamp(26px, 4.2vh, 64px);
+  padding: clamp(110px, 14vh, 178px) var(--gutter) clamp(26px, 4.2vh, 64px);
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   gap: clamp(24px, 4vw, 62px);
