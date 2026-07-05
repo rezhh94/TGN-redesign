@@ -163,80 +163,65 @@ function bridgeScene(pin: boolean) {
   return () => ctx.revert();
 }
 
-// 03 / Effekt — MWG 097-adapted tightening word lines. The content column
-// is split into lines/words at runtime (after fonts load, so line breaks
-// are final); every line is parked fully justified across the container
-// width and a scrubbed tween pulls each word back to x:0 as the line
-// crosses the viewport — the copy tightens back into focus. Not pinned.
-// Teardown reverts the splits so the original SSR text is restored.
+// 03 / Effekt — "måletråd". Left rail is a sticky index of the four outcomes;
+// a vertical thread fills (scaleY 0→1) as the outcome stream scrolls past, and
+// the active outcome — the one crossing the viewport's middle — lights up in
+// both the rail and its giant ghost numeral. Outcome blocks also rise in once.
+// Colours/fill are JS-only, so no-JS / reduced motion keep the static, readable
+// two-column document.
 function improveScene() {
   const section = document.querySelector<HTMLElement>(".what-improve");
   if (!section) return () => {};
 
-  const container = section.querySelector<HTMLElement>("[data-improve-container]");
-  const content = section.querySelector<HTMLElement>("[data-improve-content]");
-  if (!container || !content) return () => {};
+  const root = section.querySelector<HTMLElement>("[data-improve-root]");
+  const fill = section.querySelector<HTMLElement>("[data-improve-progress]");
+  const blocks = gsap.utils.toArray<HTMLElement>("[data-improve-block]", section);
+  const dots = gsap.utils.toArray<HTMLElement>("[data-improve-dot]", section);
+  if (!root || !fill || !blocks.length) return () => {};
 
-  let cancelled = false;
-  const splits: SplitText[] = [];
-  const ctx = gsap.context(() => {}, section);
+  section.classList.add("what-improve--tracked");
 
-  const setup = () => {
-    if (cancelled) return;
-    ctx.add(() => {
-      const paragraphs = gsap.utils.toArray<HTMLElement>(
-        "[data-improve-content] > *",
-        section
-      );
-      for (const paragraph of paragraphs) {
-        splits.push(
-          SplitText.create(paragraph, {
-            type: "lines, words",
-            linesClass: "wi-line",
-            wordsClass: "wi-word",
-          })
-        );
-      }
-
-      const lines = gsap.utils.toArray<HTMLElement>(".wi-line", section);
-      const containerWidth = container.clientWidth;
-      const containerRect = container.getBoundingClientRect();
-
-      for (const line of lines) {
-        const words = Array.from(line.querySelectorAll<HTMLElement>(".wi-word"));
-
-        const totalWordsWidth = words.reduce(
-          (acc, word) => acc + word.getBoundingClientRect().width,
-          0
-        );
-        const gaps = words.length - 1;
-        const freeSpace = Math.max(containerWidth - totalWordsWidth, 0);
-        const gapSize = gaps > 0 ? freeSpace / gaps : 0;
-
-        let targetLeft = 0;
-        words.forEach((word, index) => {
-          const rect = word.getBoundingClientRect();
-          const currentLeft = rect.left - containerRect.left;
-          gsap.set(word, { x: targetLeft - currentLeft });
-          targetLeft += rect.width + (index < words.length - 1 ? gapSize : 0);
-        });
-
-        gsap.to(words, {
-          x: 0,
-          ease: "power2.out",
-          scrollTrigger: { trigger: line, start: "top bottom", end: "top 60%", scrub: 0.2 },
-        });
-      }
-    });
+  const setActive = (index: number, on: boolean) => {
+    blocks[index]?.classList.toggle("is-active", on);
+    dots[index]?.classList.toggle("is-active", on);
   };
 
-  // Split only when line breaks are final.
-  (document.fonts?.ready ?? Promise.resolve()).then(setup);
+  const ctx = gsap.context(() => {
+    // The thread fills across the whole stream.
+    gsap.fromTo(
+      fill,
+      { scaleY: 0 },
+      {
+        scaleY: 1,
+        ease: "none",
+        scrollTrigger: { trigger: root, start: "top center", end: "bottom center", scrub: 0.4 },
+      }
+    );
+
+    // Reveal once, and mark active while the block crosses the middle band.
+    blocks.forEach((block, index) => {
+      gsap.from(block, {
+        y: 28,
+        autoAlpha: 0,
+        duration: 0.6,
+        ease: "power3.out",
+        scrollTrigger: { trigger: block, start: "top 84%", once: true },
+      });
+
+      ScrollTrigger.create({
+        trigger: block,
+        start: "top 55%",
+        end: "bottom 55%",
+        onToggle: (self) => setActive(index, self.isActive),
+      });
+    });
+  }, section);
 
   return () => {
-    cancelled = true;
     ctx.revert();
-    for (const split of splits) split.revert();
+    section.classList.remove("what-improve--tracked");
+    blocks.forEach((block) => block.classList.remove("is-active"));
+    dots.forEach((dot) => dot.classList.remove("is-active"));
   };
 }
 

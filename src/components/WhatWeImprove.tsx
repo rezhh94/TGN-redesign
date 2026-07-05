@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-
 const outcomes = [
   {
     key: "funnet",
@@ -7,6 +5,7 @@ const outcomes = [
     title: "Funnet",
     signal: "Målepunkt — synlighet / søk + AI-søk",
     description: "Struktur og innhold som gjør siden lettere å finne i Google og AI-søk.",
+    image: "/work/carousel/01.png",
   },
   {
     key: "forstatt",
@@ -14,6 +13,7 @@ const outcomes = [
     title: "Forstått",
     signal: "Målepunkt — klarhet / budskap",
     description: "Tydelig posisjonering, budskap og innhold som gjør tilbudet enklere å forstå.",
+    image: "/work/carousel/02.png",
   },
   {
     key: "valgt",
@@ -21,6 +21,7 @@ const outcomes = [
     title: "Valgt",
     signal: "Målepunkt — konvertering / neste steg",
     description: "CTA-er, flyt og kontaktpunkter som gjør neste steg tydelig.",
+    image: "/work/carousel/03.png",
   },
   {
     key: "malt",
@@ -28,14 +29,18 @@ const outcomes = [
     title: "Målt",
     signal: "Målepunkt — sporing / hendelser",
     description: "Skjema, telefon, e-post og hendelser som kan spores fra start.",
+    image: "/work/carousel/04.png",
   },
 ];
 
-/* MWG 097 architecture: a plain content column of titled paragraphs. All
-   text is server-rendered; JS splits it into lines/words at runtime, parks
-   every line fully justified across the container width and scrubs each
-   line back to natural width as it crosses the viewport. No JS = this
-   exact document, untouched. */
+/* 03 / Effekt — «måletråd». Venstre: en sticky index-skinne (01–04) med en
+   vertikal tråd som fylles mens du scroller; det aktive målepunktet lyser opp.
+   Høyre: fire outcome-blokker med kjempenumeral som grafisk anker. Tråden er
+   den ærlige «måling»-visualiseringen (punkter på en linje fra funnet → målt) —
+   ingen oppdiktede tall.
+
+   Default (no JS / PRM): tokolonne, alt synlig og lesbart, ingen sporing.
+   JS legger på .what-improve--tracked og aktiverer fyll + aktiv-tilstand. */
 export function WhatWeImprove() {
   return (
     <section className="what-improve" aria-labelledby="what-improve-title">
@@ -47,16 +52,46 @@ export function WhatWeImprove() {
           </h2>
         </header>
 
-        <div className="what-improve__container" data-improve-container>
-          <div className="what-improve__content" data-improve-content>
-            {outcomes.map((outcome) => (
-              <Fragment key={outcome.key}>
-                <h3 className="what-improve__title">
-                  {outcome.number} — {outcome.title}
-                </h3>
-                <p className="what-improve__text">{outcome.description}</p>
-                <p className="what-improve__signal">{outcome.signal}</p>
-              </Fragment>
+        <div className="what-improve__layout" data-improve-root>
+          {/* Sticky index-skinne — visuell oversikt, skjult for skjermlesere
+              (innholdet bor i strømmen til høyre). */}
+          <aside className="what-improve__rail" aria-hidden="true">
+            <ol className="what-improve__index">
+              <span className="what-improve__thread">
+                <span className="what-improve__thread-fill" data-improve-progress />
+              </span>
+              {outcomes.map((outcome, index) => (
+                <li className="what-improve__index-item" data-improve-dot={index} key={outcome.key}>
+                  <span className="what-improve__index-num">{outcome.number}</span>
+                  <span className="what-improve__index-name">{outcome.title}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="what-improve__rail-note">
+              Fire målepunkter — fra funnet til målt.
+            </p>
+          </aside>
+
+          {/* Outcome-strøm */}
+          <div className="what-improve__stream">
+            {outcomes.map((outcome, index) => (
+              <article
+                className="what-improve__outcome"
+                data-improve-block={index}
+                key={outcome.key}
+              >
+                <p className="what-improve__num" aria-hidden="true">
+                  {outcome.number}
+                </p>
+                <div className="what-improve__outcome-body">
+                  <h3 className="what-improve__title">{outcome.title}</h3>
+                  <p className="what-improve__text">{outcome.description}</p>
+                  <p className="what-improve__signal">{outcome.signal}</p>
+                </div>
+                <figure className="what-improve__media">
+                  <img src={outcome.image} alt="" loading="lazy" />
+                </figure>
+              </article>
             ))}
           </div>
         </div>

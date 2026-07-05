@@ -1,17 +1,13 @@
-/* 03 / Effekt — MWG 097-oversatt «tightening word lines». Fire outcome-
-   avsnitt i én sentrert tekstkolonne; JS parkerer hver linje fullt justert
-   over hele containerbredden og strammer den tilbake til naturlig bredde
-   linje for linje mens den krysser viewport. Teksten «kommer i fokus».
+/* 03 / Effekt — «måletråd». Tokolonne: sticky index-skinne til venstre med en
+   vertikal tråd som fylles på scroll og et aktivt målepunkt som lyser opp;
+   outcome-strøm til høyre med kjempenumeral som grafisk anker.
 
-   Default (no JS / PRM) er nøyaktig dette dokumentet — statisk, sentrert,
-   skarpt. Ingen pin, ingen stage-klasse: effekten er kun transforms på
-   runtime-splittede ord. */
+   Default (no JS / PRM): tokolonne, alt synlig og lesbart, ingen sporing.
+   JS legger på .what-improve--tracked → dempet index + aktiv-tilstand + fyll. */
 
 .what-improve {
   position: relative;
   overflow: hidden;
-  /* Løftet fra #060706 — mindre tungt, men fortsatt mørk topp mellom de
-     lyse rommene 02 og 04. */
   background: #0d0e0c;
   color: var(--color-on-dark);
 }
@@ -35,16 +31,12 @@
   margin-top: clamp(26px, 4vh, 46px);
   color: rgba(242, 241, 235, 0.85);
   font-family: var(--font-sans);
-  /* Løftet til et tydelig anker for 03 — men fortsatt under outcome-
-     tekstene (max(20px,3vw)), så FUNNET/FORSTÅTT/VALGT/MÅLT eier fokus. */
   font-size: clamp(20px, 1.6vw, 30px);
   font-weight: 400;
   letter-spacing: -0.015em;
   line-height: 1.3;
 }
 
-/* Pine-tick over kickeren — det stille ankeret som erstatter en stor
-   «Effekt»-tittel. Mikro-detalj, aldri flate. */
 .what-improve__kicker::before {
   content: "";
   display: block;
@@ -54,47 +46,172 @@
   background: var(--pine);
 }
 
-/* Containeren er målebredden linjene parkeres over (MWG 097 sin
-   .container); tekstkolonnen er smalere, så parkerte linjer starter
-   bredere enn kolonnen og strammes inn i den. */
+/* ---------------------------------------------------------------------------
+   Tokolonne-oppsett */
 
-.what-improve__container {
-  position: relative;
+.what-improve__layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.32fr) minmax(0, 1fr);
+  gap: clamp(40px, 7vw, 140px);
   margin-top: clamp(64px, 10vh, 130px);
 }
 
-.what-improve__content {
-  width: min(72%, 960px);
-  margin: 0 auto;
+/* Sticky index-skinne */
+
+.what-improve__rail {
+  position: sticky;
+  top: calc(var(--header-height) + clamp(28px, 6vh, 72px));
+  align-self: start;
+  height: fit-content;
+}
+
+.what-improve__index {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 clamp(20px, 1.6vw, 30px);
+  list-style: none;
+}
+
+/* Måletråden — den vertikale linjen index-punktene henger på. */
+.what-improve__thread {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: 2px;
+  background: rgba(242, 241, 235, 0.12);
+  overflow: hidden;
+}
+
+.what-improve__thread-fill {
+  position: absolute;
+  inset: 0;
+  transform: scaleY(0);
+  transform-origin: top center;
+  /* Pine-tint som lys måletråd — mikro-aksent, ikke stor flate. */
+  background: var(--pine-tint);
+}
+
+.what-improve__index-item {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(12px, 1vw, 18px);
+  padding: clamp(14px, 2vh, 22px) 0;
+}
+
+.what-improve__index-num {
+  flex: none;
+  color: rgba(242, 241, 235, 0.5);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+.what-improve__index-name {
+  color: rgba(242, 241, 235, 0.78);
+  font-family: var(--font-sans);
+  font-size: clamp(17px, 1.2vw, 21px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.what-improve__rail-note {
+  max-width: 22ch;
+  margin-top: clamp(24px, 3.4vh, 40px);
+  color: rgba(242, 241, 235, 0.42);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+}
+
+/* Aktiv-tilstand (kun i tracked/JS-modus) */
+
+.what-improve--tracked .what-improve__index-item {
+  opacity: 0.4;
+  transition: opacity var(--motion-base) var(--ease-standard);
+}
+
+.what-improve--tracked .what-improve__index-item.is-active {
+  opacity: 1;
+}
+
+.what-improve--tracked .what-improve__index-item.is-active .what-improve__index-num {
+  color: var(--pine-tint);
+}
+
+/* ---------------------------------------------------------------------------
+   Outcome-strøm */
+
+.what-improve__stream {
+  display: flex;
+  flex-direction: column;
+}
+
+.what-improve__outcome {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) clamp(200px, 22vw, 300px);
+  gap: clamp(24px, 3vw, 56px);
+  align-items: start;
+  padding: clamp(40px, 6vh, 72px) 0;
+  border-top: 1px solid rgba(242, 241, 235, 0.1);
+}
+
+.what-improve__outcome:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Kjempenumeral — grafisk anker (ghost). Tier 3-skala, lyser opp når aktivt. */
+.what-improve__num {
+  margin: 0;
+  color: rgba(242, 241, 235, 0.14);
+  font-family: var(--font-display);
+  font-size: clamp(64px, 7vw, 120px);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: 0;
+}
+
+.what-improve--tracked .what-improve__num {
+  transition: color var(--motion-medium) var(--ease-standard);
+}
+
+.what-improve--tracked .what-improve__outcome.is-active .what-improve__num {
+  color: rgba(242, 241, 235, 0.3);
+}
+
+.what-improve__outcome-body {
+  min-width: 0;
+  /* Optisk baseline-justering mot numeralet. */
+  padding-top: clamp(6px, 1.2vw, 16px);
 }
 
 .what-improve__title {
-  margin: clamp(64px, 10vh, 110px) 0 clamp(16px, 2.4vh, 26px);
-  /* Outcome-eyebrow — litt sterkere så FUNNET/FORSTÅTT/VALGT/MÅLT registrerer */
-  color: rgba(242, 241, 235, 0.64);
-  font-family: var(--font-mono);
-  font-size: 12.5px;
+  margin: 0;
+  color: var(--color-on-dark);
+  font-family: var(--font-sans);
+  font-size: clamp(30px, 3.4vw, 52px);
   font-weight: 500;
-  letter-spacing: 0.08em;
-  line-height: 1.3;
-  text-transform: uppercase;
-}
-
-.what-improve__content > .what-improve__title:first-child {
-  margin-top: 0;
+  letter-spacing: -0.02em;
+  line-height: 1;
 }
 
 .what-improve__text {
-  color: rgba(242, 241, 235, 0.92);
+  max-width: 44ch;
+  margin: clamp(16px, 2.2vh, 24px) 0 0;
+  color: rgba(242, 241, 235, 0.82);
   font-family: var(--font-sans);
-  font-size: max(20px, 3vw);
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  line-height: 1.24;
+  font-size: clamp(19px, 1.5vw, 26px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.34;
 }
 
 .what-improve__signal {
-  margin-top: clamp(14px, 2vh, 22px);
+  margin: clamp(18px, 2.6vh, 28px) 0 0;
   color: rgba(242, 241, 235, 0.42);
   font-family: var(--font-mono);
   font-size: 11.5px;
@@ -103,18 +220,71 @@
   text-transform: uppercase;
 }
 
-/* SplitText-linjer (JS-runtime): linjen må være max-content slik at
-   ordene kan transformeres fritt uten re-wrapping — MWG 097 verbatim. */
+/* Media-ramme — gjenbrukte arbeidsbilder. Skarpe hjørner + hårstrek (editorielt,
+   ikke «kort» som 04s løftede karusell). Bildet lyser opp når punktet er aktivt. */
 
-.what-improve .wi-line {
-  width: max-content;
+.what-improve__media {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(242, 241, 235, 0.16);
+  aspect-ratio: 4 / 3;
 }
 
-.what-improve .wi-word {
-  will-change: transform;
+.what-improve__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-@media (max-width: 768px) {
+.what-improve--tracked .what-improve__media {
+  transition: opacity var(--motion-medium) var(--ease-standard),
+    border-color var(--motion-medium) var(--ease-standard);
+  opacity: 0.5;
+}
+
+.what-improve--tracked .what-improve__media img {
+  transition: filter var(--motion-medium) var(--ease-standard);
+  filter: grayscale(0.3) brightness(0.85);
+}
+
+.what-improve--tracked .what-improve__outcome.is-active .what-improve__media {
+  opacity: 1;
+  border-color: rgba(242, 241, 235, 0.32);
+}
+
+.what-improve--tracked .what-improve__outcome.is-active .what-improve__media img {
+  filter: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Mobil — skinnen legger seg over strømmen, ikke sticky ved siden av. */
+
+@media (max-width: 900px) {
+  .what-improve__layout {
+    grid-template-columns: 1fr;
+    gap: clamp(40px, 8vh, 64px);
+  }
+
+  .what-improve__rail {
+    position: static;
+    top: auto;
+  }
+
+  .what-improve__outcome {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  /* Media legger seg under teksten (kolonne 2), ikke ved siden av. */
+  .what-improve__media {
+    grid-column: 2;
+    max-width: 360px;
+    margin-top: clamp(8px, 1.5vh, 16px);
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 640px) {
   .what-improve__inner {
     padding: 96px 20px 110px;
   }
@@ -124,16 +294,36 @@
     font-size: 18px;
   }
 
-  .what-improve__container {
-    margin-top: 56px;
+  .what-improve__layout {
+    margin-top: 44px;
   }
 
-  .what-improve__content {
-    width: 88%;
+  .what-improve__outcome {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 34px 0;
+  }
+
+  .what-improve__media {
+    grid-column: 1;
+    max-width: none;
+    margin-top: 18px;
+  }
+
+  .what-improve__num {
+    font-size: clamp(56px, 20vw, 84px);
+  }
+
+  .what-improve__outcome-body {
+    padding-top: 0;
+  }
+
+  .what-improve__title {
+    font-size: clamp(28px, 9vw, 40px);
   }
 
   .what-improve__text {
     font-size: 20px;
-    line-height: 1.32;
+    line-height: 1.36;
   }
 }
