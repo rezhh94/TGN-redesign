@@ -3,7 +3,7 @@
   overflow: hidden;
   background:
     linear-gradient(118deg, rgba(242, 241, 235, 0.05) 0%, transparent 31%),
-    linear-gradient(180deg, #070807 0%, #11120e 48%, #050605 100%);
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink-base) 48%, var(--ink-deep) 100%);
   color: var(--color-on-dark);
 }
 

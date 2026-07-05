@@ -34,7 +34,7 @@
 }
 
 .process-layers__panel--dark {
-  --pl-bg: #12120f;
+  --pl-bg: var(--ink-base);
   --pl-ink: var(--color-on-dark);
   --pl-ink-soft: rgba(242, 241, 235, 0.78);
   --pl-muted: rgba(242, 241, 235, 0.55);
@@ -46,7 +46,7 @@
 }
 
 .process-layers__panel--deep {
-  --pl-bg: #060706;
+  --pl-bg: var(--ink-deep);
   --pl-ink: var(--color-on-dark);
   --pl-ink-soft: rgba(242, 241, 235, 0.78);
   --pl-muted: rgba(242, 241, 235, 0.55);

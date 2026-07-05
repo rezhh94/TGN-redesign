@@ -6,8 +6,8 @@
    på runtime og reverseres ved teardown. */
 
 .approach-bridge {
-  background:
-    linear-gradient(180deg, rgba(18, 18, 15, 1) 0%, rgba(21, 22, 18, 1) 34%, rgba(16, 17, 14, 1) 100%);
+  /* Standard mørk base — erstatter den varme ad-hoc-gradienten. */
+  background: var(--ink-base);
   color: var(--color-on-dark);
 }
 

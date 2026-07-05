@@ -10,7 +10,8 @@
   --build-px: clamp(24px, 5vw, 150px);
   position: relative;
   overflow: hidden;
-  background: #1a1c1c;
+  /* --ink-surface (= #1a1c1c). Pixel-identisk med før — services skal ikke røres. */
+  background: var(--ink-surface);
   color: var(--color-on-dark);
 }
 

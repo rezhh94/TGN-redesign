@@ -9,7 +9,7 @@
 
 .effect-bridge {
   position: relative;
-  background: #000;
+  background: var(--ink-deep);
   color: var(--color-on-dark);
 }
 

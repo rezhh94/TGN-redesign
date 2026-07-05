@@ -21,6 +21,16 @@
   --greige: #cfccc2;
   --blekk: #12120f;
 
+  /* Mørk nøytral-stige — motstykket til den lyse. Tre trinn med samme svake
+     kjølige grønn-undertone som services + pine. Aldri flere; kontrasten på
+     mørke flater skal komme fra typografi + hårstrek, ikke fra nye gråtoner.
+       deep    — dramaet/tomrommet (broen, dypeste paneler)
+       base    — standard mørk seksjon (de fleste)
+       surface — det «løftede» rommet (02/Tjenester — uendret) */
+  --ink-deep: #040404;
+  --ink-base: #0e0f0f;
+  --ink-surface: #1a1c1c;
+
   /* Premium-aksent — dempet furugrønn. KUN mikro-elementer (statusprikk,
      aktiv/hover, focus, nummer, tynne linjer, små mono-detaljer).
      Aldri stor bakgrunnsflate. Erstatter --color-signal (bannlyst oransje). */

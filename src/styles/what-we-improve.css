@@ -8,7 +8,7 @@
 .what-improve {
   position: relative;
   overflow: hidden;
-  background: #0d0e0c;
+  background: var(--ink-base);
   color: var(--color-on-dark);
 }
 

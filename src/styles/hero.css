@@ -1,7 +1,7 @@
 .page-shell {
   min-height: 100svh;
   padding-top: 0;
-  background: var(--color-dark);
+  background: var(--ink-base);
 }
 
 .hero {
@@ -11,7 +11,7 @@
   background:
     radial-gradient(62% 56% at 72% 46%, rgba(242, 241, 235, 0.08), transparent 70%),
     radial-gradient(90% 64% at 48% 124%, rgba(242, 241, 235, 0.035), transparent 62%),
-    linear-gradient(135deg, #141511 0%, var(--color-dark) 46%, #070807 100%);
+    linear-gradient(135deg, var(--ink-base) 0%, var(--ink-base) 45%, var(--ink-deep) 100%);
   color: var(--color-on-dark);
   isolation: isolate;
 }
