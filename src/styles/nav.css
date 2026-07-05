@@ -6,7 +6,8 @@
   width: 100%;
   padding-top: 12px;
   color: var(--color-on-dark);
-  background: linear-gradient(180deg, rgba(18, 18, 15, 0.74), transparent);
+  /* Kjølig base-undertone (matcher --ink-base under hero). */
+  background: linear-gradient(180deg, rgba(14, 15, 15, 0.74), transparent);
 }
 
 .site-header__inner {
@@ -70,7 +71,7 @@
   border-radius: 999px;
   color: var(--color-on-dark-muted);
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: var(--fz-mono);
   line-height: 1;
   padding: 9px 14px;
   text-transform: uppercase;
@@ -185,7 +186,7 @@
   gap: 28px;
   background:
     radial-gradient(circle at 78% 18%, rgba(242, 241, 235, 0.055), transparent 36%),
-    linear-gradient(150deg, #151612 0%, var(--color-dark) 48%, #080908 100%);
+    linear-gradient(150deg, var(--ink-base) 0%, var(--ink-base) 48%, var(--ink-deep) 100%);
   color: var(--color-on-dark);
 }
 
@@ -300,9 +301,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px 18px;
-  color: rgba(242, 241, 235, 0.58);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: var(--fz-mono-s);
   line-height: 1.4;
   text-transform: uppercase;
 }
