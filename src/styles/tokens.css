@@ -70,6 +70,16 @@
   --fz-body: 16px;
   --fz-small: 13px;
 
+  /* Mono-stige — samler de spredte små mono-størrelsene (var 10.5–13px) til
+     tre faste trinn. Eyebrow-tracking er standardisert til 0.03em, uppercase-
+     meta til 0.08em.
+       l  — knapp/CTA-etikett (13)
+       m  — eyebrow / label / meta workhorse (12)
+       s  — mikro-mono: noter, signal, tiny meta (11) */
+  --fz-mono-l: 13px;
+  --fz-mono: 12px;
+  --fz-mono-s: 11px;
+
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 

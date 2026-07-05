@@ -169,7 +169,7 @@
   margin: 0;
   color: var(--on-dark-faint);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fz-mono-s);
   letter-spacing: 0.1em;
   line-height: 1.2;
   text-transform: uppercase;
@@ -241,7 +241,7 @@
   background: var(--color-on-dark);
   color: var(--color-dark);
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--fz-mono-l);
   line-height: 1;
   padding: 0 28px;
   text-transform: uppercase;
@@ -280,7 +280,7 @@
   max-width: 28ch;
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: var(--fz-mono-s);
   line-height: 1.5;
 }
 

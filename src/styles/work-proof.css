@@ -28,7 +28,7 @@
 .work-proof__label {
   color: var(--on-light-quiet);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.03em;
   line-height: 1.2;
 }
@@ -87,7 +87,7 @@
 .work-proof__spec {
   color: var(--on-light-quiet);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.05em;
   line-height: 1.3;
   text-transform: uppercase;
@@ -96,7 +96,7 @@
 .work-proof__link {
   color: var(--blekk);
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.08em;
   line-height: 1.2;
   text-decoration: underline;
@@ -115,7 +115,7 @@
   margin-left: auto;
   color: var(--on-light-faint);
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: var(--fz-mono-s);
   letter-spacing: 0.08em;
   line-height: 1.4;
   text-transform: uppercase;

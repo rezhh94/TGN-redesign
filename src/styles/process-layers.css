@@ -92,7 +92,7 @@
   margin-top: clamp(18px, 3vh, 30px);
   color: var(--pl-muted);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.08em;
   line-height: 1.2;
   text-transform: uppercase;
@@ -111,7 +111,7 @@
 .process-layers__label {
   color: var(--pl-muted);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.06em;
   line-height: 1.2;
   text-transform: uppercase;
@@ -156,7 +156,7 @@
   margin-top: clamp(24px, 3.6vh, 40px);
   color: var(--pl-muted);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.08em;
   line-height: 1.4;
   text-transform: uppercase;
