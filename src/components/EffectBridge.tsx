@@ -1,41 +1,39 @@
-const lines = [
-  { id: "out", muted: true, words: ["Ferdig", "bygget"] },
-  { id: "in", muted: false, words: ["er", "ikke", "ferdig."] },
-];
+import { Fragment } from "react";
 
-/* 02→03 / Overlevering — MWG 015 architecture: every word exists twice
-   inside a clipped mask; as the statement crosses the viewport the visible
-   copy rolls down and out while the duplicate rolls in from above, against
-   the scroll direction. No pin — the bridge is a flowing moment between the
-   pinned 02 stack and 03. The duplicates are baked into the SSR markup
-   (aria-hidden); without JS only the visible copies show, statically. */
+const lineOut = ["Ferdig", "bygget"];
+const lineIn = ["er", "ikke", "ferdig."];
+
+/* 02→03 / Overlevering — dominant «ignite» pin. The statement holds the
+   center of the viewport while pinned; the first line stays dim and the
+   second line ("er ikke ferdig.") burns from muted grey to full white,
+   word by word, as the scroll scrubs through. No duplicate copies — the
+   text is plain and fully server-rendered. Without JS / with reduced motion
+   the statement simply shows, statically: dim first line, readable second. */
 export function EffectBridge() {
   return (
     <section className="effect-bridge" aria-labelledby="effect-bridge-title">
-      <div className="effect-bridge__inner">
+      <div className="effect-bridge__inner" data-bridge-inner>
         <p className="effect-bridge__label">02 → 03 / Overlevering</p>
 
         <h2 className="effect-bridge__statement" id="effect-bridge-title">
-          {lines.map((line) => (
-            <span
-              key={line.id}
-              className={
-                "effect-bridge__line" + (line.muted ? " effect-bridge__line--muted" : "")
-              }
-            >
-              {line.words.map((word) => (
-                <span className="effect-bridge__word" data-bridge-word key={word}>
-                  <span
-                    className="effect-bridge__copy effect-bridge__copy--hidden"
-                    aria-hidden="true"
-                  >
-                    {word}
-                  </span>
-                  <span className="effect-bridge__copy">{word}</span>
+          <span className="effect-bridge__line effect-bridge__line--muted">
+            {lineOut.map((word, index) => (
+              <Fragment key={word}>
+                {index > 0 ? " " : null}
+                <span className="effect-bridge__word">{word}</span>
+              </Fragment>
+            ))}
+          </span>
+          <span className="effect-bridge__line">
+            {lineIn.map((word, index) => (
+              <Fragment key={word}>
+                {index > 0 ? " " : null}
+                <span className="effect-bridge__word" data-bridge-ignite>
+                  {word}
                 </span>
-              ))}
-            </span>
-          ))}
+              </Fragment>
+            ))}
+          </span>
         </h2>
 
         <p className="effect-bridge__support">Etter lansering begynner målingen.</p>

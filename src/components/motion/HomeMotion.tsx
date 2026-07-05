@@ -127,31 +127,37 @@ function approachScene() {
   };
 }
 
-// 02→03 / Overlevering — MWG 015-adapted title mask effect. Every word
-// exists twice inside a clipped mask (SSR markup); as the statement crosses
-// the viewport each word's children roll yPercent +100 — the visible copy
-// rolls out downward while the duplicate rolls in from above, against the
-// scroll direction. No pin, no runtime splitting.
-function bridgeScene() {
+// 02→03 / Overlevering — dominant "ignite" pin. On desktop the statement is
+// pinned to the center of the viewport while the scroll scrubs through ~120vh;
+// the first line stays dim and the second line's words burn from muted grey to
+// full white in a stagger, with a subtle scale settle. On mobile there is no
+// pin — the same ignite scrubs as the section crosses the viewport. Colours are
+// set from JS, so no-JS / reduced-motion keep the static SSR statement.
+function bridgeScene(pin: boolean) {
   const section = document.querySelector<HTMLElement>(".effect-bridge");
   if (!section) return () => {};
 
-  const words = gsap.utils.toArray<HTMLElement>("[data-bridge-word]", section);
-  if (!words.length) return () => {};
+  const inner = section.querySelector<HTMLElement>("[data-bridge-inner]");
+  const ignite = gsap.utils.toArray<HTMLElement>("[data-bridge-ignite]", section);
+  if (!inner || !ignite.length) return () => {};
+
+  const dim = "rgba(242, 241, 235, 0.2)";
+  const bright = "rgba(246, 245, 241, 1)";
 
   const ctx = gsap.context(() => {
-    for (const word of words) {
-      gsap.to(word.children, {
-        yPercent: "+=100",
-        ease: "expo.inOut",
-        scrollTrigger: {
-          trigger: word,
-          start: "bottom bottom",
-          end: "top 55%",
-          scrub: 0.4,
-        },
-      });
+    // Start the second line dim; the scrub burns it to full white.
+    gsap.set(ignite, { color: dim });
+
+    const trigger = pin
+      ? { trigger: section, start: "top top", end: "+=120%", scrub: 0.5, pin: inner, anticipatePin: 1, invalidateOnRefresh: true }
+      : { trigger: section, start: "top 78%", end: "top 32%", scrub: 0.5 };
+
+    const tl = gsap.timeline({ scrollTrigger: trigger });
+
+    if (pin) {
+      tl.fromTo(inner, { scale: 0.94 }, { scale: 1, ease: "none" }, 0);
     }
+    tl.to(ignite, { color: bright, ease: "none", stagger: 0.5 }, 0.12);
   }, section);
 
   return () => ctx.revert();
@@ -514,7 +520,7 @@ export function HomeMotion() {
       heroEntrance(true);
       const teardownApproach = approachScene();
       serviceReveals();
-      const teardownBridge = bridgeScene();
+      const teardownBridge = bridgeScene(true);
       const teardownImprove = improveScene();
       const teardownWork = workCarousel();
       const teardownProcess = processStage();
@@ -533,7 +539,7 @@ export function HomeMotion() {
       heroEntrance(false);
       const teardownApproach = approachScene();
       serviceReveals();
-      const teardownBridge = bridgeScene();
+      const teardownBridge = bridgeScene(false);
       const teardownImprove = improveScene();
       const teardownWork = workCarousel();
       const teardownProcess = processStage();
