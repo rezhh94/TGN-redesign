@@ -3,56 +3,33 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+import { Observer } from "gsap/Observer";
 import { destroyLenis, initLenis } from "@/lib/motion";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText, Observer);
 
-const ON_DARK = "242, 241, 235";
+// Mobile address-bar show/hide fires resize; refreshing mid-pin makes
+// pinned scenes jump. Dimension changes from real rotation still refresh.
+ScrollTrigger.config({ ignoreMobileResize: true });
 
-function setupServiceAccordion() {
-  const list = document.querySelector<HTMLElement>("[data-build-list]");
-  if (!list) return () => {};
+// 02 / Tjenester — every service row is static and fully open (title, meta,
+// description, categories, link + image frame all visible). No toggle, no
+// collapse. Rows rise in once on scroll; that is the only motion here.
 
-  // Collapse without transition so the page height is final before
-  // ScrollTrigger measures positions (the 400ms collapse otherwise leaves
-  // late triggers with stale, unreachable start values).
-  const bodies = Array.from(list.querySelectorAll<HTMLElement>("[data-build-body]"));
-  for (const body of bodies) body.style.transition = "none";
-  list.classList.add("what-build--enhanced");
-  void list.offsetHeight;
-  requestAnimationFrame(() => {
-    for (const body of bodies) body.style.transition = "";
+// Service rows rise in once as the list enters the viewport.
+function serviceReveals() {
+  const rows = gsap.utils.toArray<HTMLElement>("[data-build-row]");
+  if (!rows.length) return;
+
+  gsap.from(rows, {
+    y: 26,
+    autoAlpha: 0,
+    duration: 0.55,
+    ease: "power3.out",
+    stagger: 0.06,
+    scrollTrigger: { trigger: "[data-build-list]", start: "top 82%", once: true },
   });
-
-  const rows = Array.from(list.querySelectorAll<HTMLElement>("[data-build-row]"));
-  const syncAria = () => {
-    for (const row of rows) {
-      const trigger = row.querySelector<HTMLButtonElement>("[data-build-trigger]");
-      trigger?.setAttribute("aria-expanded", row.hasAttribute("data-open") ? "true" : "false");
-    }
-  };
-  syncAria();
-
-  const onClick = (event: Event) => {
-    const trigger = (event.target as HTMLElement).closest("[data-build-trigger]");
-    if (!trigger || !list.contains(trigger)) return;
-    const row = trigger.closest<HTMLElement>("[data-build-row]");
-    if (!row) return;
-
-    const wasOpen = row.hasAttribute("data-open");
-    for (const other of rows) other.removeAttribute("data-open");
-    if (!wasOpen) row.setAttribute("data-open", "");
-    syncAria();
-  };
-
-  list.addEventListener("click", onClick);
-  return () => {
-    list.removeEventListener("click", onClick);
-    list.classList.remove("what-build--enhanced");
-    for (const row of rows) {
-      row.querySelector("[data-build-trigger]")?.removeAttribute("aria-expanded");
-    }
-  };
 }
 
 // One-time opening scene: title lines rise, then panel and bar settle.
@@ -70,400 +47,334 @@ function heroEntrance(full: boolean) {
   tl.from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.4");
 }
 
-// Ghost index numeral behind the service list tracks hover/open row.
-function setupBuildGhost() {
-  const ghost = document.querySelector<HTMLElement>("[data-build-ghost]");
-  const list = document.querySelector<HTMLElement>("[data-build-list]");
-  if (!ghost || !list) return () => {};
+// 01 / Tilnærming — MWG 049-adapted defying gravity. The statement pins at
+// the top of its 100vh container while every runtime-wrapped letter starts
+// offset downward by a random distance and scrubs back into place over
+// exactly that distance — the sentence assembles as you scroll. Teardown
+// restores the original markup.
+function approachScene() {
+  const section = document.querySelector<HTMLElement>(".approach-bridge");
+  if (!section) return () => {};
 
-  const numberFor = (row: Element | null) =>
-    row?.querySelector(".what-build__number")?.textContent?.trim() ?? null;
+  const container = section.querySelector<HTMLElement>("[data-approach-container]");
+  const title = section.querySelector<HTMLElement>("[data-approach-title]");
+  const support = section.querySelector<HTMLElement>("[data-approach-support]");
+  if (!container || !title) return () => {};
 
-  const openNumber = () => numberFor(list.querySelector("[data-build-row][data-open]"));
-
-  let current = ghost.textContent?.trim() ?? "";
-  const swap = (value: string | null) => {
-    if (!value || value === current) return;
-    current = value;
-    gsap
-      .timeline()
-      .to(ghost, { autoAlpha: 0, y: 18, duration: 0.16, ease: "power2.in" })
-      .call(() => {
-        ghost.textContent = value;
-      })
-      .to(ghost, { autoAlpha: 1, y: 0, duration: 0.34, ease: "power3.out" });
-  };
-
-  const onOver = (event: Event) => {
-    const row = (event.target as HTMLElement).closest("[data-build-row]");
-    if (row) swap(numberFor(row));
-  };
-  const onLeave = () => swap(openNumber());
-  const onClick = () => swap(openNumber());
-
-  swap(openNumber());
-  list.addEventListener("pointerover", onOver);
-  list.addEventListener("pointerleave", onLeave);
-  list.addEventListener("click", onClick);
-  return () => {
-    list.removeEventListener("pointerover", onOver);
-    list.removeEventListener("pointerleave", onLeave);
-    list.removeEventListener("click", onClick);
-  };
-}
-
-function approachFill(scrub: boolean) {
-  const section = document.querySelector(".approach-bridge");
-  if (!section) return;
-
-  const words = gsap.utils.toArray<HTMLElement>("[data-fill-word]");
-  const support = section.querySelector("[data-fill-support]");
-
-  const tl = gsap.timeline({
-    scrollTrigger: scrub
-      ? { trigger: section, start: "top 78%", end: "center 42%", scrub: 0.5 }
-      : { trigger: section, start: "top 70%", once: true },
-  });
-
-  tl.from(words, {
-    color: `rgba(${ON_DARK}, 0.14)`,
-    stagger: scrub ? 0.35 : 0.12,
-    duration: scrub ? 1 : 0.7,
-    ease: scrub ? "none" : "power2.out",
-  });
-
-  if (support) {
-    tl.from(support, { autoAlpha: 0, y: 14, duration: scrub ? 0.6 : 0.5, ease: "power2.out" }, "<55%");
+  // Wrap every character in a span (MWG 049 util) — screen readers keep the
+  // full statement via aria-label; the spans are presentation only.
+  const lines = gsap.utils.toArray<HTMLElement>(".approach-bridge__line", title);
+  const originals = lines.map((line) => line.innerHTML);
+  title.setAttribute("aria-label", (title.textContent ?? "").replace(/\s+/g, " ").trim());
+  for (const line of lines) {
+    const text = line.textContent ?? "";
+    line.setAttribute("aria-hidden", "true");
+    line.innerHTML = text
+      .split("")
+      .map((char) =>
+        char === " " ? '<span class="ab-letter">&nbsp;</span>' : `<span class="ab-letter">${char}</span>`
+      )
+      .join("");
   }
+
+  const ctx = gsap.context(() => {
+    const dist = container.clientHeight - title.clientHeight;
+
+    ScrollTrigger.create({
+      trigger: container,
+      pin: title,
+      start: "top top",
+      end: "+=" + dist,
+    });
+
+    // NB: the reference triggers on the title, but its title sits flush with
+    // the container top. Ours is offset by the fixed header, so the title
+    // never reaches 'top top' — trigger on the container instead, which is
+    // exactly where the pin starts.
+    const letters = title.querySelectorAll<HTMLElement>(".ab-letter");
+    letters.forEach((letter) => {
+      const randomDistance = Math.random() * dist;
+      gsap.from(letter, {
+        y: randomDistance,
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          start: "top top",
+          end: "+=" + randomDistance,
+          scrub: true,
+        },
+      });
+    });
+
+    if (support) {
+      gsap.from(support, {
+        autoAlpha: 0,
+        y: 18,
+        duration: 0.6,
+        ease: "power2.out",
+        scrollTrigger: { trigger: support, start: "top 88%", once: true },
+      });
+    }
+  }, section);
+
+  return () => {
+    ctx.revert();
+    lines.forEach((line, index) => {
+      line.innerHTML = originals[index];
+      line.removeAttribute("aria-hidden");
+    });
+    title.removeAttribute("aria-label");
+  };
 }
 
-function serviceReveals() {
-  const rows = gsap.utils.toArray<HTMLElement>("[data-build-row]");
-  if (!rows.length) return;
+// 02→03 / Overlevering — dominant "ignite" pin. On desktop the statement is
+// pinned to the center of the viewport while the scroll scrubs through ~120vh;
+// the first line stays dim and the second line's words burn from muted grey to
+// full white in a stagger, with a subtle scale settle. On mobile there is no
+// pin — the same ignite scrubs as the section crosses the viewport. Colours are
+// set from JS, so no-JS / reduced-motion keep the static SSR statement.
+function bridgeScene(pin: boolean) {
+  const section = document.querySelector<HTMLElement>(".effect-bridge");
+  if (!section) return () => {};
 
-  gsap.from(rows, {
-    y: 26,
-    autoAlpha: 0,
-    duration: 0.55,
-    ease: "power3.out",
-    stagger: 0.06,
-    scrollTrigger: { trigger: "[data-build-list]", start: "top 82%", once: true },
-  });
+  const inner = section.querySelector<HTMLElement>("[data-bridge-inner]");
+  const ignite = gsap.utils.toArray<HTMLElement>("[data-bridge-ignite]", section);
+  if (!inner || !ignite.length) return () => {};
+
+  const dim = "rgba(242, 241, 235, 0.2)";
+  const bright = "rgba(246, 245, 241, 1)";
+
+  const ctx = gsap.context(() => {
+    // Start the second line dim; the scrub burns it to full white.
+    gsap.set(ignite, { color: dim });
+
+    const trigger = pin
+      ? { trigger: section, start: "top top", end: "+=120%", scrub: 0.5, pin: inner, anticipatePin: 1, invalidateOnRefresh: true }
+      : { trigger: section, start: "top 78%", end: "top 32%", scrub: 0.5 };
+
+    const tl = gsap.timeline({ scrollTrigger: trigger });
+
+    if (pin) {
+      tl.fromTo(inner, { scale: 0.94 }, { scale: 1, ease: "none" }, 0);
+    }
+    tl.to(ignite, { color: bright, ease: "none", stagger: 0.5 }, 0.12);
+  }, section);
+
+  return () => ctx.revert();
 }
 
-// 03 / Effekt — the page's single pinned moment. One outcome on stage at a
-// time; scroll swaps FUNNET → FORSTÅTT → VALGT → MÅLT while the spine indexes
-// the sequence. Non-pinned contexts get simple one-time reveals of the list.
-function effectStage(pinned: boolean) {
+// 03 / Effekt — "måletråd". Left rail is a sticky index of the four outcomes;
+// a vertical thread fills (scaleY 0→1) as the outcome stream scrolls past, and
+// the active outcome — the one crossing the viewport's middle — lights up in
+// both the rail and its giant ghost numeral. Outcome blocks also rise in once.
+// Colours/fill are JS-only, so no-JS / reduced motion keep the static, readable
+// two-column document.
+function improveScene() {
   const section = document.querySelector<HTMLElement>(".what-improve");
   if (!section) return () => {};
 
-  const order = ["funnet", "forstatt", "valgt", "malt"];
-  const word = (key: string) =>
-    section.querySelector<HTMLElement>(`[data-outcome-word][data-outcome="${key}"]`);
-  const note = (key: string) =>
-    section.querySelector<HTMLElement>(`[data-outcome-note="${key}"]`);
-  const spineItem = (key: string) =>
-    section.querySelector<HTMLElement>(`[data-spine="${key}"]`);
+  const root = section.querySelector<HTMLElement>("[data-improve-root]");
+  const fill = section.querySelector<HTMLElement>("[data-improve-progress]");
+  const blocks = gsap.utils.toArray<HTMLElement>("[data-improve-block]", section);
+  const dots = gsap.utils.toArray<HTMLElement>("[data-improve-dot]", section);
+  if (!root || !fill || !blocks.length) return () => {};
 
-  if (!pinned) {
-    for (const key of order) {
-      const w = word(key);
-      const n = note(key);
-      if (w) {
-        gsap.from(w, {
-          color: `rgba(${ON_DARK}, 0.2)`,
-          duration: 0.7,
-          ease: "power2.out",
-          scrollTrigger: { trigger: w, start: "top 80%", once: true },
-        });
-      }
-      if (n) {
-        gsap.from(n, {
-          autoAlpha: 0,
-          y: 18,
-          duration: 0.55,
-          ease: "power3.out",
-          scrollTrigger: { trigger: n, start: "top 86%", once: true },
-        });
-      }
-    }
-    return () => {};
-  }
+  section.classList.add("what-improve--tracked");
 
-  section.classList.add("what-improve--stage");
-
-  const setSpine = (active: number) => {
-    order.forEach((key, index) => {
-      spineItem(key)?.classList.toggle("is-active", index === active);
-    });
+  const setActive = (index: number, on: boolean) => {
+    blocks[index]?.classList.toggle("is-active", on);
+    dots[index]?.classList.toggle("is-active", on);
   };
 
-  order.forEach((key, index) => {
-    gsap.set(
-      [word(key), note(key)],
-      index === 0 ? { autoAlpha: 1, yPercent: 0 } : { autoAlpha: 0, yPercent: 12 }
+  const ctx = gsap.context(() => {
+    // The thread fills across the whole stream.
+    gsap.fromTo(
+      fill,
+      { scaleY: 0 },
+      {
+        scaleY: 1,
+        ease: "none",
+        scrollTrigger: { trigger: root, start: "top center", end: "bottom center", scrub: 0.4 },
+      }
     );
-  });
-  setSpine(0);
 
-  // Normalized progress where each outcome takes the stage (mid-swap points
-  // of the timeline below) — drives the spine bidirectionally.
-  const thresholds = [0, 0.22, 0.5, 0.78];
+    // Reveal once, and mark active while the block crosses the middle band.
+    blocks.forEach((block, index) => {
+      gsap.from(block, {
+        y: 28,
+        autoAlpha: 0,
+        duration: 0.6,
+        ease: "power3.out",
+        scrollTrigger: { trigger: block, start: "top 84%", once: true },
+      });
 
-  const progressBar = section.querySelector<HTMLElement>("[data-effect-progress-bar]");
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: section,
-      start: "top top",
-      end: "+=280%",
-      pin: true,
-      scrub: 0.6,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        let active = 0;
-        for (let i = 0; i < thresholds.length; i += 1) {
-          if (self.progress >= thresholds[i]) active = i;
-        }
-        setSpine(active);
-        if (progressBar) gsap.set(progressBar, { scaleX: self.progress });
-      },
-    },
-  });
-
-  // Long holds, quick controlled swaps: hold(1) → out(0.45)/in(0.55) → hold(1)
-  order.forEach((key, index) => {
-    if (index === 0) {
-      tl.to({}, { duration: 1 });
-      return;
-    }
-    const prevKey = order[index - 1];
-    tl.to([word(prevKey), note(prevKey)], {
-      autoAlpha: 0,
-      yPercent: -10,
-      duration: 0.45,
-      ease: "none",
+      ScrollTrigger.create({
+        trigger: block,
+        start: "top 55%",
+        end: "bottom 55%",
+        onToggle: (self) => setActive(index, self.isActive),
+      });
     });
-    tl.fromTo(
-      [word(key), note(key)],
-      { autoAlpha: 0, yPercent: 12 },
-      { autoAlpha: 1, yPercent: 0, duration: 0.55, ease: "none", immediateRender: false },
-      ">-0.12"
-    );
-    tl.to({}, { duration: 1 });
-  });
+  }, section);
 
   return () => {
-    section.classList.remove("what-improve--stage");
-    order.forEach((key) => spineItem(key)?.classList.remove("is-active"));
+    ctx.revert();
+    section.classList.remove("what-improve--tracked");
+    blocks.forEach((block) => block.classList.remove("is-active"));
+    dots.forEach((dot) => dot.classList.remove("is-active"));
   };
 }
 
-function workReveal(parallax: boolean) {
-  const section = document.querySelector<HTMLElement>(".work-showcase");
-  if (!section) return;
-
-  const layout = section.querySelector<HTMLElement>(".work-showcase__layout");
-  const main = section.querySelector<HTMLElement>('[data-work-visual="main"]');
-  const detail = section.querySelector<HTMLElement>('[data-work-visual="detail"]');
-  const metaItems = section.querySelectorAll<HTMLElement>(".work-showcase__meta > *");
-
-  if (main) {
-    gsap.from(main, {
-      clipPath: "inset(0 0 100% 0)",
-      duration: 0.9,
-      ease: "expo.out",
-      scrollTrigger: { trigger: layout ?? section, start: "top 62%", once: true },
-    });
-  }
-
-  if (detail) {
-    gsap.from(detail, {
-      y: 44,
-      autoAlpha: 0,
-      duration: 0.7,
-      ease: "power3.out",
-      scrollTrigger: { trigger: layout ?? section, start: "top 52%", once: true },
-    });
-  }
-
-  if (metaItems.length) {
-    gsap.from(metaItems, {
-      y: 16,
-      autoAlpha: 0,
-      duration: 0.5,
-      ease: "power2.out",
-      stagger: 0.05,
-      scrollTrigger: { trigger: layout ?? section, start: "top 58%", once: true },
-    });
-  }
-
-  if (parallax && main) {
-    gsap.fromTo(
-      main,
-      { yPercent: 3.5 },
-      {
-        yPercent: -3.5,
-        ease: "none",
-        scrollTrigger: { trigger: layout ?? section, start: "top bottom", end: "bottom top", scrub: 0.8 },
-      }
-    );
-  }
-}
-
-// 05 / Prosess — layer assembly stage. Desktop pins the scene and assembles
-// the four-plate system object with scroll: plates fly in from a scattered
-// state, the ghost "Uklart" dissolves, one phase holds the floor at a time
-// and the title completes itself ("System ut."). Non-pinned contexts get the
-// calm assembled flow layout with one-time reveals.
-function processStage(full: boolean) {
-  const section = document.querySelector<HTMLElement>(".process-stage");
+// 04 / Arbeid — MWG 008-adapted draggable carousel. The track holds every
+// card twice; x is wrapped over half its width for a seamless infinite loop,
+// a gsap.ticker drives a slow auto-scroll and an Observer lets the user drag
+// it — with a small tilt/scale "wow" while pressed. No pin, no page-scroll
+// takeover. PRM / no-JS keep the plain scrollable strip.
+function workCarousel() {
+  const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
-  const object = section.querySelector<HTMLElement>("[data-stage-object]");
-  const phases = gsap.utils.toArray<HTMLElement>("[data-stage-phase]", section);
+  const carousel = section.querySelector<HTMLElement>("[data-work-carousel]");
+  const track = section.querySelector<HTMLElement>("[data-work-track]");
+  const cards = gsap.utils.toArray<HTMLElement>(".work-proof__card", section);
+  if (!carousel || !track || cards.length < 2) return () => {};
 
-  if (!full) {
-    const head = section.querySelector<HTMLElement>(".process-stage__head");
-    if (head) {
-      gsap.from(head, {
-        autoAlpha: 0,
-        y: 24,
-        duration: 0.7,
-        ease: "power3.out",
-        scrollTrigger: { trigger: section, start: "top 80%", once: true },
-      });
-    }
-    if (object) {
-      gsap.from(object, {
-        autoAlpha: 0,
-        y: 34,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: object, start: "top 84%", once: true },
-      });
-    }
-    for (const phase of phases) {
-      gsap.from(phase, {
-        autoAlpha: 0,
-        y: 22,
-        duration: 0.55,
-        ease: "power3.out",
-        scrollTrigger: { trigger: phase, start: "top 88%", once: true },
-      });
-    }
-    return () => {};
+  section.classList.add("work-proof--drag");
+
+  const cardsLength = cards.length / 2;
+  const half = track.clientWidth / 2;
+  const wrap = gsap.utils.wrap(-half, 0);
+
+  let total = 0;
+  const xTo = gsap.quickTo(track, "x", {
+    duration: 0.5,
+    ease: "power3",
+    modifiers: { x: gsap.utils.unitize(wrap) },
+  });
+
+  // A precomputed random offset per card for the press "wow".
+  const itemValues: number[] = [];
+  for (let i = 0; i < cardsLength; i++) {
+    itemValues.push((Math.random() - 0.5) * 20);
   }
 
-  section.classList.add("process-stage--scene");
-
-  const plates = gsap.utils.toArray<HTMLElement>("[data-stage-plate]", section);
-  const labels = plates.map((plate) =>
-    plate.querySelector<HTMLElement>(".process-stage__plate-label")
-  );
-  const ticks = gsap.utils.toArray<HTMLElement>("[data-stage-tick]", section);
-  const ghost = section.querySelector<HTMLElement>("[data-stage-ghost]");
-  const titleOut = section.querySelector<HTMLElement>("[data-stage-title-out]");
-  const ioIn = section.querySelector<HTMLElement>("[data-stage-io-in]");
-  const ioOut = section.querySelector<HTMLElement>("[data-stage-io-out]");
-
-  // Scattered start state — the unclear pile the scroll assembles.
-  const scatter = [
-    { x: -300, y: 230, rotation: -14 },
-    { x: 320, y: -210, rotation: 10 },
-    { x: -260, y: -250, rotation: -8 },
-    { x: 350, y: 190, rotation: 14 },
-  ];
-
-  plates.forEach((plate, index) => {
-    gsap.set(plate, {
-      x: scatter[index].x,
-      y: scatter[index].y,
-      z: index * 44,
-      rotation: scatter[index].rotation,
-      autoAlpha: 0.3,
-    });
+  const pressTl = gsap.timeline({ paused: true });
+  pressTl.to(cards, {
+    rotate: (index: number) => itemValues[index % cardsLength],
+    xPercent: (index: number) => itemValues[index % cardsLength],
+    yPercent: (index: number) => itemValues[index % cardsLength],
+    scale: 0.95,
+    duration: 0.5,
+    ease: "back.inOut(3)",
   });
-  labels.forEach((label) => label && gsap.set(label, { opacity: 0.3 }));
-  phases.forEach((phase) => gsap.set(phase, { autoAlpha: 0, y: 26 }));
-  if (titleOut) gsap.set(titleOut, { opacity: 0.2 });
-  if (ioOut) gsap.set(ioOut, { opacity: 0.25 });
 
-  // Normalized progress where each phase takes the floor (segment starts of
-  // the timeline below) — drives the tick register bidirectionally.
-  const thresholds = [0.06, 0.28, 0.5, 0.72];
-
-  const setTicks = (progress: number) => {
-    ticks.forEach((tick, index) => {
-      tick.classList.toggle("is-active", progress >= thresholds[index]);
-    });
-  };
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: section,
-      start: "top top",
-      end: "+=260%",
-      pin: true,
-      scrub: 0.5,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => setTicks(self.progress),
+  const observer = Observer.create({
+    target: carousel,
+    type: "pointer,touch",
+    onPress: () => pressTl.play(),
+    onDrag: (self) => {
+      total += self.deltaX;
+      xTo(total);
     },
+    onRelease: () => pressTl.reverse(),
+    onStop: () => pressTl.reverse(),
   });
 
-  // Intro hold — scattered pile under the ghost word.
-  tl.to({}, { duration: 0.35 });
-
-  phases.forEach((phase, index) => {
-    if (index > 0) {
-      tl.to(phases[index - 1], { autoAlpha: 0, y: -18, duration: 0.25, ease: "none" });
-    }
-    tl.to(phase, { autoAlpha: 1, y: 0, duration: 0.3, ease: "none" }, index > 0 ? ">-0.08" : ">");
-    tl.to(
-      plates[index],
-      { x: 0, y: 0, rotation: 0, autoAlpha: 1, duration: 0.8, ease: "power2.inOut" },
-      "<"
-    );
-    if (labels[index]) {
-      tl.to(labels[index], { opacity: 1, duration: 0.3, ease: "none" }, "<0.45");
-    }
-    if (index === 0 && ghost) {
-      tl.to(ghost, { autoAlpha: 0, duration: 0.75, ease: "none" }, "<");
-    }
-    tl.to({}, { duration: 0.35 });
-  });
-
-  // Finale — the stack compresses and the system locks in.
-  tl.to(plates, { z: (index: number) => index * 32, duration: 0.5, ease: "power2.inOut" });
-  if (titleOut) tl.to(titleOut, { opacity: 1, duration: 0.4, ease: "none" }, "<");
-  if (ioOut) tl.to(ioOut, { opacity: 1, duration: 0.4, ease: "none" }, "<");
-  if (ioIn) tl.to(ioIn, { opacity: 0.28, duration: 0.4, ease: "none" }, "<");
-  tl.to({}, { duration: 0.3 });
+  const tick = (_time: number, deltaTime: number) => {
+    total -= deltaTime / 10;
+    xTo(total);
+  };
+  gsap.ticker.add(tick);
 
   return () => {
-    section.classList.remove("process-stage--scene");
-    ticks.forEach((tick) => tick.classList.remove("is-active"));
+    gsap.ticker.remove(tick);
+    observer.kill();
+    pressTl.kill();
+    gsap.set(track, { clearProps: "x,transform" });
+    gsap.set(cards, { clearProps: "transform,rotate,scale" });
+    section.classList.remove("work-proof--drag");
   };
 }
 
-// 04 / Arbeid — the standards ledger: rows rise once as they cross the
-// reading band; each row's hairline draws in with it.
-function ledgerReveal() {
-  const rows = gsap.utils.toArray<HTMLElement>("[data-ledger-row]");
-  if (!rows.length) return;
+// 05 / Prosess — MWG 073-adapted horizontal timeline. The 500vh pin-height
+// wrapper is the trigger; the rail is pinned and pulled left until exactly
+// one viewport remains (xPercent -100 + x innerWidth). Each giant index
+// numeral gets two scrubbed hinge tweens driven by containerAnimation:
+// it arrives from the top edge as its panel enters (left 100% → 0%) and
+// exits rotated -90° along the right edge as it leaves (left 0% → -100%).
+// Runs on both desktop and mobile (like the reference — the mobile layout
+// only re-indents the columns in CSS). PRM/no-JS never reach this call and
+// keep the static banded list.
+function processStage() {
+  const section = document.querySelector<HTMLElement>(".process-layers");
+  if (!section) return () => {};
 
-  for (const row of rows) {
-    gsap.from(row, {
-      y: 22,
-      autoAlpha: 0,
-      duration: 0.55,
-      ease: "power3.out",
-      scrollTrigger: { trigger: row, start: "top 86%", once: true },
-    });
+  // The stage class must exist before ScrollTrigger measures the runway.
+  section.classList.add("process-layers--stage");
+
+  const pinHeight = section.querySelector<HTMLElement>("[data-process-pin]");
+  const rail = section.querySelector<HTMLElement>("[data-process-rail]");
+  if (!pinHeight || !rail) {
+    section.classList.remove("process-layers--stage");
+    return () => {};
   }
+
+  const ctx = gsap.context(() => {
+    const scrollTween = gsap.to(rail, {
+      xPercent: -100,
+      x: () => window.innerWidth,
+      ease: "none",
+      scrollTrigger: {
+        trigger: pinHeight,
+        start: "top top",
+        end: "bottom bottom",
+        pin: rail,
+        scrub: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    gsap.utils.toArray<HTMLElement>("[data-process-index]", section).forEach((title) => {
+      // Exit hinge: as the panel crosses the viewport's left edge the
+      // numeral swings -90° and lands along the right edge.
+      gsap.to(title, {
+        rotation: -90,
+        x: () => window.innerWidth - title.offsetHeight,
+        y: () => title.offsetHeight,
+        ease: "expo.inOut",
+        scrollTrigger: {
+          trigger: title.parentElement,
+          containerAnimation: scrollTween,
+          start: "left 0%",
+          end: "left -100%",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+      // Entrance hinge: mirrored — the numeral drops in from the top edge
+      // while its panel crosses the viewport from the right.
+      gsap.from(title, {
+        rotation: 90,
+        y: () => -window.innerHeight + title.offsetHeight,
+        x: () => title.offsetHeight,
+        ease: "expo.inOut",
+        scrollTrigger: {
+          trigger: title.parentElement,
+          containerAnimation: scrollTween,
+          start: "left 100%",
+          end: "left 0%",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+    });
+  }, section);
+
+  return () => {
+    ctx.revert();
+    section.classList.remove("process-layers--stage");
+  };
 }
 
 // 06 / System — manifesto lines rise out of their masks once; support and
@@ -584,7 +495,6 @@ function setupFooterUtilities() {
 
 export function HomeMotion() {
   useEffect(() => {
-    const teardownAccordion = setupServiceAccordion();
     const teardownUtilities = setupFooterUtilities();
     const lenis = initLenis({ lerp: 0.12 });
     lenis?.lenis.on("scroll", ScrollTrigger.update);
@@ -593,32 +503,40 @@ export function HomeMotion() {
 
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
-      const teardownGhost = setupBuildGhost();
-      approachFill(true);
+      const teardownApproach = approachScene();
       serviceReveals();
-      const teardownStage = effectStage(true);
-      workReveal(true);
-      ledgerReveal();
-      const teardownProcess = processStage(true);
+      const teardownBridge = bridgeScene(true);
+      const teardownImprove = improveScene();
+      const teardownWork = workCarousel();
+      const teardownProcess = processStage();
       manifestoReveal();
       footerReveals();
       return () => {
-        teardownGhost();
-        teardownStage();
+        teardownApproach();
+        teardownBridge();
+        teardownImprove();
+        teardownWork();
         teardownProcess();
       };
     });
 
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
-      approachFill(false);
+      const teardownApproach = approachScene();
       serviceReveals();
-      effectStage(false);
-      workReveal(false);
-      ledgerReveal();
-      processStage(false);
+      const teardownBridge = bridgeScene(false);
+      const teardownImprove = improveScene();
+      const teardownWork = workCarousel();
+      const teardownProcess = processStage();
       manifestoReveal();
       footerReveals();
+      return () => {
+        teardownApproach();
+        teardownBridge();
+        teardownImprove();
+        teardownWork();
+        teardownProcess();
+      };
     });
 
     document.fonts?.ready.then(() => ScrollTrigger.refresh());
@@ -627,7 +545,6 @@ export function HomeMotion() {
       mm.revert();
       lenis?.lenis.off("scroll", ScrollTrigger.update);
       destroyLenis();
-      teardownAccordion();
       teardownUtilities();
     };
   }, []);

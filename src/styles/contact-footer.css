@@ -3,24 +3,24 @@
   overflow: hidden;
   background:
     linear-gradient(118deg, rgba(242, 241, 235, 0.05) 0%, transparent 31%),
-    linear-gradient(180deg, #070807 0%, #11120e 48%, #050605 100%);
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink-base) 48%, var(--ink-deep) 100%);
   color: var(--color-on-dark);
 }
 
 .contact-footer__inner {
   position: relative;
-  width: min(100%, 2560px);
+  width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(118px, 14vh, 190px) clamp(24px, 5vw, 150px) 0;
+  padding: clamp(118px, 14vh, 190px) var(--gutter) 0;
 }
 
 .contact-footer__label,
 .contact-footer__row-label,
 .contact-footer__direct-label {
-  color: rgba(242, 241, 235, 0.66);
+  color: var(--on-dark-medium);
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.035em;
+  font-size: var(--fz-mono);
+  letter-spacing: 0.03em;
   line-height: 1.2;
 }
 
@@ -62,7 +62,7 @@
 .contact-footer__lead {
   width: min(100%, 720px);
   margin-left: clamp(0px, 6vw, 138px);
-  color: rgba(242, 241, 235, 0.68);
+  color: var(--on-dark-medium);
   font-family: var(--font-sans);
   font-size: clamp(19px, 1.5vw, 28px);
   font-weight: 400;
@@ -91,7 +91,7 @@
 .contact-footer__email {
   width: fit-content;
   max-width: 100%;
-  color: rgba(242, 241, 235, 0.94);
+  color: var(--on-dark-strong);
   font-family: var(--font-sans);
   font-size: clamp(52px, 8.2vw, 164px);
   font-weight: 400;
@@ -123,9 +123,9 @@
 .contact-footer__copy {
   border: 0;
   background: none;
-  color: rgba(242, 241, 235, 0.5);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fz-mono-s);
   letter-spacing: 0.08em;
   line-height: 1.2;
   padding: 4px 0;
@@ -141,7 +141,7 @@
 .contact-footer__copy:hover,
 .contact-footer__copy:focus-visible {
   color: var(--color-on-dark);
-  text-decoration-color: rgba(242, 241, 235, 0.85);
+  text-decoration-color: var(--on-dark-strong);
 }
 
 .contact-footer__copy:focus-visible {
@@ -156,9 +156,9 @@
 
 .contact-footer__status {
   margin-top: clamp(10px, 1.6vh, 18px);
-  color: rgba(242, 241, 235, 0.38);
+  color: var(--on-dark-faint);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fz-mono-s);
   letter-spacing: 0.08em;
   line-height: 1.2;
   text-transform: uppercase;
@@ -166,7 +166,7 @@
 
 .contact-footer__phone {
   width: fit-content;
-  color: rgba(242, 241, 235, 0.56);
+  color: var(--on-dark-quiet);
   font-family: var(--font-sans);
   font-size: clamp(19px, 1.7vw, 32px);
   font-weight: 400;
@@ -187,7 +187,7 @@
 
 .contact-footer__action {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--fz-mono-l);
   line-height: 1;
   text-decoration: none;
   text-transform: uppercase;
@@ -227,7 +227,7 @@
   display: inline-flex;
   align-items: center;
   min-height: 56px;
-  color: rgba(242, 241, 235, 0.72);
+  color: var(--on-dark-medium);
   text-decoration: underline;
   text-decoration-color: rgba(242, 241, 235, 0.3);
   text-decoration-thickness: 1px;
@@ -238,7 +238,7 @@
 .contact-footer__action--secondary:hover,
 .contact-footer__action--secondary:focus-visible {
   color: var(--color-on-dark);
-  text-decoration-color: rgba(242, 241, 235, 0.85);
+  text-decoration-color: var(--on-dark-strong);
 }
 
 .contact-footer__email:hover,
@@ -274,7 +274,7 @@
 
 .contact-footer__link {
   position: relative;
-  color: rgba(242, 241, 235, 0.66);
+  color: var(--on-dark-medium);
   font-family: var(--font-sans);
   font-size: clamp(15px, 1.05vw, 18px);
   font-weight: 400;
@@ -309,13 +309,13 @@
 }
 
 .contact-footer__row--subdued .contact-footer__link {
-  color: rgba(242, 241, 235, 0.42);
+  color: var(--on-dark-faint);
   font-size: clamp(13px, 0.95vw, 15px);
 }
 
 .contact-footer__row--subdued .contact-footer__link:hover,
 .contact-footer__row--subdued .contact-footer__link:focus-visible {
-  color: rgba(242, 241, 235, 0.85);
+  color: var(--on-dark-strong);
 }
 
 /* NAP row */
@@ -331,7 +331,7 @@
 .contact-footer__address span,
 .contact-footer__address a {
   position: relative;
-  color: rgba(242, 241, 235, 0.56);
+  color: var(--on-dark-quiet);
   font-family: var(--font-sans);
   font-size: clamp(14px, 1vw, 16px);
   font-weight: 400;
@@ -366,7 +366,7 @@
 }
 
 .contact-footer__copyright {
-  color: rgba(242, 241, 235, 0.4);
+  color: var(--on-dark-faint);
 }
 
 /* Focus */
@@ -387,7 +387,7 @@
   border-top: 1px solid rgba(242, 241, 235, 0.14);
   margin: clamp(92px, 14vh, 190px) 0 -0.16em;
   padding-top: clamp(28px, 4vh, 52px);
-  color: rgba(242, 241, 235, 0.9);
+  color: var(--on-dark-strong);
   font-family: var(--font-display);
   font-size: clamp(74px, 22.4vw, 480px);
   font-weight: 800;

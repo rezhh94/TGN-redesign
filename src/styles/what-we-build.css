@@ -1,15 +1,33 @@
+/* 02 / Tjenester — Fabrica-adaptert tjeneste-akkordeon på mørk grunn.
+   Full-bredde rader delt av hårstreker: stor tittel + sirkel-toggle. Klikk
+   åpner én rad om gangen og avslører beskrivelse + kategori-brikker + lenke.
+   Ingen nummer-etiketter (bevisst utelatt, jf. Fabricas «(001)»).
+
+   Default (no JS / PRM): alle rader åpne, all tekst og alle lenker SSR.
+   JS legger til .what-build--enhanced og kollapser rader uten [data-open]. */
+
 .what-build {
+  --build-px: var(--gutter);
   position: relative;
   overflow: hidden;
-  background:
-    linear-gradient(180deg, #10110e 0%, #151611 44%, #0c0d0b 100%);
+  /* --ink-surface (= #1a1c1c). Pixel-identisk med før — services skal ikke røres. */
+  background: var(--ink-surface);
   color: var(--color-on-dark);
 }
 
 .what-build__inner {
-  width: min(100%, 2560px);
+  width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(104px, 15vh, 186px) clamp(24px, 5vw, 150px) clamp(116px, 16vh, 212px);
+  padding: clamp(104px, 15vh, 186px) var(--build-px) clamp(48px, 7vh, 96px);
+}
+
+.what-build__inner--head {
+  padding-bottom: 0;
+}
+
+.what-build__inner--foot {
+  padding-top: clamp(56px, 9vh, 120px);
+  padding-bottom: clamp(116px, 16vh, 212px);
 }
 
 .what-build__top {
@@ -17,14 +35,13 @@
   grid-template-columns: minmax(130px, 0.22fr) minmax(0, 1fr);
   gap: clamp(32px, 7vw, 128px);
   align-items: start;
-  padding-bottom: clamp(32px, 5vh, 62px);
+  padding-bottom: clamp(48px, 8vh, 96px);
 }
 
-.what-build__label,
-.what-build__number {
-  color: rgba(242, 241, 235, 0.64);
+.what-build__label {
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.03em;
   line-height: 1.2;
 }
@@ -39,13 +56,15 @@
 
 .what-build__title {
   grid-column: 1 / -1;
-  margin-left: -34px;
+  /* Optisk venstre-bleed som skalerer med fonten */
+  margin-left: -0.12em;
   color: var(--color-on-dark);
   font-family: var(--font-display);
-  font-size: 276px;
+  /* Tier 2 i stigen — samme skala som 01-statementet (kapittel stor, ~170) */
+  font-size: clamp(64px, 8.6vw, 170px);
   font-weight: 700;
   letter-spacing: 0;
-  line-height: 0.76;
+  line-height: 0.82;
   text-transform: uppercase;
 }
 
@@ -56,14 +75,14 @@
 }
 
 .what-build__intro {
-  color: rgba(242, 241, 235, 0.68);
+  color: var(--on-dark-medium);
   font-family: var(--font-sans);
   font-weight: 400;
   line-height: 1.45;
 }
 
 .what-build__intro--primary {
-  color: rgba(242, 241, 235, 0.84);
+  color: var(--on-dark-strong);
   font-size: 25px;
   line-height: 1.24;
 }
@@ -71,37 +90,17 @@
 .what-build__intro--secondary {
   max-width: 460px;
   margin-top: 18px;
-  color: rgba(242, 241, 235, 0.56);
+  color: var(--on-dark-quiet);
   font-size: 17px;
 }
 
-/* Service list — list-as-interaction. Row anatomy: number / title / mono meta / icon.
-   A ghost index numeral tracks the active row behind the list (custom detail,
-   JS-driven; invisible noise without it). */
-
-.what-build__list-frame {
-  position: relative;
-}
-
-.what-build__ghost {
-  position: absolute;
-  top: 50%;
-  right: clamp(-30px, -1.4vw, -10px);
-  z-index: 0;
-  color: rgba(242, 241, 235, 0.045);
-  font-family: var(--font-display);
-  font-size: clamp(240px, 26vw, 520px);
-  font-weight: 800;
-  line-height: 0.8;
-  transform: translateY(-50%);
-  pointer-events: none;
-  user-select: none;
-}
+/* Tjenestelisten — statiske rader, alle åpne. Rad-anatomi: tittel / mono-meta.
+   Ingen toggle, ingen kollaps, ingen nummer. */
 
 .what-build__list {
   position: relative;
-  z-index: 1;
-  margin: 0;
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
   padding: 0;
   list-style: none;
   border-top: 1px solid rgba(242, 241, 235, 0.16);
@@ -110,28 +109,14 @@
 .what-build__row {
   position: relative;
   border-bottom: 1px solid rgba(242, 241, 235, 0.14);
-  transition: background var(--motion-fast) var(--ease-standard);
 }
 
-/* Open-state marker — a precise hairline on the left edge of the active row */
-
-.what-build__row::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 18%;
-  bottom: 18%;
-  width: 1px;
-  background: rgba(242, 241, 235, 0);
-  transition: background var(--motion-base) var(--ease-standard);
-}
-
-.what-build__row[data-open]::before {
-  background: rgba(242, 241, 235, 0.55);
-}
-
-.what-build__row:hover {
-  background: rgba(242, 241, 235, 0.04);
+.what-build__row-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(20px, 3vw, 48px);
+  align-items: center;
+  padding: clamp(20px, 2.8vh, 32px) var(--build-px) 0;
 }
 
 .what-build__row-heading {
@@ -139,177 +124,272 @@
   font-weight: 500;
 }
 
-.what-build__row-trigger {
-  display: grid;
-  width: 100%;
-  grid-template-columns: 74px minmax(0, 1fr) auto 38px;
-  gap: clamp(20px, 3vw, 48px);
-  align-items: baseline;
-  border: 0;
-  background: none;
-  color: inherit;
-  padding: clamp(30px, 4.4vh, 46px) clamp(10px, 1vw, 18px) clamp(30px, 4.4vh, 46px) 0;
-  text-align: left;
-  cursor: pointer;
-}
-
-.what-build__row-trigger:focus-visible {
-  outline: 2px solid rgba(242, 241, 235, 0.78);
-  outline-offset: -2px;
-}
-
-.what-build__number {
-  padding-top: 0.25em;
-}
-
 .what-build__service-title {
   min-width: 0;
-  color: rgba(242, 241, 235, 0.86);
+  color: var(--color-on-dark);
   font-family: var(--font-sans);
-  font-size: clamp(40px, 3.9vw, 74px);
+  font-size: clamp(34px, 3.1vw, 58px);
   font-weight: 500;
   letter-spacing: -0.015em;
-  line-height: 0.96;
-  transition:
-    color var(--motion-fast) var(--ease-standard),
-    transform var(--motion-base) var(--ease-out-expo);
-}
-
-.what-build__row:hover .what-build__service-title,
-.what-build__row[data-open] .what-build__service-title {
-  color: var(--color-on-dark);
-}
-
-.what-build__row:hover .what-build__service-title {
-  transform: translateX(clamp(4px, 0.6vw, 10px));
-}
-
-.what-build__row[data-open] .what-build__service-title {
-  font-size: clamp(52px, 5.4vw, 104px);
+  line-height: 0.98;
 }
 
 .what-build__row-meta {
-  color: rgba(242, 241, 235, 0.44);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.04em;
   line-height: 1.2;
   white-space: nowrap;
-  transition: color var(--motion-fast) var(--ease-standard);
 }
 
-.what-build__row:hover .what-build__row-meta {
-  color: rgba(242, 241, 235, 0.72);
-}
-
-/* Icon — precise plus that rotates to a close-cross when open */
-
-.what-build__icon {
-  position: relative;
-  justify-self: end;
-  align-self: center;
-  width: 18px;
-  height: 18px;
-  transition: transform var(--motion-base) var(--ease-out-expo);
-}
-
-.what-build__icon::before,
-.what-build__icon::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: rgba(242, 241, 235, 0.78);
-}
-
-.what-build__icon::after {
-  transform: rotate(90deg);
-}
-
-.what-build__row[data-open] .what-build__icon {
-  transform: rotate(45deg);
-}
-
-/* Body — always in the DOM. Default (no JS): every body visible.
-   JS adds .what-build--enhanced and collapses rows without [data-open]. */
+/* Kropp — alltid synlig (rader er statisk åpne). */
 
 .what-build__body {
-  display: grid;
-  grid-template-rows: 1fr;
+  display: block;
 }
 
 .what-build__body-inner {
-  overflow: hidden;
   min-height: 0;
 }
 
-.what-build--enhanced .what-build__row:not([data-open]) .what-build__body {
-  grid-template-rows: 0fr;
+.what-build__body-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(24px, 4vw, 72px);
+  align-items: start;
+  padding: clamp(4px, 1vh, 12px) var(--build-px) clamp(38px, 5.6vh, 64px);
 }
 
-.what-build--enhanced .what-build__body {
-  transition: grid-template-rows 400ms var(--ease-out-expo);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .what-build--enhanced .what-build__body,
-  .what-build__icon,
-  .what-build__service-title {
-    transition: none;
-  }
+.what-build__body-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .what-build__description {
-  max-width: 640px;
-  margin-left: calc(74px + clamp(20px, 3vw, 48px));
-  color: rgba(242, 241, 235, 0.82);
+  max-width: 560px;
+  margin: 0;
+  color: var(--on-dark-strong);
   font-family: var(--font-sans);
   font-size: clamp(20px, 1.7vw, 30px);
   font-weight: 400;
   line-height: 1.28;
-  padding-bottom: clamp(34px, 5vh, 58px);
 }
 
-.what-build__tagline {
-  margin-left: calc(74px + clamp(20px, 3vw, 48px));
-  margin-top: -10px;
-  color: rgba(242, 241, 235, 0.5);
+/* Kategori-brikker — Fabricas «Categories»-rad, men som rolige ghost-brikker
+   (kontur, ikke fylte SaaS-tags) for å holde seg editorielt. */
+
+.what-build__cats {
+  min-width: 0;
+  margin-top: clamp(24px, 3.4vh, 40px);
+}
+
+.what-build__cats-label {
+  margin: 0 0 clamp(14px, 1.8vh, 20px);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.04em;
-  line-height: 1.6;
+  line-height: 1.2;
   text-transform: uppercase;
-  padding-bottom: clamp(38px, 5.6vh, 64px);
 }
 
-.what-build__row[data-open] .what-build__description {
-  padding-bottom: clamp(22px, 3vh, 34px);
+/* Kategori-brikker som segmentert boks-rekke (à la BRANDING / EXPERIENCE /
+   PORTFOLIO): skarpe hjørner, delte 1px-kanter, mono-versaler. */
+.what-build__cat-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-/* Foot strip — closes the chapter and hands off to 05 / Prosess.
-   Quiet ledger register: one fact, one line of copy, one directional link. */
+.what-build__cat {
+  padding: 9px 16px;
+  border: 0;
+  background: #000;
+  color: var(--on-dark-strong);
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 0.75vw, 12px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+
+.what-build__cat:hover {
+  color: var(--color-on-dark);
+}
+
+.what-build__row-link {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(24px, 3.4vh, 40px);
+  color: var(--on-dark-medium);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: rgba(242, 241, 235, 0.28);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.42em;
+  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
+}
+
+.what-build__row-link:hover,
+.what-build__row-link:focus-visible {
+  color: var(--color-on-dark);
+  text-decoration-color: var(--color-on-dark);
+}
+
+/* Samme CTA-pil som Hero/ContactFooter — diagonal prikkekjede opp mot høyre. */
+.what-build__cta-arrow {
+  width: 11px;
+  height: 15px;
+  display: inline-block;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.what-build__row-link:hover .what-build__cta-arrow,
+.what-build__row-link:focus-visible .what-build__cta-arrow {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .what-build__cta-arrow {
+    transition: none;
+  }
+}
+
+/* Bilderamme — plassholder på høyre side i åpen rad. Skarp ramme + hårlinje-
+   hjørner; bytt innholdet i .what-build__media-frame med et <img> ved behov. */
+
+.what-build__media {
+  margin: 0;
+  min-width: 0;
+}
+
+.what-build__media-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  width: clamp(180px, 20vw, 240px);
+  overflow: hidden;
+  border: 1px solid rgba(242, 241, 235, 0.22);
+  background: rgba(242, 241, 235, 0.02);
+}
+
+.what-build__media-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.what-build__media-hint {
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* «Flere tjenester» — stille SSR-register for tjenestene uten egen rad:
+   internlenkene og søketeksten bor her, presentasjonen forblir rolig. */
+
+.what-build__more {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(24px, 4vw, 72px);
+  margin-bottom: clamp(44px, 7vh, 84px);
+  padding-bottom: clamp(24px, 3.6vh, 42px);
+  border-bottom: 1px solid rgba(242, 241, 235, 0.14);
+}
+
+.what-build__more-label {
+  flex: none;
+  color: var(--on-dark-quiet);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.what-build__more-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px clamp(18px, 2vw, 34px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.what-build__more-item {
+  color: var(--on-dark-medium);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.1vw, 19px);
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.what-build__more-item a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(242, 241, 235, 0.26);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.32em;
+  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
+}
+
+.what-build__more-item a:hover,
+.what-build__more-item a:focus-visible {
+  color: var(--pine-tint);
+  text-decoration-color: var(--pine-tint);
+}
+
+.what-build__more .what-build__foot-link {
+  align-self: baseline;
+}
+
+/* Foot strip — closes the chapter and hands off to 05 / Prosess. */
 
 .what-build__foot {
   display: flex;
   align-items: baseline;
   gap: clamp(24px, 4vw, 72px);
-  margin-top: clamp(30px, 4.6vh, 52px);
 }
 
 .what-build__foot-note {
   flex: none;
-  color: rgba(242, 241, 235, 0.62);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.04em;
   line-height: 1.2;
   text-transform: uppercase;
 }
 
 .what-build__foot-copy {
-  color: rgba(242, 241, 235, 0.52);
+  color: var(--on-dark-quiet);
   font-family: var(--font-sans);
   font-size: clamp(15px, 1.05vw, 18px);
   font-weight: 400;
@@ -321,9 +401,9 @@
   align-items: center;
   gap: 10px;
   margin-left: auto;
-  color: rgba(242, 241, 235, 0.74);
+  color: var(--on-dark-medium);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.05em;
   line-height: 1.2;
   text-transform: uppercase;
@@ -349,18 +429,7 @@
   transform: rotate(45deg) translateY(-1px);
 }
 
-@media (max-width: 1440px) {
-  .what-build__title {
-    margin-left: -24px;
-    font-size: 216px;
-  }
-}
-
 @media (max-width: 1080px) {
-  .what-build__ghost {
-    display: none;
-  }
-
   .what-build__top {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -371,8 +440,8 @@
   }
 
   .what-build__title {
-    margin-left: -16px;
-    font-size: 156px;
+    margin-left: -0.06em;
+    font-size: clamp(72px, 15vw, 156px);
   }
 
   .what-build__intro-stack {
@@ -381,44 +450,48 @@
     margin-top: 8px;
   }
 
-  .what-build__row-trigger {
-    grid-template-columns: 62px minmax(0, 1fr) 28px;
-    gap: 24px;
-  }
-
-  .what-build__row-meta {
-    display: none;
+  .what-build__row-head {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .what-build__service-title {
     font-size: clamp(36px, 5.4vw, 56px);
   }
 
-  .what-build__row[data-open] .what-build__service-title {
-    font-size: clamp(46px, 7.6vw, 82px);
-  }
-
-  .what-build__description,
-  .what-build__tagline {
-    margin-left: 86px;
-    max-width: 720px;
+  .what-build__body-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 }
 
 @media (max-width: 640px) {
+  .what-build {
+    --build-px: 20px;
+  }
+
   .what-build__inner {
-    padding: 92px 20px 108px;
+    padding: 92px 20px 60px;
+  }
+
+  .what-build__inner--head {
+    padding-bottom: 0;
+  }
+
+  .what-build__inner--foot {
+    padding-top: 56px;
+    padding-bottom: 108px;
   }
 
   .what-build__top {
     gap: 30px;
-    padding-bottom: 38px;
+    padding-bottom: 44px;
   }
 
   .what-build__title {
-    margin-left: -7px;
+    margin-left: -0.04em;
     font-size: 78px;
-    line-height: 0.82;
+    line-height: 0.86;
   }
 
   .what-build__intro-stack {
@@ -435,56 +508,25 @@
     font-size: 17px;
   }
 
-  .what-build__row-trigger {
-    grid-template-columns: minmax(0, 1fr) 22px;
-    gap: 14px 18px;
-    padding: 26px 0;
-  }
-
-  .what-build__number {
-    grid-column: 1 / -1;
-    padding-top: 0;
+  .what-build__row-head {
+    gap: 8px;
+    padding: 22px var(--build-px) 0;
   }
 
   .what-build__service-title {
     font-size: clamp(30px, 9vw, 40px);
   }
 
-  .what-build__row[data-open] .what-build__service-title {
-    font-size: clamp(38px, 11.4vw, 52px);
-  }
-
-  .what-build__icon {
-    width: 15px;
-    height: 15px;
-  }
-
-  .what-build__row:hover .what-build__service-title {
-    transform: none;
-  }
-
-  .what-build__description,
-  .what-build__tagline {
-    margin-left: 0;
-  }
-
   .what-build__description {
     font-size: 20px;
     line-height: 1.3;
-    padding-bottom: 28px;
   }
 
-  .what-build__tagline {
-    margin-top: -6px;
-    font-size: 11px;
-    padding-bottom: 32px;
-  }
-
+  .what-build__more,
   .what-build__foot {
     flex-direction: column;
     align-items: flex-start;
-    gap: 14px;
-    margin-top: 34px;
+    gap: 16px;
   }
 
   .what-build__foot-link {

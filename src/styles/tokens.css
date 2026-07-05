@@ -12,19 +12,76 @@
   --color-on-dark-muted: #b6b4aa;
   --color-signal: #c44414;
 
+  /* Varm nøytral-stige — lyse rom skiller seg tonalt uten å bli rene hvite.
+     Namma-referansens grå, oversatt til Tigons varme skala. */
+  --paper: #faf9f5;
+  --off-white: #f6f5f1;
+  --bone: #eeece5;
+  --stein: #e4e2da;
+  --greige: #cfccc2;
+  --blekk: #12120f;
+
+  /* Mørk nøytral-stige — motstykket til den lyse. Tre trinn med samme svake
+     kjølige grønn-undertone som services + pine. Aldri flere; kontrasten på
+     mørke flater skal komme fra typografi + hårstrek, ikke fra nye gråtoner.
+       deep    — dramaet/tomrommet (broen, dypeste paneler)
+       base    — standard mørk seksjon (de fleste)
+       surface — det «løftede» rommet (02/Tjenester — uendret) */
+  --ink-deep: #040404;
+  --ink-base: #0e0f0f;
+  --ink-surface: #1a1c1c;
+
+  /* Tekst-styrke — fire faste «dimmer»-trinn per grunn. Velg et trinn, aldri
+     en α imellom. Overskrifter bruker full --color-on-dark / --color-ink (1.0);
+     alt annet snapper til disse. Bevisste unntak (wordmark-ekko, ignite-dim,
+     ghost-numeral, aktiv-tilstand) beholder sine egne verdier. */
+  --on-dark-strong: rgba(242, 241, 235, 0.9);
+  --on-dark-medium: rgba(242, 241, 235, 0.68);
+  --on-dark-quiet: rgba(242, 241, 235, 0.54);
+  --on-dark-faint: rgba(242, 241, 235, 0.4);
+
+  --on-light-strong: rgba(16, 16, 15, 0.84);
+  --on-light-medium: rgba(16, 16, 15, 0.66);
+  --on-light-quiet: rgba(16, 16, 15, 0.5);
+  --on-light-faint: rgba(16, 16, 15, 0.38);
+
+  /* Premium-aksent — dempet furugrønn. KUN mikro-elementer (statusprikk,
+     aktiv/hover, focus, nummer, tynne linjer, små mono-detaljer).
+     Aldri stor bakgrunnsflate. Erstatter --color-signal (bannlyst oransje). */
+  --pine: #33453b;
+  --pine-tint: #dbe2dc;
+
   --font-display: "TGS Perfect", "Arial Narrow", "Arial Black", sans-serif;
   --font-sans: "JUST Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "Caleb Mono", "SFMono-Regular", Consolas, monospace;
 
-  --page-max: 1600px;
-  --gutter: clamp(20px, 5vw, 80px);
+  /* Innholdsbredde + horisontal gutter — én kilde for alle seksjoner. Før:
+     --gutter (maks 80) kun i Prosess, resten hardkodet maks 150 → ulik
+     venstrekant. --page-max var 1600 og helt ubrukt; faktisk bredde er 2560. */
+  --page-max: 2560px;
+  --gutter: clamp(24px, 5vw, 150px);
   --header-height: 76px;
 
   --fz-hero: clamp(54px, 9vw, 156px);
   --fz-section: clamp(38px, 7vw, 124px);
   --fz-lead: clamp(17px, 1.35vw, 20px);
+  /* Lead-skala i tre trinn — rydder de ad hoc ledetekst-størrelsene.
+     Primær opasitet ~.80, sekundær ~.58 (settes per flate). */
+  --fz-lead-l: clamp(21px, 1.9vw, 27px);
+  --fz-lead-m: clamp(18px, 1.4vw, 20px);
+  --fz-lead-s: clamp(15px, 1.1vw, 17px);
   --fz-body: 16px;
   --fz-small: 13px;
+
+  /* Mono-stige — samler de spredte små mono-størrelsene (var 10.5–13px) til
+     tre faste trinn. Eyebrow-tracking er standardisert til 0.03em, uppercase-
+     meta til 0.08em.
+       l  — knapp/CTA-etikett (13)
+       m  — eyebrow / label / meta workhorse (12)
+       s  — mikro-mono: noter, signal, tiny meta (11) */
+  --fz-mono-l: 13px;
+  --fz-mono: 12px;
+  --fz-mono-s: 11px;
 
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);

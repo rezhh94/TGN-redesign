@@ -1,511 +1,350 @@
-/* 05 / Prosess — layer assembly stage. One dark scene: a four-plate system
-   object in shallow 3D (SCOPE / STRUKTUR / UI+KODE / MÅLING) under a giant
-   ghost "Uklart", with the four phases taking the floor one by one.
+/* 05 / Prosess — MWG 073-oversatt horisontal produksjonslinje. Fire
+   fullskjerms-kapitler på en horisontal rail; kjempenumeraler hengsler inn
+   fra toppen og ut langs høyrekanten mens railen dras sideveis av scrubben.
 
-   Two modes:
-   - Default (no JS / mobile / reduced motion): calm document flow — title,
-     the fully assembled stack, all four phases listed. Everything readable.
-   - .process-stage--scene (added by JS on desktop + motion): pinned 100vh
-     stage; GSAP scatters the plates and assembles them with scroll while
-     phase text swaps bottom-left and the title completes itself. */
+   Default (no JS, mobil, PRM) er en vertikal, banded liste — alt innhold
+   synlig og skarpt. JS legger på .process-layers--stage på desktop; først da
+   finnes pin-høyde, rail og hengsel-geometri. */
 
-.process-stage {
-  --pad: clamp(24px, 5vw, 150px);
+.process-layers {
   position: relative;
-  overflow: hidden;
-  background: linear-gradient(180deg, #080908 0%, #101109 52%, #0a0b0a 100%);
-  color: var(--color-on-dark);
 }
 
-.process-stage__inner {
+.process-layers__pin,
+.process-layers__rail {
   position: relative;
-  width: min(100%, 2560px);
-  margin: 0 auto;
-  /* extra top room: the light 04-plate overlaps down into this section */
-  padding: calc(clamp(110px, 14vh, 170px) + var(--work-overlap)) var(--pad)
-    clamp(120px, 16vh, 200px);
 }
 
-/* Head */
+/* Tone per panel — MWG 073 sin fargeblokk-rytme oversatt til monokrom:
+   stein → koks → stein → nær-svart. Panel 01 fortsetter steinen fra 04;
+   panel 04 leverer mørkt inn mot 06. */
 
-.process-stage__label {
-  color: rgba(242, 241, 235, 0.62);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.03em;
-  line-height: 1.2;
-}
-
-.process-stage__title {
-  margin-top: clamp(30px, 4.6vh, 56px);
-  font-family: var(--font-sans);
-  font-size: clamp(48px, 5.2vw, 108px);
-  font-weight: 400;
-  letter-spacing: -0.035em;
-  line-height: 1;
-}
-
-.process-stage__title-line {
-  display: block;
-}
-
-.process-stage__title-line[data-stage-title-out] {
-  color: var(--color-on-dark);
-}
-
-.process-stage__lead {
-  max-width: 420px;
-  margin-top: clamp(22px, 3.4vh, 36px);
-  color: rgba(242, 241, 235, 0.6);
-  font-family: var(--font-sans);
-  font-size: clamp(15.5px, 1.1vw, 18px);
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-/* Object — ghost word + 3D stack + io registers */
-
-.process-stage__object {
+.process-layers__panel {
+  --pl-bg: #e9e8e4;
+  --pl-ink: #141511;
+  --pl-ink-soft: var(--on-light-medium);
+  --pl-muted: var(--on-light-quiet);
+  --pl-line: rgba(16, 16, 15, 0.18);
   position: relative;
-  margin-top: clamp(64px, 10vh, 130px);
-}
-
-.process-stage__ghost {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 0;
-  color: rgba(242, 241, 235, 0.055);
-  font-family: var(--font-sans);
-  font-size: clamp(110px, 16vw, 340px);
-  font-weight: 400;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  white-space: nowrap;
-  transform: translate(-50%, -54%);
-  pointer-events: none;
-}
-
-.process-stage__scene3d {
-  position: relative;
-  z-index: 1;
   display: flex;
-  justify-content: center;
-  perspective: 1700px;
-  /* generous: the rotated stack projects far outside its layout box */
-  padding: clamp(120px, 18vh, 210px) 0 clamp(110px, 16vh, 190px);
+  flex-direction: column;
+  padding: clamp(72px, 11vh, 140px) var(--gutter);
+  background: var(--pl-bg);
+  color: var(--pl-ink);
 }
 
-.process-stage__stack {
-  position: relative;
-  width: clamp(280px, 30vw, 520px);
-  aspect-ratio: 16 / 10;
-  transform-style: preserve-3d;
-  transform: rotateX(56deg) rotateZ(-34deg);
+.process-layers__panel--dark {
+  --pl-bg: var(--ink-base);
+  --pl-ink: var(--color-on-dark);
+  --pl-ink-soft: var(--on-dark-medium);
+  --pl-muted: var(--on-dark-quiet);
+  --pl-line: rgba(242, 241, 235, 0.18);
 }
 
-/* Plates. --i = layer index (set per plate), --edge = border strength.
-   Default transform is the assembled stack; the scene timeline owns the
-   transform entirely when JS takes over. */
-
-.process-stage__plate {
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(242, 241, 235, var(--edge, 0.3));
-  background:
-    linear-gradient(128deg, rgba(242, 241, 235, 0.07) 0%, rgba(242, 241, 235, 0.015) 55%, rgba(242, 241, 235, 0) 100%),
-    rgba(13, 14, 12, 0.92);
-  box-shadow: -18px 26px 60px rgba(0, 0, 0, 0.42);
-  transform: translateZ(calc(var(--i) * 44px));
+.process-layers__panel--stone2 {
+  --pl-bg: #e2e1dc;
 }
 
-.process-stage__plate--scope {
-  --i: 0;
-  --edge: 0.22;
+.process-layers__panel--deep {
+  --pl-bg: var(--ink-deep);
+  --pl-ink: var(--color-on-dark);
+  --pl-ink-soft: var(--on-dark-medium);
+  --pl-muted: var(--on-dark-quiet);
+  --pl-line: rgba(242, 241, 235, 0.18);
 }
 
-.process-stage__plate--struktur {
-  --i: 1;
-  --edge: 0.28;
+/* Default / list mode — numeral først, lead (panel 01), så body */
+
+.process-layers__index {
+  order: -1;
+  margin: 0 0 clamp(20px, 3vh, 36px);
+  color: var(--pl-ink);
+  font-family: var(--font-display);
+  font-size: clamp(72px, 13vw, 150px);
+  font-weight: 700;
+  line-height: 0.9;
 }
 
-.process-stage__plate--kode {
-  --i: 2;
-  --edge: 0.34;
+.process-layers__lead {
+  margin-bottom: clamp(40px, 6vh, 72px);
 }
 
-.process-stage__plate--maling {
-  --i: 3;
-  --edge: 0.45;
+.process-layers__title {
+  color: var(--pl-ink);
+  font-family: var(--font-display);
+  /* Tier 3 — kapittel-mid, på linje med 04 (~112) */
+  font-size: clamp(40px, 5.6vw, 112px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+  text-transform: uppercase;
 }
 
-.process-stage__plate-index {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  color: rgba(242, 241, 235, 0.42);
+.process-layers__title span {
+  display: block;
+  color: var(--pl-muted);
+}
+
+.process-layers__lead-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(18px, 3vh, 30px);
+  color: var(--pl-muted);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
-.process-stage__plate-label {
-  position: absolute;
-  bottom: 10px;
-  left: 14px;
-  color: rgba(242, 241, 235, 0.78);
+.process-layers__lead-mark {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  /* Pine mikro-aksent på produksjonslinjens start-markør */
+  border-left: 8px solid var(--pine);
+}
+
+.process-layers__label {
+  color: var(--pl-muted);
   font-family: var(--font-mono);
-  font-size: clamp(13px, 1.15vw, 19px);
-  letter-spacing: 0.09em;
+  font-size: var(--fz-mono);
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.process-layers__phase {
+  margin-top: clamp(16px, 2.4vh, 28px);
+  color: var(--pl-ink);
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3vw, 54px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
   line-height: 1;
   text-transform: uppercase;
 }
 
-/* Plate faces — one restrained technical drawing each */
-
-.process-stage__corner {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border: 0 solid rgba(242, 241, 235, 0.4);
+/* Punchy oppsummeringslinje per steg — gjeninnført fra prosesskontrakten.
+   Dette er det menneskelige ankeret i kortet; body-en under er detaljen. */
+.process-layers__statement {
+  max-width: 22ch;
+  margin-top: clamp(22px, 3.4vh, 40px);
+  color: var(--pl-ink);
+  font-family: var(--font-sans);
+  font-size: clamp(21px, 1.9vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.16;
 }
 
-.process-stage__corner--tl {
-  top: 10px;
-  left: 12px;
-  border-top-width: 1px;
-  border-left-width: 1px;
+.process-layers__text {
+  max-width: 36ch;
+  margin-top: clamp(16px, 2.4vh, 24px);
+  color: var(--pl-ink-soft);
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 1.15vw, 20px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
 }
 
-.process-stage__corner--tr {
-  top: 28px;
-  right: 12px;
-  border-top-width: 1px;
-  border-right-width: 1px;
-}
-
-.process-stage__corner--bl {
-  bottom: 28px;
-  left: 12px;
-  border-bottom-width: 1px;
-  border-left-width: 1px;
-}
-
-.process-stage__corner--br {
-  bottom: 10px;
-  right: 12px;
-  border-bottom-width: 1px;
-  border-right-width: 1px;
-}
-
-.process-stage__scope-frame {
-  position: absolute;
-  inset: 22% 20%;
-  border: 1px solid rgba(242, 241, 235, 0.16);
-}
-
-.process-stage__tree {
-  position: absolute;
-  inset: 12% 14% 20%;
-  width: 72%;
-  height: 68%;
-  stroke: rgba(242, 241, 235, 0.3);
-  stroke-width: 1;
-}
-
-.process-stage__ui-block {
-  position: absolute;
-  top: 18%;
-  left: 8%;
-  width: 30%;
-  height: 26%;
-  background: rgba(242, 241, 235, 0.1);
-}
-
-.process-stage__ui-line {
-  position: absolute;
-  left: 8%;
-  height: 2px;
-  background: rgba(242, 241, 235, 0.22);
-}
-
-.process-stage__ui-line--wide {
-  top: 56%;
-  width: 34%;
-}
-
-.process-stage__ui-line:not(.process-stage__ui-line--wide) {
-  top: 66%;
-  width: 22%;
-}
-
-.process-stage__code-bar {
-  position: absolute;
-  right: 10%;
-  height: 3px;
-  background: rgba(242, 241, 235, 0.26);
-}
-
-.process-stage__code-bar:nth-of-type(1) {
-  top: 24%;
-}
-
-.process-stage__code-bar:nth-of-type(2) {
-  top: 36%;
-}
-
-.process-stage__code-bar:nth-of-type(3) {
-  top: 48%;
-}
-
-.process-stage__code-bar {
-  max-width: 34%;
-}
-
-.process-stage__spark {
-  position: absolute;
-  inset: 14% 12% 22%;
-  width: 76%;
-  height: 64%;
-  stroke: rgba(242, 241, 235, 0.34);
-  stroke-width: 1.2;
-}
-
-.process-stage__spark circle {
-  fill: rgba(242, 241, 235, 0.6);
-  stroke: none;
-}
-
-/* IO registers */
-
-.process-stage__io {
-  color: rgba(242, 241, 235, 0.5);
+.process-layers__output {
+  margin-top: clamp(24px, 3.6vh, 40px);
+  color: var(--pl-muted);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fz-mono);
   letter-spacing: 0.08em;
   line-height: 1.4;
   text-transform: uppercase;
 }
 
-.process-stage__io--in {
-  position: absolute;
-  top: 0;
-  left: 0;
+/* ---------------------------------------------------------------------------
+   Stage mode — JS-enhanced desktop. MWG 073-geometri: 500vh runway,
+   pinned 100vh rail med width:max-content, 100vw-paneler. */
+
+.process-layers--stage .process-layers__pin {
+  height: 500vh;
+  overflow: hidden;
 }
 
-.process-stage__io--out {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  color: rgba(242, 241, 235, 0.72);
-}
-
-/* Phases — default: all four listed, calm editorial column */
-
-.process-stage__phases {
-  max-width: 620px;
-  margin-top: clamp(56px, 9vh, 110px);
-}
-
-.process-stage__ticks {
-  display: none;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.process-stage__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.process-stage__phase {
-  padding: clamp(26px, 4vh, 44px) 0;
-  border-top: 1px solid rgba(242, 241, 235, 0.1);
-}
-
-.process-stage__phase-code {
-  color: rgba(242, 241, 235, 0.48);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.05em;
-}
-
-.process-stage__phase-verb {
-  margin-top: 10px;
-  color: var(--color-on-dark);
-  font-family: var(--font-sans);
-  font-size: clamp(32px, 3.2vw, 58px);
-  font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 1;
-}
-
-.process-stage__phase-line {
-  max-width: 480px;
-  margin-top: 12px;
-  color: rgba(242, 241, 235, 0.62);
-  font-family: var(--font-sans);
-  font-size: clamp(15.5px, 1.1vw, 18px);
-  line-height: 1.5;
-}
-
-.process-stage__phase-ref {
-  margin-top: 14px;
-  color: rgba(242, 241, 235, 0.55);
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-/* ————————————————————————————————————————————————————————————————
-   Scene mode — desktop + JS + motion. Pinned 100vh stage: head top-left,
-   object right, phase floor bottom-left. GSAP owns plate transforms,
-   phase visibility, ghost, title completion and io states. */
-
-.process-stage--scene .process-stage__inner {
-  display: block;
+.process-layers--stage .process-layers__rail {
+  display: flex;
   height: 100vh;
-  padding: calc(var(--header-height) + clamp(22px, 4vh, 48px)) var(--pad)
-    clamp(36px, 5vh, 64px);
+  width: max-content;
 }
 
-.process-stage--scene .process-stage__head {
-  position: relative;
-  z-index: 2;
-  max-width: min(44vw, 760px);
+.process-layers--stage .process-layers__panel {
+  flex-direction: row;
+  width: 100vw;
+  height: 100%;
+  padding: 0;
 }
 
-.process-stage--scene .process-stage__title {
-  margin-top: clamp(20px, 3.2vh, 40px);
-  font-size: clamp(44px, 4.6vw, 96px);
-}
+/* Målelinjen — én kontinuerlig horisontal hairline over hele stripen
+   (per panel, tonet per flate). Starter ved midten på panel 01 slik at
+   leaden står fritt, akkurat som referansen. */
 
-.process-stage--scene .process-stage__lead {
-  max-width: 360px;
-}
-
-.process-stage--scene .process-stage__object {
+.process-layers--stage .process-layers__panel::before {
+  content: "";
   position: absolute;
   top: 50%;
-  right: var(--pad);
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--pl-line);
   z-index: 1;
-  width: min(52vw, 980px);
-  margin-top: 0;
+}
+
+.process-layers--stage .process-layers__panel:first-child::before {
+  left: 50%;
+}
+
+.process-layers--stage .process-layers__lead {
+  position: relative;
+  width: 50%;
+  margin: 0;
+  padding: calc(var(--header-height) + clamp(20px, 4vh, 44px)) 40px 0 var(--gutter);
+}
+
+.process-layers--stage .process-layers__title {
+  max-width: 560px;
+  /* Tier 3 også i stage — men holdt under lead-kolonnens midtlinje */
+  font-size: clamp(40px, 4.3vw, 96px);
+}
+
+/* Noten sitter PÅ målelinjen, som referansens venstre-label */
+
+.process-layers--stage .process-layers__lead-note {
+  position: absolute;
+  top: 50%;
+  left: var(--gutter);
+  margin: 0;
   transform: translateY(-50%);
 }
 
-.process-stage--scene .process-stage__ghost {
-  color: rgba(242, 241, 235, 0.1);
-  font-size: clamp(140px, 13vw, 300px);
-}
-
-.process-stage--scene .process-stage__scene3d {
-  padding: clamp(64px, 11vh, 130px) 0;
-}
-
-.process-stage--scene .process-stage__stack {
-  width: clamp(320px, 27vw, 500px);
-}
-
-.process-stage--scene .process-stage__phases {
-  position: absolute;
-  bottom: clamp(36px, 6vh, 72px);
-  left: var(--pad);
-  z-index: 2;
-  width: min(38vw, 520px);
-  margin-top: 0;
-}
-
-.process-stage--scene .process-stage__ticks {
-  display: flex;
-  gap: 18px;
-  margin-bottom: 18px;
-}
-
-.process-stage__tick {
-  color: rgba(242, 241, 235, 0.3);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  transition: color var(--motion-base) var(--ease-standard);
-}
-
-.process-stage__tick.is-active {
-  color: rgba(242, 241, 235, 0.9);
-}
-
-.process-stage--scene .process-stage__list {
+.process-layers--stage .process-layers__body {
   position: relative;
-  height: clamp(170px, 24vh, 230px);
+  width: 50%;
+  margin-left: auto;
+  /* Bredere copy-kolonne (mindre høyre-padding) + mer topp-luft — mindre
+     klemt, mer pust rundt steg-teksten. */
+  padding: calc(var(--header-height) + clamp(28px, 6vh, 72px)) 10vw 0 0;
 }
 
-.process-stage--scene .process-stage__phase {
+/* Registermerket — kvadratet som sitter på linjen ved kolonnestart */
+
+.process-layers--stage .process-layers__body::after {
+  content: "";
   position: absolute;
-  top: 0;
+  top: calc(50% - 5px);
   left: 0;
-  width: 100%;
-  padding: 0;
-  border-top: 0;
+  width: 11px;
+  height: 11px;
+  background: var(--pl-ink);
+  z-index: 2;
 }
 
-@media (max-width: 640px) {
-  .process-stage__inner {
-    padding: calc(96px + var(--work-overlap)) 20px 104px;
+/* Kjempenumeralet — MWG 073 sin hengsel-geometri, verbatim: bunnlinjen
+   senkes 2.3vw under panelkanten og rotasjonspivoten ligger 2.3vw over
+   boksens topp. GSAP roterer ±90° rundt akkurat dette punktet.
+   mix-blend-mode: difference gir automatisk kontrast når numeralet
+   krysser stein- og koks-flater under transitten. */
+
+.process-layers--stage .process-layers__index {
+  --pl-sink: 2.3vw;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  order: 0;
+  width: max-content;
+  margin: 0 0 calc(-1 * var(--pl-sink));
+  padding: 0 0 0 32px;
+  color: #f2f1eb;
+  font-size: 17vw;
+  line-height: 1.3;
+  mix-blend-mode: difference;
+  transform-origin: 0 calc(-1 * var(--pl-sink));
+  will-change: transform;
+}
+
+/* ---------------------------------------------------------------------------
+   Mobil — banded vertikal liste, tettere skala */
+
+@media (max-width: 768px) {
+  .process-layers__panel {
+    padding: 88px 20px;
   }
 
-  .process-stage__title {
-    margin-top: 26px;
-    font-size: clamp(44px, 12.8vw, 62px);
+  .process-layers__index {
+    font-size: clamp(64px, 22vw, 110px);
   }
 
-  .process-stage__lead {
+  .process-layers__title {
+    font-size: clamp(36px, 11vw, 56px);
+  }
+
+  .process-layers__statement {
     margin-top: 20px;
-    font-size: 15.5px;
+    font-size: 20px;
   }
 
-  .process-stage__object {
-    margin-top: 52px;
+  .process-layers__text {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Stage på mobil — MWG 073 kjører også på touch (referansen gjør det samme):
+   samme rail, pin og hengsel; innholdet rykker inn 22 % som i referansens
+   25 %-indent, leaden flytter til nedre halvdel av panel 01, numeralene
+   skaleres opp til 30vw med proporsjonal sink (2.3/17 ≈ 4/30). */
+
+@media (max-width: 768px) {
+  .process-layers--stage .process-layers__panel::before,
+  .process-layers--stage .process-layers__panel:first-child::before {
+    left: 0;
   }
 
-  .process-stage__ghost {
-    font-size: clamp(84px, 26vw, 120px);
+  .process-layers--stage .process-layers__lead {
+    position: absolute;
+    top: calc(50% + 26px);
+    right: 16px;
+    left: 16px;
+    width: auto;
+    padding: 0;
   }
 
-  .process-stage__scene3d {
-    padding: 108px 0 100px;
+  .process-layers--stage .process-layers__lead-note {
+    display: none;
   }
 
-  .process-stage__stack {
-    width: min(64vw, 300px);
+  .process-layers--stage .process-layers__title {
+    max-width: none;
+    font-size: clamp(30px, 9.6vw, 44px);
   }
 
-  .process-stage__plate {
-    box-shadow: -10px 16px 34px rgba(0, 0, 0, 0.4);
+  .process-layers--stage .process-layers__body {
+    width: 100%;
+    padding: calc(var(--header-height) + 14px) 16px 0 22%;
   }
 
-  .process-stage__io {
-    font-size: 11px;
+  .process-layers--stage .process-layers__body::after {
+    left: 22%;
   }
 
-  /* flow order on mobile: INN over stacken, UT under — no plate collision */
-  .process-stage__io--in {
-    position: static;
+  .process-layers--stage .process-layers__phase {
+    font-size: 26px;
   }
 
-  .process-stage__io--out {
-    position: static;
-    margin-top: 6px;
-    text-align: right;
-  }
-
-  .process-stage__phases {
-    margin-top: 48px;
-  }
-
-  .process-stage__phase-verb {
-    font-size: 32px;
+  .process-layers--stage .process-layers__index {
+    --pl-sink: 4vw;
+    padding-left: 16px;
+    font-size: 30vw;
   }
 }
