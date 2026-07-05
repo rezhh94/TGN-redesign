@@ -167,7 +167,7 @@
 .hero__visual-status {
   position: absolute;
   margin: 0;
-  color: rgba(242, 241, 235, 0.44);
+  color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.1em;
@@ -186,7 +186,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: rgba(242, 241, 235, 0.56);
+  color: var(--on-dark-quiet);
 }
 
 .hero__visual-status-dot {
@@ -278,7 +278,7 @@
 
 .hero__note {
   max-width: 28ch;
-  color: rgba(242, 241, 235, 0.58);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: 10.5px;
   line-height: 1.5;

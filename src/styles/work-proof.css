@@ -26,7 +26,7 @@
 }
 
 .work-proof__label {
-  color: rgba(16, 16, 15, 0.55);
+  color: var(--on-light-quiet);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.03em;
@@ -59,7 +59,7 @@
 .work-proof__caption {
   max-width: 46ch;
   margin-top: clamp(26px, 4vh, 46px);
-  color: rgba(16, 16, 15, 0.82);
+  color: var(--on-light-strong);
   font-family: var(--font-sans);
   font-size: var(--fz-lead-l);
   font-weight: 400;
@@ -76,7 +76,7 @@
 }
 
 .work-proof__lead {
-  color: rgba(16, 16, 15, 0.72);
+  color: var(--on-light-medium);
   font-family: var(--font-sans);
   font-size: var(--fz-lead-m);
   font-weight: 400;
@@ -85,7 +85,7 @@
 
 /* Metadata — gjeninnført spec-linje (fagfelt + stack) */
 .work-proof__spec {
-  color: rgba(16, 16, 15, 0.5);
+  color: var(--on-light-quiet);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.05em;
@@ -113,7 +113,7 @@
 
 .work-proof__foot {
   margin-left: auto;
-  color: rgba(16, 16, 15, 0.45);
+  color: var(--on-light-faint);
   font-family: var(--font-mono);
   font-size: 11.5px;
   letter-spacing: 0.08em;

@@ -31,6 +31,20 @@
   --ink-base: #0e0f0f;
   --ink-surface: #1a1c1c;
 
+  /* Tekst-styrke — fire faste «dimmer»-trinn per grunn. Velg et trinn, aldri
+     en α imellom. Overskrifter bruker full --color-on-dark / --color-ink (1.0);
+     alt annet snapper til disse. Bevisste unntak (wordmark-ekko, ignite-dim,
+     ghost-numeral, aktiv-tilstand) beholder sine egne verdier. */
+  --on-dark-strong: rgba(242, 241, 235, 0.9);
+  --on-dark-medium: rgba(242, 241, 235, 0.68);
+  --on-dark-quiet: rgba(242, 241, 235, 0.54);
+  --on-dark-faint: rgba(242, 241, 235, 0.4);
+
+  --on-light-strong: rgba(16, 16, 15, 0.84);
+  --on-light-medium: rgba(16, 16, 15, 0.66);
+  --on-light-quiet: rgba(16, 16, 15, 0.5);
+  --on-light-faint: rgba(16, 16, 15, 0.38);
+
   /* Premium-aksent — dempet furugrønn. KUN mikro-elementer (statusprikk,
      aktiv/hover, focus, nummer, tynne linjer, små mono-detaljer).
      Aldri stor bakgrunnsflate. Erstatter --color-signal (bannlyst oransje). */

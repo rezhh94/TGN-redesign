@@ -22,8 +22,8 @@
 .process-layers__panel {
   --pl-bg: #e9e8e4;
   --pl-ink: #141511;
-  --pl-ink-soft: rgba(16, 16, 15, 0.74);
-  --pl-muted: rgba(16, 16, 15, 0.55);
+  --pl-ink-soft: var(--on-light-medium);
+  --pl-muted: var(--on-light-quiet);
   --pl-line: rgba(16, 16, 15, 0.18);
   position: relative;
   display: flex;
@@ -36,8 +36,8 @@
 .process-layers__panel--dark {
   --pl-bg: var(--ink-base);
   --pl-ink: var(--color-on-dark);
-  --pl-ink-soft: rgba(242, 241, 235, 0.78);
-  --pl-muted: rgba(242, 241, 235, 0.55);
+  --pl-ink-soft: var(--on-dark-medium);
+  --pl-muted: var(--on-dark-quiet);
   --pl-line: rgba(242, 241, 235, 0.18);
 }
 
@@ -48,8 +48,8 @@
 .process-layers__panel--deep {
   --pl-bg: var(--ink-deep);
   --pl-ink: var(--color-on-dark);
-  --pl-ink-soft: rgba(242, 241, 235, 0.78);
-  --pl-muted: rgba(242, 241, 235, 0.55);
+  --pl-ink-soft: var(--on-dark-medium);
+  --pl-muted: var(--on-dark-quiet);
   --pl-line: rgba(242, 241, 235, 0.18);
 }
 

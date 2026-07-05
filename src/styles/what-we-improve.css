@@ -19,7 +19,7 @@
 }
 
 .what-improve__label {
-  color: rgba(242, 241, 235, 0.62);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.03em;
@@ -29,7 +29,7 @@
 .what-improve__kicker {
   max-width: 640px;
   margin-top: clamp(26px, 4vh, 46px);
-  color: rgba(242, 241, 235, 0.85);
+  color: var(--on-dark-strong);
   font-family: var(--font-sans);
   font-size: clamp(20px, 1.6vw, 30px);
   font-weight: 400;
@@ -101,7 +101,7 @@
 
 .what-improve__index-num {
   flex: none;
-  color: rgba(242, 241, 235, 0.5);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.06em;
@@ -109,7 +109,7 @@
 }
 
 .what-improve__index-name {
-  color: rgba(242, 241, 235, 0.78);
+  color: var(--on-dark-medium);
   font-family: var(--font-sans);
   font-size: clamp(17px, 1.2vw, 21px);
   font-weight: 400;
@@ -120,7 +120,7 @@
 .what-improve__rail-note {
   max-width: 22ch;
   margin-top: clamp(24px, 3.4vh, 40px);
-  color: rgba(242, 241, 235, 0.42);
+  color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: 11.5px;
   letter-spacing: 0.05em;
@@ -202,7 +202,7 @@
 .what-improve__text {
   max-width: 44ch;
   margin: clamp(16px, 2.2vh, 24px) 0 0;
-  color: rgba(242, 241, 235, 0.82);
+  color: var(--on-dark-strong);
   font-family: var(--font-sans);
   font-size: clamp(19px, 1.5vw, 26px);
   font-weight: 400;
@@ -212,7 +212,7 @@
 
 .what-improve__signal {
   margin: clamp(18px, 2.6vh, 28px) 0 0;
-  color: rgba(242, 241, 235, 0.42);
+  color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: 11.5px;
   letter-spacing: 0.08em;

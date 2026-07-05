@@ -27,7 +27,7 @@
 
 .effect-bridge__label {
   margin-bottom: clamp(32px, 6vh, 68px);
-  color: rgba(242, 241, 235, 0.6);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.03em;
@@ -57,7 +57,7 @@
 /* Linje 2 default (no JS / PRM): lesbar. Med JS settes ord-ene dimt og
    scrubbes til full hvit. */
 .effect-bridge__line:not(.effect-bridge__line--muted) {
-  color: rgba(242, 241, 235, 0.9);
+  color: var(--on-dark-strong);
 }
 
 .effect-bridge__word {
@@ -68,7 +68,7 @@
 .effect-bridge__support {
   max-width: 560px;
   margin: clamp(36px, 6vh, 64px) auto 0;
-  color: rgba(242, 241, 235, 0.55);
+  color: var(--on-dark-quiet);
   font-family: var(--font-sans);
   font-size: clamp(16px, 1.15vw, 20px);
   font-weight: 400;
