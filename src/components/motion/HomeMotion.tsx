@@ -296,15 +296,13 @@ function workCarousel() {
   };
 }
 
-// 05 / Prosess — MWG 073-adapted horizontal timeline. The 500vh pin-height
-// wrapper is the trigger; the rail is pinned and pulled left until exactly
-// one viewport remains (xPercent -100 + x innerWidth). Each giant index
-// numeral gets two scrubbed hinge tweens driven by containerAnimation:
-// it arrives from the top edge as its panel enters (left 100% → 0%) and
-// exits rotated -90° along the right edge as it leaves (left 0% → -100%).
-// Runs on both desktop and mobile (like the reference — the mobile layout
-// only re-indents the columns in CSS). PRM/no-JS never reach this call and
-// keep the static banded list.
+// 05 / Prosess — TRIONN-adapted horizontal card gallery. The pin element is
+// pinned while the rail is pulled sideways exactly its overflow width, ending
+// on the full-width closer panel. Each step card rises from the bottom and
+// settles as it reaches centre (ensuring the last card lands before the pin
+// releases); card images parallax; the title beat decodes from noise on enter.
+// Runs on desktop and mobile (mobile uses wider cards via CSS); PRM/no-JS keep
+// the static vertical list. Smooth scroll comes from the app-level Lenis.
 function processStage() {
   const section = document.querySelector<HTMLElement>(".process-layers");
   if (!section) return () => {};
@@ -319,60 +317,130 @@ function processStage() {
     return () => {};
   }
 
+  // Title beat decode ("Uklart inn." resolves from noise). Own rAF so it can
+  // be cancelled on teardown; text is restored to its final value.
+  const decode = section.querySelector<HTMLElement>("[data-process-decode]");
+  const line1 = decode?.querySelector<HTMLElement>(".process-layers__line1") ?? null;
+  const line2 = decode?.querySelector<HTMLElement>(".process-layers__line2") ?? null;
+  const introNote = section.querySelector<HTMLElement>(".process-layers__note");
+  const cue = section.querySelector<HTMLElement>("[data-process-cue]");
+  const line1Final = line1?.textContent ?? "Uklart inn.";
+  const GLYPH = "ABCDEFGHIJKLMNOPQR#%&/()=+*0123456789";
+  const noise = (s: string) =>
+    s
+      .split("")
+      .map((c) => (c === " " || c === "." ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)]))
+      .join("");
+  let rafId = 0;
+  const scramble = (el: HTMLElement, finalText: string, durationMs: number) => {
+    let start = 0;
+    const chars = finalText.split("");
+    const frame = (now: number) => {
+      if (!start) start = now;
+      const p = Math.min(1, (now - start) / durationMs);
+      const locked = Math.floor(p * chars.length);
+      let out = "";
+      for (let i = 0; i < chars.length; i++) {
+        const c = chars[i];
+        out += c === " " || c === "." || i < locked ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)];
+      }
+      el.textContent = out;
+      if (p < 1) rafId = requestAnimationFrame(frame);
+      else el.textContent = finalText;
+    };
+    rafId = requestAnimationFrame(frame);
+  };
+
+  const dist = () => rail.scrollWidth - window.innerWidth;
+
   const ctx = gsap.context(() => {
     const scrollTween = gsap.to(rail, {
-      xPercent: -100,
-      x: () => window.innerWidth,
+      x: () => -dist(),
       ease: "none",
       scrollTrigger: {
-        trigger: pinHeight,
+        trigger: section,
         start: "top top",
-        end: "bottom bottom",
-        pin: rail,
+        end: () => "+=" + dist(),
+        pin: pinHeight,
         scrub: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
       },
     });
 
-    gsap.utils.toArray<HTMLElement>("[data-process-index]", section).forEach((title) => {
-      // Exit hinge: as the panel crosses the viewport's left edge the
-      // numeral swings -90° and lands along the right edge.
-      gsap.to(title, {
-        rotation: -90,
-        x: () => window.innerWidth - title.offsetHeight,
-        y: () => title.offsetHeight,
-        ease: "expo.inOut",
-        scrollTrigger: {
-          trigger: title.parentElement,
-          containerAnimation: scrollTween,
-          start: "left 0%",
-          end: "left -100%",
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
-      // Entrance hinge: mirrored — the numeral drops in from the top edge
-      // while its panel crosses the viewport from the right.
-      gsap.from(title, {
-        rotation: 90,
-        y: () => -window.innerHeight + title.offsetHeight,
-        x: () => title.offsetHeight,
-        ease: "expo.inOut",
-        scrollTrigger: {
-          trigger: title.parentElement,
-          containerAnimation: scrollTween,
-          start: "left 100%",
-          end: "left 0%",
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
+    // Cards that enter from the right sit low, then settle up in the last
+    // stretch as they near centre (ease:"power2.in" = back-loaded → "comes up
+    // late" like the reference, not a steady climb). The FIRST card is skipped:
+    // it rests in the two-column opening (it never enters), so it must not carry
+    // a rise offset. The floaty feel comes from the app's Lenis smooth scroll.
+    gsap.utils.toArray<HTMLElement>("[data-process-card]", section).forEach((card, index) => {
+      if (index === 0) return;
+      gsap.fromTo(
+        card,
+        { y: () => window.innerHeight * 0.5 },
+        {
+          y: 0,
+          ease: "power2.in",
+          scrollTrigger: {
+            trigger: card,
+            containerAnimation: scrollTween,
+            start: "left right",
+            end: "center center",
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
     });
+
+    // Each card image drifts slightly slower than the rail — parallax depth.
+    gsap.utils.toArray<HTMLElement>("[data-process-media]", section).forEach((media) => {
+      const card = media.closest<HTMLElement>("[data-process-card]");
+      if (!card) return;
+      gsap.fromTo(
+        media,
+        { xPercent: 6 },
+        {
+          xPercent: -6,
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            containerAnimation: scrollTween,
+            start: "left right",
+            end: "right left",
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+    });
+
+    // Title decode: prefill with noise, then resolve + settle on enter (once).
+    if (decode && line1) {
+      line1.textContent = noise(line1Final);
+      const reveal = [line2, introNote, cue].filter(Boolean) as HTMLElement[];
+      if (reveal.length) gsap.set(reveal, { autoAlpha: 0 });
+      if (line2) gsap.set(line2, { y: 8 });
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 80%",
+        once: true,
+        onEnter: () => {
+          scramble(line1, line1Final, 900);
+          const tl = gsap.timeline();
+          if (line2) tl.to(line2, { autoAlpha: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.9);
+          if (introNote) tl.to(introNote, { autoAlpha: 1, duration: 0.5, ease: "power2.out" }, "-=0.2");
+          if (cue) tl.to(cue, { autoAlpha: 1, duration: 0.5, ease: "power2.out" }, "-=0.3");
+        },
+      });
+    }
   }, section);
 
   return () => {
+    if (rafId) cancelAnimationFrame(rafId);
     ctx.revert();
+    if (line1) line1.textContent = line1Final;
     section.classList.remove("process-layers--stage");
   };
 }
