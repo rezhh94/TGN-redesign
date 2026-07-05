@@ -18,7 +18,7 @@
 .what-build__inner {
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(104px, 15vh, 186px) var(--build-px) clamp(48px, 7vh, 96px);
+  padding: var(--section-pad-y) var(--build-px) clamp(48px, 7vh, 96px);
 }
 
 .what-build__inner--head {
@@ -27,7 +27,7 @@
 
 .what-build__inner--foot {
   padding-top: clamp(56px, 9vh, 120px);
-  padding-bottom: clamp(116px, 16vh, 212px);
+  padding-bottom: var(--section-pad-y);
 }
 
 .what-build__top {

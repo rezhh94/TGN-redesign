@@ -62,6 +62,12 @@
   --gutter: clamp(24px, 5vw, 150px);
   --header-height: 76px;
 
+  /* Vertikal seksjons-rytme — «kapittel-start/slutt»-luft. Én kilde for alle
+     vanlige seksjoner (var før 104–120 / 14–16vh / 184–212, litt ulikt hver).
+     vh-delen vokser med skjermhøyden (premium pust). Broen (helskjerms pin) og
+     Prosess (horisontale paneler) har egen struktur og bruker den ikke. */
+  --section-pad-y: clamp(128px, 16vh, 216px);
+
   --fz-hero: clamp(54px, 9vw, 156px);
   --fz-section: clamp(38px, 7vw, 124px);
   --fz-lead: clamp(17px, 1.35vw, 20px);

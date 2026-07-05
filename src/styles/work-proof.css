@@ -22,7 +22,7 @@
   width: min(100%, var(--page-max));
   margin: 0 auto;
   /* Mer sjenerøs luft — intro skal ikke være klemt mot karusellen */
-  padding: clamp(104px, 14vh, 184px) var(--gutter) clamp(60px, 9vh, 120px);
+  padding: var(--section-pad-y) var(--gutter) clamp(60px, 9vh, 120px);
 }
 
 .work-proof__label {

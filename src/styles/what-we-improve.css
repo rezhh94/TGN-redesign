@@ -15,7 +15,7 @@
 .what-improve__inner {
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(110px, 15vh, 190px) var(--gutter) clamp(120px, 16vh, 210px);
+  padding: var(--section-pad-y) var(--gutter) var(--section-pad-y);
 }
 
 .what-improve__label {
