@@ -64,7 +64,7 @@
   margin-left: clamp(0px, 6vw, 138px);
   color: var(--on-dark-medium);
   font-family: var(--font-sans);
-  font-size: clamp(19px, 1.5vw, 28px);
+  font-size: clamp(18px, 1.3vw, 22px);
   font-weight: 400;
   letter-spacing: -0.018em;
   line-height: 1.36;

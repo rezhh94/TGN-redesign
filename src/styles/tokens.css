@@ -78,12 +78,12 @@
 
   --fz-hero: clamp(54px, 9vw, 156px);
   --fz-section: clamp(38px, 7vw, 124px);
-  --fz-lead: clamp(17px, 1.35vw, 20px);
+  --fz-lead: clamp(16px, 1.2vw, 18px);
   /* Lead-skala i tre trinn — rydder de ad hoc ledetekst-størrelsene.
      Primær opasitet ~.80, sekundær ~.58 (settes per flate). */
-  --fz-lead-l: clamp(21px, 1.9vw, 27px);
-  --fz-lead-m: clamp(18px, 1.4vw, 20px);
-  --fz-lead-s: clamp(15px, 1.1vw, 17px);
+  --fz-lead-l: clamp(19px, 1.4vw, 23px);
+  --fz-lead-m: clamp(17px, 1.2vw, 19px);
+  --fz-lead-s: clamp(14px, 1vw, 16px);
   --fz-body: 16px;
   --fz-small: 13px;
 

@@ -31,7 +31,7 @@
   margin-top: clamp(26px, 4vh, 46px);
   color: var(--on-dark-strong);
   font-family: var(--font-sans);
-  font-size: clamp(20px, 1.6vw, 30px);
+  font-size: clamp(18px, 1.3vw, 22px);
   font-weight: 400;
   letter-spacing: -0.015em;
   line-height: 1.3;
@@ -68,7 +68,7 @@
 .what-improve__index {
   position: relative;
   margin: 0;
-  padding: 0 0 0 clamp(20px, 1.6vw, 30px);
+  padding: 0 0 0 clamp(18px, 1.3vw, 22px);
   list-style: none;
 }
 
@@ -204,7 +204,7 @@
   margin: clamp(16px, 2.2vh, 24px) 0 0;
   color: var(--on-dark-strong);
   font-family: var(--font-sans);
-  font-size: clamp(19px, 1.5vw, 26px);
+  font-size: clamp(17px, 1.2vw, 20px);
   font-weight: 400;
   letter-spacing: -0.01em;
   line-height: 1.34;

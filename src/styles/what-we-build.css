@@ -83,7 +83,7 @@
 
 .what-build__intro--primary {
   color: var(--on-dark-strong);
-  font-size: 25px;
+  font-size: 20px;
   line-height: 1.24;
 }
 
@@ -173,7 +173,7 @@
   margin: 0;
   color: var(--on-dark-strong);
   font-family: var(--font-sans);
-  font-size: clamp(20px, 1.7vw, 30px);
+  font-size: clamp(18px, 1.3vw, 22px);
   font-weight: 400;
   line-height: 1.28;
 }
