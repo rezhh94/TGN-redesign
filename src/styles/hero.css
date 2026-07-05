@@ -86,7 +86,7 @@
   width: clamp(440px, 58vw, 1120px);
   min-height: clamp(320px, 48vh, 760px);
   border: 1px solid rgba(242, 241, 235, 0.055);
-  border-radius: 16px;
+  border-radius: var(--radius);
   background:
     radial-gradient(circle at 72% 18%, rgba(242, 241, 235, 0.17), transparent 28%),
     radial-gradient(circle at 88% 92%, rgba(242, 241, 235, 0.08), transparent 34%),
@@ -237,7 +237,7 @@
   gap: 12px;
   min-height: 56px;
   border: 1px solid rgba(242, 241, 235, 0.82);
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: var(--color-on-dark);
   color: var(--color-dark);
   font-family: var(--font-mono);
@@ -261,19 +261,19 @@
 }
 
 .hero__cta-arrow {
-  width: 11px;
-  height: 15px;
+  width: 9px;
+  height: 10px;
   display: inline-block;
   flex: none;
   background: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
   transition: transform var(--motion-base) var(--ease-standard);
 }
 
 .hero__cta:hover .hero__cta-arrow,
 .hero__cta:focus-visible .hero__cta-arrow {
-  transform: translateX(4px);
+  transform: translate(3px, -3px);
 }
 
 .hero__note {

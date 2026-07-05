@@ -201,7 +201,7 @@
   gap: 12px;
   min-height: 56px;
   border: 1px solid rgba(242, 241, 235, 0.82);
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: var(--color-on-dark);
   color: var(--color-dark);
   padding: 0 28px;
@@ -214,31 +214,39 @@
 }
 
 .contact-footer__action-arrow {
-  width: 11px;
-  height: 15px;
+  width: 9px;
+  height: 10px;
   display: inline-block;
   flex: none;
   background: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
+  transition: transform var(--motion-base) var(--ease-standard);
 }
 
+.contact-footer__action:hover .contact-footer__action-arrow,
+.contact-footer__action:focus-visible .contact-footer__action-arrow {
+  transform: translate(3px, -3px);
+}
+
+/* Sekundær — omriset rektangel (lamalama-par med den fylte primæren). */
 .contact-footer__action--secondary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 12px;
   min-height: 56px;
+  padding: 0 24px;
+  border: 1px solid rgba(242, 241, 235, 0.28);
+  border-radius: var(--radius);
   color: var(--on-dark-medium);
-  text-decoration: underline;
-  text-decoration-color: rgba(242, 241, 235, 0.3);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.42em;
-  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
+  transition: color var(--motion-fast) ease-out, border-color var(--motion-fast) ease-out;
 }
 
 .contact-footer__action--secondary:hover,
 .contact-footer__action--secondary:focus-visible {
   color: var(--color-on-dark);
-  text-decoration-color: var(--on-dark-strong);
+  border-color: var(--color-on-dark);
 }
 
 .contact-footer__email:hover,
@@ -501,9 +509,8 @@
   }
 
   .contact-footer__action--secondary {
-    min-height: 0;
-    justify-self: start;
-    padding: 4px 0;
+    width: 100%;
+    min-height: 56px;
   }
 
   .contact-footer__item + .contact-footer__item .contact-footer__link::before,

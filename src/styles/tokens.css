@@ -68,6 +68,14 @@
      Prosess (horisontale paneler) har egen struktur og bruker den ikke. */
   --section-pad-y: clamp(128px, 16vh, 216px);
 
+  /* F: skarp-editorial (lamalama-oversatt). Ett hjørne-token for avrundede
+     rektangler + knapper. Piller (999) beholdes kun som flytende nav-chrome,
+     prikker (50%) og skarpe rammer (0) som før. Ett fremover-motiv: diagonal
+     ↗ (--arrow-ne), erstatter prikkekjede + chevron. */
+  --radius: 4px;
+  /* Lamalama sin faktiske ↗ (tynn, forfinet) — 7×8, oppgitt av bruker. */
+  --arrow-ne: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='8' viewBox='0 0 7 8' fill='none'%3E%3Cpath fill='%23000' d='M7.002.499v7h-1V2.206L.707 7.501 0 6.794l5.295-5.295H.002v-1h7Z'/%3E%3C/svg%3E");
+
   --fz-hero: clamp(54px, 9vw, 156px);
   --fz-section: clamp(38px, 7vw, 124px);
   --fz-lead: clamp(17px, 1.35vw, 20px);
@@ -85,9 +93,11 @@
        l  — knapp/CTA-etikett (13)
        m  — eyebrow / label / meta workhorse (12)
        s  — mikro-mono: noter, signal, tiny meta (11) */
-  --fz-mono-l: 13px;
-  --fz-mono: 12px;
-  --fz-mono-s: 11px;
+  /* Tilpasset lamalama (2026-07-05): mono ned ~1px mot deres 10px, men en hair
+     større siden Tigons fonter/leads kjører større. */
+  --fz-mono-l: 12px;
+  --fz-mono: 11px;
+  --fz-mono-s: 10px;
 
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);

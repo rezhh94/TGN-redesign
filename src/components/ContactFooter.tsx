@@ -93,6 +93,7 @@ export function ContactFooter() {
               href="/kontakt?emne=Rask%20gjennomgang%20%2815%20min%29"
             >
               Book 15 min
+              <span className="contact-footer__action-arrow" aria-hidden="true" />
             </a>
           </div>
         </div>

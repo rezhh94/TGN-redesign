@@ -251,21 +251,21 @@
   text-decoration-color: var(--color-on-dark);
 }
 
-/* Samme CTA-pil som Hero/ContactFooter — diagonal prikkekjede opp mot høyre. */
+/* Samme ↗ som Hero/ContactFooter — lamalama diagonal linje-pil (--arrow-ne). */
 .what-build__cta-arrow {
-  width: 11px;
-  height: 15px;
+  width: 9px;
+  height: 10px;
   display: inline-block;
   flex: none;
   background: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
   transition: transform var(--motion-base) var(--ease-standard);
 }
 
 .what-build__row-link:hover .what-build__cta-arrow,
 .what-build__row-link:focus-visible .what-build__cta-arrow {
-  transform: translateX(4px);
+  transform: translate(3px, -3px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -422,11 +422,19 @@
 }
 
 .what-build__foot-arrow {
-  width: 8px;
-  height: 8px;
-  border-right: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  transform: rotate(45deg) translateY(-1px);
+  width: 9px;
+  height: 10px;
+  display: inline-block;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.what-build__foot-link:hover .what-build__foot-arrow,
+.what-build__foot-link:focus-visible .what-build__foot-arrow {
+  transform: translate(3px, -3px);
 }
 
 @media (max-width: 1080px) {
