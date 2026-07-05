@@ -5,7 +5,6 @@ const services = [
     meta: "NEXT.JS / SEO / CWV",
     tagline: "Teknisk SEO / Core Web Vitals / Struktur / Måling / Konvertering / Next.js",
     href: "/tjenester/webutvikling-nextjs",
-    open: true,
   },
   {
     title: "Webapper",
@@ -48,14 +47,14 @@ const moreServices: Array<{ title: string; href?: string }> = [
   { title: "Vedlikehold & sikkerhet" },
 ];
 
-/* 02 / Tjenester — Fabrica-adaptert tjeneste-akkordeon (uten nummer-etiketter):
-   full-bredde rader med tittel + sirkel-toggle; klikk åpner én rad og avslører
-   beskrivelse + kategori-brikker + «Les mer»-lenke. Default (no-JS/PRM) viser
-   alle rader åpne — all tekst og alle lenker server-rendret. */
+/* 02 / Tjenester — statisk tjenesteliste (uten nummer-etiketter): full-bredde
+   rader med tittel + mono-meta, alle alltid åpne (ingen toggle/kollaps).
+   Hver rad viser beskrivelse + kategori-brikker + «Les mer»-lenke + bilderamme.
+   All tekst og alle lenker server-rendret. */
 export function WhatWeBuild() {
   return (
     <section className="what-build" aria-labelledby="what-build-title">
-      <div className="what-build__inner">
+      <div className="what-build__inner what-build__inner--head">
         <header className="what-build__top">
           <p className="what-build__label">02 / Tjenester</p>
           <div className="what-build__top-copy">
@@ -72,57 +71,54 @@ export function WhatWeBuild() {
             </div>
           </div>
         </header>
+      </div>
 
-        <ol className="what-build__list" aria-label="Tjenester" data-build-list>
-          {services.map((service, index) => {
-            const bodyId = `service-body-${index + 1}`;
+      <ol className="what-build__list" aria-label="Tjenester" data-build-list>
+          {services.map((service) => {
             const categories = service.tagline.split(" / ");
             return (
-              <li
-                className="what-build__row"
-                data-build-row
-                data-open={service.open ? "" : undefined}
-                key={service.title}
-              >
-                <h3 className="what-build__row-heading">
-                  <button
-                    className="what-build__row-trigger"
-                    type="button"
-                    aria-controls={bodyId}
-                    data-build-trigger
-                  >
+              <li className="what-build__row" data-build-row key={service.title}>
+                <div className="what-build__row-head">
+                  <h3 className="what-build__row-heading">
                     <span className="what-build__service-title">{service.title}</span>
-                    <span className="what-build__row-meta">{service.meta}</span>
-                    <span className="what-build__toggle" aria-hidden="true" />
-                  </button>
-                </h3>
+                  </h3>
+                  <span className="what-build__row-meta">{service.meta}</span>
+                </div>
 
-                <div className="what-build__body" id={bodyId} data-build-body>
+                <div className="what-build__body">
                   <div className="what-build__body-inner">
                     <div className="what-build__body-grid">
-                      <p className="what-build__description">{service.description}</p>
-                      <div className="what-build__cats">
-                        <p className="what-build__cats-label">Kategorier</p>
-                        <ul className="what-build__cat-list">
-                          {categories.map((cat) => (
-                            <li className="what-build__cat" key={cat}>
-                              {cat}
-                            </li>
-                          ))}
-                        </ul>
+                      <div className="what-build__body-main">
+                        <p className="what-build__description">{service.description}</p>
+                        <div className="what-build__cats">
+                          <p className="what-build__cats-label">Kategorier</p>
+                          <ul className="what-build__cat-list">
+                            {categories.map((cat) => (
+                              <li className="what-build__cat" key={cat}>
+                                {cat}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <a className="what-build__row-link" href={service.href}>
+                          Les mer
+                          <span className="what-build__cta-arrow" aria-hidden="true" />
+                        </a>
                       </div>
-                      <a className="what-build__row-link" href={service.href}>
-                        Les mer
-                        <span className="what-build__foot-arrow" aria-hidden="true" />
-                      </a>
+
+                      {/* Bilderamme — plassholder klar for ekte bilde per tjeneste */}
+                      <figure className="what-build__media">
+                        <div className="what-build__media-frame">
+                          <span className="what-build__media-hint">Sett inn bilde</span>
+                        </div>
+                      </figure>
                     </div>
                   </div>
                 </div>
               </li>
             );
           })}
-        </ol>
-      </div>
+      </ol>
 
       <div className="what-build__inner what-build__inner--foot">
         <nav className="what-build__more" aria-label="Flere tjenester">

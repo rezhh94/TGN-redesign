@@ -7,17 +7,21 @@
    JS legger til .what-build--enhanced og kollapser rader uten [data-open]. */
 
 .what-build {
+  --build-px: clamp(24px, 5vw, 150px);
   position: relative;
   overflow: hidden;
-  background:
-    linear-gradient(180deg, #10110e 0%, #151611 44%, #0c0d0b 100%);
+  background: #1a1c1c;
   color: var(--color-on-dark);
 }
 
 .what-build__inner {
   width: min(100%, 2560px);
   margin: 0 auto;
-  padding: clamp(104px, 15vh, 186px) clamp(24px, 5vw, 150px) clamp(48px, 7vh, 96px);
+  padding: clamp(104px, 15vh, 186px) var(--build-px) clamp(48px, 7vh, 96px);
+}
+
+.what-build__inner--head {
+  padding-bottom: 0;
 }
 
 .what-build__inner--foot {
@@ -89,12 +93,13 @@
   font-size: 17px;
 }
 
-/* Tjenestelisten — liste-som-interaksjon. Rad-anatomi: tittel / mono-meta /
-   sirkel-toggle. Ingen nummer. */
+/* Tjenestelisten — statiske rader, alle åpne. Rad-anatomi: tittel / mono-meta.
+   Ingen toggle, ingen kollaps, ingen nummer. */
 
 .what-build__list {
   position: relative;
-  margin: 0;
+  width: min(100%, 2560px);
+  margin: 0 auto;
   padding: 0;
   list-style: none;
   border-top: 1px solid rgba(242, 241, 235, 0.16);
@@ -103,11 +108,14 @@
 .what-build__row {
   position: relative;
   border-bottom: 1px solid rgba(242, 241, 235, 0.14);
-  transition: background var(--motion-fast) var(--ease-standard);
 }
 
-.what-build__row:hover {
-  background: rgba(242, 241, 235, 0.03);
+.what-build__row-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(20px, 3vw, 48px);
+  align-items: center;
+  padding: clamp(20px, 2.8vh, 32px) var(--build-px) 0;
 }
 
 .what-build__row-heading {
@@ -115,142 +123,48 @@
   font-weight: 500;
 }
 
-.what-build__row-trigger {
-  display: grid;
-  width: 100%;
-  grid-template-columns: minmax(0, 1fr) auto clamp(44px, 3.4vw, 58px);
-  gap: clamp(20px, 3vw, 48px);
-  align-items: center;
-  border: 0;
-  background: none;
-  color: inherit;
-  padding: clamp(30px, 4.4vh, 46px) clamp(4px, 0.6vw, 12px) clamp(30px, 4.4vh, 46px) 0;
-  text-align: left;
-  cursor: pointer;
-}
-
-.what-build__row-trigger:focus-visible {
-  outline: 2px solid rgba(242, 241, 235, 0.78);
-  outline-offset: -2px;
-}
-
 .what-build__service-title {
   min-width: 0;
-  color: rgba(242, 241, 235, 0.86);
+  color: var(--color-on-dark);
   font-family: var(--font-sans);
-  font-size: clamp(40px, 3.9vw, 74px);
+  font-size: clamp(34px, 3.1vw, 58px);
   font-weight: 500;
   letter-spacing: -0.015em;
   line-height: 0.98;
-  transition:
-    color var(--motion-fast) var(--ease-standard),
-    transform var(--motion-base) var(--ease-out-expo);
-}
-
-.what-build__row:hover .what-build__service-title,
-.what-build__row[data-open] .what-build__service-title {
-  color: var(--color-on-dark);
-}
-
-.what-build__row:hover .what-build__service-title {
-  transform: translateX(clamp(4px, 0.6vw, 10px));
 }
 
 .what-build__row-meta {
-  color: rgba(242, 241, 235, 0.44);
+  color: rgba(242, 241, 235, 0.5);
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.04em;
   line-height: 1.2;
   white-space: nowrap;
-  transition: color var(--motion-fast) var(--ease-standard);
 }
 
-.what-build__row:hover .what-build__row-meta {
-  color: rgba(242, 241, 235, 0.72);
-}
-
-/* Sirkel-toggle — Fabricas rundede +/− knapp; plusset roterer til kryss når
-   raden er åpen. */
-
-.what-build__toggle {
-  position: relative;
-  justify-self: end;
-  align-self: center;
-  width: clamp(44px, 3.4vw, 58px);
-  height: clamp(44px, 3.4vw, 58px);
-  border: 1px solid rgba(242, 241, 235, 0.32);
-  border-radius: 50%;
-  transition:
-    border-color var(--motion-fast) var(--ease-standard),
-    background var(--motion-fast) var(--ease-standard);
-}
-
-.what-build__toggle::before,
-.what-build__toggle::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 34%;
-  height: 1px;
-  background: rgba(242, 241, 235, 0.82);
-  transform: translate(-50%, -50%);
-  transition: transform var(--motion-base) var(--ease-out-expo);
-}
-
-.what-build__toggle::after {
-  transform: translate(-50%, -50%) rotate(90deg);
-}
-
-.what-build__row:hover .what-build__toggle {
-  border-color: rgba(242, 241, 235, 0.6);
-}
-
-.what-build__row[data-open] .what-build__toggle {
-  border-color: rgba(242, 241, 235, 0.6);
-}
-
-.what-build__row[data-open] .what-build__toggle::after {
-  transform: translate(-50%, -50%) rotate(0deg);
-}
-
-/* Kropp — alltid i DOM. Default (no JS): alle kropper synlige.
-   JS legger til .what-build--enhanced og kollapser rader uten [data-open]. */
+/* Kropp — alltid synlig (rader er statisk åpne). */
 
 .what-build__body {
-  display: grid;
-  grid-template-rows: 1fr;
+  display: block;
 }
 
 .what-build__body-inner {
-  overflow: hidden;
   min-height: 0;
-}
-
-.what-build--enhanced .what-build__row:not([data-open]) .what-build__body {
-  grid-template-rows: 0fr;
-}
-
-.what-build--enhanced .what-build__body {
-  transition: grid-template-rows 440ms var(--ease-out-expo);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .what-build--enhanced .what-build__body,
-  .what-build__toggle::before,
-  .what-build__toggle::after,
-  .what-build__service-title {
-    transition: none;
-  }
 }
 
 .what-build__body-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-  gap: clamp(24px, 4vw, 80px);
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(24px, 4vw, 72px);
   align-items: start;
-  padding: clamp(4px, 1vh, 12px) 0 clamp(38px, 5.6vh, 64px);
+  padding: clamp(4px, 1vh, 12px) var(--build-px) clamp(38px, 5.6vh, 64px);
+}
+
+.what-build__body-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .what-build__description {
@@ -268,6 +182,7 @@
 
 .what-build__cats {
   min-width: 0;
+  margin-top: clamp(24px, 3.4vh, 40px);
 }
 
 .what-build__cats-label {
@@ -280,34 +195,42 @@
   text-transform: uppercase;
 }
 
+/* Kategori-brikker som segmentert boks-rekke (à la BRANDING / EXPERIENCE /
+   PORTFOLIO): skarpe hjørner, delte 1px-kanter, mono-versaler. */
 .what-build__cat-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 9px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .what-build__cat {
-  padding: 8px 16px;
-  border: 1px solid rgba(242, 241, 235, 0.2);
-  border-radius: 999px;
-  color: rgba(242, 241, 235, 0.72);
-  font-family: var(--font-sans);
-  font-size: clamp(13px, 0.95vw, 15px);
+  padding: 9px 16px;
+  border: 0;
+  background: #000;
+  color: rgba(242, 241, 235, 0.82);
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 0.75vw, 12px);
   font-weight: 400;
-  line-height: 1.2;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  text-transform: uppercase;
   white-space: nowrap;
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+
+.what-build__cat:hover {
+  color: var(--color-on-dark);
 }
 
 .what-build__row-link {
-  grid-column: 1 / -1;
   justify-self: start;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-top: clamp(20px, 3vh, 36px);
+  margin-top: clamp(24px, 3.4vh, 40px);
   color: rgba(242, 241, 235, 0.74);
   font-family: var(--font-mono);
   font-size: 12px;
@@ -325,6 +248,66 @@
 .what-build__row-link:focus-visible {
   color: var(--color-on-dark);
   text-decoration-color: var(--color-on-dark);
+}
+
+/* Samme CTA-pil som Hero/ContactFooter — diagonal prikkekjede opp mot høyre. */
+.what-build__cta-arrow {
+  width: 11px;
+  height: 15px;
+  display: inline-block;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.what-build__row-link:hover .what-build__cta-arrow,
+.what-build__row-link:focus-visible .what-build__cta-arrow {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .what-build__cta-arrow {
+    transition: none;
+  }
+}
+
+/* Bilderamme — plassholder på høyre side i åpen rad. Skarp ramme + hårlinje-
+   hjørner; bytt innholdet i .what-build__media-frame med et <img> ved behov. */
+
+.what-build__media {
+  margin: 0;
+  min-width: 0;
+}
+
+.what-build__media-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  width: clamp(180px, 20vw, 240px);
+  overflow: hidden;
+  border: 1px solid rgba(242, 241, 235, 0.22);
+  background: rgba(242, 241, 235, 0.02);
+}
+
+.what-build__media-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.what-build__media-hint {
+  color: rgba(242, 241, 235, 0.4);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 /* «Flere tjenester» — stille SSR-register for tjenestene uten egen rad:
@@ -466,18 +449,9 @@
     margin-top: 8px;
   }
 
-  .what-build__row-trigger {
-    grid-template-columns: minmax(0, 1fr) 48px;
-    gap: 24px;
-  }
-
-  .what-build__row-meta {
-    display: none;
-  }
-
-  .what-build__toggle {
-    width: 48px;
-    height: 48px;
+  .what-build__row-head {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .what-build__service-title {
@@ -491,8 +465,16 @@
 }
 
 @media (max-width: 640px) {
+  .what-build {
+    --build-px: 20px;
+  }
+
   .what-build__inner {
     padding: 92px 20px 60px;
+  }
+
+  .what-build__inner--head {
+    padding-bottom: 0;
   }
 
   .what-build__inner--foot {
@@ -525,23 +507,13 @@
     font-size: 17px;
   }
 
-  .what-build__row-trigger {
-    grid-template-columns: minmax(0, 1fr) 42px;
-    gap: 18px;
-    padding: 26px 0;
-  }
-
-  .what-build__toggle {
-    width: 42px;
-    height: 42px;
+  .what-build__row-head {
+    gap: 8px;
+    padding: 22px var(--build-px) 0;
   }
 
   .what-build__service-title {
     font-size: clamp(30px, 9vw, 40px);
-  }
-
-  .what-build__row:hover .what-build__service-title {
-    transform: none;
   }
 
   .what-build__description {

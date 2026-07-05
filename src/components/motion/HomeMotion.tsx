@@ -13,56 +13,9 @@ gsap.registerPlugin(ScrollTrigger, SplitText, Observer);
 // pinned scenes jump. Dimension changes from real rotation still refresh.
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-// 02 / Tjenester — service accordion (Fabrica-adapted, no number labels).
-// JS collapses every row without [data-open] and opens exactly one at a
-// time on click; the grid-template-rows 1fr→0fr transition animates the
-// reveal. Without JS every body stays open (all text + links SSR). This is
-// an interaction, not motion, so it runs outside the reduced-motion gate.
-function setupServiceAccordion() {
-  const list = document.querySelector<HTMLElement>("[data-build-list]");
-  if (!list) return () => {};
-
-  // Collapse without transition so the page height is final before
-  // ScrollTrigger measures positions (the collapse would otherwise leave
-  // late triggers with stale, unreachable start values).
-  const bodies = Array.from(list.querySelectorAll<HTMLElement>("[data-build-body]"));
-  for (const body of bodies) body.style.transition = "none";
-  list.classList.add("what-build--enhanced");
-  void list.offsetHeight;
-  requestAnimationFrame(() => {
-    for (const body of bodies) body.style.transition = "";
-  });
-
-  const rows = Array.from(list.querySelectorAll<HTMLElement>("[data-build-row]"));
-  const syncAria = () => {
-    for (const row of rows) {
-      const trigger = row.querySelector<HTMLButtonElement>("[data-build-trigger]");
-      trigger?.setAttribute("aria-expanded", row.hasAttribute("data-open") ? "true" : "false");
-    }
-  };
-  syncAria();
-
-  const onClick = (event: Event) => {
-    const trigger = (event.target as HTMLElement).closest("[data-build-trigger]");
-    if (!trigger || !list.contains(trigger)) return;
-    const row = trigger.closest<HTMLElement>("[data-build-row]");
-    if (!row) return;
-
-    const wasOpen = row.hasAttribute("data-open");
-    for (const other of rows) other.removeAttribute("data-open");
-    if (!wasOpen) row.setAttribute("data-open", "");
-    syncAria();
-  };
-
-  list.addEventListener("click", onClick);
-  return () => {
-    list.removeEventListener("click", onClick);
-    list.classList.remove("what-build--enhanced");
-    for (const row of rows) {
-      row.querySelector("[data-build-trigger]")?.removeAttribute("aria-expanded");
-    }
-  };
-}
+// 02 / Tjenester — every service row is static and fully open (title, meta,
+// description, categories, link + image frame all visible). No toggle, no
+// collapse. Rows rise in once on scroll; that is the only motion here.
 
 // Service rows rise in once as the list enters the viewport.
 function serviceReveals() {
@@ -551,7 +504,6 @@ function setupFooterUtilities() {
 
 export function HomeMotion() {
   useEffect(() => {
-    const teardownAccordion = setupServiceAccordion();
     const teardownUtilities = setupFooterUtilities();
     const lenis = initLenis({ lerp: 0.12 });
     lenis?.lenis.on("scroll", ScrollTrigger.update);
@@ -602,7 +554,6 @@ export function HomeMotion() {
       mm.revert();
       lenis?.lenis.off("scroll", ScrollTrigger.update);
       destroyLenis();
-      teardownAccordion();
       teardownUtilities();
     };
   }, []);
