@@ -8,7 +8,7 @@ export function ApproachStatementBridge() {
     <section className="approach-bridge" aria-labelledby="approach-bridge-title">
       <div className="approach-bridge__inner">
         <div className="approach-bridge__container" data-approach-container>
-          <p className="approach-bridge__label">01 / Tilnærming</p>
+          <p className="approach-bridge__label">Tilnærming</p>
 
           <h2 className="approach-bridge__statement" id="approach-bridge-title" data-approach-title>
             <span className="approach-bridge__line">UKLART blir</span>

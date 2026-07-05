@@ -46,7 +46,7 @@ export function ContactFooter() {
     <section className="contact-footer" aria-labelledby="contact-footer-title">
       <div className="contact-footer__inner">
         <div className="contact-footer__closing">
-          <p className="contact-footer__label">07 / Kontakt</p>
+          <p className="contact-footer__label">Kontakt</p>
 
           <div className="contact-footer__statement">
             <h2 className="contact-footer__title" id="contact-footer-title">

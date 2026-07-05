@@ -20,8 +20,9 @@
   color: var(--on-dark-medium);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.08em;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 
 /* Closing statement — hero bookend, height from typography only */

@@ -15,7 +15,7 @@ export function WorkProof() {
   return (
     <section className="work-proof" aria-labelledby="work-proof-title">
       <div className="work-proof__intro">
-        <p className="work-proof__label">04 / Arbeid</p>
+        <p className="work-proof__label">Arbeid</p>
 
         <h2 className="work-proof__title" id="work-proof-title">
           <span className="work-proof__word work-proof__word--dim">Visuelt</span>{" "}

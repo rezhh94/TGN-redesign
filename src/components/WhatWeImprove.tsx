@@ -46,7 +46,7 @@ export function WhatWeImprove() {
     <section className="what-improve" aria-labelledby="what-improve-title">
       <div className="what-improve__inner">
         <header className="what-improve__top">
-          <p className="what-improve__label">03 / Effekt</p>
+          <p className="what-improve__label">Effekt</p>
           <h2 className="what-improve__kicker" id="what-improve-title">
             Alt vi bygger, bygges for å bli —
           </h2>
