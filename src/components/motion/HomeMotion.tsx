@@ -209,46 +209,29 @@ function improveScene() {
   };
 }
 
-// 04 / Arbeid — "Stort proof". A vertical gallery of large stills. Each piece
-// rises in once as it enters, and its image glows from dimmed grayscale to full
-// colour (the .is-lit class flips the CSS filter). No pin, no auto-motion, no
-// drag — the whole beat is scroll-authored. PRM / no-JS keep the static,
-// full-colour vertical list.
+// 04 / Arbeid — utvalg som ekspanderende katalog. The case rows rise in once as
+// the list enters; opening/closing is native <details> (CSS-animated via
+// ::details-content), so no JS drives the toggle. PRM / no-JS keep the static,
+// readable, fully-collapsible list.
 function workProof() {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
-  const pieces = gsap.utils.toArray<HTMLElement>("[data-work-piece]", section);
-  if (!pieces.length) return () => {};
-
-  section.classList.add("work-proof--reveal");
+  const rows = gsap.utils.toArray<HTMLElement>("[data-work-case]", section);
+  if (!rows.length) return () => {};
 
   const ctx = gsap.context(() => {
-    pieces.forEach((piece) => {
-      gsap.from(piece, {
-        y: 44,
-        autoAlpha: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: piece, start: "top 82%", once: true },
-      });
-
-      // Grayscale → colour glow, slightly later than the rise so the piece has
-      // already landed when it lights.
-      ScrollTrigger.create({
-        trigger: piece,
-        start: "top 68%",
-        once: true,
-        onEnter: () => piece.classList.add("is-lit"),
-      });
+    gsap.from(rows, {
+      y: 40,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: "power3.out",
+      stagger: 0.07,
+      scrollTrigger: { trigger: "[data-work-cases]", start: "top 80%", once: true },
     });
   }, section);
 
-  return () => {
-    ctx.revert();
-    pieces.forEach((piece) => piece.classList.remove("is-lit"));
-    section.classList.remove("work-proof--reveal");
-  };
+  return () => ctx.revert();
 }
 
 // 05 / Prosess — "Prosjektreisen". Three step rows stacked vertically (STEG · 0X
