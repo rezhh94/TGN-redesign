@@ -56,7 +56,7 @@ export function WhatWeBuild() {
     <section className="what-build" aria-labelledby="what-build-title">
       <div className="what-build__inner what-build__inner--head">
         <header className="what-build__top">
-          <p className="what-build__label">02 / Tjenester</p>
+          <p className="what-build__label">Tjenester</p>
           <div className="what-build__top-copy">
             <h2 className="what-build__title" id="what-build-title">
               BYGGER

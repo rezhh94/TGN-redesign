@@ -1,43 +1,38 @@
-/* 04 / Arbeid — MWG 008-oversatt kort-karusell. Intro-bånd med statement og
-   arkiv-lenke, deretter en dragbar, auto-scrollende og uendelig loopet rad
-   med kort.
-
-   Default (no JS / PRM) er en enkel horisontalt scrollbar stripe — alle kort
-   synlige og nåbare uten JavaScript. JS legger på .work-proof--drag; først da
-   klippes overflow og Observer + auto-scroll + tilt aktiveres.
-
-   Kortene er MWG-demo-placeholders til Tigon-mockups m/ logo. */
+/* 04 / Arbeid — "Stort proof". Mørkt galleri-rom der arbeidet vises stort, ett
+   verk om gangen, loddrett nedover. Intro-bånd (label/tittel/caption/meta),
+   deretter en loddrett rekke store bilderammer. Gråtone→farge-glød legges på av
+   JS (.work-proof--reveal). Default (no-JS / PRM): loddrett liste, full farge,
+   alt synlig og lesbart uten JavaScript. */
 
 .work-proof {
   position: relative;
-  /* Lyst galleri/proof-rom — den andre lyse pausen. Proof-kortene leser som
-     objekter på en utstillingsvegg, ikke som mørke thumbnails. */
-  background:
-    linear-gradient(180deg, #e8e6df 0%, var(--stein) 50%, #dedcd2 100%);
-  color: var(--blekk);
+  /* Dypeste mørke trinn — proof gløder mot near-black. Reelt tonalt steg ned
+     fra 03 (--ink-base). */
+  background: var(--ink-deep);
+  color: var(--color-on-dark);
   overflow: hidden;
+  border-top: 1px solid rgba(242, 241, 235, 0.08);
 }
 
 .work-proof__intro {
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  /* Mer sjenerøs luft — intro skal ikke være klemt mot karusellen */
-  padding: clamp(104px, 14vh, 184px) var(--gutter) clamp(60px, 9vh, 120px);
+  padding: var(--section-pad-y) var(--gutter) clamp(56px, 8vh, 104px);
 }
 
 .work-proof__label {
-  color: var(--on-light-quiet);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.08em;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .work-proof__title {
   max-width: 13ch;
   margin-top: clamp(26px, 4vh, 48px);
-  /* Tittel i blekk på Stein — Tier 3 kapittel-mid */
-  color: var(--blekk);
+  color: var(--color-on-dark);
   font-family: var(--font-display);
   font-size: clamp(44px, 6vw, 120px);
   font-weight: 700;
@@ -51,15 +46,13 @@
 }
 
 .work-proof__word--dim {
-  color: rgba(16, 16, 15, 0.4);
+  color: var(--on-dark-faint);
 }
 
-/* Editorial caption — gjeninnført fra arbeids-kontrakten (den meningsbærende
-   linjen som karusell-rebuilden droppet). */
 .work-proof__caption {
   max-width: 46ch;
   margin-top: clamp(26px, 4vh, 46px);
-  color: var(--on-light-strong);
+  color: var(--on-dark-strong);
   font-family: var(--font-sans);
   font-size: var(--fz-lead-l);
   font-weight: 400;
@@ -76,16 +69,15 @@
 }
 
 .work-proof__lead {
-  color: var(--on-light-medium);
+  color: var(--on-dark-medium);
   font-family: var(--font-sans);
   font-size: var(--fz-lead-m);
   font-weight: 400;
   line-height: 1.4;
 }
 
-/* Metadata — gjeninnført spec-linje (fagfelt + stack) */
 .work-proof__spec {
-  color: var(--on-light-quiet);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
   letter-spacing: 0.05em;
@@ -94,26 +86,26 @@
 }
 
 .work-proof__link {
-  color: var(--blekk);
+  color: var(--color-on-dark);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
   letter-spacing: 0.08em;
   line-height: 1.2;
   text-decoration: underline;
-  text-decoration-color: rgba(16, 16, 15, 0.3);
+  text-decoration-color: rgba(242, 241, 235, 0.3);
   text-transform: uppercase;
   text-underline-offset: 4px;
   transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
 }
 
 .work-proof__link:hover {
-  color: var(--pine);
-  text-decoration-color: var(--pine);
+  color: var(--pine-tint);
+  text-decoration-color: var(--pine-tint);
 }
 
 .work-proof__foot {
   margin-left: auto;
-  color: var(--on-light-faint);
+  color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
   letter-spacing: 0.08em;
@@ -122,65 +114,81 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Carousel — default (no JS): a horizontally scrollable strip. */
+   Galleri — loddrett rekke store proof-stills. */
 
-.work-proof__carousel {
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: clamp(76px, 11vh, 148px);
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.work-proof__carousel::-webkit-scrollbar {
-  display: none;
-}
-
-.work-proof__track {
+.work-proof__gallery {
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(96px, 14vh, 200px);
   display: flex;
-  gap: 1.3vw;
-  width: max-content;
-  padding: 0 var(--gutter);
+  flex-direction: column;
+  gap: clamp(72px, 12vh, 168px);
 }
 
-.work-proof__card {
-  flex: 0 0 auto;
-  /* Litt større flater — mer galleri-presence, mindre klemt */
-  width: 27vw;
-  aspect-ratio: 1;
-  /* Fysisk løft mot den lyse Stein-flaten — objekt, ikke thumbnail. */
-  border-radius: 7px;
-  box-shadow:
-    0 34px 66px -34px rgba(18, 20, 12, 0.42),
-    0 10px 24px -16px rgba(18, 20, 12, 0.3);
+.work-proof__piece {
+  margin: 0;
 }
 
-.work-proof__card img {
+.work-proof__piece-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 28px;
+  margin-bottom: clamp(16px, 2vh, 26px);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.work-proof__piece-index {
+  color: var(--on-dark-medium);
+}
+
+.work-proof__piece-kind {
+  color: var(--color-on-dark);
+}
+
+.work-proof__piece-note {
+  margin-left: auto;
+  color: var(--on-dark-faint);
+  font-size: var(--fz-mono-s);
+}
+
+/* Editoriell ramme — skarpe hjørner + hårstrek (som 03), ikke avrundet kort.
+   Bildet er helten; rammen er nesten usynlig struktur. */
+.work-proof__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--ink-base);
+  box-shadow: inset 0 0 0 1px rgba(242, 241, 235, 0.09);
+}
+
+.work-proof__frame img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 7px;
-  border: 1px solid rgba(16, 16, 15, 0.08);
   pointer-events: none;
   user-select: none;
 }
 
-/* Drag mode — JS-enhanced. Clip overflow, free the track for transforms and
-   show the grab cursor. */
-
-.work-proof--drag .work-proof__carousel {
-  overflow: clip;
-  cursor: grab;
+/* Reveal-modus (JS): bildene starter i dempet gråtone og gløder til full farge
+   når stykket entrer. clip-path/opacity settes fra HomeMotion; fargen her. */
+.work-proof--reveal .work-proof__frame img {
+  filter: grayscale(1) brightness(0.8) contrast(1.02);
+  transition: filter 1.2s var(--ease-out-expo);
 }
 
-.work-proof--drag .work-proof__track {
-  padding: 0;
+.work-proof--reveal .work-proof__piece.is-lit .work-proof__frame img {
+  filter: grayscale(0) brightness(1) contrast(1);
 }
 
 @media (max-width: 768px) {
   .work-proof__intro {
-    padding: 92px 20px 52px;
+    padding: 92px 20px 44px;
   }
 
   .work-proof__title {
@@ -195,7 +203,16 @@
     margin-left: 0;
   }
 
-  .work-proof__card {
-    width: 64vw;
+  .work-proof__gallery {
+    gap: clamp(56px, 9vh, 96px);
+    padding-bottom: clamp(72px, 11vh, 128px);
+  }
+
+  .work-proof__piece-note {
+    margin-left: 0;
+  }
+
+  .work-proof__frame {
+    aspect-ratio: 4 / 3;
   }
 }

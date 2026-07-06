@@ -19,7 +19,7 @@
   min-height: clamp(640px, 100vh, 1120px);
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(120px, 16vh, 200px) var(--gutter);
+  padding: var(--section-pad-y) var(--gutter);
   text-align: center;
 }
 
@@ -27,8 +27,9 @@
   color: var(--color-muted);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.08em;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .system-manifesto__statement {

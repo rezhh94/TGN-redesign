@@ -1,7 +1,7 @@
 # Project Cleanup Audit
 
-Dato: 2026-07-03
-Scope: `/Users/reezy/Konsepter/TGN-redesign-fable5`
+Dato: 2026-07-03  
+Scope: `/Users/reezy/Konsepter/TGN-redesign-fable5`  
 Modus: audit/oppryddingsrapport. Ingen sletting, ingen kodeendringer, ingen commit, ingen push. Hovedrepoet `/Users/reezy/Konsepter/TGN-redesign` er ikke brukt.
 
 Validering som ble kjørt:

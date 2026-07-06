@@ -18,7 +18,7 @@
 .what-build__inner {
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(104px, 15vh, 186px) var(--build-px) clamp(48px, 7vh, 96px);
+  padding: var(--section-pad-y) var(--build-px) clamp(48px, 7vh, 96px);
 }
 
 .what-build__inner--head {
@@ -27,7 +27,7 @@
 
 .what-build__inner--foot {
   padding-top: clamp(56px, 9vh, 120px);
-  padding-bottom: clamp(116px, 16vh, 212px);
+  padding-bottom: var(--section-pad-y);
 }
 
 .what-build__top {
@@ -42,8 +42,9 @@
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.08em;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .what-build__top-copy {
@@ -83,7 +84,7 @@
 
 .what-build__intro--primary {
   color: var(--on-dark-strong);
-  font-size: 25px;
+  font-size: 20px;
   line-height: 1.24;
 }
 
@@ -173,7 +174,7 @@
   margin: 0;
   color: var(--on-dark-strong);
   font-family: var(--font-sans);
-  font-size: clamp(20px, 1.7vw, 30px);
+  font-size: clamp(18px, 1.3vw, 22px);
   font-weight: 400;
   line-height: 1.28;
 }
@@ -251,21 +252,21 @@
   text-decoration-color: var(--color-on-dark);
 }
 
-/* Samme CTA-pil som Hero/ContactFooter — diagonal prikkekjede opp mot høyre. */
+/* Samme ↗ som Hero/ContactFooter — lamalama diagonal linje-pil (--arrow-ne). */
 .what-build__cta-arrow {
-  width: 11px;
-  height: 15px;
+  width: 9px;
+  height: 10px;
   display: inline-block;
   flex: none;
   background: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 40'%3E%3Ccircle cx='4' cy='6' r='3.6'/%3E%3Ccircle cx='12' cy='13' r='3.6'/%3E%3Ccircle cx='20' cy='20' r='3.6'/%3E%3Ccircle cx='12' cy='27' r='3.6'/%3E%3Ccircle cx='4' cy='34' r='3.6'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
   transition: transform var(--motion-base) var(--ease-standard);
 }
 
 .what-build__row-link:hover .what-build__cta-arrow,
 .what-build__row-link:focus-visible .what-build__cta-arrow {
-  transform: translateX(4px);
+  transform: translate(3px, -3px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -422,11 +423,19 @@
 }
 
 .what-build__foot-arrow {
-  width: 8px;
-  height: 8px;
-  border-right: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  transform: rotate(45deg) translateY(-1px);
+  width: 9px;
+  height: 10px;
+  display: inline-block;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.what-build__foot-link:hover .what-build__foot-arrow,
+.what-build__foot-link:focus-visible .what-build__foot-arrow {
+  transform: translate(3px, -3px);
 }
 
 @media (max-width: 1080px) {

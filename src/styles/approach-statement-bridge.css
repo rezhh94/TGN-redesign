@@ -32,8 +32,9 @@
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.08em;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .approach-bridge__statement {

@@ -2,7 +2,7 @@ export function SystemManifesto() {
   return (
     <section className="system-manifesto" aria-labelledby="system-manifesto-title">
       <div className="system-manifesto__inner">
-        <p className="system-manifesto__label">06 / System</p>
+        <p className="system-manifesto__label">System</p>
 
         <h2 className="system-manifesto__statement" id="system-manifesto-title">
           <span className="system-manifesto__line" data-manifesto-line>

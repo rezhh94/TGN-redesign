@@ -1,0 +1,202 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e39]:
+    - link "Skip to content" [ref=e40] [cursor=pointer]:
+      - /url: "#smooth-wrapper"
+    - link [ref=e43] [cursor=pointer]:
+      - /url: /
+      - img [ref=e44]
+  - generic [ref=e51]:
+    - generic [ref=e53]:
+      - generic [ref=e54]:
+        - button "home" [ref=e55] [cursor=pointer]:
+          - img
+          - generic: Explore
+        - button "search" [ref=e56] [cursor=pointer]:
+          - img
+          - generic: Search
+        - button "plugins" [ref=e57] [cursor=pointer]:
+          - img
+          - generic: Plugins
+        - button "favorites" [ref=e58] [cursor=pointer]:
+          - img
+          - generic: Favorites
+        - button "user" [ref=e59] [cursor=pointer]:
+          - img
+          - generic: User
+        - button "toggle-sidebar" [ref=e60] [cursor=pointer]:
+          - img
+          - generic: Toggle Sidebar
+        - button "toggle-layout" [ref=e61] [cursor=pointer]:
+          - img
+          - generic: Toggle Layout
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - paragraph [ref=e66]: "{ Explore }"
+          - navigation [ref=e68]:
+            - link "Featured" [ref=e69] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e70]:
+                - img [ref=e72]
+                - paragraph [ref=e76]: Featured
+            - link "All Demos" [ref=e77] [cursor=pointer]:
+              - /url: /explore/
+              - generic [ref=e78]:
+                - img [ref=e80]
+                - paragraph [ref=e83]: All Demos
+            - link "Getting Started" [ref=e84] [cursor=pointer]:
+              - /url: /getting-started/
+              - generic [ref=e85]:
+                - img [ref=e87]
+                - paragraph [ref=e90]: Getting Started
+        - generic [ref=e91]:
+          - paragraph [ref=e92]: "{ Build with }"
+          - navigation [ref=e94]:
+            - link "Webflow" [ref=e95] [cursor=pointer]:
+              - /url: https://webflow.com/templates/search/gsap
+              - generic [ref=e96]:
+                - img [ref=e98]
+                - paragraph [ref=e100]: Webflow
+            - link "React" [ref=e101] [cursor=pointer]:
+              - /url: https://stackblitz.com/@GSAP-dev/collections/gsap-react-starters
+              - generic [ref=e102]:
+                - img [ref=e104]
+                - paragraph [ref=e109]: React
+            - link "Next" [ref=e110] [cursor=pointer]:
+              - /url: https://stackblitz.com/@GSAP-dev/collections/gsap-nextjs-starters
+              - generic [ref=e111]:
+                - img [ref=e113]
+                - paragraph [ref=e116]: Next
+            - link "Svelte" [ref=e117] [cursor=pointer]:
+              - /url: https://stackblitz.com/@gsap-dev/collections/gsap-svelte-starters
+              - generic [ref=e118]:
+                - img [ref=e120]
+                - paragraph [ref=e123]: Svelte
+            - link "Vue" [ref=e124] [cursor=pointer]:
+              - /url: https://stackblitz.com/@gsap-dev/collections/gsap-vue3-starters
+              - generic [ref=e125]:
+                - img [ref=e127]
+                - paragraph [ref=e130]: Vue
+    - generic [ref=e132]:
+      - generic [ref=e133]:
+        - generic [ref=e136]:
+          - heading "Explore" [level=2] [ref=e137]:
+            - generic "Explore" [ref=e237]:
+              - generic [ref=e239]: Explore
+          - heading "All" [level=2] [ref=e139]:
+            - generic "All" [ref=e240]:
+              - generic [ref=e242]: All
+          - heading "78" [level=2] [ref=e243]:
+            - superscript [ref=e245]: "78"
+        - generic [ref=e143]:
+          - link "Magnetic Button - overwrite modes Your browser does not support the video tag. Favorite Magnetic Button - overwrite modes +3" [ref=e248] [cursor=pointer]:
+            - /url: /demo/magnetic-button-overwrite-modes
+            - img "Magnetic Button - overwrite modes" [ref=e251]
+            - generic [ref=e253]: Your browser does not support the video tag.
+            - generic [ref=e254]:
+              - button "Favorite" [ref=e257]:
+                - img [ref=e258]
+              - generic [ref=e262]:
+                - paragraph [ref=e265]: Magnetic Button - overwrite modes
+                - generic:
+                  - list:
+                    - listitem
+                    - listitem
+                    - listitem
+                - paragraph [ref=e268]: "+3"
+              - generic "Cassie" [ref=e270]:
+                - img [ref=e271]
+          - link "Proximity scale grid Your browser does not support the video tag. Favorite Proximity scale grid +3" [ref=e275] [cursor=pointer]:
+            - /url: /demo/proximity-scale-grid
+            - img "Proximity scale grid" [ref=e278]
+            - generic [ref=e280]: Your browser does not support the video tag.
+            - generic [ref=e281]:
+              - button "Favorite" [ref=e284]:
+                - img [ref=e285]
+              - generic [ref=e289]:
+                - paragraph [ref=e292]: Proximity scale grid
+                - generic:
+                  - list:
+                    - listitem
+                    - listitem
+                    - listitem
+                - paragraph [ref=e295]: "+3"
+              - generic "Cassie" [ref=e297]:
+                - img [ref=e298]
+          - link "Cursor Trail Your browser does not support the video tag. Favorite Cursor Trail +2" [ref=e302] [cursor=pointer]:
+            - /url: /demo/cursor-trail
+            - img "Cursor Trail" [ref=e305]
+            - generic [ref=e307]: Your browser does not support the video tag.
+            - generic [ref=e308]:
+              - button "Favorite" [ref=e311]:
+                - img [ref=e312]
+              - generic [ref=e316]:
+                - paragraph [ref=e319]: Cursor Trail
+                - generic:
+                  - list:
+                    - listitem
+                    - listitem
+                - paragraph [ref=e322]: "+2"
+              - generic "Cassie" [ref=e324]:
+                - img [ref=e325]
+          - link "Cursor-Tracking Image Preview Your browser does not support the video tag. Favorite Cursor-Tracking Image Preview +2" [ref=e329] [cursor=pointer]:
+            - /url: /demo/cursor-tracking-image-preview
+            - img "Cursor-Tracking Image Preview" [ref=e332]
+            - generic [ref=e334]: Your browser does not support the video tag.
+            - generic [ref=e335]:
+              - button "Favorite" [ref=e338]:
+                - img [ref=e339]
+              - generic [ref=e343]:
+                - paragraph [ref=e346]: Cursor-Tracking Image Preview
+                - generic:
+                  - list:
+                    - listitem
+                    - listitem
+                - paragraph [ref=e349]: "+2"
+              - generic "Cassie" [ref=e351]:
+                - img [ref=e352]
+        - img "Loading page 1" [ref=e157]
+        - button "Categories" [ref=e159] [cursor=pointer]:
+          - generic [ref=e160]:
+            - generic [ref=e161]: Categories
+            - img [ref=e163]
+      - generic [ref=e167]:
+        - generic [ref=e168]:
+          - heading "Can’t find what you’re looking for?" [level=2] [ref=e169]:
+            - generic [ref=e170]: Can’t find what you’re looking for?
+          - heading "Get in touch." [level=2] [ref=e171]:
+            - generic [ref=e172]: Get in touch.
+        - link [ref=e174] [cursor=pointer]:
+          - /url: https://gsap.com/community/contact
+          - generic [ref=e175]:
+            - paragraph [ref=e176]
+            - paragraph [ref=e178]
+          - img [ref=e181]
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - generic [ref=e186]:
+            - heading "Keep in the loop with the GSAP® newsletter." [level=2] [ref=e187]:
+              - generic [ref=e188]: Keep in the loop with the GSAP® newsletter.
+            - generic [ref=e191]:
+              - textbox "Email Address" [ref=e192]
+              - button "Submit" [ref=e193] [cursor=pointer]:
+                - img [ref=e194]
+          - generic [ref=e197]:
+            - paragraph [ref=e198]
+            - navigation [ref=e201]:
+              - paragraph [ref=e202]
+              - paragraph [ref=e204]
+              - paragraph [ref=e206]
+              - paragraph [ref=e208]
+              - paragraph [ref=e210]
+          - generic [ref=e213]:
+            - paragraph [ref=e214]
+            - navigation [ref=e217]:
+              - paragraph [ref=e218]
+              - paragraph [ref=e220]
+              - paragraph [ref=e222]
+              - paragraph [ref=e224]
+              - paragraph [ref=e226]
+              - paragraph [ref=e228]
+              - paragraph [ref=e230]
+        - paragraph [ref=e233]
+  - alert [ref=e236]

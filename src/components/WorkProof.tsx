@@ -1,21 +1,25 @@
-const cards = ["01", "02", "03", "04", "05", "06", "07"];
+const pieces = [
+  { n: "01", kind: "Webapp", note: "Produkt · Next.js", img: "/work/carousel/01.png" },
+  { n: "02", kind: "Nettsted", note: "SEO · struktur", img: "/work/carousel/02.png" },
+  { n: "03", kind: "Identitet", note: "Profil · system", img: "/work/carousel/03.png" },
+  { n: "04", kind: "E-handel", note: "Konvertering", img: "/work/carousel/04.png" },
+  { n: "05", kind: "Kampanje", note: "Landing · måling", img: "/work/carousel/05.png" },
+  { n: "06", kind: "Redaksjonelt", note: "Innhold · flyt", img: "/work/carousel/06.png" },
+  { n: "07", kind: "App", note: "UI · interaksjon", img: "/work/carousel/07.png" },
+];
 
-/* 04 / Arbeid — MWG 008-architecture: a draggable, auto-scrolling, infinitely
-   looping carousel of work cards under the intro band. The track holds every
-   card twice; JS wraps its x over half the width for a seamless loop, adds a
-   gsap.ticker auto-scroll and an Observer that lets the user drag it (with a
-   small tilt/scale "wow" while pressed).
+/* 04 / Arbeid — "Stort proof". Mørkt galleri-rom (--ink-deep) der arbeidet
+   vises stort, ett verk om gangen, loddrett nedover — som et monografi, ikke en
+   karusell. Hvert stykke stiger inn og går fra gråtone til full farge når det
+   entrer (JS-only glød). Default (no-JS / PRM) er en enkel loddrett liste med
+   alt synlig i full farge — ingen bevegelse kreves for lesbarhet.
 
-   Default (no JS / PRM) is a plain horizontally scrollable strip — every card
-   is visible and reachable without JavaScript.
-
-   NB: kortene er MWG-demoens placeholders (kopiert på eksplisitt ordre fra
-   bruker) — byttes ut med Tigon-mockups m/ logo. */
+   Bildene er midlertidige carousel-assets til Tigon-mockups m/ logo finnes. */
 export function WorkProof() {
   return (
     <section className="work-proof" aria-labelledby="work-proof-title">
       <div className="work-proof__intro">
-        <p className="work-proof__label">04 / Arbeid</p>
+        <p className="work-proof__label">Arbeid</p>
 
         <h2 className="work-proof__title" id="work-proof-title">
           <span className="work-proof__word work-proof__word--dim">Visuelt</span>{" "}
@@ -38,21 +42,19 @@ export function WorkProof() {
         </div>
       </div>
 
-      <div className="work-proof__carousel" data-work-carousel>
-        <div className="work-proof__track" data-work-track>
-          {cards.map((number) => (
-            <div className="work-proof__card" key={number}>
-              <img src={`/work/carousel/${number}.png`} alt="" loading="lazy" />
+      <div className="work-proof__gallery" data-work-gallery>
+        {pieces.map((piece) => (
+          <figure className="work-proof__piece" data-work-piece key={piece.n}>
+            <figcaption className="work-proof__piece-head">
+              <span className="work-proof__piece-index">Arbeid / {piece.n}</span>
+              <span className="work-proof__piece-kind">{piece.kind}</span>
+              <span className="work-proof__piece-note">{piece.note}</span>
+            </figcaption>
+            <div className="work-proof__frame">
+              <img src={piece.img} alt="" loading="lazy" />
             </div>
-          ))}
-
-          {/* Duplicate for the infinite loop */}
-          {cards.map((number) => (
-            <div className="work-proof__card" key={`dup-${number}`} aria-hidden="true">
-              <img src={`/work/carousel/${number}.png`} alt="" loading="lazy" />
-            </div>
-          ))}
-        </div>
+          </figure>
+        ))}
       </div>
     </section>
   );

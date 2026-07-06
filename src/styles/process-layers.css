@@ -1,96 +1,31 @@
-/* 05 / Prosess — MWG 073-oversatt horisontal produksjonslinje. Fire
-   fullskjerms-kapitler på en horisontal rail; kjempenumeraler hengsler inn
-   fra toppen og ut langs høyrekanten mens railen dras sideveis av scrubben.
+/* 05 / Prosess — "Prosjektreisen". Monumental tittel + tre steg-rader stablet
+   loddrett (STEG · 0X + tekst venstre, stort media-panel høyre, hårstrek mellom).
+   Lyst rom — bevisst kontrast mot mørke 04 over. Ren vertikal scroll: samme
+   layout på desktop og mobil, ingen pin. */
 
-   Default (no JS, mobil, PRM) er en vertikal, banded liste — alt innhold
-   synlig og skarpt. JS legger på .process-layers--stage på desktop; først da
-   finnes pin-høyde, rail og hengsel-geometri. */
-
-.process-layers {
+.process-journey {
+  --pj-line: rgba(16, 16, 15, 0.14);
   position: relative;
+  /* Lyst rom, varm nøytral — bryter mot den mørke 04 rett over. */
+  background: var(--bone);
+  color: var(--blekk);
+  border-top: 1px solid var(--pj-line);
 }
 
-.process-layers__pin,
-.process-layers__rail {
-  position: relative;
+.process-journey__inner {
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
+  padding: var(--section-pad-y) var(--gutter);
 }
 
-/* Tone per panel — MWG 073 sin fargeblokk-rytme oversatt til monokrom:
-   stein → koks → stein → nær-svart. Panel 01 fortsetter steinen fra 04;
-   panel 04 leverer mørkt inn mot 06. */
+/* --- Tittel-hode -------------------------------------------------------- */
 
-.process-layers__panel {
-  --pl-bg: #e9e8e4;
-  --pl-ink: #141511;
-  --pl-ink-soft: var(--on-light-medium);
-  --pl-muted: var(--on-light-quiet);
-  --pl-line: rgba(16, 16, 15, 0.18);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: clamp(72px, 11vh, 140px) var(--gutter);
-  background: var(--pl-bg);
-  color: var(--pl-ink);
+.process-journey__head {
+  margin-bottom: clamp(40px, 6vh, 88px);
 }
 
-.process-layers__panel--dark {
-  --pl-bg: var(--ink-base);
-  --pl-ink: var(--color-on-dark);
-  --pl-ink-soft: var(--on-dark-medium);
-  --pl-muted: var(--on-dark-quiet);
-  --pl-line: rgba(242, 241, 235, 0.18);
-}
-
-.process-layers__panel--stone2 {
-  --pl-bg: #e2e1dc;
-}
-
-.process-layers__panel--deep {
-  --pl-bg: var(--ink-deep);
-  --pl-ink: var(--color-on-dark);
-  --pl-ink-soft: var(--on-dark-medium);
-  --pl-muted: var(--on-dark-quiet);
-  --pl-line: rgba(242, 241, 235, 0.18);
-}
-
-/* Default / list mode — numeral først, lead (panel 01), så body */
-
-.process-layers__index {
-  order: -1;
-  margin: 0 0 clamp(20px, 3vh, 36px);
-  color: var(--pl-ink);
-  font-family: var(--font-display);
-  font-size: clamp(72px, 13vw, 150px);
-  font-weight: 700;
-  line-height: 0.9;
-}
-
-.process-layers__lead {
-  margin-bottom: clamp(40px, 6vh, 72px);
-}
-
-.process-layers__title {
-  color: var(--pl-ink);
-  font-family: var(--font-display);
-  /* Tier 3 — kapittel-mid, på linje med 04 (~112) */
-  font-size: clamp(40px, 5.6vw, 112px);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 0.95;
-  text-transform: uppercase;
-}
-
-.process-layers__title span {
-  display: block;
-  color: var(--pl-muted);
-}
-
-.process-layers__lead-note {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: clamp(18px, 3vh, 30px);
-  color: var(--pl-muted);
+.process-journey__eyebrow {
+  color: var(--on-light-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
   letter-spacing: 0.08em;
@@ -98,253 +33,197 @@
   text-transform: uppercase;
 }
 
-.process-layers__lead-mark {
-  display: inline-block;
+.process-journey__title {
+  margin-top: clamp(20px, 3vh, 36px);
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.9;
+  /* Monumental — kapittel-stor mot de store proof-flatene i 04. */
+  font-size: clamp(56px, 11vw, 200px);
+}
+
+.process-journey__line1 {
+  display: block;
+  color: var(--blekk);
+}
+
+.process-journey__line2 {
+  display: block;
+  color: var(--on-light-faint);
+}
+
+.process-journey__note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(20px, 3vh, 30px);
+  color: var(--on-light-quiet);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.process-journey__note-mark {
   width: 0;
   height: 0;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  /* Pine mikro-aksent på produksjonslinjens start-markør */
   border-left: 8px solid var(--pine);
 }
 
-.process-layers__label {
-  color: var(--pl-muted);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.06em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
+/* --- Steg-rader --------------------------------------------------------- */
 
-.process-layers__phase {
-  margin-top: clamp(16px, 2.4vh, 28px);
-  color: var(--pl-ink);
-  font-family: var(--font-display);
-  font-size: clamp(32px, 3vw, 54px);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-/* Punchy oppsummeringslinje per steg — gjeninnført fra prosesskontrakten.
-   Dette er det menneskelige ankeret i kortet; body-en under er detaljen. */
-.process-layers__statement {
-  max-width: 22ch;
-  margin-top: clamp(22px, 3.4vh, 40px);
-  color: var(--pl-ink);
-  font-family: var(--font-sans);
-  font-size: clamp(21px, 1.9vw, 32px);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.16;
-}
-
-.process-layers__text {
-  max-width: 36ch;
-  margin-top: clamp(16px, 2.4vh, 24px);
-  color: var(--pl-ink-soft);
-  font-family: var(--font-sans);
-  font-size: clamp(16px, 1.15vw, 20px);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.5;
-}
-
-.process-layers__output {
-  margin-top: clamp(24px, 3.6vh, 40px);
-  color: var(--pl-muted);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-/* ---------------------------------------------------------------------------
-   Stage mode — JS-enhanced desktop. MWG 073-geometri: 500vh runway,
-   pinned 100vh rail med width:max-content, 100vw-paneler. */
-
-.process-layers--stage .process-layers__pin {
-  height: 500vh;
-  overflow: hidden;
-}
-
-.process-layers--stage .process-layers__rail {
-  display: flex;
-  height: 100vh;
-  width: max-content;
-}
-
-.process-layers--stage .process-layers__panel {
-  flex-direction: row;
-  width: 100vw;
-  height: 100%;
+.process-journey__steps {
+  list-style: none;
+  margin: 0;
   padding: 0;
 }
 
-/* Målelinjen — én kontinuerlig horisontal hairline over hele stripen
-   (per panel, tonet per flate). Starter ved midten på panel 01 slik at
-   leaden står fritt, akkurat som referansen. */
-
-.process-layers--stage .process-layers__panel::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 0;
-  left: 0;
-  height: 1px;
-  background: var(--pl-line);
-  z-index: 1;
+.process-journey__row {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(20px, 3.5vw, 64px);
+  align-items: start;
+  padding: clamp(40px, 6vh, 80px) 0;
+  border-top: 1px solid var(--pj-line);
 }
 
-.process-layers--stage .process-layers__panel:first-child::before {
-  left: 50%;
+.process-journey__step {
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--on-light-quiet);
+  /* Flukter med overskriftens optiske topp. */
+  padding-top: 6px;
 }
 
-.process-layers--stage .process-layers__lead {
-  position: relative;
-  width: 50%;
+.process-journey__text {
+  max-width: 44ch;
+}
+
+.process-journey__heading {
   margin: 0;
-  padding: calc(var(--header-height) + clamp(20px, 4vh, 44px)) 40px 0 var(--gutter);
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--blekk);
+  font-size: clamp(28px, 2.6vw, 46px);
 }
 
-.process-layers--stage .process-layers__title {
-  max-width: 560px;
-  /* Tier 3 også i stage — men holdt under lead-kolonnens midtlinje */
-  font-size: clamp(40px, 4.3vw, 96px);
+.process-journey__body {
+  margin-top: clamp(16px, 2vh, 24px);
+  max-width: 42ch;
+  font-family: var(--font-sans);
+  font-size: var(--fz-lead-m);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--on-light-medium);
 }
 
-/* Noten sitter PÅ målelinjen, som referansens venstre-label */
-
-.process-layers--stage .process-layers__lead-note {
-  position: absolute;
-  top: 50%;
-  left: var(--gutter);
-  margin: 0;
-  transform: translateY(-50%);
+.process-journey__out {
+  display: inline-block;
+  margin-top: clamp(22px, 3vh, 34px);
+  padding-bottom: 5px;
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--on-light-quiet);
+  border-bottom: 1px solid var(--pj-line);
 }
 
-.process-layers--stage .process-layers__body {
+/* Media-panel — skarp editoriell ramme (radius 0 + hårstrek), bildet er helten. */
+.process-journey__media {
   position: relative;
-  width: 50%;
-  margin-left: auto;
-  /* Bredere copy-kolonne (mindre høyre-padding) + mer topp-luft — mindre
-     klemt, mer pust rundt steg-teksten. */
-  padding: calc(var(--header-height) + clamp(28px, 6vh, 72px)) 10vw 0 0;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--stein);
+  box-shadow: inset 0 0 0 1px rgba(16, 16, 15, 0.1);
 }
 
-/* Registermerket — kvadratet som sitter på linjen ved kolonnestart */
+.process-journey__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-.process-layers--stage .process-layers__body::after {
-  content: "";
+.process-journey__media-tag {
   position: absolute;
-  top: calc(50% - 5px);
-  left: 0;
-  width: 11px;
-  height: 11px;
-  background: var(--pl-ink);
-  z-index: 2;
+  top: clamp(16px, 2vw, 24px);
+  left: clamp(16px, 2vw, 26px);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 
-/* Kjempenumeralet — MWG 073 sin hengsel-geometri, verbatim: bunnlinjen
-   senkes 2.3vw under panelkanten og rotasjonspivoten ligger 2.3vw over
-   boksens topp. GSAP roterer ±90° rundt akkurat dette punktet.
-   mix-blend-mode: difference gir automatisk kontrast når numeralet
-   krysser stein- og koks-flater under transitten. */
+/* --- Avslutning (outro → kontakt) --------------------------------------- */
 
-.process-layers--stage .process-layers__index {
-  --pl-sink: 2.3vw;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 4;
-  order: 0;
-  width: max-content;
-  margin: 0 0 calc(-1 * var(--pl-sink));
-  padding: 0 0 0 32px;
-  color: #f2f1eb;
-  font-size: 17vw;
-  line-height: 1.3;
-  mix-blend-mode: difference;
-  transform-origin: 0 calc(-1 * var(--pl-sink));
-  will-change: transform;
+.process-journey__closer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(18px, 2.4vh, 28px);
+  padding-top: clamp(44px, 6vh, 80px);
+  border-top: 1px solid var(--pj-line);
 }
 
-/* ---------------------------------------------------------------------------
-   Mobil — banded vertikal liste, tettere skala */
+.process-journey__closer-title {
+  max-width: 20ch;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(24px, 2.7vw, 42px);
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  color: var(--blekk);
+}
+
+.process-journey__closer-cta {
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-l);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blekk);
+  text-decoration: none;
+  border-bottom: 1px solid var(--blekk);
+  padding-bottom: 5px;
+  transition: color var(--motion-fast) ease-out, border-color var(--motion-fast) ease-out;
+}
+
+.process-journey__closer-cta:hover {
+  color: var(--pine);
+  border-color: var(--pine);
+}
+
+/* --- Mobil -------------------------------------------------------------- */
 
 @media (max-width: 768px) {
-  .process-layers__panel {
-    padding: 88px 20px;
+  .process-journey__title {
+    font-size: clamp(46px, 15vw, 84px);
   }
 
-  .process-layers__index {
-    font-size: clamp(64px, 22vw, 110px);
+  .process-journey__row {
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 3vw, 24px);
+    padding: clamp(36px, 6vh, 56px) 0;
   }
 
-  .process-layers__title {
-    font-size: clamp(36px, 11vw, 56px);
+  .process-journey__step {
+    padding-top: 0;
   }
 
-  .process-layers__statement {
-    margin-top: 20px;
-    font-size: 20px;
-  }
-
-  .process-layers__text {
-    font-size: 16px;
-    line-height: 1.5;
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   Stage på mobil — MWG 073 kjører også på touch (referansen gjør det samme):
-   samme rail, pin og hengsel; innholdet rykker inn 22 % som i referansens
-   25 %-indent, leaden flytter til nedre halvdel av panel 01, numeralene
-   skaleres opp til 30vw med proporsjonal sink (2.3/17 ≈ 4/30). */
-
-@media (max-width: 768px) {
-  .process-layers--stage .process-layers__panel::before,
-  .process-layers--stage .process-layers__panel:first-child::before {
-    left: 0;
-  }
-
-  .process-layers--stage .process-layers__lead {
-    position: absolute;
-    top: calc(50% + 26px);
-    right: 16px;
-    left: 16px;
-    width: auto;
-    padding: 0;
-  }
-
-  .process-layers--stage .process-layers__lead-note {
-    display: none;
-  }
-
-  .process-layers--stage .process-layers__title {
-    max-width: none;
-    font-size: clamp(30px, 9.6vw, 44px);
-  }
-
-  .process-layers--stage .process-layers__body {
-    width: 100%;
-    padding: calc(var(--header-height) + 14px) 16px 0 22%;
-  }
-
-  .process-layers--stage .process-layers__body::after {
-    left: 22%;
-  }
-
-  .process-layers--stage .process-layers__phase {
-    font-size: 26px;
-  }
-
-  .process-layers--stage .process-layers__index {
-    --pl-sink: 4vw;
-    padding-left: 16px;
-    font-size: 30vw;
+  .process-journey__media {
+    margin-top: 4px;
+    aspect-ratio: 3 / 2;
   }
 }

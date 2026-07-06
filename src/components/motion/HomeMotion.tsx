@@ -4,10 +4,9 @@ import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { Observer } from "gsap/Observer";
 import { destroyLenis, initLenis } from "@/lib/motion";
 
-gsap.registerPlugin(ScrollTrigger, SplitText, Observer);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
@@ -163,56 +162,41 @@ function bridgeScene(pin: boolean) {
   return () => ctx.revert();
 }
 
-// 03 / Effekt — "måletråd". Left rail is a sticky index of the four outcomes;
-// a vertical thread fills (scaleY 0→1) as the outcome stream scrolls past, and
-// the active outcome — the one crossing the viewport's middle — lights up in
-// both the rail and its giant ghost numeral. Outcome blocks also rise in once.
-// Colours/fill are JS-only, so no-JS / reduced motion keep the static, readable
-// two-column document.
+// 03 / Effekt — stacking outcome cards. The right column's four cards stack via
+// CSS position:sticky (pure layout, works with no JS). This only tracks which
+// card is currently at the front and lights its index entry + un-greys its
+// image. No-JS / reduced motion keep the static two-column document (cards still
+// stack — that's CSS, not motion).
 function improveScene() {
   const section = document.querySelector<HTMLElement>(".what-improve");
   if (!section) return () => {};
 
-  const root = section.querySelector<HTMLElement>("[data-improve-root]");
-  const fill = section.querySelector<HTMLElement>("[data-improve-progress]");
   const blocks = gsap.utils.toArray<HTMLElement>("[data-improve-block]", section);
   const dots = gsap.utils.toArray<HTMLElement>("[data-improve-dot]", section);
-  if (!root || !fill || !blocks.length) return () => {};
+  if (!blocks.length) return () => {};
 
   section.classList.add("what-improve--tracked");
 
-  const setActive = (index: number, on: boolean) => {
-    blocks[index]?.classList.toggle("is-active", on);
-    dots[index]?.classList.toggle("is-active", on);
+  // Only the front-most card is active at a time.
+  const setActive = (index: number) => {
+    blocks.forEach((block, i) => block.classList.toggle("is-active", i === index));
+    dots.forEach((dot, i) => dot.classList.toggle("is-active", i === index));
   };
+  setActive(0);
 
   const ctx = gsap.context(() => {
-    // The thread fills across the whole stream.
-    gsap.fromTo(
-      fill,
-      { scaleY: 0 },
-      {
-        scaleY: 1,
-        ease: "none",
-        scrollTrigger: { trigger: root, start: "top center", end: "bottom center", scrub: 0.4 },
-      }
-    );
-
-    // Reveal once, and mark active while the block crosses the middle band.
+    // A card becomes the front one exactly when its top reaches its own sticky
+    // offset (read from the resolved CSS `top`, so it tracks the clamp + resize).
+    // Scrolling up, when a card un-sticks the previous one is front again.
     blocks.forEach((block, index) => {
-      gsap.from(block, {
-        y: 28,
-        autoAlpha: 0,
-        duration: 0.6,
-        ease: "power3.out",
-        scrollTrigger: { trigger: block, start: "top 84%", once: true },
-      });
-
       ScrollTrigger.create({
         trigger: block,
-        start: "top 55%",
-        end: "bottom 55%",
-        onToggle: (self) => setActive(index, self.isActive),
+        start: () => "top top+=" + (parseFloat(getComputedStyle(block).top) + 2),
+        end: "max",
+        onToggle: (self) => {
+          if (self.isActive) setActive(index);
+          else if (index > 0) setActive(index - 1);
+        },
       });
     });
   }, section);
@@ -225,155 +209,142 @@ function improveScene() {
   };
 }
 
-// 04 / Arbeid — MWG 008-adapted draggable carousel. The track holds every
-// card twice; x is wrapped over half its width for a seamless infinite loop,
-// a gsap.ticker drives a slow auto-scroll and an Observer lets the user drag
-// it — with a small tilt/scale "wow" while pressed. No pin, no page-scroll
-// takeover. PRM / no-JS keep the plain scrollable strip.
-function workCarousel() {
+// 04 / Arbeid — "Stort proof". A vertical gallery of large stills. Each piece
+// rises in once as it enters, and its image glows from dimmed grayscale to full
+// colour (the .is-lit class flips the CSS filter). No pin, no auto-motion, no
+// drag — the whole beat is scroll-authored. PRM / no-JS keep the static,
+// full-colour vertical list.
+function workProof() {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
-  const carousel = section.querySelector<HTMLElement>("[data-work-carousel]");
-  const track = section.querySelector<HTMLElement>("[data-work-track]");
-  const cards = gsap.utils.toArray<HTMLElement>(".work-proof__card", section);
-  if (!carousel || !track || cards.length < 2) return () => {};
+  const pieces = gsap.utils.toArray<HTMLElement>("[data-work-piece]", section);
+  if (!pieces.length) return () => {};
 
-  section.classList.add("work-proof--drag");
-
-  const cardsLength = cards.length / 2;
-  const half = track.clientWidth / 2;
-  const wrap = gsap.utils.wrap(-half, 0);
-
-  let total = 0;
-  const xTo = gsap.quickTo(track, "x", {
-    duration: 0.5,
-    ease: "power3",
-    modifiers: { x: gsap.utils.unitize(wrap) },
-  });
-
-  // A precomputed random offset per card for the press "wow".
-  const itemValues: number[] = [];
-  for (let i = 0; i < cardsLength; i++) {
-    itemValues.push((Math.random() - 0.5) * 20);
-  }
-
-  const pressTl = gsap.timeline({ paused: true });
-  pressTl.to(cards, {
-    rotate: (index: number) => itemValues[index % cardsLength],
-    xPercent: (index: number) => itemValues[index % cardsLength],
-    yPercent: (index: number) => itemValues[index % cardsLength],
-    scale: 0.95,
-    duration: 0.5,
-    ease: "back.inOut(3)",
-  });
-
-  const observer = Observer.create({
-    target: carousel,
-    type: "pointer,touch",
-    onPress: () => pressTl.play(),
-    onDrag: (self) => {
-      total += self.deltaX;
-      xTo(total);
-    },
-    onRelease: () => pressTl.reverse(),
-    onStop: () => pressTl.reverse(),
-  });
-
-  const tick = (_time: number, deltaTime: number) => {
-    total -= deltaTime / 10;
-    xTo(total);
-  };
-  gsap.ticker.add(tick);
-
-  return () => {
-    gsap.ticker.remove(tick);
-    observer.kill();
-    pressTl.kill();
-    gsap.set(track, { clearProps: "x,transform" });
-    gsap.set(cards, { clearProps: "transform,rotate,scale" });
-    section.classList.remove("work-proof--drag");
-  };
-}
-
-// 05 / Prosess — MWG 073-adapted horizontal timeline. The 500vh pin-height
-// wrapper is the trigger; the rail is pinned and pulled left until exactly
-// one viewport remains (xPercent -100 + x innerWidth). Each giant index
-// numeral gets two scrubbed hinge tweens driven by containerAnimation:
-// it arrives from the top edge as its panel enters (left 100% → 0%) and
-// exits rotated -90° along the right edge as it leaves (left 0% → -100%).
-// Runs on both desktop and mobile (like the reference — the mobile layout
-// only re-indents the columns in CSS). PRM/no-JS never reach this call and
-// keep the static banded list.
-function processStage() {
-  const section = document.querySelector<HTMLElement>(".process-layers");
-  if (!section) return () => {};
-
-  // The stage class must exist before ScrollTrigger measures the runway.
-  section.classList.add("process-layers--stage");
-
-  const pinHeight = section.querySelector<HTMLElement>("[data-process-pin]");
-  const rail = section.querySelector<HTMLElement>("[data-process-rail]");
-  if (!pinHeight || !rail) {
-    section.classList.remove("process-layers--stage");
-    return () => {};
-  }
+  section.classList.add("work-proof--reveal");
 
   const ctx = gsap.context(() => {
-    const scrollTween = gsap.to(rail, {
-      xPercent: -100,
-      x: () => window.innerWidth,
-      ease: "none",
-      scrollTrigger: {
-        trigger: pinHeight,
-        start: "top top",
-        end: "bottom bottom",
-        pin: rail,
-        scrub: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    gsap.utils.toArray<HTMLElement>("[data-process-index]", section).forEach((title) => {
-      // Exit hinge: as the panel crosses the viewport's left edge the
-      // numeral swings -90° and lands along the right edge.
-      gsap.to(title, {
-        rotation: -90,
-        x: () => window.innerWidth - title.offsetHeight,
-        y: () => title.offsetHeight,
-        ease: "expo.inOut",
-        scrollTrigger: {
-          trigger: title.parentElement,
-          containerAnimation: scrollTween,
-          start: "left 0%",
-          end: "left -100%",
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
+    pieces.forEach((piece) => {
+      gsap.from(piece, {
+        y: 44,
+        autoAlpha: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: { trigger: piece, start: "top 82%", once: true },
       });
-      // Entrance hinge: mirrored — the numeral drops in from the top edge
-      // while its panel crosses the viewport from the right.
-      gsap.from(title, {
-        rotation: 90,
-        y: () => -window.innerHeight + title.offsetHeight,
-        x: () => title.offsetHeight,
-        ease: "expo.inOut",
-        scrollTrigger: {
-          trigger: title.parentElement,
-          containerAnimation: scrollTween,
-          start: "left 100%",
-          end: "left 0%",
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
+
+      // Grayscale → colour glow, slightly later than the rise so the piece has
+      // already landed when it lights.
+      ScrollTrigger.create({
+        trigger: piece,
+        start: "top 68%",
+        once: true,
+        onEnter: () => piece.classList.add("is-lit"),
       });
     });
   }, section);
 
   return () => {
     ctx.revert();
-    section.classList.remove("process-layers--stage");
+    pieces.forEach((piece) => piece.classList.remove("is-lit"));
+    section.classList.remove("work-proof--reveal");
+  };
+}
+
+// 05 / Prosess — "Prosjektreisen". Three step rows stacked vertically (STEG · 0X
+// + text left, large media right). A plain scroll-reveal: each row's text and
+// media rise once on enter, the media pushes in from a slight over-scale, and
+// the title decodes from noise. Same layout on desktop and mobile — no pin, so
+// nothing to break on a tall screen. PRM / no-JS keep the static, readable
+// section fully visible.
+function processJourney() {
+  const section = document.querySelector<HTMLElement>(".process-journey");
+  if (!section) return () => {};
+
+  const rows = gsap.utils.toArray<HTMLElement>("[data-journey-row]", section);
+
+  // Title decode ("Uklart inn." resolves from noise). Own rAF so it can be
+  // cancelled on teardown; text is restored to its final value.
+  const decode = section.querySelector<HTMLElement>("[data-process-decode]");
+  const line1 = decode?.querySelector<HTMLElement>(".process-journey__line1") ?? null;
+  const line1Final = line1?.textContent ?? "Uklart inn.";
+  const GLYPH = "ABCDEFGHIJKLMNOPQR#%&/()=+*0123456789";
+  const noise = (s: string) =>
+    s
+      .split("")
+      .map((c) => (c === " " || c === "." ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)]))
+      .join("");
+  let rafId = 0;
+  const scramble = (el: HTMLElement, finalText: string, durationMs: number) => {
+    let start = 0;
+    const chars = finalText.split("");
+    const frame = (now: number) => {
+      if (!start) start = now;
+      const p = Math.min(1, (now - start) / durationMs);
+      const locked = Math.floor(p * chars.length);
+      let out = "";
+      for (let i = 0; i < chars.length; i++) {
+        const c = chars[i];
+        out += c === " " || c === "." || i < locked ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)];
+      }
+      el.textContent = out;
+      if (p < 1) rafId = requestAnimationFrame(frame);
+      else el.textContent = finalText;
+    };
+    rafId = requestAnimationFrame(frame);
+  };
+
+  const ctx = gsap.context(() => {
+    rows.forEach((row) => {
+      const parts = row.querySelectorAll<HTMLElement>(
+        ".process-journey__step, .process-journey__heading, .process-journey__body, .process-journey__out"
+      );
+      gsap.from(parts, {
+        y: 26,
+        autoAlpha: 0,
+        duration: 0.7,
+        ease: "power3.out",
+        stagger: 0.06,
+        scrollTrigger: { trigger: row, start: "top 80%", once: true },
+      });
+
+      const media = row.querySelector<HTMLElement>("[data-journey-media]");
+      if (media) {
+        gsap.from(media, {
+          autoAlpha: 0,
+          y: 42,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: { trigger: row, start: "top 80%", once: true },
+        });
+        const img = media.querySelector<HTMLElement>("img");
+        if (img) {
+          gsap.from(img, {
+            scale: 1.12,
+            duration: 1.4,
+            ease: "power3.out",
+            scrollTrigger: { trigger: row, start: "top 80%", once: true },
+          });
+        }
+      }
+    });
+
+    // Title decode: prefill with noise, resolve on enter (once).
+    if (decode && line1) {
+      line1.textContent = noise(line1Final);
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 82%",
+        once: true,
+        onEnter: () => scramble(line1, line1Final, 900),
+      });
+    }
+  }, section);
+
+  return () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    ctx.revert();
+    if (line1) line1.textContent = line1Final;
   };
 }
 
@@ -507,8 +478,8 @@ export function HomeMotion() {
       serviceReveals();
       const teardownBridge = bridgeScene(true);
       const teardownImprove = improveScene();
-      const teardownWork = workCarousel();
-      const teardownProcess = processStage();
+      const teardownWork = workProof();
+      const teardownProcess = processJourney();
       manifestoReveal();
       footerReveals();
       return () => {
@@ -520,14 +491,19 @@ export function HomeMotion() {
       };
     });
 
+    // Mobile: no horizontal Prosess-pin. The rail's sideways scroll-jack is
+    // clumsy on a tall narrow screen, and the production-line beat is a
+    // horizontal device that leaves a dead gap when stretched vertically — so
+    // mobile falls back to the static vertical list (the same clean, readable
+    // mode as no-JS / reduced-motion). Everything else keeps its motion.
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownApproach = approachScene();
       serviceReveals();
       const teardownBridge = bridgeScene(false);
       const teardownImprove = improveScene();
-      const teardownWork = workCarousel();
-      const teardownProcess = processStage();
+      const teardownWork = workProof();
+      const teardownProcess = processJourney();
       manifestoReveal();
       footerReveals();
       return () => {

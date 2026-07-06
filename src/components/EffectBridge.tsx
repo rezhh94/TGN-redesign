@@ -13,7 +13,7 @@ export function EffectBridge() {
   return (
     <section className="effect-bridge" aria-labelledby="effect-bridge-title">
       <div className="effect-bridge__inner" data-bridge-inner>
-        <p className="effect-bridge__label">02 → 03 / Overlevering</p>
+        <p className="effect-bridge__label">Overlevering</p>
 
         <h2 className="effect-bridge__statement" id="effect-bridge-title">
           <span className="effect-bridge__line effect-bridge__line--muted">

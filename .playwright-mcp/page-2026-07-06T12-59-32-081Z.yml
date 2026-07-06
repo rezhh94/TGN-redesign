@@ -1,0 +1,475 @@
+- generic [active] [ref=f10e1]:
+  - banner [ref=f10e2]:
+    - generic [ref=f10e3]:
+      - link "Tigon Studio" [ref=f10e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f10e5]: T
+        - generic [ref=f10e6]: TIGON STUDIO
+      - navigation "Hovedmeny" [ref=f10e7]:
+        - link "Tjenester" [ref=f10e8] [cursor=pointer]:
+          - /url: /tjenester
+        - link "Arkiv" [ref=f10e9] [cursor=pointer]:
+          - /url: /arkiv
+        - link "Ressurser" [ref=f10e10] [cursor=pointer]:
+          - /url: /ressurser
+        - link "Steder" [ref=f10e11] [cursor=pointer]:
+          - /url: /steder
+        - link "Om oss" [ref=f10e12] [cursor=pointer]:
+          - /url: /om-oss
+      - link "Kontakt oss" [ref=f10e14] [cursor=pointer]:
+        - /url: /kontakt
+        - img [ref=f10e15]
+  - main [ref=f10e41]:
+    - region "TIGON STUDIO" [ref=f10e42]:
+      - generic [ref=f10e43]:
+        - generic [ref=f10e44]:
+          - heading "TIGON STUDIO" [level=1] [ref=f10e46]:
+            - generic [ref=f10e47]: TIGON
+            - generic [ref=f10e48]: STUDIO
+          - generic [ref=f10e49]:
+            - paragraph [ref=f10e50]: TGN—STUDIO / OSLO 59.91°N
+            - paragraph [ref=f10e51]: TILGJENGELIG FOR PROSJEKTER
+        - generic [ref=f10e53]:
+          - generic [ref=f10e54]:
+            - paragraph [ref=f10e55]: Nettsider og apper som blir funnet, forstått og valgt.
+            - navigation "Tjenester" [ref=f10e56]:
+              - link "Webutvikling" [ref=f10e57] [cursor=pointer]:
+                - /url: /tjenester/webutvikling-nextjs/oslo/oslo
+              - link "Apputvikling" [ref=f10e58] [cursor=pointer]:
+                - /url: /tjenester/app-utvikling/oslo/oslo
+              - link "SEO / AI-søk" [ref=f10e59] [cursor=pointer]:
+                - /url: /tjenester/seo-ai-sok/oslo/oslo
+              - link "Digitale systemer" [ref=f10e60] [cursor=pointer]:
+                - /url: /tjenester/ai-integrasjon/oslo/oslo
+          - generic [ref=f10e61]:
+            - link "Få prosjekt vurdert" [ref=f10e62] [cursor=pointer]:
+              - /url: /kontakt?ref=hero
+              - text: Få prosjekt vurdert
+            - generic [ref=f10e64]: Scope først. Ingen ferdig brief nødvendig.
+    - region "UKLART blir byggbart." [ref=f10e65]:
+      - generic [ref=f10e66]:
+        - generic [ref=f10e67]:
+          - paragraph [ref=f10e68]: Tilnærming
+          - heading "UKLART blir byggbart." [level=2] [ref=f10e69]:
+            - generic [ref=f10e70]: UKLART blir
+            - generic [ref=f10e71]: byggbart.
+        - paragraph [ref=f10e72]:
+          - text: "Før design, kode og animasjon kommer struktur:"
+          - text: hva som skal bygges, hvem det skal treffe,
+          - text: og hvordan resultatet skal måles.
+    - region "BYGGER" [ref=f10e73]:
+      - generic [ref=f10e75]:
+        - paragraph [ref=f10e76]: Tjenester
+        - generic [ref=f10e77]:
+          - heading "BYGGER" [level=2] [ref=f10e78]
+          - generic [ref=f10e79]:
+            - paragraph [ref=f10e80]: Digitale løsninger som blir funnet, forstått og brukt.
+            - paragraph [ref=f10e81]: Nettsider, apper og systemer med struktur, fart, søkbarhet og måling fra start.
+      - list "Tjenester" [ref=f10e82]:
+        - listitem [ref=f10e83]:
+          - generic [ref=f10e84]:
+            - heading "Nettsider" [level=3] [ref=f10e85]
+            - generic [ref=f10e86]: NEXT.JS / SEO / CWV
+          - generic [ref=f10e89]:
+            - generic [ref=f10e90]:
+              - paragraph [ref=f10e91]: Raske nettsider med tydelig struktur, teknisk SEO og måling fra start.
+              - generic [ref=f10e92]:
+                - paragraph [ref=f10e93]: Kategorier
+                - list [ref=f10e94]:
+                  - listitem [ref=f10e95]: Teknisk SEO
+                  - listitem [ref=f10e96]: Core Web Vitals
+                  - listitem [ref=f10e97]: Struktur
+                  - listitem [ref=f10e98]: Måling
+                  - listitem [ref=f10e99]: Konvertering
+                  - listitem [ref=f10e100]: Next.js
+              - link "Les mer" [ref=f10e101] [cursor=pointer]:
+                - /url: /tjenester/webutvikling-nextjs
+                - text: Les mer
+            - figure [ref=f10e103]:
+              - generic [ref=f10e105]: Sett inn bilde
+        - listitem [ref=f10e106]:
+          - generic [ref=f10e107]:
+            - heading "Webapper" [level=3] [ref=f10e108]
+            - generic [ref=f10e109]: PORTALER / DASHBOARDS
+          - generic [ref=f10e112]:
+            - generic [ref=f10e113]:
+              - paragraph [ref=f10e114]: Portaler, dashboards og digitale verktøy bygget for reell arbeidsflyt.
+              - generic [ref=f10e115]:
+                - paragraph [ref=f10e116]: Kategorier
+                - list [ref=f10e117]:
+                  - listitem [ref=f10e118]: Innlogging
+                  - listitem [ref=f10e119]: Roller
+                  - listitem [ref=f10e120]: Integrasjoner
+                  - listitem [ref=f10e121]: Datamodell
+                  - listitem [ref=f10e122]: Drift
+              - link "Les mer" [ref=f10e123] [cursor=pointer]:
+                - /url: /tjenester
+                - text: Les mer
+            - figure [ref=f10e125]:
+              - generic [ref=f10e127]: Sett inn bilde
+        - listitem [ref=f10e128]:
+          - generic [ref=f10e129]:
+            - heading "Apper" [level=3] [ref=f10e130]
+            - generic [ref=f10e131]: MOBIL / WEB
+          - generic [ref=f10e134]:
+            - generic [ref=f10e135]:
+              - paragraph [ref=f10e136]: App-løsninger for mobil og web når produktet må være mer enn en nettside.
+              - generic [ref=f10e137]:
+                - paragraph [ref=f10e138]: Kategorier
+                - list [ref=f10e139]:
+                  - listitem [ref=f10e140]: Mobil
+                  - listitem [ref=f10e141]: Web
+                  - listitem [ref=f10e142]: Push
+                  - listitem [ref=f10e143]: Innlogging
+                  - listitem [ref=f10e144]: Publisering
+              - link "Les mer" [ref=f10e145] [cursor=pointer]:
+                - /url: /tjenester/app-utvikling
+                - text: Les mer
+            - figure [ref=f10e147]:
+              - generic [ref=f10e149]: Sett inn bilde
+        - listitem [ref=f10e150]:
+          - generic [ref=f10e151]:
+            - heading "AI-systemer" [level=3] [ref=f10e152]
+            - generic [ref=f10e153]: AUTOMASJON / SØK / DATA
+          - generic [ref=f10e156]:
+            - generic [ref=f10e157]:
+              - paragraph [ref=f10e158]: Automatisering, søk, assistenter og interne workflows koblet til ekte data.
+              - generic [ref=f10e159]:
+                - paragraph [ref=f10e160]: Kategorier
+                - list [ref=f10e161]:
+                  - listitem [ref=f10e162]: Automasjon
+                  - listitem [ref=f10e163]: Søk
+                  - listitem [ref=f10e164]: Assistenter
+                  - listitem [ref=f10e165]: Interne verktøy
+                  - listitem [ref=f10e166]: Ekte data
+              - link "Les mer" [ref=f10e167] [cursor=pointer]:
+                - /url: /tjenester/ai-implementering
+                - text: Les mer
+            - figure [ref=f10e169]:
+              - generic [ref=f10e171]: Sett inn bilde
+        - listitem [ref=f10e172]:
+          - generic [ref=f10e173]:
+            - heading "SEO & AI-søk" [level=3] [ref=f10e174]
+            - generic [ref=f10e175]: INNHOLD / STRUKTUR
+          - generic [ref=f10e178]:
+            - generic [ref=f10e179]:
+              - paragraph [ref=f10e180]: Innhold og struktur som gjør løsningen lettere å finne, forstå og velge.
+              - generic [ref=f10e181]:
+                - paragraph [ref=f10e182]: Kategorier
+                - list [ref=f10e183]:
+                  - listitem [ref=f10e184]: Teknisk SEO
+                  - listitem [ref=f10e185]: Innholdsstruktur
+                  - listitem [ref=f10e186]: AI-synlighet
+                  - listitem [ref=f10e187]: Lokal synlighet
+                  - listitem [ref=f10e188]: Måling
+              - link "Les mer" [ref=f10e189] [cursor=pointer]:
+                - /url: /tjenester
+                - text: Les mer
+            - figure [ref=f10e191]:
+              - generic [ref=f10e193]: Sett inn bilde
+      - generic [ref=f10e194]:
+        - navigation "Flere tjenester" [ref=f10e195]:
+          - paragraph [ref=f10e196]: Flere tjenester
+          - list [ref=f10e197]:
+            - listitem [ref=f10e198]: UX/UI-design
+            - listitem [ref=f10e199]:
+              - link "E-handel" [ref=f10e200] [cursor=pointer]:
+                - /url: /tjenester/e-handel-losninger
+            - listitem [ref=f10e201]: Branding & identitet
+            - listitem [ref=f10e202]: Headless CMS
+            - listitem [ref=f10e203]:
+              - link "Digital infrastruktur" [ref=f10e204] [cursor=pointer]:
+                - /url: /tjenester/digital-infrastruktur
+            - listitem [ref=f10e205]: Vedlikehold & sikkerhet
+          - link "Alle tjenester" [ref=f10e206] [cursor=pointer]:
+            - /url: /tjenester
+            - text: Alle tjenester
+        - generic [ref=f10e208]:
+          - paragraph [ref=f10e209]: 05 tjenester — én produksjon
+          - paragraph [ref=f10e210]: "Alt bygges på samme grunnmur: struktur, fart, søkbarhet og måling."
+          - link "Se hvordan vi produserer" [ref=f10e211] [cursor=pointer]:
+            - /url: "#prosess"
+            - text: Se hvordan vi produserer
+    - region "Ferdig bygget er ikke ferdig." [ref=f10e213]:
+      - generic [ref=f10e214]:
+        - paragraph [ref=f10e215]: Overlevering
+        - heading "Ferdig bygget er ikke ferdig." [level=2] [ref=f10e216]:
+          - generic [ref=f10e217]: Ferdig bygget
+          - generic [ref=f10e218]: er ikke ferdig.
+        - paragraph [ref=f10e219]: Etter lansering begynner målingen.
+    - region "Alt vi bygger, bygges for å bli funnet, forstått, valgt og målt." [ref=f10e220]:
+      - generic [ref=f10e222]:
+        - complementary [ref=f10e223]:
+          - paragraph [ref=f10e224]: Effekt
+          - heading "Alt vi bygger, bygges for å bli funnet, forstått, valgt og målt." [level=2] [ref=f10e225]
+          - paragraph [ref=f10e226]: Fire målepunkter under hver flate — fra du blir funnet i søk til hver kontakt kan spores.
+          - generic [ref=f10e227]:
+            - paragraph [ref=f10e228]:
+              - generic [ref=f10e229]:
+                - text: "01"
+                - generic [ref=f10e230]: / 04
+              - generic [ref=f10e231]: Teknisk SEO · Sitemap · Schema · AI-lesbar struktur
+            - paragraph [ref=f10e232]:
+              - generic [ref=f10e233]:
+                - text: "02"
+                - generic [ref=f10e234]: / 04
+              - generic [ref=f10e235]: Posisjonering · Budskapshierarki · Innhold
+            - paragraph [ref=f10e236]:
+              - generic [ref=f10e237]:
+                - text: "03"
+                - generic [ref=f10e238]: / 04
+              - generic [ref=f10e239]: CTA-er · Kontaktflyt · Skjema
+            - paragraph [ref=f10e240]:
+              - generic [ref=f10e241]:
+                - text: "04"
+                - generic [ref=f10e242]: / 04
+              - generic [ref=f10e243]: Hendelser · Skjema · Telefon · E-post
+        - generic [ref=f10e244]:
+          - article [ref=f10e245]:
+            - generic [ref=f10e246]:
+              - paragraph [ref=f10e247]: "01"
+              - heading "Funnet" [level=3] [ref=f10e248]
+            - generic [ref=f10e249]:
+              - paragraph [ref=f10e250]: Struktur og innhold som gjør siden lettere å finne i Google og AI-søk.
+              - paragraph [ref=f10e251]: Målepunkt — synlighet / søk + AI-søk
+            - figure [ref=f10e252]
+          - article [ref=f10e253]:
+            - generic [ref=f10e254]:
+              - paragraph [ref=f10e255]: "02"
+              - heading "Forstått" [level=3] [ref=f10e256]
+            - generic [ref=f10e257]:
+              - paragraph [ref=f10e258]: Tydelig posisjonering, budskap og innhold som gjør tilbudet enklere å forstå.
+              - paragraph [ref=f10e259]: Målepunkt — klarhet / budskap
+            - figure [ref=f10e260]
+          - article [ref=f10e261]:
+            - generic [ref=f10e262]:
+              - paragraph [ref=f10e263]: "03"
+              - heading "Valgt" [level=3] [ref=f10e264]
+            - generic [ref=f10e265]:
+              - paragraph [ref=f10e266]: CTA-er, flyt og kontaktpunkter som gjør neste steg tydelig.
+              - paragraph [ref=f10e267]: Målepunkt — konvertering / neste steg
+            - figure [ref=f10e268]
+          - article [ref=f10e269]:
+            - generic [ref=f10e270]:
+              - paragraph [ref=f10e271]: "04"
+              - heading "Målt" [level=3] [ref=f10e272]
+            - generic [ref=f10e273]:
+              - paragraph [ref=f10e274]: Skjema, telefon, e-post og hendelser som kan spores fra start.
+              - paragraph [ref=f10e275]: Målepunkt — sporing / hendelser
+            - figure [ref=f10e276]
+    - region "Visuelt sterkt. Teknisk riktig." [ref=f10e277]:
+      - generic [ref=f10e278]:
+        - paragraph [ref=f10e279]: Arbeid
+        - heading "Visuelt sterkt. Teknisk riktig." [level=2] [ref=f10e280]:
+          - generic [ref=f10e281]: Visuelt
+          - generic [ref=f10e282]: sterkt.
+          - generic [ref=f10e283]: Teknisk
+          - generic [ref=f10e284]: riktig.
+        - paragraph [ref=f10e285]: En digital flate skal ikke bare se bra ut. Den må være rask, forståelig og bygget for å bli valgt.
+        - generic [ref=f10e286]:
+          - paragraph [ref=f10e287]: Standarden under alt vi leverer —
+          - paragraph [ref=f10e288]: Webutvikling — Next.js / SEO / Måling / Struktur
+          - link "Se arkivet" [ref=f10e289] [cursor=pointer]:
+            - /url: /arkiv
+          - paragraph [ref=f10e290]: TGN — proof / ingen navn, bare nivå
+      - generic [ref=f10e291]:
+        - figure "Arbeid / 01 Webapp Produkt · Next.js" [ref=f10e292]:
+          - generic [ref=f10e293]:
+            - generic [ref=f10e294]: Arbeid / 01
+            - generic [ref=f10e295]: Webapp
+            - generic [ref=f10e296]: Produkt · Next.js
+        - figure "Arbeid / 02 Nettsted SEO · struktur" [ref=f10e298]:
+          - generic [ref=f10e299]:
+            - generic [ref=f10e300]: Arbeid / 02
+            - generic [ref=f10e301]: Nettsted
+            - generic [ref=f10e302]: SEO · struktur
+        - figure "Arbeid / 03 Identitet Profil · system" [ref=f10e304]:
+          - generic [ref=f10e305]:
+            - generic [ref=f10e306]: Arbeid / 03
+            - generic [ref=f10e307]: Identitet
+            - generic [ref=f10e308]: Profil · system
+        - figure "Arbeid / 04 E-handel Konvertering" [ref=f10e310]:
+          - generic [ref=f10e311]:
+            - generic [ref=f10e312]: Arbeid / 04
+            - generic [ref=f10e313]: E-handel
+            - generic [ref=f10e314]: Konvertering
+        - figure "Arbeid / 05 Kampanje Landing · måling" [ref=f10e316]:
+          - generic [ref=f10e317]:
+            - generic [ref=f10e318]: Arbeid / 05
+            - generic [ref=f10e319]: Kampanje
+            - generic [ref=f10e320]: Landing · måling
+        - figure "Arbeid / 06 Redaksjonelt Innhold · flyt" [ref=f10e322]:
+          - generic [ref=f10e323]:
+            - generic [ref=f10e324]: Arbeid / 06
+            - generic [ref=f10e325]: Redaksjonelt
+            - generic [ref=f10e326]: Innhold · flyt
+        - figure "Arbeid / 07 App UI · interaksjon" [ref=f10e328]:
+          - generic [ref=f10e329]:
+            - generic [ref=f10e330]: Arbeid / 07
+            - generic [ref=f10e331]: App
+            - generic [ref=f10e332]: UI · interaksjon
+    - region "Uklart inn. System ut." [ref=f10e334]:
+      - generic [ref=f10e335]:
+        - generic [ref=f10e336]:
+          - paragraph [ref=f10e337]: Prosess
+          - heading "Uklart inn. System ut." [level=2] [ref=f10e338]:
+            - generic [ref=f10e339]: Uklart inn.
+            - generic [ref=f10e340]: System ut.
+          - paragraph [ref=f10e341]: Tre steg — én produksjonslinje
+        - list [ref=f10e343]:
+          - listitem [ref=f10e344]:
+            - paragraph [ref=f10e345]: Steg · 01
+            - generic [ref=f10e346]:
+              - heading "Vi finner retningen" [level=3] [ref=f10e347]
+              - paragraph [ref=f10e348]: Behovet presses ned til scope. Vi avklarer hva som faktisk skal bygges, hvorfor det trengs og hva som må velges bort — så innholdet får en teknisk rekkefølge før uttrykket låses.
+              - paragraph [ref=f10e349]: Ut — Definert retning →
+            - figure "Prosess / Scope · 01" [ref=f10e350]:
+              - generic [ref=f10e351]: Prosess / Scope · 01
+          - listitem [ref=f10e352]:
+            - paragraph [ref=f10e353]: Steg · 02
+            - generic [ref=f10e354]:
+              - heading "Vi bygger løsningen" [level=3] [ref=f10e355]
+              - paragraph [ref=f10e356]: Design og kode bygges som ett materiale. UI, komponenter, ytelse og integrasjoner utvikles sammen, med rask feedback og ryddig prioritering.
+              - paragraph [ref=f10e357]: Ut — Levende løsning →
+            - figure "Prosess / Bygg · 02" [ref=f10e358]:
+              - generic [ref=f10e359]: Prosess / Bygg · 02
+          - listitem [ref=f10e360]:
+            - paragraph [ref=f10e361]: Steg · 03
+            - generic [ref=f10e362]:
+              - heading "Vi sender det ut i verden" [level=3] [ref=f10e363]
+              - paragraph [ref=f10e364]: Siden går live med måling fra dag én. Publisering, teknisk sjekk, skjema, telefon og hendelser kobles til én tydelig neste beslutning.
+              - paragraph [ref=f10e365]: Ut — Målbar kontaktvei →
+            - figure "Prosess / Live · 03" [ref=f10e366]:
+              - generic [ref=f10e367]: Prosess / Live · 03
+        - generic [ref=f10e368]:
+          - paragraph [ref=f10e369]: Fra et uklart behov til et målbart system.
+          - link "Start et prosjekt →" [ref=f10e370] [cursor=pointer]:
+            - /url: /kontakt?ref=prosess
+    - region "Design kan lånes. System må bygges." [ref=f10e371]:
+      - generic [ref=f10e372]:
+        - paragraph [ref=f10e373]: System
+        - heading "Design kan lånes. System må bygges." [level=2] [ref=f10e374]:
+          - generic [ref=f10e376]: Design kan lånes.
+          - generic [ref=f10e378]: System må bygges.
+        - paragraph [ref=f10e379]: Struktur, innhold, fart og måling henger sammen i alt vi leverer. Det er systemet under overflaten som gjør at en løsning blir funnet — og tåler å endres.
+        - generic [ref=f10e380]: T
+        - generic [ref=f10e381]: G
+        - generic [ref=f10e382]: "N"
+        - generic [ref=f10e383]: SYS—06
+    - region "SEND OSS NOE UKLART." [ref=f10e384]:
+      - generic [ref=f10e385]:
+        - generic [ref=f10e386]:
+          - paragraph [ref=f10e387]: Kontakt
+          - generic [ref=f10e388]:
+            - heading "SEND OSS NOE UKLART." [level=2] [ref=f10e389]:
+              - generic [ref=f10e390]: SEND OSS
+              - generic [ref=f10e391]: NOE UKLART.
+            - paragraph [ref=f10e392]: Vi gjør det tydeligere. Fortell kort hva du vurderer å bygge, så svarer vi med hva som bør gjøres først.
+        - generic [ref=f10e393]:
+          - generic "Direkte kontakt" [ref=f10e394]:
+            - paragraph [ref=f10e395]: Direkte
+            - link "hello@tigon.no" [ref=f10e396] [cursor=pointer]:
+              - /url: mailto:hello@tigon.no
+            - link "+47 41 76 01 49" [ref=f10e398] [cursor=pointer]:
+              - /url: tel:+4741760149
+            - paragraph [ref=f10e399]: OSLO 59.91°N / 10.75°Ø — ––:––:––
+          - generic "Kontaktvalg" [ref=f10e400]:
+            - link "Få gratis analyse" [ref=f10e401] [cursor=pointer]:
+              - /url: /kontakt
+              - text: Få gratis analyse
+            - link "Book 15 min" [ref=f10e403] [cursor=pointer]:
+              - /url: /kontakt?emne=Rask%20gjennomgang%20%2815%20min%29
+              - text: Book 15 min
+        - generic "Tigon footer" [ref=f10e405]:
+          - navigation "Tjenester" [ref=f10e406]:
+            - paragraph [ref=f10e407]: Tjenester
+            - list [ref=f10e408]:
+              - listitem [ref=f10e409]:
+                - link "Nettsider" [ref=f10e410] [cursor=pointer]:
+                  - /url: /tjenester/webutvikling-nextjs
+              - listitem [ref=f10e411]:
+                - link "Webapper" [ref=f10e412] [cursor=pointer]:
+                  - /url: /tjenester/custom-software
+              - listitem [ref=f10e413]:
+                - link "Apper" [ref=f10e414] [cursor=pointer]:
+                  - /url: /tjenester/app-utvikling
+              - listitem [ref=f10e415]:
+                - link "AI-systemer" [ref=f10e416] [cursor=pointer]:
+                  - /url: /tjenester/ai-implementering
+              - listitem [ref=f10e417]:
+                - link "SEO & AI-søk" [ref=f10e418] [cursor=pointer]:
+                  - /url: /tjenester/seo-optimalisering
+          - navigation "Arbeid" [ref=f10e419]:
+            - paragraph [ref=f10e420]: Arbeid
+            - list [ref=f10e421]:
+              - listitem [ref=f10e422]:
+                - link "Arkiv" [ref=f10e423] [cursor=pointer]:
+                  - /url: /arkiv
+              - listitem [ref=f10e424]:
+                - link "VVSvakt.no" [ref=f10e425] [cursor=pointer]:
+                  - /url: /arkiv/vvsvakt-no
+              - listitem [ref=f10e426]:
+                - link "Minhud.no" [ref=f10e427] [cursor=pointer]:
+                  - /url: /arkiv/minhud-no
+              - listitem [ref=f10e428]:
+                - link "Saneringsvakt.no" [ref=f10e429] [cursor=pointer]:
+                  - /url: /arkiv/saneringsvakt-no
+          - navigation "Ressurser" [ref=f10e430]:
+            - paragraph [ref=f10e431]: Ressurser
+            - list [ref=f10e432]:
+              - listitem [ref=f10e433]:
+                - link "Ressurser" [ref=f10e434] [cursor=pointer]:
+                  - /url: /ressurser
+              - listitem [ref=f10e435]:
+                - link "Hva koster en nettside?" [ref=f10e436] [cursor=pointer]:
+                  - /url: /hva-koster-nettside
+              - listitem [ref=f10e437]:
+                - link "Nettside eller webapp?" [ref=f10e438] [cursor=pointer]:
+                  - /url: /nettside-eller-webapp
+              - listitem [ref=f10e439]:
+                - link "Next.js vs WordPress" [ref=f10e440] [cursor=pointer]:
+                  - /url: /nextjs-vs-wordpress
+              - listitem [ref=f10e441]:
+                - link "Hvorfor får nettsiden ingen leads?" [ref=f10e442] [cursor=pointer]:
+                  - /url: /hvorfor-far-nettsiden-ingen-leads
+          - navigation "Steder" [ref=f10e443]:
+            - paragraph [ref=f10e444]: Steder
+            - list [ref=f10e445]:
+              - listitem [ref=f10e446]:
+                - link "Steder" [ref=f10e447] [cursor=pointer]:
+                  - /url: /steder
+              - listitem [ref=f10e448]:
+                - link "Webutvikling Oslo" [ref=f10e449] [cursor=pointer]:
+                  - /url: /tjenester/webutvikling-nextjs/oslo/oslo
+              - listitem [ref=f10e450]:
+                - link "Webutvikling Bergen" [ref=f10e451] [cursor=pointer]:
+                  - /url: /tjenester/webutvikling-nextjs/vestland/bergen
+              - listitem [ref=f10e452]:
+                - link "Webutvikling Trondheim" [ref=f10e453] [cursor=pointer]:
+                  - /url: /tjenester/webutvikling-nextjs/trondelag/trondheim
+              - listitem [ref=f10e454]:
+                - link "Webutvikling Stavanger" [ref=f10e455] [cursor=pointer]:
+                  - /url: /tjenester/webutvikling-nextjs/rogaland/stavanger
+          - generic "Kontaktinformasjon" [ref=f10e456]:
+            - paragraph [ref=f10e457]: Kontakt
+            - generic [ref=f10e458]:
+              - generic [ref=f10e459]: Tigon Studio AS
+              - generic [ref=f10e460]: Lindeberg Næringsvei 20
+              - generic [ref=f10e461]: 1067 Oslo, NO
+              - link "hello@tigon.no" [ref=f10e462] [cursor=pointer]:
+                - /url: mailto:hello@tigon.no
+              - link "+47 41 76 01 49" [ref=f10e463] [cursor=pointer]:
+                - /url: tel:+4741760149
+              - generic [ref=f10e464]: © 2026 Tigon Studio AS
+        - generic [ref=f10e465]:
+          - paragraph:
+            - generic: TIGON
+            - generic: STUDIO
+          - paragraph:
+            - generic: TIGON
+            - generic: STUDIO
+          - paragraph [ref=f10e466]:
+            - generic [ref=f10e467]: TIGON
+            - generic [ref=f10e468]: STUDIO
+  - button "Open Next.js Dev Tools" [ref=f10e474] [cursor=pointer]:
+    - img [ref=f10e475]

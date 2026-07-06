@@ -1,13 +1,17 @@
-/* 03 / Effekt — «måletråd». Tokolonne: sticky index-skinne til venstre med en
-   vertikal tråd som fylles på scroll og et aktivt målepunkt som lyser opp;
-   outcome-strøm til høyre med kjempenumeral som grafisk anker.
+/* 03 / Effekt — stablede utfalls-kort. Tokolonne: venstre er en sticky
+   tittel/beskrivelse + index (fast referanse); høyre er de fire målepunktene som
+   kort som stables via CSS position:sticky med økende top → hvert kort legger seg
+   oppå det forrige, men headeren («01 Funnet») stikker opp over det neste.
 
-   Default (no JS / PRM): tokolonne, alt synlig og lesbart, ingen sporing.
-   JS legger på .what-improve--tracked → dempet index + aktiv-tilstand + fyll. */
+   Stablingen er ren CSS (virker uten JS). JS legger på .what-improve--tracked →
+   aktiv index + fargeglød på det fremste kortets bilde. */
 
 .what-improve {
+  /* Der kortene «fester» seg (under fast header) + hvor mye av forrige som
+     stikker opp (peek). Én kilde for både venstre-sticky og kort-offsettene. */
+  --pin-top: calc(var(--header-height) + clamp(16px, 4vh, 48px));
+  --peek: clamp(62px, 7.5vh, 82px);
   position: relative;
-  overflow: hidden;
   background: var(--ink-base);
   color: var(--color-on-dark);
 }
@@ -15,26 +19,44 @@
 .what-improve__inner {
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(110px, 15vh, 190px) var(--gutter) clamp(120px, 16vh, 210px);
+  padding: var(--section-pad-y) var(--gutter);
+}
+
+.what-improve__layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.4fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 104px);
+  align-items: start;
+}
+
+/* ---------------------------------------------------------------------------
+   Venstre — fast tittel/beskrivelse + index */
+
+.what-improve__aside {
+  position: sticky;
+  top: var(--pin-top);
+  align-self: start;
+  height: fit-content;
 }
 
 .what-improve__label {
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.08em;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .what-improve__kicker {
-  max-width: 640px;
-  margin-top: clamp(26px, 4vh, 46px);
-  color: var(--on-dark-strong);
+  max-width: 18ch;
+  margin-top: clamp(22px, 3.4vh, 40px);
+  color: var(--color-on-dark);
   font-family: var(--font-sans);
-  font-size: clamp(20px, 1.6vw, 30px);
-  font-weight: 400;
-  letter-spacing: -0.015em;
-  line-height: 1.3;
+  font-size: clamp(28px, 3vw, 48px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
 }
 
 .what-improve__kicker::before {
@@ -46,168 +68,166 @@
   background: var(--pine);
 }
 
-/* ---------------------------------------------------------------------------
-   Tokolonne-oppsett */
-
-.what-improve__layout {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.32fr) minmax(0, 1fr);
-  gap: clamp(40px, 7vw, 140px);
-  margin-top: clamp(64px, 10vh, 130px);
-}
-
-/* Sticky index-skinne */
-
-.what-improve__rail {
-  position: sticky;
-  top: calc(var(--header-height) + clamp(28px, 6vh, 72px));
-  align-self: start;
-  height: fit-content;
-}
-
-.what-improve__index {
-  position: relative;
-  margin: 0;
-  padding: 0 0 0 clamp(20px, 1.6vw, 30px);
-  list-style: none;
-}
-
-/* Måletråden — den vertikale linjen index-punktene henger på. */
-.what-improve__thread {
-  position: absolute;
-  top: 6px;
-  bottom: 6px;
-  left: 0;
-  width: 2px;
-  background: rgba(242, 241, 235, 0.12);
-  overflow: hidden;
-}
-
-.what-improve__thread-fill {
-  position: absolute;
-  inset: 0;
-  transform: scaleY(0);
-  transform-origin: top center;
-  /* Pine-tint som lys måletråd — mikro-aksent, ikke stor flate. */
-  background: var(--pine-tint);
-}
-
-.what-improve__index-item {
-  display: flex;
-  align-items: baseline;
-  gap: clamp(12px, 1vw, 18px);
-  padding: clamp(14px, 2vh, 22px) 0;
-}
-
-.what-improve__index-num {
-  flex: none;
-  color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.06em;
-  line-height: 1.2;
-}
-
-.what-improve__index-name {
+.what-improve__desc {
+  max-width: 34ch;
+  margin-top: clamp(18px, 2.4vh, 28px);
   color: var(--on-dark-medium);
   font-family: var(--font-sans);
-  font-size: clamp(17px, 1.2vw, 21px);
+  font-size: var(--fz-lead-m);
   font-weight: 400;
   letter-spacing: -0.01em;
-  line-height: 1.2;
+  line-height: 1.45;
 }
 
-.what-improve__rail-note {
-  max-width: 22ch;
-  margin-top: clamp(24px, 3.4vh, 40px);
-  color: var(--on-dark-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: 0.05em;
-  line-height: 1.5;
+/* Aktiv-detalj — de fire ligger oppå hverandre; kun den aktive vises. Sier
+   HVORDAN (spakene) for det fremste kortet. */
+.what-improve__meter {
+  position: relative;
+  margin: clamp(30px, 4.6vh, 54px) 0 0;
+  padding-top: clamp(20px, 3vh, 30px);
+  border-top: 1px solid rgba(242, 241, 235, 0.16);
+  min-height: 5.5em;
 }
 
-/* Aktiv-tilstand (kun i tracked/JS-modus) */
-
-.what-improve--tracked .what-improve__index-item {
-  opacity: 0.4;
-  transition: opacity var(--motion-base) var(--ease-standard);
+.what-improve__detail {
+  /* Uten JS: alle fire listet i flyt (lesbart). Tracked-modus stabler dem oppå
+     hverandre og viser kun den aktive. */
+  margin: 0 0 clamp(16px, 2.4vh, 26px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.4vh, 16px);
 }
 
-.what-improve--tracked .what-improve__index-item.is-active {
-  opacity: 1;
-}
-
-.what-improve--tracked .what-improve__index-item.is-active .what-improve__index-num {
+.what-improve__detail-count {
   color: var(--pine-tint);
+  font-family: var(--font-mono);
+  font-size: clamp(28px, 2.4vw, 42px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.what-improve__detail-total {
+  color: var(--on-dark-faint);
+  font-size: 0.5em;
+  letter-spacing: 0.06em;
+}
+
+.what-improve__detail-tools {
+  max-width: 30ch;
+  color: var(--on-dark-medium);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.04em;
+  line-height: 1.55;
+  text-transform: uppercase;
+}
+
+/* Tracked/JS: stable de fire oppå hverandre, vis kun den aktive med myk fade. */
+.what-improve--tracked .what-improve__detail {
+  position: absolute;
+  top: clamp(20px, 3vh, 30px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--motion-base) var(--ease-standard),
+    transform var(--motion-base) var(--ease-standard);
+  pointer-events: none;
+}
+
+.what-improve--tracked .what-improve__detail.is-active {
+  opacity: 1;
+  transform: none;
 }
 
 /* ---------------------------------------------------------------------------
-   Outcome-strøm */
+   Høyre — stablede kort */
 
 .what-improve__stream {
-  display: flex;
-  flex-direction: column;
+  /* Luft under så det siste kortet rekker sin feste-posisjon før seksjonen
+     slutter. */
+  padding-bottom: clamp(72px, 20vh, 220px);
 }
 
 .what-improve__outcome {
+  position: sticky;
+  min-height: clamp(380px, 62vh, 640px);
+  /* Samme bakgrunn som seksjonen — én sammenhengende mørk flate, ingen løftet
+     grå boks. Kortet er fortsatt ugjennomsiktig (dekker forrige når det stables);
+     den stablede kanten leses via hårstreken + en hårfin skygge. */
+  background: var(--ink-base);
+  border-top: 1px solid rgba(242, 241, 235, 0.14);
+  box-shadow: 0 -14px 30px -26px rgba(0, 0, 0, 0.55);
+  padding: clamp(22px, 3vh, 34px) clamp(26px, 3.4vw, 60px) clamp(34px, 5vh, 60px);
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) clamp(200px, 22vw, 300px);
-  gap: clamp(24px, 3vw, 56px);
-  align-items: start;
-  padding: clamp(40px, 6vh, 72px) 0;
-  border-top: 1px solid rgba(242, 241, 235, 0.1);
+  grid-template-columns: minmax(0, 1fr) clamp(220px, 34%, 460px);
+  grid-template-rows: auto 1fr;
+  column-gap: clamp(24px, 3vw, 56px);
+  row-gap: clamp(22px, 3.4vh, 44px);
+  align-content: start;
 }
 
-.what-improve__outcome:first-child {
-  padding-top: 0;
-  border-top: 0;
+/* Trappede feste-posisjoner → hvert kort stopper --peek lenger ned enn forrige,
+   så forrige korts header forblir synlig. */
+.what-improve__outcome:nth-child(1) {
+  top: var(--pin-top);
+}
+.what-improve__outcome:nth-child(2) {
+  top: calc(var(--pin-top) + var(--peek));
+}
+.what-improve__outcome:nth-child(3) {
+  top: calc(var(--pin-top) + 2 * var(--peek));
+}
+.what-improve__outcome:nth-child(4) {
+  top: calc(var(--pin-top) + 3 * var(--peek));
 }
 
-/* Kjempenumeral — grafisk anker (ghost). Tier 3-skala, lyser opp når aktivt. */
+/* Header — num + tittel. Dette er stripen som stikker opp når kortet er dekket. */
+.what-improve__head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: clamp(16px, 1.6vw, 28px);
+}
+
 .what-improve__num {
   margin: 0;
-  color: rgba(242, 241, 235, 0.14);
+  color: rgba(242, 241, 235, 0.32);
   font-family: var(--font-display);
-  font-size: clamp(64px, 7vw, 120px);
+  font-size: clamp(26px, 2.4vw, 40px);
   font-weight: 700;
-  line-height: 0.82;
+  line-height: 1;
   letter-spacing: 0;
-}
-
-.what-improve--tracked .what-improve__num {
-  transition: color var(--motion-medium) var(--ease-standard);
-}
-
-.what-improve--tracked .what-improve__outcome.is-active .what-improve__num {
-  color: rgba(242, 241, 235, 0.3);
-}
-
-.what-improve__outcome-body {
-  min-width: 0;
-  /* Optisk baseline-justering mot numeralet. */
-  padding-top: clamp(6px, 1.2vw, 16px);
 }
 
 .what-improve__title {
   margin: 0;
   color: var(--color-on-dark);
   font-family: var(--font-sans);
-  font-size: clamp(30px, 3.4vw, 52px);
+  font-size: clamp(28px, 3.2vw, 48px);
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1;
 }
 
+.what-improve__body {
+  grid-column: 1;
+  grid-row: 2;
+  min-width: 0;
+  align-self: start;
+}
+
 .what-improve__text {
-  max-width: 44ch;
-  margin: clamp(16px, 2.2vh, 24px) 0 0;
+  max-width: 40ch;
+  margin: 0;
   color: var(--on-dark-strong);
   font-family: var(--font-sans);
-  font-size: clamp(19px, 1.5vw, 26px);
+  font-size: clamp(17px, 1.2vw, 20px);
   font-weight: 400;
   letter-spacing: -0.01em;
-  line-height: 1.34;
+  line-height: 1.4;
 }
 
 .what-improve__signal {
@@ -220,10 +240,12 @@
   text-transform: uppercase;
 }
 
-/* Media-ramme — gjenbrukte arbeidsbilder. Skarpe hjørner + hårstrek (editorielt,
-   ikke «kort» som 04s løftede karusell). Bildet lyser opp når punktet er aktivt. */
-
+/* Media — gjenbrukte arbeidsbilder, skarp editoriell ramme. Dempet til det er
+   det fremste kortet (tracked-modus), da spretter det til full farge. */
 .what-improve__media {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
   margin: 0;
   overflow: hidden;
   border: 1px solid rgba(242, 241, 235, 0.16);
@@ -235,51 +257,58 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Alltid monokromt — ingen merkefarger i kortene (near-monochrome). Gjelder
+     også uten JS. */
+  filter: grayscale(1) brightness(0.86) contrast(1.02);
 }
 
 .what-improve--tracked .what-improve__media {
-  transition: opacity var(--motion-medium) var(--ease-standard),
-    border-color var(--motion-medium) var(--ease-standard);
-  opacity: 0.5;
+  transition: border-color var(--motion-medium) var(--ease-standard);
 }
 
 .what-improve--tracked .what-improve__media img {
   transition: filter var(--motion-medium) var(--ease-standard);
-  filter: grayscale(0.3) brightness(0.85);
 }
 
 .what-improve--tracked .what-improve__outcome.is-active .what-improve__media {
-  opacity: 1;
   border-color: rgba(242, 241, 235, 0.32);
 }
 
+/* Det fremste kortet: bildet lysner (fortsatt monokromt), ingen farge-pop. */
 .what-improve--tracked .what-improve__outcome.is-active .what-improve__media img {
-  filter: none;
+  filter: grayscale(1) brightness(1.06) contrast(1.02);
 }
 
 /* ---------------------------------------------------------------------------
-   Mobil — skinnen legger seg over strømmen, ikke sticky ved siden av. */
+   Mobil — venstre blir vanlig blokk over, kortene stables fortsatt (enkolonne). */
 
 @media (max-width: 900px) {
   .what-improve__layout {
     grid-template-columns: 1fr;
-    gap: clamp(40px, 8vh, 64px);
+    gap: clamp(32px, 6vh, 56px);
   }
 
-  .what-improve__rail {
+  .what-improve__aside {
     position: static;
     top: auto;
   }
 
   .what-improve__outcome {
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    min-height: clamp(360px, 64vh, 560px);
   }
 
-  /* Media legger seg under teksten (kolonne 2), ikke ved siden av. */
+  .what-improve__body {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
   .what-improve__media {
-    grid-column: 2;
-    max-width: 360px;
-    margin-top: clamp(8px, 1.5vh, 16px);
+    grid-column: 1;
+    grid-row: 3;
+    align-self: start;
+    max-width: 340px;
     aspect-ratio: 16 / 10;
   }
 }
@@ -290,40 +319,14 @@
   }
 
   .what-improve__kicker {
-    margin-top: 24px;
-    font-size: 18px;
-  }
-
-  .what-improve__layout {
-    margin-top: 44px;
+    font-size: clamp(26px, 8vw, 36px);
   }
 
   .what-improve__outcome {
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 34px 0;
-  }
-
-  .what-improve__media {
-    grid-column: 1;
-    max-width: none;
-    margin-top: 18px;
-  }
-
-  .what-improve__num {
-    font-size: clamp(56px, 20vw, 84px);
-  }
-
-  .what-improve__outcome-body {
-    padding-top: 0;
+    padding: 20px 20px 30px;
   }
 
   .what-improve__title {
-    font-size: clamp(28px, 9vw, 40px);
-  }
-
-  .what-improve__text {
-    font-size: 20px;
-    line-height: 1.36;
+    font-size: clamp(26px, 8vw, 38px);
   }
 }

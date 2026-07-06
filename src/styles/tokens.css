@@ -62,14 +62,28 @@
   --gutter: clamp(24px, 5vw, 150px);
   --header-height: 76px;
 
+  /* Vertikal seksjons-rytme — «kapittel-start/slutt»-luft. Én kilde for alle
+     vanlige seksjoner (var før 104–120 / 14–16vh / 184–212, litt ulikt hver).
+     vh-delen vokser med skjermhøyden (premium pust). Broen (helskjerms pin) og
+     Prosess (horisontale paneler) har egen struktur og bruker den ikke. */
+  --section-pad-y: clamp(128px, 16vh, 216px);
+
+  /* F: skarp-editorial (lamalama-oversatt). Ett hjørne-token for avrundede
+     rektangler + knapper. Piller (999) beholdes kun som flytende nav-chrome,
+     prikker (50%) og skarpe rammer (0) som før. Ett fremover-motiv: diagonal
+     ↗ (--arrow-ne), erstatter prikkekjede + chevron. */
+  --radius: 4px;
+  /* Lamalama sin faktiske ↗ (tynn, forfinet) — 7×8, oppgitt av bruker. */
+  --arrow-ne: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='8' viewBox='0 0 7 8' fill='none'%3E%3Cpath fill='%23000' d='M7.002.499v7h-1V2.206L.707 7.501 0 6.794l5.295-5.295H.002v-1h7Z'/%3E%3C/svg%3E");
+
   --fz-hero: clamp(54px, 9vw, 156px);
   --fz-section: clamp(38px, 7vw, 124px);
-  --fz-lead: clamp(17px, 1.35vw, 20px);
+  --fz-lead: clamp(16px, 1.2vw, 18px);
   /* Lead-skala i tre trinn — rydder de ad hoc ledetekst-størrelsene.
      Primær opasitet ~.80, sekundær ~.58 (settes per flate). */
-  --fz-lead-l: clamp(21px, 1.9vw, 27px);
-  --fz-lead-m: clamp(18px, 1.4vw, 20px);
-  --fz-lead-s: clamp(15px, 1.1vw, 17px);
+  --fz-lead-l: clamp(19px, 1.4vw, 23px);
+  --fz-lead-m: clamp(17px, 1.2vw, 19px);
+  --fz-lead-s: clamp(14px, 1vw, 16px);
   --fz-body: 16px;
   --fz-small: 13px;
 
@@ -79,9 +93,11 @@
        l  — knapp/CTA-etikett (13)
        m  — eyebrow / label / meta workhorse (12)
        s  — mikro-mono: noter, signal, tiny meta (11) */
-  --fz-mono-l: 13px;
-  --fz-mono: 12px;
-  --fz-mono-s: 11px;
+  /* Tilpasset lamalama (2026-07-05): mono ned ~1px mot deres 10px, men en hair
+     større siden Tigons fonter/leads kjører større. */
+  --fz-mono-l: 12px;
+  --fz-mono: 11px;
+  --fz-mono-s: 10px;
 
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
