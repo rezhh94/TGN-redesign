@@ -162,56 +162,41 @@ function bridgeScene(pin: boolean) {
   return () => ctx.revert();
 }
 
-// 03 / Effekt — "måletråd". Left rail is a sticky index of the four outcomes;
-// a vertical thread fills (scaleY 0→1) as the outcome stream scrolls past, and
-// the active outcome — the one crossing the viewport's middle — lights up in
-// both the rail and its giant ghost numeral. Outcome blocks also rise in once.
-// Colours/fill are JS-only, so no-JS / reduced motion keep the static, readable
-// two-column document.
+// 03 / Effekt — stacking outcome cards. The right column's four cards stack via
+// CSS position:sticky (pure layout, works with no JS). This only tracks which
+// card is currently at the front and lights its index entry + un-greys its
+// image. No-JS / reduced motion keep the static two-column document (cards still
+// stack — that's CSS, not motion).
 function improveScene() {
   const section = document.querySelector<HTMLElement>(".what-improve");
   if (!section) return () => {};
 
-  const root = section.querySelector<HTMLElement>("[data-improve-root]");
-  const fill = section.querySelector<HTMLElement>("[data-improve-progress]");
   const blocks = gsap.utils.toArray<HTMLElement>("[data-improve-block]", section);
   const dots = gsap.utils.toArray<HTMLElement>("[data-improve-dot]", section);
-  if (!root || !fill || !blocks.length) return () => {};
+  if (!blocks.length) return () => {};
 
   section.classList.add("what-improve--tracked");
 
-  const setActive = (index: number, on: boolean) => {
-    blocks[index]?.classList.toggle("is-active", on);
-    dots[index]?.classList.toggle("is-active", on);
+  // Only the front-most card is active at a time.
+  const setActive = (index: number) => {
+    blocks.forEach((block, i) => block.classList.toggle("is-active", i === index));
+    dots.forEach((dot, i) => dot.classList.toggle("is-active", i === index));
   };
+  setActive(0);
 
   const ctx = gsap.context(() => {
-    // The thread fills across the whole stream.
-    gsap.fromTo(
-      fill,
-      { scaleY: 0 },
-      {
-        scaleY: 1,
-        ease: "none",
-        scrollTrigger: { trigger: root, start: "top center", end: "bottom center", scrub: 0.4 },
-      }
-    );
-
-    // Reveal once, and mark active while the block crosses the middle band.
+    // A card becomes the front one exactly when its top reaches its own sticky
+    // offset (read from the resolved CSS `top`, so it tracks the clamp + resize).
+    // Scrolling up, when a card un-sticks the previous one is front again.
     blocks.forEach((block, index) => {
-      gsap.from(block, {
-        y: 28,
-        autoAlpha: 0,
-        duration: 0.6,
-        ease: "power3.out",
-        scrollTrigger: { trigger: block, start: "top 84%", once: true },
-      });
-
       ScrollTrigger.create({
         trigger: block,
-        start: "top 55%",
-        end: "bottom 55%",
-        onToggle: (self) => setActive(index, self.isActive),
+        start: () => "top top+=" + (parseFloat(getComputedStyle(block).top) + 2),
+        end: "max",
+        onToggle: (self) => {
+          if (self.isActive) setActive(index);
+          else if (index > 0) setActive(index - 1);
+        },
       });
     });
   }, section);
