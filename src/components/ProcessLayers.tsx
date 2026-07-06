@@ -1,107 +1,90 @@
-const processPanels = [
+const steps = [
   {
-    number: "01",
-    eyebrow: "Prosess / Scope",
-    image: "/work/mockups/15.png",
-    phase: "Avklaring",
-    statement: "Behovet presses ned til scope.",
-    body: "Før noe tegnes, avklarer vi hva som faktisk skal bygges, hvorfor det trengs og hva som må velges bort.",
+    n: "01",
+    tag: "Prosess / Scope",
+    heading: "Vi finner retningen",
+    body: "Behovet presses ned til scope. Vi avklarer hva som faktisk skal bygges, hvorfor det trengs og hva som må velges bort — så innholdet får en teknisk rekkefølge før uttrykket låses.",
     output: "Definert retning",
+    image: "/work/mockups/15.png",
   },
   {
-    number: "02",
-    eyebrow: "Prosess / Arkitektur",
-    image: "/work/mockups/09.png",
-    phase: "Struktur",
-    statement: "Innholdet får en teknisk rekkefølge.",
-    body: "Sider, flyt, internlenker, søkbarhet og målepunkter legges som system før uttrykket låses.",
-    output: "Søkbar arkitektur",
-  },
-  {
-    number: "03",
-    eyebrow: "Prosess / Bygg",
-    image: "/work/mockups/12.png",
-    phase: "Produksjon",
-    statement: "Design og kode bygges som ett materiale.",
-    body: "UI, komponenter, ytelse og integrasjoner utvikles sammen, med rask feedback og ryddig prioritering.",
+    n: "02",
+    tag: "Prosess / Bygg",
+    heading: "Vi bygger løsningen",
+    body: "Design og kode bygges som ett materiale. UI, komponenter, ytelse og integrasjoner utvikles sammen, med rask feedback og ryddig prioritering.",
     output: "Levende løsning",
+    image: "/work/mockups/12.png",
   },
   {
-    number: "04",
-    eyebrow: "Prosess / Live",
-    image: "/work/mockups/05.png",
-    phase: "Lansering",
-    statement: "Siden går live med måling fra dag én.",
-    body: "Publisering, teknisk sjekk, skjema, telefon, e-post og hendelser kobles til en tydelig neste beslutning.",
+    n: "03",
+    tag: "Prosess / Live",
+    heading: "Vi sender det ut i verden",
+    body: "Siden går live med måling fra dag én. Publisering, teknisk sjekk, skjema, telefon og hendelser kobles til én tydelig neste beslutning.",
     output: "Målbar kontaktvei",
+    image: "/work/mockups/05.png",
   },
 ];
 
-/* 05 / Prosess — TRIONN-oversatt: lyst, horisontalt kort-galleri. Et grått rom
-   med løftede bilde-kort. Tittel-beat ("Uklart inn. System ut.") dekoder inn,
-   så glir fire steg-kort sideveis og setter seg opp mot senter, før et
-   avslutnings-panel lander mot kontakt. Bildene er midlertidige assets (mockup-
-   settet) til ekte steg-bilder finnes — bytt `image`-stiene da. Default
-   (no-JS / PRM / mobil uten stage) er en vertikal liste; JS legger på
-   .process-layers--stage og først da finnes pin, rail og animasjonene. */
+/* 05 / Prosess — "Prosjektreisen". Monumental tittel, så tre steg-rader stablet
+   loddrett: STEG · 0X + overskrift/tekst til venstre, stort media-panel til
+   høyre, hårstrek mellom radene. Ren vertikal scroll (ingen pin) → samme layout
+   på desktop og mobil; radene stiger inn på scroll og tittelen dekoder fra støy.
+   Default (no-JS / PRM) er alt synlig og lesbart uten JavaScript.
+
+   Bildene er midlertidige mockup-assets til ekte steg-bilder finnes. */
 export function ProcessLayers() {
   return (
-    <section className="process-layers" id="prosess" aria-labelledby="process-layers-title">
-      <div className="process-layers__pin" data-process-pin>
-        <div className="process-layers__rail" data-process-rail>
-          <div className="process-layers__intro">
-            <h2
-              className="process-layers__title"
-              id="process-layers-title"
-              data-process-decode
-              aria-label="Uklart inn. System ut."
-            >
-              <span className="process-layers__line1" aria-hidden="true">
-                Uklart inn.
-              </span>
-              <span className="process-layers__line2" aria-hidden="true">
-                System ut.
-              </span>
-            </h2>
-            <p className="process-layers__note">
-              <span className="process-layers__note-mark" aria-hidden="true" />
-              Fire steg — én produksjonslinje
-            </p>
-            <span className="process-layers__cue" data-process-cue aria-hidden="true">
-              Scroll →
+    <section className="process-journey" id="prosess" aria-labelledby="process-journey-title">
+      <div className="process-journey__inner">
+        <header className="process-journey__head">
+          <p className="process-journey__eyebrow">Prosess</p>
+          <h2
+            className="process-journey__title"
+            id="process-journey-title"
+            data-process-decode
+            aria-label="Uklart inn. System ut."
+          >
+            <span className="process-journey__line1" aria-hidden="true">
+              Uklart inn.
             </span>
-          </div>
+            <span className="process-journey__line2" aria-hidden="true">
+              System ut.
+            </span>
+          </h2>
+          <p className="process-journey__note">
+            <span className="process-journey__note-mark" aria-hidden="true" />
+            Tre steg — én produksjonslinje
+          </p>
+        </header>
 
-          {processPanels.map((panel) => (
-            <article className="process-layers__card" data-process-card key={panel.number}>
-              <div className="process-layers__media-wrap" data-process-media>
-                <figure className="process-layers__media">
-                  <img src={panel.image} alt="" />
-                  <span className="process-layers__eyebrow">
-                    {panel.eyebrow} · {panel.number}
-                  </span>
-                </figure>
+        <ol className="process-journey__steps">
+          {steps.map((step) => (
+            <li className="process-journey__row" data-journey-row key={step.n}>
+              <p className="process-journey__step">Steg · {step.n}</p>
+
+              <div className="process-journey__text">
+                <h3 className="process-journey__heading">{step.heading}</h3>
+                <p className="process-journey__body">{step.body}</p>
+                <p className="process-journey__out">Ut — {step.output} →</p>
               </div>
 
-              <div className="process-layers__meta">
-                <div className="process-layers__meta-text">
-                  <h3 className="process-layers__phase">{panel.phase}</h3>
-                  <p className="process-layers__statement">{panel.statement}</p>
-                </div>
-                <p className="process-layers__output">Ut — {panel.output} →</p>
-              </div>
-            </article>
+              <figure className="process-journey__media" data-journey-media>
+                <img src={step.image} alt="" loading="lazy" />
+                <figcaption className="process-journey__media-tag">
+                  {step.tag} · {step.n}
+                </figcaption>
+              </figure>
+            </li>
           ))}
+        </ol>
 
-          <div className="process-layers__closer">
-            <p className="process-layers__closer-eyebrow">Fra uklart til system</p>
-            <p className="process-layers__closer-title">
-              Fire steg, én produksjonslinje — fra et uklart behov til et målbart system.
-            </p>
-            <a className="process-layers__closer-cta" href="/kontakt?ref=prosess">
-              Start et prosjekt →
-            </a>
-          </div>
+        <div className="process-journey__closer">
+          <p className="process-journey__closer-title">
+            Fra et uklart behov til et målbart system.
+          </p>
+          <a className="process-journey__closer-cta" href="/kontakt?ref=prosess">
+            Start et prosjekt →
+          </a>
         </div>
       </div>
     </section>

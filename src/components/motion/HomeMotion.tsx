@@ -4,10 +4,9 @@ import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { Observer } from "gsap/Observer";
 import { destroyLenis, initLenis } from "@/lib/motion";
 
-gsap.registerPlugin(ScrollTrigger, SplitText, Observer);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
@@ -225,105 +224,64 @@ function improveScene() {
   };
 }
 
-// 04 / Arbeid — MWG 008-adapted draggable carousel. The track holds every
-// card twice; x is wrapped over half its width for a seamless infinite loop,
-// a gsap.ticker drives a slow auto-scroll and an Observer lets the user drag
-// it — with a small tilt/scale "wow" while pressed. No pin, no page-scroll
-// takeover. PRM / no-JS keep the plain scrollable strip.
-function workCarousel() {
+// 04 / Arbeid — "Stort proof". A vertical gallery of large stills. Each piece
+// rises in once as it enters, and its image glows from dimmed grayscale to full
+// colour (the .is-lit class flips the CSS filter). No pin, no auto-motion, no
+// drag — the whole beat is scroll-authored. PRM / no-JS keep the static,
+// full-colour vertical list.
+function workProof() {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
-  const carousel = section.querySelector<HTMLElement>("[data-work-carousel]");
-  const track = section.querySelector<HTMLElement>("[data-work-track]");
-  const cards = gsap.utils.toArray<HTMLElement>(".work-proof__card", section);
-  if (!carousel || !track || cards.length < 2) return () => {};
+  const pieces = gsap.utils.toArray<HTMLElement>("[data-work-piece]", section);
+  if (!pieces.length) return () => {};
 
-  section.classList.add("work-proof--drag");
+  section.classList.add("work-proof--reveal");
 
-  const cardsLength = cards.length / 2;
-  const half = track.clientWidth / 2;
-  const wrap = gsap.utils.wrap(-half, 0);
+  const ctx = gsap.context(() => {
+    pieces.forEach((piece) => {
+      gsap.from(piece, {
+        y: 44,
+        autoAlpha: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: { trigger: piece, start: "top 82%", once: true },
+      });
 
-  let total = 0;
-  const xTo = gsap.quickTo(track, "x", {
-    duration: 0.5,
-    ease: "power3",
-    modifiers: { x: gsap.utils.unitize(wrap) },
-  });
-
-  // A precomputed random offset per card for the press "wow".
-  const itemValues: number[] = [];
-  for (let i = 0; i < cardsLength; i++) {
-    itemValues.push((Math.random() - 0.5) * 20);
-  }
-
-  const pressTl = gsap.timeline({ paused: true });
-  pressTl.to(cards, {
-    rotate: (index: number) => itemValues[index % cardsLength],
-    xPercent: (index: number) => itemValues[index % cardsLength],
-    yPercent: (index: number) => itemValues[index % cardsLength],
-    scale: 0.95,
-    duration: 0.5,
-    ease: "back.inOut(3)",
-  });
-
-  const observer = Observer.create({
-    target: carousel,
-    type: "pointer,touch",
-    onPress: () => pressTl.play(),
-    onDrag: (self) => {
-      total += self.deltaX;
-      xTo(total);
-    },
-    onRelease: () => pressTl.reverse(),
-    onStop: () => pressTl.reverse(),
-  });
-
-  const tick = (_time: number, deltaTime: number) => {
-    total -= deltaTime / 10;
-    xTo(total);
-  };
-  gsap.ticker.add(tick);
+      // Grayscale → colour glow, slightly later than the rise so the piece has
+      // already landed when it lights.
+      ScrollTrigger.create({
+        trigger: piece,
+        start: "top 68%",
+        once: true,
+        onEnter: () => piece.classList.add("is-lit"),
+      });
+    });
+  }, section);
 
   return () => {
-    gsap.ticker.remove(tick);
-    observer.kill();
-    pressTl.kill();
-    gsap.set(track, { clearProps: "x,transform" });
-    gsap.set(cards, { clearProps: "transform,rotate,scale" });
-    section.classList.remove("work-proof--drag");
+    ctx.revert();
+    pieces.forEach((piece) => piece.classList.remove("is-lit"));
+    section.classList.remove("work-proof--reveal");
   };
 }
 
-// 05 / Prosess — TRIONN-adapted horizontal card gallery. The pin element is
-// pinned while the rail is pulled sideways exactly its overflow width, ending
-// on the full-width closer panel. Each step card rises from the bottom and
-// settles as it reaches centre (ensuring the last card lands before the pin
-// releases); card images parallax; the title beat decodes from noise on enter.
-// Runs on desktop and mobile (mobile uses wider cards via CSS); PRM/no-JS keep
-// the static vertical list. Smooth scroll comes from the app-level Lenis.
-function processStage() {
-  const section = document.querySelector<HTMLElement>(".process-layers");
+// 05 / Prosess — "Prosjektreisen". Three step rows stacked vertically (STEG · 0X
+// + text left, large media right). A plain scroll-reveal: each row's text and
+// media rise once on enter, the media pushes in from a slight over-scale, and
+// the title decodes from noise. Same layout on desktop and mobile — no pin, so
+// nothing to break on a tall screen. PRM / no-JS keep the static, readable
+// section fully visible.
+function processJourney() {
+  const section = document.querySelector<HTMLElement>(".process-journey");
   if (!section) return () => {};
 
-  // The stage class must exist before ScrollTrigger measures the runway.
-  section.classList.add("process-layers--stage");
+  const rows = gsap.utils.toArray<HTMLElement>("[data-journey-row]", section);
 
-  const pinHeight = section.querySelector<HTMLElement>("[data-process-pin]");
-  const rail = section.querySelector<HTMLElement>("[data-process-rail]");
-  if (!pinHeight || !rail) {
-    section.classList.remove("process-layers--stage");
-    return () => {};
-  }
-
-  // Title beat decode ("Uklart inn." resolves from noise). Own rAF so it can
-  // be cancelled on teardown; text is restored to its final value.
+  // Title decode ("Uklart inn." resolves from noise). Own rAF so it can be
+  // cancelled on teardown; text is restored to its final value.
   const decode = section.querySelector<HTMLElement>("[data-process-decode]");
-  const line1 = decode?.querySelector<HTMLElement>(".process-layers__line1") ?? null;
-  const line2 = decode?.querySelector<HTMLElement>(".process-layers__line2") ?? null;
-  const introNote = section.querySelector<HTMLElement>(".process-layers__note");
-  const cue = section.querySelector<HTMLElement>("[data-process-cue]");
+  const line1 = decode?.querySelector<HTMLElement>(".process-journey__line1") ?? null;
   const line1Final = line1?.textContent ?? "Uklart inn.";
   const GLYPH = "ABCDEFGHIJKLMNOPQR#%&/()=+*0123456789";
   const noise = (s: string) =>
@@ -351,88 +309,49 @@ function processStage() {
     rafId = requestAnimationFrame(frame);
   };
 
-  const dist = () => rail.scrollWidth - window.innerWidth;
-
   const ctx = gsap.context(() => {
-    const scrollTween = gsap.to(rail, {
-      x: () => -dist(),
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: () => "+=" + dist(),
-        pin: pinHeight,
-        scrub: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    // Cards that enter from the right sit low, then settle up in the last
-    // stretch as they near centre (ease:"power2.in" = back-loaded → "comes up
-    // late" like the reference, not a steady climb). The FIRST card is skipped:
-    // it rests in the two-column opening (it never enters), so it must not carry
-    // a rise offset. The floaty feel comes from the app's Lenis smooth scroll.
-    gsap.utils.toArray<HTMLElement>("[data-process-card]", section).forEach((card, index) => {
-      if (index === 0) return;
-      gsap.fromTo(
-        card,
-        { y: () => window.innerHeight * 0.5 },
-        {
-          y: 0,
-          ease: "power2.in",
-          scrollTrigger: {
-            trigger: card,
-            containerAnimation: scrollTween,
-            start: "left right",
-            end: "center center",
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
-        }
+    rows.forEach((row) => {
+      const parts = row.querySelectorAll<HTMLElement>(
+        ".process-journey__step, .process-journey__heading, .process-journey__body, .process-journey__out"
       );
-    });
+      gsap.from(parts, {
+        y: 26,
+        autoAlpha: 0,
+        duration: 0.7,
+        ease: "power3.out",
+        stagger: 0.06,
+        scrollTrigger: { trigger: row, start: "top 80%", once: true },
+      });
 
-    // Each card image drifts slightly slower than the rail — parallax depth.
-    gsap.utils.toArray<HTMLElement>("[data-process-media]", section).forEach((media) => {
-      const card = media.closest<HTMLElement>("[data-process-card]");
-      if (!card) return;
-      gsap.fromTo(
-        media,
-        { xPercent: 6 },
-        {
-          xPercent: -6,
-          ease: "none",
-          scrollTrigger: {
-            trigger: card,
-            containerAnimation: scrollTween,
-            start: "left right",
-            end: "right left",
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
+      const media = row.querySelector<HTMLElement>("[data-journey-media]");
+      if (media) {
+        gsap.from(media, {
+          autoAlpha: 0,
+          y: 42,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: { trigger: row, start: "top 80%", once: true },
+        });
+        const img = media.querySelector<HTMLElement>("img");
+        if (img) {
+          gsap.from(img, {
+            scale: 1.12,
+            duration: 1.4,
+            ease: "power3.out",
+            scrollTrigger: { trigger: row, start: "top 80%", once: true },
+          });
         }
-      );
+      }
     });
 
-    // Title decode: prefill with noise, then resolve + settle on enter (once).
+    // Title decode: prefill with noise, resolve on enter (once).
     if (decode && line1) {
       line1.textContent = noise(line1Final);
-      const reveal = [line2, introNote, cue].filter(Boolean) as HTMLElement[];
-      if (reveal.length) gsap.set(reveal, { autoAlpha: 0 });
-      if (line2) gsap.set(line2, { y: 8 });
-
       ScrollTrigger.create({
         trigger: section,
-        start: "top 80%",
+        start: "top 82%",
         once: true,
-        onEnter: () => {
-          scramble(line1, line1Final, 900);
-          const tl = gsap.timeline();
-          if (line2) tl.to(line2, { autoAlpha: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.9);
-          if (introNote) tl.to(introNote, { autoAlpha: 1, duration: 0.5, ease: "power2.out" }, "-=0.2");
-          if (cue) tl.to(cue, { autoAlpha: 1, duration: 0.5, ease: "power2.out" }, "-=0.3");
-        },
+        onEnter: () => scramble(line1, line1Final, 900),
       });
     }
   }, section);
@@ -441,7 +360,6 @@ function processStage() {
     if (rafId) cancelAnimationFrame(rafId);
     ctx.revert();
     if (line1) line1.textContent = line1Final;
-    section.classList.remove("process-layers--stage");
   };
 }
 
@@ -575,8 +493,8 @@ export function HomeMotion() {
       serviceReveals();
       const teardownBridge = bridgeScene(true);
       const teardownImprove = improveScene();
-      const teardownWork = workCarousel();
-      const teardownProcess = processStage();
+      const teardownWork = workProof();
+      const teardownProcess = processJourney();
       manifestoReveal();
       footerReveals();
       return () => {
@@ -588,14 +506,19 @@ export function HomeMotion() {
       };
     });
 
+    // Mobile: no horizontal Prosess-pin. The rail's sideways scroll-jack is
+    // clumsy on a tall narrow screen, and the production-line beat is a
+    // horizontal device that leaves a dead gap when stretched vertically — so
+    // mobile falls back to the static vertical list (the same clean, readable
+    // mode as no-JS / reduced-motion). Everything else keeps its motion.
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownApproach = approachScene();
       serviceReveals();
       const teardownBridge = bridgeScene(false);
       const teardownImprove = improveScene();
-      const teardownWork = workCarousel();
-      const teardownProcess = processStage();
+      const teardownWork = workProof();
+      const teardownProcess = processJourney();
       manifestoReveal();
       footerReveals();
       return () => {

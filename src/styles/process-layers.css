@@ -1,78 +1,72 @@
-/* 05 / Prosess — TRIONN-oversatt: lyst, horisontalt bilde-kort-galleri. Et
-   grått "rom" med løftede bilde-kort. Tittel-beat ("Uklart inn. System ut.")
-   dekoder inn, så glir fire steg-kort sideveis og setter seg opp mot senter,
-   før et avslutnings-panel lander mot kontakt. Default (no-JS / PRM / mobil
-   uten stage) er en vertikal liste med alt synlig; JS legger på
-   .process-layers--stage → da finnes pin, rail og de scrubbede animasjonene. */
+/* 05 / Prosess — "Prosjektreisen". Monumental tittel + tre steg-rader stablet
+   loddrett (STEG · 0X + tekst venstre, stort media-panel høyre, hårstrek mellom).
+   Lyst rom — bevisst kontrast mot mørke 04 over. Ren vertikal scroll: samme
+   layout på desktop og mobil, ingen pin. */
 
-.process-layers {
-  /* Rommet er bevisst DYPERE enn WorkProof (#dedcd2) over, så skjøten leses
-     som et tydelig steg — ikke et smelt. Kortene er klart lysere så de popper. */
-  --pl-room: #d4d3cd;
-  --pl-card: #e6e4dd;
-  --pl-ink: #17160f;
-  --pl-ink-soft: rgba(23, 22, 15, 0.62);
-  --pl-muted: rgba(23, 22, 15, 0.45);
-  --pl-line: rgba(23, 22, 15, 0.16);
+.process-journey {
+  --pj-line: rgba(16, 16, 15, 0.14);
   position: relative;
-  background: var(--pl-room);
-  color: var(--pl-ink);
-  /* Hårstrek mot forrige seksjon — klar visuell grense. */
-  border-top: 1px solid var(--pl-line);
+  /* Lyst rom, varm nøytral — bryter mot den mørke 04 rett over. */
+  background: var(--bone);
+  color: var(--blekk);
+  border-top: 1px solid var(--pj-line);
 }
 
-.process-layers__pin,
-.process-layers__rail {
-  position: relative;
+.process-journey__inner {
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
+  padding: var(--section-pad-y) var(--gutter);
 }
 
-/* ---------------------------------------------------------------------------
-   Default / liste (mobil, PRM, no-JS) */
+/* --- Tittel-hode -------------------------------------------------------- */
 
-.process-layers__rail {
-  display: flex;
-  flex-direction: column;
+.process-journey__head {
+  margin-bottom: clamp(40px, 6vh, 88px);
 }
 
-.process-layers__intro,
-.process-layers__card,
-.process-layers__closer {
-  padding: clamp(64px, 10vh, 120px) var(--gutter);
+.process-journey__eyebrow {
+  color: var(--on-light-quiet);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
-/* Intro / decode */
-.process-layers__title {
+.process-journey__title {
+  margin-top: clamp(20px, 3vh, 36px);
   font-family: var(--font-display);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.01em;
-  line-height: 0.95;
-  font-size: clamp(44px, 8vw, 120px);
+  line-height: 0.9;
+  /* Monumental — kapittel-stor mot de store proof-flatene i 04. */
+  font-size: clamp(56px, 11vw, 200px);
 }
 
-.process-layers__line1 {
+.process-journey__line1 {
   display: block;
-  color: var(--pl-ink);
+  color: var(--blekk);
 }
 
-.process-layers__line2 {
+.process-journey__line2 {
   display: block;
-  color: var(--pl-muted);
+  color: var(--on-light-faint);
 }
 
-.process-layers__note {
+.process-journey__note {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-top: clamp(20px, 3vh, 30px);
-  color: var(--pl-muted);
+  color: var(--on-light-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.process-layers__note-mark {
+.process-journey__note-mark {
   width: 0;
   height: 0;
   border-top: 5px solid transparent;
@@ -80,56 +74,91 @@
   border-left: 8px solid var(--pine);
 }
 
-.process-layers__cue {
-  display: none;
-  color: var(--pl-muted);
+/* --- Steg-rader --------------------------------------------------------- */
+
+.process-journey__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.process-journey__row {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(20px, 3.5vw, 64px);
+  align-items: start;
+  padding: clamp(40px, 6vh, 80px) 0;
+  border-top: 1px solid var(--pj-line);
+}
+
+.process-journey__step {
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: var(--on-light-quiet);
+  /* Flukter med overskriftens optiske topp. */
+  padding-top: 6px;
 }
 
-/* Kort — bilde + meta under */
-.process-layers__media-wrap {
-  position: relative;
+.process-journey__text {
+  max-width: 44ch;
 }
 
-.process-layers__media {
-  position: relative;
-  display: block;
-  width: 100%;
+.process-journey__heading {
   margin: 0;
-  aspect-ratio: 3 / 2;
-  border-radius: 14px;
-  overflow: hidden;
-  background: var(--pl-card);
-  /* Lettere skygge (mindre blur) → billigere repaint når kortet beveger seg. */
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.1);
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--blekk);
+  font-size: clamp(28px, 2.6vw, 46px);
 }
 
-.process-layers__media img {
+.process-journey__body {
+  margin-top: clamp(16px, 2vh, 24px);
+  max-width: 42ch;
+  font-family: var(--font-sans);
+  font-size: var(--fz-lead-m);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--on-light-medium);
+}
+
+.process-journey__out {
+  display: inline-block;
+  margin-top: clamp(22px, 3vh, 34px);
+  padding-bottom: 5px;
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--on-light-quiet);
+  border-bottom: 1px solid var(--pj-line);
+}
+
+/* Media-panel — skarp editoriell ramme (radius 0 + hårstrek), bildet er helten. */
+.process-journey__media {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--stein);
+  box-shadow: inset 0 0 0 1px rgba(16, 16, 15, 0.1);
+}
+
+.process-journey__media img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Tynn indre ramme + eyebrow-lesbarhet — begge via ett overlegg. */
-.process-layers__media::after {
-  content: "";
+.process-journey__media-tag {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: 14px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, transparent 26%);
-}
-
-.process-layers__eyebrow {
-  position: absolute;
-  top: clamp(16px, 2.4vw, 26px);
-  left: clamp(18px, 2.6vw, 30px);
-  z-index: 2;
+  top: clamp(16px, 2vw, 24px);
+  left: clamp(16px, 2vw, 26px);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
   letter-spacing: 0.1em;
@@ -138,169 +167,63 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 
-/* Meta under kortet — TRIONN-oppsett: navn + kort beskrivelse til venstre,
-   "Ut"-lenke til høyre. Beskjedent navn så bildet forblir helten. */
-.process-layers__meta {
-  margin-top: clamp(18px, 2.2vw, 30px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 28px;
-}
+/* --- Avslutning (outro → kontakt) --------------------------------------- */
 
-.process-layers__meta-text {
-  min-width: 0;
-}
-
-.process-layers__phase {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-  line-height: 1;
-  color: var(--pl-ink);
-  font-size: clamp(22px, 2vw, 30px);
-}
-
-.process-layers__statement {
-  margin-top: 10px;
-  max-width: 42ch;
-  font-family: var(--font-sans);
-  font-size: clamp(15px, 1.05vw, 17px);
-  font-weight: 400;
-  color: var(--pl-ink-soft);
-  line-height: 1.45;
-}
-
-.process-layers__output {
-  flex: none;
-  align-self: flex-end;
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--pl-muted);
-  white-space: nowrap;
-  padding-bottom: 5px;
-  border-bottom: 1px solid var(--pl-line);
-}
-
-/* Avslutning (outro → kontakt) */
-.process-layers__closer {
+.process-journey__closer {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 26px;
+  align-items: flex-start;
+  gap: clamp(18px, 2.4vh, 28px);
+  padding-top: clamp(44px, 6vh, 80px);
+  border-top: 1px solid var(--pj-line);
 }
 
-.process-layers__closer-eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--pl-muted);
-}
-
-.process-layers__closer-title {
+.process-journey__closer-title {
+  max-width: 20ch;
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: clamp(24px, 2.7vw, 42px);
   line-height: 1.16;
   letter-spacing: -0.01em;
-  max-width: 22ch;
+  color: var(--blekk);
 }
 
-.process-layers__closer-cta {
+.process-journey__closer-cta {
   font-family: var(--font-mono);
   font-size: var(--fz-mono-l);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--pl-ink);
+  color: var(--blekk);
   text-decoration: none;
-  border-bottom: 1px solid var(--pl-ink);
+  border-bottom: 1px solid var(--blekk);
   padding-bottom: 5px;
+  transition: color var(--motion-fast) ease-out, border-color var(--motion-fast) ease-out;
 }
 
-/* ---------------------------------------------------------------------------
-   Stage — JS-enhanced. Horisontal rail pinnet mens den dras sideveis. Kortenes
-   heis + bilde-parallakse + tittel-decode settes fra HomeMotion. */
-
-.process-layers--stage .process-layers__pin {
-  height: 100vh;
-  overflow: hidden;
+.process-journey__closer-cta:hover {
+  color: var(--pine);
+  border-color: var(--pine);
 }
 
-.process-layers--stage .process-layers__rail {
-  flex-direction: row;
-  height: 100vh;
-  width: max-content;
-  align-items: center;
-  will-change: transform;
-}
+/* --- Mobil -------------------------------------------------------------- */
 
-.process-layers--stage .process-layers__intro {
-  flex: 0 0 46vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 6vw 0 var(--gutter);
-}
-
-.process-layers--stage .process-layers__intro .process-layers__title {
-  font-size: clamp(48px, 8.5vw, 150px);
-}
-
-.process-layers--stage .process-layers__cue {
-  display: block;
-  position: absolute;
-  left: var(--gutter);
-  bottom: 8vh;
-}
-
-.process-layers--stage .process-layers__card {
-  flex: 0 0 44vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 3vw;
-  will-change: transform;
-}
-
-.process-layers--stage .process-layers__media-wrap {
-  will-change: transform;
-}
-
-.process-layers--stage .process-layers__closer {
-  flex: 0 0 100vw;
-  height: 100vh;
-}
-
-/* Mobil stage — samme horisontale effekt, men bredere kort (ett fyller
-   skjermen med et lite peek) siden 44vw ville blitt for smått. */
 @media (max-width: 768px) {
-  /* Meta stables på smal skjerm — navn/desc over, lenke under. */
-  .process-layers__meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
+  .process-journey__title {
+    font-size: clamp(46px, 15vw, 84px);
   }
 
-  .process-layers--stage .process-layers__intro {
-    flex-basis: 86vw;
-    padding: 0 var(--gutter);
+  .process-journey__row {
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 3vw, 24px);
+    padding: clamp(36px, 6vh, 56px) 0;
   }
 
-  .process-layers--stage .process-layers__intro .process-layers__title {
-    font-size: clamp(40px, 12vw, 64px);
+  .process-journey__step {
+    padding-top: 0;
   }
 
-  .process-layers--stage .process-layers__card {
-    flex-basis: 82vw;
-    padding: 0 3vw;
+  .process-journey__media {
+    margin-top: 4px;
+    aspect-ratio: 3 / 2;
   }
 }
