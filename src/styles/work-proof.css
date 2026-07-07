@@ -194,11 +194,15 @@
   margin-top: clamp(16px, 2.4vh, 26px);
 }
 
+/* Kategori-brikke — DELT resept med Tjenesters .what-build__row-tag: svart fyll
+   + hvit tekst (lamalama) + hårfin lys kant så den leses på denne nær-svarte
+   flaten (--ink-deep). Endre begge steder samtidig. */
 .wp-case__tag {
   padding: 5px 9px;
-  border: 1px solid rgba(242, 241, 235, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 2px;
-  color: var(--on-dark-quiet);
+  background: #000000;
+  color: #ffffff;
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
   letter-spacing: 0.08em;

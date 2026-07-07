@@ -200,7 +200,7 @@
   margin: 0;
   /* Mer loddrett luft per rad (lamalama-referansen puster mye mer). Ikke like
      stort som deres, men et tydelig løft fra de tidligere kompakte radene. */
-  padding: clamp(32px, 4.4vh, 60px) var(--build-px);
+  padding: clamp(40px, 5.6vh, 76px) var(--build-px);
   border: 0;
   background: transparent;
   text-align: left;
@@ -224,7 +224,7 @@
   transition: color var(--motion-fast) ease-out;
 }
 
-/* Tag-bokser — kopi av Arbeids .wp-case__tag (kontur, ikke fylte). */
+/* Tag-bokser — delt resept med Arbeids .wp-case__tag (svart+hvit, ikke kontur). */
 .what-build__row-tags {
   flex: 1 1 auto;
   display: flex;
@@ -234,11 +234,14 @@
 
 .what-build__row-tag {
   padding: 5px 9px;
-  border: 1px solid rgba(242, 241, 235, 0.1);
+  /* Hårfin lys kant → brikka leses også på nær-svarte flater (04 Arbeid deler
+     denne resepten via .wp-case__tag). Endre begge steder samtidig. */
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 2px;
-  /* Svart fyll (som referansen) — near-black brikke som løftes fra flaten. */
-  background: var(--ink-deep);
-  color: var(--on-dark-quiet);
+  /* Svart fyll + hvit tekst (lamalama) — rein svart/hvit, bevisst utenfor
+     cream/blekk-paletten for maks pop. */
+  background: #000000;
+  color: #ffffff;
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
   letter-spacing: 0.08em;
