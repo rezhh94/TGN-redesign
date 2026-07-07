@@ -1,3 +1,39 @@
+/* 02 / Tjenester — tredelt kapittel, adaptert fra en award-referanse men holdt
+   i Tigons editorielle, near-monokrome system:
+
+     1) Tre pilarer (Bygg → System → Synlighet): reisen fra produkt til drift til
+        vekst. Stor tittel + mono-tag + kort beskrivelse per pilar.
+     2) Tjeneste-akkordeon: de fem hovedtjenestene som åpne/lukk-rader (uten
+        bilder inni). SSR-default = alle åpne (no-JS / reduced-motion lesbart);
+        JS legger til .what-build--enhanced, kollapser og lar én være åpen.
+     3) Scramble-register: alle tjenestene i tre mono-kolonner. Etikettene
+        dekodes inn på scroll (samme motor som Prosess-tittelen).
+
+   Et bilde-/mockup-felt ligger som ramme øverst (placeholder — ekte Tigon-
+   mockup settes inn senere). En seksjons-scopet pixel-cursor lever på desktop.
+   All tekst og alle lenker er server-rendret. */
+
+const pillars = [
+  {
+    id: "bygg",
+    tag: "Produkt",
+    title: "Bygg",
+    body: "Nettsider, apper og grensesnitt bygget for fart, struktur og konvertering fra første linje.",
+  },
+  {
+    id: "system",
+    tag: "Drift",
+    title: "System",
+    body: "Infrastruktur, integrasjoner og AI som holder løsningen i drift — og lar den vokse videre.",
+  },
+  {
+    id: "synlighet",
+    tag: "Vekst",
+    title: "Synlighet",
+    body: "Teknisk SEO, innhold og måling som gjør at løsningen blir funnet, forstått og valgt.",
+  },
+] as const;
+
 const services = [
   {
     title: "Nettsider",
@@ -36,24 +72,47 @@ const services = [
   },
 ];
 
-/* Tjenester uten eget kort — SEO-teksten og internlenkene bor i et stille
-   register etter listen. Slugs fylles inn etter hvert som sidene finnes. */
-const moreServices: Array<{ title: string; href?: string }> = [
-  { title: "UX/UI-design" },
-  { title: "E-handel", href: "/tjenester/e-handel-losninger" },
-  { title: "Branding & identitet" },
-  { title: "Headless CMS" },
-  { title: "Digital infrastruktur", href: "/tjenester/digital-infrastruktur" },
-  { title: "Vedlikehold & sikkerhet" },
-];
+/* Fullt tjeneste-register — gruppert etter pilar. Bunn-listen scrambles inn.
+   Slugs fylles inn etter hvert som sidene finnes. */
+const register = [
+  {
+    id: "bygg",
+    tag: "Bygg",
+    items: [
+      { name: "Nettsider", href: "/tjenester/webutvikling-nextjs" },
+      { name: "Webapper", href: "/tjenester" },
+      { name: "Apper", href: "/tjenester/app-utvikling" },
+      { name: "E-handel", href: "/tjenester/e-handel-losninger" },
+      { name: "Headless CMS" },
+      { name: "UX/UI-design" },
+    ],
+  },
+  {
+    id: "system",
+    tag: "System",
+    items: [
+      { name: "AI-systemer", href: "/tjenester/ai-implementering" },
+      { name: "Digital infrastruktur", href: "/tjenester/digital-infrastruktur" },
+      { name: "Integrasjoner" },
+      { name: "Vedlikehold & sikkerhet" },
+    ],
+  },
+  {
+    id: "synlighet",
+    tag: "Synlighet",
+    items: [
+      { name: "Teknisk SEO" },
+      { name: "AI-søk" },
+      { name: "Innholdsstruktur" },
+      { name: "Lokal synlighet" },
+      { name: "Måling" },
+    ],
+  },
+] as const;
 
-/* 02 / Tjenester — statisk tjenesteliste (uten nummer-etiketter): full-bredde
-   rader med tittel + mono-meta, alle alltid åpne (ingen toggle/kollaps).
-   Hver rad viser beskrivelse + kategori-brikker + «Les mer»-lenke + bilderamme.
-   All tekst og alle lenker server-rendret. */
 export function WhatWeBuild() {
   return (
-    <section className="what-build" aria-labelledby="what-build-title">
+    <section className="what-build" aria-labelledby="what-build-title" data-build-section>
       <div className="what-build__inner what-build__inner--head">
         <header className="what-build__top">
           <p className="what-build__label">Tjenester</p>
@@ -66,83 +125,107 @@ export function WhatWeBuild() {
                 Digitale løsninger som blir funnet, forstått og brukt.
               </p>
               <p className="what-build__intro what-build__intro--secondary">
-                Nettsider, apper og systemer med struktur, fart, søkbarhet og måling fra start.
+                Fra produkt til drift til vekst — struktur, fart, søkbarhet og måling fra start.
               </p>
             </div>
           </div>
         </header>
       </div>
 
-      <ol className="what-build__list" aria-label="Tjenester" data-build-list>
-          {services.map((service) => {
-            const categories = service.tagline.split(" / ");
-            return (
-              <li className="what-build__row" data-build-row key={service.title}>
-                <div className="what-build__row-head">
-                  <h3 className="what-build__row-heading">
-                    <span className="what-build__service-title">{service.title}</span>
-                  </h3>
-                  <span className="what-build__row-meta">{service.meta}</span>
-                </div>
+      {/* 1) Tre pilarer — Bygg → System → Synlighet */}
+      <div className="what-build__inner what-build__inner--pillars">
+        <ol className="what-build__pillars" data-build-list aria-label="Slik jobber vi">
+          {pillars.map((pillar, i) => (
+            <li className="what-build__pillar" data-build-row key={pillar.id}>
+              <div className="what-build__pillar-top">
+                <h3 className="what-build__pillar-title">{pillar.title}</h3>
+                {i < pillars.length - 1 ? (
+                  <span className="what-build__pillar-arrow" aria-hidden="true" />
+                ) : null}
+              </div>
+              <p className="what-build__pillar-tag">{pillar.tag}</p>
+              <p className="what-build__pillar-body">{pillar.body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
 
-                <div className="what-build__body">
-                  <div className="what-build__body-inner">
-                    <div className="what-build__body-grid">
-                      <div className="what-build__body-main">
-                        <p className="what-build__description">{service.description}</p>
-                        <div className="what-build__cats">
-                          <p className="what-build__cats-label">Kategorier</p>
-                          <ul className="what-build__cat-list">
-                            {categories.map((cat) => (
-                              <li className="what-build__cat" key={cat}>
-                                {cat}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <a className="what-build__row-link" href={service.href}>
-                          Les mer
-                          <span className="what-build__cta-arrow" aria-hidden="true" />
-                        </a>
-                      </div>
+      {/* 2) Tjeneste-akkordeon — uten bilder */}
+      <ol className="what-build__list" aria-label="Tjenester" data-build-accordion>
+        {services.map((service, i) => {
+          const tags = service.meta.split(" / ");
+          const panelId = `wb-panel-${i}`;
+          return (
+            <li className="what-build__row" data-build-row key={service.title}>
+              <button
+                type="button"
+                className="what-build__row-head"
+                data-build-toggle
+                aria-expanded="true"
+                aria-controls={panelId}
+              >
+                <span className="what-build__service-title">{service.title}</span>
+                <span className="what-build__row-tags">
+                  {tags.map((tag) => (
+                    <span className="what-build__row-tag" key={tag}>
+                      {tag}
+                    </span>
+                  ))}
+                </span>
+                <span className="what-build__row-strip" aria-hidden="true">
+                  <span className="what-build__row-thumb" />
+                  <span className="what-build__row-thumb" />
+                  <span className="what-build__row-thumb" />
+                </span>
+                <span className="what-build__row-toggle" aria-hidden="true" />
+              </button>
 
-                      {/* Bilderamme — plassholder klar for ekte bilde per tjeneste */}
-                      <figure className="what-build__media">
-                        <div className="what-build__media-frame">
-                          <span className="what-build__media-hint">Sett inn bilde</span>
-                        </div>
-                      </figure>
-                    </div>
+              <div className="what-build__body" id={panelId} data-build-panel>
+                <div className="what-build__body-inner">
+                  <div className="what-build__body-grid">
+                    <p className="what-build__description">{service.description}</p>
+                    <a className="what-build__row-link" href={service.href}>
+                      Les mer
+                      <span className="what-build__cta-arrow" aria-hidden="true" />
+                    </a>
                   </div>
                 </div>
-              </li>
-            );
-          })}
+              </div>
+            </li>
+          );
+        })}
       </ol>
 
+      {/* 3) Scramble-register — alle tjenestene */}
       <div className="what-build__inner what-build__inner--foot">
-        <nav className="what-build__more" aria-label="Flere tjenester">
-          <p className="what-build__more-label">Flere tjenester</p>
-          <ul className="what-build__more-list">
-            {moreServices.map((item) => (
-              <li className="what-build__more-item" key={item.title}>
-                {item.href ? <a href={item.href}>{item.title}</a> : <span>{item.title}</span>}
-              </li>
+        <div className="what-build__register" data-build-register>
+          <p className="what-build__register-label">Alle tjenester</p>
+          <div className="what-build__register-cols">
+            {register.map((col) => (
+              <div className="what-build__register-col" key={col.id}>
+                <p className="what-build__register-tag">{col.tag}</p>
+                <ul className="what-build__register-list">
+                  {col.items.map((item) => (
+                    <li className="what-build__register-item" key={item.name}>
+                      {"href" in item && item.href ? (
+                        <a href={item.href} data-scramble>
+                          {item.name}
+                        </a>
+                      ) : (
+                        <span data-scramble>{item.name}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
-          <a className="what-build__foot-link" href="/tjenester">
-            Alle tjenester
-            <span className="what-build__foot-arrow" aria-hidden="true" />
-          </a>
-        </nav>
+          </div>
+        </div>
 
         <footer className="what-build__foot">
-          <p className="what-build__foot-note">05 tjenester — én produksjon</p>
-          <p className="what-build__foot-copy">
-            Alt bygges på samme grunnmur: struktur, fart, søkbarhet og måling.
-          </p>
-          <a className="what-build__foot-link" href="#prosess">
-            Se hvordan vi produserer
+          <p className="what-build__foot-note">Én produksjon — samme grunnmur</p>
+          <a className="what-build__foot-link" href="/tjenester">
+            Alle tjenester
             <span className="what-build__foot-arrow" aria-hidden="true" />
           </a>
         </footer>

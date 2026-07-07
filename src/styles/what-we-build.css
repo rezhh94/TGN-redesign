@@ -1,16 +1,17 @@
-/* 02 / Tjenester — Fabrica-adaptert tjeneste-akkordeon på mørk grunn.
-   Full-bredde rader delt av hårstreker: stor tittel + sirkel-toggle. Klikk
-   åpner én rad om gangen og avslører beskrivelse + kategori-brikker + lenke.
-   Ingen nummer-etiketter (bevisst utelatt, jf. Fabricas «(001)»).
+/* 02 / Tjenester — tredelt kapittel på det «løftede» mørke rommet:
+   1) tre pilarer (Bygg → System → Synlighet)
+   2) tjeneste-akkordeon (åpne/lukk, uten bilder)
+   3) scramble-register (alle tjenester)
 
-   Default (no JS / PRM): alle rader åpne, all tekst og alle lenker SSR.
-   JS legger til .what-build--enhanced og kollapser rader uten [data-open]. */
+   Default (no JS / reduced-motion): akkordeon-radene er alle åpne, all tekst og
+   alle lenker SSR. JS legger til .what-build--enhanced og kollapser radene uten
+   [data-open]. Pixel-cursoren er desktop-only og aktiveres kun av JS. */
 
 .what-build {
   --build-px: var(--gutter);
   position: relative;
   overflow: hidden;
-  /* --ink-surface (= #1a1c1c). Pixel-identisk med før — services skal ikke røres. */
+  /* --ink-surface (= #1a1c1c) — det løftede rommet, uendret. */
   background: var(--ink-surface);
   color: var(--color-on-dark);
 }
@@ -25,10 +26,17 @@
   padding-bottom: 0;
 }
 
-.what-build__inner--foot {
+.what-build__inner--pillars {
   padding-top: clamp(56px, 9vh, 120px);
+  padding-bottom: clamp(40px, 6vh, 80px);
+}
+
+.what-build__inner--foot {
+  padding-top: clamp(64px, 10vh, 128px);
   padding-bottom: var(--section-pad-y);
 }
+
+/* Masthode ------------------------------------------------------------ */
 
 .what-build__top {
   display: grid;
@@ -57,11 +65,9 @@
 
 .what-build__title {
   grid-column: 1 / -1;
-  /* Optisk venstre-bleed som skalerer med fonten */
   margin-left: -0.12em;
   color: var(--color-on-dark);
   font-family: var(--font-display);
-  /* Tier 2 i stigen — samme skala som 01-statementet (kapittel stor, ~170) */
   font-size: clamp(64px, 8.6vw, 170px);
   font-weight: 700;
   letter-spacing: 0;
@@ -95,8 +101,70 @@
   font-size: 17px;
 }
 
-/* Tjenestelisten — statiske rader, alle åpne. Rad-anatomi: tittel / mono-meta.
-   Ingen toggle, ingen kollaps, ingen nummer. */
+/* 1) Pilarer — Bygg → System → Synlighet ----------------------------- */
+
+.what-build__pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 80px);
+  margin: 0;
+  padding: clamp(28px, 4vh, 48px) 0 0;
+  list-style: none;
+  border-top: 1px solid rgba(242, 241, 235, 0.16);
+}
+
+.what-build__pillar {
+  min-width: 0;
+}
+
+.what-build__pillar-top {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2vw, 32px);
+}
+
+.what-build__pillar-title {
+  margin: 0;
+  color: var(--color-on-dark);
+  font-family: var(--font-display);
+  font-size: clamp(34px, 3.4vw, 62px);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+/* Diagonal ↗ mellom pilarene — reisen fremover (build → run → grow). */
+.what-build__pillar-arrow {
+  width: 16px;
+  height: 18px;
+  flex: none;
+  background: var(--on-dark-quiet);
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
+}
+
+.what-build__pillar-tag {
+  margin: clamp(18px, 2.4vh, 28px) 0 0;
+  color: var(--pine-tint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.what-build__pillar-body {
+  max-width: 34ch;
+  margin: clamp(12px, 1.6vh, 18px) 0 0;
+  color: var(--on-dark-medium);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.05vw, 18px);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* 2) Tjeneste-akkordeon ---------------------------------------------- */
 
 .what-build__list {
   position: relative;
@@ -112,40 +180,119 @@
   border-bottom: 1px solid rgba(242, 241, 235, 0.14);
 }
 
+/* Rad-hodet — samme sammenslåtte rad som Arbeid (.wp-case__summary):
+   navn + tag-bokser + liten thumb-stripe + veksler. Full-bredde knapp
+   (akkordeon-toggle). */
 .what-build__row-head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(20px, 3vw, 48px);
+  --wb-row-gap: clamp(16px, 2.4vw, 40px);
+  display: flex;
   align-items: center;
-  padding: clamp(20px, 2.8vh, 32px) var(--build-px) 0;
-}
-
-.what-build__row-heading {
+  gap: var(--wb-row-gap);
+  width: 100%;
   margin: 0;
-  font-weight: 500;
+  padding: clamp(20px, 2.8vh, 34px) var(--build-px);
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .what-build__service-title {
-  min-width: 0;
-  color: var(--color-on-dark);
-  font-family: var(--font-sans);
-  font-size: clamp(34px, 3.1vw, 58px);
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  line-height: 0.98;
+  flex: 0 0 auto;
+  min-width: clamp(160px, 18vw, 260px);
+  color: var(--on-dark-strong);
+  /* Samme display-font + versaler + størrelse som Arbeid (.wp-case__name) */
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.4vw, 54px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: color var(--motion-fast) ease-out;
 }
 
-.what-build__row-meta {
+/* Tag-bokser — kopi av Arbeids .wp-case__tag (kontur, ikke fylte). */
+.what-build__row-tags {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.what-build__row-tag {
+  padding: 5px 9px;
+  border: 1px solid rgba(242, 241, 235, 0.18);
+  border-radius: 2px;
+  color: var(--on-dark-quiet);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Liten thumb-stripe — kopi av Arbeids .wp-case__strip/thumb. Tomme bilde-
+   rammer (mørkere enn flaten + hårlinje). Skjules når raden åpnes. */
+.what-build__row-strip {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 6px;
+  transition: opacity var(--motion-fast) ease-out;
+}
+
+.what-build__row-thumb {
+  width: clamp(34px, 3vw, 48px);
+  aspect-ratio: 4 / 3;
+  background: var(--ink-base);
+  box-shadow: inset 0 0 0 1px rgba(242, 241, 235, 0.09);
+}
+
+.what-build__row-head[aria-expanded="true"] .what-build__row-strip {
+  opacity: 0;
+}
+
+/* Mono-veksler — samme som Arbeid (.wp-case__toggle): ( + ) lukket → ( − )
+   åpen, dempet → pine på hover/åpen. Ingen sirkel-chrome. */
+.what-build__row-toggle {
+  flex: 0 0 auto;
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
   letter-spacing: 0.04em;
   line-height: 1.2;
-  white-space: nowrap;
+  text-align: right;
+  transition: color var(--motion-fast) ease-out;
 }
 
-/* Kropp — alltid synlig (rader er statisk åpne). */
+.what-build__row-toggle::after {
+  content: "( + )";
+}
 
+.what-build__row-head[aria-expanded="true"] .what-build__row-toggle::after {
+  content: "( − )";
+}
+
+.what-build__row-head:hover .what-build__row-toggle,
+.what-build__row-head:focus-visible .what-build__row-toggle,
+.what-build__row-head[aria-expanded="true"] .what-build__row-toggle {
+  color: var(--pine-tint);
+}
+
+.what-build__row-head:hover .what-build__service-title,
+.what-build__row-head[aria-expanded="true"] .what-build__service-title {
+  color: var(--color-on-dark);
+}
+
+.what-build__row-head:focus-visible {
+  outline: 1px solid var(--pine-tint);
+  outline-offset: -2px;
+}
+
+/* Kropp — default (uenhanced) fullt synlig. Innrykket flukter under navnet
+   (som Arbeids .wp-case__detail). */
 .what-build__body {
   display: block;
 }
@@ -155,76 +302,21 @@
 }
 
 .what-build__body-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(24px, 4vw, 72px);
-  align-items: start;
-  padding: clamp(4px, 1vh, 12px) var(--build-px) clamp(38px, 5.6vh, 64px);
-}
-
-.what-build__body-main {
-  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  max-width: 60ch;
+  padding: clamp(6px, 1vh, 12px) var(--build-px) clamp(30px, 4.4vh, 52px);
 }
 
 .what-build__description {
-  max-width: 560px;
+  max-width: 44ch;
   margin: 0;
   color: var(--on-dark-strong);
   font-family: var(--font-sans);
-  font-size: clamp(18px, 1.3vw, 22px);
+  font-size: var(--fz-lead-m);
   font-weight: 400;
-  line-height: 1.28;
-}
-
-/* Kategori-brikker — Fabricas «Categories»-rad, men som rolige ghost-brikker
-   (kontur, ikke fylte SaaS-tags) for å holde seg editorielt. */
-
-.what-build__cats {
-  min-width: 0;
-  margin-top: clamp(24px, 3.4vh, 40px);
-}
-
-.what-build__cats-label {
-  margin: 0 0 clamp(14px, 1.8vh, 20px);
-  color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-/* Kategori-brikker som segmentert boks-rekke (à la BRANDING / EXPERIENCE /
-   PORTFOLIO): skarpe hjørner, delte 1px-kanter, mono-versaler. */
-.what-build__cat-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.what-build__cat {
-  padding: 9px 16px;
-  border: 0;
-  background: #000;
-  color: var(--on-dark-strong);
-  font-family: var(--font-mono);
-  font-size: clamp(10px, 0.75vw, 12px);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  line-height: 1.1;
-  text-transform: uppercase;
-  white-space: nowrap;
-  transition: color var(--motion-fast) var(--ease-standard);
-}
-
-.what-build__cat:hover {
-  color: var(--color-on-dark);
+  line-height: 1.5;
 }
 
 .what-build__row-link {
@@ -252,8 +344,8 @@
   text-decoration-color: var(--color-on-dark);
 }
 
-/* Samme ↗ som Hero/ContactFooter — lamalama diagonal linje-pil (--arrow-ne). */
-.what-build__cta-arrow {
+.what-build__cta-arrow,
+.what-build__foot-arrow {
   width: 9px;
   height: 10px;
   display: inline-block;
@@ -269,42 +361,27 @@
   transform: translate(3px, -3px);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .what-build__cta-arrow {
-    transition: none;
-  }
-}
-
-/* Bilderamme — plassholder på høyre side i åpen rad. Skarp ramme + hårlinje-
-   hjørner; bytt innholdet i .what-build__media-frame med et <img> ved behov. */
-
-.what-build__media {
-  margin: 0;
-  min-width: 0;
-}
-
-.what-build__media-frame {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 4 / 3;
-  width: clamp(180px, 20vw, 240px);
+/* Enhanced (JS på): kollaps alle paneler; kun [data-open] er utfoldet.
+   height animeres av GSAP — her setter vi bare start/skjul-tilstanden. */
+.what-build--enhanced .what-build__body {
   overflow: hidden;
-  border: 1px solid rgba(242, 241, 235, 0.22);
-  background: rgba(242, 241, 235, 0.02);
+  height: 0;
 }
 
-.what-build__media-frame img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.what-build--enhanced .what-build__row[data-open] .what-build__body {
+  height: auto;
 }
 
-.what-build__media-hint {
-  color: var(--on-dark-faint);
+/* 3) Scramble-register ------------------------------------------------ */
+
+.what-build__register {
+  border-top: 1px solid rgba(242, 241, 235, 0.16);
+  padding-top: clamp(28px, 4vh, 48px);
+}
+
+.what-build__register-label {
+  margin: 0 0 clamp(24px, 3.6vh, 44px);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
   letter-spacing: 0.08em;
@@ -312,71 +389,73 @@
   text-transform: uppercase;
 }
 
-/* «Flere tjenester» — stille SSR-register for tjenestene uten egen rad:
-   internlenkene og søketeksten bor her, presentasjonen forblir rolig. */
-
-.what-build__more {
-  display: flex;
-  align-items: baseline;
-  gap: clamp(24px, 4vw, 72px);
-  margin-bottom: clamp(44px, 7vh, 84px);
-  padding-bottom: clamp(24px, 3.6vh, 42px);
-  border-bottom: 1px solid rgba(242, 241, 235, 0.14);
+.what-build__register-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 80px);
 }
 
-.what-build__more-label {
-  flex: none;
-  color: var(--on-dark-quiet);
+.what-build__register-col {
+  min-width: 0;
+}
+
+.what-build__register-tag {
+  margin: 0 0 clamp(16px, 2vh, 22px);
+  color: var(--on-dark-faint);
   font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.04em;
+  font-size: var(--fz-mono-s);
+  letter-spacing: 0.1em;
   line-height: 1.2;
   text-transform: uppercase;
 }
 
-.what-build__more-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px clamp(18px, 2vw, 34px);
+.what-build__register-list {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.what-build__more-item {
+.what-build__register-item {
+  padding: clamp(9px, 1.2vh, 13px) 0;
+  border-top: 1px solid rgba(242, 241, 235, 0.08);
+}
+
+.what-build__register-item:first-child {
+  border-top: 0;
+}
+
+.what-build__register-item a,
+.what-build__register-item span {
+  display: inline-block;
   color: var(--on-dark-medium);
-  font-family: var(--font-sans);
-  font-size: clamp(15px, 1.1vw, 19px);
+  font-family: var(--font-mono);
+  font-size: clamp(12px, 1vw, 15px);
   font-weight: 400;
-  line-height: 1.4;
-  white-space: nowrap;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
-.what-build__more-item a {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-color: rgba(242, 241, 235, 0.26);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.32em;
-  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
+.what-build__register-item a {
+  color: var(--on-dark-strong);
+  text-decoration: none;
+  transition: color var(--motion-fast) ease-out;
 }
 
-.what-build__more-item a:hover,
-.what-build__more-item a:focus-visible {
+.what-build__register-item a:hover,
+.what-build__register-item a:focus-visible {
   color: var(--pine-tint);
-  text-decoration-color: var(--pine-tint);
 }
 
-.what-build__more .what-build__foot-link {
-  align-self: baseline;
-}
-
-/* Foot strip — closes the chapter and hands off to 05 / Prosess. */
+/* Foot ---------------------------------------------------------------- */
 
 .what-build__foot {
   display: flex;
   align-items: baseline;
   gap: clamp(24px, 4vw, 72px);
+  margin-top: clamp(48px, 7vh, 88px);
+  padding-top: clamp(24px, 3.6vh, 42px);
+  border-top: 1px solid rgba(242, 241, 235, 0.14);
 }
 
 .what-build__foot-note {
@@ -387,14 +466,6 @@
   letter-spacing: 0.04em;
   line-height: 1.2;
   text-transform: uppercase;
-}
-
-.what-build__foot-copy {
-  color: var(--on-dark-quiet);
-  font-family: var(--font-sans);
-  font-size: clamp(15px, 1.05vw, 18px);
-  font-weight: 400;
-  line-height: 1.4;
 }
 
 .what-build__foot-link {
@@ -422,21 +493,19 @@
   text-decoration-color: var(--color-on-dark);
 }
 
-.what-build__foot-arrow {
-  width: 9px;
-  height: 10px;
-  display: inline-block;
-  flex: none;
-  background: currentColor;
-  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
-  mask: var(--arrow-ne) center / contain no-repeat;
-  transition: transform var(--motion-base) var(--ease-standard);
-}
-
 .what-build__foot-link:hover .what-build__foot-arrow,
 .what-build__foot-link:focus-visible .what-build__foot-arrow {
   transform: translate(3px, -3px);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .what-build__cta-arrow,
+  .what-build__foot-arrow {
+    transition: none;
+  }
+}
+
+/* Responsiv ----------------------------------------------------------- */
 
 @media (max-width: 1080px) {
   .what-build__top {
@@ -459,18 +528,22 @@
     margin-top: 8px;
   }
 
-  .what-build__row-head {
+  .what-build__pillars {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 36px;
+  }
+
+  .what-build__pillar-arrow {
+    display: none;
+  }
+
+  .what-build__register-cols {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
   }
 
   .what-build__service-title {
     font-size: clamp(36px, 5.4vw, 56px);
-  }
-
-  .what-build__body-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
   }
 }
 
@@ -485,6 +558,11 @@
 
   .what-build__inner--head {
     padding-bottom: 0;
+  }
+
+  .what-build__inner--pillars {
+    padding-top: 48px;
+    padding-bottom: 32px;
   }
 
   .what-build__inner--foot {
@@ -507,31 +585,47 @@
     margin-top: 0;
   }
 
-  .what-build__intro--primary {
-    font-size: 20px;
-    line-height: 1.26;
-  }
-
-  .what-build__intro--secondary {
-    margin-top: 14px;
-    font-size: 17px;
+  .what-build__pillar-title {
+    font-size: clamp(38px, 12vw, 52px);
   }
 
   .what-build__row-head {
-    gap: 8px;
-    padding: 22px var(--build-px) 0;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    padding: 22px var(--build-px);
   }
 
   .what-build__service-title {
-    font-size: clamp(30px, 9vw, 40px);
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: clamp(30px, 9vw, 44px);
+  }
+
+  .what-build__row-toggle {
+    order: 2;
+    flex: 0 0 auto;
+  }
+
+  .what-build__row-tags {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .what-build__row-strip {
+    display: none;
   }
 
   .what-build__description {
-    font-size: 20px;
-    line-height: 1.3;
+    font-size: var(--fz-lead-m);
+    line-height: 1.5;
   }
 
-  .what-build__more,
+  .what-build__register-cols {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
   .what-build__foot {
     flex-direction: column;
     align-items: flex-start;
