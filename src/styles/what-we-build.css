@@ -224,8 +224,10 @@
 
 .what-build__row-tag {
   padding: 5px 9px;
-  border: 1px solid rgba(242, 241, 235, 0.18);
+  border: 1px solid rgba(242, 241, 235, 0.1);
   border-radius: 2px;
+  /* Svart fyll (som referansen) — near-black brikke som løftes fra flaten. */
+  background: var(--ink-deep);
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
@@ -301,12 +303,49 @@
   min-height: 0;
 }
 
+/* To kolonner — kopi av Arbeids .wp-case__detail: tekst (beskrivelse + lenke)
+   til venstre, tre mockup-rammer til høyre. */
 .what-build__body-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 40ch) 1fr;
+  gap: clamp(24px, 4vw, 72px);
+  align-items: start;
+  padding: clamp(6px, 1vh, 12px) var(--build-px) clamp(30px, 4.4vh, 52px);
+}
+
+.what-build__body-copy {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 60ch;
-  padding: clamp(6px, 1vh, 12px) var(--build-px) clamp(30px, 4.4vh, 52px);
+}
+
+/* Mockup-rammer — to små 3/4-rammer, høyrestilt (som referansen). Tomme
+   (mørkere enn flaten + hårlinje), klare til ekte Tigon-mockups. Bevisst
+   mindre enn Arbeids plakater så tjeneste-raden ikke domineres av bildene. */
+.what-build__posters {
+  display: flex;
+  justify-content: flex-end;
+  align-self: start;
+  gap: clamp(10px, 1.2vw, 16px);
+}
+
+.what-build__poster {
+  position: relative;
+  width: clamp(110px, 13vw, 168px);
+  aspect-ratio: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink-base);
+  box-shadow: inset 0 0 0 1px rgba(242, 241, 235, 0.09);
+}
+
+.what-build__poster-tag {
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .what-build__description {
@@ -415,36 +454,58 @@
   list-style: none;
 }
 
-.what-build__register-item {
-  padding: clamp(9px, 1.2vh, 13px) 0;
-  border-top: 1px solid rgba(242, 241, 235, 0.08);
-}
-
-.what-build__register-item:first-child {
-  border-top: 0;
+/* Luftig meny — ingen hårstreker. Navnene løftes fra bittesmå mono-versaler til
+   en roligere, større sans med god pust; skille kommer av rom, ikke linjer.
+   Lenker løftes til hvitt på hover og en liten NE-pil sklir inn (::after, så
+   scramble-teksten holdes ren). Reservert plass til pila = ingen layout-hopp. */
+.what-build__register-item + .what-build__register-item {
+  margin-top: clamp(12px, 1.6vh, 20px);
 }
 
 .what-build__register-item a,
 .what-build__register-item span {
   display: inline-block;
   color: var(--on-dark-medium);
-  font-family: var(--font-mono);
-  font-size: clamp(12px, 1vw, 15px);
+  font-family: var(--font-sans);
+  font-size: clamp(17px, 1.5vw, 22px);
   font-weight: 400;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  text-transform: none;
 }
 
 .what-build__register-item a {
+  position: relative;
+  padding-right: 20px;
   color: var(--on-dark-strong);
   text-decoration: none;
   transition: color var(--motion-fast) ease-out;
 }
 
+.what-build__register-item a::after {
+  content: "";
+  position: absolute;
+  top: 0.52em;
+  right: 2px;
+  width: 9px;
+  height: 10px;
+  background: currentColor;
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: opacity var(--motion-fast) ease-out, transform var(--motion-base) var(--ease-standard);
+}
+
 .what-build__register-item a:hover,
 .what-build__register-item a:focus-visible {
-  color: var(--pine-tint);
+  color: var(--color-on-dark);
+}
+
+.what-build__register-item a:hover::after,
+.what-build__register-item a:focus-visible::after {
+  opacity: 1;
+  transform: translate(0, 0);
 }
 
 /* Foot ---------------------------------------------------------------- */
@@ -530,7 +591,7 @@
 
   .what-build__pillars {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 28px;
   }
 
   .what-build__pillar-arrow {
@@ -585,8 +646,19 @@
     margin-top: 0;
   }
 
+  /* Demote pilarene på mobil — tydelig mindre enn tjeneste-titlene (44px) så
+     de leser som stille ramme, ikke som en konkurrerende liste. */
   .what-build__pillar-title {
-    font-size: clamp(38px, 12vw, 52px);
+    font-size: clamp(19px, 6vw, 26px);
+    line-height: 1.05;
+  }
+
+  .what-build__pillar-tag {
+    margin-top: 10px;
+  }
+
+  .what-build__pillar-body {
+    margin-top: 8px;
   }
 
   .what-build__row-head {
@@ -614,6 +686,16 @@
 
   .what-build__row-strip {
     display: none;
+  }
+
+  /* Mobil: tekst over mockups, én kolonne (som Arbeid). Rammene venstrestilt. */
+  .what-build__body-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .what-build__posters {
+    justify-content: flex-start;
   }
 
   .what-build__description {

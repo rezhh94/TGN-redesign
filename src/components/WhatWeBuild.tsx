@@ -175,7 +175,6 @@ export function WhatWeBuild() {
                 <span className="what-build__row-strip" aria-hidden="true">
                   <span className="what-build__row-thumb" />
                   <span className="what-build__row-thumb" />
-                  <span className="what-build__row-thumb" />
                 </span>
                 <span className="what-build__row-toggle" aria-hidden="true" />
               </button>
@@ -183,11 +182,21 @@ export function WhatWeBuild() {
               <div className="what-build__body" id={panelId} data-build-panel>
                 <div className="what-build__body-inner">
                   <div className="what-build__body-grid">
-                    <p className="what-build__description">{service.description}</p>
-                    <a className="what-build__row-link" href={service.href}>
-                      Les mer
-                      <span className="what-build__cta-arrow" aria-hidden="true" />
-                    </a>
+                    <div className="what-build__body-copy">
+                      <p className="what-build__description">{service.description}</p>
+                      <a className="what-build__row-link" href={service.href}>
+                        Les mer
+                        <span className="what-build__cta-arrow" aria-hidden="true" />
+                      </a>
+                    </div>
+                    <div className="what-build__posters" aria-hidden="true">
+                      <span className="what-build__poster">
+                        <span className="what-build__poster-tag">Mockup</span>
+                      </span>
+                      <span className="what-build__poster">
+                        <span className="what-build__poster-tag">Mockup</span>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
