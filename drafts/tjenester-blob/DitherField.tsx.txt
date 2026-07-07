@@ -1,0 +1,165 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+// Dekorativt Bayer-dither-lag. To moduser:
+//   • generativ (default): rolig animert tegn-flate, konsentrert i øvre felt og
+//     fadet helt ut bak tekst-kolonnene så de holder seg lesbare.
+//   • foto (src): dithrer et bilde (f.eks. hånd på tastatur) i gråtone — samme
+//     falloff, statisk. Legg en fil i /public og send src="/fil.jpg".
+// Tegnes etter mount (SSR-tekst rendres uavhengig), fryser ved redusert
+// bevegelse, aria-hidden, rører aldri LCP-teksten.
+const BAYER = [
+  [0, 32, 8, 40, 2, 34, 10, 42],
+  [48, 16, 56, 24, 50, 18, 58, 26],
+  [12, 44, 4, 36, 14, 46, 6, 38],
+  [60, 28, 52, 20, 62, 30, 54, 22],
+  [3, 35, 11, 43, 1, 33, 9, 41],
+  [51, 19, 59, 27, 49, 17, 57, 25],
+  [15, 47, 7, 39, 13, 45, 5, 37],
+  [63, 31, 55, 23, 61, 29, 53, 21],
+];
+
+const INK = [16, 17, 17];
+const DOT = [88, 90, 84];
+
+export function DitherField({ className, src }: { className?: string; src?: string }) {
+  const ref = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const cv = ref.current;
+    if (!cv) return;
+    const ctx = cv.getContext("2d");
+    if (!ctx) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let W = 0;
+    let H = 0;
+    let img: ImageData | null = null;
+    let srcLum: Uint8ClampedArray | null = null;
+    let imgEl: HTMLImageElement | null = null;
+    let raf = 0;
+    let frame = 0;
+
+    // Falloff: full styrke øverst, 0 fra ~52% høyde og ned (der kolonnene bor).
+    const vmask = (y: number) => {
+      const a = H * 0.3;
+      const b = H * 0.52;
+      let t = (y - a) / (b - a);
+      t = t < 0 ? 0 : t > 1 ? 1 : t;
+      const s = t * t * (3 - 2 * t);
+      return 1 - s;
+    };
+
+    const put = (v: number, i: number, x: number, y: number) => {
+      const d = img!.data;
+      const on = v > (BAYER[y & 7][x & 7] + 0.5) / 64;
+      d[i] = on ? DOT[0] : INK[0];
+      d[i + 1] = on ? DOT[1] : INK[1];
+      d[i + 2] = on ? DOT[2] : INK[2];
+      d[i + 3] = 255;
+    };
+
+    const buildLum = () => {
+      if (!imgEl || !imgEl.width || !W || !H) {
+        srcLum = null;
+        return;
+      }
+      const off = document.createElement("canvas");
+      off.width = W;
+      off.height = H;
+      const octx = off.getContext("2d");
+      if (!octx) {
+        srcLum = null;
+        return;
+      }
+      const ir = imgEl.width / imgEl.height;
+      const cr = W / H;
+      let dw = W;
+      let dh = H;
+      let dx = 0;
+      let dy = 0;
+      if (ir > cr) {
+        dh = H;
+        dw = H * ir;
+        dx = (W - dw) / 2;
+      } else {
+        dw = W;
+        dh = W / ir;
+        dy = (H - dh) / 2;
+      }
+      octx.drawImage(imgEl, dx, dy, dw, dh);
+      srcLum = octx.getImageData(0, 0, W, H).data;
+    };
+
+    const renderImage = () => {
+      if (!img || !srcLum) return;
+      for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+          const i = (y * W + x) * 4;
+          const lum = (srcLum[i] * 0.299 + srcLum[i + 1] * 0.587 + srcLum[i + 2] * 0.114) / 255;
+          put(lum * vmask(y), i, x, y);
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+    };
+
+    const renderGen = (t: number) => {
+      if (!img) return;
+      const hx = W * (0.82 + 0.05 * Math.sin(t * 0.0005));
+      const hy = H * (0.13 + 0.04 * Math.cos(t * 0.0007));
+      const sc = W * 1.05;
+      for (let y = 0; y < H; y++) {
+        const m = vmask(y);
+        for (let x = 0; x < W; x++) {
+          const dist = Math.hypot(x - hx, y - hy) / sc;
+          let v = ((1 - dist * 1.55) * 0.8 + 0.04 * Math.sin(x * 0.12 + y * 0.09 + t * 0.0016)) * m;
+          if (v < 0) v = 0;
+          else if (v > 1) v = 1;
+          put(v, (y * W + x) * 4, x, y);
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+    };
+
+    const resize = () => {
+      const r = cv.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      W = Math.min(460, Math.max(120, Math.round(r.width / 3)));
+      H = Math.max(80, Math.round(W * (r.height / r.width)));
+      cv.width = W;
+      cv.height = H;
+      img = ctx.createImageData(W, H);
+      if (imgEl && imgEl.complete) {
+        buildLum();
+        renderImage();
+      } else if (!src && reduce) {
+        renderGen(1400);
+      }
+    };
+
+    const loop = (t: number) => {
+      if ((frame++ & 1) === 0) renderGen(t);
+      raf = requestAnimationFrame(loop);
+    };
+
+    if (src) {
+      imgEl = new Image();
+      imgEl.decoding = "async";
+      imgEl.onload = resize;
+      imgEl.src = src;
+      resize();
+    } else {
+      resize();
+      if (!reduce) raf = requestAnimationFrame(loop);
+    }
+
+    window.addEventListener("resize", resize);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+    };
+  }, [src]);
+
+  return <canvas ref={ref} className={className} aria-hidden="true" />;
+}

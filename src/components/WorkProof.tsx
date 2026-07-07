@@ -1,20 +1,55 @@
-const pieces = [
-  { n: "01", kind: "Webapp", note: "Produkt · Next.js", img: "/work/carousel/01.png" },
-  { n: "02", kind: "Nettsted", note: "SEO · struktur", img: "/work/carousel/02.png" },
-  { n: "03", kind: "Identitet", note: "Profil · system", img: "/work/carousel/03.png" },
-  { n: "04", kind: "E-handel", note: "Konvertering", img: "/work/carousel/04.png" },
-  { n: "05", kind: "Kampanje", note: "Landing · måling", img: "/work/carousel/05.png" },
-  { n: "06", kind: "Redaksjonelt", note: "Innhold · flyt", img: "/work/carousel/06.png" },
-  { n: "07", kind: "App", note: "UI · interaksjon", img: "/work/carousel/07.png" },
+const cases = [
+  {
+    n: "01",
+    name: "Webapp",
+    tags: ["Produkt", "Next.js"],
+    blurb:
+      "Et produkt bygget for daglig bruk — raskt, forutsigbart og enkelt å drifte. Grensesnittet holder seg unna veien så arbeidet flyter.",
+  },
+  {
+    n: "02",
+    name: "Nettsted",
+    tags: ["SEO", "Struktur"],
+    blurb:
+      "En flate som blir funnet og forstått. Tydelig struktur og teknisk SEO fra første linje, målt fra dag én.",
+  },
+  {
+    n: "03",
+    name: "Plattform",
+    tags: ["Portal", "Dashboard"],
+    blurb:
+      "Portaler og dashboards der data blir til beslutninger. Bygget for daglig drift, ikke for demo.",
+  },
+  {
+    n: "04",
+    name: "E-handel",
+    tags: ["Konvertering", "Flyt"],
+    blurb:
+      "Kjøpsreisen strammet inn til det som selger. Færre steg, tydeligere valg, målbar effekt.",
+  },
+  {
+    n: "05",
+    name: "AI",
+    tags: ["Integrasjon", "Automasjon"],
+    blurb:
+      "AI satt i system — integrasjoner og automasjon som fjerner manuelt arbeid, ikke bare imponerer.",
+  },
+  {
+    n: "06",
+    name: "App",
+    tags: ["UI", "Interaksjon"],
+    blurb:
+      "Interaksjon som føles håndlaget. Bevegelse med mening, ikke pynt.",
+  },
 ];
 
-/* 04 / Arbeid — "Stort proof". Mørkt galleri-rom (--ink-deep) der arbeidet
-   vises stort, ett verk om gangen, loddrett nedover — som et monografi, ikke en
-   karusell. Hvert stykke stiger inn og går fra gråtone til full farge når det
-   entrer (JS-only glød). Default (no-JS / PRM) er en enkel loddrett liste med
-   alt synlig i full farge — ingen bevegelse kreves for lesbarhet.
-
-   Bildene er midlertidige carousel-assets til Tigon-mockups m/ logo finnes. */
+/* 04 / Arbeid — utvalg som alltid-åpen katalog (ingen akkordeon). Hver rad er en
+   fullt utfoldet plakat: tekstblokk (index / navn / brikker / beskrivelse /
+   case-lenke) på den ene siden, tre mockup-rammer på den andre. Annenhver rad
+   speiles (tekst ↔ mockups bytter side) via :nth-child(even) — sikk-sakk nedover.
+   Ingen JS driver layouten; radene er lesbare uten JavaScript. Reveal-staggeren
+   i HomeMotion løfter dem inn på scroll. (Scroll-stabling à la 03/Effekt kan
+   legges på senere — bevisst utelatt i denne runden.) */
 export function WorkProof() {
   return (
     <section className="work-proof" aria-labelledby="work-proof-title">
@@ -42,18 +77,37 @@ export function WorkProof() {
         </div>
       </div>
 
-      <div className="work-proof__gallery" data-work-gallery>
-        {pieces.map((piece) => (
-          <figure className="work-proof__piece" data-work-piece key={piece.n}>
-            <figcaption className="work-proof__piece-head">
-              <span className="work-proof__piece-index">Arbeid / {piece.n}</span>
-              <span className="work-proof__piece-kind">{piece.kind}</span>
-              <span className="work-proof__piece-note">{piece.note}</span>
-            </figcaption>
-            <div className="work-proof__frame">
-              <img src={piece.img} alt="" loading="lazy" />
+      <div className="work-proof__cases" data-work-cases>
+        {cases.map((piece) => (
+          <article className="wp-case" data-work-case key={piece.n}>
+            <div className="wp-case__copy">
+              <span className="wp-case__index">Arbeid / {piece.n}</span>
+              <h3 className="wp-case__name">{piece.name}</h3>
+              <span className="wp-case__tags">
+                {piece.tags.map((tag) => (
+                  <span className="wp-case__tag" key={tag}>
+                    {tag}
+                  </span>
+                ))}
+              </span>
+              <p className="wp-case__blurb">{piece.blurb}</p>
+              <a className="wp-case__link" href="/arkiv">
+                Se case →
+              </a>
             </div>
-          </figure>
+
+            <div className="wp-case__posters" aria-hidden="true">
+              <span className="wp-case__poster">
+                <span className="wp-case__poster-tag">Mockup</span>
+              </span>
+              <span className="wp-case__poster">
+                <span className="wp-case__poster-tag">Mockup</span>
+              </span>
+              <span className="wp-case__poster">
+                <span className="wp-case__poster-tag">Mockup</span>
+              </span>
+            </div>
+          </article>
         ))}
       </div>
     </section>

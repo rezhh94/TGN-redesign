@@ -1,0 +1,297 @@
+/* 02 / Tjenester — "Hva vi bygger". Masthode (overskrift + avsnitt + brikker
+   venstre, roterende ASCII-tegn-blob høyre) og tre tjeneste-kolonner under.
+   Near-monokrom, pine som eneste aksent (bloben + hover). Ingen oransje. */
+
+.what-build {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink-surface);
+  color: var(--color-on-dark);
+  --build-px: var(--gutter);
+}
+
+.what-build__inner {
+  position: relative;
+  z-index: 1;
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
+  padding: var(--section-pad-y) var(--build-px);
+}
+
+/* --- Masthode --- */
+
+.what-build__mast {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(24px, 4vw, 72px);
+  align-items: center;
+}
+
+.what-build__mast-main {
+  grid-column: 1;
+  min-width: 0;
+}
+
+.what-build__label {
+  color: var(--on-dark-quiet);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.what-build__title {
+  margin: clamp(14px, 2vh, 22px) 0 0 -0.06em;
+  color: var(--color-on-dark);
+  font-family: var(--font-display);
+  font-size: clamp(56px, 8vw, 132px);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.84;
+  text-transform: uppercase;
+}
+
+.what-build__lead {
+  max-width: 34ch;
+  margin-top: clamp(22px, 3.2vh, 36px);
+  color: var(--on-dark-strong);
+  font-family: var(--font-sans);
+  font-size: clamp(19px, 1.7vw, 26px);
+  font-weight: 400;
+  line-height: 1.32;
+}
+
+.what-build__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: clamp(24px, 3.4vh, 40px);
+}
+
+.what-build__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(242, 241, 235, 0.2);
+  color: var(--on-dark-strong);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color var(--motion-fast) ease-out, color var(--motion-fast) ease-out;
+}
+
+.what-build__chip:hover,
+.what-build__chip:focus-visible {
+  border-color: var(--pine-tint);
+  color: var(--pine-tint);
+}
+
+.what-build__chip-arrow {
+  width: 9px;
+  height: 10px;
+  display: inline-block;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
+}
+
+.what-build__count {
+  margin-top: clamp(26px, 3.6vh, 40px);
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.what-build__blob {
+  position: relative;
+  grid-column: 2;
+  align-self: stretch;
+  min-height: clamp(360px, 36vw, 520px);
+}
+
+.what-build__blob-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.what-build__rule {
+  height: 1px;
+  background: rgba(242, 241, 235, 0.16);
+  margin: clamp(40px, 7vh, 88px) 0 clamp(30px, 4.6vh, 52px);
+}
+
+/* --- Bunn: TLDR/CTA (venstre) + tre tjeneste-kolonner (høyre) --- */
+
+.what-build__bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr);
+  gap: clamp(28px, 5vw, 80px);
+  align-items: start;
+}
+
+.what-build__tldr {
+  grid-column: 1;
+}
+
+.what-build__tldr-text {
+  max-width: 30ch;
+  color: var(--on-dark-medium);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.5;
+}
+
+.what-build__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(16px, 2.4vh, 24px);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--pine-tint);
+  color: var(--color-on-dark);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--motion-fast) ease-out;
+}
+
+.what-build__cta:hover,
+.what-build__cta:focus-visible {
+  color: var(--pine-tint);
+}
+
+.what-build__cta-arrow {
+  width: 9px;
+  height: 10px;
+  display: inline-block;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.what-build__cta:hover .what-build__cta-arrow,
+.what-build__cta:focus-visible .what-build__cta-arrow {
+  transform: translate(3px, -3px);
+}
+
+.what-build__cols {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 2.4vw, 40px);
+}
+
+.what-build__col {
+  min-width: 0;
+}
+
+.what-build__coltag {
+  margin: 0 0 clamp(16px, 2.2vh, 22px);
+  padding-top: clamp(14px, 2vh, 18px);
+  border-top: 1px solid rgba(242, 241, 235, 0.16);
+  color: var(--on-dark-medium);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.what-build__list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(9px, 1.3vh, 13px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.what-build__item {
+  color: var(--on-dark-strong);
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 1.2vw, 20px);
+  line-height: 1.2;
+}
+
+.what-build__item a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--motion-fast) ease-out;
+}
+
+.what-build__item a:hover,
+.what-build__item a:focus-visible {
+  color: var(--pine-tint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .what-build__cta-arrow {
+    transition: none;
+  }
+}
+
+@media (max-width: 1080px) {
+  .what-build__mast {
+    grid-template-columns: 1fr;
+  }
+
+  .what-build__blob {
+    grid-column: 1;
+    order: 2;
+    min-height: clamp(320px, 78vw, 440px);
+  }
+
+  .what-build__title {
+    font-size: clamp(64px, 13vw, 132px);
+  }
+
+  .what-build__bottom {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .what-build__tldr,
+  .what-build__cols {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .what-build {
+    --build-px: 20px;
+  }
+
+  .what-build__inner {
+    padding: 92px 20px 84px;
+  }
+
+  .what-build__title {
+    font-size: clamp(52px, 16vw, 88px);
+  }
+
+  .what-build__lead {
+    font-size: 19px;
+  }
+
+  .what-build__cols {
+    grid-template-columns: 1fr;
+    gap: clamp(28px, 5vh, 40px);
+  }
+
+  .what-build__item {
+    font-size: 18px;
+  }
+}

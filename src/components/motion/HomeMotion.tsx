@@ -12,23 +12,196 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 // pinned scenes jump. Dimension changes from real rotation still refresh.
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-// 02 / Tjenester — every service row is static and fully open (title, meta,
-// description, categories, link + image frame all visible). No toggle, no
-// collapse. Rows rise in once on scroll; that is the only motion here.
+// 02 / Tjenester — three-part chapter. Pillars + accordion rows rise in once;
+// the accordion becomes interactive (one row open at a time, no images); the
+// bottom register decodes in on scroll. All content is SSR and readable with
+// no JS (rows stay open, register text is final). Teardown restores that state.
+function servicesScene() {
+  const section = document.querySelector<HTMLElement>("[data-build-section]");
+  if (!section) return () => {};
 
-// Service rows rise in once as the list enters the viewport.
-function serviceReveals() {
-  const rows = gsap.utils.toArray<HTMLElement>("[data-build-row]");
-  if (!rows.length) return;
+  const cleanups: Array<() => void> = [];
 
-  gsap.from(rows, {
-    y: 26,
-    autoAlpha: 0,
-    duration: 0.55,
-    ease: "power3.out",
-    stagger: 0.06,
-    scrollTrigger: { trigger: "[data-build-list]", start: "top 82%", once: true },
-  });
+  const pillars = section.querySelector<HTMLElement>("[data-build-list]");
+  const accordion = section.querySelector<HTMLElement>("[data-build-accordion]");
+  const rows = accordion
+    ? gsap.utils.toArray<HTMLElement>("[data-build-row]", accordion)
+    : [];
+
+  if (accordion && rows.length) {
+    // Enhance into an accordion — one row open at a time. Default open = first.
+    section.classList.add("what-build--enhanced");
+    const panelOf = (row: HTMLElement) =>
+      row.querySelector<HTMLElement>("[data-build-panel]");
+    const btnOf = (row: HTMLElement) =>
+      row.querySelector<HTMLElement>("[data-build-toggle]");
+
+    rows.forEach((row, i) => {
+      const panel = panelOf(row);
+      const btn = btnOf(row);
+      const open = i === 0;
+      if (open) row.setAttribute("data-open", "");
+      else row.removeAttribute("data-open");
+      btn?.setAttribute("aria-expanded", String(open));
+      if (panel) gsap.set(panel, { height: open ? "auto" : 0 });
+    });
+
+    const openRow = (row: HTMLElement) => {
+      const panel = panelOf(row);
+      if (!panel) return;
+      row.setAttribute("data-open", "");
+      btnOf(row)?.setAttribute("aria-expanded", "true");
+      gsap.set(panel, { height: "auto" });
+      const h = panel.offsetHeight;
+      gsap.fromTo(
+        panel,
+        { height: 0 },
+        {
+          height: h,
+          duration: 0.5,
+          ease: "power3.inOut",
+          onComplete: () => gsap.set(panel, { height: "auto" }),
+        }
+      );
+    };
+
+    const closeRow = (row: HTMLElement) => {
+      const panel = panelOf(row);
+      if (!panel) return;
+      row.removeAttribute("data-open");
+      btnOf(row)?.setAttribute("aria-expanded", "false");
+      gsap.fromTo(
+        panel,
+        { height: panel.offsetHeight },
+        { height: 0, duration: 0.45, ease: "power3.inOut" }
+      );
+    };
+
+    rows.forEach((row) => {
+      const btn = btnOf(row);
+      if (!btn) return;
+      const onClick = () => {
+        const isOpen = row.hasAttribute("data-open");
+        if (isOpen) {
+          closeRow(row);
+          return;
+        }
+        rows.forEach((other) => {
+          if (other !== row && other.hasAttribute("data-open")) closeRow(other);
+        });
+        openRow(row);
+      };
+      btn.addEventListener("click", onClick);
+      cleanups.push(() => btn.removeEventListener("click", onClick));
+    });
+
+    cleanups.push(() => {
+      section.classList.remove("what-build--enhanced");
+      rows.forEach((row) => {
+        row.removeAttribute("data-open");
+        btnOf(row)?.setAttribute("aria-expanded", "true");
+        const panel = panelOf(row);
+        if (panel) gsap.set(panel, { clearProps: "height" });
+      });
+    });
+  }
+
+  // Register: decode each label in on scroll (same engine as Prosess title).
+  const register = section.querySelector<HTMLElement>("[data-build-register]");
+  if (register) {
+    const targets = gsap.utils.toArray<HTMLElement>("[data-scramble]", register);
+    const GLYPH = "ABCDEFGHIJKLMNOPQR#%&/()=+*0123456789";
+    let rafId = 0;
+    const finals = new Map<HTMLElement, string>();
+    targets.forEach((el) => {
+      const final = el.textContent ?? "";
+      finals.set(el, final);
+      el.textContent = final
+        .split("")
+        .map((c) => (c === " " ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)]))
+        .join("");
+    });
+
+    const run = (el: HTMLElement, finalText: string, durationMs: number) => {
+      let startT = 0;
+      const chars = finalText.split("");
+      const frame = (now: number) => {
+        if (!startT) startT = now;
+        const p = Math.min(1, (now - startT) / durationMs);
+        const locked = Math.floor(p * chars.length);
+        let out = "";
+        for (let i = 0; i < chars.length; i++) {
+          const c = chars[i];
+          out += c === " " || i < locked ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)];
+        }
+        el.textContent = out;
+        if (p < 1) rafId = requestAnimationFrame(frame);
+        else el.textContent = finalText;
+      };
+      rafId = requestAnimationFrame(frame);
+    };
+
+    const st = ScrollTrigger.create({
+      trigger: register,
+      start: "top 84%",
+      once: true,
+      onEnter: () => {
+        targets.forEach((el, i) => {
+          window.setTimeout(() => run(el, finals.get(el) ?? "", 620), i * 55);
+        });
+      },
+    });
+
+    cleanups.push(() => {
+      if (rafId) cancelAnimationFrame(rafId);
+      st.kill();
+      targets.forEach((el) => {
+        el.textContent = finals.get(el) ?? "";
+      });
+    });
+  }
+
+  // Reveal — rise 40 + fade, matching Arbeid (workProof). Explicit hidden state
+  // via gsap.set (unconditional, unlike gsap.from's immediateRender which
+  // ScrollTrigger was skipping here after the accordion collapse), then fade in
+  // on enter. onRefresh reveals immediately if a group is already in view at
+  // load, so content is never stuck hidden.
+  const revealCtx = gsap.context(() => {
+    const groups: Array<[string, string]> = [
+      ["[data-build-list]", "[data-build-list] [data-build-row]"],
+      ["[data-build-accordion]", "[data-build-accordion] [data-build-row]"],
+    ];
+    groups.forEach(([trigger, target]) => {
+      const els = gsap.utils.toArray<HTMLElement>(target);
+      if (!els.length) return;
+      gsap.set(els, { autoAlpha: 0, y: 40 });
+      let done = false;
+      const reveal = () => {
+        if (done) return;
+        done = true;
+        gsap.to(els, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.07,
+        });
+      };
+      ScrollTrigger.create({
+        trigger,
+        start: "top 80%",
+        onEnter: reveal,
+        onRefresh: (self) => {
+          if (self.progress > 0) reveal();
+        },
+      });
+    });
+  }, section);
+  cleanups.push(() => revealCtx.revert());
+
+  return () => {
+    for (const c of cleanups) c();
+  };
 }
 
 // One-time opening scene: title lines rise, then panel and bar settle.
@@ -209,46 +382,48 @@ function improveScene() {
   };
 }
 
-// 04 / Arbeid — "Stort proof". A vertical gallery of large stills. Each piece
-// rises in once as it enters, and its image glows from dimmed grayscale to full
-// colour (the .is-lit class flips the CSS filter). No pin, no auto-motion, no
-// drag — the whole beat is scroll-authored. PRM / no-JS keep the static,
-// full-colour vertical list.
-function workProof() {
+// 04 / Arbeid — utvalg som alltid-åpne sikk-sakk-rader. The case rows rise in
+// once as the list enters (stagger reveal); no accordion, no JS drives layout.
+// On desktop (parallax=true) each row's two columns drift in gentle counter-phase
+// as the row crosses the viewport — the mockups travel a touch more than the
+// copy, so depth reads without any pin or stack. Mobile collapses to one column,
+// so parallax is off there. PRM / no-JS keep the static, readable, full list.
+function workProof(parallax: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
-  const pieces = gsap.utils.toArray<HTMLElement>("[data-work-piece]", section);
-  if (!pieces.length) return () => {};
-
-  section.classList.add("work-proof--reveal");
+  const rows = gsap.utils.toArray<HTMLElement>("[data-work-case]", section);
+  if (!rows.length) return () => {};
 
   const ctx = gsap.context(() => {
-    pieces.forEach((piece) => {
-      gsap.from(piece, {
-        y: 44,
-        autoAlpha: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: piece, start: "top 82%", once: true },
-      });
+    gsap.from(rows, {
+      y: 40,
+      autoAlpha: 0,
+      duration: 0.7,
+      ease: "power3.out",
+      stagger: 0.07,
+      scrollTrigger: { trigger: "[data-work-cases]", start: "top 80%", once: true },
+    });
 
-      // Grayscale → colour glow, slightly later than the rise so the piece has
-      // already landed when it lights.
-      ScrollTrigger.create({
-        trigger: piece,
-        start: "top 68%",
-        once: true,
-        onEnter: () => piece.classList.add("is-lit"),
-      });
+    if (!parallax) return;
+
+    // Column parallax — centred on the row's natural position (midpoint ≈ 0),
+    // so nothing shifts layout at rest. Counter-phase + unequal travel gives the
+    // mockups the heavier drift; the copy holds steadier as the reading anchor.
+    rows.forEach((row) => {
+      const copy = row.querySelector<HTMLElement>(".wp-case__copy");
+      const posters = row.querySelector<HTMLElement>(".wp-case__posters");
+      const st = { trigger: row, start: "top bottom", end: "bottom top", scrub: 0.6 };
+      if (posters) {
+        gsap.fromTo(posters, { y: 54 }, { y: -54, ease: "none", scrollTrigger: st });
+      }
+      if (copy) {
+        gsap.fromTo(copy, { y: -20 }, { y: 20, ease: "none", scrollTrigger: st });
+      }
     });
   }, section);
 
-  return () => {
-    ctx.revert();
-    pieces.forEach((piece) => piece.classList.remove("is-lit"));
-    section.classList.remove("work-proof--reveal");
-  };
+  return () => ctx.revert();
 }
 
 // 05 / Prosess — "Prosjektreisen". Three step rows stacked vertically (STEG · 0X
@@ -475,15 +650,16 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
       const teardownApproach = approachScene();
-      serviceReveals();
+      const teardownServices = servicesScene();
       const teardownBridge = bridgeScene(true);
       const teardownImprove = improveScene();
-      const teardownWork = workProof();
+      const teardownWork = workProof(true);
       const teardownProcess = processJourney();
       manifestoReveal();
       footerReveals();
       return () => {
         teardownApproach();
+        teardownServices();
         teardownBridge();
         teardownImprove();
         teardownWork();
@@ -499,15 +675,16 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownApproach = approachScene();
-      serviceReveals();
+      const teardownServices = servicesScene();
       const teardownBridge = bridgeScene(false);
       const teardownImprove = improveScene();
-      const teardownWork = workProof();
+      const teardownWork = workProof(false);
       const teardownProcess = processJourney();
       manifestoReveal();
       footerReveals();
       return () => {
         teardownApproach();
+        teardownServices();
         teardownBridge();
         teardownImprove();
         teardownWork();

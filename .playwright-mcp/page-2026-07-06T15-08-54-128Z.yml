@@ -1,0 +1,1539 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e3]: 98%
+  - banner:
+    - generic [ref=f5e4]:
+      - generic [ref=f5e6] [cursor=pointer]:
+        - link "Go to Lama Lama homepage" [ref=f5e8]:
+          - /url: /
+        - generic:
+          - generic:
+            - generic:
+              - generic: ">1#_$*$@_(*"
+              - generic: YOU MADE IT
+        - button "menu-toggle" [ref=f5e11]
+      - generic:
+        - generic [ref=f5e15]:
+          - generic [ref=f5e16]:
+            - generic [ref=f5e17]:
+              - link "Work" [ref=f5e18] [cursor=pointer]:
+                - /url: https://lamalama.com/work/
+                - generic [ref=f5e20]:
+                  - img [ref=f5e22]
+                  - img [ref=f5e25]
+                  - img [ref=f5e28]
+                  - img [ref=f5e31]
+                - generic [ref=f5e45]: Work
+              - generic [ref=f5e46]:
+                - button "What we do" [ref=f5e48] [cursor=pointer]:
+                  - generic [ref=f5e49]:
+                    - img [ref=f5e51]
+                    - img [ref=f5e54]
+                    - img [ref=f5e57]
+                    - img [ref=f5e60]
+                  - generic [ref=f5e75]: What we do
+                - generic:
+                  - link "Branding" [ref=f5e82] [cursor=pointer]:
+                    - /url: https://lamalama.com/services/branding/
+                    - generic [ref=f5e86]:
+                      - img [ref=f5e88]
+                      - img [ref=f5e91]
+                      - img [ref=f5e94]
+                      - img [ref=f5e97]
+                    - generic [ref=f5e111]: Branding
+                  - link "Websites" [ref=f5e112] [cursor=pointer]:
+                    - /url: https://lamalama.com/services/websites/
+                    - generic [ref=f5e116]:
+                      - img [ref=f5e118]
+                      - img [ref=f5e121]
+                      - img [ref=f5e124]
+                      - img [ref=f5e127]
+                    - generic [ref=f5e141]: Websites
+                  - link "E-commerce" [ref=f5e142] [cursor=pointer]:
+                    - /url: https://lamalama.com/services/ecommerce/
+                    - generic [ref=f5e146]:
+                      - img [ref=f5e148]
+                      - img [ref=f5e151]
+                      - img [ref=f5e154]
+                      - img [ref=f5e157]
+                    - generic [ref=f5e171]: E-commerce
+                  - link "Marketing" [ref=f5e172] [cursor=pointer]:
+                    - /url: https://lamalama.com/services/marketing/
+                    - generic [ref=f5e176]:
+                      - img [ref=f5e178]
+                      - img [ref=f5e181]
+                      - img [ref=f5e184]
+                      - img [ref=f5e187]
+                    - generic [ref=f5e201]: Marketing
+              - link "About us" [ref=f5e202] [cursor=pointer]:
+                - /url: https://lamalama.com/about-us/
+                - generic [ref=f5e204]:
+                  - img [ref=f5e206]
+                  - img [ref=f5e209]
+                  - img [ref=f5e212]
+                  - img [ref=f5e215]
+                - generic [ref=f5e229]: About us
+              - link "Careers" [ref=f5e230] [cursor=pointer]:
+                - /url: https://lamalama.homerun.co/
+                - generic [ref=f5e232]:
+                  - generic [ref=f5e233]: Careers
+                  - img [ref=f5e235]
+              - link "Contact" [ref=f5e240] [cursor=pointer]:
+                - /url: https://lamalama.com/contact/
+                - generic [ref=f5e242]:
+                  - img [ref=f5e244]
+                  - img [ref=f5e247]
+                  - img [ref=f5e250]
+                  - img [ref=f5e253]
+                - generic [ref=f5e267]: Contact
+            - button "Our pitchdeck Our pitchdeck" [ref=f5e270] [cursor=pointer]:
+              - generic [ref=f5e275]: Our pitchdeck
+              - generic [ref=f5e278]: Our pitchdeck
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic: You
+                  - generic: just
+                  - generic: made
+                  - generic: our
+                  - generic: day.
+              - generic:
+                - generic:
+                  - generic: Now
+                  - generic: let’s
+                  - generic: see
+                  - generic: what
+                  - generic: we
+                  - generic: can
+                  - generic: make
+                  - generic: together.
+                  - generic: We’ll
+                  - generic: be
+                  - generic: in
+                  - generic: touch.
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Something
+                  - generic: went
+                  - generic: wrong,
+                  - generic: try
+                  - generic: again
+                  - generic: in
+                  - generic: a
+                  - generic: few
+                  - generic: minutes
+                  - generic: or
+                  - generic: send
+                - generic:
+                  - generic: us
+                  - generic: an
+                  - generic: email
+                  - generic: at
+                  - generic: info@lamalama.nl
+            - generic [ref=f5e281]:
+              - generic [ref=f5e282]:
+                - generic [ref=f5e283]: I want to start a project *
+                - generic [ref=f5e284]:
+                  - generic [ref=f5e285] [cursor=pointer]:
+                    - checkbox "Website" [ref=f5e286]
+                    - generic:
+                      - generic:
+                        - generic: Website
+                  - generic [ref=f5e287] [cursor=pointer]:
+                    - checkbox "Branding" [ref=f5e288]
+                    - generic:
+                      - generic:
+                        - generic: Branding
+                  - generic [ref=f5e289] [cursor=pointer]:
+                    - checkbox "E-commerce" [ref=f5e290]
+                    - generic:
+                      - generic:
+                        - generic: E-commerce
+                  - generic [ref=f5e291] [cursor=pointer]:
+                    - checkbox "Marketing" [ref=f5e292]
+                    - generic:
+                      - generic:
+                        - generic: Marketing
+              - generic [ref=f5e293]:
+                - generic [ref=f5e294]: What's your name? *
+                - textbox "What's your name? *" [ref=f5e295]:
+                  - /placeholder: John Doe
+              - generic [ref=f5e296]:
+                - generic [ref=f5e297]: How do we contact you? *
+                - textbox "How do we contact you? *" [ref=f5e298]:
+                  - /placeholder: name@company.com
+              - generic [ref=f5e299]:
+                - generic [ref=f5e300]: What is your company's name?
+                - textbox "What is your company's name?" [ref=f5e301]:
+                  - /placeholder: Company
+              - generic [ref=f5e302]:
+                - generic [ref=f5e303]: Tell as a bit more *
+                - textbox "Tell as a bit more *" [ref=f5e304]:
+                  - /placeholder: Message
+        - generic [ref=f5e311]:
+          - generic [ref=f5e312]:
+            - link "Schedule a call Schedule a call" [ref=f5e313] [cursor=pointer]:
+              - /url: "#cal"
+              - generic [ref=f5e318]: Schedule a call
+              - generic [ref=f5e321]: Schedule a call
+            - link "Start a project Start a project" [ref=f5e322] [cursor=pointer]:
+              - /url: "#form"
+              - generic [ref=f5e327]: Start a project
+              - generic [ref=f5e330]: Start a project
+          - generic:
+            - button:
+              - generic:
+                - generic:
+                  - generic: Cancel
+              - generic:
+                - generic:
+                  - generic: Cancel
+            - button:
+              - generic:
+                - generic:
+                  - generic: Next
+              - generic:
+                - generic:
+                  - generic: Next
+    - generic:
+      - link "Get in touch lars Get in touch":
+        - /url: https://lamalama.com/contact/
+        - generic:
+          - generic: Get in touch
+        - generic:
+          - generic:
+            - img "lars"
+          - generic:
+            - generic: Get in touch
+    - button "Your browser does not support the video tag. This is us":
+      - generic:
+        - generic:
+          - generic: Your browser does not support the video tag.
+      - generic:
+        - generic: This is us
+  - generic:
+    - generic:
+      - generic: "0"
+      - text: "%"
+  - generic:
+    - generic:
+      - generic:
+        - generic: 20+ digital freaks
+      - generic:
+        - generic: Amsterdam based
+      - generic:
+        - generic: Follow us
+      - link "instagram instagram":
+        - /url: https://instagram.com/lamalamaNL
+        - generic:
+          - generic:
+            - generic:
+              - generic: instagram
+            - generic:
+              - generic: instagram
+          - generic:
+            - img
+      - link "linkedin linkedin":
+        - /url: https://www.linkedin.com/company/lama-lama/
+        - generic:
+          - generic:
+            - generic:
+              - generic: linkedin
+            - generic:
+              - generic: linkedin
+          - generic:
+            - img
+      - generic:
+        - link "nl":
+          - /url: https://lamalama.com/nl/
+          - generic:
+            - generic: nl
+        - link "Switch to Nederlands":
+          - /url: https://lamalama.com/nl/
+        - link "en":
+          - /url: https://lamalama.com/
+          - generic:
+            - generic: en
+  - generic:
+    - generic:
+      - generic:
+        - button "Seek video"
+      - generic:
+        - generic:
+          - button "Pause Pause":
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic: Pause
+                  - generic:
+                    - generic: Pause
+        - generic:
+          - generic:
+            - generic: "["
+          - generic:
+            - generic: 0:00
+          - generic:
+            - generic: "] 1:03"
+      - generic:
+        - button "Mute Mute":
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Mute
+                - generic:
+                  - generic: Mute
+    - button "Close video":
+      - generic:
+        - generic:
+          - img
+        - generic:
+          - img
+  - main [ref=f5e332]:
+    - generic [ref=f5e334]:
+      - generic [ref=f5e336]:
+        - generic:
+          - generic: Your browser does not support the video tag.
+        - generic [ref=f5e339]:
+          - button "This is us ( - )" [ref=f5e341] [cursor=pointer]:
+            - generic [ref=f5e342]: This is us
+            - generic [ref=f5e343]: ( - )
+          - button "Your browser does not support the video tag." [ref=f5e345] [cursor=pointer]:
+            - generic:
+              - generic:
+                - generic: Your browser does not support the video tag.
+        - generic [ref=f5e346]:
+          - generic [ref=f5e349]: "[ We are Lama Lama ]"
+          - heading "A creative digital agency that goes all in or not at all." [level=1] [ref=f5e350]:
+            - generic [ref=f5e351]:
+              - generic [ref=f5e352]: A
+              - generic [ref=f5e353]: creative
+              - generic [ref=f5e354]: digital
+            - generic [ref=f5e355]:
+              - generic [ref=f5e356]: agency
+              - generic [ref=f5e357]: that
+              - generic [ref=f5e358]: goes
+            - generic [ref=f5e359]:
+              - generic [ref=f5e360]: all
+              - generic [ref=f5e361]: in
+              - generic [ref=f5e362]: or
+              - generic [ref=f5e363]: not
+              - generic [ref=f5e364]: at
+              - generic [ref=f5e365]: all.
+        - paragraph [ref=f5e366]:
+          - generic [ref=f5e367]:
+            - generic [ref=f5e368]: We
+            - generic [ref=f5e369]: craft
+            - generic [ref=f5e370]: brands,
+            - generic [ref=f5e371]: products
+            - generic [ref=f5e372]: and
+          - generic [ref=f5e373]:
+            - generic [ref=f5e374]: experiences
+            - generic [ref=f5e375]: that
+            - generic [ref=f5e376]: hit
+            - generic [ref=f5e377]: harder,
+            - generic [ref=f5e378]: work
+          - generic [ref=f5e379]:
+            - generic [ref=f5e380]: smarter
+            - generic [ref=f5e381]: and
+            - generic [ref=f5e382]: connect
+            - generic [ref=f5e383]: deeper.
+            - generic [ref=f5e384]: With
+          - generic [ref=f5e385]:
+            - generic [ref=f5e386]: heart,
+            - generic [ref=f5e387]: with
+            - generic [ref=f5e388]: craft,
+            - generic [ref=f5e389]: and
+            - generic [ref=f5e390]: with
+            - generic [ref=f5e391]: a
+            - generic [ref=f5e392]: team
+            - generic [ref=f5e393]: that’s
+          - generic [ref=f5e394]:
+            - generic [ref=f5e395]: all
+            - generic [ref=f5e396]: in
+            - generic [ref=f5e397]: or
+            - generic [ref=f5e398]: not
+            - generic [ref=f5e399]: at
+            - generic [ref=f5e400]: all.
+      - generic [ref=f5e401]:
+        - generic [ref=f5e404]:
+          - heading "We partner with brands that dare to lead and help them grow through digital. Here’s a taste of the work we’ve loved making and others have loved using." [level=2] [ref=f5e405]:
+            - generic [ref=f5e406]:
+              - generic [ref=f5e407]: We
+              - generic [ref=f5e408]: partner
+              - generic [ref=f5e409]: with
+              - generic [ref=f5e410]: brands
+              - generic [ref=f5e411]: that
+            - generic [ref=f5e412]:
+              - generic [ref=f5e413]: dare
+              - generic [ref=f5e414]: to
+              - generic [ref=f5e415]: lead
+              - generic [ref=f5e416]: and
+              - generic [ref=f5e417]: help
+              - generic [ref=f5e418]: them
+              - generic [ref=f5e419]: grow
+            - generic [ref=f5e420]:
+              - generic [ref=f5e421]: through
+              - generic [ref=f5e422]: digital.
+              - generic [ref=f5e423]: Here’s
+              - generic [ref=f5e424]: a
+              - generic [ref=f5e425]: taste
+              - generic [ref=f5e426]: of
+            - generic [ref=f5e427]:
+              - generic [ref=f5e428]: the
+              - generic [ref=f5e429]: work
+              - generic [ref=f5e430]: we’ve
+              - generic [ref=f5e431]: loved
+              - generic [ref=f5e432]: making
+              - generic [ref=f5e433]: and
+            - generic [ref=f5e434]:
+              - generic [ref=f5e435]: others
+              - generic [ref=f5e436]: have
+              - generic [ref=f5e437]: loved
+              - generic [ref=f5e438]: using.
+          - generic [ref=f5e442]: "[ Featured work ]"
+          - generic [ref=f5e443]:
+            - button "Jack & AI View case View case Visit website Visit website Branding Experience Portfolio ( + ) Jack & AI creates AI Content Engines by connecting the best emerging AI solutions into one intelligent workflow. Instead of using disconnected prompts, tools, and systems, brands operate through one streamlined infrastructure tailored to their content ambitions. Your browser does not support the video tag. Your browser does not support the video tag. Jackandai01 Jackandai03 Jackandai06 Jackandai02 Jackandai05 Jackandai07 1 / 8 2 / 8 3 / 8 4 / 8 5 / 8 6 / 8 7 / 8 8 / 8" [ref=f5e444] [cursor=pointer]:
+              - generic [ref=f5e446]:
+                - generic [ref=f5e447]:
+                  - generic [ref=f5e448]:
+                    - generic [ref=f5e449]:
+                      - generic [ref=f5e450]: Jack & AI
+                      - generic [ref=f5e451]:
+                        - link "View case View case":
+                          - /url: https://lamalama.com/cases/jack-and-ai/
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                        - link "Visit website Visit website":
+                          - /url: https://jackandai.com/
+                          - generic:
+                            - generic:
+                              - generic: Visit website
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: Visit website
+                            - generic:
+                              - img
+                    - generic [ref=f5e452]:
+                      - generic [ref=f5e455]: Branding
+                      - generic [ref=f5e458]: Experience
+                      - generic [ref=f5e461]: Portfolio
+                  - generic [ref=f5e462]:
+                    - text: (
+                    - generic [ref=f5e465]: +
+                    - text: )
+                - generic [ref=f5e466]:
+                  - generic [ref=f5e468]:
+                    - generic [ref=f5e469]:
+                      - generic [ref=f5e470]: Jack
+                      - generic [ref=f5e471]: "&"
+                      - generic [ref=f5e472]: AI
+                      - generic [ref=f5e473]: creates
+                      - generic [ref=f5e474]: AI
+                      - generic [ref=f5e475]: Content
+                      - generic [ref=f5e476]: Engines
+                      - generic [ref=f5e477]: by
+                      - generic [ref=f5e478]: connecting
+                      - generic [ref=f5e479]: the
+                      - generic [ref=f5e480]: best
+                    - generic [ref=f5e481]:
+                      - generic [ref=f5e482]: emerging
+                      - generic [ref=f5e483]: AI
+                      - generic [ref=f5e484]: solutions
+                      - generic [ref=f5e485]: into
+                      - generic [ref=f5e486]: one
+                      - generic [ref=f5e487]: intelligent
+                      - generic [ref=f5e488]: workflow.
+                      - generic [ref=f5e489]: Instead
+                      - generic [ref=f5e490]: of
+                      - generic [ref=f5e491]: using
+                    - generic [ref=f5e492]:
+                      - generic [ref=f5e493]: disconnected
+                      - generic [ref=f5e494]: prompts,
+                      - generic [ref=f5e495]: tools,
+                      - generic [ref=f5e496]: and
+                      - generic [ref=f5e497]: systems,
+                      - generic [ref=f5e498]: brands
+                      - generic [ref=f5e499]: operate
+                      - generic [ref=f5e500]: through
+                    - generic [ref=f5e501]:
+                      - generic [ref=f5e502]: one
+                      - generic [ref=f5e503]: streamlined
+                      - generic [ref=f5e504]: infrastructure
+                      - generic [ref=f5e505]: tailored
+                      - generic [ref=f5e506]: to
+                      - generic [ref=f5e507]: their
+                      - generic [ref=f5e508]: content
+                      - generic [ref=f5e509]: ambitions.
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: Your browser does not support the video tag.
+                      - generic:
+                        - generic:
+                          - generic: Your browser does not support the video tag.
+                      - generic:
+                        - generic:
+                          - img "Jackandai01"
+                      - generic:
+                        - generic:
+                          - img "Jackandai03"
+                    - generic:
+                      - generic:
+                        - img "Jackandai06"
+                    - generic:
+                      - generic:
+                        - img "Jackandai02"
+                    - generic:
+                      - generic:
+                        - img "Jackandai05"
+                    - generic:
+                      - generic:
+                        - img "Jackandai07"
+              - generic [ref=f5e513]:
+                - group "1 / 8" [ref=f5e514]
+                - group "2 / 8" [ref=f5e515]
+                - group "3 / 8" [ref=f5e516]
+                - group "4 / 8" [ref=f5e517]
+                - group "5 / 8" [ref=f5e518]
+                - group "6 / 8" [ref=f5e519]
+                - group "7 / 8" [ref=f5e520]
+                - group "8 / 8" [ref=f5e521]
+            - 'button "Moov View case View case Branding Corporate ( + ) Moov is a movement brand redefining fitness through sustainable routines. Together, we created a new positioning and visual identity built around one simple belief: real change starts with one step, then another. Your browser does not support the video tag. lamalama-moov-branding-04 lamalama-moov-branding-16 lamalama-moov-branding-03 lamalama-moov-branding-15 lamalama-moov-branding-02 lamalama-moov-branding-13 lamalama-moov-branding-01 lamalama-moov-branding-10 lamalama-moov-branding-09 1 / 10 2 / 10 3 / 10 4 / 10 5 / 10 6 / 10 7 / 10 8 / 10 9 / 10 10 / 10" [ref=f5e522] [cursor=pointer]':
+              - generic [ref=f5e524]:
+                - generic [ref=f5e525]:
+                  - generic [ref=f5e526]:
+                    - generic [ref=f5e527]:
+                      - generic [ref=f5e528]: Moov
+                      - generic [ref=f5e529]:
+                        - link "View case View case":
+                          - /url: https://lamalama.com/cases/moov/
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                    - generic [ref=f5e530]:
+                      - generic [ref=f5e533]: Branding
+                      - generic [ref=f5e536]: Corporate
+                  - generic [ref=f5e537]:
+                    - text: (
+                    - generic [ref=f5e540]: +
+                    - text: )
+                - generic [ref=f5e541]:
+                  - generic [ref=f5e543]:
+                    - generic [ref=f5e544]:
+                      - generic [ref=f5e545]: Moov
+                      - generic [ref=f5e546]: is
+                      - generic [ref=f5e547]: a
+                      - generic [ref=f5e548]: movement
+                      - generic [ref=f5e549]: brand
+                      - generic [ref=f5e550]: redefining
+                      - generic [ref=f5e551]: fitness
+                      - generic [ref=f5e552]: through
+                      - generic [ref=f5e553]: sustainable
+                    - generic [ref=f5e554]:
+                      - generic [ref=f5e555]: routines.
+                      - generic [ref=f5e556]: Together,
+                      - generic [ref=f5e557]: we
+                      - generic [ref=f5e558]: created
+                      - generic [ref=f5e559]: a
+                      - generic [ref=f5e560]: new
+                      - generic [ref=f5e561]: positioning
+                      - generic [ref=f5e562]: and
+                      - generic [ref=f5e563]: visual
+                      - generic [ref=f5e564]: identity
+                    - generic [ref=f5e565]:
+                      - generic [ref=f5e566]: built
+                      - generic [ref=f5e567]: around
+                      - generic [ref=f5e568]: one
+                      - generic [ref=f5e569]: simple
+                      - generic [ref=f5e570]: "belief:"
+                      - generic [ref=f5e571]: real
+                      - generic [ref=f5e572]: change
+                      - generic [ref=f5e573]: starts
+                      - generic [ref=f5e574]: with
+                      - generic [ref=f5e575]: one
+                      - generic [ref=f5e576]: step,
+                      - generic [ref=f5e577]: then
+                    - generic [ref=f5e579]: another.
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: Your browser does not support the video tag.
+                      - generic:
+                        - generic:
+                          - img "lamalama-moov-branding-04"
+                      - generic:
+                        - generic:
+                          - img "lamalama-moov-branding-16"
+                    - generic:
+                      - generic:
+                        - img "lamalama-moov-branding-03"
+                    - generic:
+                      - generic:
+                        - img "lamalama-moov-branding-15"
+                    - generic:
+                      - generic:
+                        - img "lamalama-moov-branding-02"
+                    - generic:
+                      - generic:
+                        - img "lamalama-moov-branding-13"
+                    - generic:
+                      - generic:
+                        - img "lamalama-moov-branding-01"
+                    - generic:
+                      - generic:
+                        - img "lamalama-moov-branding-10"
+                    - generic:
+                      - generic:
+                        - img "lamalama-moov-branding-09"
+              - generic [ref=f5e581]:
+                - group "1 / 10" [ref=f5e582]
+                - group "2 / 10" [ref=f5e583]
+                - group "3 / 10" [ref=f5e584]
+                - group "4 / 10" [ref=f5e585]
+                - group "5 / 10" [ref=f5e586]
+                - group "6 / 10" [ref=f5e587]
+                - group "7 / 10" [ref=f5e588]
+                - group "8 / 10" [ref=f5e589]
+                - group "9 / 10" [ref=f5e590]
+                - group "10 / 10" [ref=f5e591]
+            - button "Gardeners View case View case Visit site Visit site Experience Portfolio ( + ) We are united by a shared conviction that things can be done differently and better. And you can feel that in everything we do. We are sharp at work and lighthearted in our approach. Because, yes, it has to remain fun, above all. With us, you get a creative and committed team without egos, with attention to you, your brand, and the work. Your browser does not support the video tag. Gardners02 Your browser does not support the video tag. Gardners03 Gardners01 Your browser does not support the video tag. Your browser does not support the video tag. 1 / 7 2 / 7 3 / 7 4 / 7 5 / 7 6 / 7 7 / 7" [ref=f5e592] [cursor=pointer]:
+              - generic [ref=f5e594]:
+                - generic [ref=f5e595]:
+                  - generic [ref=f5e596]:
+                    - generic [ref=f5e597]:
+                      - generic [ref=f5e598]: Gardeners
+                      - generic [ref=f5e599]:
+                        - link "View case View case":
+                          - /url: https://lamalama.com/cases/gardeners/
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                        - link "Visit site Visit site":
+                          - /url: https://gardeners.nl/
+                          - generic:
+                            - generic:
+                              - generic: Visit site
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: Visit site
+                            - generic:
+                              - img
+                    - generic [ref=f5e600]:
+                      - generic [ref=f5e603]: Experience
+                      - generic [ref=f5e606]: Portfolio
+                  - generic [ref=f5e607]:
+                    - text: (
+                    - generic [ref=f5e610]: +
+                    - text: )
+                - generic [ref=f5e611]:
+                  - generic [ref=f5e613]:
+                    - generic [ref=f5e614]:
+                      - generic [ref=f5e615]: We
+                      - generic [ref=f5e616]: are
+                      - generic [ref=f5e617]: united
+                      - generic [ref=f5e618]: by
+                      - generic [ref=f5e619]: a
+                      - generic [ref=f5e620]: shared
+                      - generic [ref=f5e621]: conviction
+                      - generic [ref=f5e622]: that
+                      - generic [ref=f5e623]: things
+                      - generic [ref=f5e624]: can
+                      - generic [ref=f5e625]: be
+                      - generic [ref=f5e626]: done
+                    - generic [ref=f5e627]:
+                      - generic [ref=f5e628]: differently
+                      - generic [ref=f5e629]: and
+                      - generic [ref=f5e630]: better.
+                      - generic [ref=f5e631]: And
+                      - generic [ref=f5e632]: you
+                      - generic [ref=f5e633]: can
+                      - generic [ref=f5e634]: feel
+                      - generic [ref=f5e635]: that
+                      - generic [ref=f5e636]: in
+                      - generic [ref=f5e637]: everything
+                      - generic [ref=f5e638]: we
+                      - generic [ref=f5e639]: do.
+                      - generic [ref=f5e640]: We
+                    - generic [ref=f5e641]:
+                      - generic [ref=f5e642]: are
+                      - generic [ref=f5e643]: sharp
+                      - generic [ref=f5e644]: at
+                      - generic [ref=f5e645]: work
+                      - generic [ref=f5e646]: and
+                      - generic [ref=f5e647]: lighthearted
+                      - generic [ref=f5e648]: in
+                      - generic [ref=f5e649]: our
+                      - generic [ref=f5e650]: approach.
+                      - generic [ref=f5e651]: Because,
+                      - generic [ref=f5e652]: yes,
+                      - generic [ref=f5e653]: it
+                    - generic [ref=f5e654]:
+                      - generic [ref=f5e655]: has
+                      - generic [ref=f5e656]: to
+                      - generic [ref=f5e657]: remain
+                      - generic [ref=f5e658]: fun,
+                      - generic [ref=f5e659]: above
+                      - generic [ref=f5e660]: all.
+                      - generic [ref=f5e661]: With
+                      - generic [ref=f5e662]: us,
+                      - generic [ref=f5e663]: you
+                      - generic [ref=f5e664]: get
+                      - generic [ref=f5e665]: a
+                      - generic [ref=f5e666]: creative
+                      - generic [ref=f5e667]: and
+                    - generic [ref=f5e668]:
+                      - generic [ref=f5e669]: committed
+                      - generic [ref=f5e670]: team
+                      - generic [ref=f5e671]: without
+                      - generic [ref=f5e672]: egos,
+                      - generic [ref=f5e673]: with
+                      - generic [ref=f5e674]: attention
+                      - generic [ref=f5e675]: to
+                      - generic [ref=f5e676]: you,
+                      - generic [ref=f5e677]: your
+                      - generic [ref=f5e678]: brand,
+                      - generic [ref=f5e679]: and
+                    - generic [ref=f5e680]:
+                      - generic [ref=f5e681]: the
+                      - generic [ref=f5e682]: work.
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: Your browser does not support the video tag.
+                      - generic:
+                        - generic:
+                          - img "Gardners02"
+                      - generic:
+                        - generic:
+                          - generic: Your browser does not support the video tag.
+                    - generic:
+                      - generic:
+                        - img "Gardners03"
+                    - generic:
+                      - generic:
+                        - img "Gardners01"
+                    - generic:
+                      - generic:
+                        - generic: Your browser does not support the video tag.
+                    - generic:
+                      - generic:
+                        - generic: Your browser does not support the video tag.
+              - generic [ref=f5e684]:
+                - group "1 / 7" [ref=f5e685]
+                - group "2 / 7" [ref=f5e686]
+                - group "3 / 7" [ref=f5e687]
+                - group "4 / 7" [ref=f5e688]
+                - group "5 / 7" [ref=f5e689]
+                - group "6 / 7" [ref=f5e690]
+                - group "7 / 7" [ref=f5e691]
+            - button "Neurons Lab View case View case Corporate Portfolio ( + ) Neurons Lab delivers AI transformation services to guide organizations into the new era of AI. Having supported 100+ clients, including Fortune 500 companies, our approach covers the complete AI spectrum, combining leadership alignment with technology integration to deliver measurable outcomes. NeuronsLab-001 Your browser does not support the video tag. Your browser does not support the video tag. NeuronsLab-002 NeuronsLab-003 Your browser does not support the video tag. 1 / 6 2 / 6 3 / 6 4 / 6 5 / 6 6 / 6" [ref=f5e692] [cursor=pointer]:
+              - generic [ref=f5e694]:
+                - generic [ref=f5e695]:
+                  - generic [ref=f5e696]:
+                    - generic [ref=f5e697]:
+                      - generic [ref=f5e698]: Neurons Lab
+                      - generic [ref=f5e699]:
+                        - link "View case View case":
+                          - /url: https://lamalama.com/cases/neurons-lab/
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                    - generic [ref=f5e700]:
+                      - generic [ref=f5e703]: Corporate
+                      - generic [ref=f5e706]: Portfolio
+                  - generic [ref=f5e707]:
+                    - text: (
+                    - generic [ref=f5e710]: +
+                    - text: )
+                - generic [ref=f5e711]:
+                  - generic [ref=f5e713]:
+                    - generic [ref=f5e714]:
+                      - generic [ref=f5e715]: Neurons
+                      - generic [ref=f5e716]: Lab
+                      - generic [ref=f5e717]: delivers
+                      - generic [ref=f5e718]: AI
+                      - generic [ref=f5e719]: transformation
+                      - generic [ref=f5e720]: services
+                      - generic [ref=f5e721]: to
+                      - generic [ref=f5e722]: guide
+                    - generic [ref=f5e723]:
+                      - generic [ref=f5e724]: organizations
+                      - generic [ref=f5e725]: into
+                      - generic [ref=f5e726]: the
+                      - generic [ref=f5e727]: new
+                      - generic [ref=f5e728]: era
+                      - generic [ref=f5e729]: of
+                      - generic [ref=f5e730]: AI.
+                      - generic [ref=f5e731]: Having
+                      - generic [ref=f5e732]: supported
+                      - generic [ref=f5e733]: 100+
+                      - generic [ref=f5e734]: clients,
+                    - generic [ref=f5e735]:
+                      - generic [ref=f5e736]: including
+                      - generic [ref=f5e737]: Fortune
+                      - generic [ref=f5e738]: "500"
+                      - generic [ref=f5e739]: companies,
+                      - generic [ref=f5e740]: our
+                      - generic [ref=f5e741]: approach
+                      - generic [ref=f5e742]: covers
+                      - generic [ref=f5e743]: the
+                    - generic [ref=f5e744]:
+                      - generic [ref=f5e745]: complete
+                      - generic [ref=f5e746]: AI
+                      - generic [ref=f5e747]: spectrum,
+                      - generic [ref=f5e748]: combining
+                      - generic [ref=f5e749]: leadership
+                      - generic [ref=f5e750]: alignment
+                      - generic [ref=f5e751]: with
+                    - generic [ref=f5e752]:
+                      - generic [ref=f5e753]: technology
+                      - generic [ref=f5e754]: integration
+                      - generic [ref=f5e755]: to
+                      - generic [ref=f5e756]: deliver
+                      - generic [ref=f5e757]: measurable
+                      - generic [ref=f5e758]: outcomes.
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "NeuronsLab-001"
+                      - generic:
+                        - generic:
+                          - generic: Your browser does not support the video tag.
+                      - generic:
+                        - generic:
+                          - generic: Your browser does not support the video tag.
+                      - generic:
+                        - generic:
+                          - img "NeuronsLab-002"
+                    - generic:
+                      - generic:
+                        - img "NeuronsLab-003"
+                    - generic:
+                      - generic:
+                        - generic: Your browser does not support the video tag.
+              - generic [ref=f5e762]:
+                - group "1 / 6" [ref=f5e763]
+                - group "2 / 6" [ref=f5e764]
+                - group "3 / 6" [ref=f5e765]
+                - group "4 / 6" [ref=f5e766]
+                - group "5 / 6" [ref=f5e767]
+                - group "6 / 6" [ref=f5e768]
+            - button "Prazeres United View case View case Open project Open project Branding Campaign Experience ( + ) In the vibrant streets of Brazil's favelas, hope rises with the dawn. Here, football transcends the ordinary—it’s a path to a brighter future. Welcome to Prazeres United, where each pass and every goal opens doors to new possibilities. With every match, their confidence grows. With every practice, their dreams become achievable. PZR 006 Your browser does not support the video tag. PZR 003 PZR 005 PZR 004 PZR 002 PZR 001 1 / 7 2 / 7 3 / 7 4 / 7 5 / 7 6 / 7 7 / 7" [ref=f5e769] [cursor=pointer]:
+              - generic [ref=f5e771]:
+                - generic [ref=f5e772]:
+                  - generic [ref=f5e773]:
+                    - generic [ref=f5e774]:
+                      - generic [ref=f5e775]: Prazeres United
+                      - generic [ref=f5e776]:
+                        - link "View case View case":
+                          - /url: https://lamalama.com/cases/prazeres-united/
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                        - link "Open project Open project":
+                          - /url: https://prazeresunited.com/
+                          - generic:
+                            - generic:
+                              - generic: Open project
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: Open project
+                            - generic:
+                              - img
+                    - generic [ref=f5e777]:
+                      - generic [ref=f5e780]: Branding
+                      - generic [ref=f5e783]: Campaign
+                      - generic [ref=f5e786]: Experience
+                  - generic [ref=f5e787]:
+                    - text: (
+                    - generic [ref=f5e790]: +
+                    - text: )
+                - generic [ref=f5e791]:
+                  - generic [ref=f5e793]:
+                    - generic [ref=f5e794]:
+                      - generic [ref=f5e795]: In
+                      - generic [ref=f5e796]: the
+                      - generic [ref=f5e797]: vibrant
+                      - generic [ref=f5e798]: streets
+                      - generic [ref=f5e799]: of
+                      - generic [ref=f5e800]: Brazil's
+                      - generic [ref=f5e801]: favelas,
+                      - generic [ref=f5e802]: hope
+                      - generic [ref=f5e803]: rises
+                      - generic [ref=f5e804]: with
+                      - generic [ref=f5e805]: the
+                      - generic [ref=f5e806]: dawn.
+                    - generic [ref=f5e807]:
+                      - generic [ref=f5e808]: Here,
+                      - generic [ref=f5e809]: football
+                      - generic [ref=f5e810]: transcends
+                      - generic [ref=f5e811]: the
+                      - generic [ref=f5e812]: ordinary—it’s
+                      - generic [ref=f5e813]: a
+                      - generic [ref=f5e814]: path
+                      - generic [ref=f5e815]: to
+                      - generic [ref=f5e816]: a
+                      - generic [ref=f5e817]: brighter
+                    - generic [ref=f5e818]:
+                      - generic [ref=f5e819]: future.
+                      - generic [ref=f5e820]: Welcome
+                      - generic [ref=f5e821]: to
+                      - generic [ref=f5e822]: Prazeres
+                      - generic [ref=f5e823]: United,
+                      - generic [ref=f5e824]: where
+                      - generic [ref=f5e825]: each
+                      - generic [ref=f5e826]: pass
+                      - generic [ref=f5e827]: and
+                      - generic [ref=f5e828]: every
+                    - generic [ref=f5e829]:
+                      - generic [ref=f5e830]: goal
+                      - generic [ref=f5e831]: opens
+                      - generic [ref=f5e832]: doors
+                      - generic [ref=f5e833]: to
+                      - generic [ref=f5e834]: new
+                      - generic [ref=f5e835]: possibilities.
+                      - generic [ref=f5e836]: With
+                      - generic [ref=f5e837]: every
+                      - generic [ref=f5e838]: match,
+                      - generic [ref=f5e839]: their
+                    - generic [ref=f5e840]:
+                      - generic [ref=f5e841]: confidence
+                      - generic [ref=f5e842]: grows.
+                      - generic [ref=f5e843]: With
+                      - generic [ref=f5e844]: every
+                      - generic [ref=f5e845]: practice,
+                      - generic [ref=f5e846]: their
+                      - generic [ref=f5e847]: dreams
+                      - generic [ref=f5e848]: become
+                    - generic [ref=f5e850]: achievable.
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "PZR 006"
+                      - generic:
+                        - generic:
+                          - generic: Your browser does not support the video tag.
+                      - generic:
+                        - generic:
+                          - img "PZR 003"
+                    - generic:
+                      - generic:
+                        - img "PZR 005"
+                    - generic:
+                      - generic:
+                        - img "PZR 004"
+                    - generic:
+                      - generic:
+                        - img "PZR 002"
+                    - generic:
+                      - generic:
+                        - img "PZR 001"
+              - generic [ref=f5e852]:
+                - group "1 / 7" [ref=f5e853]
+                - group "2 / 7" [ref=f5e854]
+                - group "3 / 7" [ref=f5e855]
+                - group "4 / 7" [ref=f5e856]
+                - group "5 / 7" [ref=f5e857]
+                - group "6 / 7" [ref=f5e858]
+                - group "7 / 7" [ref=f5e859]
+            - button "Home View case View case visit site visit site Branding Corporate Portfolio ( + ) We are Home. A social-first creative agency based in Amsterdam. Home09 Home07 Home08 Home02 Your browser does not support the video tag. Home04 Your browser does not support the video tag. Home06 Home01 Home05 Home03 1 / 11 2 / 11 3 / 11 4 / 11 5 / 11 6 / 11 7 / 11 8 / 11 9 / 11 10 / 11 11 / 11" [ref=f5e860] [cursor=pointer]:
+              - generic [ref=f5e862]:
+                - generic [ref=f5e863]:
+                  - generic [ref=f5e864]:
+                    - generic [ref=f5e865]:
+                      - generic [ref=f5e866]: Home
+                      - generic [ref=f5e867]:
+                        - link "View case View case":
+                          - /url: https://lamalama.com/cases/home-agency/
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                        - link "visit site visit site":
+                          - /url: https://home.agency/
+                          - generic:
+                            - generic:
+                              - generic: visit site
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: visit site
+                            - generic:
+                              - img
+                    - generic [ref=f5e868]:
+                      - generic [ref=f5e871]: Branding
+                      - generic [ref=f5e874]: Corporate
+                      - generic [ref=f5e877]: Portfolio
+                  - generic [ref=f5e878]:
+                    - text: (
+                    - generic [ref=f5e881]: +
+                    - text: )
+                - generic [ref=f5e882]:
+                  - generic [ref=f5e885]:
+                    - generic [ref=f5e886]: We
+                    - generic [ref=f5e887]: are
+                    - generic [ref=f5e888]: Home.
+                    - generic [ref=f5e889]: A
+                    - generic [ref=f5e890]: social-first
+                    - generic [ref=f5e891]: creative
+                    - generic [ref=f5e892]: agency
+                    - generic [ref=f5e893]: based
+                    - generic [ref=f5e894]: in
+                    - generic [ref=f5e895]: Amsterdam.
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Home09"
+                      - generic:
+                        - generic:
+                          - img "Home07"
+                      - generic:
+                        - generic:
+                          - img "Home08"
+                    - generic:
+                      - generic:
+                        - img "Home02"
+                    - generic:
+                      - generic:
+                        - generic: Your browser does not support the video tag.
+                    - generic:
+                      - generic:
+                        - img "Home04"
+                    - generic:
+                      - generic:
+                        - generic: Your browser does not support the video tag.
+                    - generic:
+                      - generic:
+                        - img "Home06"
+                    - generic:
+                      - generic:
+                        - img "Home01"
+                    - generic:
+                      - generic:
+                        - img "Home05"
+                    - generic:
+                      - generic:
+                        - img "Home03"
+              - generic [ref=f5e897]:
+                - group "1 / 11" [ref=f5e898]
+                - group "2 / 11" [ref=f5e899]
+                - group "3 / 11" [ref=f5e900]
+                - group "4 / 11" [ref=f5e901]
+                - group "5 / 11" [ref=f5e902]
+                - group "6 / 11" [ref=f5e903]
+                - group "7 / 11" [ref=f5e904]
+                - group "8 / 11" [ref=f5e905]
+                - group "9 / 11" [ref=f5e906]
+                - group "10 / 11" [ref=f5e907]
+                - group "11 / 11" [ref=f5e908]
+            - button "Ajax View case View case Visit website Visit website Campaign Experience ( + ) Our vision for bringing AFC Ajax’s new brand story to life digitally. Not an official project, but a concept. A prototype exploring what happens when brand, culture and digital truly connect. Fans don’t just see history. They experience it. Engage with it. Move through it. This is how modern fan experience should feel. All content is exploratory and owned by its respective creators. Your browser does not support the video tag. concept-002 Your browser does not support the video tag. Your browser does not support the video tag. Your browser does not support the video tag. concept-004 concept-003 concept-001 concept-005 concept-006 1 / 10 2 / 10 3 / 10 4 / 10 5 / 10 6 / 10 7 / 10 8 / 10 9 / 10 10 / 10" [ref=f5e909] [cursor=pointer]:
+              - generic [ref=f5e911]:
+                - generic [ref=f5e912]:
+                  - generic [ref=f5e913]:
+                    - generic [ref=f5e914]:
+                      - generic [ref=f5e915]: Ajax
+                      - generic [ref=f5e916]:
+                        - link "View case View case":
+                          - /url: https://lamalama.com/cases/ajax/
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: View case
+                            - generic:
+                              - img
+                        - link "Visit website Visit website":
+                          - /url: https://iconsaremade.com/
+                          - generic:
+                            - generic:
+                              - generic: Visit website
+                            - generic:
+                              - img
+                          - generic:
+                            - generic:
+                              - generic: Visit website
+                            - generic:
+                              - img
+                    - generic [ref=f5e917]:
+                      - generic [ref=f5e920]: Campaign
+                      - generic [ref=f5e923]: Experience
+                  - generic [ref=f5e924]:
+                    - text: (
+                    - generic [ref=f5e927]: +
+                    - text: )
+                - generic [ref=f5e928]:
+                  - generic [ref=f5e930]:
+                    - generic [ref=f5e931]:
+                      - generic [ref=f5e932]: Our
+                      - generic [ref=f5e933]: vision
+                      - generic [ref=f5e934]: for
+                      - generic [ref=f5e935]: bringing
+                      - generic [ref=f5e936]: AFC
+                      - generic [ref=f5e937]: Ajax’s
+                      - generic [ref=f5e938]: new
+                      - generic [ref=f5e939]: brand
+                      - generic [ref=f5e940]: story
+                      - generic [ref=f5e941]: to
+                      - generic [ref=f5e942]: life
+                      - generic [ref=f5e943]: digitally.
+                    - generic [ref=f5e944]:
+                      - generic [ref=f5e945]: Not
+                      - generic [ref=f5e946]: an
+                      - generic [ref=f5e947]: official
+                      - generic [ref=f5e948]: project,
+                      - generic [ref=f5e949]: but
+                      - generic [ref=f5e950]: a
+                      - generic [ref=f5e951]: concept.
+                      - generic [ref=f5e952]: A
+                      - generic [ref=f5e953]: prototype
+                      - generic [ref=f5e954]: exploring
+                      - generic [ref=f5e955]: what
+                    - generic [ref=f5e956]:
+                      - generic [ref=f5e957]: happens
+                      - generic [ref=f5e958]: when
+                      - generic [ref=f5e959]: brand,
+                      - generic [ref=f5e960]: culture
+                      - generic [ref=f5e961]: and
+                      - generic [ref=f5e962]: digital
+                      - generic [ref=f5e963]: truly
+                      - generic [ref=f5e964]: connect.
+                      - generic [ref=f5e965]: Fans
+                      - generic [ref=f5e966]: don’t
+                    - generic [ref=f5e967]:
+                      - generic [ref=f5e968]: just
+                      - generic [ref=f5e969]: see
+                      - generic [ref=f5e970]: history.
+                      - generic [ref=f5e971]: They
+                      - generic [ref=f5e972]: experience
+                      - generic [ref=f5e973]: it.
+                      - generic [ref=f5e974]: Engage
+                      - generic [ref=f5e975]: with
+                      - generic [ref=f5e976]: it.
+                      - generic [ref=f5e977]: Move
+                      - generic [ref=f5e978]: through
+                      - generic [ref=f5e979]: it.
+                    - generic [ref=f5e980]:
+                      - generic [ref=f5e981]: This
+                      - generic [ref=f5e982]: is
+                      - generic [ref=f5e983]: how
+                      - generic [ref=f5e984]: modern
+                      - generic [ref=f5e985]: fan
+                      - generic [ref=f5e986]: experience
+                      - generic [ref=f5e987]: should
+                      - generic [ref=f5e988]: feel.
+                      - generic [ref=f5e989]: All
+                      - generic [ref=f5e990]: content
+                      - generic [ref=f5e991]: is
+                    - generic [ref=f5e992]:
+                      - generic [ref=f5e993]: exploratory
+                      - generic [ref=f5e994]: and
+                      - generic [ref=f5e995]: owned
+                      - generic [ref=f5e996]: by
+                      - generic [ref=f5e997]: its
+                      - generic [ref=f5e998]: respective
+                      - generic [ref=f5e999]: creators.
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: Your browser does not support the video tag.
+                      - generic:
+                        - generic:
+                          - img "concept-002"
+                      - generic:
+                        - generic:
+                          - generic: Your browser does not support the video tag.
+                    - generic:
+                      - generic:
+                        - generic: Your browser does not support the video tag.
+                    - generic:
+                      - generic:
+                        - generic: Your browser does not support the video tag.
+                    - generic:
+                      - generic:
+                        - img "concept-004"
+                    - generic:
+                      - generic:
+                        - img "concept-003"
+                    - generic:
+                      - generic:
+                        - img "concept-001"
+                    - generic:
+                      - generic:
+                        - img "concept-005"
+                    - generic:
+                      - generic:
+                        - img "concept-006"
+              - generic [ref=f5e1001]:
+                - group "1 / 10" [ref=f5e1002]
+                - group "2 / 10" [ref=f5e1003]
+                - group "3 / 10" [ref=f5e1004]
+                - group "4 / 10" [ref=f5e1005]
+                - group "5 / 10" [ref=f5e1006]
+                - group "6 / 10" [ref=f5e1007]
+                - group "7 / 10" [ref=f5e1008]
+                - group "8 / 10" [ref=f5e1009]
+                - group "9 / 10" [ref=f5e1010]
+                - group "10 / 10" [ref=f5e1011]
+          - generic:
+            - generic:
+              - link "( + ) Work ( + ) Work":
+                - /url: https://lamalama.com/work/
+                - generic:
+                  - generic: ( + )
+                  - generic:
+                    - generic: Work
+                - generic:
+                  - generic: ( + )
+                  - generic:
+                    - generic: Work
+        - generic [ref=f5e1013]:
+          - generic:
+            - generic: Your browser does not support the video tag.
+          - generic [ref=f5e1016]:
+            - button "Pitchdeck ( - )" [ref=f5e1018] [cursor=pointer]:
+              - generic [ref=f5e1019]: Pitchdeck
+              - generic [ref=f5e1020]: ( - )
+            - button "splitted multi_list image_grid" [ref=f5e1022] [cursor=pointer]:
+              - generic [ref=f5e1023]:
+                - img "splitted" [ref=f5e1025]
+                - img "multi_list" [ref=f5e1027]
+                - img "image_grid" [ref=f5e1029]
+          - heading "What we do." [level=2] [ref=f5e1030]:
+            - generic [ref=f5e1031]:
+              - generic [ref=f5e1032]: What
+              - generic [ref=f5e1033]: we
+              - generic [ref=f5e1034]: do.
+          - generic [ref=f5e1035]:
+            - generic [ref=f5e1036]:
+              - link "Branding Branding" [ref=f5e1037] [cursor=pointer]:
+                - /url: https://lamalama.com/services/branding/
+                - generic [ref=f5e1039]:
+                  - generic [ref=f5e1042]: Branding
+                  - img [ref=f5e1044]
+                - generic [ref=f5e1046]:
+                  - generic [ref=f5e1048]: Branding
+                  - generic:
+                    - img
+              - link "Digital Digital" [ref=f5e1049] [cursor=pointer]:
+                - /url: https://lamalama.com/services/websites/
+                - generic [ref=f5e1051]:
+                  - generic [ref=f5e1054]: Digital
+                  - img [ref=f5e1056]
+                - generic [ref=f5e1058]:
+                  - generic [ref=f5e1060]: Digital
+                  - generic:
+                    - img
+              - link "Marketing Marketing" [ref=f5e1061] [cursor=pointer]:
+                - /url: https://lamalama.com/services/marketing/
+                - generic [ref=f5e1063]:
+                  - generic [ref=f5e1066]: Marketing
+                  - img [ref=f5e1068]
+                - generic [ref=f5e1070]:
+                  - generic [ref=f5e1072]: Marketing
+                  - generic:
+                    - img
+            - generic [ref=f5e1073]:
+              - generic [ref=f5e1074]:
+                - generic [ref=f5e1075]: We
+                - generic [ref=f5e1076]: create
+                - generic [ref=f5e1077]: meaningful
+                - generic [ref=f5e1078]: brands,
+                - generic [ref=f5e1079]: design
+                - generic [ref=f5e1080]: digital
+              - generic [ref=f5e1081]:
+                - generic [ref=f5e1082]: experiences
+                - generic [ref=f5e1083]: that
+                - generic [ref=f5e1084]: move
+                - generic [ref=f5e1085]: people
+                - generic [ref=f5e1086]: and
+                - generic [ref=f5e1087]: build
+                - generic [ref=f5e1088]: products
+              - generic [ref=f5e1089]:
+                - generic [ref=f5e1090]: that
+                - generic [ref=f5e1091]: perform.
+                - generic [ref=f5e1092]: Sharp
+                - generic [ref=f5e1093]: design,
+                - generic [ref=f5e1094]: smart
+                - generic [ref=f5e1095]: code
+                - generic [ref=f5e1096]: and
+              - generic [ref=f5e1097]:
+                - generic [ref=f5e1098]: marketing
+                - generic [ref=f5e1099]: that
+                - generic [ref=f5e1100]: drives
+                - generic [ref=f5e1101]: impact.
+                - generic [ref=f5e1102]: From
+                - generic [ref=f5e1103]: first
+                - generic [ref=f5e1104]: insight
+                - generic [ref=f5e1105]: to
+              - generic [ref=f5e1106]:
+                - generic [ref=f5e1107]: final
+                - generic [ref=f5e1108]: launch,
+                - generic [ref=f5e1109]: we
+                - generic [ref=f5e1110]: bring
+                - generic [ref=f5e1111]: the
+                - generic [ref=f5e1112]: brains,
+                - generic [ref=f5e1113]: the
+                - generic [ref=f5e1114]: heart
+                - generic [ref=f5e1115]: and
+                - generic [ref=f5e1116]: the
+              - generic [ref=f5e1117]:
+                - generic [ref=f5e1118]: craft
+                - generic [ref=f5e1119]: to
+                - generic [ref=f5e1120]: make
+                - generic [ref=f5e1121]: it
+                - generic [ref=f5e1122]: happen.
+          - generic [ref=f5e1123]:
+            - generic [ref=f5e1124]:
+              - generic [ref=f5e1125]: "TLDR; we do a lot. Just give us a call:"
+              - link "+31 20 6220440 lars +31 20 6220440" [ref=f5e1126] [cursor=pointer]:
+                - /url: tel:+31 20 6220440
+                - generic [ref=f5e1130]: +31 20 6220440
+                - generic [ref=f5e1131]:
+                  - img "lars" [ref=f5e1133]
+                  - generic [ref=f5e1135]: +31 20 6220440
+            - generic [ref=f5e1136]:
+              - generic [ref=f5e1137]:
+                - generic [ref=f5e1140]: "[ Branding ]"
+                - generic [ref=f5e1141]:
+                  - generic [ref=f5e1142]: Brand identity
+                  - generic [ref=f5e1143]: Logo design
+                  - generic [ref=f5e1144]: Campaign
+                  - generic [ref=f5e1145]: Motion design
+                  - generic [ref=f5e1146]: Photo direction
+                  - generic [ref=f5e1147]: Video direction
+                  - generic [ref=f5e1148]: 3D
+              - generic [ref=f5e1149]:
+                - generic [ref=f5e1152]: "[ Digital ]"
+                - generic [ref=f5e1153]:
+                  - generic [ref=f5e1154]: Digital strategy
+                  - generic [ref=f5e1155]: Content
+                  - generic [ref=f5e1156]: UI/UX Design
+                  - generic [ref=f5e1157]: Art direction
+                  - generic [ref=f5e1158]: Digital design
+                  - generic [ref=f5e1159]: Visual Design
+                  - generic [ref=f5e1160]: Motion
+                  - generic [ref=f5e1161]: Front-end development
+                  - generic [ref=f5e1162]: Back-end development
+                  - generic [ref=f5e1163]: E-commerce
+              - generic [ref=f5e1164]:
+                - generic [ref=f5e1167]: "[ Market ]"
+                - generic [ref=f5e1168]:
+                  - generic [ref=f5e1169]: Growth Strategy
+                  - generic [ref=f5e1170]: B2B Lead Generation
+                  - generic [ref=f5e1171]: Paid Media
+                  - generic [ref=f5e1172]: Inbound Marketing
+                  - generic [ref=f5e1173]: Content Activation
+                  - generic [ref=f5e1174]: Email Nurturing
+                  - generic [ref=f5e1175]: Lead Scoring
+                  - generic [ref=f5e1176]: SEO & Organic Growth
+                  - generic [ref=f5e1177]: AI Optimization
+        - generic [ref=f5e1179]:
+          - generic [ref=f5e1182]: "[ happy clients ]"
+          - generic [ref=f5e1185]:
+            - img "achmea"
+            - img "Cupra"
+            - img "BUMA"
+            - img "Sony"
+            - img "Van Doorne"
+            - img "DSM"
+            - img "Amsterdam"
+            - img "achmea"
+            - img "Cupra"
+            - img "BUMA"
+            - img "Sony"
+            - img "Van Doorne"
+            - img "DSM"
+            - img "Amsterdam"
+            - img "achmea"
+            - img "Cupra"
+            - img "BUMA"
+            - img "Sony"
+            - img "Van Doorne"
+            - img "DSM"
+            - img "Amsterdam"
+            - img "achmea"
+            - img "Cupra"
+            - img "BUMA"
+            - img "Sony"
+            - img "Van Doorne"
+            - img "DSM"
+            - img "Amsterdam"
+        - generic [ref=f5e1187]:
+          - generic [ref=f5e1190]:
+            - button "Our awwwards talk ( - )" [ref=f5e1192] [cursor=pointer]:
+              - generic [ref=f5e1193]: Our awwwards talk
+              - generic [ref=f5e1194]: ( - )
+            - button "Your browser does not support the video tag." [ref=f5e1196] [cursor=pointer]:
+              - generic:
+                - generic:
+                  - generic: Your browser does not support the video tag.
+          - generic [ref=f5e1197]:
+            - generic [ref=f5e1198]:
+              - generic [ref=f5e1199]:
+                - img "Nick makes it perform" [ref=f5e1201]
+                - img "living" [ref=f5e1203]
+              - generic [ref=f5e1205]: Based in the beating heart of Amsterdam
+            - generic [ref=f5e1206]:
+              - generic [ref=f5e1207]:
+                - generic [ref=f5e1208]:
+                  - generic [ref=f5e1209]: We’re
+                  - generic [ref=f5e1210]: a
+                  - generic [ref=f5e1211]: crew
+                  - generic [ref=f5e1212]: that
+                  - generic [ref=f5e1213]: works
+                - generic [ref=f5e1214]:
+                  - generic [ref=f5e1215]: hard,
+                  - generic [ref=f5e1216]: thinks
+                  - generic [ref=f5e1217]: sharp
+                  - generic [ref=f5e1218]: and
+                  - generic [ref=f5e1219]: keeps
+                  - generic [ref=f5e1220]: the
+                - generic [ref=f5e1221]:
+                  - generic [ref=f5e1222]: vibe
+                  - generic [ref=f5e1223]: solid.
+                  - generic [ref=f5e1224]: "No"
+                  - generic [ref=f5e1225]: politics,
+                  - generic [ref=f5e1226]: "no"
+                  - generic [ref=f5e1227]: games.
+                - generic [ref=f5e1228]:
+                  - generic [ref=f5e1229]: Just
+                  - generic [ref=f5e1230]: people
+                  - generic [ref=f5e1231]: who
+                  - generic [ref=f5e1232]: care,
+                  - generic [ref=f5e1233]: push
+                  - generic [ref=f5e1234]: and
+                - generic [ref=f5e1235]:
+                  - generic [ref=f5e1236]: create.
+                  - generic [ref=f5e1237]: We
+                  - generic [ref=f5e1238]: talk
+                  - generic [ref=f5e1239]: straight,
+                  - generic [ref=f5e1240]: lift
+                  - generic [ref=f5e1241]: each
+                - generic [ref=f5e1242]:
+                  - generic [ref=f5e1243]: other
+                  - generic [ref=f5e1244]: up
+                  - generic [ref=f5e1245]: and
+                  - generic [ref=f5e1246]: aim
+                  - generic [ref=f5e1247]: higher
+                  - generic [ref=f5e1248]: every
+                - generic [ref=f5e1249]:
+                  - generic [ref=f5e1250]: time.
+                  - generic [ref=f5e1251]: When
+                  - generic [ref=f5e1252]: the
+                  - generic [ref=f5e1253]: culture
+                  - generic [ref=f5e1254]: is
+                  - generic [ref=f5e1255]: tight,
+                  - generic [ref=f5e1256]: the
+                - generic [ref=f5e1257]:
+                  - generic [ref=f5e1258]: work
+                  - generic [ref=f5e1259]: takes
+                  - generic [ref=f5e1260]: off.
+              - link "Our culture Our culture" [ref=f5e1261] [cursor=pointer]:
+                - /url: https://lamalama.com/about-us/
+                - generic [ref=f5e1263]:
+                  - generic [ref=f5e1266]: Our culture
+                  - img [ref=f5e1268]
+                - generic [ref=f5e1270]:
+                  - generic [ref=f5e1272]: Our culture
+                  - generic:
+                    - img
+          - img "No suits" [ref=f5e1274]
+      - generic [ref=f5e1275]:
+        - generic [ref=f5e1276]:
+          - heading "Brief us something." [level=2] [ref=f5e1277]:
+            - generic [ref=f5e1278]:
+              - generic [ref=f5e1279]: Brief
+              - generic [ref=f5e1280]: us
+            - generic [ref=f5e1282]: something.
+          - link "+31 20 6220440 lars +31 20 6220440" [ref=f5e1283] [cursor=pointer]:
+            - /url: tel:+31 20 6220440
+            - generic [ref=f5e1287]: +31 20 6220440
+            - generic [ref=f5e1288]:
+              - img "lars" [ref=f5e1290]
+              - generic [ref=f5e1292]: +31 20 6220440
+        - generic [ref=f5e1293]:
+          - generic [ref=f5e1296]: "[ Get in touch ]"
+          - paragraph [ref=f5e1297]:
+            - text: Feel free to reach out and discuss your project.
+            - text: We’ll make it sharper.
+          - generic [ref=f5e1298]:
+            - link "Start a project Start a project" [ref=f5e1299] [cursor=pointer]:
+              - /url: "#form"
+              - generic [ref=f5e1301]:
+                - generic [ref=f5e1304]: Start a project
+                - img [ref=f5e1306]
+              - generic [ref=f5e1308]:
+                - generic [ref=f5e1310]: Start a project
+                - generic:
+                  - img
+            - link "Schedule a call Schedule a call" [ref=f5e1311] [cursor=pointer]:
+              - /url: "#cal"
+              - generic [ref=f5e1313]:
+                - generic [ref=f5e1316]: Schedule a call
+                - img [ref=f5e1318]
+              - generic [ref=f5e1320]:
+                - generic [ref=f5e1322]: Schedule a call
+                - generic:
+                  - img

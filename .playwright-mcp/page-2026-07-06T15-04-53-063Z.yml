@@ -1,0 +1,524 @@
+- generic [active] [ref=f1e1]:
+  - main [ref=f1e2]:
+    - generic:
+      - generic:
+        - navigation:
+          - list [ref=f1e3]:
+            - listitem [ref=f1e4]:
+              - generic [ref=f1e5]: "01"
+              - generic [ref=f1e6]:
+                - generic [ref=f1e7]: w
+                - generic [ref=f1e8]: o
+                - generic [ref=f1e9]: r
+                - generic [ref=f1e10]: k
+              - link "work" [ref=f1e12]:
+                - /url: /work
+                - generic [ref=f1e13]: see work
+            - listitem [ref=f1e14]:
+              - generic [ref=f1e15]: "02"
+              - generic [ref=f1e16]:
+                - generic [ref=f1e17]: c
+                - generic [ref=f1e18]: l
+                - generic [ref=f1e19]: i
+                - generic [ref=f1e20]: e
+                - generic [ref=f1e21]: "n"
+                - generic [ref=f1e22]: t
+                - generic [ref=f1e23]: s
+              - link "clients" [ref=f1e25]:
+                - /url: /#clients
+            - listitem [ref=f1e27]:
+              - generic [ref=f1e28]: "03"
+              - generic [ref=f1e29]:
+                - generic [ref=f1e30]: p
+                - generic [ref=f1e31]: r
+                - generic [ref=f1e32]: o
+                - generic [ref=f1e33]: c
+                - generic [ref=f1e34]: e
+                - generic [ref=f1e35]: s
+                - generic [ref=f1e36]: s
+              - link "process" [ref=f1e38]:
+                - /url: /#process
+            - listitem [ref=f1e40]:
+              - generic [ref=f1e41]: "04"
+              - generic [ref=f1e42]:
+                - generic [ref=f1e43]: h
+                - generic [ref=f1e44]: o
+                - generic [ref=f1e45]: m
+                - generic [ref=f1e46]: e
+              - link "home" [ref=f1e48]:
+                - /url: /
+        - generic [ref=f1e51]:
+          - link "Button Text" [ref=f1e53]:
+            - /url: https://cal.com/ethansuero/
+            - generic [ref=f1e54]: Button Text
+          - generic [ref=f1e57]:
+            - generic [ref=f1e58]: S
+            - generic [ref=f1e59]: c
+            - generic [ref=f1e60]: h
+            - generic [ref=f1e61]: e
+            - generic [ref=f1e62]: d
+            - generic [ref=f1e63]: u
+            - generic [ref=f1e64]: l
+            - generic [ref=f1e65]: e
+            - generic [ref=f1e67]: a
+            - generic [ref=f1e69]: c
+            - generic [ref=f1e70]: a
+            - generic [ref=f1e71]: l
+            - generic [ref=f1e72]: l
+    - generic [ref=f1e78]:
+      - generic [ref=f1e79]:
+        - img [ref=f1e81]
+        - img [ref=f1e90]
+      - generic:
+        - generic "Hold tight" [ref=f1e98]:
+          - generic [ref=f1e100]:
+            - generic [ref=f1e101]: H
+            - generic [ref=f1e102]: o
+            - generic [ref=f1e103]: l
+            - generic [ref=f1e104]: d
+            - generic [ref=f1e105]: t
+            - generic [ref=f1e106]: i
+            - generic [ref=f1e107]: g
+            - generic [ref=f1e108]: h
+            - generic [ref=f1e109]: t
+        - generic "Hi there!" [ref=f1e110]
+    - img "this is a canvas effect logo" [ref=f1e118]: Suero Studio
+    - generic [ref=f1e119]:
+      - generic [ref=f1e124]:
+        - heading "Branding and Webflow websites for fast-moving B2B tech teams" [level=1] [ref=f1e127]
+        - heading "strategy, design & webflow development" [level=2] [ref=f1e130]
+      - generic [ref=f1e134]:
+        - heading "We meet your momentum to ensure your website remains one of your strongest growth tools." [level=2] [ref=f1e138]:
+          - generic [ref=f1e140]:
+            - generic [ref=f1e141]: We
+            - generic [ref=f1e142]: meet
+            - generic [ref=f1e143]: your
+            - generic [ref=f1e144]: momentum
+          - generic [ref=f1e146]:
+            - generic [ref=f1e147]: to
+            - generic [ref=f1e148]: ensure
+            - generic [ref=f1e149]: your
+            - generic [ref=f1e150]: website
+          - generic [ref=f1e152]:
+            - generic [ref=f1e153]: remains
+            - generic [ref=f1e154]: one
+            - generic [ref=f1e155]: of
+            - generic [ref=f1e156]: your
+          - generic [ref=f1e158]:
+            - strong [ref=f1e159]:
+              - generic [ref=f1e160]: strongest
+              - generic [ref=f1e161]: growth
+            - generic [ref=f1e162]: tools.
+        - paragraph [ref=f1e166]: Since 2019 we've helped 100+ fast-moving B2B tech teams turn outdated websites into their strongest growth asset.
+      - generic [ref=f1e171]:
+        - generic [ref=f1e174]: Partnered with global brands like
+        - generic [ref=f1e175]:
+          - generic [ref=f1e176]:
+            - list [ref=f1e178]:
+              - listitem [ref=f1e179]
+              - listitem [ref=f1e185]
+              - listitem [ref=f1e191]
+              - listitem [ref=f1e197]
+              - listitem [ref=f1e203]
+              - listitem [ref=f1e209]
+              - listitem [ref=f1e215]
+              - listitem [ref=f1e221]
+            - list [ref=f1e228]:
+              - listitem [ref=f1e229]
+              - listitem [ref=f1e235]
+              - listitem [ref=f1e241]
+              - listitem [ref=f1e247]
+              - listitem [ref=f1e253]
+              - listitem [ref=f1e259]
+              - listitem [ref=f1e265]
+              - listitem [ref=f1e271]
+          - generic [ref=f1e277]:
+            - list [ref=f1e279]:
+              - listitem [ref=f1e280]
+              - listitem [ref=f1e286]
+              - listitem [ref=f1e292]
+              - listitem [ref=f1e298]
+              - listitem [ref=f1e304]
+              - listitem [ref=f1e310]
+              - listitem [ref=f1e316]
+              - listitem [ref=f1e322]
+            - list [ref=f1e329]:
+              - listitem [ref=f1e330]
+              - listitem [ref=f1e336]
+              - listitem [ref=f1e342]
+              - listitem [ref=f1e348]
+              - listitem [ref=f1e354]
+              - listitem [ref=f1e360]
+              - listitem [ref=f1e366]
+              - listitem [ref=f1e372]
+      - generic [ref=f1e384]:
+        - generic [ref=f1e385]:
+          - generic [ref=f1e386]:
+            - heading "FEATURED WORK" [level=2] [ref=f1e388]:
+              - generic [ref=f1e390]:
+                - generic [ref=f1e391]: FEATURED
+                - generic [ref=f1e392]: WORK
+            - paragraph [ref=f1e394]:
+              - generic [ref=f1e397]: ©
+          - generic [ref=f1e398]:
+            - generic [ref=f1e399]: See our work
+            - link "See our work" [ref=f1e401]:
+              - /url: /work
+              - generic [ref=f1e402]: See our work
+            - img [ref=f1e403]
+        - list [ref=f1e407]:
+          - listitem [ref=f1e408]:
+            - link "view project" [ref=f1e413]:
+              - /url: /work/abcs
+          - listitem [ref=f1e415]:
+            - link "view project" [ref=f1e420]:
+              - /url: /work/moneda
+          - listitem [ref=f1e422]:
+            - link "view project" [ref=f1e427]:
+              - /url: /work/quoti
+          - listitem [ref=f1e429]:
+            - link "view project" [ref=f1e434]:
+              - /url: /work/felix-nieto
+          - listitem [ref=f1e436]:
+            - link "view project" [ref=f1e441]:
+              - /url: /work/fractorial
+          - listitem [ref=f1e443]:
+            - link "view project" [ref=f1e448]:
+              - /url: /work/gng-studio
+      - generic [ref=f1e481]:
+        - heading "You’ve grown fast, but your brand hasn’t caught up — creating a disconnect between your real value and how you’re perceived." [level=2] [ref=f1e485]:
+          - generic [ref=f1e487]:
+            - generic [ref=f1e488]: You’ve
+            - generic [ref=f1e489]: grown
+            - generic [ref=f1e490]: fast,
+            - generic [ref=f1e491]: but
+            - generic [ref=f1e492]: your
+          - generic [ref=f1e494]:
+            - generic [ref=f1e495]: brand
+            - generic [ref=f1e496]: hasn’t
+            - generic [ref=f1e497]: caught
+            - generic [ref=f1e498]: up
+          - generic [ref=f1e500]:
+            - generic [ref=f1e501]: —
+            - generic [ref=f1e502]: creating
+            - generic [ref=f1e503]: a
+            - strong [ref=f1e504]:
+              - generic [ref=f1e505]: disconnect
+          - generic [ref=f1e507]:
+            - generic [ref=f1e508]: between
+            - generic [ref=f1e509]: your
+            - generic [ref=f1e510]: real
+            - generic [ref=f1e511]: value
+          - generic [ref=f1e513]:
+            - generic [ref=f1e514]: and
+            - generic [ref=f1e515]: how
+            - generic [ref=f1e516]: you’re
+            - generic [ref=f1e517]: perceived.
+        - paragraph [ref=f1e521]: That gap makes it harder to earn trust, attract investors, and close the clients you should already be winning.
+      - generic [ref=f1e526]:
+        - list [ref=f1e529]:
+          - listitem:
+            - generic [ref=f1e532]:
+              - paragraph [ref=f1e535]: Chris Roane
+              - paragraph [ref=f1e538]: Operations Director
+              - paragraph [ref=f1e541]: Worked with Puregym and Netflix
+          - listitem:
+            - generic [ref=f1e545]:
+              - paragraph [ref=f1e548]: Aaron Burke
+              - paragraph [ref=f1e551]: Founder
+              - paragraph [ref=f1e554]: Working in life sciences
+          - listitem:
+            - generic [ref=f1e558]:
+              - paragraph [ref=f1e561]: Jennifer Silver
+              - paragraph [ref=f1e564]: Chief Operating Officer
+              - paragraph [ref=f1e567]: Raised $50M in funding
+          - listitem:
+            - generic [ref=f1e571]:
+              - paragraph [ref=f1e574]: Rain Delay
+              - paragraph [ref=f1e577]: Co-Founder & Executive Producer
+              - paragraph [ref=f1e580]: Produced for Apple TV and BBC
+          - listitem:
+            - generic [ref=f1e584]:
+              - paragraph [ref=f1e587]: Digital Gurus
+              - paragraph [ref=f1e590]: Chief Marketing Officer
+              - paragraph [ref=f1e593]: Worked with NHS and Sky
+        - list [ref=f1e597]:
+          - listitem [ref=f1e598]:
+            - paragraph [ref=f1e601]: GNG Studio
+          - listitem [ref=f1e602]:
+            - paragraph [ref=f1e605]: Fractorial
+          - listitem [ref=f1e606]:
+            - paragraph [ref=f1e609]: Permission
+          - listitem [ref=f1e610]:
+            - paragraph [ref=f1e613]: Rain Delay
+          - listitem [ref=f1e614]:
+            - paragraph [ref=f1e617]: Digital Gurus
+      - heading "We build brands that look as good as they perform. Every detail is intentional. No shortcuts. No fluff. Just strategy, design, and development working in lockstep to deliver measurable results." [level=2] [ref=f1e625]:
+        - generic [ref=f1e627]:
+          - generic [ref=f1e628]: We
+          - generic [ref=f1e629]: build
+          - generic [ref=f1e630]: brands
+          - generic [ref=f1e631]: that
+          - generic [ref=f1e632]: look
+          - generic [ref=f1e633]: as
+        - generic [ref=f1e635]:
+          - generic [ref=f1e636]: good
+          - generic [ref=f1e637]: as
+          - generic [ref=f1e638]: they
+          - generic [ref=f1e639]: perform.
+          - generic [ref=f1e640]: Every
+        - generic [ref=f1e642]:
+          - generic [ref=f1e643]: detail
+          - generic [ref=f1e644]: is
+          - strong [ref=f1e645]:
+            - generic [ref=f1e646]: intentional.
+          - generic [ref=f1e647]: "No"
+        - generic [ref=f1e649]:
+          - generic [ref=f1e650]: shortcuts.
+          - generic [ref=f1e651]: "No"
+          - generic [ref=f1e652]: fluff.
+          - generic [ref=f1e653]: Just
+        - generic [ref=f1e655]:
+          - generic [ref=f1e656]: strategy,
+          - generic [ref=f1e657]: design,
+          - generic [ref=f1e658]: and
+        - generic [ref=f1e660]:
+          - generic [ref=f1e661]: development
+          - generic [ref=f1e662]: working
+          - generic [ref=f1e663]: in
+        - generic [ref=f1e665]:
+          - generic [ref=f1e666]: lockstep
+          - generic [ref=f1e667]: to
+          - generic [ref=f1e668]: deliver
+          - generic [ref=f1e669]: measurable
+        - generic [ref=f1e671]:
+          - strong [ref=f1e672]:
+            - generic [ref=f1e673]: results
+          - generic [ref=f1e674]: .
+      - generic [ref=f1e679]:
+        - generic [ref=f1e680]:
+          - generic [ref=f1e681]:
+            - paragraph [ref=f1e683]: "01"
+            - paragraph [ref=f1e685]:
+              - text: positioning
+              - text: narrative
+              - text: web strategy
+          - generic [ref=f1e686]:
+            - heading "strategy" [level=2] [ref=f1e688]:
+              - generic [ref=f1e691]: strategy
+            - paragraph [ref=f1e693]: We immerse ourselves in your business to understand what’s holding it back — uncovering pain points, opportunities, and what truly matters to your audience. From there, we build a clear narrative and positioning strategy that sets the direction for design and growth.
+        - generic [ref=f1e694]:
+          - generic [ref=f1e695]:
+            - paragraph [ref=f1e697]: "02"
+            - paragraph [ref=f1e699]:
+              - text: ART DIRECTION
+              - text: VISUAL IDENTITY
+              - text: WEBSITE DESIGN
+          - generic [ref=f1e700]:
+            - heading "design" [level=2] [ref=f1e702]:
+              - generic [ref=f1e705]: design
+            - paragraph [ref=f1e707]: A collaborative design process that translates strategy into visuals that feel unmistakably you. We create systems that balance creativity with clarity — building a brand and website that looks good, feels cohesive, and communicates with purpose.
+        - generic [ref=f1e708]:
+          - generic [ref=f1e709]:
+            - paragraph [ref=f1e711]: "03"
+            - paragraph [ref=f1e713]:
+              - text: scalable system
+              - text: cms setup
+              - text: webflow development
+          - generic [ref=f1e714]:
+            - heading "development" [level=2] [ref=f1e716]:
+              - generic [ref=f1e719]: development
+            - paragraph [ref=f1e721]: We’ve spent years mastering Webflow to maximise its potential. Our modular builds and CMS-driven systems make your site scalable, fast, and effortless to manage — delivering performance that drives real results.
+        - generic [ref=f1e722]:
+          - generic [ref=f1e723]:
+            - paragraph [ref=f1e725]: "04"
+            - paragraph [ref=f1e727]:
+              - text: SEO & aeo optimisation
+              - text: content migration
+          - generic [ref=f1e728]:
+            - heading "SEO and aeo" [level=2] [ref=f1e730]:
+              - generic [ref=f1e732]:
+                - generic [ref=f1e733]: SEO
+                - generic [ref=f1e734]: and
+                - generic [ref=f1e735]: aeo
+            - paragraph [ref=f1e737]: Every project includes a dedicated SEO phase so you hit the ground running — preserving your existing rankings through careful content migration and building a solid foundation for growth. We also invest heavily in AEO, ensuring your site is structured for AI visibility so you show up when it matters most.
+      - generic [ref=f1e739]:
+        - generic [ref=f1e741]:
+          - heading "Your next brand move starts here" [level=2] [ref=f1e743]:
+            - generic [ref=f1e745]:
+              - generic [ref=f1e746]: Your
+              - generic [ref=f1e747]: next
+              - generic [ref=f1e748]: brand
+            - generic [ref=f1e750]:
+              - generic [ref=f1e751]: move
+              - generic [ref=f1e752]: starts
+              - generic [ref=f1e753]: here
+          - paragraph [ref=f1e755]: We work with a small number of ambitious B2B companies at a time. If the fit is right, let's talk.
+        - img "Unicorn Studio Scene" [ref=f1e758]
+      - generic [ref=f1e763]:
+        - generic [ref=f1e765]:
+          - img "Tattooed man reading a typography book with words like Bold, Black, Medium, Regular, Thin, and Semibold, next to a cup of coffee on a wooden table." [ref=f1e767]
+          - generic [ref=f1e769]:
+            - paragraph [ref=f1e771]: Still have questions? Book a call so we can go over your project details.
+            - generic [ref=f1e772]:
+              - link "Schedule a call" [ref=f1e774]:
+                - /url: https://cal.com/ethansuero
+                - generic [ref=f1e775]: Schedule a call
+              - generic [ref=f1e778]:
+                - generic [ref=f1e779]: S
+                - generic [ref=f1e780]: c
+                - generic [ref=f1e781]: h
+                - generic [ref=f1e782]: e
+                - generic [ref=f1e783]: d
+                - generic [ref=f1e784]: u
+                - generic [ref=f1e785]: l
+                - generic [ref=f1e786]: e
+                - generic [ref=f1e788]: a
+                - generic [ref=f1e790]: c
+                - generic [ref=f1e791]: a
+                - generic [ref=f1e792]: l
+                - generic [ref=f1e793]: l
+        - generic [ref=f1e796]:
+          - heading "faqs" [level=2] [ref=f1e798]
+          - list [ref=f1e800]:
+            - listitem [ref=f1e801]:
+              - paragraph [ref=f1e805]: What type of work do you take on?
+              - generic [ref=f1e810]:
+                - paragraph [ref=f1e811]: We specialize in branding and web projects for B2B companies in technology, recruitment, sports, media, AI, SaaS, architecture and sustainability.
+                - paragraph [ref=f1e812]: We also partner with agencies and in-house teams who need design or Webflow development support.
+            - listitem [ref=f1e813]:
+              - paragraph [ref=f1e817]: How much do you charge for projects?
+              - generic [ref=f1e822]:
+                - paragraph [ref=f1e823]: We charge a flat fee based on scope—every project is different depending on the engagement length, complexity and deliverables.
+                - paragraph [ref=f1e824]: Standard projects combining design and development typically range from $15,000–$30,000 and take 8–10 weeks to complete. We also take on smaller projects from time to time.
+                - paragraph [ref=f1e825]:
+                  - text: You can estimate your project here or
+                  - link "book a call" [ref=f1e826]:
+                    - /url: https://cal.com/ethansuero
+                  - text: with us to discuss your needs.
+            - listitem [ref=f1e827]:
+              - paragraph [ref=f1e831]: Can I update my website without a developer?
+              - generic [ref=f1e836]:
+                - paragraph [ref=f1e837]: Yes. All our sites are built in Webflow using the Lumos framework, where each section is an independent component you can drag, drop and edit.
+                - paragraph [ref=f1e838]: Our goal is to deliver sites that move the needle and don't hold you back—so you can scale and iterate without relying on developers.
+            - listitem [ref=f1e839]:
+              - paragraph [ref=f1e843]: Do you offer retainer plans?
+              - paragraph [ref=f1e849]:
+                - text: We do. For clients who want to continue working together after project delivery, we offer retainer packages.
+                - link "Schedule a call" [ref=f1e850]:
+                  - /url: https://cal.com/ethansuero
+                - text: with us here for more information.
+      - generic [ref=f1e852]:
+        - heading "Footer" [level=2] [ref=f1e853]
+        - generic [ref=f1e855]:
+          - link "L e t ' s c o l l a b o r a t e" [ref=f1e857]:
+            - /url: https://cal.com/ethansuero
+            - generic [ref=f1e858]:
+              - generic [ref=f1e859]:
+                - generic [ref=f1e860]: L
+                - generic [ref=f1e861]: e
+                - generic [ref=f1e862]: t
+                - generic [ref=f1e863]: "'"
+                - generic [ref=f1e864]: s
+                - generic [ref=f1e866]: c
+                - generic [ref=f1e867]: o
+                - generic [ref=f1e868]: l
+                - generic [ref=f1e869]: l
+                - generic [ref=f1e870]: a
+                - generic [ref=f1e871]: b
+                - generic [ref=f1e872]: o
+                - generic [ref=f1e873]: r
+                - generic [ref=f1e874]: a
+                - generic [ref=f1e875]: t
+                - generic [ref=f1e876]: e
+              - img [ref=f1e878]
+          - navigation "Directory" [ref=f1e881]:
+            - list [ref=f1e883]:
+              - listitem [ref=f1e884]:
+                - link "W O R K" [ref=f1e885]:
+                  - /url: /work
+                  - generic [ref=f1e886]:
+                    - generic [ref=f1e887]: W
+                    - generic [ref=f1e888]: O
+                    - generic [ref=f1e889]: R
+                    - generic [ref=f1e890]: K
+              - listitem [ref=f1e891]:
+                - link "C L I E N T S" [ref=f1e892]:
+                  - /url: /#clients
+                  - generic [ref=f1e893]:
+                    - generic [ref=f1e894]: C
+                    - generic [ref=f1e895]: L
+                    - generic [ref=f1e896]: I
+                    - generic [ref=f1e897]: E
+                    - generic [ref=f1e898]: "N"
+                    - generic [ref=f1e899]: T
+                    - generic [ref=f1e900]: S
+              - listitem [ref=f1e901]:
+                - link "P R O C E S S" [ref=f1e902]:
+                  - /url: /#process
+                  - generic [ref=f1e903]:
+                    - generic [ref=f1e904]: P
+                    - generic [ref=f1e905]: R
+                    - generic [ref=f1e906]: O
+                    - generic [ref=f1e907]: C
+                    - generic [ref=f1e908]: E
+                    - generic [ref=f1e909]: S
+                    - generic [ref=f1e910]: S
+              - listitem [ref=f1e911]:
+                - link "H O M E" [ref=f1e912]:
+                  - /url: /
+                  - generic [ref=f1e913]:
+                    - generic [ref=f1e914]: H
+                    - generic [ref=f1e915]: O
+                    - generic [ref=f1e916]: M
+                    - generic [ref=f1e917]: E
+        - generic [ref=f1e918]:
+          - generic [ref=f1e920]:
+            - generic [ref=f1e921]:
+              - link "webflow profile":
+                - /url: https://webflow.com/@ethan-suero
+                - img "Webflow Premium Partner"
+              - generic [ref=f1e922]: ©2026 SUERO STUDIO LTD
+            - list [ref=f1e924]:
+              - listitem [ref=f1e925]:
+                - link "T&Cs" [ref=f1e926]:
+                  - /url: /terms-of-service
+                  - generic [ref=f1e927]: T&Cs
+              - listitem [ref=f1e928]:
+                - link "PRIVACY" [ref=f1e929]:
+                  - /url: /privacy-policy
+                  - generic [ref=f1e930]: PRIVACY
+            - list [ref=f1e932]:
+              - listitem [ref=f1e933]:
+                - link "LINKEDIN" [ref=f1e934]:
+                  - /url: https://www.linkedin.com/in/ethan-suero/
+                  - generic [ref=f1e935]: LINKEDIN
+              - listitem [ref=f1e936]:
+                - link "TWITTER" [ref=f1e937]:
+                  - /url: https://x.com/ethansuero_
+                  - generic [ref=f1e938]: TWITTER
+            - generic [ref=f1e939]:
+              - generic [ref=f1e940]: Ask AI about us
+              - generic [ref=f1e941]:
+                - link "Ask ChatGPT about Suero Studio" [ref=f1e942]:
+                  - /url: https://chat.openai.com/?q=How%20would%20you%20assess%20Suero%20Studio%20as%20a%20partner%20for%20fast-moving%20B2B%20companies%20looking%20to%20sharpen%20their%20online%20presence%3F%20What%20types%20of%20organisations%20are%20the%20strongest%20fit%3F%0A%0AVisit%20ethansuero.com%20and%20assess%20their%20approach%20%E2%80%94%20specifically%20how%20they%20connect%20strategy%2C%20design%2C%20and%20Webflow%20development%20into%20a%20single%20engagement%2C%20and%20what%20outcomes%20that%27s%20designed%20to%20produce%20for%20founders%20and%20marketers%20who%27ve%20outgrown%20their%20current%20website.
+                  - img [ref=f1e943]
+                - link "Ask Claude about Suero Studio" [ref=f1e946]:
+                  - /url: https://claude.ai/new?q=How%20would%20you%20assess%20Suero%20Studio%20as%20a%20partner%20for%20fast-moving%20B2B%20companies%20looking%20to%20sharpen%20their%20online%20presence%3F%20What%20types%20of%20organisations%20are%20the%20strongest%20fit%3F%0A%0AVisit%20ethansuero.com%20and%20assess%20their%20approach%20%E2%80%94%20specifically%20how%20they%20connect%20strategy%2C%20design%2C%20and%20Webflow%20development%20into%20a%20single%20engagement%2C%20and%20what%20outcomes%20that%27s%20designed%20to%20produce%20for%20founders%20and%20marketers%20who%27ve%20outgrown%20their%20current%20website.
+                  - img [ref=f1e947]
+                - link "Ask Perplexity about Suero Studio" [ref=f1e950]:
+                  - /url: https://www.perplexity.ai/?q=How%20would%20you%20assess%20Suero%20Studio%20as%20a%20partner%20for%20fast-moving%20B2B%20companies%20looking%20to%20sharpen%20their%20online%20presence%3F%20What%20types%20of%20organisations%20are%20the%20strongest%20fit%3F%0A%0AVisit%20ethansuero.com%20and%20assess%20their%20approach%20%E2%80%94%20specifically%20how%20they%20connect%20strategy%2C%20design%2C%20and%20Webflow%20development%20into%20a%20single%20engagement%2C%20and%20what%20outcomes%20that%27s%20designed%20to%20produce%20for%20founders%20and%20marketers%20who%27ve%20outgrown%20their%20current%20website.
+                  - img [ref=f1e951]
+                - link "Ask Gemini about Suero Studio" [ref=f1e954]:
+                  - /url: https://gemini.google.com/app?q=How%20would%20you%20assess%20Suero%20Studio%20as%20a%20partner%20for%20fast-moving%20B2B%20companies%20looking%20to%20sharpen%20their%20online%20presence%3F%20What%20types%20of%20organisations%20are%20the%20strongest%20fit%3F%0A%0AVisit%20ethansuero.com%20and%20assess%20their%20approach%20%E2%80%94%20specifically%20how%20they%20connect%20strategy%2C%20design%2C%20and%20Webflow%20development%20into%20a%20single%20engagement%2C%20and%20what%20outcomes%20that%27s%20designed%20to%20produce%20for%20founders%20and%20marketers%20who%27ve%20outgrown%20their%20current%20website.
+                  - img [ref=f1e955]
+                - link "Ask Grok about Suero Studio" [ref=f1e961]:
+                  - /url: https://x.com/i/grok?text=How%20would%20you%20assess%20Suero%20Studio%20as%20a%20partner%20for%20fast-moving%20B2B%20companies%20looking%20to%20sharpen%20their%20online%20presence%3F%20What%20types%20of%20organisations%20are%20the%20strongest%20fit%3F%0A%0AVisit%20ethansuero.com%20and%20assess%20their%20approach%20%E2%80%94%20specifically%20how%20they%20connect%20strategy%2C%20design%2C%20and%20Webflow%20development%20into%20a%20single%20engagement%2C%20and%20what%20outcomes%20that%27s%20designed%20to%20produce%20for%20founders%20and%20marketers%20who%27ve%20outgrown%20their%20current%20website.
+                  - img [ref=f1e962]
+          - generic [ref=f1e965]:
+            - img [ref=f1e967]
+            - img [ref=f1e980]
+            - img [ref=f1e993]
+  - link "Suero Studio on Awwwards" [ref=f1e1006]:
+    - /url: https://www.awwwards.com/sites/suero-studio
+    - img [ref=f1e1007]
