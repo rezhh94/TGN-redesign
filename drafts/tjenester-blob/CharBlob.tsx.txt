@@ -1,0 +1,133 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+// Roterende ASCII-tegn-blob i pine — masthodets signatur-visual for 02/Tjenester.
+// Ren Canvas 2D-tekst (ingen Three.js/WebGL) → pagespeed-trygt. Reagerer når man
+// holder over kategori-brikkene ([data-blob-cat]): formen vris og pulserer mot
+// den kategorien. Pauser når seksjonen er utenfor skjermen, fryser ved redusert
+// bevegelse, aria-hidden — rører aldri lesbar tekst.
+const RAMP = " .·:-=+*≡#%@";
+const CAT_OFFSET: Record<string, number> = { bygg: 0, system: 2.1, synlighet: 4.2 };
+const PINE = [158, 182, 145];
+const PINE_CORE = [200, 218, 186];
+
+export function CharBlob({ className }: { className?: string }) {
+  const ref = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const cv = ref.current;
+    if (!cv) return;
+    const ctx = cv.getContext("2d");
+    if (!ctx) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const FS = 14;
+    let W = 0;
+    let H = 0;
+    let cols = 0;
+    let rows = 0;
+    let cw = 0;
+    let chh = 0;
+    let raf = 0;
+    let frame = 0;
+    let visible = true;
+    let curOffset = 0;
+    let targetOffset = 0;
+    let pulse = 0;
+
+    const smooth = (a: number, b: number, x: number) => {
+      let t = (x - a) / (b - a);
+      t = t < 0 ? 0 : t > 1 ? 1 : t;
+      return t * t * (3 - 2 * t);
+    };
+
+    const size = () => {
+      const r = cv.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      W = r.width;
+      H = r.height;
+      cv.width = W * dpr;
+      cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.font = `${FS}px 'Caleb Mono', monospace`;
+      ctx.textBaseline = "top";
+      cw = ctx.measureText("0").width || 7.2;
+      chh = FS + 2;
+      cols = Math.ceil(W / cw);
+      rows = Math.ceil(H / chh);
+    };
+
+    const render = (t: number) => {
+      curOffset += (targetOffset - curOffset) * 0.06;
+      if (pulse > 0) pulse *= 0.94;
+      ctx.clearRect(0, 0, W, H);
+      const asp = (cols * cw) / (rows * chh);
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const nx = (c / cols - 0.5) * asp * 1.15;
+          const ny = (r / rows - 0.5) * 1.15;
+          const dist = Math.hypot(nx, ny);
+          const ang = Math.atan2(ny, nx);
+          let v = Math.cos(dist * 3.1) * 0.5 + 0.5;
+          v += 0.34 * Math.sin(ang * 4 + t * 0.0011 + curOffset - dist * 6.5);
+          v += 0.14 * Math.sin(c * 0.55 + r * 0.3 + t * 0.0018);
+          const mask = 1 - smooth(0.34, 0.5, dist);
+          v = v * mask + pulse * 0.12 * mask;
+          if (v < 0.09) continue;
+          if (v > 1) v = 1;
+          const ch = RAMP.charAt(Math.floor(v * (RAMP.length - 1)));
+          if (ch === " ") continue;
+          const al = 0.3 + v * 0.7;
+          const col = v > 0.72 ? PINE_CORE : PINE;
+          ctx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},${al.toFixed(3)})`;
+          ctx.fillText(ch, c * cw, r * chh);
+        }
+      }
+    };
+
+    const loop = (t: number) => {
+      if (visible && (frame++ & 1) === 0) render(t);
+      raf = requestAnimationFrame(loop);
+    };
+
+    // Reaksjon på kategori-brikkene.
+    const chips = Array.from(document.querySelectorAll<HTMLElement>("[data-blob-cat]"));
+    const onEnter = (e: Event) => {
+      const cat = (e.currentTarget as HTMLElement).dataset.blobCat ?? "";
+      targetOffset = CAT_OFFSET[cat] ?? 0;
+      pulse = 1;
+    };
+    chips.forEach((ch) => {
+      ch.addEventListener("mouseenter", onEnter);
+      ch.addEventListener("focus", onEnter);
+    });
+
+    let io: IntersectionObserver | null = null;
+    if ("IntersectionObserver" in window) {
+      io = new IntersectionObserver((entries) => {
+        visible = entries[0].isIntersecting;
+      });
+      io.observe(cv);
+    }
+
+    size();
+    window.addEventListener("resize", size);
+    document.fonts?.ready.then(size);
+    if (reduce) render(1200);
+    else raf = requestAnimationFrame(loop);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", size);
+      chips.forEach((ch) => {
+        ch.removeEventListener("mouseenter", onEnter);
+        ch.removeEventListener("focus", onEnter);
+      });
+      io?.disconnect();
+    };
+  }, []);
+
+  return <canvas ref={ref} className={className} aria-hidden="true" />;
+}
