@@ -382,11 +382,13 @@ function improveScene() {
   };
 }
 
-// 04 / Arbeid — utvalg som ekspanderende katalog. The case rows rise in once as
-// the list enters; opening/closing is native <details> (CSS-animated via
-// ::details-content), so no JS drives the toggle. PRM / no-JS keep the static,
-// readable, fully-collapsible list.
-function workProof() {
+// 04 / Arbeid — utvalg som alltid-åpne sikk-sakk-rader. The case rows rise in
+// once as the list enters (stagger reveal); no accordion, no JS drives layout.
+// On desktop (parallax=true) each row's two columns drift in gentle counter-phase
+// as the row crosses the viewport — the mockups travel a touch more than the
+// copy, so depth reads without any pin or stack. Mobile collapses to one column,
+// so parallax is off there. PRM / no-JS keep the static, readable, full list.
+function workProof(parallax: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
@@ -401,6 +403,23 @@ function workProof() {
       ease: "power3.out",
       stagger: 0.07,
       scrollTrigger: { trigger: "[data-work-cases]", start: "top 80%", once: true },
+    });
+
+    if (!parallax) return;
+
+    // Column parallax — centred on the row's natural position (midpoint ≈ 0),
+    // so nothing shifts layout at rest. Counter-phase + unequal travel gives the
+    // mockups the heavier drift; the copy holds steadier as the reading anchor.
+    rows.forEach((row) => {
+      const copy = row.querySelector<HTMLElement>(".wp-case__copy");
+      const posters = row.querySelector<HTMLElement>(".wp-case__posters");
+      const st = { trigger: row, start: "top bottom", end: "bottom top", scrub: 0.6 };
+      if (posters) {
+        gsap.fromTo(posters, { y: 54 }, { y: -54, ease: "none", scrollTrigger: st });
+      }
+      if (copy) {
+        gsap.fromTo(copy, { y: -20 }, { y: 20, ease: "none", scrollTrigger: st });
+      }
     });
   }, section);
 
@@ -634,7 +653,7 @@ export function HomeMotion() {
       const teardownServices = servicesScene();
       const teardownBridge = bridgeScene(true);
       const teardownImprove = improveScene();
-      const teardownWork = workProof();
+      const teardownWork = workProof(true);
       const teardownProcess = processJourney();
       manifestoReveal();
       footerReveals();
@@ -659,7 +678,7 @@ export function HomeMotion() {
       const teardownServices = servicesScene();
       const teardownBridge = bridgeScene(false);
       const teardownImprove = improveScene();
-      const teardownWork = workProof();
+      const teardownWork = workProof(false);
       const teardownProcess = processJourney();
       manifestoReveal();
       footerReveals();

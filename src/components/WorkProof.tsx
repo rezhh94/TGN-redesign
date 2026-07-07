@@ -43,12 +43,13 @@ const cases = [
   },
 ];
 
-/* 04 / Arbeid — utvalg som ekspanderende katalog. Hver rad er en <details> som
-   åpner ett verk om gangen (name-attributt → akkordeon). Sammenslått rad: navn +
-   kategori-brikker + liten mediestripe. Åpen rad: beskrivelse, case-lenke og
-   større plakat-rammer klare til mockups. Native details betyr full lesbarhet
-   uten JS og tastaturstøtte; ::details-content gir myk åpning der den støttes.
-   Plakat-rammene er tomme til ekte mockups finnes — ingen store bilder kreves. */
+/* 04 / Arbeid — utvalg som alltid-åpen katalog (ingen akkordeon). Hver rad er en
+   fullt utfoldet plakat: tekstblokk (index / navn / brikker / beskrivelse /
+   case-lenke) på den ene siden, tre mockup-rammer på den andre. Annenhver rad
+   speiles (tekst ↔ mockups bytter side) via :nth-child(even) — sikk-sakk nedover.
+   Ingen JS driver layouten; radene er lesbare uten JavaScript. Reveal-staggeren
+   i HomeMotion løfter dem inn på scroll. (Scroll-stabling à la 03/Effekt kan
+   legges på senere — bevisst utelatt i denne runden.) */
 export function WorkProof() {
   return (
     <section className="work-proof" aria-labelledby="work-proof-title">
@@ -78,10 +79,10 @@ export function WorkProof() {
 
       <div className="work-proof__cases" data-work-cases>
         {cases.map((piece) => (
-          <details className="wp-case" name="tigon-arbeid" data-work-case key={piece.n}>
-            <summary className="wp-case__summary">
+          <article className="wp-case" data-work-case key={piece.n}>
+            <div className="wp-case__copy">
               <span className="wp-case__index">Arbeid / {piece.n}</span>
-              <span className="wp-case__name">{piece.name}</span>
+              <h3 className="wp-case__name">{piece.name}</h3>
               <span className="wp-case__tags">
                 {piece.tags.map((tag) => (
                   <span className="wp-case__tag" key={tag}>
@@ -89,34 +90,24 @@ export function WorkProof() {
                   </span>
                 ))}
               </span>
-              <span className="wp-case__strip" aria-hidden="true">
-                <span className="wp-case__thumb" />
-                <span className="wp-case__thumb" />
-                <span className="wp-case__thumb" />
-              </span>
-              <span className="wp-case__toggle" aria-hidden="true" />
-            </summary>
-
-            <div className="wp-case__detail">
-              <div className="wp-case__copy">
-                <p className="wp-case__blurb">{piece.blurb}</p>
-                <a className="wp-case__link" href="/arkiv">
-                  Se case →
-                </a>
-              </div>
-              <div className="wp-case__posters" aria-hidden="true">
-                <span className="wp-case__poster">
-                  <span className="wp-case__poster-tag">Mockup</span>
-                </span>
-                <span className="wp-case__poster">
-                  <span className="wp-case__poster-tag">Mockup</span>
-                </span>
-                <span className="wp-case__poster">
-                  <span className="wp-case__poster-tag">Mockup</span>
-                </span>
-              </div>
+              <p className="wp-case__blurb">{piece.blurb}</p>
+              <a className="wp-case__link" href="/arkiv">
+                Se case →
+              </a>
             </div>
-          </details>
+
+            <div className="wp-case__posters" aria-hidden="true">
+              <span className="wp-case__poster">
+                <span className="wp-case__poster-tag">Mockup</span>
+              </span>
+              <span className="wp-case__poster">
+                <span className="wp-case__poster-tag">Mockup</span>
+              </span>
+              <span className="wp-case__poster">
+                <span className="wp-case__poster-tag">Mockup</span>
+              </span>
+            </div>
+          </article>
         ))}
       </div>
     </section>
