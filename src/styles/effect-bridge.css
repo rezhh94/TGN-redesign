@@ -30,7 +30,7 @@
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }

@@ -20,7 +20,7 @@
   color: var(--on-dark-medium);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -53,8 +53,8 @@
   color: var(--color-on-dark);
   font-family: var(--font-display);
   font-size: clamp(86px, 14.6vw, 308px);
-  font-weight: 800;
-  letter-spacing: -0.012em;
+  font-weight: 700;
+  letter-spacing: var(--display-track);
   line-height: 0.8;
   text-transform: uppercase;
 }
@@ -134,7 +134,7 @@
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   padding: 4px 0;
   text-transform: uppercase;
@@ -167,7 +167,7 @@
   color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -420,8 +420,8 @@
   color: var(--on-dark-strong);
   font-family: var(--font-display);
   font-size: clamp(74px, 22.4vw, 480px);
-  font-weight: 800;
-  letter-spacing: -0.012em;
+  font-weight: 700;
+  letter-spacing: var(--display-track);
   line-height: 0.78;
   text-transform: uppercase;
   white-space: nowrap;

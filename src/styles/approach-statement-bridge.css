@@ -32,7 +32,7 @@
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -43,7 +43,7 @@
   /* Tier 1 i den typografiske stigen — deles med 02s BYGGER-tittel */
   font-size: clamp(64px, 8.6vw, 170px);
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--display-track);
   line-height: 0.92;
   text-transform: uppercase;
 }

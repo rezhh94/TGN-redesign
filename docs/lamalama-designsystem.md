@@ -105,6 +105,14 @@ roligere/større knapper.
 
 ## Endringslogg
 
+- **2026-07-07 (konsistens-pass):** Ferskt live-ekstrakt av lamalama bekreftet deres kjerneregel:
+  `letter-spacing −0.02em` på ALT + seksjonstitler i vekt 400. TGN-siden auditert mot dette og
+  interne avvik samlet (full rapport: `forside-inkonsistens-rapport.md`). Tre nye ÉN-kilde-tokens:
+  `--display-track 0.01em` (alle 8 display-titler → TGS 700 + 0.01em; contact 800→700),
+  `--mono-track 0.08em` (alle 19 mono-labels; var ≥7 verdier), `--radius-fine 2px` (3-trinns
+  radius-skala). `--color-signal` (bannlyst oransje) slettet. TGN beholder bevisst positiv
+  mono-tracking (ikke lamalamas −0.02em) og kondensert display — dokumentert som retningsvalg.
+
 - **2026-07-07:** Første ekstrakt + implementert #1 (knapp), #3 (mono-tracking, ikke titler),
   #4 (seksjon-skala), #5 (grid-token) i `tokens.css`. #2 (titler) bevisst hoppet over.
 - **2026-07-07:** Migrert to seksjoner over på 12-kol grid-tokenene som eksempel:

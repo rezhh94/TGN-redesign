@@ -54,7 +54,7 @@
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -75,7 +75,7 @@
   font-family: var(--font-display);
   font-size: clamp(64px, 8.6vw, 170px);
   font-weight: 700;
-  letter-spacing: 0;
+  letter-spacing: var(--display-track);
   line-height: 0.82;
   text-transform: uppercase;
 }
@@ -137,7 +137,7 @@
   font-family: var(--font-display);
   font-size: clamp(34px, 3.4vw, 62px);
   font-weight: 700;
-  letter-spacing: 0;
+  letter-spacing: var(--display-track);
   line-height: 0.9;
   text-transform: uppercase;
 }
@@ -157,7 +157,7 @@
   color: var(--pine-tint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.1em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -237,14 +237,14 @@
   /* Hårfin lys kant → brikka leses også på nær-svarte flater (04 Arbeid deler
      denne resepten via .wp-case__tag). Endre begge steder samtidig. */
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 2px;
+  border-radius: var(--radius-fine);
   /* Svart fyll + hvit tekst (lamalama) — rein svart/hvit, bevisst utenfor
      cream/blekk-paletten for maks pop. */
   background: #000000;
   color: #ffffff;
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1;
   text-transform: uppercase;
 }
@@ -285,7 +285,7 @@
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.04em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-align: right;
   transition: color var(--motion-fast) ease-out;
@@ -374,7 +374,7 @@
   color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
-  letter-spacing: 0.14em;
+  letter-spacing: var(--mono-track);
   text-transform: uppercase;
 }
 
@@ -397,7 +397,7 @@
   color: var(--on-dark-medium);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
   text-decoration: underline;
@@ -453,7 +453,7 @@
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -476,7 +476,7 @@
   color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
-  letter-spacing: 0.1em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -557,7 +557,7 @@
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.04em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -570,7 +570,7 @@
   color: var(--on-dark-medium);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.05em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
   text-decoration: underline;

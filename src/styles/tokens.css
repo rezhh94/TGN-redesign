@@ -10,7 +10,6 @@
   --color-dark-soft: #1a1b16;
   --color-on-dark: #f2f1eb;
   --color-on-dark-muted: #b6b4aa;
-  --color-signal: #c44414;
 
   /* Varm nøytral-stige — lyse rom skiller seg tonalt uten å bli rene hvite.
      Namma-referansens grå, oversatt til Tigons varme skala. */
@@ -101,11 +100,20 @@
   --cta-pad-x: 24px;
   --cta-tracking: -0.02em;
 
+  /* Display-tittel-tracking — ÉN kilde for alle kondenserte TGS-caps-titler
+     (seksjonstitler + pilar/kort-navn). Var før spredt: 0 / 0.01 / −0.012em på
+     visuelt like titler. Snappet til den dominerende 0.01em. Hero-wordmarken
+     (bokstavstablet TIGON/STUDIO) er egen sak og bruker ikke denne. */
+  --display-track: 0.01em;
+
   /* F: skarp-editorial (lamalama-oversatt). Ett hjørne-token for avrundede
      rektangler + knapper. Piller (999) beholdes kun som flytende nav-chrome,
      prikker (50%) og skarpe rammer (0) som før. Ett fremover-motiv: diagonal
      ↗ (--arrow-ne), erstatter prikkekjede + chevron. */
   --radius: 4px;
+  /* Fin-radius — bittesmå elementer (hamburger-strek, tag-brikker 5×9px) der 4px
+     ville lest for rundt. ÉN kilde for alle 2px-hjørner, aldri en løs px. */
+  --radius-fine: 2px;
   /* Chrome-radius — flytende glass-flater (header-bar, meny-kort, aside-piller).
      Bevisst mykere enn --radius men klart mer firkantet enn de gamle 14–18px.
      ÉN kilde: alle piller/kort/barer bruker denne, aldri en px imellom. */
@@ -151,6 +159,12 @@
   --fz-mono-l: 12px;
   --fz-mono: 11px;
   --fz-mono-s: 10px;
+
+  /* Mono/eyebrow-tracking — ÉN kilde for alle uppercase Caleb-Mono-labels
+     (eyebrows, tags, meta, CTA-piler). Var før spredt: 0,04–0,14em på visuelt
+     like labels. Samlet til arbeidshesten 0,08em. CTA-label bruker bevisst
+     --cta-tracking (−0,02em, lamalama-kalibrert), ikke denne. */
+  --mono-track: 0.08em;
 
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);

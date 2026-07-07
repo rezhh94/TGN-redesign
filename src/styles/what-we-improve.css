@@ -53,7 +53,7 @@
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -113,7 +113,7 @@
   font-family: var(--font-mono);
   font-size: clamp(28px, 2.4vw, 42px);
   font-weight: 400;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--mono-track);
   line-height: 1;
 }
 
@@ -128,7 +128,7 @@
   color: var(--on-dark-medium);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.04em;
+  letter-spacing: var(--mono-track);
   line-height: 1.55;
   text-transform: uppercase;
 }
@@ -245,7 +245,7 @@
   color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.5;
   text-transform: uppercase;
 }

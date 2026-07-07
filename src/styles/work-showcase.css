@@ -42,7 +42,7 @@
   color: var(--w-muted);
   font-family: var(--font-mono);
   font-size: 12px;
-  letter-spacing: 0.03em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
 }
 
@@ -53,7 +53,7 @@
   color: var(--w-muted);
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -110,7 +110,7 @@
   color: var(--w-muted);
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
 }
 
@@ -140,7 +140,7 @@
   color: var(--w-ink-soft);
   font-family: var(--font-mono);
   font-size: 12px;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--mono-track);
   line-height: 1.7;
   text-transform: uppercase;
 }
@@ -182,7 +182,7 @@
   color: var(--w-muted);
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--mono-track);
   line-height: 1.4;
   text-transform: uppercase;
 }
@@ -360,7 +360,7 @@
   color: rgba(242, 241, 235, 0.42);
   font-family: var(--font-mono);
   font-size: 10.5px;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -388,7 +388,7 @@
   color: rgba(242, 241, 235, 0.48);
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--mono-track);
   text-transform: uppercase;
 }
 
@@ -410,7 +410,7 @@
   color: rgba(242, 241, 235, 0.4);
   font-family: var(--font-mono);
   font-size: clamp(10px, 0.8vw, 12px);
-  letter-spacing: 0.14em;
+  letter-spacing: var(--mono-track);
   text-transform: uppercase;
 }
 

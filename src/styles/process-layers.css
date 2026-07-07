@@ -28,7 +28,7 @@
   color: var(--on-light-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -38,7 +38,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--display-track);
   line-height: 0.9;
   /* Monumental — kapittel-stor mot de store proof-flatene i 04. */
   font-size: clamp(56px, 11vw, 200px);
@@ -62,7 +62,7 @@
   color: var(--on-light-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.1em;
+  letter-spacing: var(--mono-track);
   text-transform: uppercase;
 }
 
@@ -108,7 +108,7 @@
 .process-journey__step {
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   text-transform: uppercase;
   color: var(--on-light-quiet);
   /* Flukter med overskriftens optiske topp. */
@@ -124,7 +124,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--display-track);
   line-height: 1;
   color: var(--blekk);
   font-size: clamp(28px, 2.6vw, 46px);
@@ -146,7 +146,7 @@
   padding-bottom: 5px;
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   text-transform: uppercase;
   color: var(--on-light-quiet);
   border-bottom: 1px solid var(--pj-line);
@@ -175,7 +175,7 @@
   left: clamp(16px, 2vw, 26px);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.1em;
+  letter-spacing: var(--mono-track);
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.92);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
@@ -205,7 +205,7 @@
 .process-journey__closer-cta {
   font-family: var(--font-mono);
   font-size: var(--fz-mono-l);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   text-transform: uppercase;
   color: var(--blekk);
   text-decoration: none;

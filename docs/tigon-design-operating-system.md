@@ -64,7 +64,8 @@ Default direction:
 - muted gray
 
 Orange is not part of the current visible design direction.
-It may exist as a token, but should not be visible unless explicitly approved.
+The `--color-signal` orange token was removed 2026-07-07 (unused). If a signal
+colour is ever needed, use `--pine`, or re-introduce a token only after explicit approval.
 
 ## Typography
 
