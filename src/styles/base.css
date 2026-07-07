@@ -20,7 +20,7 @@ body {
   line-height: 1.5;
 }
 
-body:has(.mobile-menu:not([hidden])) {
+body:has(.site-menu:not([hidden])) {
   overflow: hidden;
 }
 
