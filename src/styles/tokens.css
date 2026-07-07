@@ -68,6 +68,39 @@
      Prosess (horisontale paneler) har egen struktur og bruker den ikke. */
   --section-pad-y: clamp(128px, 16vh, 216px);
 
+  /* Navngitt seksjons-skala (lamalama-oversatt) — fluid vertikal rytme der hver
+     verdi er max(fast rem, vw): luften vokser lineært med skjermbredden i stedet
+     for å hoppe i clamp-trinn. vw-delen = px/1440*100 (deres referansebredde).
+     Bruk til intern seksjons-spacing (blokk-avstand); --section-pad-y forblir
+     standard «kapittel»-topp/bunn.
+       xs 30/60 · sm 40/80 · md 60/120 · lg 80/160 · xl 100/200 · 2xl 110/220 · 3xl 120/240 */
+  --section-xs: max(1.875rem, 4.167vw);
+  --section-sm: max(2.5rem, 5.556vw);
+  --section-md: max(3.75rem, 8.333vw);
+  --section-lg: max(5rem, 11.111vw);
+  --section-xl: max(6.25rem, 13.889vw);
+  --section-2xl: max(6.875rem, 15.278vw);
+  --section-3xl: max(7.5rem, 16.667vw);
+
+  /* Kolonne-grid (lamalama-oversatt) — 12 kol desktop / 6 mobil (media under).
+     Gir seksjoner én delt venstrekant og kolonne-rytme i stedet for ad hoc
+     bredder. Bruk: display:grid; grid-template-columns: repeat(var(--grid-cols), 1fr);
+     column-gap: var(--grid-gutter); innenfor --grid-margin sidemargin. */
+  --grid-cols: 12;
+  --grid-gutter: 24px;
+  --grid-margin: var(--gutter);
+
+  /* CTA-knapp (lamalama-kalibrert) — ÉN delt resept for primær/sekundær side-CTA
+     (hero + kontakt). Lamalama norm.: 50px høy, 10px mono, gap 20, radius 4, tett
+     tracking (−0.02em). Tigon: en hair større (11px / 52px) siden Caleb Mono
+     kjører mindre enn Sometype. Nav- og meny-piller er chrome (--radius-chrome,
+     0.08em) og bruker bevisst IKKE denne resepten. */
+  --cta-height: 52px;
+  --cta-fz: 11px;
+  --cta-gap: 18px;
+  --cta-pad-x: 24px;
+  --cta-tracking: -0.02em;
+
   /* F: skarp-editorial (lamalama-oversatt). Ett hjørne-token for avrundede
      rektangler + knapper. Piller (999) beholdes kun som flytende nav-chrome,
      prikker (50%) og skarpe rammer (0) som før. Ett fremover-motiv: diagonal
@@ -126,4 +159,12 @@
   --motion-fast: 200ms;
   --motion-base: 300ms;
   --motion-medium: 500ms;
+}
+
+/* Grid — mobil: 6 kol + strammere gutter (lamalama-oversatt). */
+@media (max-width: 640px) {
+  :root {
+    --grid-cols: 6;
+    --grid-gutter: 10px;
+  }
 }

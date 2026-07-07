@@ -5,6 +5,7 @@ const cases = [
     tags: ["Produkt", "Next.js"],
     blurb:
       "Et produkt bygget for daglig bruk — raskt, forutsigbart og enkelt å drifte. Grensesnittet holder seg unna veien så arbeidet flyter.",
+    images: ["/work/mockups/01.png", "/work/mockups/02.png", "/work/mockups/03.png"],
   },
   {
     n: "02",
@@ -12,6 +13,7 @@ const cases = [
     tags: ["SEO", "Struktur"],
     blurb:
       "En flate som blir funnet og forstått. Tydelig struktur og teknisk SEO fra første linje, målt fra dag én.",
+    images: ["/work/mockups/04.png", "/work/mockups/05.png", "/work/mockups/06.png"],
   },
   {
     n: "03",
@@ -19,6 +21,7 @@ const cases = [
     tags: ["Portal", "Dashboard"],
     blurb:
       "Portaler og dashboards der data blir til beslutninger. Bygget for daglig drift, ikke for demo.",
+    images: ["/work/mockups/07.png", "/work/mockups/08.png", "/work/mockups/09.png"],
   },
   {
     n: "04",
@@ -26,6 +29,7 @@ const cases = [
     tags: ["Konvertering", "Flyt"],
     blurb:
       "Kjøpsreisen strammet inn til det som selger. Færre steg, tydeligere valg, målbar effekt.",
+    images: ["/work/mockups/10.png", "/work/mockups/11.png", "/work/mockups/12.png"],
   },
   {
     n: "05",
@@ -33,6 +37,7 @@ const cases = [
     tags: ["Integrasjon", "Automasjon"],
     blurb:
       "AI satt i system — integrasjoner og automasjon som fjerner manuelt arbeid, ikke bare imponerer.",
+    images: ["/work/mockups/13.png", "/work/mockups/14.png", "/work/mockups/15.png"],
   },
   {
     n: "06",
@@ -40,6 +45,7 @@ const cases = [
     tags: ["UI", "Interaksjon"],
     blurb:
       "Interaksjon som føles håndlaget. Bevegelse med mening, ikke pynt.",
+    images: ["/work/mockups/16.png", "/work/carousel/06.png", "/work/carousel/07.png"],
   },
 ];
 
@@ -97,15 +103,11 @@ export function WorkProof() {
             </div>
 
             <div className="wp-case__posters" aria-hidden="true">
-              <span className="wp-case__poster">
-                <span className="wp-case__poster-tag">Mockup</span>
-              </span>
-              <span className="wp-case__poster">
-                <span className="wp-case__poster-tag">Mockup</span>
-              </span>
-              <span className="wp-case__poster">
-                <span className="wp-case__poster-tag">Mockup</span>
-              </span>
+              {piece.images.map((src) => (
+                <span className="wp-case__poster" key={src}>
+                  <img className="wp-case__poster-img" src={src} alt="" loading="lazy" />
+                </span>
+              ))}
             </div>
           </article>
         ))}

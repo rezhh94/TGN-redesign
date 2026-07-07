@@ -323,7 +323,7 @@
 }
 
 .site-menu__label {
-  font-family: "Helvetica Neue", "Inter", -apple-system, system-ui, "Segoe UI", Arial, sans-serif;
+  font-family: var(--font-sans);
   font-weight: 400;
   font-size: clamp(18px, 1.8vw, 22px);
   line-height: 1;
@@ -365,12 +365,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 46px;
-  padding: 0 18px;
+  min-height: var(--cta-height);
+  padding: 0 var(--cta-pad-x);
   border-radius: var(--radius);
   font-family: var(--font-mono);
-  font-size: var(--fz-mono-l);
-  letter-spacing: 0.08em;
+  font-size: var(--cta-fz);
+  letter-spacing: var(--cta-tracking);
   line-height: 1;
   text-transform: uppercase;
   transition:

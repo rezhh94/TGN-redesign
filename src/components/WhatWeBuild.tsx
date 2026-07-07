@@ -41,6 +41,7 @@ const services = [
     meta: "NEXT.JS / SEO / CWV",
     tagline: "Teknisk SEO / Core Web Vitals / Struktur / Måling / Konvertering / Next.js",
     href: "/tjenester/webutvikling-nextjs",
+    posters: ["/work/mockups/03.png", "/work/mockups/04.png"],
   },
   {
     title: "Webapper",
@@ -48,6 +49,7 @@ const services = [
     meta: "PORTALER / DASHBOARDS",
     tagline: "Innlogging / Roller / Integrasjoner / Datamodell / Drift",
     href: "/tjenester",
+    posters: ["/work/mockups/05.png", "/work/mockups/06.png"],
   },
   {
     title: "Apper",
@@ -55,6 +57,7 @@ const services = [
     meta: "MOBIL / WEB",
     tagline: "Mobil / Web / Push / Innlogging / Publisering",
     href: "/tjenester/app-utvikling",
+    posters: ["/work/mockups/07.png", "/work/mockups/08.png"],
   },
   {
     title: "AI-systemer",
@@ -62,6 +65,7 @@ const services = [
     meta: "AUTOMASJON / SØK / DATA",
     tagline: "Automasjon / Søk / Assistenter / Interne verktøy / Ekte data",
     href: "/tjenester/ai-implementering",
+    posters: ["/work/mockups/09.png", "/work/mockups/10.png"],
   },
   {
     title: "SEO & AI-søk",
@@ -69,6 +73,7 @@ const services = [
     meta: "INNHOLD / STRUKTUR",
     tagline: "Teknisk SEO / Innholdsstruktur / AI-synlighet / Lokal synlighet / Måling",
     href: "/tjenester",
+    posters: ["/work/mockups/11.png", "/work/mockups/13.png"],
   },
 ];
 
@@ -173,8 +178,11 @@ export function WhatWeBuild() {
                   ))}
                 </span>
                 <span className="what-build__row-strip" aria-hidden="true">
-                  <span className="what-build__row-thumb" />
-                  <span className="what-build__row-thumb" />
+                  {service.posters.map((src) => (
+                    <span className="what-build__row-thumb" key={src}>
+                      <img className="what-build__row-thumb-img" src={src} alt="" loading="lazy" />
+                    </span>
+                  ))}
                 </span>
                 <span className="what-build__row-toggle" aria-hidden="true" />
               </button>
@@ -190,12 +198,11 @@ export function WhatWeBuild() {
                       </a>
                     </div>
                     <div className="what-build__posters" aria-hidden="true">
-                      <span className="what-build__poster">
-                        <span className="what-build__poster-tag">Mockup</span>
-                      </span>
-                      <span className="what-build__poster">
-                        <span className="what-build__poster-tag">Mockup</span>
-                      </span>
+                      {service.posters.map((src) => (
+                        <span className="what-build__poster" key={src}>
+                          <img className="what-build__poster-img" src={src} alt="" loading="lazy" />
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>

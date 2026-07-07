@@ -82,13 +82,27 @@
   padding: 0;
 }
 
+/* Steg-rad på det delte 12-kol-gridet (lamalama-token): steg-nr kol 1, tekst
+   kol 2–5, media kol 7–12 (kol 6 = grid-luft). Kollapser til 1fr < 768px. */
 .process-journey__row {
   display: grid;
-  grid-template-columns: 92px minmax(0, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(20px, 3.5vw, 64px);
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
   align-items: start;
   padding: clamp(40px, 6vh, 80px) 0;
   border-top: 1px solid var(--pj-line);
+}
+
+.process-journey__step {
+  grid-column: 1 / 2;
+}
+
+.process-journey__text {
+  grid-column: 2 / 6;
+}
+
+.process-journey__media {
+  grid-column: 7 / -1;
 }
 
 .process-journey__step {
@@ -216,6 +230,12 @@
     grid-template-columns: 1fr;
     gap: clamp(16px, 3vw, 24px);
     padding: clamp(36px, 6vh, 56px) 0;
+  }
+
+  .process-journey__step,
+  .process-journey__text,
+  .process-journey__media {
+    grid-column: auto;
   }
 
   .process-journey__step {

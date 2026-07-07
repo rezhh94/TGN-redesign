@@ -11,3 +11,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 .claude/
+
+# Playwright MCP verification artifacts (screenshots, snapshots, console logs)
+.playwright-mcp/

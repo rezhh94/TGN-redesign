@@ -22,11 +22,21 @@
   padding: var(--section-pad-y) var(--gutter);
 }
 
+/* Todelt på det delte 12-kol-gridet (lamalama-token): sticky aside kol 1–4,
+   kort-strøm kol 6–12 (kol 5 = grid-luft). Kollapser til 1fr < 900px. */
 .what-improve__layout {
   display: grid;
-  grid-template-columns: minmax(240px, 0.4fr) minmax(0, 1fr);
-  gap: clamp(32px, 5vw, 104px);
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
   align-items: start;
+}
+
+.what-improve__aside {
+  grid-column: 1 / 5;
+}
+
+.what-improve__stream {
+  grid-column: 6 / -1;
 }
 
 /* ---------------------------------------------------------------------------
@@ -289,8 +299,13 @@
   }
 
   .what-improve__aside {
+    grid-column: auto;
     position: static;
     top: auto;
+  }
+
+  .what-improve__stream {
+    grid-column: auto;
   }
 
   .what-improve__outcome {
