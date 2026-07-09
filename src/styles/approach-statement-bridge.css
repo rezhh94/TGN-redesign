@@ -1,34 +1,32 @@
-/* 01 / Tilnærming — MWG 049-oversatt «defying gravity». Statementet pinnes
-   øverst i en 100vh-container mens hver bokstav reiser sin egen tilfeldige
-   distanse opp på plass — UKLART starter spredt og monteres til byggbart.
+/* 01 / Tilnærming — to beats.
 
-   Default (no JS / PRM) er statisk, samlet statement — splitting skjer kun
-   på runtime og reverseres ved teardown. */
+   Beat 1 (.approach-intro__*) «Oppsett»: UKLART BLIR BYGGBART som overskrift +
+   struktur-avsnitt som fylles ord for ord (JS setter ordene dempet og scrubber
+   dem til lyst mens seksjonen scroller forbi — ingen pin). Default (no-JS / PRM)
+   er et fylt, lesbart avsnitt.
+
+   Beat 2 (.approach-gap__*) «Lukk gapet»: to display-halvdeler (IDÉ / LØSNING)
+   med et bildefelt i midten. Pin + scrub (desktop, JS) glir halvdelene sammen
+   mens feltet krymper og sykler bilder. Default (no-JS / PRM / mobil) er et
+   statisk, lesbart kompositt med fast gap og første bilde — ingen CLS. */
 
 .approach-bridge {
-  /* Standard mørk base — erstatter den varme ad-hoc-gradienten. */
   background: var(--ink-base);
   color: var(--color-on-dark);
 }
 
-.approach-bridge__inner {
-  width: min(100%, var(--page-max));
-  margin: 0 auto;
-  padding: 0 var(--gutter) clamp(96px, 14vh, 180px);
-}
+/* ── Beat 1 — Oppsett: UKLART BLIR BYGGBART + fill-avsnitt ───────────────── */
 
-/* 100vh-containeren er scatter-rommet: tittelen pinnes i toppen av den,
-   bokstavene henger nedover i resten (MWG 049 verbatim geometri). */
-
-.approach-bridge__container {
+.approach-intro {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  padding-top: calc(var(--header-height) + clamp(20px, 4vh, 44px));
+  gap: clamp(28px, 5vh, 60px);
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
+  padding: var(--section-pad-y) var(--gutter) clamp(64px, 11vh, 150px);
 }
 
-.approach-bridge__label {
-  margin-bottom: clamp(22px, 3.6vh, 40px);
+.approach-intro__label {
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
@@ -37,63 +35,167 @@
   text-transform: uppercase;
 }
 
-.approach-bridge__statement {
+.approach-intro__title {
+  max-width: 16ch;
+  margin: 0;
   color: var(--color-on-dark);
   font-family: var(--font-display);
-  /* Tier 1 i den typografiske stigen — deles med 02s BYGGER-tittel */
+  /* Tier 3 — rolig kapittel-lead; IDÉ→LØSNING (Tier 2) er seksjonens toppunkt */
+  font-size: clamp(40px, 5.2vw, 120px);
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+/* Fill-avsnittet — rolig body (Tigon-kaskaden: tittel → rolig body → mono).
+   Sans, lead-l, setnings-case. Ord-fyllet scrubbes mellom to faste tekststyrke-
+   trinn (--on-dark-faint → --on-dark-strong); default er den fylte (lyse)
+   tilstanden, så no-JS/PRM er fullt lesbart. */
+.approach-intro__fill {
+  max-width: 46ch;
+  margin: 0;
+  color: var(--on-dark-strong);
+  font-family: var(--font-sans);
+  font-size: var(--fz-lead-l);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Runtime-splittede ord (JS) — fargen scrubbes fra dempet til lyst. Inline så
+   linjebrytingen forblir naturlig. */
+.approach-intro .fill-word {
+  will-change: color;
+}
+
+/* ── Beat 2 — Tigon lukker gapet: IDÉ → LØSNING ─────────────────────────── */
+
+.approach-gap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 5vh, 60px);
+  width: min(100%, var(--page-max));
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: clamp(64px, 12vh, 140px) var(--gutter);
+}
+
+/* Broen inn i beat 2 — den talte overgangen over overskriften. */
+.approach-gap__lead {
+  color: var(--on-dark-quiet);
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 1.2vw, 20px);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.approach-gap__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(30px, 6vh, 72px);
+}
+
+/* Overskriften: én linje, halvdelene hugger bildefeltet. */
+.approach-gap__statement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  margin: 0;
+  color: var(--color-on-dark);
+  font-family: var(--font-display);
+  /* Tier 1 — helten */
   font-size: clamp(64px, 8.6vw, 170px);
   font-weight: 700;
   letter-spacing: var(--display-track);
   line-height: 0.92;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.approach-bridge__line {
+.approach-gap__word {
   display: block;
+  flex: 0 0 auto;
 }
 
-.approach-bridge__line--indent {
-  margin-left: clamp(48px, 10vw, 240px);
-  color: var(--on-dark-quiet);
+/* Bildefeltet i gapet — høyden er em-relativ (følger tittelen), bredden er det
+   som scrubbes. Default-bredde (no-JS) gir et rolig, tydelig gap. object-fit
+   cover gjør at bildet croppes til en loddrett sliver når gapet lukkes. */
+.approach-gap__media {
+  position: relative;
+  flex: 0 0 auto;
+  width: 0.74em;
+  height: 1.42em;
+  margin: 0 0.16em;
+  overflow: hidden;
+  border-radius: var(--radius-fine);
+  background: var(--ink-surface);
 }
 
-/* Runtime-splittede bokstaver (JS) — inline-block for transform */
-
-.approach-bridge .ab-letter {
-  display: inline-block;
-  will-change: transform;
+.approach-gap__media-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 0.16s linear;
+  pointer-events: none;
+  user-select: none;
 }
 
-.approach-bridge__support {
-  max-width: 640px;
-  /* Holder støtteavsnittet unna scatter-sonen til bokstavene er samlet */
-  margin-top: clamp(96px, 24vh, 280px);
+.approach-gap__media-img[data-active="true"] {
+  opacity: 1;
+}
+
+.approach-gap__support {
+  max-width: 540px;
   color: var(--on-dark-medium);
   font-family: var(--font-sans);
   font-size: clamp(17px, 1.35vw, 21px);
   font-weight: 400;
   line-height: 1.5;
+  text-align: center;
+  text-wrap: balance;
 }
 
 @media (max-width: 768px) {
-  .approach-bridge__inner {
-    padding: 0 20px 96px;
+  .approach-intro {
+    padding: clamp(88px, 16vh, 140px) 20px 64px;
+    gap: clamp(22px, 4vh, 40px);
   }
 
-  .approach-bridge__container {
-    padding-top: calc(var(--header-height) + 16px);
+  .approach-intro__title {
+    font-size: clamp(34px, 10vw, 60px);
   }
 
-  .approach-bridge__statement {
-    font-size: clamp(44px, 13vw, 72px);
+  .approach-intro__fill {
+    max-width: none;
+    font-size: var(--fz-lead-m);
   }
 
-  .approach-bridge__line--indent {
-    margin-left: 32px;
+  /* Beat 2: samme gap-scrub som desktop, men uten pin (en pinnet horisontal
+     headline hopper med adresselinja) — gapet lukkes mens overskriften stiger.
+     Mindre type + felt så bredden får plass ved det åpne startpunktet. */
+  .approach-gap {
+    padding: clamp(48px, 10vh, 96px) 20px;
+    gap: clamp(22px, 4vh, 36px);
   }
 
-  .approach-bridge__support {
-    margin-top: 40px;
+  .approach-gap__statement {
+    font-size: clamp(40px, 12.5vw, 68px);
+  }
+
+  .approach-gap__media {
+    width: 0.66em;
+    height: 1.3em;
+  }
+
+  .approach-gap__support {
     font-size: 16px;
   }
 }

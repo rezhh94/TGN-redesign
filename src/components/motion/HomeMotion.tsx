@@ -219,83 +219,149 @@ function heroEntrance(full: boolean) {
   tl.from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.4");
 }
 
-// 01 / Tilnærming — MWG 049-adapted defying gravity. The statement pins at
-// the top of its 100vh container while every runtime-wrapped letter starts
-// offset downward by a random distance and scrubs back into place over
-// exactly that distance — the sentence assembles as you scroll. Teardown
-// restores the original markup.
-function approachScene() {
-  const section = document.querySelector<HTMLElement>(".approach-bridge");
-  if (!section) return () => {};
+// 01 / Tilnærming, beat 1 — «Oppsett». The title rises in once, then the
+// structure paragraph fills word by word from dim to bright as the section
+// scrolls past (Monolog «fill» text — no pin, pure scrub). Words are wrapped at
+// runtime; teardown restores the original markup. No-JS / PRM keep the static,
+// already-filled (bright) paragraph.
+function approachIntroScene() {
+  const intro = document.querySelector<HTMLElement>(".approach-intro");
+  if (!intro) return () => {};
 
-  const container = section.querySelector<HTMLElement>("[data-approach-container]");
-  const title = section.querySelector<HTMLElement>("[data-approach-title]");
-  const support = section.querySelector<HTMLElement>("[data-approach-support]");
-  if (!container || !title) return () => {};
+  const title = intro.querySelector<HTMLElement>("[data-intro-title]");
+  const fill = intro.querySelector<HTMLElement>("[data-intro-fill]");
 
-  // Wrap every character in a span (MWG 049 util) — screen readers keep the
-  // full statement via aria-label; the spans are presentation only.
-  const lines = gsap.utils.toArray<HTMLElement>(".approach-bridge__line", title);
-  const originals = lines.map((line) => line.innerHTML);
-  title.setAttribute("aria-label", (title.textContent ?? "").replace(/\s+/g, " ").trim());
-  for (const line of lines) {
-    const text = line.textContent ?? "";
-    line.setAttribute("aria-hidden", "true");
-    line.innerHTML = text
-      .split("")
-      .map((char) =>
-        char === " " ? '<span class="ab-letter">&nbsp;</span>' : `<span class="ab-letter">${char}</span>`
-      )
-      .join("");
+  // Wrap each word in a span (keep whitespace intact) — the words stay real text
+  // for screen readers; only their colour is animated.
+  let originalFill = "";
+  let words: HTMLElement[] = [];
+  if (fill) {
+    originalFill = fill.innerHTML;
+    const text = (fill.textContent ?? "").replace(/\s+/g, " ").trim();
+    fill.innerHTML = text
+      .split(" ")
+      .map((word) => `<span class="fill-word">${word}</span>`)
+      .join(" ");
+    words = gsap.utils.toArray<HTMLElement>(".fill-word", fill);
   }
 
+  // Snap to two fixed text-strength steps — --on-dark-faint → --on-dark-strong
+  // (the reference's grey → white, on-system rather than an invented alpha).
+  const dim = "rgba(242, 241, 235, 0.4)";
+  const bright = "rgba(242, 241, 235, 0.9)";
+
   const ctx = gsap.context(() => {
-    const dist = container.clientHeight - title.clientHeight;
+    if (title) {
+      gsap.from(title, {
+        autoAlpha: 0,
+        y: 24,
+        duration: 0.7,
+        ease: "power3.out",
+        scrollTrigger: { trigger: intro, start: "top 80%", once: true },
+      });
+    }
 
-    ScrollTrigger.create({
-      trigger: container,
-      pin: title,
-      start: "top top",
-      end: "+=" + dist,
-    });
-
-    // NB: the reference triggers on the title, but its title sits flush with
-    // the container top. Ours is offset by the fixed header, so the title
-    // never reaches 'top top' — trigger on the container instead, which is
-    // exactly where the pin starts.
-    const letters = title.querySelectorAll<HTMLElement>(".ab-letter");
-    letters.forEach((letter) => {
-      const randomDistance = Math.random() * dist;
-      gsap.from(letter, {
-        y: randomDistance,
+    if (words.length) {
+      // Fill wavefront ~3 words wide (duration/stagger ratio); scrubbed to scroll
+      // as the paragraph crosses the middle of the viewport.
+      gsap.set(words, { color: dim });
+      gsap.to(words, {
+        color: bright,
         ease: "none",
+        duration: 1,
+        stagger: 0.35,
         scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: "+=" + randomDistance,
-          scrub: true,
+          trigger: fill,
+          start: "top 82%",
+          end: "bottom 42%",
+          scrub: 0.4,
         },
       });
-    });
+    }
+  }, intro);
 
+  return () => {
+    ctx.revert();
+    if (fill) fill.innerHTML = originalFill;
+  };
+}
+
+// 01 / Tilnærming, beat 2 — «Lukk gapet» (Monolog-oversatt). The statement is
+// two display halves — IDÉ / LØSNING — with an image field in the gap between
+// them. On desktop the block pins and the scroll scrubs the field's width from
+// wide to a sliver: the halves glide together, closing the gap, while the field
+// cycles through the demo frames. The lead line and payoff fade in on enter.
+// Mobile stays static (a pinned horizontal headline is unstable on a narrow
+// screen). No-JS / PRM keep the static SSR composite. Teardown is ctx.revert().
+function approachGapScene(pin: boolean) {
+  const gap = document.querySelector<HTMLElement>(".approach-gap");
+  if (!gap) return () => {};
+
+  const media = gap.querySelector<HTMLElement>("[data-gap-media]");
+  const frames = gsap.utils.toArray<HTMLElement>("[data-gap-frame]", gap);
+  const statement = gap.querySelector<HTMLElement>("[data-gap-title]");
+  const lead = gap.querySelector<HTMLElement>("[data-gap-lead]");
+  const support = gap.querySelector<HTMLElement>("[data-gap-support]");
+
+  // Light one frame at a time — the others fade out (CSS handles the crossfade).
+  const setActive = (index: number) => {
+    frames.forEach((frame, i) =>
+      frame.setAttribute("data-active", i === index ? "true" : "false")
+    );
+  };
+
+  const ctx = gsap.context(() => {
+    if (lead) {
+      gsap.from(lead, {
+        autoAlpha: 0,
+        y: 16,
+        duration: 0.6,
+        ease: "power2.out",
+        scrollTrigger: { trigger: gap, start: "top 66%", once: true },
+      });
+    }
     if (support) {
       gsap.from(support, {
         autoAlpha: 0,
         y: 18,
         duration: 0.6,
         ease: "power2.out",
-        scrollTrigger: { trigger: support, start: "top 88%", once: true },
+        scrollTrigger: { trigger: gap, start: "top 58%", once: true },
       });
     }
-  }, section);
+
+    if (!media || !statement) {
+      setActive(0);
+      return;
+    }
+
+    const count = frames.length || 1;
+    const onUpdate = (self: ScrollTrigger) => {
+      const index = Math.min(count - 1, Math.floor(self.progress * count));
+      setActive(index);
+    };
+
+    // Desktop pins the block and scrubs the close in place. Mobile follows the
+    // project's bridgeScene pattern — same scrub, no pin (a pinned horizontal
+    // headline jumps with the mobile address bar): the gap closes and the frames
+    // cycle as the statement rises through the viewport.
+    const trigger = pin
+      ? { trigger: gap, start: "top top", end: "+=110%", scrub: true, pin: gap, anticipatePin: 1, invalidateOnRefresh: true, onUpdate }
+      : { trigger: statement, start: "top 80%", end: "top 30%", scrub: true, invalidateOnRefresh: true, onUpdate };
+
+    // The field height is em-relative (follows the title); its resting width is
+    // ~0.82× that height (a portrait card). Function-based + invalidateOnRefresh
+    // so it recomputes when the font/viewport changes. Scrubs down to a sliver.
+    gsap.fromTo(
+      media,
+      { width: () => media.offsetHeight * 0.82 },
+      { width: 2, ease: "none", scrollTrigger: trigger }
+    );
+  }, gap);
 
   return () => {
     ctx.revert();
-    lines.forEach((line, index) => {
-      line.innerHTML = originals[index];
-      line.removeAttribute("aria-hidden");
-    });
-    title.removeAttribute("aria-label");
+    setActive(0);
   };
 }
 
@@ -649,7 +715,8 @@ export function HomeMotion() {
 
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
-      const teardownApproach = approachScene();
+      const teardownIntro = approachIntroScene();
+      const teardownGap = approachGapScene(true);
       const teardownServices = servicesScene();
       const teardownBridge = bridgeScene(true);
       const teardownImprove = improveScene();
@@ -658,7 +725,8 @@ export function HomeMotion() {
       manifestoReveal();
       footerReveals();
       return () => {
-        teardownApproach();
+        teardownIntro();
+        teardownGap();
         teardownServices();
         teardownBridge();
         teardownImprove();
@@ -674,7 +742,8 @@ export function HomeMotion() {
     // mode as no-JS / reduced-motion). Everything else keeps its motion.
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
-      const teardownApproach = approachScene();
+      const teardownIntro = approachIntroScene();
+      const teardownGap = approachGapScene(false);
       const teardownServices = servicesScene();
       const teardownBridge = bridgeScene(false);
       const teardownImprove = improveScene();
@@ -683,7 +752,8 @@ export function HomeMotion() {
       manifestoReveal();
       footerReveals();
       return () => {
-        teardownApproach();
+        teardownIntro();
+        teardownGap();
         teardownServices();
         teardownBridge();
         teardownImprove();
