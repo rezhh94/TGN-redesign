@@ -1,17 +1,10 @@
-/* 03 / Effekt — stablede utfalls-kort. Tokolonne: venstre er en sticky
-   tittel/beskrivelse + index (fast referanse); høyre er de fire målepunktene som
-   kort som stables via CSS position:sticky med økende top → hvert kort legger seg
-   oppå det forrige, men headeren («01 Funnet») stikker opp over det neste.
-
-   Stablingen er ren CSS (virker uten JS). JS legger på .what-improve--tracked →
-   aktiv index + fargeglød på det fremste kortets bilde. */
+/* 03 / Effekt — typografisk signalreise. Ingen kort eller bilder. */
 
 .what-improve {
-  /* Der kortene «fester» seg (under fast header) + hvor mye av forrige som
-     stikker opp (peek). Én kilde for både venstre-sticky og kort-offsettene. */
-  --pin-top: calc(var(--header-height) + clamp(16px, 4vh, 48px));
-  --peek: clamp(62px, 7.5vh, 82px);
+  --improve-line: rgba(242, 241, 235, 0.16);
+  --improve-quiet: rgba(242, 241, 235, 0.34);
   position: relative;
+  overflow: clip;
   background: var(--ink-base);
   color: var(--color-on-dark);
 }
@@ -19,11 +12,9 @@
 .what-improve__inner {
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: var(--section-pad-y) var(--gutter);
+  padding: clamp(112px, 14vh, 184px) var(--gutter) clamp(96px, 12vh, 160px);
 }
 
-/* Todelt på det delte 12-kol-gridet (lamalama-token): sticky aside kol 1–4,
-   kort-strøm kol 6–12 (kol 5 = grid-luft). Kollapser til 1fr < 900px. */
 .what-improve__layout {
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
@@ -32,316 +23,336 @@
 }
 
 .what-improve__aside {
-  grid-column: 1 / 5;
-}
-
-.what-improve__stream {
-  grid-column: 6 / -1;
-}
-
-/* ---------------------------------------------------------------------------
-   Venstre — fast tittel/beskrivelse + index */
-
-.what-improve__aside {
   position: sticky;
-  top: var(--pin-top);
+  top: calc(var(--header-height) + clamp(28px, 6vh, 72px));
+  grid-column: 1 / 5;
   align-self: start;
-  height: fit-content;
+}
+
+.what-improve__label,
+.what-improve__meta,
+.what-improve__tools {
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono);
+  letter-spacing: var(--mono-track);
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .what-improve__label {
   color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
-  text-transform: uppercase;
 }
 
 .what-improve__kicker {
-  max-width: 18ch;
-  margin-top: clamp(22px, 3.4vh, 40px);
-  color: var(--color-on-dark);
-  font-family: var(--font-sans);
-  font-size: clamp(28px, 3vw, 48px);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+  max-width: 7.5ch;
+  margin-top: clamp(28px, 4vh, 48px);
+  font-family: var(--font-display);
+  font-size: clamp(56px, 6.6vw, 112px);
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.84;
+  text-transform: uppercase;
 }
 
-.what-improve__kicker::before {
-  content: "";
+.what-improve__kicker span {
   display: block;
-  width: 34px;
-  height: 2px;
-  margin-bottom: clamp(18px, 2.6vh, 26px);
-  background: var(--pine);
+  color: var(--improve-quiet);
 }
 
 .what-improve__desc {
   max-width: 34ch;
-  margin-top: clamp(18px, 2.4vh, 28px);
+  margin-top: clamp(26px, 4vh, 46px);
   color: var(--on-dark-medium);
   font-family: var(--font-sans);
   font-size: var(--fz-lead-m);
-  font-weight: 400;
-  letter-spacing: -0.01em;
   line-height: 1.45;
 }
 
-/* Aktiv-detalj — de fire ligger oppå hverandre; kun den aktive vises. Sier
-   HVORDAN (spakene) for det fremste kortet. */
-.what-improve__meter {
-  position: relative;
-  margin: clamp(30px, 4.6vh, 54px) 0 0;
-  padding-top: clamp(20px, 3vh, 30px);
-  border-top: 1px solid rgba(242, 241, 235, 0.16);
-  min-height: 5.5em;
-}
-
-.what-improve__detail {
-  /* Uten JS: alle fire listet i flyt (lesbart). Tracked-modus stabler dem oppå
-     hverandre og viser kun den aktive. */
-  margin: 0 0 clamp(16px, 2.4vh, 26px);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(10px, 1.4vh, 16px);
-}
-
-.what-improve__detail-count {
-  color: var(--pine-tint);
-  font-family: var(--font-mono);
-  font-size: clamp(28px, 2.4vw, 42px);
-  font-weight: 400;
-  letter-spacing: var(--mono-track);
-  line-height: 1;
-}
-
-.what-improve__detail-total {
+.what-improve__status {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: baseline;
+  gap: 8px;
+  max-width: 260px;
+  margin-top: clamp(44px, 7vh, 76px);
   color: var(--on-dark-faint);
-  font-size: 0.5em;
-  letter-spacing: 0.06em;
-}
-
-.what-improve__detail-tools {
-  max-width: 30ch;
-  color: var(--on-dark-medium);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
   letter-spacing: var(--mono-track);
-  line-height: 1.55;
-  text-transform: uppercase;
 }
 
-/* Tracked/JS: stable de fire oppå hverandre, vis kun den aktive med myk fade. */
-.what-improve--tracked .what-improve__detail {
+.what-improve__status-current {
+  color: var(--pine-tint);
+  font-size: clamp(28px, 2.6vw, 44px);
+  line-height: 1;
+}
+
+.what-improve__status-line {
+  position: relative;
+  height: 1px;
+  margin-left: 8px;
+  overflow: hidden;
+  background: var(--improve-line);
+}
+
+.what-improve__status-line::after {
+  content: "";
   position: absolute;
-  top: clamp(20px, 3vh, 30px);
-  left: 0;
-  right: 0;
-  margin: 0;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity var(--motion-base) var(--ease-standard),
-    transform var(--motion-base) var(--ease-standard);
-  pointer-events: none;
+  inset: 0;
+  background: var(--pine-tint);
+  transform: scaleX(0.25);
+  transform-origin: left;
+  transition: transform 520ms var(--ease-standard);
 }
 
-.what-improve--tracked .what-improve__detail.is-active {
-  opacity: 1;
-  transform: none;
-}
-
-/* ---------------------------------------------------------------------------
-   Høyre — stablede kort */
+.what-improve[data-improve-state="1"] .what-improve__status-line::after { transform: scaleX(0.5); }
+.what-improve[data-improve-state="2"] .what-improve__status-line::after { transform: scaleX(0.75); }
+.what-improve[data-improve-state="3"] .what-improve__status-line::after { transform: scaleX(1); }
 
 .what-improve__stream {
-  /* Luft under så det siste kortet rekker sin feste-posisjon før seksjonen
-     slutter. */
-  padding-bottom: clamp(72px, 20vh, 220px);
+  grid-column: 6 / -1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--improve-line);
 }
 
 .what-improve__outcome {
-  position: sticky;
-  min-height: clamp(380px, 62vh, 640px);
-  /* Samme bakgrunn som seksjonen — én sammenhengende mørk flate, ingen løftet
-     grå boks. Kortet er fortsatt ugjennomsiktig (dekker forrige når det stables);
-     den stablede kanten leses via hårstreken + en hårfin skygge. */
-  background: var(--ink-base);
-  border-top: 1px solid rgba(242, 241, 235, 0.14);
-  box-shadow: 0 -14px 30px -26px rgba(0, 0, 0, 0.55);
-  padding: clamp(22px, 3vh, 34px) clamp(26px, 3.4vw, 60px) clamp(34px, 5vh, 60px);
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(220px, 34%, 460px);
-  grid-template-rows: auto 1fr;
-  column-gap: clamp(24px, 3vw, 56px);
-  row-gap: clamp(22px, 3.4vh, 44px);
-  align-content: start;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  align-content: center;
+  min-height: clamp(330px, 47vh, 500px);
+  padding: clamp(42px, 6vh, 70px) 0;
+  border-top: 1px solid var(--improve-line);
 }
 
-/* Trappede feste-posisjoner → hvert kort stopper --peek lenger ned enn forrige,
-   så forrige korts header forblir synlig. */
-.what-improve__outcome:nth-child(1) {
-  top: var(--pin-top);
-}
-.what-improve__outcome:nth-child(2) {
-  top: calc(var(--pin-top) + var(--peek));
-}
-.what-improve__outcome:nth-child(3) {
-  top: calc(var(--pin-top) + 2 * var(--peek));
-}
-.what-improve__outcome:nth-child(4) {
-  top: calc(var(--pin-top) + 3 * var(--peek));
-}
-
-/* Header — num + tittel. Dette er stripen som stikker opp når kortet er dekket. */
-.what-improve__head {
+.what-improve__meta {
   grid-column: 1 / -1;
   display: flex;
-  align-items: baseline;
-  gap: clamp(16px, 1.6vw, 28px);
+  justify-content: space-between;
+  gap: 24px;
+  color: var(--on-dark-quiet);
 }
 
-.what-improve__num {
-  margin: 0;
-  color: rgba(242, 241, 235, 0.32);
-  font-family: var(--font-display);
-  font-size: clamp(26px, 2.4vw, 40px);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0;
+.what-improve__meta span:first-child {
+  color: var(--pine-tint);
 }
 
 .what-improve__title {
-  margin: 0;
+  grid-column: 1 / -1;
+  margin-top: clamp(30px, 5vh, 54px);
   color: var(--color-on-dark);
-  font-family: var(--font-sans);
-  font-size: clamp(28px, 3.2vw, 48px);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
-.what-improve__body {
-  grid-column: 1;
-  grid-row: 2;
-  min-width: 0;
-  align-self: start;
-}
-
-.what-improve__text {
-  max-width: 40ch;
-  margin: 0;
-  color: var(--on-dark-strong);
-  font-family: var(--font-sans);
-  font-size: clamp(17px, 1.2vw, 20px);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.4;
-}
-
-.what-improve__signal {
-  margin: clamp(18px, 2.6vh, 28px) 0 0;
-  color: var(--on-dark-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.5;
+  font-family: var(--font-display);
+  font-size: clamp(66px, 8.2vw, 148px);
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.78;
   text-transform: uppercase;
 }
 
-/* Media — gjenbrukte arbeidsbilder, skarp editoriell ramme. Dempet til det er
-   det fremste kortet (tracked-modus), da spretter det til full farge. */
-.what-improve__media {
-  grid-column: 2;
-  grid-row: 2;
-  align-self: start;
-  margin: 0;
+.what-improve__body {
+  grid-column: 3 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(170px, 0.85fr);
+  gap: clamp(24px, 3vw, 52px);
+  align-items: end;
+  margin-top: clamp(38px, 6vh, 70px);
+}
+
+.what-improve__text {
+  max-width: 38ch;
+  color: var(--on-dark-strong);
+  font-family: var(--font-sans);
+  font-size: clamp(17px, 1.25vw, 21px);
+  line-height: 1.45;
+}
+
+.what-improve__tools {
+  color: var(--on-dark-faint);
+}
+
+.what-improve__trace {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
   overflow: hidden;
-  border: 1px solid rgba(242, 241, 235, 0.16);
-  aspect-ratio: 4 / 3;
 }
 
-.what-improve__media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Alltid monokromt — ingen merkefarger i kortene (near-monochrome). Gjelder
-     også uten JS. */
-  filter: grayscale(1) brightness(0.86) contrast(1.02);
+.what-improve__trace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--pine-tint);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 520ms var(--ease-standard);
 }
 
-.what-improve--tracked .what-improve__media {
-  transition: border-color var(--motion-medium) var(--ease-standard);
+/* JS forbedrer fokus, men defaulten over er komplett og lesbar. */
+.what-improve--tracked .what-improve__outcome {
+  opacity: 0.42;
+  transition: opacity 420ms var(--ease-standard);
 }
 
-.what-improve--tracked .what-improve__media img {
-  transition: filter var(--motion-medium) var(--ease-standard);
+.what-improve--tracked .what-improve__title {
+  color: rgba(242, 241, 235, 0.2);
+  transition: color 520ms var(--ease-standard), transform 520ms var(--ease-standard);
 }
 
-.what-improve--tracked .what-improve__outcome.is-active .what-improve__media {
-  border-color: rgba(242, 241, 235, 0.32);
+.what-improve--tracked .what-improve__body {
+  transition: transform 520ms var(--ease-standard);
 }
 
-/* Det fremste kortet: bildet lysner (fortsatt monokromt), ingen farge-pop. */
-.what-improve--tracked .what-improve__outcome.is-active .what-improve__media img {
-  filter: grayscale(1) brightness(1.06) contrast(1.02);
+.what-improve--tracked .what-improve__outcome.is-active {
+  opacity: 1;
 }
 
-/* ---------------------------------------------------------------------------
-   Mobil — venstre blir vanlig blokk over, kortene stables fortsatt (enkolonne). */
+.what-improve--tracked .what-improve__outcome.is-active .what-improve__title {
+  color: var(--color-on-dark);
+  transform: translateX(clamp(8px, 1vw, 18px));
+}
+
+.what-improve--tracked .what-improve__outcome.is-active .what-improve__body {
+  transform: translateX(clamp(8px, 1vw, 18px));
+}
+
+.what-improve--tracked .what-improve__outcome.is-active .what-improve__trace::after {
+  transform: scaleX(1);
+}
 
 @media (max-width: 900px) {
   .what-improve__layout {
     grid-template-columns: 1fr;
-    gap: clamp(32px, 6vh, 56px);
-  }
-
-  .what-improve__aside {
-    grid-column: auto;
-    position: static;
-    top: auto;
   }
 
   .what-improve__stream {
     grid-column: auto;
   }
 
+  .what-improve__aside {
+    display: contents;
+    position: static;
+  }
+
+  .what-improve__label,
+  .what-improve__kicker,
+  .what-improve__desc,
+  .what-improve__status {
+    grid-column: 1;
+  }
+
+  .what-improve__label {
+    order: 1;
+  }
+
+  .what-improve__kicker {
+    order: 2;
+    max-width: 8ch;
+    font-size: clamp(64px, 14vw, 110px);
+  }
+
+  .what-improve__desc {
+    order: 3;
+    padding-bottom: clamp(48px, 8vh, 76px);
+  }
+
+  .what-improve__status {
+    display: none;
+    position: sticky;
+    z-index: 4;
+    top: calc(var(--header-height) + env(safe-area-inset-top, 0px) + 8px);
+    order: 4;
+    max-width: none;
+    margin: 0;
+    padding: 13px 0 12px;
+    background: var(--ink-base);
+    border-top: 1px solid var(--improve-line);
+    border-bottom: 1px solid var(--improve-line);
+  }
+
+  .what-improve--tracked .what-improve__status {
+    display: grid;
+  }
+
+  .what-improve__status-current {
+    font-size: clamp(22px, 7vw, 32px);
+  }
+
+  .what-improve__stream {
+    order: 5;
+    border-bottom: 0;
+  }
+
   .what-improve__outcome {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    min-height: clamp(360px, 64vh, 560px);
+    min-height: 0;
+    padding: clamp(48px, 9vh, 80px) 0;
+  }
+
+  .what-improve__meta,
+  .what-improve__title,
+  .what-improve__body {
+    grid-column: auto;
+  }
+
+  .what-improve__title {
+    font-size: clamp(66px, 18vw, 118px);
   }
 
   .what-improve__body {
-    grid-column: 1;
-    grid-row: 2;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 38px;
   }
 
-  .what-improve__media {
-    grid-column: 1;
-    grid-row: 3;
-    align-self: start;
-    max-width: 340px;
-    aspect-ratio: 16 / 10;
+  .what-improve--tracked .what-improve__outcome {
+    opacity: 0.5;
+  }
+
+  .what-improve--tracked .what-improve__outcome.is-active {
+    opacity: 1;
+  }
+
+  .what-improve--tracked .what-improve__outcome.is-active .what-improve__title,
+  .what-improve--tracked .what-improve__outcome.is-active .what-improve__body {
+    transform: translateX(8px);
   }
 }
 
 @media (max-width: 640px) {
   .what-improve__inner {
-    padding: 96px 20px 110px;
+    padding: 96px 20px 112px;
   }
 
-  .what-improve__kicker {
-    font-size: clamp(26px, 8vw, 36px);
+  .what-improve__meta {
+    font-size: 10px;
+  }
+
+  .what-improve__meta span:last-child {
+    max-width: 20ch;
+    text-align: right;
   }
 
   .what-improve__outcome {
-    padding: 20px 20px 30px;
+    padding: 54px 0 58px;
   }
 
-  .what-improve__title {
-    font-size: clamp(26px, 8vw, 38px);
+  .what-improve__body {
+    margin-top: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .what-improve__outcome,
+  .what-improve__title,
+  .what-improve__body,
+  .what-improve__trace::after,
+  .what-improve__status-line::after {
+    transition: none !important;
+    transform: none !important;
   }
 }

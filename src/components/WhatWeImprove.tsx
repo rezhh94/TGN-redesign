@@ -3,101 +3,84 @@ const outcomes = [
     key: "funnet",
     number: "01",
     title: "Funnet",
-    signal: "Målepunkt — synlighet / søk + AI-søk",
-    description: "Struktur og innhold som gjør siden lettere å finne i Google og AI-søk.",
+    signal: "Synlighet / søk + AI-søk",
+    description: "Struktur og innhold som gjør siden lettere å finne når behovet faktisk oppstår.",
     tools: "Teknisk SEO · Sitemap · Schema · AI-lesbar struktur",
-    image: "/work/carousel/01.png",
   },
   {
     key: "forstatt",
     number: "02",
     title: "Forstått",
-    signal: "Målepunkt — klarhet / budskap",
-    description: "Tydelig posisjonering, budskap og innhold som gjør tilbudet enklere å forstå.",
+    signal: "Klarhet / budskap",
+    description: "Et tydelig hierarki som gjør tilbudet enklere å forstå og lettere å stole på.",
     tools: "Posisjonering · Budskapshierarki · Innhold",
-    image: "/work/carousel/02.png",
   },
   {
     key: "valgt",
     number: "03",
     title: "Valgt",
-    signal: "Målepunkt — konvertering / neste steg",
-    description: "CTA-er, flyt og kontaktpunkter som gjør neste steg tydelig.",
+    signal: "Konvertering / neste steg",
+    description: "Flyt og kontaktpunkter som fjerner friksjon og gjør den neste handlingen tydelig.",
     tools: "CTA-er · Kontaktflyt · Skjema",
-    image: "/work/carousel/03.png",
   },
   {
     key: "malt",
     number: "04",
     title: "Målt",
-    signal: "Målepunkt — sporing / hendelser",
-    description: "Skjema, telefon, e-post og hendelser som kan spores fra start.",
+    signal: "Sporing / hendelser",
+    description: "Måling som viser hva som virker, hvor kontakten kommer fra og hva som bør forbedres.",
     tools: "Hendelser · Skjema · Telefon · E-post",
-    image: "/work/carousel/04.png",
   },
 ];
 
-/* 03 / Effekt — stablede utfalls-kort. Venstre: en sticky kolonne (tittel +
-   beskrivelse + index 01–04) som blir stående. Høyre: de fire målepunktene som
-   kort som legger seg oppå hverandre på scroll (CSS position:sticky med økende
-   top → forrige korts header «01 Funnet» stikker opp over det neste). Kun
-   høyre-kolonnen stabler; venstre er fast referanse.
-
-   Default (no-JS / PRM): stablingen er ren CSS og virker uansett; JS legger bare
-   på aktiv-markering av index + fargeglød på det fremste kortets bilde. */
+/* 03 / Effekt — en typografisk signalreise. Venstre kolonne holder seksjonens
+   premiss, mens fire redaksjonelle bånd viser progresjonen fra synlighet til
+   måling. Ingen kort, ingen bilder og ingen asset-avhengighet. */
 export function WhatWeImprove() {
   return (
-    <section className="what-improve" aria-labelledby="what-improve-title">
+    <section className="what-improve" id="effekt" aria-labelledby="what-improve-title">
       <div className="what-improve__inner">
         <div className="what-improve__layout" data-improve-root>
-          {/* Venstre — fast tittel/beskrivelse + index */}
-          <aside className="what-improve__aside">
-            <p className="what-improve__label">Effekt</p>
+          <header className="what-improve__aside">
+            <p className="what-improve__label">03 / Effekt</p>
             <h2 className="what-improve__kicker" id="what-improve-title">
-              Alt vi bygger, bygges for å bli funnet, forstått, valgt og målt.
+              Fra signal
+              <span>til handling.</span>
             </h2>
             <p className="what-improve__desc">
-              Fire målepunkter under hver flate — fra du blir funnet i søk til hver kontakt kan spores.
+              Alt vi bygger skal gjøre én sammenhengende jobb: bli funnet, forstått, valgt og målt.
             </p>
 
-            {/* Aktiv-detalj — bytter med det fremste kortet. Sier HVORDAN (spakene)
-                mens kortet sier HVA, så venstre ikke bare gjentar de fire navnene. */}
-            <div className="what-improve__meter" aria-hidden="true">
-              {outcomes.map((outcome, index) => (
-                <p className="what-improve__detail" data-improve-dot={index} key={outcome.key}>
-                  <span className="what-improve__detail-count">
-                    {outcome.number} <span className="what-improve__detail-total">/ 0{outcomes.length}</span>
-                  </span>
-                  <span className="what-improve__detail-tools">{outcome.tools}</span>
-                </p>
-              ))}
+            <div className="what-improve__status" aria-hidden="true">
+              <span className="what-improve__status-current" data-improve-count>01</span>
+              <span className="what-improve__status-total">/ 04</span>
+              <span className="what-improve__status-line" />
             </div>
-          </aside>
+          </header>
 
-          {/* Høyre — stablede utfalls-kort */}
-          <div className="what-improve__stream">
+          <ol className="what-improve__stream">
             {outcomes.map((outcome, index) => (
-              <article
+              <li
                 className="what-improve__outcome"
                 data-improve-block={index}
                 key={outcome.key}
               >
-                <div className="what-improve__head">
-                  <p className="what-improve__num" aria-hidden="true">
-                    {outcome.number}
-                  </p>
-                  <h3 className="what-improve__title">{outcome.title}</h3>
+                <div className="what-improve__meta">
+                  <span aria-hidden="true">{outcome.number}</span>
+                  <span>{outcome.signal}</span>
                 </div>
+
+                <h3 className="what-improve__title">{outcome.title}</h3>
+
                 <div className="what-improve__body">
                   <p className="what-improve__text">{outcome.description}</p>
-                  <p className="what-improve__signal">{outcome.signal}</p>
+                  <p className="what-improve__tools">{outcome.tools}</p>
                 </div>
-                <figure className="what-improve__media">
-                  <img src={outcome.image} alt="" loading="lazy" />
-                </figure>
-              </article>
+
+                <span className="what-improve__trace" aria-hidden="true" />
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </div>
     </section>

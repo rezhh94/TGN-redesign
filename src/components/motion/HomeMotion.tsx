@@ -401,41 +401,33 @@ function bridgeScene(pin: boolean) {
   return () => ctx.revert();
 }
 
-// 03 / Effekt — stacking outcome cards. The right column's four cards stack via
-// CSS position:sticky (pure layout, works with no JS). This only tracks which
-// card is currently at the front and lights its index entry + un-greys its
-// image. No-JS / reduced motion keep the static two-column document (cards still
-// stack — that's CSS, not motion).
+// 03 / Effekt — tracks the active band in the typographic signal journey.
+// CSS owns layout and transitions; JS only updates focus, count and progress.
 function improveScene() {
   const section = document.querySelector<HTMLElement>(".what-improve");
   if (!section) return () => {};
 
   const blocks = gsap.utils.toArray<HTMLElement>("[data-improve-block]", section);
-  const dots = gsap.utils.toArray<HTMLElement>("[data-improve-dot]", section);
+  const count = section.querySelector<HTMLElement>("[data-improve-count]");
   if (!blocks.length) return () => {};
 
   section.classList.add("what-improve--tracked");
 
-  // Only the front-most card is active at a time.
   const setActive = (index: number) => {
     blocks.forEach((block, i) => block.classList.toggle("is-active", i === index));
-    dots.forEach((dot, i) => dot.classList.toggle("is-active", i === index));
+    section.dataset.improveState = String(index);
+    if (count) count.textContent = String(index + 1).padStart(2, "0");
   };
   setActive(0);
 
   const ctx = gsap.context(() => {
-    // A card becomes the front one exactly when its top reaches its own sticky
-    // offset (read from the resolved CSS `top`, so it tracks the clamp + resize).
-    // Scrolling up, when a card un-sticks the previous one is front again.
     blocks.forEach((block, index) => {
       ScrollTrigger.create({
         trigger: block,
-        start: () => "top top+=" + (parseFloat(getComputedStyle(block).top) + 2),
-        end: "max",
-        onToggle: (self) => {
-          if (self.isActive) setActive(index);
-          else if (index > 0) setActive(index - 1);
-        },
+        start: "top 58%",
+        end: "bottom 42%",
+        onEnter: () => setActive(index),
+        onEnterBack: () => setActive(index),
       });
     });
   }, section);
@@ -443,8 +435,9 @@ function improveScene() {
   return () => {
     ctx.revert();
     section.classList.remove("what-improve--tracked");
+    section.removeAttribute("data-improve-state");
     blocks.forEach((block) => block.classList.remove("is-active"));
-    dots.forEach((dot) => dot.classList.remove("is-active"));
+    if (count) count.textContent = "01";
   };
 }
 
@@ -523,17 +516,26 @@ function workProof(parallax: boolean) {
   return () => ctx.revert();
 }
 
-// 05 / Prosess — "Prosjektreisen". Three step rows stacked vertically (STEG · 0X
-// + text left, large media right). A plain scroll-reveal: each row's text and
-// media rise once on enter, the media pushes in from a slight over-scale, and
-// the title decodes from noise. Same layout on desktop and mobile — no pin, so
-// nothing to break on a tall screen. PRM / no-JS keep the static, readable
-// section fully visible.
+// 05 / Prosess — a single typographic material changes state as the three
+// server-rendered steps pass. The stage is decorative and hidden on mobile;
+// no-JS / PRM keep the complete editorial sequence readable.
 function processJourney() {
   const section = document.querySelector<HTMLElement>(".process-journey");
   if (!section) return () => {};
 
-  const rows = gsap.utils.toArray<HTMLElement>("[data-journey-row]", section);
+  const rows = gsap.utils.toArray<HTMLElement>("[data-process-step]", section);
+  const stage = section.querySelector<HTMLElement>("[data-process-stage]");
+  const stageCount = section.querySelector<HTMLElement>("[data-process-stage-count]");
+  if (!rows.length) return () => {};
+
+  section.classList.add("process-journey--tracked");
+
+  const setActive = (index: number) => {
+    rows.forEach((row, i) => row.classList.toggle("is-active", i === index));
+    if (stage) stage.dataset.state = String(index);
+    if (stageCount) stageCount.textContent = `${String(index + 1).padStart(2, "0")} — 03`;
+  };
+  setActive(0);
 
   // Title decode ("Uklart inn." resolves from noise). Own rAF so it can be
   // cancelled on teardown; text is restored to its final value.
@@ -569,10 +571,10 @@ function processJourney() {
   const ctx = gsap.context(() => {
     rows.forEach((row) => {
       const parts = row.querySelectorAll<HTMLElement>(
-        ".process-journey__step, .process-journey__heading, .process-journey__body, .process-journey__out"
+        ".process-journey__stepmeta, .process-journey__heading, .process-journey__body, .process-journey__out, .process-journey__mobile-word"
       );
       gsap.from(parts, {
-        y: 26,
+        y: 24,
         autoAlpha: 0,
         duration: 0.7,
         ease: "power3.out",
@@ -580,25 +582,14 @@ function processJourney() {
         scrollTrigger: { trigger: row, start: "top 80%", once: true },
       });
 
-      const media = row.querySelector<HTMLElement>("[data-journey-media]");
-      if (media) {
-        gsap.from(media, {
-          autoAlpha: 0,
-          y: 42,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: { trigger: row, start: "top 80%", once: true },
-        });
-        const img = media.querySelector<HTMLElement>("img");
-        if (img) {
-          gsap.from(img, {
-            scale: 1.12,
-            duration: 1.4,
-            ease: "power3.out",
-            scrollTrigger: { trigger: row, start: "top 80%", once: true },
-          });
-        }
-      }
+      const index = Number(row.dataset.processStep ?? 0);
+      ScrollTrigger.create({
+        trigger: row,
+        start: "top 58%",
+        end: "bottom 42%",
+        onEnter: () => setActive(index),
+        onEnterBack: () => setActive(index),
+      });
     });
 
     // Title decode: prefill with noise, resolve on enter (once).
@@ -616,6 +607,10 @@ function processJourney() {
   return () => {
     if (rafId) cancelAnimationFrame(rafId);
     ctx.revert();
+    section.classList.remove("process-journey--tracked");
+    rows.forEach((row) => row.classList.remove("is-active"));
+    if (stage) stage.dataset.state = "0";
+    if (stageCount) stageCount.textContent = "01 — 03";
     if (line1) line1.textContent = line1Final;
   };
 }
