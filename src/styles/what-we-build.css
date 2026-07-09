@@ -18,7 +18,7 @@
 .what-build__inner {
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: var(--section-pad-y) var(--build-px) clamp(48px, 7vh, 96px);
+  padding: clamp(112px, 14vh, 184px) var(--build-px) clamp(40px, 5vh, 72px);
 }
 
 .what-build__inner--head {
@@ -26,13 +26,13 @@
 }
 
 .what-build__inner--pillars {
-  padding-top: clamp(56px, 9vh, 120px);
-  padding-bottom: clamp(40px, 6vh, 80px);
+  padding-top: clamp(44px, 6vh, 80px);
+  padding-bottom: clamp(32px, 4vh, 56px);
 }
 
 .what-build__inner--foot {
-  padding-top: clamp(64px, 10vh, 128px);
-  padding-bottom: var(--section-pad-y);
+  padding-top: clamp(48px, 7vh, 88px);
+  padding-bottom: clamp(104px, 13vh, 176px);
 }
 
 /* Masthode ------------------------------------------------------------ */
@@ -45,7 +45,7 @@
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
   align-items: start;
-  padding-bottom: clamp(48px, 8vh, 96px);
+  padding-bottom: clamp(40px, 6vh, 72px);
 }
 
 .what-build__label {
@@ -197,9 +197,9 @@
   gap: var(--wb-row-gap);
   width: 100%;
   margin: 0;
-  /* Mer loddrett luft per rad (lamalama-referansen puster mye mer). Ikke like
-     stort som deres, men et tydelig løft fra de tidligere kompakte radene. */
-  padding: clamp(40px, 5.6vh, 76px) var(--build-px);
+  /* Lukkede rader skal være raske å skanne; den åpne kroppen bærer den store
+     pausen. Dette holder akkordeonet redaksjonelt uten fem like høye stopp. */
+  padding: clamp(30px, 4.4vh, 52px) var(--build-px);
   border: 0;
   background: transparent;
   text-align: left;
@@ -332,7 +332,7 @@
   grid-template-columns: minmax(0, 40ch) 1fr;
   gap: clamp(24px, 4vw, 72px);
   align-items: start;
-  padding: clamp(6px, 1vh, 12px) var(--build-px) clamp(30px, 4.4vh, 52px);
+  padding: clamp(6px, 1vh, 12px) var(--build-px) clamp(24px, 3.4vh, 40px);
 }
 
 .what-build__body-copy {
@@ -442,15 +442,15 @@
   height: auto;
 }
 
-/* 3) Scramble-register ------------------------------------------------ */
+/* 3) Tjenesteregister ------------------------------------------------- */
 
 .what-build__register {
   border-top: 1px solid rgba(242, 241, 235, 0.16);
-  padding-top: clamp(28px, 4vh, 48px);
+  padding-top: clamp(24px, 3vh, 36px);
 }
 
 .what-build__register-label {
-  margin: 0 0 clamp(24px, 3.6vh, 44px);
+  margin: 0 0 clamp(18px, 2.4vh, 30px);
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
@@ -464,7 +464,7 @@
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
-  row-gap: clamp(28px, 4vw, 80px);
+  row-gap: clamp(24px, 3vw, 56px);
 }
 
 .what-build__register-col {
@@ -474,7 +474,7 @@
 
 .what-build__register-tag {
   margin: 0 0 clamp(16px, 2vh, 22px);
-  color: var(--on-dark-faint);
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
   letter-spacing: var(--mono-track);
@@ -490,10 +490,10 @@
 
 /* Luftig meny — ingen hårstreker. Navnene løftes fra bittesmå mono-versaler til
    en roligere, større sans med god pust; skille kommer av rom, ikke linjer.
-   Lenker løftes til hvitt på hover og en liten NE-pil sklir inn (::after, så
-   scramble-teksten holdes ren). Reservert plass til pila = ingen layout-hopp. */
+   Lenker løftes til hvitt på hover og en liten NE-pil sklir inn. Reservert
+   plass til pila = ingen layout-hopp. */
 .what-build__register-item + .what-build__register-item {
-  margin-top: clamp(12px, 1.6vh, 20px);
+  margin-top: clamp(8px, 1vh, 12px);
 }
 
 .what-build__register-item a,
@@ -501,7 +501,7 @@
   display: inline-block;
   color: var(--on-dark-medium);
   font-family: var(--font-sans);
-  font-size: clamp(17px, 1.5vw, 22px);
+  font-size: clamp(15px, 1.2vw, 18px);
   font-weight: 400;
   letter-spacing: -0.01em;
   line-height: 1.25;
@@ -548,8 +548,8 @@
   display: flex;
   align-items: baseline;
   gap: clamp(24px, 4vw, 72px);
-  margin-top: clamp(48px, 7vh, 88px);
-  padding-top: clamp(24px, 3.6vh, 42px);
+  margin-top: clamp(36px, 5vh, 60px);
+  padding-top: clamp(20px, 2.8vh, 30px);
   border-top: 1px solid rgba(242, 241, 235, 0.14);
 }
 
@@ -661,7 +661,7 @@
   }
 
   .what-build__inner {
-    padding: 92px 20px 60px;
+    padding: 80px 20px 52px;
   }
 
   .what-build__inner--head {
@@ -669,18 +669,18 @@
   }
 
   .what-build__inner--pillars {
-    padding-top: 48px;
-    padding-bottom: 32px;
+    padding-top: 36px;
+    padding-bottom: 24px;
   }
 
   .what-build__inner--foot {
-    padding-top: 56px;
-    padding-bottom: 108px;
+    padding-top: 44px;
+    padding-bottom: 88px;
   }
 
   .what-build__top {
     gap: 30px;
-    padding-bottom: 44px;
+    padding-bottom: 36px;
   }
 
   .what-build__title {
@@ -700,6 +700,10 @@
     line-height: 1.05;
   }
 
+  .what-build__pillars {
+    gap: 20px;
+  }
+
   .what-build__pillar-tag {
     margin-top: 10px;
   }
@@ -711,7 +715,7 @@
   .what-build__row-head {
     flex-wrap: wrap;
     gap: 10px 16px;
-    padding: 22px var(--build-px);
+    padding: 20px var(--build-px);
   }
 
   .what-build__service-title {
@@ -738,7 +742,7 @@
   /* Mobil: tekst over mockups, én kolonne (som Arbeid). Rammene venstrestilt. */
   .what-build__body-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 18px;
   }
 
   .what-build__posters {
@@ -751,8 +755,24 @@
   }
 
   .what-build__register-cols {
-    grid-template-columns: 1fr;
-    gap: 28px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+    row-gap: 28px;
+  }
+
+  .what-build__register-col:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .what-build__register-col:last-child .what-build__register-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+  }
+
+  .what-build__register-col:last-child .what-build__register-item {
+    margin-top: 0;
+    margin-bottom: 8px;
   }
 
   .what-build__foot {

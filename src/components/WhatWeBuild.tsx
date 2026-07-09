@@ -6,8 +6,7 @@
      2) Tjeneste-akkordeon: de fem hovedtjenestene som åpne/lukk-rader (uten
         bilder inni). SSR-default = alle åpne (no-JS / reduced-motion lesbart);
         JS legger til .what-build--enhanced, kollapser og lar én være åpen.
-     3) Scramble-register: alle tjenestene i tre mono-kolonner. Etikettene
-        dekodes inn på scroll (samme motor som Prosess-tittelen).
+     3) Tjenesteregister: alle tjenestene i tre stabile kolonner.
 
    Et bilde-/mockup-felt ligger som ramme øverst (placeholder — ekte Tigon-
    mockup settes inn senere). En seksjons-scopet pixel-cursor lever på desktop.
@@ -30,7 +29,7 @@ const pillars = [
     id: "synlighet",
     tag: "Vekst",
     title: "Synlighet",
-    body: "Teknisk SEO, innhold og måling som gjør at løsningen blir funnet, forstått og valgt.",
+    body: "Teknisk SEO, innhold og måling som gir løsningen synlighet og viser hva som virker.",
   },
 ] as const;
 
@@ -77,8 +76,8 @@ const services = [
   },
 ];
 
-/* Fullt tjeneste-register — gruppert etter pilar. Bunn-listen scrambles inn.
-   Slugs fylles inn etter hvert som sidene finnes. */
+/* Fullt tjeneste-register — gruppert etter pilar. Slugs fylles inn etter hvert
+   som sidene finnes. */
 const register = [
   {
     id: "bygg",
@@ -127,10 +126,10 @@ export function WhatWeBuild() {
             </h2>
             <div className="what-build__intro-stack">
               <p className="what-build__intro what-build__intro--primary">
-                Digitale løsninger som blir funnet, forstått og brukt.
+                Vi designer og bygger nettsider, apper og digitale systemer.
               </p>
               <p className="what-build__intro what-build__intro--secondary">
-                Fra produkt til drift til vekst — struktur, fart, søkbarhet og måling fra start.
+                Fra produkt og plattform til teknisk SEO, synlighet og måling — én grunnmur fra start.
               </p>
             </div>
           </div>
@@ -212,7 +211,7 @@ export function WhatWeBuild() {
         })}
       </ol>
 
-      {/* 3) Scramble-register — alle tjenestene */}
+      {/* 3) Tjenesteregister — alle tjenestene */}
       <div className="what-build__inner what-build__inner--foot">
         <div className="what-build__register" data-build-register>
           <p className="what-build__register-label">Alle tjenester</p>
@@ -224,11 +223,11 @@ export function WhatWeBuild() {
                   {col.items.map((item) => (
                     <li className="what-build__register-item" key={item.name}>
                       {"href" in item && item.href ? (
-                        <a href={item.href} data-scramble>
+                        <a href={item.href}>
                           {item.name}
                         </a>
                       ) : (
-                        <span data-scramble>{item.name}</span>
+                        <span>{item.name}</span>
                       )}
                     </li>
                   ))}

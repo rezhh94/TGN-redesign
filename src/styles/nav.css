@@ -1,7 +1,6 @@
 /* ------------------------------------------------------------------ *
- * Header + meny — lamalama-oversatt: flytende mørk bar (logo / senter-
- * tagline / hamburger) + fullskjerms editorial menyliste med hårstrek-
- * rader, ↗-avslør og CTA-stabel. Hamburger på alle brekkpunkt.
+ * Header + meny — flytende mørk bar (logo / senter-tagline / hamburger),
+ * én tydelig kontaktvei og en fullskjerms redaksjonell menyliste.
  * ------------------------------------------------------------------ */
 
 .site-header {
@@ -39,9 +38,7 @@
   right: clamp(12px, 3vw, 28px);
   z-index: 2;
   display: none;
-  flex-direction: column;
-  gap: 8px;
-  width: 236px;
+  width: 180px;
 }
 
 .aside-pill {
@@ -61,8 +58,6 @@
     color var(--motion-fast) ease-out;
 }
 
-/* Primær-pille: frostet cream-glass (ikke solid) — innhold bak skinner
-   uskarpt gjennom, mørk tekst forblir leselig. */
 .aside-pill--primary {
   gap: 12px;
   justify-content: flex-start;
@@ -97,32 +92,9 @@
   fill: currentColor;
 }
 
-.aside-pill--ghost {
-  justify-content: space-between;
-  gap: 12px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass-dark);
-  color: var(--on-dark-strong);
-  box-shadow: inset 0 1px 0 rgba(242, 241, 235, 0.05);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-}
-
-.aside-pill--ghost:hover,
-.aside-pill--ghost:focus-visible {
-  border-color: var(--glass-border-strong);
-  background: var(--glass-dark-hover);
-  color: var(--color-on-dark);
-}
-
-.aside-pill__plus {
-  flex: none;
-  opacity: 0.6;
-}
-
 @media (min-width: 1200px) {
   .site-header__aside {
-    display: flex;
+    display: block;
   }
 }
 
@@ -205,7 +177,7 @@
 }
 
 .site-header[data-menu-open="true"] .menu-toggle span:nth-child(1) {
-  transform: translateY(7px);
+  transform: translateY(7px) rotate(45deg);
 }
 
 .site-header[data-menu-open="true"] .menu-toggle span:nth-child(2) {
@@ -214,8 +186,7 @@
 
 .site-header[data-menu-open="true"] .menu-toggle span:nth-child(3) {
   width: 24px;
-  transform: translateY(-7px);
-  opacity: 0;
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* Fullskjerms meny --------------------------------------------------- */
@@ -330,14 +301,15 @@
   letter-spacing: -0.02em;
 }
 
-/* Høyre pixel-glyf: alltid synlig, dempet. */
-.site-menu__glyph {
+/* Rolige indeksnumre gir struktur uten et ekstra symbolsystem. */
+.site-menu__index {
   flex: none;
-  width: 15px;
-  height: 15px;
-  fill: currentColor;
-  opacity: 0.34;
-  transition: opacity var(--motion-fast) ease-out;
+  color: var(--on-dark-quiet);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1;
+  transition: color var(--motion-fast) ease-out;
 }
 
 .site-menu__row:hover,
@@ -346,17 +318,17 @@
   color: var(--color-on-dark);
 }
 
-.site-menu__row:hover .site-menu__glyph,
-.site-menu__row:focus-visible .site-menu__glyph {
-  opacity: 0.85;
+.site-menu__row:hover .site-menu__index,
+.site-menu__row:focus-visible .site-menu__index {
+  color: var(--color-on-dark);
 }
 
 /* CTA-stabel (i kortet) + status (bunn av scrim) -------------------- */
 
 .site-menu__cta {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
   padding: clamp(12px, 1.8vh, 16px) clamp(12px, 1.6vw, 16px) clamp(14px, 2vh, 18px);
 }
 
@@ -388,12 +360,6 @@
 .site-menu__pitch:focus-visible {
   background: rgba(242, 241, 235, 0.06);
   border-color: rgba(242, 241, 235, 0.42);
-}
-
-.site-menu__cta-pair {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
 }
 
 .site-menu__btn {
@@ -450,7 +416,7 @@
     letter-spacing: 0.1em;
   }
 
-  .site-menu__cta-pair {
+  .site-menu__cta {
     grid-template-columns: 1fr;
   }
 }
@@ -464,7 +430,7 @@
 @media (prefers-reduced-motion: reduce) {
   .menu-toggle span,
   .site-menu__row,
-  .site-menu__glyph,
+  .site-menu__index,
   .site-menu__pitch,
   .site-menu__btn {
     transition: none;

@@ -21,7 +21,7 @@ const workItems: WorkItem[] = [
     title: "Søkeflate",
     category: "Nettside / SEO / AI-søk",
     signal: "Synlighet og forståelse",
-    caption: "Struktur og innhold bygget for å bli funnet, forstått og valgt.",
+    caption: "Teknisk SEO, innholdsstruktur og tydelige innganger samlet i én flate.",
     image: "/work/mockups/13.png",
   },
   {
@@ -82,8 +82,8 @@ export function WorkProof() {
         <div className="work-proof__intro-copy">
           <h2 className="work-proof__title" id="work-proof-title">Dette bygger vi.</h2>
           <p className="work-proof__caption">
-            Seks egenproduserte demonstrasjoner av nettsider, webapper, apper
-            og AI-systemer — med leveransen synlig i hvert eksempel.
+            Seks egenproduserte konseptstudier viser hva Tigon kan bygge: raske
+            nettsider, webapper, apper og AI-systemer.
           </p>
         </div>
       </header>

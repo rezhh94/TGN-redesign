@@ -1,12 +1,12 @@
 /* 03 / Effekt — typografisk signalreise. Ingen kort eller bilder. */
 
 .what-improve {
-  --improve-line: rgba(242, 241, 235, 0.16);
-  --improve-quiet: rgba(242, 241, 235, 0.34);
+  --improve-line: rgba(16, 16, 15, 0.16);
+  --improve-quiet: var(--on-light-quiet);
   position: relative;
   overflow: clip;
-  background: var(--ink-base);
-  color: var(--color-on-dark);
+  background: var(--bone);
+  color: var(--blekk);
 }
 
 .what-improve__inner {
@@ -40,7 +40,7 @@
 }
 
 .what-improve__label {
-  color: var(--on-dark-quiet);
+  color: var(--on-light-medium);
 }
 
 .what-improve__kicker {
@@ -62,7 +62,7 @@
 .what-improve__desc {
   max-width: 34ch;
   margin-top: clamp(26px, 4vh, 46px);
-  color: var(--on-dark-medium);
+  color: var(--on-light-medium);
   font-family: var(--font-sans);
   font-size: var(--fz-lead-m);
   line-height: 1.45;
@@ -75,14 +75,14 @@
   gap: 8px;
   max-width: 260px;
   margin-top: clamp(44px, 7vh, 76px);
-  color: var(--on-dark-faint);
+  color: var(--on-light-medium);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
   letter-spacing: var(--mono-track);
 }
 
 .what-improve__status-current {
-  color: var(--pine-tint);
+  color: var(--pine);
   font-size: clamp(28px, 2.6vw, 44px);
   line-height: 1;
 }
@@ -99,7 +99,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--pine-tint);
+  background: var(--pine);
   transform: scaleX(0.25);
   transform-origin: left;
   transition: transform 520ms var(--ease-standard);
@@ -133,17 +133,17 @@
   display: flex;
   justify-content: space-between;
   gap: 24px;
-  color: var(--on-dark-quiet);
+  color: var(--on-light-medium);
 }
 
 .what-improve__meta span:first-child {
-  color: var(--pine-tint);
+  color: var(--pine);
 }
 
 .what-improve__title {
   grid-column: 1 / -1;
   margin-top: clamp(30px, 5vh, 54px);
-  color: var(--color-on-dark);
+  color: var(--blekk);
   font-family: var(--font-display);
   font-size: clamp(66px, 8.2vw, 148px);
   font-weight: 700;
@@ -163,14 +163,14 @@
 
 .what-improve__text {
   max-width: 38ch;
-  color: var(--on-dark-strong);
+  color: var(--on-light-strong);
   font-family: var(--font-sans);
   font-size: clamp(17px, 1.25vw, 21px);
   line-height: 1.45;
 }
 
 .what-improve__tools {
-  color: var(--on-dark-faint);
+  color: var(--on-light-medium);
 }
 
 .what-improve__trace {
@@ -186,7 +186,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--pine-tint);
+  background: var(--pine);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 520ms var(--ease-standard);
@@ -194,12 +194,11 @@
 
 /* JS forbedrer fokus, men defaulten over er komplett og lesbar. */
 .what-improve--tracked .what-improve__outcome {
-  opacity: 0.42;
-  transition: opacity 420ms var(--ease-standard);
+  opacity: 1;
 }
 
 .what-improve--tracked .what-improve__title {
-  color: rgba(242, 241, 235, 0.2);
+  color: var(--on-light-quiet);
   transition: color 520ms var(--ease-standard), transform 520ms var(--ease-standard);
 }
 
@@ -212,7 +211,7 @@
 }
 
 .what-improve--tracked .what-improve__outcome.is-active .what-improve__title {
-  color: var(--color-on-dark);
+  color: var(--blekk);
   transform: translateX(clamp(8px, 1vw, 18px));
 }
 
@@ -269,7 +268,7 @@
     max-width: none;
     margin: 0;
     padding: 13px 0 12px;
-    background: var(--ink-base);
+    background: var(--bone);
     border-top: 1px solid var(--improve-line);
     border-bottom: 1px solid var(--improve-line);
   }
@@ -307,14 +306,6 @@
     grid-template-columns: 1fr;
     gap: 20px;
     margin-top: 38px;
-  }
-
-  .what-improve--tracked .what-improve__outcome {
-    opacity: 0.5;
-  }
-
-  .what-improve--tracked .what-improve__outcome.is-active {
-    opacity: 1;
   }
 
   .what-improve--tracked .what-improve__outcome.is-active .what-improve__title,

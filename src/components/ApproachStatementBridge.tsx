@@ -37,15 +37,15 @@ export function ApproachStatementBridge() {
         </h2>
 
         <p className="approach-intro__fill" data-intro-fill>
-          Før design, kode og animasjon kommer struktur: hva som skal bygges, hvem
-          det skal treffe, og hvordan resultatet skal måles.
+          Før vi designer noe, avklarer vi hva som skal bygges, hvem det skal treffe
+          og hva som skal bli bedre.
         </p>
       </div>
 
       {/* Beat 2 — Tigon lukker gapet: IDÉ → LØSNING */}
       <div className="approach-gap" data-gap-container>
         <p className="approach-gap__lead" data-gap-lead>
-          Det er her Tigon kommer inn.
+          Fra idé til løsning.
         </p>
 
         <div className="approach-gap__stage">
@@ -76,8 +76,7 @@ export function ApproachStatementBridge() {
           </h2>
 
           <p className="approach-gap__support" data-gap-support>
-            Vi gjør avstanden mellom idé og ferdig løsning konkret — så det som
-            bygges faktisk kan bli funnet, forstått, valgt og målt.
+            Vi avklarer retning, prioriteringer og krav før design og utvikling låses.
           </p>
         </div>
       </div>

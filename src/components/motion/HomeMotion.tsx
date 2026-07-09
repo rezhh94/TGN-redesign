@@ -13,9 +13,9 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 ScrollTrigger.config({ ignoreMobileResize: true });
 
 // 02 / Tjenester — three-part chapter. Pillars + accordion rows rise in once;
-// the accordion becomes interactive (one row open at a time, no images); the
-// bottom register decodes in on scroll. All content is SSR and readable with
-// no JS (rows stay open, register text is final). Teardown restores that state.
+// the accordion becomes interactive (one row open at a time, no images).
+// The bottom register stays as stable text for keyboard, AT and SEO. All
+// content is SSR and readable with no JS. Teardown restores that state.
 function servicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
   if (!section) return () => {};
@@ -102,61 +102,6 @@ function servicesScene() {
         btnOf(row)?.setAttribute("aria-expanded", "true");
         const panel = panelOf(row);
         if (panel) gsap.set(panel, { clearProps: "height" });
-      });
-    });
-  }
-
-  // Register: decode each label in on scroll (same engine as Prosess title).
-  const register = section.querySelector<HTMLElement>("[data-build-register]");
-  if (register) {
-    const targets = gsap.utils.toArray<HTMLElement>("[data-scramble]", register);
-    const GLYPH = "ABCDEFGHIJKLMNOPQR#%&/()=+*0123456789";
-    let rafId = 0;
-    const finals = new Map<HTMLElement, string>();
-    targets.forEach((el) => {
-      const final = el.textContent ?? "";
-      finals.set(el, final);
-      el.textContent = final
-        .split("")
-        .map((c) => (c === " " ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)]))
-        .join("");
-    });
-
-    const run = (el: HTMLElement, finalText: string, durationMs: number) => {
-      let startT = 0;
-      const chars = finalText.split("");
-      const frame = (now: number) => {
-        if (!startT) startT = now;
-        const p = Math.min(1, (now - startT) / durationMs);
-        const locked = Math.floor(p * chars.length);
-        let out = "";
-        for (let i = 0; i < chars.length; i++) {
-          const c = chars[i];
-          out += c === " " || i < locked ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)];
-        }
-        el.textContent = out;
-        if (p < 1) rafId = requestAnimationFrame(frame);
-        else el.textContent = finalText;
-      };
-      rafId = requestAnimationFrame(frame);
-    };
-
-    const st = ScrollTrigger.create({
-      trigger: register,
-      start: "top 84%",
-      once: true,
-      onEnter: () => {
-        targets.forEach((el, i) => {
-          window.setTimeout(() => run(el, finals.get(el) ?? "", 620), i * 55);
-        });
-      },
-    });
-
-    cleanups.push(() => {
-      if (rafId) cancelAnimationFrame(rafId);
-      st.kill();
-      targets.forEach((el) => {
-        el.textContent = finals.get(el) ?? "";
       });
     });
   }

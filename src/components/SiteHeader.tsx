@@ -1,72 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-// Hver rad får sin egen pixel-glyf (celler i et 3×3-rutenett). Varierer per
-// element, lamalama-stil.
-const navItems: { href: string; label: string; glyph: number[][] }[] = [
-  { href: "/tjenester", label: "Tjenester", glyph: [[1, 0], [0, 1], [1, 1], [2, 1], [1, 2]] }, // pluss
-  { href: "/arkiv", label: "Arkiv", glyph: [[0, 0], [1, 1], [2, 2]] }, // diagonal ↘
-  { href: "/ressurser", label: "Ressurser", glyph: [[0, 0], [2, 0], [0, 2], [2, 2]] }, // hjørner
-  { href: "/steder", label: "Steder", glyph: [[2, 0], [1, 1], [0, 2]] }, // diagonal ↗
-  { href: "/om-oss", label: "Om oss", glyph: [[0, 0], [2, 0], [1, 1], [0, 2], [2, 2]] }, // kryss
+const navItems: { href: string; label: string }[] = [
+  { href: "/tjenester", label: "Tjenester" },
+  { href: "/arkiv", label: "Arkiv" },
+  { href: "/ressurser", label: "Ressurser" },
+  { href: "/steder", label: "Steder" },
+  { href: "/om-oss", label: "Om oss" },
 ];
 
 const TAGLINE = "BYGD FOR Å BLI VALGT";
-
-// Samme dekoder-vokabular som Bygger-registeret (HomeMotion) — mono-glyfer.
-const GLYPH = "ABCDEFGHIJKLMNOPQR#%&/()=+*0123456789";
-
-// Hover-scramble: dekoder [data-scramble]-teksten i et element én gang.
-// Respekterer reduced motion. Deler én rAF på tvers av triggere.
-function useScramble() {
-  const rafRef = useRef(0);
-
-  useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
-
-  return (event: { currentTarget: HTMLElement }) => {
-    const el = event.currentTarget.querySelector<HTMLElement>("[data-scramble]");
-    if (!el) {
-      return;
-    }
-    const final = el.dataset.text ?? el.textContent ?? "";
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.textContent = final;
-      return;
-    }
-
-    cancelAnimationFrame(rafRef.current);
-    const chars = final.split("");
-    let startT = 0;
-    const frame = (now: number) => {
-      if (!startT) startT = now;
-      const p = Math.min(1, (now - startT) / 420);
-      const locked = Math.floor(p * chars.length);
-      el.textContent = chars
-        .map((c, i) => (c === " " || i < locked ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)]))
-        .join("");
-      if (p < 1) {
-        rafRef.current = requestAnimationFrame(frame);
-      } else {
-        el.textContent = final;
-      }
-    };
-    rafRef.current = requestAnimationFrame(frame);
-  };
-}
-
-// Datadrevet pixel-glyf (lamalama-stil): fyller celler [kol, rad] i et 3×3-
-// rutenett (steg 5px). currentColor så den temes lyst.
-function PixelGlyph({ cells, className }: { cells: number[][]; className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
-      {cells.map((cell, i) => (
-        <rect key={i} x={1.5 + cell[0] * 5} y={1.5 + cell[1] * 5} width="3" height="3" />
-      ))}
-    </svg>
-  );
-}
 
 function BrandMark({ className = "brand__mark" }: { className?: string }) {
   return (
@@ -83,7 +28,6 @@ function BrandMark({ className = "brand__mark" }: { className?: string }) {
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const scramble = useScramble();
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -138,33 +82,11 @@ export function SiteHeader() {
           className="aside-pill aside-pill--primary"
           href="/kontakt"
           onClick={closeMenu}
-          onMouseEnter={scramble}
-          onFocus={scramble}
         >
           <span className="aside-pill__mark">
             <BrandMark className="aside-pill__mark-svg" />
           </span>
-          <span data-scramble data-text="Ta kontakt">Ta kontakt</span>
-        </Link>
-        <Link
-          className="aside-pill aside-pill--ghost"
-          href="/om-oss"
-          onClick={closeMenu}
-          onMouseEnter={scramble}
-          onFocus={scramble}
-        >
-          <span data-scramble data-text="Dette er oss">Dette er oss</span>
-          <span className="aside-pill__plus" aria-hidden="true">( + )</span>
-        </Link>
-        <Link
-          className="aside-pill aside-pill--ghost"
-          href="/arkiv"
-          onClick={closeMenu}
-          onMouseEnter={scramble}
-          onFocus={scramble}
-        >
-          <span data-scramble data-text="Arkiv">Arkiv</span>
-          <span className="aside-pill__plus" aria-hidden="true">( + )</span>
+          <span>Ta kontakt</span>
         </Link>
       </div>
 
@@ -178,44 +100,23 @@ export function SiteHeader() {
       >
         <div className="site-menu__panel">
           <nav className="site-menu__list" aria-label="Hovedmeny">
-            {navItems.map((item) => (
+            {navItems.map((item, index) => (
               <Link key={item.href} className="site-menu__row" href={item.href} onClick={closeMenu}>
                 <span className="site-menu__label">{item.label}</span>
-                <PixelGlyph cells={item.glyph} className="site-menu__glyph" />
+                <span className="site-menu__index" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
               </Link>
             ))}
           </nav>
 
           <div className="site-menu__cta">
-            <Link
-              className="site-menu__pitch"
-              href="/arkiv"
-              onClick={closeMenu}
-              onMouseEnter={scramble}
-              onFocus={scramble}
-            >
-              <span data-scramble data-text="Se arbeidet">Se arbeidet</span>
+            <Link className="site-menu__pitch" href="/arkiv" onClick={closeMenu}>
+              Se arbeidet
             </Link>
-            <div className="site-menu__cta-pair">
-              <Link
-                className="site-menu__btn"
-                href="/kontakt"
-                onClick={closeMenu}
-                onMouseEnter={scramble}
-                onFocus={scramble}
-              >
-                <span data-scramble data-text="Book en prat">Book en prat</span>
-              </Link>
-              <Link
-                className="site-menu__btn"
-                href="/kontakt"
-                onClick={closeMenu}
-                onMouseEnter={scramble}
-                onFocus={scramble}
-              >
-                <span data-scramble data-text="Start et prosjekt">Start et prosjekt</span>
-              </Link>
-            </div>
+            <Link className="site-menu__btn" href="/kontakt" onClick={closeMenu}>
+              Start et prosjekt
+            </Link>
           </div>
         </div>
 
