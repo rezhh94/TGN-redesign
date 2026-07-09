@@ -1,7 +1,8 @@
-# Forside-status — levende funn
+# Forside-status — historisk generert review-snapshot
 
-**Dette er en GENERERT fil.** `/forside-review` skriver den på nytt hver kjøring, så den alltid speiler
-sidens faktiske tilstand. Rediger den ikke for hånd — kjør review-en. Fasit = `forside-rubrikk.md`.
+> Denne filen ble generert 2026-07-08 og beskriver ikke endringene fra 2026-07-09. Den beholdes som observasjonshistorikk. Aktiv implementasjonsstatus ligger i `docs/current-homepage-state.md`.
+
+**Dette er en GENERERT historikkfil.** En senere `/forside-review` kan erstatte innholdet. Inntil en ny full review er kjørt, er `docs/current-homepage-state.md` fasit for faktisk kode og validering.
 
 - **Sist oppdatert:** 2026-07-08
 - **Scope for siste kjøring:** ideas (kreativt mandat, DEL F — konformitetsfunn under er fra forrige full-kjøring samme dag)

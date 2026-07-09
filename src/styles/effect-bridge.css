@@ -1,34 +1,61 @@
-/* 02→03 / Overlevering — dominant «ignite» pin, komponert void. Helsvart tonalt
-   brudd mellom 02 (#1a1c1c) og 03 (#0d0e0c). Statementet står i øvre venstre
-   kvadrant med samme trappe-innrykk som hero/bro01/kontakt; støttelinjen står
-   som motvekt i nedre høyre kvadrant med hairline over. Det svarte rommet
-   spennes diagonalt mellom de to vektene i stedet for å ligge jevnt rundt en
-   sentrert akse. Pin + ignite som før: linje 1 dempet, linje 2 brenner fra
-   grått til hvitt ord for ord mens scrollen scrubber.
-
-   Default (no JS / PRM): ingen pin, ingen ignite — komposisjonen står statisk,
-   linje 1 dempet, linje 2 lesbar, støttelinjen synlig. */
+/* 02→03 / Overlevering — Jack & AI-inspirert lagdeling i Tigon-paletten.
+   Bakgrunnsordene er dekorative og beveges kun via transform. Budskapet i
+   forgrunnen er alltid serverrendret og lesbart uten motion. */
 
 .effect-bridge {
   position: relative;
+  min-height: 112vh;
+  overflow: clip;
   background: var(--ink-deep);
   color: var(--color-on-dark);
+  isolation: isolate;
+}
+
+.effect-bridge__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.effect-bridge__track {
+  position: absolute;
+  left: 50%;
+  width: max-content;
+  color: rgba(242, 241, 235, 0.065);
+  font-family: var(--font-display);
+  font-size: clamp(220px, 28vw, 540px);
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.72;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.effect-bridge__track--top {
+  top: 5%;
+  transform: translateX(-58%);
+}
+
+.effect-bridge__track--bottom {
+  bottom: 3%;
+  color: rgba(195, 211, 195, 0.075);
+  transform: translateX(-42%);
 }
 
 .effect-bridge__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  min-height: 100vh;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   width: min(100%, var(--page-max));
+  min-height: 112vh;
   margin: 0 auto;
-  padding: clamp(88px, 14vh, 176px) var(--gutter) clamp(64px, 11vh, 128px);
-  text-align: left;
+  padding: clamp(88px, 12vh, 156px) var(--gutter) clamp(64px, 9vh, 112px);
 }
 
 .effect-bridge__label {
-  margin-bottom: clamp(28px, 5vh, 56px);
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
@@ -38,78 +65,103 @@
 }
 
 .effect-bridge__statement {
+  align-self: center;
   color: var(--color-on-dark);
-  font-family: var(--font-sans);
-  /* Tier 2 i tittelstigen — øverste lovlige trinn, delt med 01/BYGGER (~170).
-     Broen dominerer via pin + svart + opplysning, men holder seg på trappa. */
-  font-size: clamp(46px, 9vw, 170px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
+  font-family: var(--font-display);
+  font-size: clamp(54px, 8.5vw, 158px);
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.83;
+  text-align: center;
+  text-transform: uppercase;
 }
 
-.effect-bridge__line {
+.effect-bridge__statement-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2.2vw, 40px);
+  white-space: nowrap;
+}
+
+.effect-bridge__media {
+  width: clamp(72px, 10vw, 170px);
+  aspect-ratio: 3 / 4;
+  flex: none;
+  overflow: hidden;
+  border: 1px solid rgba(242, 241, 235, 0.18);
+  background: var(--ink-base);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+}
+
+.effect-bridge__media img {
   display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.08) brightness(0.78);
+  transform: scale(1.04);
 }
 
-/* Trappe-innrykk på linje 2 — samme steg som bro01 («byggbart.»). */
-.effect-bridge__line--indent {
-  margin-left: clamp(0px, 6vw, 138px);
+.effect-bridge__verdict {
+  display: block;
+  margin-top: clamp(20px, 3vh, 38px);
+  color: var(--on-dark-medium);
+  font-family: var(--font-sans);
+  font-size: clamp(28px, 4.1vw, 70px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  text-transform: none;
 }
 
-/* Linje 1 står dempet gjennom hele — kontrasten linje 2 tenner mot. */
-.effect-bridge__line--muted {
-  color: rgba(242, 241, 235, 0.32);
-}
-
-/* Linje 2 default (no JS / PRM): lesbar. Med JS settes ord-ene dimt og
-   scrubbes til full hvit. */
-.effect-bridge__line:not(.effect-bridge__line--muted) {
-  color: var(--on-dark-strong);
-}
-
-.effect-bridge__word {
-  /* Inline — naturlig ordmellomrom; fargen animeres per ord. */
-  will-change: color;
-}
-
-/* Motvekten — støttelinjen alene i nedre høyre kvadrant, hairline over.
-   Liten og stille: det som spenner rommet i stedet for å fylle det. */
 .effect-bridge__support {
-  align-self: flex-end;
-  max-width: clamp(240px, 26vw, 340px);
-  margin: clamp(48px, 9vh, 96px) 0 0;
+  justify-self: end;
+  width: min(100%, 340px);
   padding-top: 16px;
   border-top: 1px solid rgba(242, 241, 235, 0.14);
   color: var(--on-dark-quiet);
   font-family: var(--font-sans);
   font-size: clamp(16px, 1.15vw, 20px);
-  font-weight: 400;
   line-height: 1.5;
 }
 
 @media (max-width: 768px) {
+  .effect-bridge,
   .effect-bridge__inner {
-    /* Kortere høyde på mobil — ingen pin der, så trenger ikke full 100vh. */
-    min-height: 78vh;
-    padding: clamp(96px, 16vh, 160px) 20px 72px;
+    min-height: 82vh;
   }
 
-  .effect-bridge__label {
-    margin-bottom: 28px;
+  .effect-bridge__inner {
+    padding: 96px 20px 72px;
+  }
+
+  .effect-bridge__track {
+    font-size: clamp(150px, 50vw, 260px);
   }
 
   .effect-bridge__statement {
-    font-size: clamp(34px, 11vw, 58px);
+    font-size: clamp(46px, 14vw, 76px);
   }
 
-  .effect-bridge__line--indent {
-    margin-left: clamp(0px, 8vw, 44px);
+  .effect-bridge__statement-row {
+    gap: 9px;
+  }
+
+  .effect-bridge__media {
+    width: clamp(54px, 15vw, 82px);
+  }
+
+  .effect-bridge__verdict {
+    font-size: clamp(28px, 8vw, 44px);
   }
 
   .effect-bridge__support {
-    max-width: 240px;
-    margin-top: 56px;
-    font-size: 16px;
+    width: min(76vw, 260px);
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .effect-bridge__track--top { transform: translateX(-52%) !important; }
+  .effect-bridge__track--bottom { transform: translateX(-48%) !important; }
 }

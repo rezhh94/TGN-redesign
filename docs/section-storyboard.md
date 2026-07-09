@@ -1,126 +1,69 @@
 # Tigon Homepage Storyboard
 
-This is the current planned journey.
-It can change, but not accidentally.
+Last reconciled with the implementation: 2026-07-09.
 
-## 00 Header / Nav
+The verified implementation details live in `docs/current-homepage-state.md`.
 
-Role:
-Navigation and brand anchor.
+## 00 / Header and Hero
 
-Status:
-Built.
+Role: brand anchor and opening scene.
 
-Tone:
-Dark, compact, premium.
+Status: built and preserved.
 
-## 01 Hero
+## 01 / Tilnærming
 
-Role:
-Brand scene. Establish Tigon as a premium digital studio.
+Role: turn an unclear starting point into a buildable direction.
 
-One idea:
-Tigon builds websites and apps that get found, understood and chosen.
+Status: approved and unchanged in the latest revision.
 
-Status:
-Built.
+Motion: existing restrained showpiece; no mobile pin.
 
-Tone:
-Dark, cinematic, typographic.
+## 02 / Tjenester
 
-Motion:
-Not yet. Possible later: subtle hero handoff, visual parallax, line reveal.
+Role: make the service offer concrete and scannable.
 
-## 02 Approach Statement Bridge
+Status: active pre-sticky accordion with server-rendered service rows, supporting images and a full service register.
 
-Role:
-Short editorial bridge between Hero and Services.
+Motion: row/panel enhancement only. The sticky image-led prototype is rejected.
 
-One idea:
-Tigon makes unclear projects clear enough to build correctly.
+## Overlevering
 
-Possible copy:
-"Vi gjør uklare prosjekter tydelige nok til å bygges riktig."
+Role: connect delivery to ongoing measurement.
 
-Tone:
-Dark charcoal or very controlled tonal shift from Hero.
-No cards.
-No method rail.
-No old "Struktur før pynt" layout.
+Core line: `Ferdig bygget er ikke ferdig.`
 
-Motion later:
-Text fills from muted gray to off-white on scroll.
+Status: active non-pinned layered handoff.
 
-Status:
-Next section to design.
+## 03 / Effekt
 
-## 03 What we build / Services
+Role: explain the outcome chain from visibility to measurement.
 
-Role:
-Show the main service paths.
+Status: built and retained as a primary typographic moment.
 
-One idea:
-These are the concrete things Tigon builds.
+## 04 / Arbeid
 
-Layout:
-Interactive service list or image-led service grid.
-Should not be a boring card grid.
+Role: show the range and quality of what Tigon can create.
 
-Tone:
-Can shift lighter or remain dark depending on preceding section.
-Must differ clearly from Approach.
+Status: active normal-flow capability index with six clearly labelled Tigon demonstrations.
 
-## 04 What we improve / Proof
+Motion: one-shot settling and mild desktop image parallax. No pin.
 
-Role:
-Show what improves for the client.
+## 05 / Prosess
 
-One idea:
-A better site is found, understood, clicked and measured.
+Role: reduce buyer risk by showing how an unclear need becomes a measurable system.
 
-Layout:
-Different from services.
-Could be before/after, system repair, metric-type, or proof strip.
+Status: active three-phase `TGN / Systemflyt` map: Retning, Bygg, Live.
 
-## 05 Philosophy / System
+Motion: one-shot material settling and line draw. No pin.
 
-Role:
-Emotional peak.
+## Manifest
 
-One idea:
-Tigon does not build decoration. Tigon builds systems.
+Role: quiet thesis before conversion.
 
-Layout:
-Biggest cinematic moment.
-Possible pinned/scrubbed section.
+Status: preserved as a calm closing section.
 
-Motion:
-This is the likely place for the main signature motion.
+## Kontakt and footer
 
-## 06 How we work / Process
+Role: invitation, contact, navigation and required business information.
 
-Role:
-Reduce buyer risk.
-
-One idea:
-The work happens through a clear process.
-
-Layout:
-Numbered process, sticky or interactive, but calmer than philosophy.
-
-## 07 Footer / Contact
-
-Role:
-Exhale and conversion.
-
-Must include:
-- CTA
-- contact
-- services
-- resources
-- local links
-- case links
-- org/NAP info
-
-Tone:
-Should bookend the Hero.
+Status: preserved. No extra showpiece motion.

@@ -1,5 +1,7 @@
 # 05 / Proof Ledger / Bevis
 
+> Rejected historical direction. Do not implement. The active 04 / Arbeid contract is `docs/sections/05-work-showcase.md` and the active component is `WorkProof`.
+
 Before coding this section, this contract must be approved.
 
 ## Section name

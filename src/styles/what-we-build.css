@@ -15,7 +15,6 @@
   background: var(--ink-surface);
   color: var(--color-on-dark);
 }
-
 .what-build__inner {
   width: min(100%, var(--page-max));
   margin: 0 auto;
@@ -272,6 +271,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: grayscale(1) contrast(1.06) brightness(0.82);
 }
 
 .what-build__row-head[aria-expanded="true"] .what-build__row-strip {
@@ -368,6 +368,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: grayscale(1) contrast(1.06) brightness(0.82);
 }
 
 .what-build__poster-tag {

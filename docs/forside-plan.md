@@ -1,79 +1,54 @@
-# Forside-plan — fra «bra byrå-side» til awwwards-nivå
+# Forside-plan — aktiv retning
 
-Grunnlag: live-gjennomgang av forsiden mot lamalama.com (2026-07-07), forankret i
-`current-project-rules.md`, `motion-and-assets-roadmap.md` og `tokens.css`.
+Sist avstemt mot implementasjonen: 2026-07-09.
 
----
+Faktisk seksjonsstatus finnes i `docs/current-homepage-state.md`. Prøvde og forkastede retninger finnes i `docs/decision-log.md`.
 
-## Del 1 — Svakhetene (målt, ikke gjettet)
+## Nåværende dom
 
-Forsiden er i dag en **kompetent, smakfull, restrained editorial-side** — men holdt tilbake fra
-awwwards-craft av fire konkrete gap:
+Forsiden har nå en tydeligere rytme uten å gjenta samme pinned-scroll-effekt:
 
-1. **Hero-panelet er tomt.** `hero__visual` er en bevisst gradient-placeholder («authored emptiness
-   until real assets land»). Referansen har liv der du har et hull. **Størst effekt å fikse.**
-2. **Dødt svart rom.** `what-build` (BYGGER) og `effect-bridge` har store tomme partier som leser
-   «uferdig» i stedet for «bevisst luft».
-3. **Nav-lesbarhet.** Mørkt glass-nav blir en gjørmete flekk over de lyse seksjonene (Prosess,
-   Manifest), og kolliderer med overskrifter som scroller bak.
-4. **To type-stemmer.** Titler = kondensert TGS-caps; bro/manifest-statements = humanistisk sans i
-   normal case. Ikke ett bevisst system — leser som sprik.
+- Tjenester prioriterer lesbarhet og reelle tjenestelenker.
+- Overlevering gir et kort, visuelt avbrekk uten pinning.
+- Effekt beholder det typografiske hovedøyeblikket.
+- Arbeid viser leveransebredde i vanlig dokumentflyt.
+- Prosess forklarer systemet visuelt uten scroll-jacking.
+- Manifest og Kontakt avslutter rolig.
 
-Motion finnes allerede rikelig (scramble, bro-ignite, sticky-stack, parallax) — det er **ikke** et gap.
+## Gjennomført 2026-07-09
 
----
+1. Tjenester ble tilbakeført til den lesbare pre-sticky accordion-retningen.
+2. Tjeneste- og arbeidsbilder fikk en samlet monokrom behandling.
+3. Overlevering ble bygget om fra pinned ignite til et lagdelt, ikke-pinnet handoff.
+4. `Selected systems` ble fjernet fra Arbeid.
+5. Arbeid ble bygget som en asymmetrisk capability-indeks med tydelig leveranse per eksempel.
+6. Prosess ble bygget som `TGN / Systemflyt` fra uklart behov til målbar kontaktvei.
+7. Rask og sensitiv bildeinnflyging ble erstattet av rolig engangs-settling og svak desktop-parallax.
+8. Manifest og Kontakt ble beholdt som rolige avslutninger.
 
-## Del 2 — Awwwards-baren (hva som faktisk kreves)
+## Ikke gjenåpne uten eksplisitt beskjed
 
-Awwwards Site of the Day belønner typisk:
-- **Ett konsept** som gjennomsyrer alt (ikke pene seksjoner løst koblet).
-- **Ett signatur-øyeblikk** — teknisk eller interaktivt — folk husker.
-- **Feilfri craft:** responsiv, ytelse (60fps, rask LCP), tilgjengelighet, ingen placeholder.
-- **Helhet:** type, farge, motion og rytme som ett system.
+- sticky tjenestereise der bildene tar oppmerksomheten fra tjenestenavnene
+- flere like pinned-scroll-seksjoner etter hverandre
+- `Selected systems` som pinned/orbital scene
+- MWG 031-lignende pinned/receding Prosess-kort
+- scroll-styrt Prosess-stage med raske tilstandsskifter
+- falske kundecaser, metrics eller bransjematching i Arbeid
 
-**Kritisk:** Tigon skal IKKE bli lamalama. lamalama vinner på *loudness* (cinematisk film, glitch).
-Tigons regler forbyr det (near-monochrome, restrained, ingen heavy 3D/constant animation i hero).
-Baren nås i **Tigons eget stramme språk** — samme finish, motsatt volum. Å kopiere loudness ville
-brutt ditt eget system og lest som pastisj.
+## Neste fornuftige vurdering
 
----
+Neste runde bør være en observasjon av helheten, ikke en ny effektjakt:
 
-## Del 3 — Stegvis plan (rekkefølge = effekt-per-innsats)
+1. Test om besøkende forstår Tjenester og Arbeid uten forklaring.
+2. Vurder ekte/oppdaterte mockups når brukeren åpner et nytt asset-pass.
+3. Kontroller ytelse og scrollfølelse på faktisk iPhone/Safari.
+4. Endre bare én større motion-idé av gangen.
 
-| # | Steg | Hva | Filer | Modell (bygg) |
-|---|------|-----|-------|---------------|
-| 1 | **Hero blir levende** | Bytt tom placeholder → kuratert medie-veksling (ekte mockups/brand-crops) + subtil parallaks. Reduced-motion: ett statisk bilde. | `Hero.tsx`, `hero.css`, `HomeMotion.tsx`, `public/` | **Claude Opus 4.8** (bygg) + bilde-referanser fra ChatGPT/Claude image-skill |
-| 2 | **Drep dødt rom** | Stram komposisjon i 02 (BYGGER) + broen så tomrom forsvinner. Ren layout. | `what-we-build.css`, `effect-bridge.css` | **Fable 5 (high)** eller Opus — mekanisk |
-| 3 | **Adaptiv nav** | Nav bytter til lyst glass + mørk tekst over lyse seksjoner (ScrollTrigger-toggle). Tokens finnes. | `SiteHeader.tsx`, `nav.css`, `HomeMotion.tsx` | **Claude Opus 4.8** (logikk + grenser) |
-| 4 | **Én type-stemme** | Bestem én stemme for statement-øyeblikkene; gjør bro+manifest konsekvente. | `effect-bridge.css`, `system-manifesto.css`, `typography.css` | **Opus** (bygg) + **GPT-5** som uavhengig smaks-stemme |
-| 5 | **Art-direct overganger** | Ett bevisst overgangsmoment per dark↔lys-skifte (tonal wipe / linje-draw). | seksjons-CSS + `HomeMotion.tsx` | **Claude Opus 4.8** (motion) |
-| 6 | **Ekte assets** | Erstatt gjenværende placeholdere (hero-reel, «SETT INN BILDE»). Én hovedvisual + ett detalj-crop per case. | `WorkProof.tsx`, `WhatWeBuild.tsx`, `public/work/` | **ChatGPT bildegen** eller **Claude imagegen-frontend-web-skill** |
-| 7 | **Verifiser signatur-motion** | Bekreft at bro-igniten leser tydelig; ikke legg til flere. | — | **Fable 5 (low)** review |
+## Fast kvalitetsport
 
-**Anbefalt rekkefølge:** 1 → 3 → 4 → 2 → 5 → 6 → 7. Fase 1 alene lukker ~60 % av opplevd gap.
-
-Hver fase: bekreft statisk layout → scoped motion-pass → reduced-motion/no-JS-fallback →
-build/typecheck → review i browser. (Fra `motion-and-assets-roadmap.md`.)
-
----
-
-## Del 4 — Modell-routing (Claude + ChatGPT)
-
-Ruter etter **rolle**, ikke etter vane. Kartlegg navnene til det som er nyest når du kjører.
-
-| Rolle | Beste modell | Hvorfor |
-|-------|-------------|---------|
-| **Bygge kode** (motion, WebGL, CSS, nav-logikk) | **Claude Opus 4.8** i Claude Code | Har repoet, verktøyene og preview. Hjemmebane. Executor for alt i Del 3. |
-| **Billig review / sjekkliste / copy** | **Fable 5 (low)** via `/forside-review` | Billig dømmekraft mot rubrikken. Ikke til bygging. |
-| **Uavhengig andre-stemme / smakskritikk** | **GPT-5 (Thinking)** | Verdien er å stå *utenfor* Claude-ekkokammeret — fanger ting jeg overser (særlig type-stemme, Fase 4). |
-| **Awwwards-trend-research** («hva vinner nå») | **ChatGPT med browsing** eller Claude web-search | Trenger ferskt web-innsyn — ikke treningsdata. |
-| **Bilde-referanser / mockups / hero-medie** | **ChatGPT bildegen (GPT-4o)** *eller* Claude `imagegen-frontend-web`-skill | Sterk bildegenerering. Bruk det du liker best; begge duger. |
-| **Tung reasoning-bygg** (hvis Opus står fast) | **Fable 5 (high)** eller GPT-5 Thinking | Ekstra dybde på et vanskelig enkelt-problem. |
-
-**Kjerneprinsipp:** *Claude Opus bygger. Fable-low dømmer billig. GPT-5 gir uavhengig blikk. ChatGPT/Claude-skill lager bilder.*
-
----
-
-## Bruk
-- Billig løpende kontroll under bygging: `/forside-review` (Fable-low, leser `forside-rubrikk.md`).
-- Denne fila = strategien. Oppdater Del 1/3 når faser fullføres.
+- Header/Hero, SEO, URL-er, footer/NAP og viktige lenker røres ikke uten eksplisitt mandat.
+- Viktig innhold skal være server-rendered og lesbart uten JavaScript.
+- Reduced motion og mobil skal ikke pinne.
+- Ingen synlig oransje.
+- Ingen direkte import av MadeWithGSAP- eller gammel prototypekode.
+- Hver endring avsluttes med typekontroll, produksjonsbygg, diff-sjekk og browser-review.

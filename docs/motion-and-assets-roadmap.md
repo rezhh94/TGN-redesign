@@ -1,187 +1,100 @@
 # Tigon Motion and Asset Roadmap
 
+Last reconciled with the implementation: 2026-07-09.
+
 ## Purpose
 
-This file documents planned motion, GSAP, interaction and asset usage for the Tigon redesign.
-
-It is not a rigid lock.
-It is a coordination map so motion, visuals and images are added deliberately after static sections are approved.
-
-## Core rule
-
-Static first.
-Motion second.
-Assets only when they improve the section idea.
-
-Motion must reveal, guide or clarify.
-Motion must not decorate weak layout.
+This file records the active motion architecture. It is not a backlog of old effect experiments. See `docs/current-homepage-state.md` for the full section map and `docs/decision-log.md` for rejected directions.
 
 ## Global guardrails
 
-- No global scroll-jacking.
-- No random effects.
-- No particles.
-- No cursor-follow gimmicks.
-- No horizontal scroll unless a section contract explicitly approves it.
-- No permanent random AI images.
-- Respect prefers-reduced-motion.
-- Keep important text server-rendered and visible without JavaScript.
-- GSAP/ScrollTrigger must be scoped per section.
-- Mobile must have simpler fallbacks.
-- One or two signature motion moments across the whole homepage is enough.
+- Important text and links stay server-rendered and visible without JavaScript.
+- Respect `prefers-reduced-motion` and mobile/touch behavior.
+- Scope GSAP and ScrollTrigger to their section.
+- Avoid duplicate triggers and global kills.
+- Prefer transform/opacity for continuous movement.
+- Do not add a pin merely to create visual novelty.
+- Do not import MadeWithGSAP CSS, JS, fonts or assets.
+- No visible orange, particles, cursor-follow gimmicks or horizontal scroll.
 
-## Section motion map
+## Active motion map
 
 ### Hero
 
-Static status:
-Built.
-
-Future motion:
-- subtle intro reveal
-- possible visual parallax
-- possible handoff into next section
-
-Do not:
-- heavy 3D
-- constant animation
-- visual noise
+- One-time entrance and existing restrained movement.
+- No pin.
+- Header and Hero are preserved unless explicitly reopened.
 
 ### 01 / Tilnærming
 
-Static status:
-Built.
-
-Future motion:
-- text-fill / muted gray to off-white on “UKLART” and “blir byggbart.”
-- subtle line-mask reveal
-- no pin
-
-Current stash:
-Approach motion exists as WIP stash. Do not apply until reviewed.
+- Existing intro/text treatment remains approved.
+- The existing desktop showpiece is the homepage's only active pin.
+- Mobile does not pin.
 
 ### 02 / Tjenester
 
-Static status:
-Built.
+- Pre-sticky accordion is active.
+- Rows, panels and register remain real HTML.
+- JS enhances the accordion; no-JS keeps content readable.
+- No sticky service-image sequence.
 
-Future motion:
-- row reveal
-- separator line draw
-- active row highlight
-- hover/active accordion behavior later
-- possible preview panel later
+### Overlevering
 
-Do not:
-- card grid
-- random image hover
-- fake preview images
+- Foreground statement and image settle once.
+- Two decorative background words drift in opposite directions.
+- No pin.
+- Continuous work is section-scoped and transform-only.
 
 ### 03 / Effekt
 
-Static status:
-Built.
-
-Future motion:
-- outcome words fill from muted gray to off-white
-- active outcome highlight:
-  FUNNET → FORSTÅTT → VALGT → MÅLT
-- explanatory text becomes active with outcome
-- no pin in first motion pass
+- Existing measured outcome interaction remains.
+- Do not add a second adjacent pin without a new explicit decision.
 
 ### 04 / Arbeid
 
-Static status:
-Built as visual placeholder / skeleton.
-
-Future assets:
-- user will provide mockups and images in a later explicit asset pass
-- do not propose, generate or source demo/placeholder images before that pass
-- use the section to show what Tigon can create, not as a list of past client work
-- one main visual and one detail crop
-- no random AI images as final
-
-Future motion:
-- headline line-mask reveal
-- main visual clip reveal
-- subtle visual parallax
-- metadata stagger
-
-Do not:
-- portfolio grid
-- named past-project or client list
-- present capability concepts as delivered customer work
-- fake metrics
-- generic stock images
+- Normal-flow editorial capability index.
+- One-shot item and image settling.
+- Mild desktop image parallax, approximately four percent travel.
+- No pin, orbit, active-card state or scroll-jacked count/progress.
 
 ### 05 / Prosess
 
-Static status:
-Next section.
+- Static three-phase system map is the base state.
+- One-shot phase/material settling, title decode and decorative line draw.
+- No pin and no scroll-driven stage switching.
 
-Planned section type:
-Production Layers / stacked workflow surfaces.
+### Manifest and Kontakt
 
-Future motion:
-This is a candidate signature motion section.
+- Quiet closing sections.
+- Existing restrained reveals only; no new showpiece.
 
-Desktop motion idea:
-- section can become sticky in later motion pass
-- process layers stack or advance through scroll:
-  01 Avklar
-  02 Strukturér
-  03 Bygg
-  04 Lanser
-- active layer becomes clearer
-- inactive layers stay muted
-- subtle connecting line or depth shift
+## Rejected motion experiments
 
-Mobile fallback:
-- no sticky
-- no scroll-jacking
-- layers stack normally as static content
+Do not restore unless the user explicitly reopens them:
 
-Do not:
-- generic timeline
-- 4 equal cards
-- icons
-- orange
-- heavy horizontal scroll
+- sticky image-led Tjenester journey
+- pinned Overlevering ignite
+- `Selected systems` pinned/orbital Work stage
+- fast, scroll-sensitive Work image fly-ins
+- MWG 031 pinned/receding Process cards
+- Process stage whose visual state changed aggressively with scroll
+- repeated pinning across consecutive sections
 
-## Asset plan
+## Asset state
 
-Images should be introduced carefully.
+- Current service and Work imagery uses repository assets under `public/work/mockups/`.
+- Images are treated near-monochrome.
+- Work items are explicitly presented as Tigon demonstrations/concepts, not delivered customer cases.
+- No external MadeWithGSAP assets were imported.
+- Future asset replacement must preserve truthful labelling and existing readability.
 
-Good asset types:
-- Envato mockups
-- edited Tigon logo mockups
-- dark / neutral device scenes
-- premium brand surface crops
-- app/website mockup details
+## Validation gate
 
-Avoid:
-- generic stock people
-- neon tech
-- blue/purple AI dashboard clichés
-- cheap SaaS mockups
-- permanent AI-generated filler images
+For every motion change:
 
-## Motion implementation plan
-
-Before adding motion to any section:
-1. Confirm static layout is approved.
-2. Write a section-specific motion pass.
-3. Scope GSAP to that section only.
-4. Add prefers-reduced-motion fallback.
-5. Validate build/typecheck/diff-check.
-6. Review in browser before commit.
-
-## Priority order for future motion
-
-1. Approach text-fill review
-2. Effekt active outcome text-fill
-3. Arbeid visual reveal after real assets
-4. Prosess production-layer stacking
-5. Services hover/active behavior
-
-Do not animate everything at once.
+1. Confirm the static layout and copy remain readable.
+2. Verify reduced-motion and mobile fallbacks.
+3. Run `npm run typecheck`.
+4. Run `npm run build`.
+5. Run `git diff --check`.
+6. Review desktop and mobile rendering before commit.

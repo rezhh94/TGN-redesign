@@ -1,236 +1,118 @@
 type WorkItem = {
   id: string;
-  etikett: "TGN—DEMO" | "TGN—KONSEPT" | "TGN—LAB" | "TGN—PROTOTYPE" | "TGN—SYSTEM" | "TGN—SHOWCASE";
   title: string;
   category: string;
-  stack: string[];
-  demonstrerer: string;
+  signal: string;
   caption: string;
-  weight: "lead" | "feature" | "archive";
-  mediaKey: "product" | "search" | "platform" | "commerce" | "app" | "system";
-  assetSlot: string;
-  href?: string;
-  frames?: string[];
+  image: string;
 };
 
 const workItems: WorkItem[] = [
   {
     id: "TGN—DEMO/01",
-    etikett: "TGN—DEMO",
-    title: "Product OS-demo",
-    category: "PRODUCT OS",
-    stack: ["Webapp", "Grensesnitt", "Systemflyt"],
-    demonstrerer: "STRUKTUR",
-    caption:
-      "Demonstrerer hvordan en produktflate kan samle oversikt, prioritet og handling i ett arbeidsrom.",
-    weight: "lead",
-    mediaKey: "product",
-    assetSlot: "product-os",
-    frames: ["Oversikt", "Detalj", "Handling", "Kvittering"],
+    title: "Produktplattform",
+    category: "Webapp / systemflyt",
+    signal: "Oversikt og neste handling",
+    caption: "Et digitalt arbeidsrom som samler prioritet, status og neste handling.",
+    image: "/work/mockups/04.png",
   },
   {
     id: "TGN—KONSEPT/02",
-    etikett: "TGN—KONSEPT",
-    title: "Nettside + AI-søk-demo",
-    category: "SEO / AI-SØK",
-    stack: ["Nettside", "SEO", "AI-søk"],
-    demonstrerer: "SYNLIGHET",
-    caption:
-      "Demonstrerer hvordan struktur, søkeintensjon og svarflater kan bygges inn i samme nettsted.",
-    weight: "feature",
-    mediaKey: "search",
-    assetSlot: "search-visibility",
+    title: "Søkeflate",
+    category: "Nettside / SEO / AI-søk",
+    signal: "Synlighet og forståelse",
+    caption: "Struktur og innhold bygget for å bli funnet, forstått og valgt.",
+    image: "/work/mockups/13.png",
   },
   {
     id: "TGN—SYSTEM/03",
-    etikett: "TGN—SYSTEM",
-    title: "Plattform-demo",
-    category: "PLATTFORM",
-    stack: ["Portal", "Rolleflyt"],
-    demonstrerer: "OVERSIKT",
-    caption: "Demonstrerer hvordan flere brukerflyter kan samles i en rolig plattformflate.",
-    weight: "archive",
-    mediaKey: "platform",
-    assetSlot: "platform-flow",
+    title: "Kundeportal",
+    category: "Portal / rolleflyt",
+    signal: "Én lesbar produktflate",
+    caption: "Flere brukerreiser samlet i én lesbar og rolig produktflate.",
+    image: "/work/mockups/07.png",
   },
   {
     id: "TGN—KONSEPT/04",
-    etikett: "TGN—KONSEPT",
-    title: "E-handel-demo",
-    category: "E-HANDEL",
-    stack: ["Produkt", "Kjøpsflyt"],
-    demonstrerer: "VALG",
-    caption: "Demonstrerer hvordan en kjøpsflyt kan prioriteres uten visuell støy.",
-    weight: "archive",
-    mediaKey: "commerce",
-    assetSlot: "commerce-flow",
+    title: "Kjøpsflyt",
+    category: "E-handel / konvertering",
+    signal: "Fra interesse til valg",
+    caption: "En tydelig vei fra interesse til beslutning uten unødvendig friksjon.",
+    image: "/work/mockups/14.png",
   },
   {
     id: "TGN—PROTOTYPE/05",
-    etikett: "TGN—PROTOTYPE",
-    title: "App-demo",
-    category: "APP",
-    stack: ["Mobil", "Interaksjon", "Flyt"],
-    demonstrerer: "FLYT",
-    caption:
-      "Demonstrerer hvordan en mobil arbeidsflyt kan føles direkte, lesbar og håndlaget.",
-    weight: "feature",
-    mediaKey: "app",
-    assetSlot: "mobile-flow",
+    title: "Mobilflyt",
+    category: "App / interaksjon",
+    signal: "Raske, presise handlinger",
+    caption: "En mobil arbeidsflyt formet for raske, presise handlinger.",
+    image: "/work/mockups/12.png",
   },
   {
     id: "TGN—LAB/06",
-    etikett: "TGN—LAB",
-    title: "AI-system-demo",
-    category: "AI-SYSTEM",
-    stack: ["AI-system", "Signal"],
-    demonstrerer: "BESLUTNING",
-    caption: "Demonstrerer hvordan signaler, kø og handling kan ligge i samme systemflate.",
-    weight: "archive",
-    mediaKey: "system",
-    assetSlot: "signal-system",
+    title: "Signalsystem",
+    category: "AI / automatisering",
+    signal: "Data koblet til handling",
+    caption: "Signaler, kø og beslutning koblet sammen i ett målbart system.",
+    image: "/work/mockups/09.png",
   },
 ];
 
-function WorkMedia({ item, compact = false }: { item: WorkItem; compact?: boolean }) {
+function WorkCopy({ item }: { item: WorkItem }) {
   return (
-    <div
-      className={`work-media work-media--${item.mediaKey}${compact ? " work-media--compact" : ""}`}
-      data-asset-slot={item.assetSlot}
-    >
-      <div className="work-media__bar">
+    <div className="work-proof__item-copy">
+      <div className="work-proof__item-meta">
         <span>{item.id}</span>
         <span>{item.category}</span>
       </div>
-      <div className="work-slot" aria-hidden="true">
-        <span className="work-slot__meta">ASSET SLOT</span>
-        <span className="work-slot__crop work-slot__crop--primary" />
-        <span className="work-slot__crop work-slot__crop--secondary" />
-        <span className="work-slot__line work-slot__line--wide" />
-        <span className="work-slot__line" />
-      </div>
-      <p className="work-media__mark" aria-hidden="true">
-        {item.demonstrerer}
-      </p>
+      <h3>{item.title}</h3>
+      <p>{item.caption}</p>
+      <span className="work-proof__item-signal">Leverer — {item.signal}</span>
     </div>
-  );
-}
-
-function WorkCaption({ item, compact = false }: { item: WorkItem; compact?: boolean }) {
-  return (
-    <div className={compact ? "work-caption work-caption--compact" : "work-caption"}>
-      <p className="work-caption__line">
-        {item.id} · {item.category} · DEMONSTRERER — {item.demonstrerer}
-      </p>
-      <div className="work-caption__chips" aria-label={`${item.title} spesifikasjon`}>
-        {item.stack.map((chip) => (
-          <span className="work-caption__chip" key={chip}>
-            {chip}
-          </span>
-        ))}
-      </div>
-      <p className="work-caption__text">{item.caption}</p>
-    </div>
-  );
-}
-
-function WorkReelLead({ item }: { item: WorkItem }) {
-  return (
-    <article className="work-reel-lead" aria-labelledby="work-reel-lead-title">
-      <figure className="work-reel-lead__media" aria-hidden="true">
-        <div className="work-reel-lead__frames">
-          {item.frames?.map((frame, index) => (
-            <div
-              className="work-reel-lead__frame"
-              data-active={index === 0 ? "true" : undefined}
-              key={frame}
-            >
-              <WorkMedia item={{ ...item, demonstrerer: frame }} />
-            </div>
-          ))}
-        </div>
-      </figure>
-
-      <div className="work-reel-lead__copy">
-        <h3 className="work-reel-lead__title" id="work-reel-lead-title">
-          {item.title}
-        </h3>
-        <WorkCaption item={item} />
-      </div>
-    </article>
-  );
-}
-
-function WorkFeature({ item, reverse = false }: { item: WorkItem; reverse?: boolean }) {
-  return (
-    <article
-      className={reverse ? "work-feature work-feature--reverse" : "work-feature"}
-      aria-labelledby={`work-${item.id}-title`}
-    >
-      <figure className="work-feature__media" aria-hidden="true">
-        <WorkMedia item={item} />
-      </figure>
-
-      <div className="work-feature__caption">
-        <h3 className="work-feature__title" id={`work-${item.id}-title`}>
-          {item.title}
-        </h3>
-        <WorkCaption item={item} />
-      </div>
-    </article>
-  );
-}
-
-function WorkArchiveRow({ item }: { item: WorkItem }) {
-  return (
-    <article className="work-archive" aria-labelledby={`work-${item.id}-title`}>
-      <div className="work-archive__copy">
-        <h3 className="work-archive__title" id={`work-${item.id}-title`}>
-          {item.title}
-        </h3>
-        <WorkCaption item={item} compact />
-      </div>
-
-      <figure className="work-archive__media" aria-hidden="true">
-        <WorkMedia item={item} compact />
-      </figure>
-    </article>
   );
 }
 
 export function WorkProof() {
+  const [lead, ...items] = workItems;
+
   return (
     <section className="work-proof" aria-labelledby="work-proof-title">
-      <div className="work-proof__intro">
+      <header className="work-proof__intro">
         <p className="work-proof__label">04 / Arbeid</p>
+        <div className="work-proof__intro-copy">
+          <h2 className="work-proof__title" id="work-proof-title">Dette bygger vi.</h2>
+          <p className="work-proof__caption">
+            Seks egenproduserte demonstrasjoner av nettsider, webapper, apper
+            og AI-systemer — med leveransen synlig i hvert eksempel.
+          </p>
+        </div>
+      </header>
 
-        <h2 className="work-proof__title" id="work-proof-title">
-          <span className="work-proof__word work-proof__word--dim">Bygd</span>{" "}
-          <span className="work-proof__word">for</span>{" "}
-          <span className="work-proof__word work-proof__word--dim">å bli</span>{" "}
-          <span className="work-proof__word">valgt.</span>
-        </h2>
+      <div className="work-proof__index">
+        <article className="work-proof__lead" data-work-item>
+          <WorkCopy item={lead} />
+          <figure className="work-proof__media work-proof__media--lead">
+            <img src={lead.image} alt="" loading="lazy" />
+            <figcaption>Hoveddemonstrasjon / {lead.category}</figcaption>
+          </figure>
+        </article>
 
-        <p className="work-proof__caption">
-          Seks egenproduserte demoer viser hvordan Tigon former webapper, søkeflater,
-          apper og systemer som digitale arbeidsrom.
-        </p>
+        <div className="work-proof__grid">
+          {items.map((item, index) => (
+            <article className="work-proof__item" data-work-item data-work-index={index} key={item.id}>
+              <figure className="work-proof__media">
+                <img src={item.image} alt="" loading="lazy" />
+                <figcaption>{String(index + 2).padStart(2, "0")} / 06</figcaption>
+              </figure>
+              <WorkCopy item={item} />
+            </article>
+          ))}
+        </div>
 
-        <p className="work-proof__foot">TGN—SHOWCASE / DEMOER UTEN NAVN</p>
-      </div>
-
-      <div className="work-proof__reel">
-        {workItems.map((item) => {
-          if (item.weight === "lead") {
-            return <WorkReelLead item={item} key={item.id} />;
-          }
-
-          if (item.weight === "feature") {
-            return <WorkFeature item={item} key={item.id} reverse={item.mediaKey === "app"} />;
-          }
-
-          return <WorkArchiveRow item={item} key={item.id} />;
-        })}
+        <footer className="work-proof__closing">
+          <p>Nettside · Webapp · App · AI-system · SEO og AI-søk</p>
+          <a href="/tjenester">Se alle tjenester →</a>
+        </footer>
       </div>
     </section>
   );

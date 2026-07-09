@@ -38,6 +38,23 @@ Do not, unless explicitly requested:
 - Do not start an asset concept, image-generation pass, placeholder pass or sourcing exercise unless the user explicitly asks for it.
 - The user is working on mockups and imagery; design work may reserve deliberate asset space without inventing the assets.
 
+Current implementation note, 2026-07-09:
+- `WorkProof` is the active component.
+- It is a normal-flow editorial capability index using six Tigon demonstrations, not a customer portfolio.
+- The demonstrations must remain labelled so they cannot be mistaken for delivered client projects.
+- The rejected `Selected systems` pinned/orbital layout must not be restored unless explicitly reopened.
+
+## Active Homepage Map
+
+The verified section order and current motion decisions are maintained in `docs/current-homepage-state.md`.
+
+Current non-negotiable motion decisions:
+- Tjenester uses the pre-sticky accordion; no sticky service-image journey.
+- Overlevering uses a non-pinned layered handoff.
+- Arbeid is normal flow with mild reveal/parallax only.
+- Prosess is a readable three-phase system map with no pin.
+- Manifest and contact remain calm closing sections.
+
 ## Creative Freedom
 
 The current design, section structures and reference sites are starting points, not permanent answers.
@@ -76,6 +93,11 @@ Do not recreate:
 - Veivalg
 - Før du bygger
 - guide/article/resource modules in the main flow
+- the sticky service prototype where imagery displaced service readability
+- the `Selected systems` pinned/orbital Work concept
+- the MWG 031 pinned/receding Process cards
+- the scroll-sensitive Process stage that changed too quickly
+- repeated pinned-scroll effects across adjacent sections
 
 ## Creative Direction Reference
 

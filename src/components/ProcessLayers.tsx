@@ -1,36 +1,33 @@
-const steps = [
+const phases = [
   {
     n: "01",
     tag: "Retning",
     heading: "Vi finner retningen",
     body: "Behovet presses ned til scope. Vi avklarer hva som faktisk skal bygges, hvorfor det trengs og hva som må velges bort — før uttrykket låses.",
+    materials: ["Behov", "Mål", "Innhold"],
     output: "Definert retning",
-    stageWord: "Retning",
   },
   {
     n: "02",
     tag: "Bygg",
     heading: "Vi bygger løsningen",
     body: "Design og kode utvikles som ett materiale. UI, komponenter, ytelse og integrasjoner formes sammen, med raske beslutninger og tydelig prioritering.",
+    materials: ["Flyt", "Teknologi", "Integrasjon"],
     output: "Levende løsning",
-    stageWord: "Bygg",
   },
   {
     n: "03",
     tag: "Live",
     heading: "Vi sender det ut i verden",
     body: "Løsningen går live med teknisk kontroll og måling fra dag én. Hver kontakt kobles til en tydelig neste beslutning.",
+    materials: ["Måling", "Kontaktvei", "Resultat"],
     output: "Målbar kontaktvei",
-    stageWord: "Live",
   },
 ];
 
-const material = ["Behov", "Mål", "Innhold", "Flyt", "Teknologi", "Måling"];
-
-/* 05 / Prosess — én produksjonslinje. Teksten er alltid server-rendered og
-   lesbar. På desktop følger ett typografisk materiale de tre stegene og endrer
-   tilstand fra uordnet til strukturert til live; på mobil blir stegene en ren,
-   tydelig redaksjonell sekvens. */
+/* 05 / Prosess — et lesbart input → system → resultat-kart. Hele strukturen er
+   serverrendret og står statisk; GSAP får kun organisere materialene inn én
+   gang og tegne den dekorative forbindelseslinjen. */
 export function ProcessLayers() {
   return (
     <section className="process-journey" id="prosess" aria-labelledby="process-journey-title">
@@ -48,52 +45,62 @@ export function ProcessLayers() {
           </h2>
           <p className="process-journey__note">
             <span className="process-journey__note-mark" aria-hidden="true" />
-            Tre beslutninger — én produksjonslinje
+            Tre beslutninger — ett sammenhengende system
           </p>
         </header>
 
-        <div className="process-journey__sequence" data-process-root>
-          <ol className="process-journey__steps">
-            {steps.map((step, index) => (
-              <li className="process-journey__row" data-process-step={index} key={step.n}>
-                <div className="process-journey__stepmeta">
-                  <span>Steg {step.n}</span>
-                  <span>{step.tag}</span>
+        <div className="process-system" data-process-system>
+          <div className="process-system__head">
+            <span>TGN / Systemflyt</span>
+            <span>Input → resultat</span>
+          </div>
+
+          <div className="process-system__path">
+            <span>Uklart behov</span>
+            <span aria-hidden="true">→</span>
+            <span>Målbar kontaktvei</span>
+          </div>
+
+          <ol className="process-system__phases">
+            {phases.map((phase) => (
+              <li className="process-system__phase" data-process-step key={phase.n}>
+                <div className="process-system__phase-meta">
+                  <span>{phase.n} / 03</span>
+                  <span>{phase.tag}</span>
                 </div>
 
-                <h3 className="process-journey__heading">{step.heading}</h3>
-                <p className="process-journey__body">{step.body}</p>
-                <p className="process-journey__out">Ut — {step.output} →</p>
-                <p className="process-journey__mobile-word" aria-hidden="true">{step.stageWord}</p>
+                <p className="process-system__phase-word" aria-hidden="true">{phase.tag}</p>
+                <h3>{phase.heading}</h3>
+                <p className="process-system__phase-body">{phase.body}</p>
+
+                <ul className="process-system__materials" aria-label={`Materiale i ${phase.tag.toLowerCase()}`}>
+                  {phase.materials.map((material) => (
+                    <li data-process-token key={material}>
+                      <span>{material}</span>
+                      <span aria-hidden="true">→</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <p className="process-system__output">Ut — {phase.output}</p>
               </li>
             ))}
           </ol>
 
-          <figure className="process-journey__stage" data-process-stage data-state="0" aria-hidden="true">
-            <div className="process-journey__stage-head">
-              <span>TGN / Produksjonslinje</span>
-              <span data-process-stage-count>01 — 03</span>
+          <div className="process-system__rail" aria-hidden="true">
+            <span className="process-system__rail-base" />
+            <span className="process-system__rail-progress" data-process-progress />
+            <div className="process-system__checkpoints">
+              {phases.map((phase) => <span key={phase.n}>{phase.n}</span>)}
             </div>
+          </div>
 
-            <div className="process-journey__material">
-              {material.map((item) => (
-                <span className="process-journey__material-item" key={item}>{item}</span>
-              ))}
-            </div>
-
-            <div className="process-journey__stage-words">
-              {steps.map((step, index) => (
-                <span data-stage-word={index} key={step.n}>{step.stageWord}</span>
-              ))}
-            </div>
-
-            <div className="process-journey__stage-foot">
-              <span className="process-journey__stage-signal" />
-              <span>Uklart behov</span>
-              <span>→</span>
-              <span>Målbart system</span>
-            </div>
-          </figure>
+          <div className="process-system__foot">
+            <span className="process-system__signal" aria-hidden="true" />
+            <span>Behov strukturert</span>
+            <span>System bygget</span>
+            <span>Resultat målt</span>
+          </div>
         </div>
 
         <div className="process-journey__closer">

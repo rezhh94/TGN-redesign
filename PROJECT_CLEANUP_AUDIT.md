@@ -1,5 +1,7 @@
 # Project Cleanup Audit
 
+> Historical audit snapshot. Its open questions were reconciled on 2026-07-09. Use `docs/current-homepage-state.md`, `docs/current-project-rules.md` and `docs/decision-log.md` as the active source of truth. WorkProof is active, EffectBridge is permanent and non-pinned, and Prosess is a non-pinned system map.
+
 Dato: 2026-07-03  
 Scope: `/Users/reezy/Konsepter/TGN-redesign-fable5`  
 Modus: audit/oppryddingsrapport. Ingen sletting, ingen kodeendringer, ingen commit, ingen push. Hovedrepoet `/Users/reezy/Konsepter/TGN-redesign` er ikke brukt.

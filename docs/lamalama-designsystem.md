@@ -1,5 +1,7 @@
 # Lama Lama — Design System Extract + sammenligning med TGN
 
+> Reference snapshot, not the current section map. Layout descriptions for Tjenester, Arbeid and Prosess predate the 2026-07-09 implementation. Use `docs/current-homepage-state.md` for active structure.
+
 > Ekstrahert fra live-siden (lamalama.com) 2026-07-07 via computed styles.
 >
 > **Om tallene:** Lama Lama skalerer hele siden med viewport (rot-font ≈ 19px på 1710px skjerm).

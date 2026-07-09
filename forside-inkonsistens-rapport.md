@@ -1,5 +1,7 @@
 # Forside — inkonsistens-rapport + Lama Lama-designsystem
 
+> Historisk analysesnapshot. Den beskriver ikke lenger aktiv WorkProof-, EffectBridge- eller Prosess-implementasjon. Bruk `docs/current-homepage-state.md` som nåværende fasit.
+
 Dato: **2026-07-07** · Gren: `experiment/fable5-homepage-review`
 Grunnlag: alt er **verifisert i dag** via computed styles på både live-siden (lamalama.com) og
 den kjørende forsiden (localhost:3000), pluss kildekode-grep. Ingen gjetting — hver påstand er

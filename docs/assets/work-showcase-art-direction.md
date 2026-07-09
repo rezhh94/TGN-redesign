@@ -1,7 +1,10 @@
 # 04 / Arbeid — Art direction for ekte visuals
 
+> Asset reference only. The active composition is the `WorkProof` capability index documented in `docs/sections/05-work-showcase.md`; any future asset replacement must fit that structure and retain truthful demonstration labels.
+
 Status: delvis utdatert 2026-07-09; asset-detaljene under skal ikke brukes før brukeren eksplisitt åpner et nytt asset-pass.
-Scope: Asset-retning for `src/components/WorkShowcase.tsx` / `src/styles/work-showcase.css`.
+Aktivt scope ved et senere asset-pass: `src/components/WorkProof.tsx` / `src/styles/work-proof.css`.
+De gamle referansene til `WorkShowcase.tsx` under beholdes bare som historikk og er ikke implementasjonsinstruks.
 Brukeren arbeider med å skaffe mockups og bilder. Ikke generer, foreslå eller source demo-/placeholder-bilder med grunnlag i dette dokumentet. Ved neste asset-pass skal brukerens faktiske materiale og den aktive capability-regelen vurderes før resten av dokumentet eventuelt revideres eller brukes.
 
 04 / Arbeid skal vise hva Tigon kan lage. Den skal ikke ramse opp tidligere prosjekter, kunder, bransjer eller nettsider, og konseptflater skal ikke presenteres som levert kundearbeid.

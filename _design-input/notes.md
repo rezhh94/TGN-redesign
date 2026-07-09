@@ -2,6 +2,27 @@
 
 Status: arbeidsnotater, ikke en låst designkontrakt. Referansene er innspill til selvstendige Tigon-beslutninger og kan utfordres, kombineres eller erstattes.
 
+## Beslutningsoppdatering 2026-07-09
+
+Aktiv fasit ligger i `docs/current-homepage-state.md`.
+
+Dette ble prøvd og forkastet:
+- sticky Tjenester der bilder var synlige, men tjenestene ikke ble pålitelig lesbare i scroll
+- pinned Overlevering/ignite som enda et langt scrolløyeblikk
+- `Selected systems` som pinned/orbital Arbeid-scene
+- for raske og sensitive bildeinnflyginger i Arbeid
+- MWG 031-inspirerte pinned/receding Prosess-kort
+- scrollstyrt Prosess-stage med raske tilstandsskifter
+- flere like pinned-scroll-seksjoner etter hverandre
+
+Dette er aktiv retning:
+- Tjenester: tidligere, lesbar accordion
+- Tilnærming: beholdt
+- Overlevering: ikke-pinnet lagdelt handoff
+- Arbeid: normal-flow capability-indeks med tydelig leveranse per demonstrasjon
+- Prosess: tre-faset `TGN / Systemflyt`
+- Manifest og Kontakt: rolige avslutninger
+
 ## Målet
 Gjør Tigon-forsiden mer premium, mer regissert og mer Awwwards-inspirert uten å gjøre den rotete eller overanimert.
 
@@ -62,6 +83,7 @@ Målet er å gjøre Tigon mer premium, mer regissert og mer Awwwards-inspirert u
 - Mørk/lys eller tung/lett rytme mellom seksjoner.
 - Editorial layout, ikke typisk byrå-template.
 - Interaksjoner som gir mening: service rows, hover states, scroll reveals, pinned/stacking moments.
+- Pinned/stacking moments brukes bare når lesbarheten faktisk blir bedre; de er ikke et mål i seg selv.
 - Tech/dev-følelse uten å bli dashboard-klisjé.
 - ASCII/mono-detaljer brukt som presisjon, ikke pynt.
 - Motion som leder brukeren videre, ikke bare fade-in på alt.

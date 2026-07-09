@@ -1,5 +1,7 @@
 # 07 / Contact Footer / Kontakt
 
+> Placement update, 2026-07-09: the active Contact/Footer follows `SystemManifesto`, after 05 / Prosess. The section itself remains preserved as a quiet closing section; its NAP and important links were not changed in the latest revision.
+
 Before coding this section, this contract must be approved.
 
 Revision note (2026-07-02):

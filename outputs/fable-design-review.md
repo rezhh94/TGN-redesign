@@ -1,5 +1,7 @@
 # Tigon forside — Design Director + Motion Director review (Fable 5)
 
+> Historical review snapshot, not an active implementation contract. The 2026-07-09 decisions supersede its Work and Process proposals; see `docs/current-homepage-state.md` and `docs/decision-log.md`.
+
 Dato: 2026-07-02
 Scope: Review av hele forsiden. Ingen implementering. Ingen commit.
 Input: `_design-input/notes.md`, `tigon-design-doctrine.pdf`, `tigon-current-homepage.pdf`, `_design-input/references/`, kodebasen i `src/`.
