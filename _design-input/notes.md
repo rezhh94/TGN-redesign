@@ -1,5 +1,7 @@
 # Fable design review brief
 
+Status: arbeidsnotater, ikke en låst designkontrakt. Referansene er innspill til selvstendige Tigon-beslutninger og kan utfordres, kombineres eller erstattes.
+
 ## Målet
 Gjør Tigon-forsiden mer premium, mer regissert og mer Awwwards-inspirert uten å gjøre den rotete eller overanimert.
 
@@ -43,7 +45,9 @@ Siden har en sterk retning, men seksjonene føles fortsatt litt for like. Vi tre
 
 # Referanse-notater for Fable
 
-Dette er ikke sider vi skal kopiere. Dette er referanser for følelse, pacing, seksjonsvariasjon, break-ups, typografi, motion og visuell reise.
+Dette er ikke sider vi skal kopiere eller følge som fasit. Dette er referanser for følelse, pacing, seksjonsvariasjon, break-ups, typografi, motion og visuell reise.
+
+Ingen enkelt referanse definerer Tigon. Nye referanser kan brukes når de løser et konkret problem bedre, og eksisterende referanser kan forkastes når de ikke lenger hjelper.
 
 Målet er å gjøre Tigon mer premium, mer regissert og mer Awwwards-inspirert uten å bli overanimert, SaaS-aktig eller rotete.
 
@@ -78,17 +82,9 @@ Målet er å gjøre Tigon mer premium, mer regissert og mer Awwwards-inspirert u
 
 Dette er ikke sider vi skal kopiere. Bruk dem for å forstå pacing, break-ups, layout, typografi, motion og seksjonsvariasjon.
 
-- https://lessestudio.com/
-  Rolle: hovedreferanse.
-  Liker: premium ro, mørk/lys-rytme, editorial pacing, knapper, små mono/ascii-detaljer, tjenester som liste i stedet for card grid.
-
-- https://www.verteal.com/
-  Rolle: hero-referanse.
-  Liker: komponert hero, sterk første scene, premium layout.
-
 - https://lamalama.com/
-  Rolle: layout + interaksjon.
-  Liker: seksjonsoppsett, custom følelse, cursor/interaksjoner, variasjon mellom seksjoner.
+  Rolle: primær referanse for pacing, asymmetri og kompositorisk mot — ikke visuell fasit.
+  Liker: seksjonsoppsett, custom følelse, cursor/interaksjoner, variasjon mellom seksjoner, sterke break-ups og en tydelig regissert scroll-reise.
 
 - https://salo.uk/
   Rolle: journey-referanse.
@@ -102,34 +98,33 @@ Dette er ikke sider vi skal kopiere. Bruk dem for å forstå pacing, break-ups, 
   Rolle: seksjonsvariasjon / break-ups.
   Liker: forskjellige seksjoner, personlig/custom følelse, ikke flat template.
 
-- https://www.dragonfly.xyz/
-  Rolle: tech/dev/ascii.
-  Liker: teknisk følelse, mono/ascii-detaljer, developer-stemning uten vanlig dashboard-klisjé.
-
-## Lessestudio
+## Lama Lama
 
 Filer:
-- lessestudio_hero
-- lessestudio_breakup
+- lamalama_hero
+- lamalama_intro
+- lamalama_about
+- lamalama_service
+- lamalama_work
 
 Hva jeg liker:
-- Dette er hovedreferansen for premium ro og editorial pacing.
-- Liker hvordan siden føles kontrollert og dyr, ikke flashy.
-- Liker mørk/lys-rytmen og hvordan seksjoner føles som egne kapitler.
-- Liker at layouten ikke føles som en vanlig byrå-template.
-- Liker knapper, små detaljer og ascii/mono-følelsen.
-- Liker at tjenester/innhold kan føles som en editorial liste, ikke card grid.
+- Dette er den viktigste referansen for pacing og kompositorisk mot akkurat nå, men ikke en oppskrift for Tigon.
+- Siden føles som en regissert reise, ikke seksjoner stablet oppå hverandre.
+- Liker de tydelige break-upsene og at seksjonene har forskjellig visuell rolle.
+- Liker kombinasjonen av stor typografi, redaksjonell komposisjon og interaksjon.
+- Liker at uttrykket føles custom og energisk uten å bli et vanlig byrå-template.
+- Liker hvordan cursor, hover og scroll brukes til å understøtte innholdet.
 
 Hva Tigon bør lære:
-- Mer pust mellom sterke typografiske øyeblikk.
-- Bedre break-ups mellom seksjoner.
-- Mer "kuratert studio"-følelse.
-- Mer presisjon i små detaljer.
+- Tydeligere variasjon mellom seksjonenes layout, tempo og visuelle vekt.
+- Mer regisserte overganger mellom kapitlene.
+- Færre og tydeligere interaksjoner når det gir reisen bedre fokus.
+- Mer selvsikker art direction uten å miste lesbarhet eller Tigon-identiteten.
 
 Hva vi ikke skal kopiere:
-- Ikke kopiere farger/layout direkte.
-- Ikke gjøre Tigon for stille eller anonym.
-- Ikke miste den mørke, brutale Tigon-identiteten.
+- Ikke kopiere layout, tekstur, cursor eller motion direkte.
+- Ikke gjøre Tigon mer lekent eller kaotisk enn merkevaren tåler.
+- Ikke miste den mørke, brutale og presise Tigon-identiteten.
 
 ## Salo
 
@@ -145,7 +140,7 @@ Hva jeg liker:
 
 # Viktigste oppgave for Fable
 
-Ikke foreslå mer pynt.
+Ikke foreslå pynt uten en tydelig rolle, men behold rom for uventede og kreative grep når de styrker ideen.
 
 Finn ut:
 1. Hvor Tigon-siden fortsatt føles for lik mellom seksjoner.

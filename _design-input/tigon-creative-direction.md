@@ -1,0 +1,122 @@
+# Tigon Creative Direction
+
+Status: levende arbeidsgrunnlag, sist vurdert 2026-07-09.
+
+Dette dokumentet skal hjelpe oss å ta bedre designbeslutninger. Det er ikke en oppskrift, en låst seksjonsplan eller en erstatning for selvstendig vurdering.
+
+## Ambisjon
+
+Tigon skal oppleves som et premium digitalt studio med en tydelig egen stemme:
+
+- redaksjonelt og typografisk
+- selvsikkert uten å rope hele tiden
+- teknisk presist uten å ligne et dashboard
+- nært monokromt, med kontrollert bruk av kontrast
+- håndlaget og spesifikt, ikke template-basert
+- visuelt interessant også uten motion
+
+Målet er ikke å se ut som en «Awwwards-side». Målet er en særpreget Tigon-side der design, usability, innhold og teknisk utførelse støtter samme idé.
+
+## Faste grenser og åpent spillerom
+
+Prosjektets aktive hard rules ligger i `docs/current-project-rules.md`. De beskytter SEO, URL-er, Header/Hero, footer/NAP, merkevare og publiseringsflyt.
+
+Alt annet skal kunne vurderes på nytt når oppgaven åpner for det. Dagens layout, komponenter, motion og referanser er hypoteser — ikke permanente sannheter.
+
+Vi kan:
+
+- bryte gridet når innholdet tjener på det
+- endre seksjoners struktur og tempo
+- bruke flere sterke øyeblikk når de har ulike roller
+- kombinere statisk art direction og motion
+- introdusere nye referanser eller forkaste gamle
+- velge en rolig eller ekspressiv løsning ut fra innholdet
+
+Vi skal ikke bruke kreativ frihet som begrunnelse for tilfeldighet, svak lesbarhet eller effekter uten innholdsmessig funksjon.
+
+## Beslutningsmodell
+
+For hver seksjon skal vi ta en ny beslutning ut fra disse spørsmålene:
+
+1. Hva må brukeren forstå eller føle her?
+2. Hva er seksjonens rolle i reisen akkurat nå — impact, forklaring, proof, pust, prosess eller closing?
+3. Hva er det primære blikkfanget, og hva skal være stille?
+4. Hvilken komposisjon uttrykker innholdet best uten motion?
+5. Kan motion tydeliggjøre en endring, forbindelse eller respons?
+6. Fungerer ideen på mobil, med reduced motion og uten JavaScript?
+7. Føles resultatet som Tigon, eller som en gjenkjennelig referanse/template?
+
+En beslutning kan være riktig selv om den bryter med tidligere dokumenter. Begrunnelsen skal ligge i innhold, merkevare og faktisk brukeropplevelse.
+
+## Referanser er linser, ikke fasit
+
+Ingen enkelt referanse skal være «Tigon-oppskriften».
+
+### Lama Lama
+
+Bruk som en sterk referanse for pacing, asymmetri, modige komposisjoner og tydelige break-ups. Ikke kopier cursor, tekstur, navigasjon, layout eller lekenhet direkte. Tigon må være strammere og mer presis.
+
+### Salo
+
+Bruk for romlig presentasjon, variasjon og work-proof. Unngå å gjøre Tigon til en flytende mockup-collage eller en tradisjonell porteføljeside.
+
+### Grilled Pixels
+
+Bruk for teknisk personlighet, typografisk kontrast og en tydelig designer/developer-stemme. Ikke kopier pixel-estetikken, retrostøyen eller WebGL-preget som en generell stil.
+
+### Ethan Suero
+
+Bruk for tydelige prosessfaser, skala og direkte hierarki. Ikke kopier den store ett-ords-strukturen eller Webflow/agency-estetikken direkte.
+
+Nye referanser kan legges til når de løser et konkret problem bedre. Referanser kan fjernes når de ikke lenger hjelper.
+
+## Motion
+
+Motion skal ha en rolle, ikke en kvote.
+
+Det finnes ingen fast grense for antall showpieces eller én universell varighet. UI-feedback bør oppleves rask, mens scrollstyrte sekvenser vurderes etter rytme, kontroll og lesbarhet.
+
+Mulige roller:
+
+- vise at noe endrer tilstand
+- føre ett element eller en idé mellom seksjoner
+- gjøre hierarki og rekkefølge tydelig
+- gi respons på brukerens handling
+- skape et bevisst temposkifte
+
+Unngå at flere naboseksjoner bruker samme pin, stack, parallax eller reveal-logikk. Variasjon skal komme fra innholdet, ikke fra et krav om at alt må være forskjellig.
+
+## Nåværende vurdering av Effekt og Prosess
+
+Dette er arbeidshypoteser, ikke låste løsninger.
+
+### Effekt
+
+«Funnet, forstått, valgt og målt» er et sterkt og spesifikt innholdssystem. Dagens sticky kortstabel og generiske bilder gjør hierarkiet mindre tydelig enn budskapet fortjener, særlig på mobil.
+
+Neste utforskning bør prioritere en sammenhengende visuell forbindelse mellom de fire resultatene. Typografi, signal/progresjon og ekte proof er mer relevant enn flere kort. Pinned motion er mulig, men ikke obligatorisk.
+
+### Prosess
+
+«Uklart inn. System ut.» er et sterkt åpningsøyeblikk. De tre like tekst–bilde-radene og midlertidige bildene viser ikke selve transformasjonen godt nok, og den synlige oransje flaten passer ikke dagens Tigon-retning.
+
+Neste utforskning bør vise hvordan ett materiale endrer tilstand gjennom retning, bygg og live/måling. Det kan løses typografisk, med ekte arbeidsmateriale eller med kontrollert motion. Det skal ikke bli et blueprint-board eller SaaS-systemkart.
+
+## Hva som ikke er en regel
+
+Følgende skal ikke behandles som obligatorisk:
+
+- et bestemt antall seksjoner
+- dekorativ nummerering av alle kapitler
+- nøyaktig én showpiece
+- en fast dark/light-oppskrift
+- én bestemt fontkombinasjon
+- én universell animasjonsvarighet
+- at statisk design alltid må være ferdig før motion utforskes
+- at Lama Lama eller en annen referanse er hovedfasit
+
+## Vedlikehold
+
+Oppdater dette dokumentet når en ny beslutning faktisk er tatt eller en retning er forkastet. Ikke fyll det med implementasjonsdetaljer, historiske px-verdier eller midlertidige eksperimenter.
+
+Hvis dokumentet begynner å begrense bedre ideer uten en tydelig merkevare-, bruker- eller teknisk grunn, skal det utfordres og revideres.
