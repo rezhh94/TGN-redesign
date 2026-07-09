@@ -24,7 +24,19 @@ Do not, unless explicitly requested:
 - import MadeWithGSAP CSS, JS, fonts or assets directly
 - use visible orange
 - make the design SaaS, card-grid or dashboard-like
+- turn 04 / Arbeid into a portfolio, case list, client list or industry-by-industry history
+- propose, generate or source demo/placeholder imagery for 04 / Arbeid; the user will provide mockups and images later
 - commit or push
+
+## 04 / Arbeid — Capability Rule
+
+04 / Arbeid must communicate what Tigon can create, not catalogue what Tigon has created before.
+
+- Treat it as a capability showcase, not a portfolio or case-study section.
+- Do not use named previous projects, customer logos, industry lists or a parade of past websites as the concept.
+- Do not imply that a concept surface is a delivered customer project.
+- Do not start an asset concept, image-generation pass, placeholder pass or sourcing exercise unless the user explicitly asks for it.
+- The user is working on mockups and imagery; design work may reserve deliberate asset space without inventing the assets.
 
 ## Creative Freedom
 

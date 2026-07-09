@@ -16,7 +16,7 @@ This replaces the rejected Proof Ledger direction as the next planned visible se
 
 This section comes after 03 / Effekt.
 
-After the first dark typographic sections, it should give visual credibility. It should show that Tigon is not only structure and strategy, but also visual quality and premium studio craft.
+After the first dark typographic sections, it should make Tigon's creative and technical capability tangible. It should show what Tigon can create, without becoming a history of previous client work.
 
 ## One idea
 
@@ -30,7 +30,7 @@ The first thing the user should notice is a dark editorial work showcase:
 - one smaller detail visual / crop
 - concise metadata and caption
 
-The section should feel like visual proof, not a portfolio index.
+The section should feel like a capability showcase, not a portfolio index or case-study section.
 
 ## Tone
 
@@ -58,13 +58,15 @@ Suggested static layout:
 
 Effekt is a dark typographic outcome map.
 
-This section should introduce visual proof:
+This section should introduce visual capability:
 - image / mockup presence instead of pure typography
 - one editorial work moment instead of a list, ledger or grid
 - visual quality and craft instead of outcome explanation
 - darker studio-showcase pacing instead of proof-sheet or process structure
 
-It must not become another services section, proof ledger, case grid or generic portfolio block.
+It must not become another services section, proof ledger, case grid, client list or generic portfolio block.
+
+It must not depend on named previous projects or on matching a visitor's industry to an earlier Tigon customer. The content should help a visitor imagine the quality and range Tigon can create for them.
 
 ## Content
 
@@ -109,6 +111,11 @@ En digital flate skal ikke bare se bra ut. Den må være rask, forståelig og by
 - fake metrics
 - testimonials
 - customer logos
+- named previous projects or clients
+- a list of websites Tigon has built
+- industry-by-industry portfolio examples
+- concepts presented as delivered client work
+- demo image concepts, image generation or asset sourcing before the user explicitly opens the asset pass
 - icons
 - orange
 - GSAP or motion in first build
@@ -120,11 +127,12 @@ En digital flate skal ikke bare se bra ut. Den må være rask, forståelig og by
 
 ## Asset direction
 
-The first static build may use neutral visual placeholders if real assets are not ready.
+The user is working on mockups and images for this section. Until those assets are supplied or the asset pass is explicitly reopened:
 
-The final build should use curated mockups/assets, for example Envato mockups with Tigon logo/design inserted in Photoshop.
-
-Do not use random generated images as the permanent solution.
+- reserve deliberate visual space without inventing its content
+- do not propose or generate demo/placeholder imagery
+- do not source mockups or define a new image concept
+- do not present any concept surface as previous client work
 
 ## Motion plan
 
@@ -141,7 +149,7 @@ No pin in the first motion pass.
 ## Static acceptance criteria
 
 - Seksjonen føles tydelig annerledes enn Effekt.
-- Den introduserer visuell proof uten å bli portfolio-grid.
+- Den viser Tigons capability uten å bli portfolio-grid eller caseoversikt.
 - Den fungerer uten motion.
 - Den føles premium, ikke template.
 - Den bruker ekte HTML text.
@@ -151,6 +159,8 @@ No pin in the first motion pass.
 - Ingen fake metrics.
 - Ingen testimonials.
 - Ingen kundelogoer.
+- Ingen navngitte tidligere prosjekter eller kundelister.
+- Ingen demo-/placeholder-bildekonsepter før brukeren åpner asset-passet.
 
 ## Files expected to change
 

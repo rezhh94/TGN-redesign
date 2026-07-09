@@ -102,6 +102,20 @@ Neste utforskning bør prioritere en sammenhengende visuell forbindelse mellom d
 
 Neste utforskning bør vise hvordan ett materiale endrer tilstand gjennom retning, bygg og live/måling. Det kan løses typografisk, med ekte arbeidsmateriale eller med kontrollert motion. Det skal ikke bli et blueprint-board eller SaaS-systemkart.
 
+## Fast retning for 04 / Arbeid
+
+04 / Arbeid er en capability showcase. Seksjonen skal vise hva Tigon kan skape, ikke dokumentere eller liste opp hva Tigon tidligere har laget.
+
+Det betyr:
+
+- ingen portefølje- eller casegrid
+- ingen oppramsing av kundenavn, bransjer eller tidligere nettsider
+- ingen avhengighet av at en besøkende må kjenne seg igjen i en tidligere kundes bransje
+- ingen forslag til demo-/placeholder-bilder mens brukeren arbeider med å skaffe mockups og bilder
+- ingen fremstilling av konseptflater som om de var tidligere leverte kundeprosjekter
+
+Seksjonens verdi skal ligge i at en potensiell kunde kan forstå nivået, spennvidden og typen digitale opplevelser Tigon er i stand til å utvikle. Visuell retning og konkrete assets avgjøres i et senere, eksplisitt asset-pass.
+
 ## Hva som ikke er en regel
 
 Følgende skal ikke behandles som obligatorisk:

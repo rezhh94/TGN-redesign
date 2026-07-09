@@ -1,29 +1,26 @@
 # 04 / Arbeid — Art direction for ekte visuals
 
-Status: 2026-07-02
+Status: delvis utdatert 2026-07-09; asset-detaljene under skal ikke brukes før brukeren eksplisitt åpner et nytt asset-pass.
 Scope: Asset-retning for `src/components/WorkShowcase.tsx` / `src/styles/work-showcase.css`.
-Dette dokumentet endrer ingen kode. Det definerer hvordan placeholder-flatene i
-04 / Arbeid skal erstattes med kuraterte Envato/Tigon-mockups i et senere asset-pass.
+Brukeren arbeider med å skaffe mockups og bilder. Ikke generer, foreslå eller source demo-/placeholder-bilder med grunnlag i dette dokumentet. Ved neste asset-pass skal brukerens faktiske materiale og den aktive capability-regelen vurderes før resten av dokumentet eventuelt revideres eller brukes.
+
+04 / Arbeid skal vise hva Tigon kan lage. Den skal ikke ramse opp tidligere prosjekter, kunder, bransjer eller nettsider, og konseptflater skal ikke presenteres som levert kundearbeid.
 
 Referanser:
 - docs/sections/05-work-showcase.md (seksjonskontrakt)
 - docs/motion-and-assets-roadmap.md (motion- og asset-plan)
 - docs/tigon-design-operating-system.md (designdoktrine)
 
-## Konsept
+## Tidligere asset-hypotese — ikke aktiv før nytt asset-pass
 
-Ett Tigon-bygget produkt, fotografert som et objekt i et mørkt studio:
+Ett Tigon-bygget capability-eksempel, presentert som et objekt i et mørkt studio:
 
 - **Hovedvisualet viser flaten** (scenen, retningen).
 - **Detaljen viser presisjonen** (makro, håndverket).
-- **Samme prosjekt i begge.** Det er det som gjør seksjonen til proof og ikke
-  portefølje. Bredde er arkivets jobb, ikke denne seksjonens.
+- **Samme capability-eksempel i begge.** Det gjør seksjonen sammenhengende uten
+  å gjøre den til en portefølje eller påstå at flaten er tidligere kundearbeid.
 
-Viktigste enkeltvalg: **UI-en på skjermen må være mørk.** En hvit nettside i en
-near-black seksjon blir en lysende TV i et mørkt rom og bryter sidens tonale
-disiplin. Bruk enten redesignens egen hero (TIGON STUDIO-typografien —
-selvrefererende proof når ny logo er klar), eller et reelt kundeprosjekt
-omgradert til mørk flate.
+Det konkrete skjerminnholdet og den tonale behandlingen avgjøres først når brukerens mockups og bilder er klare. Ikke velg et reelt kundeprosjekt eller konstruer en demo som midlertidig løsning.
 
 ## 1. Hovedmockup-type (Envato)
 

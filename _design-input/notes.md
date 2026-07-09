@@ -18,7 +18,7 @@ Siden har en sterk retning, men seksjonene føles fortsatt litt for like. Vi tre
 ## Dette mangler
 - Tydeligere break-ups mellom kapitlene
 - Mer variasjon mellom seksjonene
-- Mer visuell proof i 04 / Arbeid
+- En tydelig capability showcase i 04 / Arbeid: hva Tigon kan skape, ikke en oversikt over hva Tigon har laget
 - Bedre motion-plan
 - Tydelig hoved-showpiece
 - Bedre scroll-reise fra Hero til Kontakt
@@ -31,6 +31,9 @@ Siden har en sterk retning, men seksjonene føles fortsatt litt for like. Vi tre
 - Ikke lag portfolio grid
 - Ikke bruk orange
 - Ikke legg inn random AI-bilder
+- Ikke foreslå eller generer demo-/placeholder-bilder; mockups og bilder kommer fra brukeren senere
+- Ikke gjør 04 / Arbeid til en liste over tidligere kundeprosjekter, bransjer eller nettsider
+- Ikke bruk Arbeid til å bevise relevans gjennom at Tigon har laget noe lignende før
 - Ikke legg til nye hovedseksjoner
 - Ikke rør SEO, metadata, schema, sitemap, robots eller canonical
 
@@ -62,6 +65,14 @@ Målet er å gjøre Tigon mer premium, mer regissert og mer Awwwards-inspirert u
 - Tech/dev-følelse uten å bli dashboard-klisjé.
 - ASCII/mono-detaljer brukt som presisjon, ikke pynt.
 - Motion som leder brukeren videre, ikke bare fade-in på alt.
+
+## Fast innholdsprinsipp for 04 / Arbeid
+
+- Seksjonen skal vise **hva Tigon kan lage**, ikke ramse opp **hva Tigon har laget**.
+- Den skal være en capability showcase / visuell demonstrasjon, ikke en portefølje, caseoversikt eller kundeliste.
+- Relevansen skal komme fra kvaliteten, bredden og anvendeligheten i det Tigon viser at studioet kan skape — ikke fra bransjematching mot tidligere kunder.
+- Mockups og bilder kommer fra brukeren i et senere asset-pass. Ikke start bildekonsepter, generering, sourcing eller placeholder-retning uten en ny eksplisitt bestilling.
+- Seksjonen kan fortsatt være sidens visuelle showpiece, men den skal ikke fremstille konseptflater som tidligere leverte kundeprosjekter.
 
 ## Må ikke kopieres
 

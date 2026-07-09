@@ -95,8 +95,9 @@ Static status:
 Built as visual placeholder / skeleton.
 
 Future assets:
-- replace placeholder with curated Envato/Tigon mockups
-- use Tigon logo and real visual direction once logo is ready
+- user will provide mockups and images in a later explicit asset pass
+- do not propose, generate or source demo/placeholder images before that pass
+- use the section to show what Tigon can create, not as a list of past client work
 - one main visual and one detail crop
 - no random AI images as final
 
@@ -108,6 +109,8 @@ Future motion:
 
 Do not:
 - portfolio grid
+- named past-project or client list
+- present capability concepts as delivered customer work
 - fake metrics
 - generic stock images
 
