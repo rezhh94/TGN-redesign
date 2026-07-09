@@ -458,33 +458,64 @@ function workProof(parallax: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
-  const rows = gsap.utils.toArray<HTMLElement>("[data-work-case]", section);
+  const rows = gsap.utils.toArray<HTMLElement>(
+    ".work-reel-lead, .work-feature, .work-archive",
+    section
+  );
   if (!rows.length) return () => {};
 
   const ctx = gsap.context(() => {
-    gsap.from(rows, {
-      y: 40,
-      autoAlpha: 0,
-      duration: 0.7,
-      ease: "power3.out",
-      stagger: 0.07,
-      scrollTrigger: { trigger: "[data-work-cases]", start: "top 80%", once: true },
+    rows.forEach((row) => {
+      gsap.from(row, {
+        y: 40,
+        autoAlpha: 0,
+        duration: 0.7,
+        ease: "power3.out",
+        scrollTrigger: { trigger: row, start: "top 82%", once: true },
+      });
     });
 
     if (!parallax) return;
 
     // Column parallax — centred on the row's natural position (midpoint ≈ 0),
     // so nothing shifts layout at rest. Counter-phase + unequal travel gives the
-    // mockups the heavier drift; the copy holds steadier as the reading anchor.
-    rows.forEach((row) => {
-      const copy = row.querySelector<HTMLElement>(".wp-case__copy");
-      const posters = row.querySelector<HTMLElement>(".wp-case__posters");
+    // media frames the heavier drift; the copy holds steadier as the reading
+    // anchor. Travel scales with row weight (lead > feature > archive).
+    const drift = (row: HTMLElement, media: string, copy: string | null, travel: number) => {
       const st = { trigger: row, start: "top bottom", end: "bottom top", scrub: 0.6 };
-      if (posters) {
-        gsap.fromTo(posters, { y: 54 }, { y: -54, ease: "none", scrollTrigger: st });
+      const mediaEl = row.querySelector<HTMLElement>(media);
+      if (mediaEl) {
+        gsap.fromTo(mediaEl, { y: travel }, { y: -travel, ease: "none", scrollTrigger: st });
       }
-      if (copy) {
-        gsap.fromTo(copy, { y: -20 }, { y: 20, ease: "none", scrollTrigger: st });
+      const copyEl = copy ? row.querySelector<HTMLElement>(copy) : null;
+      if (copyEl) {
+        gsap.fromTo(copyEl, { y: -16 }, { y: 16, ease: "none", scrollTrigger: st });
+      }
+    };
+
+    rows.forEach((row) => {
+      if (row.classList.contains("work-reel-lead")) {
+        drift(row, ".work-reel-lead__media", ".work-reel-lead__copy", 46);
+      } else if (row.classList.contains("work-feature")) {
+        drift(row, ".work-feature__media", ".work-feature__caption", 38);
+      } else {
+        drift(row, ".work-archive__media", null, 20);
+      }
+    });
+
+    // Inner crop-drift — innholdet i mediaflaten glir litt i motfase inne i sin
+    // egen ramme (overflow hidden), à la ScrollSmoothers data-speed="auto".
+    // Treffer merket + slot-mønsteret nå, og et evt. <img> når ekte bilder kommer.
+    gsap.utils.toArray<HTMLElement>(".work-media", section).forEach((media) => {
+      const frame = media.closest<HTMLElement>("figure, .work-reel-lead__media") ?? media;
+      const st = { trigger: frame, start: "top bottom", end: "bottom top", scrub: 0.6 };
+      const mark = media.querySelector<HTMLElement>(".work-media__mark");
+      if (mark) {
+        gsap.fromTo(mark, { y: -26 }, { y: 26, ease: "none", scrollTrigger: st });
+      }
+      const inner = media.querySelector<HTMLElement>(".work-slot, img");
+      if (inner) {
+        gsap.fromTo(inner, { y: -12 }, { y: 12, ease: "none", scrollTrigger: st });
       }
     });
   }, section);
