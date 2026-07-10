@@ -1,5 +1,7 @@
 # 02 / Approach Statement Bridge
 
+> Brand clarification, 2026-07-10: `Uklart blir byggbart` is current section copy and process language. It is not the canonical Tigon brand idea. The brand promise is `BYGD FOR Å BLI VALGT`, defined in `docs/tigon-brand-platform.md`. A future copy/design pass may replace this framing when explicitly opened.
+
 Before coding this section, this contract must be approved.
 
 ## Section name

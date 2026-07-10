@@ -1,5 +1,7 @@
 # 05 / Prosess — aktiv systemflyt-kontrakt
 
+> Brand clarification, 2026-07-10: `Uklart inn. System ut.` belongs to Prosess because it explains risk reduction and transformation. It must not be treated as the overall Tigon identity. See `docs/tigon-brand-platform.md`.
+
 Last reconciled with the implementation: 2026-07-10.
 
 ## Role

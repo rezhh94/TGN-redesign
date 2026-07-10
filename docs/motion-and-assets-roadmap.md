@@ -1,6 +1,6 @@
 # Tigon Motion and Asset Roadmap
 
-Last reconciled with the implementation: 2026-07-09.
+Last reconciled with the implementation: 2026-07-10.
 
 ## Purpose
 
@@ -47,15 +47,15 @@ This file records the active motion architecture. It is not a backlog of old eff
 
 ### 03 / Effekt
 
-- Existing measured outcome interaction remains.
-- Do not add a second adjacent pin without a new explicit decision.
+- CSS-sticky outcome cards stack in the right column while the left explanation remains the reading anchor.
+- GSAP only synchronises the active card and measurement detail.
+- No JS-driven pin or decorative signal rail.
 
 ### 04 / Arbeid
 
-- Normal-flow editorial capability index.
-- One-shot item and image settling.
-- Mild desktop image parallax, approximately four percent travel.
-- No pin, orbit, active-card state or scroll-jacked count/progress.
+- Always-open zig-zag capability catalogue.
+- One-shot row settling plus mild desktop counter-phase parallax between copy and mockup columns.
+- No pin, accordion, orbit, active-card state or scroll-jacked progress.
 
 ### 05 / Prosess
 
@@ -85,6 +85,7 @@ Do not restore unless the user explicitly reopens them:
 - Current service and Work imagery uses repository assets under `public/work/mockups/`.
 - Images are treated near-monochrome.
 - Work items are explicitly presented as Tigon demonstrations/concepts, not delivered customer cases.
+- 04 / Arbeid does not use case or archive links to point at previously built websites; it stays focused on future capabilities.
 - No external MadeWithGSAP assets were imported.
 - Future asset replacement must preserve truthful labelling and existing readability.
 

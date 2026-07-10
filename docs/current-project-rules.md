@@ -13,6 +13,17 @@ Tigon should feel like a premium digital studio:
 
 The homepage should feel authored, but there is no fixed formula for what that journey must look like.
 
+## Canonical Brand Platform
+
+The full brand definition is in `docs/tigon-brand-platform.md`.
+
+- Brand promise: `BYGD FOR Å BLI VALGT.`
+- Positioning: high-end websites, apps and digital systems where design, technology and visibility are built as one whole.
+- Result system: `FUNNET. FORSTÅTT. VALGT. MÅLT.`
+- Visual concept: selection, focus and distinction.
+- `Uklart` is allowed as process language, not as the overall brand identity.
+- `Valgt` is not a decorative word to repeat across the page; the design must demonstrate the promise.
+
 ## Hard Rules
 
 Do not, unless explicitly requested:
@@ -33,7 +44,10 @@ Do not, unless explicitly requested:
 04 / Arbeid must communicate what Tigon can create, not catalogue what Tigon has created before.
 
 - Treat it as a capability showcase, not a portfolio or case-study section.
+- Frame every item as something Tigon can create for a future project, never as evidence that Tigon has built a similar website before.
 - Do not use named previous projects, customer logos, industry lists or a parade of past websites as the concept.
+- Do not use case links, archive links or "see what we made" language inside 04 / Arbeid.
+- Use capability, demonstration, concept, system, prototype or lab language instead of case or portfolio language in the active implementation.
 - Do not imply that a concept surface is a delivered customer project.
 - Do not start an asset concept, image-generation pass, placeholder pass or sourcing exercise unless the user explicitly asks for it.
 - The user is working on mockups and imagery; design work may reserve deliberate asset space without inventing the assets.
@@ -42,6 +56,8 @@ Current implementation note, 2026-07-09:
 - `WorkProof` is the active component.
 - It is a normal-flow editorial capability index using six Tigon demonstrations, not a customer portfolio.
 - The demonstrations must remain labelled so they cannot be mistaken for delivered client projects.
+- `WorkShowcase` is a legacy unmounted variant and must not be used as the content model for 04 / Arbeid.
+- `Dette kan Tigon lage` is the capability framing for 04 / Arbeid. It does not turn the section into proof of past work and does not replace the global brand promise.
 - The rejected `Selected systems` pinned/orbital layout must not be restored unless explicitly reopened.
 
 ## Active Homepage Map

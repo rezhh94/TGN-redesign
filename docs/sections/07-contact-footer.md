@@ -1,5 +1,7 @@
 # 07 / Contact Footer / Kontakt
 
+> Brand clarification, 2026-07-10: current `NOE UKLART` wording is supporting invitation/process language, not the overall Tigon identity. The canonical promise is `BYGD FOR Å BLI VALGT`, defined in `docs/tigon-brand-platform.md`. Footer/NAP and important links remain preserved.
+
 > Placement update, 2026-07-09: the active Contact/Footer follows `SystemManifesto`, after 05 / Prosess. The section itself remains preserved as a quiet closing section; its NAP and important links were not changed in the latest revision.
 
 Before coding this section, this contract must be approved.

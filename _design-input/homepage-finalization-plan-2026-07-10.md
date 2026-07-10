@@ -49,7 +49,7 @@ Seksjonen er lesbar og har riktig grunnstruktur, men redesignkopien er ikke ferd
 
 Dette må løses før visuell nytenkning i seksjonen.
 
-### P0 — Arbeid mangler endelig asset-bevis
+### P0 — Arbeid mangler endelige capability-assets
 
 De aktive bildene har en fin editorial fargefamilie, men viser ikke tydelig nok digitale capabilities alene.
 
@@ -67,7 +67,7 @@ Siden har allerede mye motion. Mangelen er ikke antall effekter, men tydelig rol
 - Tjenester = forståelse og navigasjon.
 - Overlevering = temposkifte.
 - Effekt = kausal resultatkjede.
-- Arbeid = visuelt bevis/showpiece.
+- Arbeid = fremoverlent capability-showpiece: dette kan Tigon lage.
 - Prosess = transformasjon og metode.
 - Manifest/Kontakt = rolig avslutning.
 
@@ -303,6 +303,7 @@ Før GSAP-showpiece:
 - identifiser manglende systemflater, grensesnitt eller korte loops
 - ikke generer placeholder-assets
 - ikke fremstille konseptflater som tidligere leverte kundecaser
+- ikke bruk case- eller arkiv-lenker som argument; seksjonen skal vise fremtidige leveransemuligheter
 
 ### Go
 
@@ -312,7 +313,7 @@ Fortsett hvis assetfamilien viser nivå, bredde og anvendelighet.
 
 Stopp motion hvis bildene fortsatt hovedsakelig leses som tilfeldig editorial photography.
 
-## Trinn 7 — bygg ett WorkProof-showpiece
+## Trinn 7 — bygg ett capability-showpiece i WorkProof
 
 ### Scope
 

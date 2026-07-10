@@ -87,3 +87,14 @@ Keep Manifest and Kontakt as calm closing sections.
 
 Reason:
 The homepage already has sufficient energy earlier in the journey. The ending should create clarity and conversion, not another showpiece.
+
+## 2026-07-10 — Canonical brand platform
+
+Decision:
+Use `BYGD FOR Å BLI VALGT.` as the global brand promise, supported by the positioning around high-end websites, apps and digital systems where design, technology and visibility are built as one whole. Use `FUNNET. FORSTÅTT. VALGT. MÅLT.` as the result system and selection/focus/distinction as the visual concept.
+
+Clarification:
+`Uklart` remains valid process language but is not the overall brand identity. 04 / Arbeid shows what Tigon can create for future projects and must never become a portfolio, previous-project list or «see what we made» section.
+
+Reason:
+The new platform connects design, technology, SEO/visibility, conversion and measurement while giving the visual system more range than the former unclear-to-buildable motif.

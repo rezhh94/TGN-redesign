@@ -186,17 +186,16 @@ Behold arketypen — juster tre ting først:
 3. **Avgjør høyre-bleed** (pkt. 7) før crop — det påvirker hvor mye bleed
    main-eksporten trenger på høyre side.
 
-Til vurdering, ikke handling: seksjonen har ingen vei til `/arkiv`, og
-kontrakten tillater i dag ingen lenker/CTA her. En stille tekstlenke
-(«Se arkivet») under captionen krever **kontraktsrevisjon først** — den skal
-ikke snikes inn i asset-passet.
+Seksjonen har med vilje ingen vei til `/arkiv`. Ikke legg inn «Se arkivet»,
+«Se case» eller andre CTA-er som gjør capability-showcasen til en oversikt over
+tidligere arbeid. Dette skal ikke gjenåpnes gjennom et asset-pass.
 
 ## 11. Hard regel: ingen random AI-bilder
 
 Random AI-genererte bilder skal **ikke** brukes som permanent løsning
-(jf. seksjonskontrakt og asset-roadmap). Midlertidige nøytrale placeholders er
-tillatt frem til kuraterte Envato/Tigon-mockups er klare — genererte bilder
-skal ikke deployes som endelig innhold.
+(jf. seksjonskontrakt og asset-roadmap). Layouten kan reservere nøytrale,
+umerkede visualflater frem til brukerens kuraterte mockups er klare, men skal
+ikke vise placeholder-tekst eller finne på midlertidige motiver.
 
 ## Anbefalt rekkefølge
 

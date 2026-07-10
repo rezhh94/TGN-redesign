@@ -4,6 +4,14 @@ Sist avstemt mot implementasjonen: 2026-07-09.
 
 Faktisk seksjonsstatus finnes i `docs/current-homepage-state.md`. Prøvde og forkastede retninger finnes i `docs/decision-log.md`.
 
+Kanonisk merkevareriktning finnes i `docs/tigon-brand-platform.md`:
+
+- `BYGD FOR Å BLI VALGT.` er merkevareløftet.
+- `FUNNET. FORSTÅTT. VALGT. MÅLT.` er resultatsystemet.
+- Selection, focus og distinction er det visuelle konseptet.
+- `Uklart` hører hjemme i Prosess, ikke som hele Tigons identitet.
+- Arbeid viser hva Tigon kan lage fremover, aldri tidligere kundesider eller «se hva vi har laget».
+
 ## Nåværende dom
 
 Forsiden har nå en tydeligere rytme uten å gjenta samme pinned-scroll-effekt:
@@ -11,7 +19,7 @@ Forsiden har nå en tydeligere rytme uten å gjenta samme pinned-scroll-effekt:
 - Tjenester prioriterer lesbarhet og reelle tjenestelenker.
 - Overlevering gir et kort, visuelt avbrekk uten pinning.
 - Effekt beholder det typografiske hovedøyeblikket.
-- Arbeid viser leveransebredde i vanlig dokumentflyt.
+- Arbeid viser fremoverlent capability-bredde i vanlig dokumentflyt, ikke en portefølje.
 - Prosess forklarer systemet visuelt uten scroll-jacking.
 - Manifest og Kontakt avslutter rolig.
 

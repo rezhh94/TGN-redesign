@@ -4,6 +4,8 @@ Last reconciled with the implementation: 2026-07-09.
 
 The verified implementation details live in `docs/current-homepage-state.md`.
 
+The canonical brand meaning lives in `docs/tigon-brand-platform.md`: `BYGD FOR Å BLI VALGT` is the promise, `FUNNET. FORSTÅTT. VALGT. MÅLT.` is the result system, and selection/focus/distinction is the visual concept.
+
 ## 00 / Header and Hero
 
 Role: brand anchor and opening scene.
@@ -12,7 +14,7 @@ Status: built and preserved.
 
 ## 01 / Tilnærming
 
-Role: turn an unclear starting point into a buildable direction.
+Role: explain the integrated approach. Current unclear-to-buildable language is process context, not the overall brand identity.
 
 Status: approved and unchanged in the latest revision.
 
@@ -42,7 +44,7 @@ Status: built and retained as a primary typographic moment.
 
 ## 04 / Arbeid
 
-Role: show the range and quality of what Tigon can create.
+Role: show the range and quality of what Tigon can create for future projects, never a list of previously built websites.
 
 Status: active normal-flow capability index with six clearly labelled Tigon demonstrations.
 

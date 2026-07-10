@@ -1,8 +1,17 @@
 # Current Homepage State
 
-Last verified: 2026-07-09
+Last verified: 2026-07-10
 
 This is the canonical implementation snapshot for the redesign checkout. Historical audits and section experiments may remain in the repository, but they do not override this file, `AGENTS.md`, `docs/current-project-rules.md` or the current user instruction.
+
+## Active brand direction
+
+- Canonical definition: `docs/tigon-brand-platform.md`.
+- Brand promise: `BYGD FOR Å BLI VALGT.`
+- Positioning: high-end websites, apps and digital systems where design, technology and visibility are built as one whole.
+- Result system: `FUNNET. FORSTÅTT. VALGT. MÅLT.`
+- Visual concept: selection, focus and distinction.
+- Existing `Uklart` wording belongs to process/implementation context and must not be read as the overall Tigon identity.
 
 ## Active page journey
 
@@ -38,13 +47,23 @@ The homepage is mounted in this order:
 - It is not pinned.
 - The previous long pinned ignite treatment was removed to reduce repeated pinned-scroll moments.
 
+### Effekt
+
+- Uses the restored stacked-outcome implementation from historical revision `25b423a`.
+- The left column remains the reading anchor with title, explanation and active measurement detail.
+- The right column contains four CSS-sticky cards: Funnet, Forstått, Valgt and Målt.
+- GSAP only marks the front card and matching detail as active; stacking and readability do not depend on JavaScript.
+
 ### Arbeid
 
-- Uses a normal-flow, asymmetric editorial capability index with six clearly labelled Tigon demonstrations.
-- Every item states category, description and what it delivers.
-- It is not a customer portfolio and makes no delivered-client claim.
+- Uses the restored always-open zig-zag capability catalogue from historical revision `25b423a`.
+- Six complete rows alternate copy and three visual/mockup surfaces.
+- Webapp, Nettsted, Plattform, E-handel, AI and App remain immediately visible and readable.
+- It is a capability catalogue, not a customer portfolio.
+- Every item describes something Tigon can create for a future project; the section does not refer to previously built websites or use case/archive links as proof.
+- The current `Dette kan Tigon lage.` heading is capability framing. It is not portfolio language and does not replace the global `BYGD FOR Å BLI VALGT.` promise.
 - The `Selected systems` pinned/orbital concept was rejected because it distracted from what Tigon delivers and reacted too aggressively to scroll.
-- Current motion is limited to one-shot settling and mild desktop image parallax. No pin.
+- Current motion is one-shot row settling and mild counter-phase column parallax. No pin or accordion.
 
 ### Prosess
 
@@ -79,7 +98,7 @@ The homepage is mounted in this order:
 
 ## Verification
 
-Verified on 2026-07-09:
+Verified on 2026-07-10:
 
 - `npm run typecheck`
 - `npm run build`

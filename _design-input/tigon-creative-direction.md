@@ -4,6 +4,21 @@ Status: levende arbeidsgrunnlag, sist vurdert 2026-07-10.
 
 Dette dokumentet skal hjelpe oss å ta bedre designbeslutninger. Det er ikke en oppskrift, en låst seksjonsplan eller en erstatning for selvstendig vurdering.
 
+Den kanoniske merkevareplattformen ligger i `docs/tigon-brand-platform.md` og skal ikke omtolkes av løsere referansenotater.
+
+## Merkevareplattform
+
+- Merkevareløfte: `BYGD FOR Å BLI VALGT.`
+- Posisjonering: high-end nettsider, apper og digitale systemer hvor design, teknologi og synlighet bygges som én helhet.
+- Resultatsystem: `FUNNET. FORSTÅTT. VALGT. MÅLT.`
+- Visuelt konsept: `SELECTION / FOCUS / DISTINCTION`.
+- Motion-prinsipp: elementer prioriteres, velges og låses i en presis sluttilstand.
+- Redaksjonell fortelling: fra synlighet til valg og målbar effekt.
+
+`Bygd for å bli valgt` er ikke navnet på en effekt. `Valgt` skal ikke gjentas som dekor. Art direction må demonstrere løftet gjennom kontrast, fokus, hierarki, presisjon og kvalitet.
+
+`Uklart` kan fortsatt forklare Prosess, men skal ikke være Tigons overordnede identitet eller styre alle seksjoners motion.
+
 ## Ambisjon
 
 Tigon skal oppleves som et premium digitalt studio med en tydelig egen stemme:
@@ -104,13 +119,13 @@ Dette er arbeidshypoteser, ikke låste løsninger.
 
 ### Effekt
 
-«Funnet, forstått, valgt og målt» er et sterkt og spesifikt innholdssystem. Dagens sticky kortstabel og generiske bilder gjør hierarkiet mindre tydelig enn budskapet fortjener, særlig på mobil.
+«Funnet, forstått, valgt og målt» er merkevarens intellektuelle hovedsystem. Dagens sticky kortstabel og generiske bilder gjør hierarkiet mindre tydelig enn budskapet fortjener, særlig på mobil.
 
 Neste utforskning bør prioritere en sammenhengende visuell forbindelse mellom de fire resultatene. Typografi, signal/progresjon og ekte proof er mer relevant enn flere kort. Pinned motion er mulig, men ikke obligatorisk.
 
 ### Prosess
 
-«Uklart inn. System ut.» er et sterkt åpningsøyeblikk. De tre like tekst–bilde-radene og midlertidige bildene viser ikke selve transformasjonen godt nok, og den synlige oransje flaten passer ikke dagens Tigon-retning.
+«Uklart inn. System ut.» er gjeldende prosesspråk, ikke Tigons merkevareidé. De tre like tekst–bilde-radene og midlertidige bildene viser ikke selve transformasjonen godt nok, og den synlige oransje flaten passer ikke dagens Tigon-retning.
 
 Neste utforskning bør vise hvordan ett materiale endrer tilstand gjennom retning, bygg og live/måling. Det kan løses typografisk, med ekte arbeidsmateriale eller med kontrollert motion. Det skal ikke bli et blueprint-board eller SaaS-systemkart.
 
@@ -118,15 +133,19 @@ Neste utforskning bør vise hvordan ett materiale endrer tilstand gjennom retnin
 
 04 / Arbeid er en capability showcase. Seksjonen skal vise hva Tigon kan skape, ikke dokumentere eller liste opp hva Tigon tidligere har laget.
 
+`Dette kan Tigon lage` er seksjonens innholdsregel og nåværende framing. `BYGD FOR Å BLI VALGT` er det globale merkevareløftet. Arbeid kan demonstrere løftet, men aldri ved å vise til tidligere kundearbeid.
+
 Det betyr:
 
 - ingen portefølje- eller casegrid
 - ingen oppramsing av kundenavn, bransjer eller tidligere nettsider
+- ingen «se hva vi har laget»-retorikk, case-lenker eller arkiv-lenker som argument i seksjonen
+- alle elementer skal leses fremoverlent: dette er noe Tigon kan skape for et nytt prosjekt
 - ingen avhengighet av at en besøkende må kjenne seg igjen i en tidligere kundes bransje
 - ingen forslag til demo-/placeholder-bilder mens brukeren arbeider med å skaffe mockups og bilder
 - ingen fremstilling av konseptflater som om de var tidligere leverte kundeprosjekter
 
-Seksjonens verdi skal ligge i at en potensiell kunde kan forstå nivået, spennvidden og typen digitale opplevelser Tigon er i stand til å utvikle. Visuell retning og konkrete assets avgjøres i et senere, eksplisitt asset-pass.
+Seksjonens verdi skal ligge i at en potensiell kunde kan forstå nivået, spennvidden og typen digitale opplevelser Tigon er i stand til å utvikle. Den skal ikke omtales som bevis på tidligere arbeid. Visuell retning og konkrete assets avgjøres i et senere, eksplisitt asset-pass.
 
 ## Hva som ikke er en regel
 

@@ -20,6 +20,17 @@ Prefer focused tasks, but multi-section work is allowed when the user asks for a
 
 Use a section contract when helpful, but do not over-plan when the task is clear.
 
+## Brand Direction
+
+The canonical brand platform is `docs/tigon-brand-platform.md`.
+
+- Brand promise: `BYGD FOR Å BLI VALGT.`
+- Positioning: high-end websites, apps and digital systems where design, technology and visibility are built as one whole.
+- Result system: `FUNNET. FORSTÅTT. VALGT. MÅLT.`
+- Visual concept: selection, focus and distinction.
+- `Uklart` may explain the process, but must not define the overall Tigon brand.
+- Do not repeat `VALGT` as decoration; demonstrate the promise through hierarchy, clarity, visibility and quality.
+
 ## Hard Preservation Rules
 
 Do not, unless explicitly requested:
@@ -31,7 +42,20 @@ Do not, unless explicitly requested:
 - import MadeWithGSAP CSS, JS, fonts or assets directly
 - use visible orange
 - make the design SaaS, card-grid or dashboard-like
+- turn 04 / Arbeid into a portfolio, case list, client list or showcase of previously built websites
 - commit or push
+
+## 04 / Arbeid — Capability Only
+
+04 / Arbeid must show what Tigon can create, not what Tigon has created before.
+
+- Frame every item as a possible Tigon capability or deliverable.
+- Do not use previous websites, customer names, project references, case-study links or archive links as the section's argument.
+- Do not call the active items cases, portfolio work or proof of past experience.
+- Concept surfaces must never be presented as delivered customer work.
+- Use capability, demonstration, concept, system, prototype or lab language when a label is needed.
+- `WorkProof` is the active implementation. `WorkShowcase` is a legacy unmounted variant and must not define the content direction.
+- `Dette kan Tigon lage` is the capability framing. `BYGD FOR Å BLI VALGT` is the global brand promise. Do not confuse either with a past-work portfolio claim.
 
 ## Design Freedom
 

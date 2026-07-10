@@ -3,6 +3,8 @@
 Status: 2026-06-30
 Scope: Forsiden `/` i Tigon-prosjektet. Dette er en bevaringskontrakt, ikke et designforslag. Ingen kode, metadata, schema, sitemap, robots, canonical, URL-er eller slugs skal endres med denne kontrakten som eneste mandat.
 
+> Brand relationship, 2026-07-10: dette dokumentet beskytter SEO-/CRO-semantikk og eksisterende lenker. Det definerer ikke Tigons merkevareidé. Kanonisk branding ligger i `docs/tigon-brand-platform.md`.
+
 ## Kildegrunnlag lest
 
 - `app/page.tsx`

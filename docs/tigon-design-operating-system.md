@@ -7,6 +7,8 @@ This document defines how Tigon Studio redesign work should be approached.
 It is not a rigid template.
 It is a set of principles for building a premium digital studio website without repeating the old chaos.
 
+The canonical brand meaning is defined in `docs/tigon-brand-platform.md`: `BYGD FOR Å BLI VALGT` is the promise, `FUNNET. FORSTÅTT. VALGT. MÅLT.` is the result system, and selection/focus/distinction is the visual concept. This operating system must support that platform without turning the slogan into repeated decoration.
+
 ## Core idea
 
 Awwwards feeling is not "more effects".
