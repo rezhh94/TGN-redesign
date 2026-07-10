@@ -1,6 +1,8 @@
 # 04 / What We Improve / Hva vi forbedrer
 
-Before coding this section, this contract must be approved.
+Last reconciled with the implementation: 2026-07-10.
+
+The active implementation is the light, typographic `03 / Effekt` signal journey in `WhatWeImprove`.
 
 ## Section name
 
@@ -117,22 +119,19 @@ Skjema, telefon, e-post og hendelser som kan spores fra start.
 - pricing
 - service accordion repetition
 - orange
-- GSAP or motion in first build
 - old prototype imports
 - imported old styles.css
 - imported old signature.css
 - imported old main.js
 
-## Motion plan
+## Motion
 
-No motion in the first build.
-
-Future motion ideas:
-- outcome words fill from muted gray to off-white
-- row reveal
-- active row highlight
-
-No pin in the first motion pass.
+- One continuous pine signal rail connects all four outcomes.
+- Each outcome becomes fully contrasted when the signal reaches it.
+- SplitText measures the existing metadata words and distributes them across the row before gathering them into their final columns, adapted from MWG 097.
+- All outcome text remains normal server-rendered HTML.
+- No pin, image layer or horizontal section scroll.
+- Reduced motion and no-JS keep the complete final layout.
 
 ## Static acceptance criteria
 

@@ -58,29 +58,35 @@ export function WhatWeImprove() {
             </div>
           </header>
 
-          <ol className="what-improve__stream">
-            {outcomes.map((outcome, index) => (
-              <li
-                className="what-improve__outcome"
-                data-improve-block={index}
-                key={outcome.key}
-              >
-                <div className="what-improve__meta">
-                  <span aria-hidden="true">{outcome.number}</span>
-                  <span>{outcome.signal}</span>
-                </div>
+          <div className="what-improve__stream-stage">
+            <span className="what-improve__signal-rail" aria-hidden="true">
+              <span data-improve-signal />
+            </span>
 
-                <h3 className="what-improve__title">{outcome.title}</h3>
+            <ol className="what-improve__stream">
+              {outcomes.map((outcome, index) => (
+                <li
+                  className="what-improve__outcome"
+                  data-improve-block={index}
+                  key={outcome.key}
+                >
+                  <div className="what-improve__meta">
+                    <span aria-hidden="true">{outcome.number}</span>
+                    <span>{outcome.signal}</span>
+                  </div>
 
-                <div className="what-improve__body">
-                  <p className="what-improve__text">{outcome.description}</p>
-                  <p className="what-improve__tools">{outcome.tools}</p>
-                </div>
+                  <h3 className="what-improve__title">{outcome.title}</h3>
 
-                <span className="what-improve__trace" aria-hidden="true" />
-              </li>
-            ))}
-          </ol>
+                  <div className="what-improve__body">
+                    <p className="what-improve__text">{outcome.description}</p>
+                    <p className="what-improve__tools">{outcome.tools}</p>
+                  </div>
+
+                  <span className="what-improve__trace" aria-hidden="true" />
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </div>
     </section>

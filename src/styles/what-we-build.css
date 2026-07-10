@@ -110,18 +110,37 @@
 /* Pilarer på det delte 12-kol-gridet: 3 pilarer × span 4 = 12, med samme
    konsistente gutter som resten (lamalama-token). Kollapser til 1fr < 1080px. */
 .what-build__pillars {
+  counter-reset: build-pillar;
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
   margin: 0;
   padding: clamp(28px, 4vh, 48px) 0 0;
   list-style: none;
-  border-top: 1px solid rgba(242, 241, 235, 0.16);
 }
 
 .what-build__pillar {
+  counter-increment: build-pillar;
+  position: relative;
   grid-column: span 4;
   min-width: 0;
+  min-height: clamp(220px, 24vh, 288px);
+  padding-right: clamp(14px, 2vw, 32px);
+}
+
+.what-build__pillar:not(:first-child) {
+  padding-left: 0;
+}
+
+.what-build__pillar::before {
+  content: counter(build-pillar, decimal-leading-zero);
+  display: block;
+  margin-bottom: clamp(42px, 6vh, 72px);
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1;
 }
 
 .what-build__pillar-top {
@@ -174,6 +193,7 @@
 /* 2) Tjeneste-akkordeon ---------------------------------------------- */
 
 .what-build__list {
+  counter-reset: build-service;
   position: relative;
   width: min(100%, var(--page-max));
   margin: 0 auto;
@@ -183,18 +203,23 @@
 }
 
 .what-build__row {
+  counter-increment: build-service;
   position: relative;
   border-bottom: 1px solid rgba(242, 241, 235, 0.14);
+}
+
+.what-build__row[data-open] {
+  background: linear-gradient(90deg, rgba(99, 124, 113, 0.08), transparent 46%);
 }
 
 /* Rad-hodet — samme sammenslåtte rad som Arbeid (.wp-case__summary):
    navn + tag-bokser + liten thumb-stripe + veksler. Full-bredde knapp
    (akkordeon-toggle). */
 .what-build__row-head {
-  --wb-row-gap: clamp(16px, 2.4vw, 40px);
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
   align-items: center;
-  gap: var(--wb-row-gap);
   width: 100%;
   margin: 0;
   /* Lukkede rader skal være raske å skanne; den åpne kroppen bærer den store
@@ -209,9 +234,21 @@
   appearance: none;
 }
 
+.what-build__row-head::before {
+  content: counter(build-service, decimal-leading-zero);
+  grid-column: 1;
+  align-self: start;
+  padding-top: 0.42em;
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1;
+}
+
 .what-build__service-title {
-  flex: 0 0 auto;
-  min-width: clamp(160px, 18vw, 260px);
+  grid-column: 2 / 5;
+  min-width: 0;
   color: var(--on-dark-strong);
   /* Samme display-font + versaler + størrelse som Arbeid (.wp-case__name) */
   font-family: var(--font-display);
@@ -223,35 +260,35 @@
   transition: color var(--motion-fast) ease-out;
 }
 
-/* Tag-bokser — delt resept med Arbeids .wp-case__tag (svart+hvit, ikke kontur). */
+/* Teknisk metadata som en ren redaksjonell linje — ingen SaaS-aktige chips. */
 .what-build__row-tags {
-  flex: 1 1 auto;
+  grid-column: 5 / 9;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  align-items: center;
+  gap: 7px;
 }
 
 .what-build__row-tag {
-  padding: 5px 9px;
-  /* Hårfin lys kant → brikka leses også på nær-svarte flater (04 Arbeid deler
-     denne resepten via .wp-case__tag). Endre begge steder samtidig. */
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: var(--radius-fine);
-  /* Svart fyll + hvit tekst (lamalama) — rein svart/hvit, bevisst utenfor
-     cream/blekk-paletten for maks pop. */
-  background: #000000;
-  color: #ffffff;
+  color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
   letter-spacing: var(--mono-track);
-  line-height: 1;
+  line-height: 1.3;
   text-transform: uppercase;
+}
+
+.what-build__row-tag + .what-build__row-tag::before {
+  content: "/";
+  margin-right: 7px;
+  color: var(--on-dark-faint);
 }
 
 /* Liten thumb-stripe — kopi av Arbeids .wp-case__strip/thumb. Tomme bilde-
    rammer (mørkere enn flaten + hårlinje). Skjules når raden åpnes. */
 .what-build__row-strip {
-  flex: 0 0 auto;
+  grid-column: 9 / 12;
+  justify-self: end;
   display: flex;
   gap: 6px;
   transition: opacity var(--motion-fast) ease-out;
@@ -259,7 +296,7 @@
 
 .what-build__row-thumb {
   position: relative;
-  width: clamp(34px, 3vw, 48px);
+  width: clamp(42px, 3.4vw, 56px);
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--ink-base);
@@ -281,7 +318,8 @@
 /* Mono-veksler — samme som Arbeid (.wp-case__toggle): ( + ) lukket → ( − )
    åpen, dempet → pine på hover/åpen. Ingen sirkel-chrome. */
 .what-build__row-toggle {
-  flex: 0 0 auto;
+  grid-column: 12;
+  justify-self: end;
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
@@ -329,13 +367,14 @@
    til venstre, tre mockup-rammer til høyre. */
 .what-build__body-grid {
   display: grid;
-  grid-template-columns: minmax(0, 40ch) 1fr;
-  gap: clamp(24px, 4vw, 72px);
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
   align-items: start;
-  padding: clamp(6px, 1vh, 12px) var(--build-px) clamp(24px, 3.4vh, 40px);
+  padding: clamp(4px, 0.8vh, 10px) var(--build-px) clamp(48px, 6vh, 72px);
 }
 
 .what-build__body-copy {
+  grid-column: 2 / 7;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -345,15 +384,18 @@
    (mørkere enn flaten + hårlinje), klare til ekte Tigon-mockups. Bevisst
    mindre enn Arbeids plakater så tjeneste-raden ikke domineres av bildene. */
 .what-build__posters {
+  grid-column: 9 / 13;
+  position: relative;
   display: flex;
   justify-content: flex-end;
+  align-items: flex-start;
   align-self: start;
-  gap: clamp(10px, 1.2vw, 16px);
+  min-height: clamp(230px, 24vw, 330px);
 }
 
 .what-build__poster {
   position: relative;
-  width: clamp(110px, 13vw, 168px);
+  width: clamp(160px, 17vw, 238px);
   aspect-ratio: 3 / 4;
   display: flex;
   align-items: center;
@@ -361,6 +403,18 @@
   overflow: hidden;
   background: var(--ink-base);
   box-shadow: inset 0 0 0 1px rgba(242, 241, 235, 0.09);
+  will-change: transform, clip-path, opacity;
+}
+
+.what-build__poster:first-child {
+  z-index: 1;
+}
+
+.what-build__poster:nth-child(2) {
+  z-index: 2;
+  width: clamp(92px, 10vw, 138px);
+  margin-top: clamp(58px, 7vw, 94px);
+  margin-left: clamp(-34px, -2.4vw, -18px);
 }
 
 .what-build__poster-img {
@@ -445,11 +499,15 @@
 /* 3) Tjenesteregister ------------------------------------------------- */
 
 .what-build__register {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
   border-top: 1px solid rgba(242, 241, 235, 0.16);
   padding-top: clamp(24px, 3vh, 36px);
 }
 
 .what-build__register-label {
+  grid-column: 1 / 3;
   margin: 0 0 clamp(18px, 2.4vh, 30px);
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
@@ -461,14 +519,14 @@
 
 /* Register på det delte 12-kol-gridet (som pilarene): 3 kol × span 4. */
 .what-build__register-cols {
+  grid-column: 4 / -1;
   display: grid;
-  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: var(--grid-gutter);
   row-gap: clamp(24px, 3vw, 56px);
 }
 
 .what-build__register-col {
-  grid-column: span 4;
   min-width: 0;
 }
 
@@ -635,6 +693,17 @@
 
   .what-build__pillar {
     grid-column: auto;
+    min-height: 0;
+    padding: 0 0 28px;
+    border-left: 0;
+  }
+
+  .what-build__pillar:last-child {
+    padding-bottom: 0;
+  }
+
+  .what-build__pillar::before {
+    margin-bottom: 24px;
   }
 
   .what-build__pillar-arrow {
@@ -647,6 +716,48 @@
   }
 
   .what-build__register-col {
+    grid-column: auto;
+  }
+
+  .what-build__row-head {
+    display: flex;
+    gap: clamp(16px, 2.4vw, 40px);
+  }
+
+  .what-build__row-head::before {
+    display: none;
+  }
+
+  .what-build__service-title {
+    flex: 0 0 auto;
+    min-width: clamp(190px, 24vw, 280px);
+  }
+
+  .what-build__row-tags {
+    flex: 1 1 auto;
+  }
+
+  .what-build__row-strip,
+  .what-build__row-toggle {
+    flex: 0 0 auto;
+  }
+
+  .what-build__body-grid {
+    grid-template-columns: minmax(0, 40ch) 1fr;
+    gap: clamp(24px, 4vw, 72px);
+  }
+
+  .what-build__body-copy,
+  .what-build__posters {
+    grid-column: auto;
+  }
+
+  .what-build__register {
+    grid-template-columns: 1fr;
+  }
+
+  .what-build__register-label,
+  .what-build__register-cols {
     grid-column: auto;
   }
 
@@ -704,6 +815,14 @@
     gap: 20px;
   }
 
+  .what-build__pillar {
+    padding-bottom: 20px;
+  }
+
+  .what-build__pillar::before {
+    margin-bottom: 14px;
+  }
+
   .what-build__pillar-tag {
     margin-top: 10px;
   }
@@ -747,6 +866,17 @@
 
   .what-build__posters {
     justify-content: flex-start;
+    min-height: 196px;
+  }
+
+  .what-build__poster {
+    width: 132px;
+  }
+
+  .what-build__poster:nth-child(2) {
+    width: 92px;
+    margin-top: 44px;
+    margin-left: -22px;
   }
 
   .what-build__description {

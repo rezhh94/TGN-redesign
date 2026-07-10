@@ -1,6 +1,6 @@
 # 05 / Prosess — aktiv systemflyt-kontrakt
 
-Last reconciled with the implementation: 2026-07-09.
+Last reconciled with the implementation: 2026-07-10.
 
 ## Role
 
@@ -23,10 +23,10 @@ Desktop uses three columns. Mobile presents the same content as one vertical, re
 
 ## Motion
 
-- One-shot phase entry.
-- One-shot material/token settle.
-- Decorative connection-line draw.
-- Existing title decode.
+- `Uklart inn.` is split into characters, loses its baseline and distributes toward Retning, Bygg and Live.
+- The characters use the MWG 067 `rotateX` depth treatment and random stagger while moving to the three phase lanes.
+- Material tokens settle as `System ut.` locks sharply to the grid.
+- The connection rail draws only after the output title has resolved.
 - No pin and no scroll-driven active-stage switching.
 
 ## Rejected directions

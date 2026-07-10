@@ -47,7 +47,7 @@ const services = [
     description: "Portaler, dashboards og digitale verktøy bygget for reell arbeidsflyt.",
     meta: "PORTALER / DASHBOARDS",
     tagline: "Innlogging / Roller / Integrasjoner / Datamodell / Drift",
-    href: "/tjenester",
+    href: "/tjenester/custom-software",
     posters: ["/work/mockups/05.png", "/work/mockups/06.png"],
   },
   {
@@ -71,7 +71,7 @@ const services = [
     description: "Innhold og struktur som gjør løsningen lettere å finne, forstå og velge.",
     meta: "INNHOLD / STRUKTUR",
     tagline: "Teknisk SEO / Innholdsstruktur / AI-synlighet / Lokal synlighet / Måling",
-    href: "/tjenester",
+    href: "/tjenester/seo-optimalisering",
     posters: ["/work/mockups/11.png", "/work/mockups/13.png"],
   },
 ];
@@ -84,11 +84,11 @@ const register = [
     tag: "Bygg",
     items: [
       { name: "Nettsider", href: "/tjenester/webutvikling-nextjs" },
-      { name: "Webapper", href: "/tjenester" },
+      { name: "Webapper", href: "/tjenester/custom-software" },
       { name: "Apper", href: "/tjenester/app-utvikling" },
       { name: "E-handel", href: "/tjenester/e-handel-losninger" },
-      { name: "Headless CMS" },
-      { name: "UX/UI-design" },
+      { name: "Headless CMS", href: "/tjenester/headless-cms" },
+      { name: "UX/UI-design", href: "/tjenester/ux-ui-design" },
     ],
   },
   {
@@ -98,14 +98,14 @@ const register = [
       { name: "AI-systemer", href: "/tjenester/ai-implementering" },
       { name: "Digital infrastruktur", href: "/tjenester/digital-infrastruktur" },
       { name: "Integrasjoner" },
-      { name: "Vedlikehold & sikkerhet" },
+      { name: "Vedlikehold & sikkerhet", href: "/tjenester/vedlikehold-sikkerhet" },
     ],
   },
   {
     id: "synlighet",
     tag: "Synlighet",
     items: [
-      { name: "Teknisk SEO" },
+      { name: "Teknisk SEO", href: "/tjenester/seo-optimalisering" },
       { name: "AI-søk" },
       { name: "Innholdsstruktur" },
       { name: "Lokal synlighet" },
@@ -196,9 +196,13 @@ export function WhatWeBuild() {
                         <span className="what-build__cta-arrow" aria-hidden="true" />
                       </a>
                     </div>
-                    <div className="what-build__posters" aria-hidden="true">
-                      {service.posters.map((src) => (
-                        <span className="what-build__poster" key={src}>
+                    <div className="what-build__posters" data-build-preview aria-hidden="true">
+                      {service.posters.map((src, posterIndex) => (
+                        <span
+                          className="what-build__poster"
+                          data-build-preview-item={posterIndex}
+                          key={src}
+                        >
                           <img className="what-build__poster-img" src={src} alt="" loading="lazy" />
                         </span>
                       ))}

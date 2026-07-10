@@ -109,12 +109,36 @@
 .what-improve[data-improve-state="2"] .what-improve__status-line::after { transform: scaleX(0.75); }
 .what-improve[data-improve-state="3"] .what-improve__status-line::after { transform: scaleX(1); }
 
-.what-improve__stream {
+.what-improve__stream-stage {
+  --improve-signal-gutter: clamp(18px, 2vw, 30px);
+  position: relative;
   grid-column: 6 / -1;
+  padding-left: var(--improve-signal-gutter);
+}
+
+.what-improve__signal-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  overflow: hidden;
+  background: var(--improve-line);
+}
+
+.what-improve__signal-rail > span {
+  position: absolute;
+  inset: 0;
+  background: var(--pine);
+  transform: scaleY(0);
+  transform-origin: top;
+  will-change: transform;
+}
+
+.what-improve__stream {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-bottom: 1px solid var(--improve-line);
 }
 
 .what-improve__outcome {
@@ -125,7 +149,6 @@
   align-content: center;
   min-height: clamp(330px, 47vh, 500px);
   padding: clamp(42px, 6vh, 70px) 0;
-  border-top: 1px solid var(--improve-line);
 }
 
 .what-improve__meta {
@@ -173,23 +196,33 @@
   color: var(--on-light-medium);
 }
 
+.what-improve__line {
+  width: max-content;
+  max-width: 100%;
+}
+
+.what-improve__word {
+  display: inline-block;
+  will-change: transform;
+}
+
 .what-improve__trace {
   position: absolute;
-  right: 0;
-  bottom: -1px;
-  left: 0;
-  height: 2px;
-  overflow: hidden;
+  top: 50%;
+  left: calc(var(--improve-signal-gutter) * -1 - 3px);
+  width: 8px;
+  height: 8px;
+  background: var(--bone);
+  border: 1px solid var(--improve-line);
 }
 
 .what-improve__trace::after {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 1px;
   background: var(--pine);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 520ms var(--ease-standard);
+  transform: scale(0);
+  transition: transform 360ms var(--ease-standard);
 }
 
 /* JS forbedrer fokus, men defaulten over er komplett og lesbar. */
@@ -220,7 +253,7 @@
 }
 
 .what-improve--tracked .what-improve__outcome.is-active .what-improve__trace::after {
-  transform: scaleX(1);
+  transform: scale(1);
 }
 
 @media (max-width: 900px) {
@@ -228,7 +261,7 @@
     grid-template-columns: 1fr;
   }
 
-  .what-improve__stream {
+  .what-improve__stream-stage {
     grid-column: auto;
   }
 
@@ -281,9 +314,8 @@
     font-size: clamp(22px, 7vw, 32px);
   }
 
-  .what-improve__stream {
+  .what-improve__stream-stage {
     order: 5;
-    border-bottom: 0;
   }
 
   .what-improve__outcome {
@@ -342,7 +374,8 @@
   .what-improve__title,
   .what-improve__body,
   .what-improve__trace::after,
-  .what-improve__status-line::after {
+  .what-improve__status-line::after,
+  .what-improve__signal-rail > span {
     transition: none !important;
     transform: none !important;
   }

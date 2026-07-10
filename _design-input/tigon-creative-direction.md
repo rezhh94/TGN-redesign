@@ -1,6 +1,6 @@
 # Tigon Creative Direction
 
-Status: levende arbeidsgrunnlag, sist vurdert 2026-07-09.
+Status: levende arbeidsgrunnlag, sist vurdert 2026-07-10.
 
 Dette dokumentet skal hjelpe oss å ta bedre designbeslutninger. Det er ikke en oppskrift, en låst seksjonsplan eller en erstatning for selvstendig vurdering.
 
@@ -56,9 +56,21 @@ Ingen enkelt referanse skal være «Tigon-oppskriften».
 
 Bruk som en sterk referanse for pacing, asymmetri, modige komposisjoner og tydelige break-ups. Ikke kopier cursor, tekstur, navigasjon, layout eller lekenhet direkte. Tigon må være strammere og mer presis.
 
-### Salo
+### Jack & AI
 
-Bruk for romlig presentasjon, variasjon og work-proof. Unngå å gjøre Tigon til en flytende mockup-collage eller en tradisjonell porteføljeside.
+Bruk for kontrollert scroll-regi, typografisk lagdeling og asset-behandling som en integrert del av merkevaren. Ikke kopier global fixed-scroller, rødfarge, pixelering eller glitch som generell Tigon-stil.
+
+### Nudot
+
+Bruk for stabil work-heading, romlig prosjektpresentasjon og mørke scener bygget med lys, dybde og faktiske assets. Ikke innfør WebGL, cursor-effekter eller sticky galleri uten at innholdet trenger det.
+
+### Nothin'
+
+Bruk for asset-led art direction: nesten monokromt UI der objekter, bilder og film får eie fargen og taktiliteten. Ikke kopier de lekne 3D-objektene eller gjør Tigon avhengig av tung video.
+
+### Trionn
+
+Bruk for harde mørk/lys-break-ups, et gjennomgående visuelt motiv og motion bygget rundt egne bilde- og videosekvenser. Ikke bruk 3D eller frame-sekvenser før Tigon har et eget motiv som fortjener dem.
 
 ### Grilled Pixels
 

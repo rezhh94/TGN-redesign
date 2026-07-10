@@ -1,6 +1,6 @@
 # 04 / Arbeid — aktiv WorkProof-kontrakt
 
-Last reconciled with the implementation: 2026-07-09.
+Last reconciled with the implementation: 2026-07-10.
 
 The filename is retained for link compatibility. The active component is `WorkProof`, not `WorkShowcase`.
 
@@ -27,9 +27,10 @@ All entries are in ordinary document flow and remain readable without JavaScript
 
 ## Motion
 
-- One-shot vertical settling per item.
-- One-shot image scale settle.
-- Mild desktop image parallax.
+- The six media surfaces begin as one compact, angle-distributed constellation around the Work title.
+- A single scrubbed timeline separates them and lands each surface directly in its existing CSS position during the section's first viewport.
+- The angle distribution, `0.04` stagger and `power1.out` landing are adapted from MWG 016.
+- Mobile uses the final stacked layout without the constellation.
 - No pin, orbital stage, active-card state, progress counter or scroll-jacked timeline.
 
 ## Rejected directions

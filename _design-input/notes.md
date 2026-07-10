@@ -23,6 +23,18 @@ Dette er aktiv retning:
 - Prosess: tre-faset `TGN / Systemflyt`
 - Manifest og Kontakt: rolige avslutninger
 
+## Referanseoppdatering 2026-07-10
+
+- Lessestudio og Salo er fjernet fra det aktive referansesettet.
+- Jack & AI, Nudot, Nothin' og Trionn er lagt til med nye journey-skjermbilder fra live desktop-gjennomgang.
+- Samlet observasjon, asset-kart, GSAP-vurdering og anbefalt vei videre ligger i `_design-input/reference-motion-audit-2026-07-10.md`.
+- Aktiv gjennomføringsrekkefølge og godkjenningsporter ligger i `_design-input/homepage-finalization-plan-2026-07-10.md`.
+- Tjenester er en prioritert offer-, SEO- og internlenkeseksjon. Innhold og verifiserte service-URL-er skal låses før layout eller motion utforskes videre.
+- Verifisert servicekart og bevaringsdekning ligger i `_design-input/services-truth-table-2026-07-10.md`; det er fasit før neste link-/registerpatch.
+- Aktive runder er nå design-only. Full SEO-/URL-/schema-/indexability-kontroll er utsatt, men obligatorisk før go-live via `docs/pre-live-seo-gate.md`.
+- Statisk Tjenester-fase er gjennomført. Work-motion bygges med de seks eksisterende mockupene nå; et senere assetbytte skal ikke blokkere design- eller motionfasen.
+- Referansene brukes som motion- og komposisjonsarkitektur. Ingen ekstern kode, CSS, font eller asset skal kopieres inn i Tigon.
+
 ## Målet
 Gjør Tigon-forsiden mer premium, mer regissert og mer Awwwards-inspirert uten å gjøre den rotete eller overanimert.
 
@@ -119,9 +131,21 @@ Dette er ikke sider vi skal kopiere. Bruk dem for å forstå pacing, break-ups, 
   Rolle: primær referanse for pacing, asymmetri og kompositorisk mot — ikke visuell fasit.
   Liker: seksjonsoppsett, custom følelse, cursor/interaksjoner, variasjon mellom seksjoner, sterke break-ups og en tydelig regissert scroll-reise.
 
-- https://salo.uk/
-  Rolle: journey-referanse.
-  Liker: stor variasjon mellom seksjoner, siden føles som en reise, gode break-ups.
+- https://jackandai.com/
+  Rolle: kontrollert scroll-regi, typografisk lagdeling og canvas/pixel-behandling.
+  Liker: harde sceneskifter, motsattgående typografispor og at asset-behandlingen er del av identiteten.
+
+- https://nudot.com.tw/
+  Rolle: romlig work-presentasjon og mørk teknisk scenografi.
+  Liker: stabil work-heading, sticky gallerier, grå lysrom og prosjektassets som beveger seg gjennom scenen.
+
+- https://www.noth.in/
+  Rolle: asset-led art direction og taktil mørk/lys rytme.
+  Liker: svart/hvitt UI der fargen kommer fra spesialproduserte objekter, film og work-assets.
+
+- https://trionn.com/
+  Rolle: mørk/lys kapittelrytme, 3D/sekvens-bevegelse og tydelig technical craft.
+  Liker: røykfylt mørk scene, harde lyse break-ups og motion bygget rundt egne bilde- og videosekvenser.
 
 - https://www.grilledpixels.com/
   Rolle: typografi / premium setup.
@@ -159,17 +183,69 @@ Hva vi ikke skal kopiere:
 - Ikke gjøre Tigon mer lekent eller kaotisk enn merkevaren tåler.
 - Ikke miste den mørke, brutale og presise Tigon-identiteten.
 
-## Salo
+## Jack & AI
 
-Filer:
-- salo_work
-- salo_work1
+Fil:
+- `jackandai_journey-2026-07-10.jpg`
 
 Hva jeg liker:
-- Siden føles som en reise.
-- Seksjonene har stor variasjon.
-- Gode break-ups mellom kapitler.
-- Tigon bør lære hvordan scrollen kan føles mer regissert uten å bli rotete.
+- Heroen er ett tydelig visuelt system: pixelert bilde, brutal rød typografi og svært lite konkurrerende UI.
+- Scrollen skifter mellom svarte og lyse scener med tydelig forskjellig tetthet.
+- Motsattgående tekst, glitch og canvas brukes som en del av merkevaren, ikke som separate effekter.
+- Work-/brand-assets får egne komposisjoner i stedet for å ligge i et standard grid.
+
+Hva Tigon bør lære:
+- Ett koordinert motion-system per kapittel er sterkere enn mange små reveals.
+- Typografiske bakgrunnsspor kan forsterke en overgang når lesbar tekst forblir stabil i forgrunnen.
+- Ikke kopier global fixed-scroller, rødfargen eller glitch som generell stil.
+
+## Nudot
+
+Fil:
+- `nudot_journey-2026-07-10.jpg`
+
+Hva jeg liker:
+- Samme work-heading holdes som et rolig anker mens ulike prosjektassets overtar scenen.
+- Mørke flater får rom gjennom grå lysfelt, tåke og dybde i stedet for flere UI-komponenter.
+- Telefoner, nettsideflater, video og WebGL behandles som romlige objekter.
+- Prosjektpresentasjonen varierer skala og plassering uten å miste retning.
+
+Hva Tigon bør lære:
+- Arbeid kan få én stabil typografisk ryggrad og en koordinert asset-koreografi.
+- Pine, off-white og ekte work-assets er nok farge; UI-et trenger ikke en ny signalfarge.
+- Ikke kopier WebGL, sticky galleri eller cursor-effekter uten en konkret innholdsrolle.
+
+## Nothin'
+
+Fil:
+- `nothin_journey-2026-07-10.jpg`
+
+Hva jeg liker:
+- Nesten hele UI-systemet er svart/hvitt; spesialproduserte objekter og film får eie fargen.
+- Store tomrom gjør at små objekter oppleves viktige.
+- Work, studio og manifesto har forskjellig visuell rolle og tempo.
+- Taktilitet kommer fra materialer, video og parallax — ikke glasskort eller dekorativt UI.
+
+Hva Tigon bør lære:
+- Arbeid-assets kan være sidens fargeøyeblikk mens resten av systemet forblir near-monokromt.
+- Ett sterkt asset-språk er mer verdifullt enn flere generiske scroll-effekter.
+- Ikke kopier de lekne 3D-objektene eller filmtyngden uten en egen Tigon-idé.
+
+## Trionn
+
+Fil:
+- `trionn_journey-2026-07-10.jpg`
+
+Hva jeg liker:
+- Tydelig mørk/lys kapittelrytme gjør at work, services og closing får forskjellige roller.
+- En 3D-stein og lange frame-sekvenser fungerer som gjennomgående motiv, ikke tilfeldig pynt.
+- Store typografiske statements kombineres med små mono-signaler og tekniske detaljer.
+- Prosjektbilder, video og awards-proof er egne assetfamilier med tydelig funksjon.
+
+Hva Tigon bør lære:
+- En signaturmekanikk må kobles til ett gjennomgående motiv eller én innholdsidé.
+- Hard tonal overgang kan gi mer wow enn enda en pinned sekvens.
+- Ikke legg inn 3D bare for prestisje; Tigon trenger først et eget assetmotiv som fortjener bevegelsen.
 
 # Viktigste oppgave for Fable
 

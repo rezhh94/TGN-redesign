@@ -42,11 +42,18 @@
   letter-spacing: var(--display-track);
   line-height: 0.82;
   text-transform: uppercase;
+  perspective: 60vw;
 }
 
 .process-journey__line1,
 .process-journey__line2 { display: block; }
 .process-journey__line2 { color: var(--on-light-faint); text-align: right; }
+
+.process-journey__char {
+  display: inline-block;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+}
 
 .process-journey__note {
   display: flex;

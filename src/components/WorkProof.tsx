@@ -91,7 +91,7 @@ export function WorkProof() {
       <div className="work-proof__index">
         <article className="work-proof__lead" data-work-item>
           <WorkCopy item={lead} />
-          <figure className="work-proof__media work-proof__media--lead">
+          <figure className="work-proof__media work-proof__media--lead" data-work-media>
             <img src={lead.image} alt="" loading="lazy" />
             <figcaption>Hoveddemonstrasjon / {lead.category}</figcaption>
           </figure>
@@ -100,7 +100,7 @@ export function WorkProof() {
         <div className="work-proof__grid">
           {items.map((item, index) => (
             <article className="work-proof__item" data-work-item data-work-index={index} key={item.id}>
-              <figure className="work-proof__media">
+              <figure className="work-proof__media" data-work-media>
                 <img src={item.image} alt="" loading="lazy" />
                 <figcaption>{String(index + 2).padStart(2, "0")} / 06</figcaption>
               </figure>

@@ -13,7 +13,8 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 ScrollTrigger.config({ ignoreMobileResize: true });
 
 // 02 / Tjenester — three-part chapter. Pillars + accordion rows rise in once;
-// the accordion becomes interactive (one row open at a time, no images).
+// the accordion becomes interactive and the open row composes its existing
+// image pair as one primary preview plus one clipped detail.
 // The bottom register stays as stable text for keyboard, AT and SEO. All
 // content is SSR and readable with no JS. Teardown restores that state.
 function servicesScene() {
@@ -35,6 +36,72 @@ function servicesScene() {
       row.querySelector<HTMLElement>("[data-build-panel]");
     const btnOf = (row: HTMLElement) =>
       row.querySelector<HTMLElement>("[data-build-toggle]");
+    const previewOf = (row: HTMLElement) =>
+      row.querySelector<HTMLElement>("[data-build-preview]");
+    const previewItemsOf = (row: HTMLElement) =>
+      gsap.utils.toArray<HTMLElement>("[data-build-preview-item]", row);
+
+    const animatePreview = (row: HTMLElement, origin?: DOMRect) => {
+      const [primary, detail] = previewItemsOf(row);
+      const preview = previewOf(row);
+      if (!preview || !primary || !detail) return;
+      gsap.killTweensOf([preview, primary, detail]);
+
+      // MWG 105 adaptation: the active media field snaps from 1.1 to rest with
+      // the same short back.out focus response, scoped to the open accordion.
+      gsap.fromTo(preview, { scale: 1.1 }, {
+        scale: 1,
+        duration: 0.3,
+        ease: "back.out(2)",
+        clearProps: "transform",
+      });
+
+      const target = primary.getBoundingClientRect();
+      const sharedStart = origin
+        ? {
+            x: origin.left - target.left,
+            y: origin.top - target.top,
+            scaleX: origin.width / Math.max(target.width, 1),
+            scaleY: origin.height / Math.max(target.height, 1),
+            clipPath: "inset(0% 0% 0% 0%)",
+          }
+        : {
+            x: 0,
+            y: 18,
+            scaleX: 0.96,
+            scaleY: 0.96,
+            clipPath: "inset(0% 100% 0% 0%)",
+          };
+
+      gsap.fromTo(primary, sharedStart, {
+        x: 0,
+        y: 0,
+        scaleX: 1,
+        scaleY: 1,
+        clipPath: "inset(0% 0% 0% 0%)",
+        duration: origin ? 0.58 : 0.5,
+        ease: "power3.inOut",
+        clearProps: "transform",
+      });
+
+      gsap.fromTo(detail, {
+        autoAlpha: 0,
+        x: 28,
+        y: 18,
+        rotation: 2.5,
+        clipPath: "inset(100% 0% 0% 0%)",
+      }, {
+        autoAlpha: 1,
+        x: 0,
+        y: 0,
+        rotation: 0,
+        clipPath: "inset(0% 0% 0% 0%)",
+        duration: 0.52,
+        delay: 0.08,
+        ease: "power3.out",
+        clearProps: "transform",
+      });
+    };
 
     rows.forEach((row, i) => {
       const panel = panelOf(row);
@@ -46,7 +113,7 @@ function servicesScene() {
       if (panel) gsap.set(panel, { height: open ? "auto" : 0 });
     });
 
-    const openRow = (row: HTMLElement) => {
+    const openRow = (row: HTMLElement, origin?: DOMRect) => {
       const panel = panelOf(row);
       if (!panel) return;
       row.setAttribute("data-open", "");
@@ -63,6 +130,7 @@ function servicesScene() {
           onComplete: () => gsap.set(panel, { height: "auto" }),
         }
       );
+      animatePreview(row, origin);
     };
 
     const closeRow = (row: HTMLElement) => {
@@ -86,13 +154,28 @@ function servicesScene() {
           closeRow(row);
           return;
         }
+        const previous = rows.find(
+          (other) => other !== row && other.hasAttribute("data-open")
+        );
+        const previousPrimary = previous ? previewItemsOf(previous)[0] : null;
+        const origin = previousPrimary?.getBoundingClientRect();
+
         rows.forEach((other) => {
           if (other !== row && other.hasAttribute("data-open")) closeRow(other);
         });
-        openRow(row);
+        openRow(row, origin);
+      };
+      const onPreviewFocus = () => {
+        if (row.hasAttribute("data-open")) animatePreview(row);
       };
       btn.addEventListener("click", onClick);
-      cleanups.push(() => btn.removeEventListener("click", onClick));
+      btn.addEventListener("pointerenter", onPreviewFocus);
+      btn.addEventListener("focusin", onPreviewFocus);
+      cleanups.push(() => {
+        btn.removeEventListener("click", onClick);
+        btn.removeEventListener("pointerenter", onPreviewFocus);
+        btn.removeEventListener("focusin", onPreviewFocus);
+      });
     });
 
     cleanups.push(() => {
@@ -102,6 +185,7 @@ function servicesScene() {
         btnOf(row)?.setAttribute("aria-expanded", "true");
         const panel = panelOf(row);
         if (panel) gsap.set(panel, { clearProps: "height" });
+        gsap.set(previewItemsOf(row), { clearProps: "all" });
       });
     });
   }
@@ -366,9 +450,12 @@ function improveScene() {
 
   const blocks = gsap.utils.toArray<HTMLElement>("[data-improve-block]", section);
   const count = section.querySelector<HTMLElement>("[data-improve-count]");
+  const signal = section.querySelector<HTMLElement>("[data-improve-signal]");
+  const stream = section.querySelector<HTMLElement>(".what-improve__stream");
   if (!blocks.length) return () => {};
 
   section.classList.add("what-improve--tracked");
+  const splits: SplitText[] = [];
 
   const setActive = (index: number) => {
     blocks.forEach((block, i) => block.classList.toggle("is-active", i === index));
@@ -378,7 +465,75 @@ function improveScene() {
   setActive(0);
 
   const ctx = gsap.context(() => {
+    if (signal && stream) {
+      gsap.fromTo(signal, { scaleY: 0 }, {
+        scaleY: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: stream,
+          start: "top 62%",
+          end: "bottom 42%",
+          scrub: 0.55,
+        },
+      });
+    }
+
     blocks.forEach((block, index) => {
+      const paragraphs = block.querySelectorAll<HTMLElement>(
+        ".what-improve__meta span:last-child, .what-improve__tools"
+      );
+
+      // MWG 097 adaptation: measure the actual words, distribute them across
+      // the available row, then let scroll gather them into the final columns.
+      paragraphs.forEach((paragraph) => {
+        const split = new SplitText(paragraph, {
+          type: "lines, words",
+          linesClass: "what-improve__line",
+          wordsClass: "what-improve__word",
+        });
+        splits.push(split);
+
+        const lines = gsap.utils.toArray<HTMLElement>(
+          ".what-improve__line",
+          paragraph
+        );
+
+        lines.forEach((line) => {
+          const words = gsap.utils.toArray<HTMLElement>(
+            ".what-improve__word",
+            line
+          );
+          if (!words.length) return;
+
+          const blockRect = block.getBoundingClientRect();
+          const totalWidth = words.reduce(
+            (sum, word) => sum + word.getBoundingClientRect().width,
+            0
+          );
+          const freeSpace = Math.max(block.clientWidth - totalWidth, 0);
+          const gap = words.length > 1 ? freeSpace / (words.length - 1) : 0;
+          let targetLeft = 0;
+
+          words.forEach((word, wordIndex) => {
+            const rect = word.getBoundingClientRect();
+            const currentLeft = rect.left - blockRect.left;
+            gsap.set(word, { x: targetLeft - currentLeft });
+            targetLeft += rect.width + (wordIndex < words.length - 1 ? gap : 0);
+          });
+
+          gsap.to(words, {
+            x: 0,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: line,
+              start: "top 84%",
+              end: "top 58%",
+              scrub: 0.2,
+            },
+          });
+        });
+      });
+
       ScrollTrigger.create({
         trigger: block,
         start: "top 58%",
@@ -391,6 +546,7 @@ function improveScene() {
 
   return () => {
     ctx.revert();
+    splits.forEach((split) => split.revert());
     section.classList.remove("what-improve--tracked");
     section.removeAttribute("data-improve-state");
     blocks.forEach((block) => block.classList.remove("is-active"));
@@ -398,54 +554,80 @@ function improveScene() {
   };
 }
 
-// 04 / Arbeid — normal-flow editorial project index. Every item is readable in
-// the document; desktop adds only mild, section-local image drift and one-shot
-// settling. There is no pin, active card state or scroll-jacked timeline.
-function workProof(parallax: boolean) {
+// 04 / Arbeid — the six capability images enter as one constellation and land
+// in the existing editorial layout during the section's first viewport. The
+// document stays in normal flow: no pin, orbit, carousel or active-card state.
+function workProof(_parallax: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
-  const items = gsap.utils.toArray<HTMLElement>("[data-work-item]", section);
-  if (!items.length) return () => {};
+  const media = gsap.utils.toArray<HTMLElement>("[data-work-media]", section);
+  const title = section.querySelector<HTMLElement>(".work-proof__title");
+  if (!media.length || !title) return () => {};
+  if (!_parallax) return () => {};
+
+  section.classList.add("work-proof--constellation");
+  const angle = 360 / media.length;
+  const anchorRect = title.getBoundingClientRect();
+  const finalRects = media.map((item) => item.getBoundingClientRect());
+
+  const clusterDelta = (index: number) => {
+    const rect = finalRects[index];
+    const radians = ((-angle * index - 90) * Math.PI) / 180;
+    const radius = Math.min(window.innerWidth * 0.055, 88);
+    const centerX = anchorRect.left + anchorRect.width * 0.64;
+    const centerY = anchorRect.top + anchorRect.height * 0.56;
+    return {
+      x: centerX + Math.cos(radians) * radius - (rect.left + rect.width / 2),
+      y: centerY + Math.sin(radians) * radius - (rect.top + rect.height / 2),
+    };
+  };
 
   const ctx = gsap.context(() => {
-    items.forEach((item, index) => {
-      const image = item.querySelector<HTMLElement>(".work-proof__media img");
-      gsap.from(item, {
-        y: index % 2 === 0 ? 42 : 58,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: item, start: "top 88%", once: true },
-      });
-
-      if (image) {
-        gsap.from(image, {
-          scale: 1.08,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: { trigger: item, start: "top 88%", once: true },
-        });
-      }
-
-      if (parallax && image) {
-        gsap.fromTo(image, { yPercent: -4 }, {
-          yPercent: 4,
-          ease: "none",
-          scrollTrigger: {
-            trigger: item,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.65,
-          },
-        });
-      }
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top 82%",
+        end: "top -18%",
+        scrub: 0.75,
+      },
     });
+
+    tl.fromTo(
+      media,
+      {
+        x: (index) => clusterDelta(index).x,
+        y: (index) => clusterDelta(index).y,
+        scale: (index) => (index === 0 ? 0.52 : 0.34 + (index % 3) * 0.05),
+        transformOrigin: "50% 50%",
+      },
+      {
+        x: 0,
+        y: 0,
+        scale: 1,
+        ease: "power1.out",
+        duration: 1,
+        stagger: 0.04,
+      }
+    );
+
+    tl.fromTo(media, { autoAlpha: 0 }, {
+      autoAlpha: 1,
+      duration: 0.08,
+      stagger: 0.04,
+      ease: "none",
+    }, 0);
   }, section);
 
-  return () => ctx.revert();
+  return () => {
+    ctx.revert();
+    section.classList.remove("work-proof--constellation");
+  };
 }
 
-// 05 / Prosess — static editorial steps with one-shot content reveals and a
-// title decode. The system visual no longer follows scroll state or pins.
+// 05 / Prosess — one content-led transformation: "Uklart inn." breaks its
+// baseline and distributes toward Retning / Bygg / Live; the material groups
+// settle, "System ut." locks to the grid, then the system rail is drawn.
+// SplitText only wraps the decorative aria-hidden line. No pin or scrub.
 function processJourney() {
   const section = document.querySelector<HTMLElement>(".process-journey");
   if (!section) return () => {};
@@ -456,96 +638,107 @@ function processJourney() {
   const progressLine = section.querySelector<HTMLElement>("[data-process-progress]");
   const decode = section.querySelector<HTMLElement>("[data-process-decode]");
   const line1 = decode?.querySelector<HTMLElement>(".process-journey__line1") ?? null;
-  const line1Final = line1?.textContent ?? "Uklart inn.";
-  const GLYPH = "ABCDEFGHIJKLMNOPQR#%&/()=+*0123456789";
-  let rafId = 0;
+  const line2 = decode?.querySelector<HTMLElement>(".process-journey__line2") ?? null;
+  if (!rows.length || !system || !line1 || !line2) return () => {};
 
-  const noise = (value: string) =>
-    value
-      .split("")
-      .map((char) =>
-        char === " " || char === "."
-          ? char
-          : GLYPH[Math.floor(Math.random() * GLYPH.length)]
-      )
-      .join("");
+  const split = new SplitText(line1, {
+    type: "chars",
+    charsClass: "process-journey__char",
+  });
+  const outputSplit = new SplitText(line2, {
+    type: "chars",
+    charsClass: "process-journey__char process-journey__char--output",
+  });
+  const chars = split.chars as HTMLElement[];
+  const outputChars = outputSplit.chars as HTMLElement[];
 
-  const scramble = (element: HTMLElement, finalText: string, durationMs: number) => {
-    let startedAt = 0;
-    const chars = finalText.split("");
-    const frame = (now: number) => {
-      if (!startedAt) startedAt = now;
-      const progress = Math.min(1, (now - startedAt) / durationMs);
-      const locked = Math.floor(progress * chars.length);
-      element.textContent = chars
-        .map((char, index) =>
-          char === " " || char === "." || index < locked
-            ? char
-            : GLYPH[Math.floor(Math.random() * GLYPH.length)]
-        )
-        .join("");
-      if (progress < 1) rafId = requestAnimationFrame(frame);
-      else element.textContent = finalText;
+  const fragmentDelta = (char: HTMLElement, index: number) => {
+    const target = rows[index % rows.length].getBoundingClientRect();
+    const rect = char.getBoundingClientRect();
+    const lane = index % rows.length;
+    return {
+      x: target.left + target.width * 0.5 - (rect.left + rect.width / 2) + (lane - 1) * 18,
+      y: target.top + Math.min(132, target.height * 0.2) - (rect.top + rect.height / 2) + (index % 2 ? 22 : -12),
     };
-    rafId = requestAnimationFrame(frame);
   };
 
   const ctx = gsap.context(() => {
-    rows.forEach((row) => {
-      const parts = row.querySelectorAll<HTMLElement>(
-        ".process-system__phase-meta, .process-system__phase-word, .process-system__phase h3, .process-system__phase-body, .process-system__output"
-      );
-      gsap.from(parts, {
-        y: 20,
-        duration: 0.7,
-        ease: "power3.out",
-        stagger: 0.055,
-        scrollTrigger: { trigger: row, start: "top 84%", once: true },
-      });
+    gsap.set(line2, { autoAlpha: 0.32, yPercent: 20 });
+    gsap.set(outputChars, {
+      rotateX: 60,
+      z: () => -Math.min(window.innerHeight * 0.1, 96),
+      transformPerspective: () => window.innerWidth * 0.6,
+      transformOrigin: "50% 50%",
+    });
+    if (progressLine) gsap.set(progressLine, { scaleX: 0, transformOrigin: "left" });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: decode,
+        start: "top 76%",
+        once: true,
+      },
+      defaults: { ease: "power3.inOut" },
     });
 
-    if (system && tokens.length) {
-      gsap.fromTo(tokens, {
-        x: (index) => (index % 3 === 0 ? -24 : index % 3 === 1 ? 18 : -10),
-        y: (index) => (index % 2 === 0 ? 18 : -14),
-        rotation: (index) => (index % 2 === 0 ? -2 : 2),
-        opacity: 0.28,
+    tl.to(chars, {
+      x: (index, target) => fragmentDelta(target as HTMLElement, index).x,
+      y: (index, target) => fragmentDelta(target as HTMLElement, index).y,
+      rotation: (index) => (index % 2 === 0 ? -7 : 7),
+      rotateX: -60,
+      z: () => -Math.min(window.innerHeight * 0.1, 96),
+      transformPerspective: () => window.innerWidth * 0.6,
+      opacity: 0.08,
+      duration: 1.05,
+      stagger: { each: 0.03, from: "random" },
+    }, 0);
+
+    if (tokens.length) {
+      tl.fromTo(tokens, {
+        x: (index) => (index % 3 === 0 ? -34 : index % 3 === 1 ? 26 : -16),
+        y: (index) => (index % 2 === 0 ? 26 : -20),
+        rotation: (index) => (index % 2 === 0 ? -3 : 3),
+        opacity: 0.16,
       }, {
         x: 0,
         y: 0,
         rotation: 0,
         opacity: 1,
-        duration: 0.8,
+        duration: 0.85,
+        stagger: 0.045,
         ease: "power3.out",
-        stagger: 0.055,
-        scrollTrigger: { trigger: system, start: "top 74%", once: true },
-      });
+      }, 0.34);
     }
 
-    if (system && progressLine) {
-      gsap.fromTo(progressLine, { scaleX: 0 }, {
+    tl.to(line2, {
+      autoAlpha: 1,
+      yPercent: 0,
+      color: "var(--blekk)",
+      duration: 0.72,
+      ease: "power3.out",
+    }, 0.66);
+
+    tl.to(outputChars, {
+      rotateX: 0,
+      z: 0,
+      duration: 0.72,
+      ease: "power3.out",
+      stagger: { each: 0.03, from: "random" },
+    }, 0.66);
+
+    if (progressLine) {
+      tl.to(progressLine, {
         scaleX: 1,
-        duration: 1.15,
+        duration: 1,
         ease: "power2.inOut",
-        scrollTrigger: { trigger: system, start: "top 72%", once: true },
-      });
-    }
-
-    if (decode && line1) {
-      line1.textContent = noise(line1Final);
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top 82%",
-        once: true,
-        onEnter: () => scramble(line1, line1Final, 900),
-      });
+      }, 1.12);
     }
   }, section);
 
   return () => {
-    if (rafId) cancelAnimationFrame(rafId);
     ctx.revert();
-    if (line1) line1.textContent = line1Final;
+    split.revert();
+    outputSplit.revert();
   };
 }
 
