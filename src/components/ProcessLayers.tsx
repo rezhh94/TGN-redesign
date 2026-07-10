@@ -49,58 +49,37 @@ export function ProcessLayers() {
           </p>
         </header>
 
-        <div className="process-system" data-process-system>
-          <div className="process-system__head">
+        <div className="process-flow" data-process-system>
+          <div className="process-flow__head">
             <span>TGN / Systemflyt</span>
-            <span>Input → resultat</span>
-          </div>
-
-          <div className="process-system__path">
             <span>Uklart behov</span>
             <span aria-hidden="true">→</span>
             <span>Målbar kontaktvei</span>
           </div>
 
-          <ol className="process-system__phases">
+          <ol className="process-flow__phases">
             {phases.map((phase) => (
-              <li className="process-system__phase" data-process-step key={phase.n}>
-                <div className="process-system__phase-meta">
-                  <span>{phase.n} / 03</span>
+              <li className="process-flow__phase" data-process-step key={phase.n}>
+                <p className="process-flow__number">{phase.n} / 03</p>
+                <p className="process-flow__word" aria-hidden="true">{phase.tag}</p>
+
+                <div className="process-flow__copy">
                   <span>{phase.tag}</span>
+                  <h3>{phase.heading}</h3>
+                  <p>{phase.body}</p>
                 </div>
 
-                <p className="process-system__phase-word" aria-hidden="true">{phase.tag}</p>
-                <h3>{phase.heading}</h3>
-                <p className="process-system__phase-body">{phase.body}</p>
-
-                <ul className="process-system__materials" aria-label={`Materiale i ${phase.tag.toLowerCase()}`}>
-                  {phase.materials.map((material) => (
-                    <li data-process-token key={material}>
-                      <span>{material}</span>
-                      <span aria-hidden="true">→</span>
-                    </li>
-                  ))}
+                <ul className="process-flow__materials" aria-label={`Materiale i ${phase.tag.toLowerCase()}`}>
+                  {phase.materials.map((material) => <li data-process-token key={material}>{material}</li>)}
                 </ul>
 
-                <p className="process-system__output">Ut — {phase.output}</p>
+                <p className="process-flow__output">
+                  <span>Ut</span>
+                  <strong>{phase.output}</strong>
+                </p>
               </li>
             ))}
           </ol>
-
-          <div className="process-system__rail" aria-hidden="true">
-            <span className="process-system__rail-base" />
-            <span className="process-system__rail-progress" data-process-progress />
-            <div className="process-system__checkpoints">
-              {phases.map((phase) => <span key={phase.n}>{phase.n}</span>)}
-            </div>
-          </div>
-
-          <div className="process-system__foot">
-            <span className="process-system__signal" aria-hidden="true" />
-            <span>Behov strukturert</span>
-            <span>System bygget</span>
-            <span>Resultat målt</span>
-          </div>
         </div>
 
         <div className="process-journey__closer">

@@ -18,7 +18,7 @@
 .what-build__inner {
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(112px, 14vh, 184px) var(--build-px) clamp(40px, 5vh, 72px);
+  padding: clamp(96px, 12vh, 148px) var(--build-px) clamp(32px, 4vh, 52px);
 }
 
 .what-build__inner--head {
@@ -26,13 +26,13 @@
 }
 
 .what-build__inner--pillars {
-  padding-top: clamp(44px, 6vh, 80px);
-  padding-bottom: clamp(32px, 4vh, 56px);
+  padding-top: 12px;
+  padding-bottom: clamp(24px, 3vh, 38px);
 }
 
 .what-build__inner--foot {
-  padding-top: clamp(48px, 7vh, 88px);
-  padding-bottom: clamp(104px, 13vh, 176px);
+  padding-top: clamp(40px, 5vh, 64px);
+  padding-bottom: clamp(88px, 11vh, 132px);
 }
 
 /* Masthode ------------------------------------------------------------ */
@@ -45,7 +45,7 @@
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
   align-items: start;
-  padding-bottom: clamp(40px, 6vh, 72px);
+  padding-bottom: clamp(34px, 4.5vh, 54px);
 }
 
 .what-build__label {
@@ -115,7 +115,9 @@
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
   margin: 0;
-  padding: clamp(28px, 4vh, 48px) 0 0;
+  padding: 24px 0 22px;
+  border-top: 1px solid rgba(242, 241, 235, 0.14);
+  border-bottom: 1px solid rgba(242, 241, 235, 0.14);
   list-style: none;
 }
 
@@ -124,7 +126,7 @@
   position: relative;
   grid-column: span 4;
   min-width: 0;
-  min-height: clamp(220px, 24vh, 288px);
+  min-height: 0;
   padding-right: clamp(14px, 2vw, 32px);
 }
 
@@ -135,7 +137,7 @@
 .what-build__pillar::before {
   content: counter(build-pillar, decimal-leading-zero);
   display: block;
-  margin-bottom: clamp(42px, 6vh, 72px);
+  margin-bottom: 24px;
   color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
@@ -152,12 +154,11 @@
 .what-build__pillar-title {
   margin: 0;
   color: var(--color-on-dark);
-  font-family: var(--font-display);
-  font-size: clamp(34px, 3.4vw, 62px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.9;
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: clamp(24px, 2.3vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
 }
 
 /* Diagonal ↗ mellom pilarene — reisen fremover (build → run → grow). */
@@ -171,7 +172,7 @@
 }
 
 .what-build__pillar-tag {
-  margin: clamp(18px, 2.4vh, 28px) 0 0;
+  margin: 14px 0 0;
   color: var(--pine-tint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
@@ -182,10 +183,10 @@
 
 .what-build__pillar-body {
   max-width: 34ch;
-  margin: clamp(12px, 1.6vh, 18px) 0 0;
+  margin: 10px 0 0;
   color: var(--on-dark-medium);
   font-family: var(--font-sans);
-  font-size: clamp(15px, 1.05vw, 18px);
+  font-size: clamp(14px, 1vw, 16px);
   font-weight: 400;
   line-height: 1.4;
 }
@@ -224,7 +225,7 @@
   margin: 0;
   /* Lukkede rader skal være raske å skanne; den åpne kroppen bærer den store
      pausen. Dette holder akkordeonet redaksjonelt uten fem like høye stopp. */
-  padding: clamp(30px, 4.4vh, 52px) var(--build-px);
+  padding: clamp(24px, 3.2vh, 38px) var(--build-px);
   border: 0;
   background: transparent;
   text-align: left;
@@ -250,11 +251,10 @@
   grid-column: 2 / 5;
   min-width: 0;
   color: var(--on-dark-strong);
-  /* Samme display-font + versaler + størrelse som Arbeid (.wp-case__name) */
-  font-family: var(--font-display);
-  font-size: clamp(28px, 3.4vw, 54px);
-  font-weight: 700;
-  letter-spacing: 0.01em;
+  font-family: var(--font-sans);
+  font-size: clamp(28px, 3vw, 46px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
   line-height: 1;
   text-transform: uppercase;
   transition: color var(--motion-fast) ease-out;
@@ -370,7 +370,7 @@
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
   align-items: start;
-  padding: clamp(4px, 0.8vh, 10px) var(--build-px) clamp(48px, 6vh, 72px);
+  padding: 2px var(--build-px) clamp(36px, 4.5vh, 54px);
 }
 
 .what-build__body-copy {
@@ -390,12 +390,12 @@
   justify-content: flex-end;
   align-items: flex-start;
   align-self: start;
-  min-height: clamp(230px, 24vw, 330px);
+  min-height: clamp(190px, 20vw, 280px);
 }
 
 .what-build__poster {
   position: relative;
-  width: clamp(160px, 17vw, 238px);
+  width: clamp(140px, 14vw, 208px);
   aspect-ratio: 3 / 4;
   display: flex;
   align-items: center;
@@ -412,8 +412,8 @@
 
 .what-build__poster:nth-child(2) {
   z-index: 2;
-  width: clamp(92px, 10vw, 138px);
-  margin-top: clamp(58px, 7vw, 94px);
+  width: clamp(82px, 8vw, 120px);
+  margin-top: clamp(46px, 5vw, 74px);
   margin-left: clamp(-34px, -2.4vw, -18px);
 }
 
@@ -455,17 +455,24 @@
   letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
-  text-decoration: underline;
-  text-decoration-color: rgba(242, 241, 235, 0.28);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.42em;
-  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
+  text-decoration: none;
+  /* Hover-grammatikk: underlinjen TEGNES til full kontrast over den statiske
+     28 %-linjen — samme «linjen tegnes og låses»-gest som kapittelgrensene.
+     Den statiske linjen består som affordance uten hover. */
+  padding-bottom: 0.32em;
+  background-image:
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(rgba(242, 241, 235, 0.28), rgba(242, 241, 235, 0.28));
+  background-repeat: no-repeat;
+  background-position: 0 100%, 0 100%;
+  background-size: 0% 1px, 100% 1px;
+  transition: color var(--motion-fast) ease-out, background-size var(--motion-medium) var(--ease-out-expo);
 }
 
 .what-build__row-link:hover,
 .what-build__row-link:focus-visible {
   color: var(--color-on-dark);
-  text-decoration-color: var(--color-on-dark);
+  background-size: 100% 1px, 100% 1px;
 }
 
 .what-build__cta-arrow,
@@ -503,7 +510,7 @@
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
   border-top: 1px solid rgba(242, 241, 235, 0.16);
-  padding-top: clamp(24px, 3vh, 36px);
+  padding-top: 22px;
 }
 
 .what-build__register-label {
@@ -531,7 +538,7 @@
 }
 
 .what-build__register-tag {
-  margin: 0 0 clamp(16px, 2vh, 22px);
+  margin: 0 0 12px;
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
@@ -551,7 +558,7 @@
    Lenker løftes til hvitt på hover og en liten NE-pil sklir inn. Reservert
    plass til pila = ingen layout-hopp. */
 .what-build__register-item + .what-build__register-item {
-  margin-top: clamp(8px, 1vh, 12px);
+  margin-top: 7px;
 }
 
 .what-build__register-item a,
@@ -606,7 +613,7 @@
   display: flex;
   align-items: baseline;
   gap: clamp(24px, 4vw, 72px);
-  margin-top: clamp(36px, 5vh, 60px);
+  margin-top: clamp(28px, 3.5vh, 42px);
   padding-top: clamp(20px, 2.8vh, 30px);
   border-top: 1px solid rgba(242, 241, 235, 0.14);
 }
@@ -632,18 +639,23 @@
   letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
-  text-decoration: underline;
-  text-decoration-color: rgba(242, 241, 235, 0.28);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.42em;
+  text-decoration: none;
   white-space: nowrap;
-  transition: color var(--motion-fast) ease-out, text-decoration-color var(--motion-fast) ease-out;
+  /* Samme tegnede underline-grammatikk som row-link. */
+  padding-bottom: 0.32em;
+  background-image:
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(rgba(242, 241, 235, 0.28), rgba(242, 241, 235, 0.28));
+  background-repeat: no-repeat;
+  background-position: 0 100%, 0 100%;
+  background-size: 0% 1px, 100% 1px;
+  transition: color var(--motion-fast) ease-out, background-size var(--motion-medium) var(--ease-out-expo);
 }
 
 .what-build__foot-link:hover,
 .what-build__foot-link:focus-visible {
   color: var(--color-on-dark);
-  text-decoration-color: var(--color-on-dark);
+  background-size: 100% 1px, 100% 1px;
 }
 
 .what-build__foot-link:hover .what-build__foot-arrow,
@@ -653,7 +665,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .what-build__cta-arrow,
-  .what-build__foot-arrow {
+  .what-build__foot-arrow,
+  .what-build__row-link,
+  .what-build__foot-link {
     transition: none;
   }
 }

@@ -1,119 +1,143 @@
-type WorkItem = {
-  id: string;
-  title: string;
-  category: string;
-  signal: string;
-  caption: string;
-  image: string;
-};
-
-const workItems: WorkItem[] = [
+const capabilities = [
   {
-    id: "TGN—DEMO/01",
-    title: "Produktplattform",
-    category: "Webapp / systemflyt",
-    signal: "Oversikt og neste handling",
-    caption: "Et digitalt arbeidsrom som samler prioritet, status og neste handling.",
-    image: "/work/mockups/04.png",
+    n: "01",
+    name: "Webapp",
+    meta: "Produkt / Next.js",
+    blurb: "Et digitalt produkt bygget for daglig bruk, tydelig prioritet og stabil drift.",
   },
   {
-    id: "TGN—KONSEPT/02",
-    title: "Søkeflate",
-    category: "Nettside / SEO / AI-søk",
-    signal: "Synlighet og forståelse",
-    caption: "Teknisk SEO, innholdsstruktur og tydelige innganger samlet i én flate.",
-    image: "/work/mockups/13.png",
+    n: "02",
+    name: "Nettsted",
+    meta: "SEO / Struktur",
+    blurb: "En rask, tydelig flate som blir funnet, forstått og målt fra første dag.",
   },
   {
-    id: "TGN—SYSTEM/03",
-    title: "Kundeportal",
-    category: "Portal / rolleflyt",
-    signal: "Én lesbar produktflate",
-    caption: "Flere brukerreiser samlet i én lesbar og rolig produktflate.",
-    image: "/work/mockups/07.png",
+    n: "03",
+    name: "Plattform",
+    meta: "Portal / System",
+    blurb: "Data, roller og arbeidsflyt samlet i én lesbar digital struktur.",
   },
   {
-    id: "TGN—KONSEPT/04",
-    title: "Kjøpsflyt",
-    category: "E-handel / konvertering",
-    signal: "Fra interesse til valg",
-    caption: "En tydelig vei fra interesse til beslutning uten unødvendig friksjon.",
-    image: "/work/mockups/14.png",
+    n: "04",
+    name: "E-handel",
+    meta: "Konvertering / Flyt",
+    blurb: "En kjøpsreise som prioriterer riktige valg og fjerner unødvendig friksjon.",
   },
   {
-    id: "TGN—PROTOTYPE/05",
-    title: "Mobilflyt",
-    category: "App / interaksjon",
-    signal: "Raske, presise handlinger",
-    caption: "En mobil arbeidsflyt formet for raske, presise handlinger.",
-    image: "/work/mockups/12.png",
+    n: "05",
+    name: "AI",
+    meta: "Integrasjon / Automasjon",
+    blurb: "AI koblet til faktiske systemer, data og handlinger — ikke som pynt.",
   },
   {
-    id: "TGN—LAB/06",
-    title: "Signalsystem",
-    category: "AI / automatisering",
-    signal: "Data koblet til handling",
-    caption: "Signaler, kø og beslutning koblet sammen i ett målbart system.",
-    image: "/work/mockups/09.png",
+    n: "06",
+    name: "App",
+    meta: "UI / Interaksjon",
+    blurb: "Et presist grensesnitt formet for mobil bruk, fart og tydelig respons.",
   },
 ];
 
-function WorkCopy({ item }: { item: WorkItem }) {
-  return (
-    <div className="work-proof__item-copy">
-      <div className="work-proof__item-meta">
-        <span>{item.id}</span>
-        <span>{item.category}</span>
-      </div>
-      <h3>{item.title}</h3>
-      <p>{item.caption}</p>
-      <span className="work-proof__item-signal">Leverer — {item.signal}</span>
-    </div>
-  );
-}
+const stageAssets = [
+  {
+    key: "laptop",
+    src: "/work/capability-stage/laptop-rocks.png",
+    label: "Produktflate / webapp",
+  },
+  {
+    key: "phone",
+    src: "/work/capability-stage/phone-hand.png",
+    label: "Mobilflyt / app",
+  },
+  {
+    key: "tablet",
+    src: "/work/capability-stage/ipad-hand.png",
+    label: "Grensesnitt / plattform",
+  },
+  {
+    key: "system",
+    src: "/work/capability-stage/laptop-chair.png",
+    label: "Systemflate / portal",
+  },
+  {
+    key: "mobile",
+    src: "/work/capability-stage/phone-rock.jpg",
+    label: "Interaksjon / mobil",
+  },
+];
 
+/* 04 / Arbeid — én capability-komposisjon i normal flow. Mockupene er
+   konseptpresentasjon og aldri påstått som levert kundearbeid. Under scenen
+   ligger en kompakt, serverrendret indeks med alle seks leveransemulighetene. */
 export function WorkProof() {
-  const [lead, ...items] = workItems;
-
   return (
     <section className="work-proof" aria-labelledby="work-proof-title">
       <header className="work-proof__intro">
         <p className="work-proof__label">04 / Arbeid</p>
+        <h2 className="work-proof__title" id="work-proof-title">
+          <span>Dette kan</span>
+          <span>Tigon lage.</span>
+        </h2>
         <div className="work-proof__intro-copy">
-          <h2 className="work-proof__title" id="work-proof-title">Dette bygger vi.</h2>
-          <p className="work-proof__caption">
-            Seks egenproduserte konseptstudier viser hva Tigon kan bygge: raske
-            nettsider, webapper, apper og AI-systemer.
+          <p>
+            Nettsider, apper og digitale systemer hvor design, teknologi og synlighet virker som én helhet.
           </p>
+          <span>TGN / capability assembly / 01—06</span>
         </div>
       </header>
 
-      <div className="work-proof__index">
-        <article className="work-proof__lead" data-work-item>
-          <WorkCopy item={lead} />
-          <figure className="work-proof__media work-proof__media--lead" data-work-media>
-            <img src={lead.image} alt="" loading="lazy" />
-            <figcaption>Hoveddemonstrasjon / {lead.category}</figcaption>
+      <div
+        className="work-stage"
+        data-work-stage
+        role="img"
+        aria-label="Konseptkomposisjon som viser digitale produkt-, mobil- og systemflater Tigon kan skape"
+      >
+        <p className="work-stage__axis" aria-hidden="true">
+          <span>Design</span>
+          <span>Teknologi</span>
+          <span>Synlighet</span>
+        </p>
+
+        {stageAssets.map((asset, index) => (
+          <figure
+            className={`work-stage__media work-stage__media--${asset.key}`}
+            data-work-media
+            key={asset.key}
+          >
+            <img src={asset.src} alt="" loading={index === 0 ? "eager" : "lazy"} />
+            <figcaption>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{asset.label}</span>
+            </figcaption>
           </figure>
-        </article>
+        ))}
 
-        <div className="work-proof__grid">
-          {items.map((item, index) => (
-            <article className="work-proof__item" data-work-item data-work-index={index} key={item.id}>
-              <figure className="work-proof__media" data-work-media>
-                <img src={item.image} alt="" loading="lazy" />
-                <figcaption>{String(index + 2).padStart(2, "0")} / 06</figcaption>
-              </figure>
-              <WorkCopy item={item} />
-            </article>
-          ))}
+        <div className="work-stage__lock" data-work-lock aria-hidden="true">
+          <span>TGN / valgt</span>
+          <span>Systemet er samlet</span>
         </div>
-
-        <footer className="work-proof__closing">
-          <p>Nettside · Webapp · App · AI-system · SEO og AI-søk</p>
-          <a href="/tjenester">Se alle tjenester →</a>
-        </footer>
       </div>
+
+      <div className="work-proof__index-head">
+        <p>Mulige leveranser</p>
+        <p>Én produksjon — seks uttrykk</p>
+      </div>
+
+      <ol className="work-proof__index" data-work-index>
+        {capabilities.map((capability) => (
+          <li className="work-proof__capability" key={capability.n}>
+            <span className="work-proof__capability-number">{capability.n}</span>
+            <div>
+              <h3>{capability.name}</h3>
+              <p>{capability.blurb}</p>
+            </div>
+            <span className="work-proof__capability-meta">{capability.meta}</span>
+          </li>
+        ))}
+      </ol>
+
+      <p className="work-proof__disclaimer">
+        Capability-demonstrasjon / konseptflater / ikke presentert som kundecaser
+      </p>
     </section>
   );
 }
