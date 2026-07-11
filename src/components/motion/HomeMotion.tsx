@@ -19,82 +19,35 @@ gsap.registerPlugin(ScrollTrigger);
 // pinned scenes jump. Dimension changes from real rotation still refresh.
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-// 02 / Tjenester — readable accordion with a supporting active visual.
-// All service names, descriptions and links remain SSR and readable without JS.
+// 02 / Tjenester — one consistent dark editorial ledger, matching the supplied
+// references: copy left, landscape visual right. Motion stays inside the image;
+// service names, descriptions and links remain ordinary SSR document flow.
 function servicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
   if (!section) return () => {};
 
-  const rows = gsap.utils.toArray<HTMLElement>("[data-service-row]", section);
-  const visuals = gsap.utils.toArray<HTMLElement>("[data-service-visual-item]", section);
-  const cleanups: Array<() => void> = [];
+  const chapters = gsap.utils.toArray<HTMLElement>("[data-service-chapter]", section);
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let activeIndex = -1;
-  section.classList.add("what-build--enhanced");
+  if (reduced) return () => {};
 
-  const activate = (index: number, animate = true) => {
-    if (index === activeIndex && animate) return;
-    activeIndex = index;
-    animate = animate && !reduced;
-    rows.forEach((row, rowIndex) => {
-      const active = rowIndex === index;
-      const panel = row.querySelector<HTMLElement>("[data-service-panel]");
-      const button = row.querySelector<HTMLElement>("[data-service-toggle]");
-      row.dataset.active = String(active);
-      button?.setAttribute("aria-expanded", String(active));
-      if (!panel) return;
-      panel.inert = !active;
-      panel.setAttribute("aria-hidden", String(!active));
-      if (!animate) {
-        gsap.set(panel, { height: active ? "auto" : 0 });
-        return;
-      }
-      gsap.killTweensOf(panel);
-      if (active) {
-        gsap.set(panel, { height: "auto" });
-        const height = panel.offsetHeight;
-        gsap.fromTo(panel, { height: 0 }, {
-          height,
-          duration: 0.52,
-          ease: "power3.inOut",
-          onComplete: () => gsap.set(panel, { height: "auto" }),
-        });
-      } else {
-        gsap.to(panel, { height: 0, duration: 0.42, ease: "power3.inOut" });
-      }
+  const ctx = gsap.context(() => {
+    chapters.forEach((chapter) => {
+      const image = chapter.querySelector<HTMLElement>("[data-service-chapter-visual] img");
+      if (!image) return;
+      gsap.fromTo(image, { yPercent: -6 }, {
+        yPercent: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: chapter,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.55,
+        },
+      });
     });
-    visuals.forEach((visual, visualIndex) => {
-      visual.dataset.active = String(visualIndex === index);
-    });
-  };
+  }, section);
 
-  activate(0, false);
-  rows.forEach((row, index) => {
-    const button = row.querySelector<HTMLElement>("[data-service-toggle]");
-    if (!button) return;
-    const onActivate = () => activate(index);
-    button.addEventListener("click", onActivate);
-    button.addEventListener("pointerenter", onActivate);
-    cleanups.push(() => {
-      button.removeEventListener("click", onActivate);
-      button.removeEventListener("pointerenter", onActivate);
-    });
-  });
-
-  return () => {
-    cleanups.forEach((cleanup) => cleanup());
-    section.classList.remove("what-build--enhanced");
-    rows.forEach((row, index) => {
-      row.dataset.active = String(index === 0);
-      row.querySelector<HTMLElement>("[data-service-toggle]")?.setAttribute("aria-expanded", String(index === 0));
-      const panel = row.querySelector<HTMLElement>("[data-service-panel]");
-      if (panel) {
-        panel.inert = false;
-        panel.removeAttribute("aria-hidden");
-        gsap.set(panel, { clearProps: "height" });
-      }
-    });
-  };
+  return () => ctx.revert();
 }
 // One-time opening scene: title lines rise, then the film and interface settle.
 // FROM-tweens only — without JS everything is simply visible (no CLS).
@@ -116,15 +69,21 @@ function heroEntrance(full: boolean) {
   tl.from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.4");
 }
 
-// 01 / Tilnærming, beat 1 — «Oppsett». The title rises in once, then the
-// structure paragraph fills word by word from dim to bright as the section
-// scrolls past (Monolog «fill» text — no pin, pure scrub). Words are wrapped at
-// runtime; teardown restores the original markup. No-JS / PRM keep the static,
-// already-filled (bright) paragraph.
+// 01 / Tilnærming — one full-viewport statement. The narrow image aperture
+// changes discipline while the composition stays fixed, as in the supplied
+// reference. No-JS / PRM keep the first image and the complete statement.
 function introParallaxScene() {
   const section = document.querySelector<HTMLElement>("[data-intro-parallax]");
   const surface = section?.querySelector<HTMLElement>("[data-intro-surface]");
   const heroVisual = document.querySelector<HTMLElement>(".hero__visual");
+  const journey = surface?.querySelector<HTMLElement>("[data-intro-journey]");
+  const apertureItems = surface
+    ? gsap.utils.toArray<HTMLElement>("[data-intro-aperture-item]", surface)
+    : [];
+  const discipline = surface?.querySelector<HTMLElement>("[data-intro-discipline]");
+  const titleLeft = surface?.querySelector<HTMLElement>("[data-intro-title-left]");
+  const titleRight = surface?.querySelector<HTMLElement>("[data-intro-title-right]");
+  const aperture = surface?.querySelector<HTMLElement>("[data-intro-aperture]");
   const lines = surface
     ? gsap.utils.toArray<HTMLElement>("[data-intro-title] > span", surface)
     : [];
@@ -154,9 +113,65 @@ function introParallaxScene() {
         scrollTrigger: { trigger: surface, start: "top 72%", once: true },
       });
     }
+    if (
+      journey &&
+      apertureItems.length &&
+      window.matchMedia("(min-width: 801px) and (prefers-reduced-motion: no-preference)").matches
+    ) {
+      const labels = ["Design / 01", "Teknologi / 02", "Synlighet / 03"];
+      let activeIndex = -1;
+      const setActive = (index: number) => {
+        if (index === activeIndex) return;
+        activeIndex = index;
+        apertureItems.forEach((item, itemIndex) => {
+          item.dataset.active = String(itemIndex === index);
+        });
+        if (discipline) discipline.textContent = labels[index] ?? labels[0];
+      };
+
+      journey.classList.add("approach-intro__journey--enhanced");
+      setActive(0);
+      const closeTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: journey,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.65,
+        },
+      });
+      if (titleLeft) {
+        closeTimeline.fromTo(titleLeft, { xPercent: -9 }, { xPercent: 0, ease: "none" }, 0);
+      }
+      if (titleRight) {
+        closeTimeline.fromTo(titleRight, { xPercent: 13 }, { xPercent: 0, ease: "none" }, 0);
+      }
+      if (aperture) {
+        closeTimeline
+          .fromTo(aperture, { scale: 0.72, yPercent: 14, rotation: -4 }, {
+            scale: 1.14,
+            yPercent: -4,
+            rotation: 2.5,
+            ease: "none",
+          }, 0)
+          .to(aperture, { scale: 1, yPercent: 0, rotation: 0, ease: "none" }, 0.72);
+      }
+      ScrollTrigger.create({
+        trigger: journey,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true,
+        onUpdate: (self) => setActive(Math.min(2, Math.floor(self.progress * 3))),
+        onLeaveBack: () => setActive(0),
+      });
+    }
   }, section);
 
-  return () => ctx.revert();
+  return () => {
+    ctx.revert();
+    journey?.classList.remove("approach-intro__journey--enhanced");
+    apertureItems.forEach((item, index) => { item.dataset.active = String(index === 0); });
+    if (discipline) discipline.textContent = "Design / 01";
+  };
 }
 
 // 02→03 / Overlevering — Jack & AI-adaptert lagdeling without another pin.
@@ -359,6 +374,57 @@ function footerReveals() {
   }
 }
 
+// Osmo: Check Section Theme on Scroll. The active section tells the floating
+// header whether it sits over a light or dark surface. This changes chrome
+// contrast only; it does not animate or recolor page content.
+function sectionThemeScene() {
+  const header = document.querySelector<HTMLElement>(".site-header");
+  const bar = header?.querySelector<HTMLElement>(".site-header__bar");
+  const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-theme-section]"));
+  if (!header || !sections.length) return () => {};
+
+  let frame = 0;
+  let currentTheme = "";
+  let currentBg = "";
+
+  const check = () => {
+    frame = 0;
+    const offset = (bar?.offsetHeight ?? 0) / 2 + 12;
+    const active = sections.find((section) => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= offset && rect.bottom >= offset;
+    });
+    if (!active) return;
+
+    const theme = active.dataset.themeSection ?? "dark";
+    const bg = active.dataset.bgSection ?? theme;
+    if (theme !== currentTheme) {
+      header.dataset.themeNav = theme;
+      currentTheme = theme;
+    }
+    if (bg !== currentBg) {
+      header.dataset.bgNav = bg;
+      currentBg = bg;
+    }
+  };
+
+  const requestCheck = () => {
+    if (!frame) frame = window.requestAnimationFrame(check);
+  };
+
+  window.addEventListener("scroll", requestCheck, { passive: true });
+  window.addEventListener("resize", requestCheck);
+  check();
+
+  return () => {
+    window.cancelAnimationFrame(frame);
+    window.removeEventListener("scroll", requestCheck);
+    window.removeEventListener("resize", requestCheck);
+    delete header.dataset.themeNav;
+    delete header.dataset.bgNav;
+  };
+}
+
 // Utility enhancements — run whenever JS is available (not motion-gated):
 // live Oslo clock in the footer status line and copy-to-clipboard for email.
 function setupFooterUtilities() {
@@ -435,6 +501,7 @@ function setupFooterUtilities() {
 export function HomeMotion() {
   useEffect(() => {
     const teardownUtilities = setupFooterUtilities();
+    const teardownSectionTheme = sectionThemeScene();
     const lenis = initLenis({ lerp: 0.12 });
     lenis?.lenis.on("scroll", ScrollTrigger.update);
     const teardownOsmoReveal = initContentRevealScroll();
@@ -509,6 +576,7 @@ export function HomeMotion() {
       teardownLoopingWords();
       teardownShutter();
       teardownApproachPath();
+      teardownSectionTheme();
       teardownUtilities();
     };
   }, []);

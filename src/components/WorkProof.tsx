@@ -55,7 +55,7 @@ const radialItems = [...radialCapabilities, ...radialCapabilities];
    ligger en kompakt, serverrendret indeks med alle seks leveransemulighetene. */
 export function WorkProof() {
   return (
-    <section className="work-proof" aria-labelledby="work-proof-title">
+    <section className="work-proof" aria-labelledby="work-proof-title" data-theme-section="dark" data-bg-section="dark">
       <header className="work-proof__intro">
         <p className="work-proof__label">04 / Arbeid</p>
         <h2 className="work-proof__title" id="work-proof-title">

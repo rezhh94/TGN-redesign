@@ -77,7 +77,7 @@ function FooterRegister({
 
 export function ContactFooter() {
   return (
-    <div className="contact-footer-parallax" data-footer-parallax>
+    <div className="contact-footer-parallax" data-footer-parallax data-theme-section="dark" data-bg-section="dark">
       <footer
         className="contact-footer"
         data-footer-parallax-inner

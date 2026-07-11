@@ -1,6 +1,6 @@
 export function SystemManifesto() {
   return (
-    <section className="system-manifesto" aria-labelledby="system-manifesto-title">
+    <section className="system-manifesto" aria-labelledby="system-manifesto-title" data-theme-section="dark" data-bg-section="dark">
       <div className="system-manifesto__inner">
         <div className="system-manifesto__grid" aria-hidden="true">
           {Array.from({ length: 12 }, (_, index) => <span key={index} />)}

@@ -22,7 +22,7 @@ const outcomes = ["Funnet", "Forstått", "Valgt", "Målt"];
 
 export function Hero() {
   return (
-    <section className="hero" aria-labelledby="hero-title">
+    <section className="hero" aria-labelledby="hero-title" data-theme-section="dark" data-bg-section="dark">
       <div className="hero__visual" aria-hidden="true">
         <video
           className="hero__video"

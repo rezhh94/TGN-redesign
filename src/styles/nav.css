@@ -28,6 +28,32 @@
   box-shadow: var(--glass-shadow);
   -webkit-backdrop-filter: var(--glass-blur);
   backdrop-filter: var(--glass-blur);
+  transition:
+    background-color 320ms var(--ease-standard),
+    border-color 320ms var(--ease-standard),
+    color 320ms var(--ease-standard);
+}
+
+/* Osmo section-theme observer: the floating chrome follows the surface below
+   it. The menu itself remains dark and unchanged when opened. */
+.site-header[data-theme-nav="light"]:not([data-menu-open="true"]) .site-header__bar {
+  border-color: rgba(0, 26, 26, 0.17);
+  background: rgba(242, 241, 235, 0.78);
+  color: var(--tigon-green);
+}
+
+.site-header[data-bg-nav="mauve"]:not([data-menu-open="true"]) .site-header__bar {
+  background: rgba(200, 188, 193, 0.8);
+}
+
+.site-header[data-theme-nav="light"]:not([data-menu-open="true"]) .brand,
+.site-header[data-theme-nav="light"]:not([data-menu-open="true"]) .brand__mark,
+.site-header[data-theme-nav="light"]:not([data-menu-open="true"]) .menu-toggle {
+  color: var(--tigon-green);
+}
+
+.site-header[data-theme-nav="light"]:not([data-menu-open="true"]) .site-header__tag {
+  color: rgba(0, 26, 26, 0.58);
 }
 
 /* Flytende høyre-stack (desktop) --------------------------------------- */

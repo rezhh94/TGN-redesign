@@ -2,7 +2,7 @@ export function EffectBridge() {
   return (
     <section className="effect-bridge" aria-labelledby="effect-bridge-title">
       <div className="effect-bridge__stage" data-bridge-stage>
-        <div className="effect-bridge__window" data-bridge-window>
+        <div className="effect-bridge__window" data-bridge-window data-theme-section="dark" data-bg-section="dark">
           <img src="/services/05.png" alt="" loading="lazy" />
           <div className="effect-bridge__veil" />
 

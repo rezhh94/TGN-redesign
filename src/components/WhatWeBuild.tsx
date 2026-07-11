@@ -59,56 +59,43 @@ const register = [
 
 export function WhatWeBuild() {
   return (
-    <section className="what-build" aria-labelledby="what-build-title" data-build-section>
+    <section
+      className="what-build"
+      aria-labelledby="what-build-title"
+      data-build-section
+      data-theme-section="dark"
+      data-bg-section="dark"
+    >
       <header className="what-build__intro">
         <p className="what-build__label">02 / Tjenester</p>
         <h2 className="what-build__title" id="what-build-title">Dette bygger vi.</h2>
         <p className="what-build__intro-copy">
-          Fem fagområder. Én sammenhengende leveranse fra første valg til målbar løsning.
+          Fem fagområder bygget som én sammenhengende leveranse – fra første valg til
+          en løsning som kan finnes, forstås og måles.
         </p>
       </header>
 
-      <div className="service-selector" data-service-selector>
-        <div className="service-selector__list" data-service-list>
-          {services.map((service, index) => (
-            <article className="service-option" data-service-row key={service.id} data-active={index === 0 ? "true" : "false"}>
-              <button
-                className="service-option__toggle"
-                type="button"
-                aria-expanded={index === 0}
-                aria-controls={`service-panel-${service.id}`}
-                data-service-toggle
-              >
-                <span>{service.number}</span>
-                <strong>{service.title}</strong>
-                <i aria-hidden="true">↗</i>
-              </button>
+      <div className="service-ledger">
+        {services.map((service, index) => (
+          <article className="service-chapter" data-service-chapter key={service.id}>
+            <header className="service-chapter__head">
+              <span>{service.number}</span>
+            </header>
 
-              <div className="service-option__panel" id={`service-panel-${service.id}`} data-service-panel>
-                <div className="service-option__copy">
-                  <p>{service.description}</p>
-                  <p>{service.meta}</p>
-                  <ul aria-label={`Dette inngår i ${service.title}`}>
-                    {service.capabilities.map((capability) => <li key={capability}>{capability}</li>)}
-                  </ul>
-                  <a href={service.href}>Les om {service.title.toLowerCase()} <span aria-hidden="true">↗</span></a>
-                </div>
-                <img className="service-option__mobile-image" src={service.image} alt="" loading="lazy" />
-              </div>
-            </article>
-          ))}
-        </div>
+            <div className="service-chapter__copy">
+              <h3><a href={service.href}>{service.title}</a></h3>
+              <ul aria-label={`Dette inngår i ${service.title}`}>
+                <li>{service.description}</li>
+                <li>{service.capabilities.join(" / ")}</li>
+              </ul>
+            </div>
 
-        <div className="service-selector__visual" data-service-visual aria-hidden="true">
-          <p>TGN / Aktiv flate</p>
-          {services.map((service, index) => (
-            <figure key={service.id} data-service-visual-item data-active={index === 0 ? "true" : "false"}>
-              <img src={service.image} alt="" loading={index === 0 ? "eager" : "lazy"} />
-              <figcaption><span>{service.number} / 05</span><span>{service.meta}</span></figcaption>
+            <figure className="service-chapter__visual" data-service-chapter-visual>
+              <img src={service.image} alt="" loading={index < 2 ? "eager" : "lazy"} />
+              <figcaption><span>TGN / Tjeneste {service.number}</span><span>{service.meta}</span></figcaption>
             </figure>
-          ))}
-          <span className="service-selector__visual-mark" />
-        </div>
+          </article>
+        ))}
       </div>
 
       <div className="what-build__register">

@@ -35,7 +35,7 @@ const outcomes = [
 
 export function WhatWeImprove() {
   return (
-    <section className="what-improve" aria-labelledby="what-improve-title">
+    <section className="what-improve" aria-labelledby="what-improve-title" data-theme-section="light" data-bg-section="mauve">
       <div className="what-improve__inner">
         <header className="what-improve__intro">
           <p className="what-improve__label">03 / Effekt</p>

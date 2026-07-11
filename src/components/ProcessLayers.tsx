@@ -30,7 +30,7 @@ const phases = [
 
 export function ProcessLayers() {
   return (
-    <section className="process-journey" id="prosess" aria-labelledby="process-journey-title">
+    <section className="process-journey" id="prosess" aria-labelledby="process-journey-title" data-theme-section="dark" data-bg-section="dark">
       <header className="process-journey__intro">
         <p className="process-journey__label">05 / Prosess</p>
         <h2 className="process-journey__title" id="process-journey-title">
