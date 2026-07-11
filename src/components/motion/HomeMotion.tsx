@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { destroyLenis, initLenis } from "@/lib/motion";
 import {
   initApproachPathJourney,
@@ -14,17 +13,14 @@ import {
   initShutterScrollTransition,
 } from "@/lib/osmo-motion";
 
-gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-// 02 / Tjenester — three-part chapter. Pillars + accordion rows rise in once;
-// the accordion becomes interactive and the open row composes its existing
-// image pair as one primary preview plus one clipped detail.
-// The bottom register stays as stable text for keyboard, AT and SEO. All
-// content is SSR and readable with no JS. Teardown restores that state.
+// 02 / Tjenester — readable accordion with a supporting active visual.
+// All service names, descriptions and links remain SSR and readable without JS.
 function servicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
   if (!section) return () => {};
@@ -270,65 +266,41 @@ function workProof(cinematic: boolean) {
   return () => ctx.revert();
 }
 
-// 05 / Prosess — én koreografi etter det harde mørkt→lyst-kuttet:
-// 05 / Prosess — én sammenhengende Osmo-inspirert draw-path som følger de tre
-// lesbare fasene. Ingen pin eller kortstabel; no-JS / reduced motion viser hele
-// systemet statisk.
-function processJourney() {
-  const section = document.querySelector<HTMLElement>(".process-journey");
-  if (!section) return () => {};
+// 05 / Prosess — same compositional grammar as 04 / Arbeid. Three process
+// surfaces settle into one assembly once; the readable phase index remains in
+// ordinary document flow below. No pin or scroll-switched content.
+function processTransformation() {
+  const stage = document.querySelector<HTMLElement>("[data-process-stage]");
+  if (!stage) return () => {};
 
-  const path = section.querySelector<SVGPathElement>("[data-process-path]");
-  const traveler = section.querySelector<HTMLElement>("[data-process-traveler]");
-  const stages = gsap.utils.toArray<HTMLElement>("[data-process-stage]", section);
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const surfaces = gsap.utils.toArray<HTMLElement>("[data-process-surface]", stage);
+  const legend = stage.querySelector<HTMLElement>(".process-assembly__legend strong");
 
   const ctx = gsap.context(() => {
-    if (path && !reduced) {
-      gsap.set(path, { strokeDasharray: 1, strokeDashoffset: 1 });
-      gsap.to(path, {
-        strokeDashoffset: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section.querySelector("[data-process-path-section]") ?? section,
-          start: "top 74%",
-          end: "bottom 30%",
-          scrub: 0.6,
-        },
-      });
-
-      if (traveler && window.matchMedia("(min-width: 901px)").matches) {
-        gsap.set(traveler, { xPercent: -50, yPercent: -50 });
-        gsap.to(traveler, {
-          ease: "none",
-          motionPath: {
-            path,
-            align: path,
-            alignOrigin: [0.5, 0.5],
-            autoRotate: false,
-          },
-          scrollTrigger: {
-            trigger: section.querySelector("[data-process-path-section]") ?? section,
-            start: "top 74%",
-            end: "bottom 30%",
-            scrub: 0.6,
-          },
-        });
-      }
-    }
-
-    if (!reduced) {
-      stages.forEach((stage) => {
-        gsap.from(stage, {
-          autoAlpha: 0,
-          y: 24,
-          duration: 0.75,
-          ease: "power3.out",
-          scrollTrigger: { trigger: stage, start: "top 78%", once: true },
-        });
+    if (surfaces.length) {
+      gsap.from(surfaces, {
+        x: (index) => [-110, 0, 110][index] ?? 0,
+        y: (index) => [54, -76, 68][index] ?? 0,
+        scale: (index) => [0.92, 0.88, 0.92][index] ?? 0.92,
+        autoAlpha: 0,
+        duration: 1,
+        stagger: 0.11,
+        ease: "power3.out",
+        scrollTrigger: { trigger: stage, start: "top 68%", once: true },
       });
     }
-  }, section);
+
+    if (legend) {
+      gsap.from(legend, {
+        y: 24,
+        autoAlpha: 0,
+        duration: 0.7,
+        delay: 0.25,
+        ease: "power3.out",
+        scrollTrigger: { trigger: stage, start: "top 68%", once: true },
+      });
+    }
+  }, stage);
 
   return () => ctx.revert();
 }
@@ -482,7 +454,7 @@ export function HomeMotion() {
       const teardownIntro = introParallaxScene();
       const teardownBridge = bridgeScene();
       const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
-      const teardownProcess = processJourney();
+      const teardownProcess = processTransformation();
       manifestoReveal();
       footerReveals();
       return () => {
@@ -500,7 +472,7 @@ export function HomeMotion() {
       const teardownIntro = introParallaxScene();
       const teardownBridge = bridgeScene();
       const teardownWork = workProof(false);
-      const teardownProcess = processJourney();
+      const teardownProcess = processTransformation();
       manifestoReveal();
       footerReveals();
       return () => {

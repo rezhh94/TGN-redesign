@@ -97,11 +97,12 @@
 .effect-bridge__statement h2 {
   grid-column: 3 / -1;
   max-width: 9ch;
-  font-family: var(--tigon-type-editorial);
+  font-family: var(--font-display);
   font-size: clamp(76px, 10.4vw, 178px);
-  font-weight: 400;
-  letter-spacing: -0.07em;
-  line-height: 0.82;
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.8;
+  text-transform: uppercase;
 }
 
 .effect-bridge__statement h2 span {

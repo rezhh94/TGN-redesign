@@ -132,11 +132,12 @@
   align-self: center;
   max-width: 10ch;
   padding: clamp(48px, 7vh, 86px) 0;
-  font-family: var(--tigon-type-editorial);
-  font-size: clamp(50px, 5.7vw, 102px);
-  font-weight: 400;
-  letter-spacing: -0.065em;
-  line-height: 0.88;
+  font-family: var(--font-display);
+  font-size: clamp(54px, 6.1vw, 110px);
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.8;
+  text-transform: uppercase;
 }
 
 .system-manifesto__statement > span {
