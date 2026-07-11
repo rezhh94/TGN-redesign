@@ -1,931 +1,423 @@
-/* 02 / Tjenester — tredelt kapittel på det «løftede» mørke rommet:
-   1) tre pilarer (Bygg → System → Synlighet)
-   2) tjeneste-akkordeon (åpne/lukk, uten bilder)
-   3) scramble-register (alle tjenester)
-
-   Default (no JS / reduced-motion): akkordeon-radene er alle åpne, all tekst og
-   alle lenker SSR. JS legger til .what-build--enhanced og kollapser radene uten
-   [data-open]. Pixel-cursoren er desktop-only og aktiveres kun av JS. */
-
 .what-build {
-  --build-px: var(--gutter);
   position: relative;
-  overflow: hidden;
-  /* --ink-surface (= #1a1c1c) — det løftede rommet, uendret. */
-  background: var(--ink-surface);
+  overflow: clip;
+  background: var(--tigon-canvas-lifted);
   color: var(--color-on-dark);
+  scroll-behavior: smooth;
 }
-.what-build__inner {
+
+.what-build__intro,
+.service-index,
+.what-build__register {
   width: min(100%, var(--page-max));
   margin: 0 auto;
-  padding: clamp(96px, 12vh, 148px) var(--build-px) clamp(32px, 4vh, 52px);
+  padding-right: var(--gutter);
+  padding-left: var(--gutter);
 }
 
-.what-build__inner--head {
-  padding-bottom: 0;
-}
-
-.what-build__inner--pillars {
-  padding-top: 12px;
-  padding-bottom: clamp(24px, 3vh, 38px);
-}
-
-.what-build__inner--foot {
-  padding-top: clamp(40px, 5vh, 64px);
-  padding-bottom: clamp(88px, 11vh, 132px);
-}
-
-/* Masthode ------------------------------------------------------------ */
-
-/* Masthode på det delte 12-kol-gridet (lamalama-token). Label = kol 1–2,
-   kol 3 står tom som grid-drevet luft (rytme via kolonner, ikke ad hoc gap),
-   innhold = kol 4–12. Kollapser til 1fr < 1080px (media under). */
-.what-build__top {
+.what-build__intro {
   display: grid;
-  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
-  column-gap: var(--grid-gutter);
-  align-items: start;
-  padding-bottom: clamp(34px, 4.5vh, 54px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  align-items: end;
+  padding-top: clamp(120px, 16vh, 220px);
+  padding-bottom: clamp(112px, 15vh, 196px);
+  border-bottom: 1px solid var(--tigon-line-dark);
+}
+
+.what-build__label,
+.service-index__tabs,
+.service-chapter__head > p,
+.service-chapter__body li,
+.service-chapter__signal,
+.what-build__register {
+  font-family: var(--tigon-type-meta);
+  letter-spacing: var(--mono-track);
+  text-transform: uppercase;
 }
 
 .what-build__label {
   grid-column: 1 / 3;
+  align-self: start;
   color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.what-build__top-copy {
-  grid-column: 4 / -1;
-  max-width: none;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 520px);
-  gap: clamp(24px, 4vw, 72px);
-  align-items: end;
 }
 
 .what-build__title {
-  grid-column: 1 / -1;
-  margin-left: -0.12em;
-  color: var(--color-on-dark);
-  font-family: var(--font-display);
-  font-size: clamp(64px, 8.6vw, 170px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.82;
-  text-transform: uppercase;
-}
-
-.what-build__intro-stack {
-  grid-column: 2;
-  width: min(100%, 520px);
-  margin-top: -10px;
-}
-
-.what-build__intro {
-  color: var(--on-dark-medium);
-  font-family: var(--font-sans);
+  grid-column: 3 / 10;
+  max-width: 8ch;
+  font-family: var(--tigon-type-editorial);
+  font-size: clamp(72px, 9.6vw, 172px);
   font-weight: 400;
-  line-height: 1.45;
+  letter-spacing: -0.065em;
+  line-height: 0.86;
 }
 
-.what-build__intro--primary {
-  color: var(--on-dark-strong);
-  font-size: 20px;
-  line-height: 1.24;
-}
-
-.what-build__intro--secondary {
-  max-width: 460px;
-  margin-top: 18px;
-  color: var(--on-dark-quiet);
-  font-size: 17px;
-}
-
-/* 1) Pilarer — Bygg → System → Synlighet ----------------------------- */
-
-/* Pilarer på det delte 12-kol-gridet: 3 pilarer × span 4 = 12, med samme
-   konsistente gutter som resten (lamalama-token). Kollapser til 1fr < 1080px. */
-.what-build__pillars {
-  counter-reset: build-pillar;
+.what-build__intro-copy {
+  grid-column: 10 / -1;
   display: grid;
-  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
-  column-gap: var(--grid-gutter);
+  gap: 24px;
+  font-family: var(--tigon-type-editorial);
+}
+
+.what-build__intro-copy p:first-child {
+  font-size: clamp(20px, 1.55vw, 27px);
+  line-height: 1.34;
+}
+
+.what-build__intro-copy p:last-child {
+  color: var(--on-dark-medium);
+  font-size: clamp(15px, 1.05vw, 18px);
+  line-height: 1.55;
+}
+
+.service-index {
+  display: grid;
+  grid-template-columns: minmax(210px, 2.6fr) minmax(0, 9.4fr);
+  gap: var(--grid-gutter);
+  padding-top: clamp(96px, 12vh, 156px);
+  padding-bottom: clamp(120px, 16vh, 220px);
+}
+
+.service-index__tabs {
+  position: sticky;
+  top: calc(var(--header-height) + 38px);
+  align-self: start;
+  padding-right: clamp(20px, 3vw, 54px);
+  color: var(--on-dark-quiet);
+  font-size: var(--fz-mono-s);
+}
+
+.service-index__tabs > p {
+  margin-bottom: 28px;
+}
+
+.service-index__tabs ol {
   margin: 0;
-  padding: 24px 0 22px;
-  border-top: 1px solid rgba(242, 241, 235, 0.14);
-  border-bottom: 1px solid rgba(242, 241, 235, 0.14);
+  padding: 0;
+  border-top: 1px solid var(--tigon-line-dark);
   list-style: none;
 }
 
-.what-build__pillar {
-  counter-increment: build-pillar;
-  position: relative;
-  grid-column: span 4;
-  min-width: 0;
-  min-height: 0;
-  padding-right: clamp(14px, 2vw, 32px);
+.service-index__tabs li {
+  border-bottom: 1px solid var(--tigon-line-dark);
 }
 
-.what-build__pillar:not(:first-child) {
-  padding-left: 0;
-}
-
-.what-build__pillar::before {
-  content: counter(build-pillar, decimal-leading-zero);
-  display: block;
-  margin-bottom: 24px;
-  color: var(--on-dark-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1;
-}
-
-.what-build__pillar-top {
-  display: flex;
-  align-items: center;
-  gap: clamp(16px, 2vw, 32px);
-}
-
-.what-build__pillar-title {
-  margin: 0;
-  color: var(--color-on-dark);
-  font-family: var(--font-sans);
-  font-size: clamp(24px, 2.3vw, 36px);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-
-/* Diagonal ↗ mellom pilarene — reisen fremover (build → run → grow). */
-.what-build__pillar-arrow {
-  width: 16px;
-  height: 18px;
-  flex: none;
-  background: var(--on-dark-quiet);
-  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
-  mask: var(--arrow-ne) center / contain no-repeat;
-}
-
-.what-build__pillar-tag {
-  margin: 14px 0 0;
-  color: var(--pine-tint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.what-build__pillar-body {
-  max-width: 34ch;
-  margin: 10px 0 0;
+.service-index__tabs a {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  padding: 17px 0;
   color: var(--on-dark-medium);
-  font-family: var(--font-sans);
-  font-size: clamp(14px, 1vw, 16px);
-  font-weight: 400;
-  line-height: 1.4;
+  text-decoration: none;
+  transition: color 180ms ease, padding-left 260ms var(--ease-standard);
 }
 
-/* 2) Tjeneste-akkordeon ---------------------------------------------- */
+.service-index__tabs a:hover,
+.service-index__tabs a:focus-visible {
+  padding-left: 8px;
+  color: var(--color-on-dark);
+}
 
-.what-build__list {
-  counter-reset: build-service;
-  position: relative;
-  width: min(100%, var(--page-max));
-  margin: 0 auto;
+.service-index__tabs a span {
+  color: var(--on-dark-faint);
+}
+
+.service-index__chapters {
+  border-top: 1px solid var(--tigon-line-dark);
+}
+
+.service-chapter {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  min-height: min(84svh, 820px);
+  padding: clamp(56px, 8vh, 96px) 0;
+  border-bottom: 1px solid var(--tigon-line-dark);
+  scroll-margin-top: calc(var(--header-height) + 28px);
+}
+
+.service-chapter__head {
+  grid-column: 1 / 6;
+}
+
+.service-chapter__head > p {
+  color: var(--on-dark-quiet);
+  font-size: var(--fz-mono);
+}
+
+.service-chapter__head h3 {
+  max-width: 8ch;
+  margin-top: clamp(36px, 6vh, 70px);
+  font-family: var(--tigon-type-editorial);
+  font-size: clamp(58px, 7.4vw, 132px);
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  line-height: 0.88;
+}
+
+.service-chapter__body {
+  grid-column: 6 / 9;
+  align-self: end;
+  padding-bottom: 8px;
+  font-family: var(--tigon-type-editorial);
+}
+
+.service-chapter__description {
+  max-width: 29ch;
+  font-size: clamp(20px, 1.65vw, 28px);
+  line-height: 1.38;
+}
+
+.service-chapter__body ul {
+  display: grid;
+  gap: 10px;
+  margin: 42px 0 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid rgba(242, 241, 235, 0.16);
 }
 
-.what-build__row {
-  counter-increment: build-service;
-  position: relative;
-  border-bottom: 1px solid rgba(242, 241, 235, 0.14);
-}
-
-.what-build__row[data-open] {
-  background: linear-gradient(90deg, rgba(99, 124, 113, 0.08), transparent 46%);
-}
-
-/* Rad-hodet — samme sammenslåtte rad som Arbeid (.wp-case__summary):
-   navn + tag-bokser + liten thumb-stripe + veksler. Full-bredde knapp
-   (akkordeon-toggle). */
-.what-build__row-head {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
-  column-gap: var(--grid-gutter);
-  align-items: center;
-  width: 100%;
-  margin: 0;
-  /* Lukkede rader skal være raske å skanne; den åpne kroppen bærer den store
-     pausen. Dette holder akkordeonet redaksjonelt uten fem like høye stopp. */
-  padding: clamp(24px, 3.2vh, 38px) var(--build-px);
-  border: 0;
-  background: transparent;
-  text-align: left;
-  cursor: pointer;
-  color: inherit;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.what-build__row-head::before {
-  content: counter(build-service, decimal-leading-zero);
-  grid-column: 1;
-  align-self: start;
-  padding-top: 0.42em;
-  color: var(--on-dark-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1;
-}
-
-.what-build__service-title {
-  grid-column: 2 / 5;
-  min-width: 0;
-  color: var(--on-dark-strong);
-  font-family: var(--font-sans);
-  font-size: clamp(28px, 3vw, 46px);
-  font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 1;
-  text-transform: uppercase;
-  transition: color var(--motion-fast) ease-out;
-}
-
-/* Teknisk metadata som en ren redaksjonell linje — ingen SaaS-aktige chips. */
-.what-build__row-tags {
-  grid-column: 5 / 9;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 7px;
-}
-
-.what-build__row-tag {
-  color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.3;
-  text-transform: uppercase;
-}
-
-.what-build__row-tag + .what-build__row-tag::before {
-  content: "/";
-  margin-right: 7px;
-  color: var(--on-dark-faint);
-}
-
-/* Liten thumb-stripe — kopi av Arbeids .wp-case__strip/thumb. Tomme bilde-
-   rammer (mørkere enn flaten + hårlinje). Skjules når raden åpnes. */
-.what-build__row-strip {
-  grid-column: 9 / 12;
-  justify-self: end;
-  display: flex;
-  gap: 6px;
-  transition: opacity var(--motion-fast) ease-out;
-}
-
-.what-build__row-thumb {
-  position: relative;
-  width: clamp(42px, 3.4vw, 56px);
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: var(--ink-base);
-  box-shadow: inset 0 0 0 1px rgba(242, 241, 235, 0.09);
-}
-
-.what-build__row-thumb-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: grayscale(1) contrast(1.06) brightness(0.82);
-}
-
-.what-build__row-head[aria-expanded="true"] .what-build__row-strip {
-  opacity: 0;
-}
-
-/* Mono-veksler — samme som Arbeid (.wp-case__toggle): ( + ) lukket → ( − )
-   åpen, dempet → pine på hover/åpen. Ingen sirkel-chrome. */
-.what-build__row-toggle {
-  grid-column: 12;
-  justify-self: end;
-  color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
-  text-align: right;
-  transition: color var(--motion-fast) ease-out;
-}
-
-.what-build__row-toggle::after {
-  content: "( + )";
-}
-
-.what-build__row-head[aria-expanded="true"] .what-build__row-toggle::after {
-  content: "( − )";
-}
-
-.what-build__row-head:hover .what-build__row-toggle,
-.what-build__row-head:focus-visible .what-build__row-toggle,
-.what-build__row-head[aria-expanded="true"] .what-build__row-toggle {
-  color: var(--pine-tint);
-}
-
-.what-build__row-head:hover .what-build__service-title,
-.what-build__row-head[aria-expanded="true"] .what-build__service-title {
-  color: var(--color-on-dark);
-}
-
-.what-build__row-head:focus-visible {
-  outline: 1px solid var(--pine-tint);
-  outline-offset: -2px;
-}
-
-/* Kropp — default (uenhanced) fullt synlig. Innrykket flukter under navnet
-   (som Arbeids .wp-case__detail). */
-.what-build__body {
-  display: block;
-}
-
-.what-build__body-inner {
-  min-height: 0;
-}
-
-/* To kolonner — kopi av Arbeids .wp-case__detail: tekst (beskrivelse + lenke)
-   til venstre, tre mockup-rammer til høyre. */
-.what-build__body-grid {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
-  column-gap: var(--grid-gutter);
-  align-items: start;
-  padding: 2px var(--build-px) clamp(36px, 4.5vh, 54px);
-}
-
-.what-build__body-copy {
-  grid-column: 2 / 7;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-/* Mockup-rammer — to små 3/4-rammer, høyrestilt (som referansen). Tomme
-   (mørkere enn flaten + hårlinje), klare til ekte Tigon-mockups. Bevisst
-   mindre enn Arbeids plakater så tjeneste-raden ikke domineres av bildene. */
-.what-build__posters {
-  grid-column: 9 / 13;
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  align-self: start;
-  min-height: clamp(190px, 20vw, 280px);
-}
-
-.what-build__poster {
-  position: relative;
-  width: clamp(140px, 14vw, 208px);
-  aspect-ratio: 3 / 4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: var(--ink-base);
-  box-shadow: inset 0 0 0 1px rgba(242, 241, 235, 0.09);
-  will-change: transform, clip-path, opacity;
-}
-
-.what-build__poster:first-child {
-  z-index: 1;
-}
-
-.what-build__poster:nth-child(2) {
-  z-index: 2;
-  width: clamp(82px, 8vw, 120px);
-  margin-top: clamp(46px, 5vw, 74px);
-  margin-left: clamp(-34px, -2.4vw, -18px);
-}
-
-.what-build__poster-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: grayscale(1) contrast(1.06) brightness(0.82);
-}
-
-.what-build__poster-tag {
-  color: var(--on-dark-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  text-transform: uppercase;
-}
-
-.what-build__description {
-  max-width: 44ch;
-  margin: 0;
-  color: var(--on-dark-strong);
-  font-family: var(--font-sans);
-  font-size: var(--fz-lead-m);
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.what-build__row-link {
-  justify-self: start;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: clamp(24px, 3.4vh, 40px);
+.service-chapter__body li {
+  padding-top: 10px;
+  border-top: 1px solid var(--tigon-line-dark);
   color: var(--on-dark-medium);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
-  text-transform: uppercase;
-  text-decoration: none;
-  /* Hover-grammatikk: underlinjen TEGNES til full kontrast over den statiske
-     28 %-linjen — samme «linjen tegnes og låses»-gest som kapittelgrensene.
-     Den statiske linjen består som affordance uten hover. */
-  padding-bottom: 0.32em;
-  background-image:
-    linear-gradient(currentColor, currentColor),
-    linear-gradient(rgba(242, 241, 235, 0.28), rgba(242, 241, 235, 0.28));
-  background-repeat: no-repeat;
-  background-position: 0 100%, 0 100%;
-  background-size: 0% 1px, 100% 1px;
-  transition: color var(--motion-fast) ease-out, background-size var(--motion-medium) var(--ease-out-expo);
+  font-size: var(--fz-mono-s);
 }
 
-.what-build__row-link:hover,
-.what-build__row-link:focus-visible {
+.service-chapter__body > a {
+  display: inline-flex;
+  gap: 14px;
+  margin-top: 42px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--on-dark-medium);
   color: var(--color-on-dark);
-  background-size: 100% 1px, 100% 1px;
+  font-family: var(--tigon-type-meta);
+  font-size: var(--fz-mono-l);
+  letter-spacing: var(--mono-track);
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
-.what-build__cta-arrow,
-.what-build__foot-arrow {
-  width: 9px;
-  height: 10px;
-  display: inline-block;
-  flex: none;
-  background: currentColor;
-  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
-  mask: var(--arrow-ne) center / contain no-repeat;
-  transition: transform var(--motion-base) var(--ease-standard);
-}
-
-.what-build__row-link:hover .what-build__cta-arrow,
-.what-build__row-link:focus-visible .what-build__cta-arrow {
-  transform: translate(3px, -3px);
-}
-
-/* Enhanced (JS på): kollaps alle paneler; kun [data-open] er utfoldet.
-   height animeres av GSAP — her setter vi bare start/skjul-tilstanden. */
-.what-build--enhanced .what-build__body {
+.service-chapter__signal {
+  position: relative;
+  grid-column: 9 / 10;
+  min-height: 100%;
   overflow: hidden;
-  height: 0;
+  border-left: 1px solid var(--tigon-line-dark);
+  color: var(--on-dark-quiet);
+  font-size: var(--fz-mono-s);
 }
 
-.what-build--enhanced .what-build__row[data-open] .what-build__body {
-  height: auto;
+.service-chapter__signal > span {
+  position: absolute;
+  top: 0;
+  left: 16px;
+  writing-mode: vertical-rl;
 }
 
-/* 3) Tjenesteregister ------------------------------------------------- */
+.service-chapter__signal i {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 36%;
+  background: var(--tigon-green);
+}
+
+.service-chapter__signal strong {
+  position: absolute;
+  right: -0.08em;
+  bottom: -0.18em;
+  color: rgba(242, 242, 239, 0.055);
+  font-family: var(--tigon-type-display);
+  font-size: clamp(120px, 15vw, 240px);
+  line-height: 0.7;
+}
 
 .what-build__register {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
-  column-gap: var(--grid-gutter);
-  border-top: 1px solid rgba(242, 241, 235, 0.16);
-  padding-top: 22px;
+  padding-top: clamp(104px, 14vh, 184px);
+  padding-bottom: clamp(112px, 15vh, 196px);
+  border-top: 1px solid var(--tigon-line-dark);
 }
 
-.what-build__register-label {
-  grid-column: 1 / 3;
-  margin: 0 0 clamp(18px, 2.4vh, 30px);
+.what-build__register-label,
+.what-build__register-col > p {
   color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
-  text-transform: uppercase;
 }
 
-/* Register på det delte 12-kol-gridet (som pilarene): 3 kol × span 4. */
 .what-build__register-cols {
-  grid-column: 4 / -1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: var(--grid-gutter);
-  row-gap: clamp(24px, 3vw, 56px);
+  gap: clamp(36px, 7vw, 120px);
+  margin-top: 58px;
 }
 
-.what-build__register-col {
-  min-width: 0;
-}
-
-.what-build__register-tag {
-  margin: 0 0 12px;
-  color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.what-build__register-list {
-  margin: 0;
+.what-build__register-col ul {
+  margin: 24px 0 0;
   padding: 0;
   list-style: none;
 }
 
-/* Luftig meny — ingen hårstreker. Navnene løftes fra bittesmå mono-versaler til
-   en roligere, større sans med god pust; skille kommer av rom, ikke linjer.
-   Lenker løftes til hvitt på hover og en liten NE-pil sklir inn. Reservert
-   plass til pila = ingen layout-hopp. */
-.what-build__register-item + .what-build__register-item {
-  margin-top: 7px;
+.what-build__register-col li + li {
+  margin-top: 12px;
 }
 
-.what-build__register-item a,
-.what-build__register-item span {
-  display: inline-block;
+.what-build__register-col a,
+.what-build__register-col span {
   color: var(--on-dark-medium);
-  font-family: var(--font-sans);
-  font-size: clamp(15px, 1.2vw, 18px);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
-  text-transform: none;
-}
-
-.what-build__register-item a {
-  position: relative;
-  padding-right: 20px;
-  color: var(--on-dark-strong);
+  font-size: var(--fz-mono-s);
+  line-height: 1.45;
   text-decoration: none;
-  transition: color var(--motion-fast) ease-out;
 }
 
-.what-build__register-item a::after {
-  content: "";
-  position: absolute;
-  top: 0.52em;
-  right: 2px;
-  width: 9px;
-  height: 10px;
-  background: currentColor;
-  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
-  mask: var(--arrow-ne) center / contain no-repeat;
-  opacity: 0;
-  transform: translate(-4px, 4px);
-  transition: opacity var(--motion-fast) ease-out, transform var(--motion-base) var(--ease-standard);
-}
-
-.what-build__register-item a:hover,
-.what-build__register-item a:focus-visible {
+.what-build__register-col a:hover,
+.what-build__register-col a:focus-visible {
   color: var(--color-on-dark);
 }
-
-.what-build__register-item a:hover::after,
-.what-build__register-item a:focus-visible::after {
-  opacity: 1;
-  transform: translate(0, 0);
-}
-
-/* Foot ---------------------------------------------------------------- */
 
 .what-build__foot {
   display: flex;
-  align-items: baseline;
-  gap: clamp(24px, 4vw, 72px);
-  margin-top: clamp(28px, 3.5vh, 42px);
-  padding-top: clamp(20px, 2.8vh, 30px);
-  border-top: 1px solid rgba(242, 241, 235, 0.14);
-}
-
-.what-build__foot-note {
-  flex: none;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 78px;
+  padding-top: 22px;
+  border-top: 1px solid var(--tigon-line-dark);
   color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
-  text-transform: uppercase;
+  font-size: var(--fz-mono-s);
 }
 
-.what-build__foot-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: auto;
-  color: var(--on-dark-medium);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  /* Samme tegnede underline-grammatikk som row-link. */
-  padding-bottom: 0.32em;
-  background-image:
-    linear-gradient(currentColor, currentColor),
-    linear-gradient(rgba(242, 241, 235, 0.28), rgba(242, 241, 235, 0.28));
-  background-repeat: no-repeat;
-  background-position: 0 100%, 0 100%;
-  background-size: 0% 1px, 100% 1px;
-  transition: color var(--motion-fast) ease-out, background-size var(--motion-medium) var(--ease-out-expo);
-}
-
-.what-build__foot-link:hover,
-.what-build__foot-link:focus-visible {
+.what-build__foot a {
   color: var(--color-on-dark);
-  background-size: 100% 1px, 100% 1px;
+  text-decoration: none;
 }
 
-.what-build__foot-link:hover .what-build__foot-arrow,
-.what-build__foot-link:focus-visible .what-build__foot-arrow {
-  transform: translate(3px, -3px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .what-build__cta-arrow,
-  .what-build__foot-arrow,
-  .what-build__row-link,
-  .what-build__foot-link {
-    transition: none;
-  }
-}
-
-/* Responsiv ----------------------------------------------------------- */
-
-@media (max-width: 1080px) {
-  .what-build__top {
+@media (max-width: 980px) {
+  .what-build__intro {
     grid-template-columns: 1fr;
-    gap: 30px;
   }
 
-  .what-build__label {
+  .what-build__label,
+  .what-build__title,
+  .what-build__intro-copy {
     grid-column: auto;
   }
 
-  .what-build__top-copy {
-    grid-column: auto;
+  .what-build__intro-copy {
+    max-width: 620px;
+    margin-top: 32px;
+  }
+
+  .service-index {
     grid-template-columns: 1fr;
+  }
+
+  .service-index__tabs {
+    z-index: 2;
+    top: var(--header-height);
+    overflow-x: auto;
+    margin-right: calc(var(--gutter) * -1);
+    margin-left: calc(var(--gutter) * -1);
+    padding: 14px var(--gutter);
+    border-top: 1px solid var(--tigon-line-dark);
+    border-bottom: 1px solid var(--tigon-line-dark);
+    background: rgba(26, 28, 28, 0.94);
+    backdrop-filter: blur(14px);
+  }
+
+  .service-index__tabs > p {
+    display: none;
+  }
+
+  .service-index__tabs ol {
+    display: flex;
+    width: max-content;
+    border: 0;
+  }
+
+  .service-index__tabs li {
+    border: 0;
+  }
+
+  .service-index__tabs a {
+    display: flex;
+    padding: 10px 20px 10px 0;
+  }
+
+  .service-chapter {
+    min-height: 700px;
+  }
+}
+
+@media (max-width: 680px) {
+  .what-build__intro,
+  .service-index,
+  .what-build__register {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .what-build__intro {
+    padding-top: 100px;
+    padding-bottom: 86px;
   }
 
   .what-build__title {
-    margin-left: -0.06em;
-    font-size: clamp(72px, 15vw, 156px);
+    margin-top: 58px;
+    font-size: clamp(66px, 20vw, 92px);
   }
 
-  .what-build__intro-stack {
-    grid-column: 1;
-    max-width: 620px;
-    margin-top: 8px;
+  .service-index {
+    padding-top: 0;
+    padding-bottom: 112px;
   }
 
-  .what-build__pillars {
+  .service-index__tabs {
+    margin-right: -20px;
+    margin-left: -20px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .service-chapter {
     grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
-  .what-build__pillar {
-    grid-column: auto;
+    gap: 44px;
     min-height: 0;
-    padding: 0 0 28px;
-    border-left: 0;
+    padding: 80px 0;
   }
 
-  .what-build__pillar:last-child {
-    padding-bottom: 0;
+  .service-chapter__head,
+  .service-chapter__body {
+    grid-column: auto;
   }
 
-  .what-build__pillar::before {
-    margin-bottom: 24px;
+  .service-chapter__head h3 {
+    font-size: clamp(58px, 18vw, 78px);
   }
 
-  .what-build__pillar-arrow {
+  .service-chapter__signal {
     display: none;
   }
 
   .what-build__register-cols {
     grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-
-  .what-build__register-col {
-    grid-column: auto;
-  }
-
-  .what-build__row-head {
-    display: flex;
-    gap: clamp(16px, 2.4vw, 40px);
-  }
-
-  .what-build__row-head::before {
-    display: none;
-  }
-
-  .what-build__service-title {
-    flex: 0 0 auto;
-    min-width: clamp(190px, 24vw, 280px);
-  }
-
-  .what-build__row-tags {
-    flex: 1 1 auto;
-  }
-
-  .what-build__row-strip,
-  .what-build__row-toggle {
-    flex: 0 0 auto;
-  }
-
-  .what-build__body-grid {
-    grid-template-columns: minmax(0, 40ch) 1fr;
-    gap: clamp(24px, 4vw, 72px);
-  }
-
-  .what-build__body-copy,
-  .what-build__posters {
-    grid-column: auto;
-  }
-
-  .what-build__register {
-    grid-template-columns: 1fr;
-  }
-
-  .what-build__register-label,
-  .what-build__register-cols {
-    grid-column: auto;
-  }
-
-  .what-build__service-title {
-    font-size: clamp(36px, 5.4vw, 56px);
-  }
-}
-
-@media (max-width: 640px) {
-  .what-build {
-    --build-px: 20px;
-  }
-
-  .what-build__inner {
-    padding: 80px 20px 52px;
-  }
-
-  .what-build__inner--head {
-    padding-bottom: 0;
-  }
-
-  .what-build__inner--pillars {
-    padding-top: 36px;
-    padding-bottom: 24px;
-  }
-
-  .what-build__inner--foot {
-    padding-top: 44px;
-    padding-bottom: 88px;
-  }
-
-  .what-build__top {
-    gap: 30px;
-    padding-bottom: 36px;
-  }
-
-  .what-build__title {
-    margin-left: -0.04em;
-    font-size: 78px;
-    line-height: 0.86;
-  }
-
-  .what-build__intro-stack {
-    margin-top: 0;
-  }
-
-  /* Demote pilarene på mobil — tydelig mindre enn tjeneste-titlene (44px) så
-     de leser som stille ramme, ikke som en konkurrerende liste. */
-  .what-build__pillar-title {
-    font-size: clamp(19px, 6vw, 26px);
-    line-height: 1.05;
-  }
-
-  .what-build__pillars {
-    gap: 20px;
-  }
-
-  .what-build__pillar {
-    padding-bottom: 20px;
-  }
-
-  .what-build__pillar::before {
-    margin-bottom: 14px;
-  }
-
-  .what-build__pillar-tag {
-    margin-top: 10px;
-  }
-
-  .what-build__pillar-body {
-    margin-top: 8px;
-  }
-
-  .what-build__row-head {
-    flex-wrap: wrap;
-    gap: 10px 16px;
-    padding: 20px var(--build-px);
-  }
-
-  .what-build__service-title {
-    order: 1;
-    flex: 1 1 auto;
-    min-width: 0;
-    font-size: clamp(30px, 9vw, 44px);
-  }
-
-  .what-build__row-toggle {
-    order: 2;
-    flex: 0 0 auto;
-  }
-
-  .what-build__row-tags {
-    order: 3;
-    flex-basis: 100%;
-  }
-
-  .what-build__row-strip {
-    display: none;
-  }
-
-  /* Mobil: tekst over mockups, én kolonne (som Arbeid). Rammene venstrestilt. */
-  .what-build__body-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .what-build__posters {
-    justify-content: flex-start;
-    min-height: 196px;
-  }
-
-  .what-build__poster {
-    width: 132px;
-  }
-
-  .what-build__poster:nth-child(2) {
-    width: 92px;
-    margin-top: 44px;
-    margin-left: -22px;
-  }
-
-  .what-build__description {
-    font-size: var(--fz-lead-m);
-    line-height: 1.5;
-  }
-
-  .what-build__register-cols {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 16px;
-    row-gap: 28px;
   }
 
   .what-build__register-col:last-child {
     grid-column: 1 / -1;
   }
 
-  .what-build__register-col:last-child .what-build__register-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 16px;
-  }
-
-  .what-build__register-col:last-child .what-build__register-item {
-    margin-top: 0;
-    margin-bottom: 8px;
-  }
-
   .what-build__foot {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+    display: grid;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .what-build {
+    scroll-behavior: auto;
   }
 
-  .what-build__foot-link {
-    margin-left: 0;
+  .service-index__tabs a {
+    transition: none;
   }
 }

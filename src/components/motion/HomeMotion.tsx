@@ -3,10 +3,18 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { destroyLenis, initLenis } from "@/lib/motion";
+import {
+  initApproachPathJourney,
+  initContentRevealScroll,
+  initFooterParallax,
+  initGlobalParallax,
+  initLoopingWordsWithSelector,
+  initShutterScrollTransition,
+} from "@/lib/osmo-motion";
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
@@ -232,7 +240,7 @@ function servicesScene() {
     for (const c of cleanups) c();
   };
 }
-// One-time opening scene: title lines rise, then panel and bar settle.
+// One-time opening scene: title lines rise, then the film and interface settle.
 // FROM-tweens only — without JS everything is simply visible (no CLS).
 function heroEntrance(full: boolean) {
   const titleLines = gsap.utils.toArray<HTMLElement>(".hero__title span");
@@ -242,7 +250,12 @@ function heroEntrance(full: boolean) {
   tl.from(titleLines, { yPercent: 26, autoAlpha: 0, duration: 0.8, stagger: 0.09 });
 
   if (full) {
-    tl.from(".hero__visual", { autoAlpha: 0, y: 26, duration: 0.7 }, "-=0.55");
+    tl.from(".hero__visual", { autoAlpha: 0, scale: 1.025, duration: 0.9 }, "-=0.7");
+    tl.from(
+      ".hero__axis, .hero__meta, .hero__scene",
+      { autoAlpha: 0, y: 10, duration: 0.45, stagger: 0.05 },
+      "-=0.48",
+    );
   }
   tl.from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.4");
 }
@@ -401,31 +414,24 @@ function bridgeScene() {
   const section = document.querySelector<HTMLElement>(".effect-bridge");
   if (!section) return () => {};
 
-  const tracks = gsap.utils.toArray<HTMLElement>("[data-bridge-track]", section);
   const lockup = section.querySelector<HTMLElement>("[data-bridge-lockup]");
-  const media = section.querySelector<HTMLElement>("[data-bridge-media]");
+  const live = section.querySelector<HTMLElement>("[data-bridge-live]");
+  const scan = section.querySelector<HTMLElement>("[data-bridge-scan]");
 
   const ctx = gsap.context(() => {
-    if (tracks[0]) {
-      gsap.fromTo(tracks[0], { xPercent: -10 }, {
-        xPercent: 10,
-        ease: "none",
-        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 0.75 },
-      });
-    }
-    if (tracks[1]) {
-      gsap.fromTo(tracks[1], { xPercent: 10 }, {
-        xPercent: -10,
-        ease: "none",
-        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 0.75 },
-      });
-    }
-    if (media) {
-      gsap.fromTo(media, { yPercent: 12, scale: 0.92 }, {
-        yPercent: -8,
+    if (live && window.matchMedia("(min-width: 761px)").matches) {
+      gsap.fromTo(live, { width: "38%", scale: 0.94 }, {
+        width: "78%",
         scale: 1,
         ease: "none",
-        scrollTrigger: { trigger: section, start: "top 88%", end: "bottom 18%", scrub: 0.65 },
+        scrollTrigger: { trigger: live, start: "top 88%", end: "bottom 34%", scrub: 0.65 },
+      });
+    }
+    if (scan) {
+      gsap.fromTo(scan, { x: 0 }, {
+        x: () => Math.max((live?.offsetWidth ?? 0) - 1, 0),
+        ease: "none",
+        scrollTrigger: { trigger: live ?? section, start: "top 82%", end: "bottom 30%", scrub: 0.5 },
       });
     }
     if (lockup) {
@@ -521,114 +527,66 @@ function workProof(cinematic: boolean) {
 }
 
 // 05 / Prosess — én koreografi etter det harde mørkt→lyst-kuttet:
-// «Uklart inn.» bryter baseline og fordeles mot Retning / Bygg / Live,
-// materialene settler og «System ut.» låser på den lyse flaten.
-// SplitText wrapper kun de dekorative aria-hidden-linjene.
-// Ingen pin eller scrub; no-JS / PRM viser statisk linje og lesbar tittel.
+// 05 / Prosess — én sammenhengende Osmo-inspirert draw-path som følger de tre
+// lesbare fasene. Ingen pin eller kortstabel; no-JS / reduced motion viser hele
+// systemet statisk.
 function processJourney() {
   const section = document.querySelector<HTMLElement>(".process-journey");
   if (!section) return () => {};
 
-  const rows = gsap.utils.toArray<HTMLElement>("[data-process-step]", section);
-  const system = section.querySelector<HTMLElement>("[data-process-system]");
-  const tokens = gsap.utils.toArray<HTMLElement>("[data-process-token]", section);
-  const decode = section.querySelector<HTMLElement>("[data-process-decode]");
-  const line1 = decode?.querySelector<HTMLElement>(".process-journey__line1") ?? null;
-  const line2 = decode?.querySelector<HTMLElement>(".process-journey__line2") ?? null;
-  if (!rows.length || !system || !line1 || !line2) return () => {};
-
-  const split = new SplitText(line1, {
-    type: "chars",
-    charsClass: "process-journey__char",
-  });
-  const outputSplit = new SplitText(line2, {
-    type: "chars",
-    charsClass: "process-journey__char process-journey__char--output",
-  });
-  const chars = split.chars as HTMLElement[];
-  const outputChars = outputSplit.chars as HTMLElement[];
-
-  const fragmentDelta = (char: HTMLElement, index: number) => {
-    const target = rows[index % rows.length].getBoundingClientRect();
-    const rect = char.getBoundingClientRect();
-    const lane = index % rows.length;
-    return {
-      x: target.left + target.width * 0.5 - (rect.left + rect.width / 2) + (lane - 1) * 18,
-      y: target.top + Math.min(132, target.height * 0.2) - (rect.top + rect.height / 2) + (index % 2 ? 22 : -12),
-    };
-  };
+  const path = section.querySelector<SVGPathElement>("[data-process-path]");
+  const traveler = section.querySelector<HTMLElement>("[data-process-traveler]");
+  const stages = gsap.utils.toArray<HTMLElement>("[data-process-stage]", section);
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const ctx = gsap.context(() => {
-    const head = section.querySelector<HTMLElement>(".process-journey__head");
+    if (path && !reduced) {
+      gsap.set(path, { strokeDasharray: 1, strokeDashoffset: 1 });
+      gsap.to(path, {
+        strokeDashoffset: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section.querySelector("[data-process-path-section]") ?? section,
+          start: "top 74%",
+          end: "bottom 30%",
+          scrub: 0.6,
+        },
+      });
 
-    gsap.set(line2, { autoAlpha: 0.32, yPercent: 20 });
-    gsap.set(outputChars, {
-      rotateX: 60,
-      z: () => -Math.min(window.innerHeight * 0.1, 96),
-      transformPerspective: () => window.innerWidth * 0.6,
-      transformOrigin: "50% 50%",
-    });
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: head ?? decode,
-        start: "top 80%",
-        once: true,
-      },
-      defaults: { ease: "power3.inOut" },
-    });
-
-    tl.to(chars, {
-      x: (index, target) => fragmentDelta(target as HTMLElement, index).x,
-      y: (index, target) => fragmentDelta(target as HTMLElement, index).y,
-      rotation: (index) => (index % 2 === 0 ? -7 : 7),
-      rotateX: -60,
-      z: () => -Math.min(window.innerHeight * 0.1, 96),
-      transformPerspective: () => window.innerWidth * 0.6,
-      opacity: 0.08,
-      duration: 1.05,
-      stagger: { each: 0.03, from: "random" },
-    }, 0.5);
-
-    if (tokens.length) {
-      tl.fromTo(tokens, {
-        x: (index) => (index % 3 === 0 ? -34 : index % 3 === 1 ? 26 : -16),
-        y: (index) => (index % 2 === 0 ? 26 : -20),
-        rotation: (index) => (index % 2 === 0 ? -3 : 3),
-        opacity: 0.16,
-      }, {
-        x: 0,
-        y: 0,
-        rotation: 0,
-        opacity: 1,
-        duration: 0.85,
-        stagger: 0.045,
-        ease: "power3.out",
-      }, 0.84);
+      if (traveler && window.matchMedia("(min-width: 901px)").matches) {
+        gsap.set(traveler, { xPercent: -50, yPercent: -50 });
+        gsap.to(traveler, {
+          ease: "none",
+          motionPath: {
+            path,
+            align: path,
+            alignOrigin: [0.5, 0.5],
+            autoRotate: false,
+          },
+          scrollTrigger: {
+            trigger: section.querySelector("[data-process-path-section]") ?? section,
+            start: "top 74%",
+            end: "bottom 30%",
+            scrub: 0.6,
+          },
+        });
+      }
     }
 
-    tl.to(line2, {
-      autoAlpha: 1,
-      yPercent: 0,
-      color: "var(--blekk)",
-      duration: 0.72,
-      ease: "power3.out",
-    }, 1.16);
-
-    tl.to(outputChars, {
-      rotateX: 0,
-      z: 0,
-      duration: 0.72,
-      ease: "power3.out",
-      stagger: { each: 0.03, from: "random" },
-    }, 1.16);
-
+    if (!reduced) {
+      stages.forEach((stage) => {
+        gsap.from(stage, {
+          autoAlpha: 0,
+          y: 24,
+          duration: 0.75,
+          ease: "power3.out",
+          scrollTrigger: { trigger: stage, start: "top 78%", once: true },
+        });
+      });
+    }
   }, section);
 
-  return () => {
-    ctx.revert();
-    split.revert();
-    outputSplit.revert();
-  };
+  return () => ctx.revert();
 }
 
 // 06 / System — manifesto lines rise out of their masks once; support and
@@ -642,7 +600,8 @@ function manifestoReveal() {
     section
   );
   const support = section.querySelector("[data-manifesto-support]");
-  const corners = section.querySelectorAll(".system-manifesto__corner");
+  const gridColumns = section.querySelectorAll(".system-manifesto__grid span");
+  const pieces = gsap.utils.toArray<HTMLElement>("[data-system-piece]", section);
 
   const tl = gsap.timeline({
     scrollTrigger: { trigger: section, start: "top 64%", once: true },
@@ -652,11 +611,22 @@ function manifestoReveal() {
   if (lines.length) {
     tl.from(lines, { yPercent: 108, duration: 0.8, stagger: 0.12 });
   }
+  if (pieces.length) {
+    tl.from(pieces, {
+      x: (index) => [-90, 86, -62, 70][index] ?? 0,
+      y: (index) => [-56, -72, 70, 58][index] ?? 0,
+      rotation: (index) => [-8, 7, 5, -6][index] ?? 0,
+      autoAlpha: 0,
+      duration: 0.95,
+      stagger: 0.08,
+      ease: "power3.inOut",
+    }, 0.1);
+  }
   if (support) {
     tl.from(support, { autoAlpha: 0, y: 16, duration: 0.55 }, "-=0.35");
   }
-  if (corners.length) {
-    tl.from(corners, { autoAlpha: 0, duration: 0.45, stagger: 0.05 }, "-=0.4");
+  if (gridColumns.length) {
+    tl.from(gridColumns, { autoAlpha: 0, yPercent: 10, duration: 0.6, stagger: 0.025 }, "-=0.4");
   }
 }
 
@@ -738,7 +708,6 @@ function setupFooterUtilities() {
       window.clearTimeout(resetTimer);
       copyButton.removeAttribute("data-copied");
       copyButton.textContent = idleLabel;
-      copyButton.hidden = true;
     });
   }
 
@@ -752,6 +721,14 @@ export function HomeMotion() {
     const teardownUtilities = setupFooterUtilities();
     const lenis = initLenis({ lerp: 0.12 });
     lenis?.lenis.on("scroll", ScrollTrigger.update);
+    const teardownOsmoReveal = initContentRevealScroll();
+    const teardownOsmoParallax = initGlobalParallax();
+    let teardownLoopingWords = () => {};
+    let teardownShutter = () => {};
+    let teardownFooterParallax = () => {};
+    let teardownApproachPath = () => {};
+    let footerInitFrame = 0;
+    let effectCancelled = false;
 
     const mm = gsap.matchMedia();
 
@@ -797,12 +774,31 @@ export function HomeMotion() {
       };
     });
 
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+    const layoutReady = document.fonts?.ready ?? Promise.resolve();
+    layoutReady.then(() => {
+      if (effectCancelled) return;
+      footerInitFrame = window.requestAnimationFrame(() => {
+        if (effectCancelled) return;
+        teardownLoopingWords = initLoopingWordsWithSelector();
+        teardownShutter = initShutterScrollTransition();
+        teardownFooterParallax = initFooterParallax();
+        teardownApproachPath = initApproachPathJourney();
+        ScrollTrigger.refresh();
+      });
+    });
 
     return () => {
+      effectCancelled = true;
+      window.cancelAnimationFrame(footerInitFrame);
       mm.revert();
       lenis?.lenis.off("scroll", ScrollTrigger.update);
       destroyLenis();
+      teardownFooterParallax();
+      teardownOsmoParallax();
+      teardownOsmoReveal();
+      teardownLoopingWords();
+      teardownShutter();
+      teardownApproachPath();
       teardownUtilities();
     };
   }, []);

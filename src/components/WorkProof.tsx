@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 const capabilities = [
   {
     n: "01",
@@ -37,33 +39,16 @@ const capabilities = [
   },
 ];
 
-const stageAssets = [
-  {
-    key: "laptop",
-    src: "/work/capability-stage/laptop-rocks.png",
-    label: "Produktflate / webapp",
-  },
-  {
-    key: "phone",
-    src: "/work/capability-stage/phone-hand.png",
-    label: "Mobilflyt / app",
-  },
-  {
-    key: "tablet",
-    src: "/work/capability-stage/ipad-hand.png",
-    label: "Grensesnitt / plattform",
-  },
-  {
-    key: "system",
-    src: "/work/capability-stage/laptop-chair.png",
-    label: "Systemflate / portal",
-  },
-  {
-    key: "mobile",
-    src: "/work/capability-stage/phone-rock.jpg",
-    label: "Interaksjon / mobil",
-  },
+const radialCapabilities = [
+  { ...capabilities[0], src: "/work/capability-stage/laptop-rocks.png", tone: "paper", muted: true },
+  { ...capabilities[1], src: "/work/capability-stage/laptop-chair.png", tone: "olive", muted: false },
+  { ...capabilities[2], src: "/work/capability-stage/ipad-hand.png", tone: "mauve", muted: false },
+  { ...capabilities[3], src: "/work/capability-stage/phone-hand.png", tone: "ink", muted: false },
+  { ...capabilities[4], src: "/work/capability-stage/laptop-rocks.png", tone: "olive", muted: true },
+  { ...capabilities[5], src: "/work/capability-stage/phone-rock.jpg", tone: "paper", muted: false },
 ];
+
+const radialItems = [...radialCapabilities, ...radialCapabilities];
 
 /* 04 / Arbeid — én capability-komposisjon i normal flow. Mockupene er
    konseptpresentasjon og aldri påstått som levert kundearbeid. Under scenen
@@ -85,35 +70,33 @@ export function WorkProof() {
         </div>
       </header>
 
-      <div
-        className="work-stage"
-        data-work-stage
-        role="img"
-        aria-label="Konseptkomposisjon som viser digitale produkt-, mobil- og systemflater Tigon kan skape"
-      >
-        <p className="work-stage__axis" aria-hidden="true">
-          <span>Design</span>
-          <span>Teknologi</span>
-          <span>Synlighet</span>
-        </p>
-
-        {stageAssets.map((asset, index) => (
-          <figure
-            className={`work-stage__media work-stage__media--${asset.key}`}
-            data-work-media
-            key={asset.key}
-          >
-            <img src={asset.src} alt="" loading={index === 0 ? "eager" : "lazy"} />
-            <figcaption>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <span>{asset.label}</span>
-            </figcaption>
-          </figure>
-        ))}
-
-        <div className="work-stage__lock" data-work-lock aria-hidden="true">
-          <span>TGN / valgt</span>
-          <span>Systemet er samlet</span>
+      <div className="radial-capabilities" aria-hidden="true">
+        <div className="radial-capabilities__collection">
+          <div className="radial-capabilities__list" data-radial-cards-marquee-list="">
+            {radialItems.map((capability, index) => (
+              <div
+                className="radial-capabilities__item"
+                key={`${capability.n}-${index}`}
+                style={{ "--card": index + 1 } as CSSProperties}
+              >
+                <figure className={`radial-card radial-card--${capability.tone}`}>
+                  <div className={`radial-card__media${capability.muted ? " radial-card__media--muted" : ""}`}>
+                    <img src={capability.src} alt="" loading="lazy" />
+                  </div>
+                  <figcaption>
+                    <span>{capability.n} / 06</span>
+                    <strong>{capability.name}</strong>
+                    <span>{capability.meta}</span>
+                  </figcaption>
+                </figure>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="radial-capabilities__legend">
+          <span>TGN / capability orbit / 01—06</span>
+          <strong>Dette kan Tigon lage</strong>
+          <span>Konseptflater — ikke kundecaser</span>
         </div>
       </div>
 

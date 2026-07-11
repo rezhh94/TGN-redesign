@@ -33,8 +33,6 @@ const outcomes = [
   },
 ];
 
-/* 03 / Effekt — én kausal resultatkjede, ikke fire scrollscener. Hele kjeden er
-   serverrendret og leses som én setning: funnet → forstått → valgt → målt. */
 export function WhatWeImprove() {
   return (
     <section className="what-improve" aria-labelledby="what-improve-title">
@@ -49,24 +47,65 @@ export function WhatWeImprove() {
           </p>
         </header>
 
-        <ol className="what-improve__chain" aria-label="Resultatkjede">
-          {outcomes.map((outcome) => (
-            <li className="what-improve__outcome" key={outcome.key}>
-              <div className="what-improve__step">
-                <span className="what-improve__num">{outcome.number}</span>
-                <span className="what-improve__node" aria-hidden="true" />
-              </div>
-              <h3 className="what-improve__title">{outcome.title}</h3>
-              <p className="what-improve__text">{outcome.description}</p>
-              <p className="what-improve__tools">{outcome.tools}</p>
-            </li>
-          ))}
-        </ol>
+        <div className="what-improve__word-stage looping-words" aria-hidden="true">
+          <div className="looping-words__containers">
+            <ul className="looping-words__list" data-looping-words-list="">
+              {outcomes.map((outcome) => (
+                <li className="looping-words__item" data-looping-key={outcome.key} key={outcome.key}>
+                  <p className="looping-words__word">{outcome.title}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="looping-words__fade" />
+          <div className="looping-words__selector" data-looping-words-selector="">
+            <span className="looping-words__edge" />
+            <span className="looping-words__edge looping-words__edge--2" />
+            <span className="looping-words__edge looping-words__edge--3" />
+            <span className="looping-words__edge looping-words__edge--4" />
+          </div>
+        </div>
+
+        <div className="what-improve__detail-stage">
+          <ol className="what-improve__index" aria-label="Resultatkjede">
+            {outcomes.map((outcome) => (
+              <li
+                data-looping-index={outcome.key}
+                data-active={outcome.key === "forstatt" ? "" : undefined}
+                key={outcome.key}
+              >
+                <span>{outcome.number}</span>
+                <strong>{outcome.title}</strong>
+              </li>
+            ))}
+          </ol>
+
+          <div className="what-improve__details">
+            {outcomes.map((outcome) => (
+              <article
+                className="what-improve__detail"
+                data-looping-detail={outcome.key}
+                data-active={outcome.key === "forstatt" ? "" : undefined}
+                key={outcome.key}
+              >
+                <header>
+                  <span>{outcome.number} / 04</span>
+                  <h3>{outcome.title}</h3>
+                </header>
+                <p className="what-improve__text">{outcome.description}</p>
+                <div className="what-improve__detail-meta">
+                  <p className="what-improve__signal">{outcome.signal}</p>
+                  <p className="what-improve__tools">{outcome.tools}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
 
         <p className="what-improve__closing">
           <span>Synlighet inn</span>
           <span aria-hidden="true">→</span>
-          <span>målbar kontakt ut</span>
+          <span>Målbar kontakt ut</span>
         </p>
       </div>
     </section>

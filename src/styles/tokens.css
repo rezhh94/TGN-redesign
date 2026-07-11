@@ -49,6 +49,28 @@
      Aldri stor bakgrunnsflate. Erstatter --color-signal (bannlyst oransje). */
   --pine: #33453b;
   --pine-tint: #dbe2dc;
+  /* Canonical Tigon brand colour from the delivered brand poster. */
+  --tigon-green: #001a1a;
+  /* Samlet art direction for de nye homepage-kapitlene. Disse er bevisst
+     seksjons-tokens, slik at Header/Hero ikke endres indirekte. */
+  --tigon-canvas: #050606;
+  --tigon-canvas-raised: #0b0d0d;
+  --tigon-canvas-lifted: #1a1c1c;
+  --tigon-paper: #f2f2ef;
+  --tigon-mineral: #d3d8d5;
+  --tigon-line-dark: rgba(242, 242, 239, 0.16);
+  --tigon-line-light: rgba(5, 6, 6, 0.16);
+  --tigon-type-display: var(--font-display);
+  --tigon-type-editorial: var(--font-sans);
+  --tigon-type-meta: var(--font-mono);
+  /* Varm Osmo-oversettelse — dempet mineral/oliven for utvalgte store
+     redaksjonelle flater. Brukes som et bevisst kapittel, ikke som generell
+     aksent eller dekor. */
+  --olive-warm: #b1ae91;
+  --mauve-warm: #c8bcc1;
+  --sage-warm: #d5d4c3;
+  --sand-warm: #e1d5bd;
+  --plum-deep: #261e24;
 
   --font-display: "TGS Perfect", "Arial Narrow", "Arial Black", sans-serif;
   --font-sans: "JUST Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -60,6 +82,16 @@
   --page-max: 2560px;
   --gutter: clamp(24px, 5vw, 150px);
   --header-height: 76px;
+
+  /* Osmo Scaling System — dormant aliases for staged section migration.
+     These are intentionally not connected to body font-size or --page-max yet,
+     so adding the foundation does not change the current composition. */
+  --size-unit: 16;
+  --size-container-ideal: 1440;
+  --size-container-min: 992px;
+  --size-container-max: 1920px;
+  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
+  --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
 
   /* Vertikal seksjons-rytme — «kapittel-start/slutt»-luft. Én kilde for alle
      vanlige seksjoner (var før 104–120 / 14–16vh / 184–212, litt ulikt hver).
@@ -180,5 +212,29 @@
   :root {
     --grid-cols: 6;
     --grid-gutter: 10px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  :root {
+    --size-container-ideal: 834;
+    --size-container-min: 768px;
+    --size-container-max: 991px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  :root {
+    --size-container-ideal: 550;
+    --size-container-min: 480px;
+    --size-container-max: 767px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  :root {
+    --size-container-ideal: 390;
+    --size-container-min: 320px;
+    --size-container-max: 479px;
   }
 }
