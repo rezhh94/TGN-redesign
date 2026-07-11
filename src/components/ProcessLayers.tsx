@@ -46,7 +46,7 @@ export function ProcessLayers() {
             <path data-process-path pathLength="1" d="M22 0 C22 170 92 120 92 300 S22 420 22 600 S92 730 92 900" />
           </svg>
           <div className="process-flow__traveler" data-process-traveler>
-            <img src="/brand/tigon-mark-ink.svg" alt="" />
+            <span />
           </div>
           <span>Uklart behov</span>
           <span>Målbar kontaktvei</span>
@@ -67,9 +67,9 @@ export function ProcessLayers() {
 
               <div className="process-stage__system">
                 <div className={`process-stage__station process-stage__station--${phase.n}`} aria-hidden="true">
-                  <span>TGN / NODE {phase.n}</span>
+                  <span>TGN / ASSEMBLY {phase.n}</span>
                   <div className="process-stage__station-mark">
-                    <img src="/brand/tigon-mark-ink.svg" alt="" />
+                    {Array.from({ length: 4 }, (_, index) => <i key={index} />)}
                   </div>
                   <div className="process-stage__station-lines">
                     {Array.from({ length: 5 }, (_, index) => <i key={index} />)}

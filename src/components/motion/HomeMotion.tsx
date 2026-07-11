@@ -29,215 +29,75 @@ function servicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
   if (!section) return () => {};
 
+  const rows = gsap.utils.toArray<HTMLElement>("[data-service-row]", section);
+  const visuals = gsap.utils.toArray<HTMLElement>("[data-service-visual-item]", section);
   const cleanups: Array<() => void> = [];
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let activeIndex = -1;
+  section.classList.add("what-build--enhanced");
 
-  const pillars = section.querySelector<HTMLElement>("[data-build-list]");
-  const accordion = section.querySelector<HTMLElement>("[data-build-accordion]");
-  const rows = accordion
-    ? gsap.utils.toArray<HTMLElement>("[data-build-row]", accordion)
-    : [];
-
-  if (accordion && rows.length) {
-    // Enhance into an accordion — one row open at a time. Default open = first.
-    section.classList.add("what-build--enhanced");
-    const panelOf = (row: HTMLElement) =>
-      row.querySelector<HTMLElement>("[data-build-panel]");
-    const btnOf = (row: HTMLElement) =>
-      row.querySelector<HTMLElement>("[data-build-toggle]");
-    const previewOf = (row: HTMLElement) =>
-      row.querySelector<HTMLElement>("[data-build-preview]");
-    const previewItemsOf = (row: HTMLElement) =>
-      gsap.utils.toArray<HTMLElement>("[data-build-preview-item]", row);
-
-    const animatePreview = (row: HTMLElement, origin?: DOMRect) => {
-      const [primary, detail] = previewItemsOf(row);
-      const preview = previewOf(row);
-      if (!preview || !primary || !detail) return;
-      gsap.killTweensOf([preview, primary, detail]);
-
-      // MWG 105 adaptation: the active media field snaps from 1.1 to rest with
-      // the same short back.out focus response, scoped to the open accordion.
-      gsap.fromTo(preview, { scale: 1.1 }, {
-        scale: 1,
-        duration: 0.3,
-        ease: "back.out(2)",
-        clearProps: "transform",
-      });
-
-      const target = primary.getBoundingClientRect();
-      const sharedStart = origin
-        ? {
-            x: origin.left - target.left,
-            y: origin.top - target.top,
-            scaleX: origin.width / Math.max(target.width, 1),
-            scaleY: origin.height / Math.max(target.height, 1),
-            clipPath: "inset(0% 0% 0% 0%)",
-          }
-        : {
-            x: 0,
-            y: 18,
-            scaleX: 0.96,
-            scaleY: 0.96,
-            clipPath: "inset(0% 100% 0% 0%)",
-          };
-
-      gsap.fromTo(primary, sharedStart, {
-        x: 0,
-        y: 0,
-        scaleX: 1,
-        scaleY: 1,
-        clipPath: "inset(0% 0% 0% 0%)",
-        duration: origin ? 0.58 : 0.5,
-        ease: "power3.inOut",
-        clearProps: "transform",
-      });
-
-      gsap.fromTo(detail, {
-        autoAlpha: 0,
-        x: 28,
-        y: 18,
-        rotation: 2.5,
-        clipPath: "inset(100% 0% 0% 0%)",
-      }, {
-        autoAlpha: 1,
-        x: 0,
-        y: 0,
-        rotation: 0,
-        clipPath: "inset(0% 0% 0% 0%)",
-        duration: 0.52,
-        delay: 0.08,
-        ease: "power3.out",
-        clearProps: "transform",
-      });
-    };
-
-    rows.forEach((row, i) => {
-      const panel = panelOf(row);
-      const btn = btnOf(row);
-      const open = i === 0;
-      if (open) row.setAttribute("data-open", "");
-      else row.removeAttribute("data-open");
-      btn?.setAttribute("aria-expanded", String(open));
-      if (panel) gsap.set(panel, { height: open ? "auto" : 0 });
-    });
-
-    const openRow = (row: HTMLElement, origin?: DOMRect) => {
-      const panel = panelOf(row);
+  const activate = (index: number, animate = true) => {
+    if (index === activeIndex && animate) return;
+    activeIndex = index;
+    animate = animate && !reduced;
+    rows.forEach((row, rowIndex) => {
+      const active = rowIndex === index;
+      const panel = row.querySelector<HTMLElement>("[data-service-panel]");
+      const button = row.querySelector<HTMLElement>("[data-service-toggle]");
+      row.dataset.active = String(active);
+      button?.setAttribute("aria-expanded", String(active));
       if (!panel) return;
-      row.setAttribute("data-open", "");
-      btnOf(row)?.setAttribute("aria-expanded", "true");
-      gsap.set(panel, { height: "auto" });
-      const h = panel.offsetHeight;
-      gsap.fromTo(
-        panel,
-        { height: 0 },
-        {
-          height: h,
-          duration: 0.5,
+      panel.inert = !active;
+      panel.setAttribute("aria-hidden", String(!active));
+      if (!animate) {
+        gsap.set(panel, { height: active ? "auto" : 0 });
+        return;
+      }
+      gsap.killTweensOf(panel);
+      if (active) {
+        gsap.set(panel, { height: "auto" });
+        const height = panel.offsetHeight;
+        gsap.fromTo(panel, { height: 0 }, {
+          height,
+          duration: 0.52,
           ease: "power3.inOut",
           onComplete: () => gsap.set(panel, { height: "auto" }),
-        }
-      );
-      animatePreview(row, origin);
-    };
-
-    const closeRow = (row: HTMLElement) => {
-      const panel = panelOf(row);
-      if (!panel) return;
-      row.removeAttribute("data-open");
-      btnOf(row)?.setAttribute("aria-expanded", "false");
-      gsap.fromTo(
-        panel,
-        { height: panel.offsetHeight },
-        { height: 0, duration: 0.45, ease: "power3.inOut" }
-      );
-    };
-
-    rows.forEach((row) => {
-      const btn = btnOf(row);
-      if (!btn) return;
-      const onClick = () => {
-        const isOpen = row.hasAttribute("data-open");
-        if (isOpen) {
-          closeRow(row);
-          return;
-        }
-        const previous = rows.find(
-          (other) => other !== row && other.hasAttribute("data-open")
-        );
-        const previousPrimary = previous ? previewItemsOf(previous)[0] : null;
-        const origin = previousPrimary?.getBoundingClientRect();
-
-        rows.forEach((other) => {
-          if (other !== row && other.hasAttribute("data-open")) closeRow(other);
         });
-        openRow(row, origin);
-      };
-      const onPreviewFocus = () => {
-        if (row.hasAttribute("data-open")) animatePreview(row);
-      };
-      btn.addEventListener("click", onClick);
-      btn.addEventListener("pointerenter", onPreviewFocus);
-      btn.addEventListener("focusin", onPreviewFocus);
-      cleanups.push(() => {
-        btn.removeEventListener("click", onClick);
-        btn.removeEventListener("pointerenter", onPreviewFocus);
-        btn.removeEventListener("focusin", onPreviewFocus);
-      });
+      } else {
+        gsap.to(panel, { height: 0, duration: 0.42, ease: "power3.inOut" });
+      }
     });
+    visuals.forEach((visual, visualIndex) => {
+      visual.dataset.active = String(visualIndex === index);
+    });
+  };
 
+  activate(0, false);
+  rows.forEach((row, index) => {
+    const button = row.querySelector<HTMLElement>("[data-service-toggle]");
+    if (!button) return;
+    const onActivate = () => activate(index);
+    button.addEventListener("click", onActivate);
+    button.addEventListener("pointerenter", onActivate);
     cleanups.push(() => {
-      section.classList.remove("what-build--enhanced");
-      rows.forEach((row) => {
-        row.removeAttribute("data-open");
-        btnOf(row)?.setAttribute("aria-expanded", "true");
-        const panel = panelOf(row);
-        if (panel) gsap.set(panel, { clearProps: "height" });
-        gsap.set(previewItemsOf(row), { clearProps: "all" });
-      });
+      button.removeEventListener("click", onActivate);
+      button.removeEventListener("pointerenter", onActivate);
     });
-  }
-
-  // Reveal — rise 40 + fade, matching Arbeid (workProof). Explicit hidden state
-  // via gsap.set (unconditional, unlike gsap.from's immediateRender which
-  // ScrollTrigger was skipping here after the accordion collapse), then fade in
-  // on enter. onRefresh reveals immediately if a group is already in view at
-  // load, so content is never stuck hidden.
-  const revealCtx = gsap.context(() => {
-    const groups: Array<[string, string]> = [
-      ["[data-build-list]", "[data-build-list] [data-build-row]"],
-      ["[data-build-accordion]", "[data-build-accordion] [data-build-row]"],
-    ];
-    groups.forEach(([trigger, target]) => {
-      const els = gsap.utils.toArray<HTMLElement>(target);
-      if (!els.length) return;
-      gsap.set(els, { autoAlpha: 0, y: 16 });
-      let done = false;
-      const reveal = () => {
-        if (done) return;
-        done = true;
-        gsap.to(els, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.07,
-        });
-      };
-      ScrollTrigger.create({
-        trigger,
-        start: "top 80%",
-        onEnter: reveal,
-        onRefresh: (self) => {
-          if (self.progress > 0) reveal();
-        },
-      });
-    });
-  }, section);
-  cleanups.push(() => revealCtx.revert());
+  });
 
   return () => {
-    for (const c of cleanups) c();
+    cleanups.forEach((cleanup) => cleanup());
+    section.classList.remove("what-build--enhanced");
+    rows.forEach((row, index) => {
+      row.dataset.active = String(index === 0);
+      row.querySelector<HTMLElement>("[data-service-toggle]")?.setAttribute("aria-expanded", String(index === 0));
+      const panel = row.querySelector<HTMLElement>("[data-service-panel]");
+      if (panel) {
+        panel.inert = false;
+        panel.removeAttribute("aria-hidden");
+        gsap.set(panel, { clearProps: "height" });
+      }
+    });
   };
 }
 // One-time opening scene: title lines rise, then the film and interface settle.
@@ -265,145 +125,42 @@ function heroEntrance(full: boolean) {
 // scrolls past (Monolog «fill» text — no pin, pure scrub). Words are wrapped at
 // runtime; teardown restores the original markup. No-JS / PRM keep the static,
 // already-filled (bright) paragraph.
-function approachIntroScene() {
-  const intro = document.querySelector<HTMLElement>(".approach-intro");
-  if (!intro) return () => {};
-
-  const title = intro.querySelector<HTMLElement>("[data-intro-title]");
-  const fill = intro.querySelector<HTMLElement>("[data-intro-fill]");
-
-  // Wrap each word in a span (keep whitespace intact) — the words stay real text
-  // for screen readers; only their colour is animated.
-  let originalFill = "";
-  let words: HTMLElement[] = [];
-  if (fill) {
-    originalFill = fill.innerHTML;
-    const text = (fill.textContent ?? "").replace(/\s+/g, " ").trim();
-    fill.innerHTML = text
-      .split(" ")
-      .map((word) => `<span class="fill-word">${word}</span>`)
-      .join(" ");
-    words = gsap.utils.toArray<HTMLElement>(".fill-word", fill);
-  }
-
-  // Snap to two fixed text-strength steps — --on-dark-faint → --on-dark-strong
-  // (the reference's grey → white, on-system rather than an invented alpha).
-  const dim = "rgba(242, 241, 235, 0.4)";
-  const bright = "rgba(242, 241, 235, 0.9)";
+function introParallaxScene() {
+  const section = document.querySelector<HTMLElement>("[data-intro-parallax]");
+  const surface = section?.querySelector<HTMLElement>("[data-intro-surface]");
+  const heroVisual = document.querySelector<HTMLElement>(".hero__visual");
+  const lines = surface
+    ? gsap.utils.toArray<HTMLElement>("[data-intro-title] > span", surface)
+    : [];
+  if (!section || !surface) return () => {};
 
   const ctx = gsap.context(() => {
-    if (title) {
-      gsap.from(title, {
-        autoAlpha: 0,
-        y: 24,
-        duration: 0.7,
-        ease: "power3.out",
-        scrollTrigger: { trigger: intro, start: "top 80%", once: true },
-      });
-    }
-
-    if (words.length) {
-      // Fill wavefront ~3 words wide (duration/stagger ratio); scrubbed to scroll
-      // as the paragraph crosses the middle of the viewport.
-      gsap.set(words, { color: dim });
-      gsap.to(words, {
-        color: bright,
+    if (heroVisual) {
+      gsap.to(heroVisual, {
+        yPercent: 14,
+        scale: 0.98,
         ease: "none",
-        duration: 1,
-        stagger: 0.35,
         scrollTrigger: {
-          trigger: fill,
-          start: "top 82%",
-          end: "bottom 42%",
-          scrub: 0.4,
+          trigger: section,
+          start: "top bottom",
+          end: "top top",
+          scrub: 0.5,
         },
       });
     }
-  }, intro);
-
-  return () => {
-    ctx.revert();
-    if (fill) fill.innerHTML = originalFill;
-  };
-}
-
-// 01 / Tilnærming, beat 2 — «Lukk gapet» (Monolog-oversatt). The statement is
-// two display halves — IDÉ / LØSNING — with an image field in the gap between
-// them. On desktop the block pins and the scroll scrubs the field's width from
-// wide to a sliver: the halves glide together, closing the gap, while the field
-// cycles through the demo frames. The lead line and payoff fade in on enter.
-// Mobile stays static (a pinned horizontal headline is unstable on a narrow
-// screen). No-JS / PRM keep the static SSR composite. Teardown is ctx.revert().
-function approachGapScene(pin: boolean) {
-  const gap = document.querySelector<HTMLElement>(".approach-gap");
-  if (!gap) return () => {};
-
-  const media = gap.querySelector<HTMLElement>("[data-gap-media]");
-  const frames = gsap.utils.toArray<HTMLElement>("[data-gap-frame]", gap);
-  const statement = gap.querySelector<HTMLElement>("[data-gap-title]");
-  const lead = gap.querySelector<HTMLElement>("[data-gap-lead]");
-  const support = gap.querySelector<HTMLElement>("[data-gap-support]");
-
-  // Light one frame at a time — the others fade out (CSS handles the crossfade).
-  const setActive = (index: number) => {
-    frames.forEach((frame, i) =>
-      frame.setAttribute("data-active", i === index ? "true" : "false")
-    );
-  };
-
-  const ctx = gsap.context(() => {
-    if (lead) {
-      gsap.from(lead, {
+    if (lines.length) {
+      gsap.from(lines, {
+        yPercent: 28,
         autoAlpha: 0,
-        y: 16,
-        duration: 0.6,
-        ease: "power2.out",
-        scrollTrigger: { trigger: gap, start: "top 66%", once: true },
+        duration: 0.8,
+        stagger: 0.09,
+        ease: "power3.out",
+        scrollTrigger: { trigger: surface, start: "top 72%", once: true },
       });
     }
-    if (support) {
-      gsap.from(support, {
-        autoAlpha: 0,
-        y: 18,
-        duration: 0.6,
-        ease: "power2.out",
-        scrollTrigger: { trigger: gap, start: "top 58%", once: true },
-      });
-    }
+  }, section);
 
-    if (!media || !statement) {
-      setActive(0);
-      return;
-    }
-
-    const count = frames.length || 1;
-    const onUpdate = (self: ScrollTrigger) => {
-      const index = Math.min(count - 1, Math.floor(self.progress * count));
-      setActive(index);
-    };
-
-    // Desktop pins the block and scrubs the close in place. Mobile follows the
-    // project's bridgeScene pattern — same scrub, no pin (a pinned horizontal
-    // headline jumps with the mobile address bar): the gap closes and the frames
-    // cycle as the statement rises through the viewport.
-    const trigger = pin
-      ? { trigger: gap, start: "top top", end: "+=110%", scrub: true, pin: gap, anticipatePin: 1, invalidateOnRefresh: true, onUpdate }
-      : { trigger: statement, start: "top 80%", end: "top 30%", scrub: true, invalidateOnRefresh: true, onUpdate };
-
-    // The field height is em-relative (follows the title); its resting width is
-    // ~0.82× that height (a portrait card). Function-based + invalidateOnRefresh
-    // so it recomputes when the font/viewport changes. Scrubs down to a sliver.
-    gsap.fromTo(
-      media,
-      { width: () => media.offsetHeight * 0.82 },
-      { width: 2, ease: "none", scrollTrigger: trigger }
-    );
-  }, gap);
-
-  return () => {
-    ctx.revert();
-    setActive(0);
-  };
+  return () => ctx.revert();
 }
 
 // 02→03 / Overlevering — Jack & AI-adaptert lagdeling without another pin.
@@ -414,33 +171,20 @@ function bridgeScene() {
   const section = document.querySelector<HTMLElement>(".effect-bridge");
   if (!section) return () => {};
 
-  const lockup = section.querySelector<HTMLElement>("[data-bridge-lockup]");
-  const live = section.querySelector<HTMLElement>("[data-bridge-live]");
-  const scan = section.querySelector<HTMLElement>("[data-bridge-scan]");
+  const stage = section.querySelector<HTMLElement>("[data-bridge-stage]");
+  const windowEl = section.querySelector<HTMLElement>("[data-bridge-window]");
 
   const ctx = gsap.context(() => {
-    if (live && window.matchMedia("(min-width: 761px)").matches) {
-      gsap.fromTo(live, { width: "38%", scale: 0.94 }, {
-        width: "78%",
+    if (stage && windowEl && window.matchMedia("(min-width: 761px)").matches) {
+      gsap.fromTo(windowEl, { scale: 0.68 }, {
         scale: 1,
         ease: "none",
-        scrollTrigger: { trigger: live, start: "top 88%", end: "bottom 34%", scrub: 0.65 },
+        scrollTrigger: { trigger: stage, start: "top 76%", end: "bottom bottom", scrub: 0.65 },
       });
-    }
-    if (scan) {
-      gsap.fromTo(scan, { x: 0 }, {
-        x: () => Math.max((live?.offsetWidth ?? 0) - 1, 0),
+      gsap.fromTo(windowEl.querySelector("img"), { scale: 1.12 }, {
+        scale: 1,
         ease: "none",
-        scrollTrigger: { trigger: live ?? section, start: "top 82%", end: "bottom 30%", scrub: 0.5 },
-      });
-    }
-    if (lockup) {
-      gsap.from(lockup, {
-        autoAlpha: 0,
-        y: 28,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: lockup, start: "top 82%", once: true },
+        scrollTrigger: { trigger: stage, start: "top 76%", end: "bottom bottom", scrub: 0.65 },
       });
     }
   }, section);
@@ -723,6 +467,7 @@ export function HomeMotion() {
     lenis?.lenis.on("scroll", ScrollTrigger.update);
     const teardownOsmoReveal = initContentRevealScroll();
     const teardownOsmoParallax = initGlobalParallax();
+    const teardownServices = servicesScene();
     let teardownLoopingWords = () => {};
     let teardownShutter = () => {};
     let teardownFooterParallax = () => {};
@@ -734,9 +479,7 @@ export function HomeMotion() {
 
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
-      const teardownIntro = approachIntroScene();
-      const teardownGap = approachGapScene(true);
-      const teardownServices = servicesScene();
+      const teardownIntro = introParallaxScene();
       const teardownBridge = bridgeScene();
       const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
       const teardownProcess = processJourney();
@@ -744,8 +487,6 @@ export function HomeMotion() {
       footerReveals();
       return () => {
         teardownIntro();
-        teardownGap();
-        teardownServices();
         teardownBridge();
         teardownWork();
         teardownProcess();
@@ -756,9 +497,7 @@ export function HomeMotion() {
     // run; the cinematic Work stage remains disabled below tablet width.
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
-      const teardownIntro = approachIntroScene();
-      const teardownGap = approachGapScene(false);
-      const teardownServices = servicesScene();
+      const teardownIntro = introParallaxScene();
       const teardownBridge = bridgeScene();
       const teardownWork = workProof(false);
       const teardownProcess = processJourney();
@@ -766,8 +505,6 @@ export function HomeMotion() {
       footerReveals();
       return () => {
         teardownIntro();
-        teardownGap();
-        teardownServices();
         teardownBridge();
         teardownWork();
         teardownProcess();
@@ -795,6 +532,7 @@ export function HomeMotion() {
       destroyLenis();
       teardownFooterParallax();
       teardownOsmoParallax();
+      teardownServices();
       teardownOsmoReveal();
       teardownLoopingWords();
       teardownShutter();

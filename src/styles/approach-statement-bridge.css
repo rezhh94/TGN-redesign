@@ -1,201 +1,164 @@
-/* 01 / Tilnærming — to beats.
-
-   Beat 1 (.approach-intro__*) «Oppsett»: UKLART BLIR BYGGBART som overskrift +
-   struktur-avsnitt som fylles ord for ord (JS setter ordene dempet og scrubber
-   dem til lyst mens seksjonen scroller forbi — ingen pin). Default (no-JS / PRM)
-   er et fylt, lesbart avsnitt.
-
-   Beat 2 (.approach-gap__*) «Lukk gapet»: to display-halvdeler (IDÉ / LØSNING)
-   med et bildefelt i midten. Pin + scrub (desktop, JS) glir halvdelene sammen
-   mens feltet krymper og sykler bilder. Default (no-JS / PRM / mobil) er et
-   statisk, lesbart kompositt med fast gap og første bilde — ingen CLS. */
-
 .approach-bridge {
-  background: var(--ink-base);
-  color: var(--color-on-dark);
+  position: relative;
+  z-index: 2;
+  margin-top: -14svh;
+  background: transparent;
+  color: var(--blekk);
 }
-
-/* ── Beat 1 — Oppsett: UKLART BLIR BYGGBART + fill-avsnitt ───────────────── */
 
 .approach-intro {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(28px, 5vh, 60px);
-  width: min(100%, var(--page-max));
-  margin: 0 auto;
-  padding: var(--section-pad-y) var(--gutter) clamp(64px, 11vh, 150px);
+  position: relative;
+  width: 100%;
+  min-height: 108svh;
+  overflow: hidden;
+  border-radius: clamp(18px, 2vw, 32px) clamp(18px, 2vw, 32px) 0 0;
+  background: #e5e8e5;
+  box-shadow: 0 -36px 90px rgba(0, 0, 0, 0.18);
 }
 
-.approach-intro__label {
-  color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
+.approach-intro__head,
+.approach-intro__composition,
+.approach-intro__foot {
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
+  padding-right: var(--gutter);
+  padding-left: var(--gutter);
+}
+
+.approach-intro__head,
+.approach-intro__foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  color: rgba(0, 26, 26, 0.58);
+  font-family: var(--tigon-type-meta);
+  font-size: var(--fz-mono-s);
   letter-spacing: var(--mono-track);
-  line-height: 1.2;
+  line-height: 1.3;
   text-transform: uppercase;
+}
+
+.approach-intro__head {
+  padding-top: clamp(42px, 6vh, 72px);
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(0, 26, 26, 0.2);
+}
+
+.approach-intro__composition {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  align-items: end;
+  min-height: 78svh;
+  padding-top: clamp(92px, 14vh, 176px);
+  padding-bottom: clamp(86px, 12vh, 148px);
 }
 
 .approach-intro__title {
-  max-width: 16ch;
+  grid-column: 1 / 10;
+  align-self: center;
   margin: 0;
-  color: var(--color-on-dark);
+  color: var(--tigon-green);
   font-family: var(--font-display);
-  /* Tier 3 — rolig kapittel-lead; IDÉ→LØSNING (Tier 2) er seksjonens toppunkt */
-  font-size: clamp(40px, 5.2vw, 120px);
+  font-size: clamp(72px, 10.6vw, 190px);
   font-weight: 700;
   letter-spacing: var(--display-track);
-  line-height: 0.94;
+  line-height: 0.78;
   text-transform: uppercase;
 }
 
-/* Fill-avsnittet — rolig body (Tigon-kaskaden: tittel → rolig body → mono).
-   Sans, lead-l, setnings-case. Ord-fyllet scrubbes mellom to faste tekststyrke-
-   trinn (--on-dark-faint → --on-dark-strong); default er den fylte (lyse)
-   tilstanden, så no-JS/PRM er fullt lesbart. */
-.approach-intro__fill {
-  max-width: 46ch;
-  margin: 0;
-  color: var(--on-dark-strong);
-  font-family: var(--font-sans);
-  font-size: var(--fz-lead-l);
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-/* Runtime-splittede ord (JS) — fargen scrubbes fra dempet til lyst. Inline så
-   linjebrytingen forblir naturlig. */
-.approach-intro .fill-word {
-  will-change: color;
-}
-
-/* ── Beat 2 — Tigon lukker gapet: IDÉ → LØSNING ─────────────────────────── */
-
-.approach-gap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(28px, 5vh, 60px);
-  width: min(100%, var(--page-max));
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: clamp(64px, 12vh, 140px) var(--gutter);
-}
-
-/* Broen inn i beat 2 — den talte overgangen over overskriften. */
-.approach-gap__lead {
-  color: var(--on-dark-quiet);
-  font-family: var(--font-sans);
-  font-size: clamp(16px, 1.2vw, 20px);
-  line-height: 1.4;
-  text-align: center;
-}
-
-.approach-gap__stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(30px, 6vh, 72px);
-}
-
-/* Overskriften: én linje, halvdelene hugger bildefeltet. */
-.approach-gap__statement {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  margin: 0;
-  color: var(--color-on-dark);
-  font-family: var(--font-display);
-  /* Tier 1 — helten */
-  font-size: clamp(64px, 8.6vw, 170px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.92;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.approach-gap__word {
+.approach-intro__title > span {
   display: block;
-  flex: 0 0 auto;
 }
 
-/* Bildefeltet i gapet — høyden er em-relativ (følger tittelen), bredden er det
-   som scrubbes. Default-bredde (no-JS) gir et rolig, tydelig gap. object-fit
-   cover gjør at bildet croppes til en loddrett sliver når gapet lukkes. */
-.approach-gap__media {
-  position: relative;
-  flex: 0 0 auto;
-  width: 0.74em;
-  height: 1.42em;
-  margin: 0 0.16em;
-  overflow: hidden;
-  border-radius: var(--radius-fine);
-  background: var(--ink-surface);
+.approach-intro__title > span:nth-child(2) {
+  color: rgba(0, 26, 26, 0.34);
 }
 
-.approach-gap__media-img {
+.approach-intro__argument {
+  grid-column: 9 / -1;
+  align-self: end;
+  display: grid;
+  gap: 34px;
+  padding-bottom: 0.4em;
+}
+
+.approach-intro__argument p:first-child {
+  max-width: 29ch;
+  font-family: var(--tigon-type-editorial);
+  font-size: clamp(19px, 1.55vw, 27px);
+  line-height: 1.38;
+}
+
+.approach-intro__argument p:last-child {
+  color: rgba(0, 26, 26, 0.58);
+  font-family: var(--tigon-type-meta);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  text-transform: uppercase;
+}
+
+.approach-intro__focus {
   position: absolute;
-  inset: 0;
+  top: 16%;
+  right: var(--gutter);
+  display: grid;
+  grid-template-columns: 44px auto;
+  gap: 12px;
+  align-items: center;
+  color: rgba(0, 26, 26, 0.58);
+  font-family: var(--tigon-type-meta);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  text-transform: uppercase;
+}
+
+.approach-intro__focus-mark {
+  width: 44px;
+  aspect-ratio: 1;
+  background: var(--tigon-green);
+  -webkit-mask: url("/brand/tigon-mark-ink.svg") center / contain no-repeat;
+  mask: url("/brand/tigon-mark-ink.svg") center / contain no-repeat;
+  clip-path: inset(0 0 48% 0);
+}
+
+.approach-intro__focus i {
+  grid-column: 1 / -1;
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  opacity: 0;
-  transition: opacity 0.16s linear;
-  pointer-events: none;
-  user-select: none;
+  height: 1px;
+  background: rgba(0, 26, 26, 0.22);
 }
 
-.approach-gap__media-img[data-active="true"] {
-  opacity: 1;
+.approach-intro__foot {
+  padding-top: 20px;
+  padding-bottom: clamp(52px, 7vh, 84px);
+  border-top: 1px solid rgba(0, 26, 26, 0.2);
 }
 
-.approach-gap__support {
-  max-width: 540px;
-  color: var(--on-dark-medium);
-  font-family: var(--font-sans);
-  font-size: clamp(17px, 1.35vw, 21px);
-  font-weight: 400;
-  line-height: 1.5;
-  text-align: center;
-  text-wrap: balance;
+@media (max-width: 800px) {
+  .approach-bridge { margin-top: -7svh; }
+  .approach-intro { min-height: 0; border-radius: 18px 18px 0 0; }
+  .approach-intro__head,
+  .approach-intro__composition,
+  .approach-intro__foot { padding-right: 20px; padding-left: 20px; }
+  .approach-intro__head p:last-child,
+  .approach-intro__foot p:last-child { display: none; }
+  .approach-intro__composition {
+    grid-template-columns: 1fr;
+    min-height: 88svh;
+    padding-top: 120px;
+    padding-bottom: 78px;
+  }
+  .approach-intro__title,
+  .approach-intro__argument { grid-column: auto; }
+  .approach-intro__title { align-self: start; font-size: clamp(62px, 20vw, 92px); }
+  .approach-intro__argument { align-self: end; margin-top: 90px; }
+  .approach-intro__focus { top: 82px; right: 20px; }
 }
 
-@media (max-width: 768px) {
-  .approach-intro {
-    padding: clamp(88px, 16vh, 140px) 20px 64px;
-    gap: clamp(22px, 4vh, 40px);
-  }
-
-  .approach-intro__title {
-    font-size: clamp(34px, 10vw, 60px);
-  }
-
-  .approach-intro__fill {
-    max-width: none;
-    font-size: var(--fz-lead-m);
-  }
-
-  /* Beat 2: samme gap-scrub som desktop, men uten pin (en pinnet horisontal
-     headline hopper med adresselinja) — gapet lukkes mens overskriften stiger.
-     Mindre type + felt så bredden får plass ved det åpne startpunktet. */
-  .approach-gap {
-    padding: clamp(48px, 10vh, 96px) 20px;
-    gap: clamp(22px, 4vh, 36px);
-  }
-
-  .approach-gap__statement {
-    font-size: clamp(40px, 12.5vw, 68px);
-  }
-
-  .approach-gap__media {
-    width: 0.66em;
-    height: 1.3em;
-  }
-
-  .approach-gap__support {
-    font-size: 16px;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .approach-bridge,
+  .approach-intro,
+  .approach-intro__title > span { transform: none !important; }
 }

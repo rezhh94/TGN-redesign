@@ -7,15 +7,17 @@ const services = [
     meta: "Next.js / SEO / CWV",
     capabilities: ["Teknisk SEO", "Core Web Vitals", "Innholdsstruktur", "Konvertering"],
     href: "/tjenester/webutvikling-nextjs",
+    image: "/services/01.png",
   },
   {
     id: "webapper",
     number: "02",
     title: "Webapper",
-    description: "Portaler, dashboards og digitale verktøy bygget for reell arbeidsflyt.",
+    description: "Portaler og digitale verktøy bygget rundt en reell arbeidsflyt – ikke et generisk dashboard.",
     meta: "Portaler / Systemer",
     capabilities: ["Innlogging", "Roller", "Integrasjoner", "Datamodell"],
     href: "/tjenester/custom-software",
+    image: "/services/02.png",
   },
   {
     id: "apper",
@@ -25,15 +27,17 @@ const services = [
     meta: "Mobil / Web",
     capabilities: ["Mobil", "Web", "Push", "Publisering"],
     href: "/tjenester/app-utvikling",
+    image: "/services/03.png",
   },
   {
     id: "ai-systemer",
     number: "04",
     title: "AI-systemer",
-    description: "Automatisering, søk, assistenter og interne arbeidsflyter koblet til ekte data.",
+    description: "Automatisering, søk og interne arbeidsflyter koblet til virksomhetens ekte data.",
     meta: "Automasjon / Søk / Data",
     capabilities: ["Automasjon", "Søk", "Assistenter", "Interne verktøy"],
     href: "/tjenester/ai-implementering",
+    image: "/services/04.png",
   },
   {
     id: "seo-ai-sok",
@@ -43,117 +47,81 @@ const services = [
     meta: "Innhold / Struktur",
     capabilities: ["Teknisk SEO", "AI-synlighet", "Lokal synlighet", "Måling"],
     href: "/tjenester/seo-optimalisering",
+    image: "/services/05.png",
   },
 ] as const;
 
 const register = [
-  {
-    tag: "Bygg",
-    items: [
-      { name: "Nettsider", href: "/tjenester/webutvikling-nextjs" },
-      { name: "Webapper", href: "/tjenester/custom-software" },
-      { name: "Apper", href: "/tjenester/app-utvikling" },
-      { name: "E-handel", href: "/tjenester/e-handel-losninger" },
-      { name: "Headless CMS", href: "/tjenester/headless-cms" },
-      { name: "UX/UI-design", href: "/tjenester/ux-ui-design" },
-    ],
-  },
-  {
-    tag: "System",
-    items: [
-      { name: "AI-systemer", href: "/tjenester/ai-implementering" },
-      { name: "Digital infrastruktur", href: "/tjenester/digital-infrastruktur" },
-      { name: "Integrasjoner" },
-      { name: "Vedlikehold & sikkerhet", href: "/tjenester/vedlikehold-sikkerhet" },
-    ],
-  },
-  {
-    tag: "Synlighet",
-    items: [
-      { name: "Teknisk SEO", href: "/tjenester/seo-optimalisering" },
-      { name: "AI-søk" },
-      { name: "Innholdsstruktur" },
-      { name: "Lokal synlighet" },
-      { name: "Måling" },
-    ],
-  },
+  ["Bygg", "Nettsider", "Webapper", "Apper", "E-handel", "Headless CMS", "UX/UI-design"],
+  ["System", "AI-systemer", "Digital infrastruktur", "Integrasjoner", "Vedlikehold & sikkerhet"],
+  ["Synlighet", "Teknisk SEO", "AI-søk", "Innholdsstruktur", "Lokal synlighet", "Måling"],
 ] as const;
 
 export function WhatWeBuild() {
   return (
-    <section className="what-build" aria-labelledby="what-build-title">
+    <section className="what-build" aria-labelledby="what-build-title" data-build-section>
       <header className="what-build__intro">
         <p className="what-build__label">02 / Tjenester</p>
-        <h2 className="what-build__title" id="what-build-title">
-          Dette bygger vi.
-        </h2>
-        <div className="what-build__intro-copy">
-          <p>Nettsider, apper og digitale systemer bygget som én helhet.</p>
-          <p>Design, teknologi, synlighet og måling deler samme grunnmur fra start.</p>
-        </div>
+        <h2 className="what-build__title" id="what-build-title">Dette bygger vi.</h2>
+        <p className="what-build__intro-copy">
+          Fem fagområder. Én sammenhengende leveranse fra første valg til målbar løsning.
+        </p>
       </header>
 
-      <div className="service-index">
-        <nav className="service-index__tabs" aria-label="Tjenester på denne siden">
-          <p>Velg område</p>
-          <ol>
-            {services.map((service) => (
-              <li key={service.id}>
-                <a href={`#service-${service.id}`}>
-                  <span>{service.number}</span>
-                  {service.title}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
+      <div className="service-selector" data-service-selector>
+        <div className="service-selector__list" data-service-list>
+          {services.map((service, index) => (
+            <article className="service-option" data-service-row key={service.id} data-active={index === 0 ? "true" : "false"}>
+              <button
+                className="service-option__toggle"
+                type="button"
+                aria-expanded={index === 0}
+                aria-controls={`service-panel-${service.id}`}
+                data-service-toggle
+              >
+                <span>{service.number}</span>
+                <strong>{service.title}</strong>
+                <i aria-hidden="true">↗</i>
+              </button>
 
-        <div className="service-index__chapters">
-          {services.map((service) => (
-            <article className="service-chapter" id={`service-${service.id}`} key={service.id}>
-              <div className="service-chapter__head">
-                <p>{service.number} / 05 — {service.meta}</p>
-                <h3>{service.title}</h3>
-              </div>
-
-              <div className="service-chapter__body">
-                <p className="service-chapter__description">{service.description}</p>
-                <ul aria-label={`Dette inngår i ${service.title}`}>
-                  {service.capabilities.map((capability) => <li key={capability}>{capability}</li>)}
-                </ul>
-                <a href={service.href}>Les om {service.title.toLowerCase()} <span aria-hidden="true">↗</span></a>
-              </div>
-
-              <div className="service-chapter__signal" aria-hidden="true">
-                <span>TGN / {service.number}</span>
-                <i />
-                <strong>{service.number}</strong>
+              <div className="service-option__panel" id={`service-panel-${service.id}`} data-service-panel>
+                <div className="service-option__copy">
+                  <p>{service.description}</p>
+                  <p>{service.meta}</p>
+                  <ul aria-label={`Dette inngår i ${service.title}`}>
+                    {service.capabilities.map((capability) => <li key={capability}>{capability}</li>)}
+                  </ul>
+                  <a href={service.href}>Les om {service.title.toLowerCase()} <span aria-hidden="true">↗</span></a>
+                </div>
+                <img className="service-option__mobile-image" src={service.image} alt="" loading="lazy" />
               </div>
             </article>
           ))}
         </div>
+
+        <div className="service-selector__visual" data-service-visual aria-hidden="true">
+          <p>TGN / Aktiv flate</p>
+          {services.map((service, index) => (
+            <figure key={service.id} data-service-visual-item data-active={index === 0 ? "true" : "false"}>
+              <img src={service.image} alt="" loading={index === 0 ? "eager" : "lazy"} />
+              <figcaption><span>{service.number} / 05</span><span>{service.meta}</span></figcaption>
+            </figure>
+          ))}
+          <span className="service-selector__visual-mark" />
+        </div>
       </div>
 
       <div className="what-build__register">
-        <p className="what-build__register-label">Hele leveransen</p>
-        <div className="what-build__register-cols">
-          {register.map((column) => (
-            <div className="what-build__register-col" key={column.tag}>
-              <p>{column.tag}</p>
-              <ul>
-                {column.items.map((item) => (
-                  <li key={item.name}>
-                    {"href" in item && item.href ? <a href={item.href}>{item.name}</a> : <span>{item.name}</span>}
-                  </li>
-                ))}
-              </ul>
-            </div>
+        <p>Hele leveransen</p>
+        <div>
+          {register.map(([title, ...items]) => (
+            <section key={title}>
+              <h3>{title}</h3>
+              <p>{items.join(" / ")}</p>
+            </section>
           ))}
         </div>
-        <footer className="what-build__foot">
-          <p>Én produksjon — samme grunnmur</p>
-          <a href="/tjenester">Alle tjenester <span aria-hidden="true">↗</span></a>
-        </footer>
+        <a href="/tjenester">Se alle tjenester <span aria-hidden="true">↗</span></a>
       </div>
     </section>
   );

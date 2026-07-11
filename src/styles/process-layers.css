@@ -116,7 +116,7 @@
   z-index: 2;
   width: clamp(48px, 4.6vw, 76px);
   aspect-ratio: 1;
-  padding: 12px;
+  padding: 10px;
   display: grid;
   place-items: center;
   border: 1px solid rgba(0, 26, 26, 0.28);
@@ -124,10 +124,13 @@
   box-shadow: 0 18px 38px -24px rgba(0, 26, 26, 0.65);
 }
 
-.process-flow__traveler img {
-  width: 58%;
-  height: 58%;
-  object-fit: contain;
+.process-flow__traveler span {
+  width: 74%;
+  height: 74%;
+  background: var(--tigon-green);
+  -webkit-mask: url("/brand/tigon-mark-ink.svg") center / contain no-repeat;
+  mask: url("/brand/tigon-mark-ink.svg") center / contain no-repeat;
+  clip-path: inset(0 50% 50% 0);
 }
 
 .process-flow__stages {
@@ -141,7 +144,7 @@
   display: grid;
   grid-template-columns: repeat(10, minmax(0, 1fr));
   gap: var(--grid-gutter);
-  min-height: min(72svh, 720px);
+  min-height: min(64svh, 650px);
   padding: clamp(54px, 7vh, 86px) 0;
   border-bottom: 1px solid var(--tigon-line-light);
 }
@@ -188,7 +191,7 @@
 
 .process-stage__station {
   position: relative;
-  min-height: 180px;
+  min-height: 164px;
   margin-bottom: 44px;
   padding: 16px;
   overflow: hidden;
@@ -205,18 +208,30 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 62px;
-  aspect-ratio: 1;
-  padding: 12px;
-  display: grid;
-  place-items: center;
+  width: 76px;
+  aspect-ratio: 0.832;
   border: 1px solid rgba(0, 26, 26, 0.24);
   transform: translate(-50%, -50%);
 }
 
-.process-stage__station-mark img {
-  width: 58%;
-  height: 58%;
+.process-stage__station-mark i {
+  position: absolute;
+  inset: 10px;
+  background: var(--tigon-green);
+  -webkit-mask: url("/brand/tigon-mark-ink.svg") center / contain no-repeat;
+  mask: url("/brand/tigon-mark-ink.svg") center / contain no-repeat;
+  opacity: 0.12;
+}
+
+.process-stage__station-mark i:nth-child(1) { clip-path: inset(0 50% 50% 0); }
+.process-stage__station-mark i:nth-child(2) { clip-path: inset(0 0 50% 50%); }
+.process-stage__station-mark i:nth-child(3) { clip-path: inset(50% 50% 0 0); }
+.process-stage__station-mark i:nth-child(4) { clip-path: inset(50% 0 0 50%); }
+
+.process-stage__station--01 .process-stage__station-mark i:nth-child(1),
+.process-stage__station--02 .process-stage__station-mark i:nth-child(-n + 2),
+.process-stage__station--03 .process-stage__station-mark i:nth-child(-n + 3) {
+  opacity: 1;
 }
 
 .process-stage__station-lines {
