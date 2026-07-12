@@ -31,6 +31,7 @@ The homepage is mounted in this order:
 
 ### Tjenester
 
+- Status: approved and locked on 2026-07-12. Do not redesign or replace this section unless the user explicitly reopens it.
 - Uses a varied editorial sequence in ordinary document flow: one lead chapter, a compact two-up pair, one wide technical chapter and a tighter closing chapter.
 - Every service name, description, capability list and service link is server-rendered and immediately available without JavaScript.
 - Existing Tigon service imagery supports each chapter but never becomes the navigation mechanism.
@@ -96,6 +97,7 @@ The homepage is mounted in this order:
 
 - Header and Hero were not changed in the 2026-07-09 revision.
 - Tilnærming was redesigned within its existing `01` scope on 2026-07-12.
+- Tjenester was approved and locked within its existing `02` scope on 2026-07-12.
 - SEO metadata, schema, sitemap, robots, canonical, URLs and slugs were not changed.
 - Footer/NAP/important links were not changed.
 - No visible orange was introduced.

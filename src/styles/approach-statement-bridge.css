@@ -306,7 +306,7 @@
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
-  align-items: end;
+  align-items: start;
   padding: clamp(112px, 14vh, 184px) var(--gutter);
 }
 
@@ -321,18 +321,23 @@
 }
 
 .approach-resolution h3 {
-  grid-column: 3 / 10;
+  grid-column: 3 / -1;
   margin: 0;
   color: var(--color-on-dark);
   font-family: var(--font-display);
-  font-size: clamp(64px, 8vw, 146px);
+  font-size: clamp(54px, 6.2vw, 112px);
   letter-spacing: var(--display-track);
   line-height: 0.8;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
 .approach-resolution h3 span {
-  display: block;
+  display: inline-block;
+}
+
+.approach-resolution h3 span + span {
+  margin-left: 0.18em;
 }
 
 .approach-resolution h3 span:first-child {
@@ -341,7 +346,9 @@
 
 .approach-resolution > p:last-child {
   grid-column: 10 / -1;
+  grid-row: 2;
   max-width: 31ch;
+  margin-top: clamp(42px, 6vh, 68px);
   color: var(--on-dark-strong);
   font-family: var(--font-sans);
   font-size: clamp(18px, 1.35vw, 22px);
@@ -472,9 +479,19 @@
   .approach-resolution h3 {
     margin-top: 48px;
     font-size: clamp(58px, 16vw, 100px);
+    white-space: normal;
+  }
+
+  .approach-resolution h3 span {
+    display: block;
+  }
+
+  .approach-resolution h3 span + span {
+    margin-left: 0;
   }
 
   .approach-resolution > p:last-child {
+    grid-row: auto;
     margin-top: 44px;
   }
 }

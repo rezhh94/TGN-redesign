@@ -98,3 +98,11 @@ Clarification:
 
 Reason:
 The new platform connects design, technology, SEO/visibility, conversion and measurement while giving the visual system more range than the former unclear-to-buildable motif.
+
+## 2026-07-12 — Tjenester approved and locked
+
+Decision:
+Keep the current `02 / Tjenester` implementation: one large lead service, a compact two-up pair, one wide technical chapter and a tighter closing chapter in ordinary document flow. Keep the charcoal `#090A09` background and the mild unpinned scroll response.
+
+Reason:
+The varied hierarchy gives every service sufficient presence without repeating five identical full-size scenes. Service names, descriptions, capabilities and links remain immediately readable on desktop, mobile, reduced-motion and no-JS states. Do not redesign or replace the section unless the user explicitly reopens it.
