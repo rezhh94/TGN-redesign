@@ -1,6 +1,6 @@
 # Tigon Motion and Asset Roadmap
 
-Last reconciled with the implementation: 2026-07-10.
+Last reconciled with the implementation: 2026-07-12.
 
 ## Purpose
 
@@ -27,9 +27,11 @@ This file records the active motion architecture. It is not a backlog of old eff
 
 ### 01 / Tilnærming
 
-- Existing intro/text treatment remains approved.
-- The existing desktop showpiece is the homepage's only active pin.
-- Mobile does not pin.
+- The `Tre fag. Én helhet.` intro and three-discipline index remain normal document flow.
+- On desktop, three material fields react as the stage enters the viewport and settle from separate offsets into one aligned composition in ordinary document flow.
+- The material stage is decorative; important copy remains server-rendered outside it.
+- Mobile uses a short unpinned scrub: the stacked fields enter from small opposing offsets while the `Én helhet` lockup settles into place.
+- Reduced motion and no-JS show the final static composition.
 
 ### 02 / Tjenester
 

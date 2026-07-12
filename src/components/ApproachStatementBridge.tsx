@@ -1,4 +1,29 @@
-const disciplines = ["Design", "Teknologi", "Synlighet"] as const;
+const disciplines = [
+  {
+    n: "01",
+    name: "Design",
+    statement: "Gjør tilbudet tydelig.",
+    body: "Posisjon, innhold og grensesnitt formes rundt det kunden skal forstå og velge.",
+    output: "Forstått / Valgt",
+    tone: "paper",
+  },
+  {
+    n: "02",
+    name: "Teknologi",
+    statement: "Gjør løsningen virkelig.",
+    body: "Kode, ytelse og integrasjoner bygges som del av uttrykket — ikke som et lag etterpå.",
+    output: "Bygget / Driftet",
+    tone: "olive",
+  },
+  {
+    n: "03",
+    name: "Synlighet",
+    statement: "Gjør arbeidet synlig.",
+    body: "Struktur, teknisk SEO og måling kobler løsningen til markedet fra første dag.",
+    output: "Funnet / Målt",
+    tone: "mauve",
+  },
+] as const;
 
 export function ApproachStatementBridge() {
   return (
@@ -9,68 +34,88 @@ export function ApproachStatementBridge() {
       data-theme-section="dark"
       data-bg-section="dark"
     >
-      <div className="approach-intro" data-intro-identity>
-        <header className="approach-intro__head">
-          <p>01 / Introduksjon</p>
-          <p>TGN / Digitalt studio</p>
-        </header>
-
-        <div className="approach-intro__identity">
-          <p className="approach-intro__eyebrow">Dette er Tigon.</p>
-          <h2 className="approach-intro__title" id="approach-bridge-title">
-            <span>Et digitalt studio</span>
-            <span>for nettsider, apper</span>
-            <span>og systemer.</span>
-          </h2>
-          <p className="approach-intro__copy">
-            Vi samler design, teknologi og synlighet i én leveranse — fra den
-            første ideen til en løsning som virker i markedet.
+      <header className="approach-intro" data-intro-identity>
+        <p className="approach-intro__label">01 / Tilnærming</p>
+        <h2 className="approach-intro__title" id="approach-bridge-title">
+          <span>Tre fag.</span>
+          <span>Én helhet.</span>
+        </h2>
+        <div className="approach-intro__copy">
+          <p>
+            Design, teknologi og synlighet utviklet sammen fra første
+            beslutning — så løsningen både treffer, virker og blir funnet.
           </p>
+          <span>TGN / integrated practice / 01—03</span>
         </div>
-      </div>
+      </header>
 
-      <div className="approach-gap" data-intro-gap-journey>
-        <div className="approach-gap__stage" data-intro-gap-stage>
-          <header className="approach-gap__head">
-            <p>Fra idé til løsning</p>
-            <p>Tre fag. Ett system.</p>
-          </header>
+      <div className="approach-assembly" data-intro-assembly aria-hidden="true">
+        <div className="approach-assembly__stage" data-intro-assembly-stage>
+          <div className="approach-assembly__frame">
+            <div className="approach-assembly__materials">
+              {disciplines.map((discipline) => (
+                <article
+                  className={`approach-material approach-material--${discipline.tone}`}
+                  data-intro-material
+                  key={discipline.n}
+                >
+                  <header>
+                    <span>{discipline.n} / 03</span>
+                    <strong>{discipline.name}</strong>
+                  </header>
+                  <p>{discipline.statement}</p>
+                  <footer>
+                    <span>TGN / {discipline.n}</span>
+                    <strong>{discipline.output}</strong>
+                  </footer>
+                </article>
+              ))}
+            </div>
 
-          <div className="approach-gap__composition">
-            <p className="approach-gap__lead">En idé er ikke en løsning.</p>
-            <h3 className="approach-gap__statement" aria-label="Idé til løsning">
-              <span data-intro-gap-left>IDÉ</span>
-              <span className="approach-gap__field" data-intro-gap-field aria-hidden="true">
-                <span className="approach-gap__disciplines" data-intro-gap-disciplines>
-                  {disciplines.map((discipline, index) => (
-                    <span key={discipline}>
-                      <i>{String(index + 1).padStart(2, "0")}</i>
-                      {discipline}
-                    </span>
-                  ))}
-                </span>
-              </span>
-              <span data-intro-gap-right>LØSNING</span>
-            </h3>
-            <p className="approach-gap__copy">
-              Avstanden lukkes når uttrykk, produkt og synlighet blir utviklet
-              som deler av det samme systemet.
+            <p className="approach-assembly__word" data-intro-lock>
+              <span>Én</span>
+              <strong>helhet.</strong>
             </p>
+            <i className="approach-assembly__rule" data-intro-rule />
+          </div>
+
+          <div className="approach-assembly__legend">
+            <span>TGN / disciplines aligned / 01—03</span>
+            <strong>Samlet fra start.</strong>
+            <span>Design / Teknologi / Synlighet</span>
           </div>
         </div>
       </div>
 
-      <div className="approach-resolution" data-intro-resolution>
-        <p className="approach-resolution__label">Design · Teknologi · Synlighet</p>
-        <h3>Bygd som én helhet.</h3>
-        <div className="approach-resolution__footer">
-          <p>
-            Ikke tre separate leveranser som må sys sammen til slutt. Én tydelig
-            retning, bygget for å bli funnet, forstått, valgt og målt.
-          </p>
-          <p>TGN / Integrert leveranse</p>
-        </div>
+      <div className="approach-index-head">
+        <p>Én integrert leveranse</p>
+        <p>Tre fag — samme retning</p>
       </div>
+
+      <ol className="approach-index" data-reveal-group data-distance="1em" data-stagger="90">
+        {disciplines.map((discipline) => (
+          <li className="approach-index__item" key={discipline.n}>
+            <span>{discipline.n}</span>
+            <div>
+              <h3>{discipline.name}</h3>
+              <p>{discipline.body}</p>
+            </div>
+            <strong>{discipline.output}</strong>
+          </li>
+        ))}
+      </ol>
+
+      <footer className="approach-resolution" data-intro-resolution>
+        <p>Resultatet</p>
+        <h3>
+          <span>Én retning.</span>
+          <span>Én leveranse.</span>
+        </h3>
+        <p>
+          Ikke tre separate fag som må sys sammen til slutt. Ett system bygget
+          for å bli funnet, forstått, valgt og målt.
+        </p>
+      </footer>
     </section>
   );
 }

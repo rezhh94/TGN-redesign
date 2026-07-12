@@ -1,6 +1,6 @@
 # Current Homepage State
 
-Last verified: 2026-07-10
+Last verified: 2026-07-12
 
 This is the canonical implementation snapshot for the redesign checkout. Historical audits and section experiments may remain in the repository, but they do not override this file, `AGENTS.md`, `docs/current-project-rules.md` or the current user instruction.
 
@@ -39,7 +39,12 @@ The homepage is mounted in this order:
 
 ### Tilnærming
 
-- Approved and unchanged in the 2026-07-09 motion revision.
+- Uses the editorial `Tre fag. Én helhet.` direction introduced on 2026-07-12.
+- The opening follows the same typographic and material grammar as Arbeid and Prosess without copying either section's layout.
+- A responsive desktop scroll assembly aligns three large material fields for Design, Teknologi and Synlighet while the section stays in ordinary document flow.
+- The assembly is decorative. The argument remains complete in the server-rendered intro, three-part index and closing statement.
+- Mobile uses a mild, unpinned scroll response adapted to the vertically stacked material fields.
+- Reduced-motion and no-JS states use the finished static composition.
 
 ### Overlevering
 
@@ -83,14 +88,14 @@ The homepage is mounted in this order:
 - Important text and links remain visible in server-rendered HTML.
 - Reduced motion and no-JS states remain readable.
 - No pin is used in Tjenester, Overlevering, Arbeid or Prosess.
-- The existing Tilnærming showpiece remains the only active pinned section in this checkout.
+- No main homepage section uses a JS-driven pin. Tjenester and Effekt retain their readable CSS-sticky elements.
 - Continuous motion is limited to transform/opacity work scoped to the relevant section.
 - No MadeWithGSAP code, CSS, fonts, images or other assets were imported.
 
 ## Preservation state
 
 - Header and Hero were not changed in the 2026-07-09 revision.
-- Tilnærming was not changed.
+- Tilnærming was redesigned within its existing `01` scope on 2026-07-12.
 - SEO metadata, schema, sitemap, robots, canonical, URLs and slugs were not changed.
 - Footer/NAP/important links were not changed.
 - No visible orange was introduced.
