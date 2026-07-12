@@ -40,12 +40,27 @@ const capabilities = [
 ];
 
 const radialCapabilities = [
-  { ...capabilities[0], src: "/work/capability-stage/laptop-rocks.png", tone: "paper", muted: true },
+  {
+    ...capabilities[0],
+    src: "/work/capability-stage/tgn-product-os-laptop.webp",
+    tone: "paper",
+    muted: false,
+  },
   { ...capabilities[1], src: "/work/capability-stage/laptop-chair.png", tone: "olive", muted: false },
   { ...capabilities[2], src: "/work/capability-stage/ipad-hand.png", tone: "mauve", muted: false },
-  { ...capabilities[3], src: "/work/capability-stage/phone-hand.png", tone: "ink", muted: false },
+  {
+    ...capabilities[3],
+    src: "/work/capability-stage/tgn-ehandel-ipad.webp",
+    tone: "ink",
+    muted: false,
+  },
   { ...capabilities[4], src: "/work/capability-stage/laptop-rocks.png", tone: "olive", muted: true },
-  { ...capabilities[5], src: "/work/capability-stage/phone-rock.jpg", tone: "paper", muted: false },
+  {
+    ...capabilities[5],
+    src: "/work/capability-stage/tgn-brand-phone.webp",
+    tone: "paper",
+    muted: false,
+  },
 ];
 
 const radialItems = [...radialCapabilities, ...radialCapabilities];

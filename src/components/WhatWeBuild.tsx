@@ -7,7 +7,7 @@ const services = [
     meta: "Next.js / SEO / CWV",
     capabilities: ["Teknisk SEO", "Core Web Vitals", "Innholdsstruktur", "Konvertering"],
     href: "/tjenester/webutvikling-nextjs",
-    image: "/services/01.png",
+    image: "/services/tgn-nettsider-editorial.webp",
   },
   {
     id: "webapper",
@@ -17,7 +17,7 @@ const services = [
     meta: "Portaler / Systemer",
     capabilities: ["Innlogging", "Roller", "Integrasjoner", "Datamodell"],
     href: "/tjenester/custom-software",
-    image: "/services/02.png",
+    image: "/services/tgn-webapper-workflow.webp",
   },
   {
     id: "apper",
@@ -27,7 +27,7 @@ const services = [
     meta: "Mobil / Web",
     capabilities: ["Mobil", "Web", "Push", "Publisering"],
     href: "/tjenester/app-utvikling",
-    image: "/services/03.png",
+    image: "/services/tgn-apper-field.webp",
   },
   {
     id: "ai-systemer",
@@ -37,7 +37,7 @@ const services = [
     meta: "Automasjon / Søk / Data",
     capabilities: ["Automasjon", "Søk", "Assistenter", "Interne verktøy"],
     href: "/tjenester/ai-implementering",
-    image: "/services/04.png",
+    image: "/services/tgn-ai-knowledge.webp",
   },
   {
     id: "seo-ai-sok",
@@ -47,7 +47,7 @@ const services = [
     meta: "Innhold / Struktur",
     capabilities: ["Teknisk SEO", "AI-synlighet", "Lokal synlighet", "Måling"],
     href: "/tjenester/seo-optimalisering",
-    image: "/services/05.png",
+    image: "/services/tgn-seo-query-map.webp",
   },
 ] as const;
 
