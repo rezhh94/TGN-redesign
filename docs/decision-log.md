@@ -106,3 +106,51 @@ Keep the current `02 / Tjenester` implementation: one large lead service, a comp
 
 Reason:
 The varied hierarchy gives every service sufficient presence without repeating five identical full-size scenes. Service names, descriptions, capabilities and links remain immediately readable on desktop, mobile, reduced-motion and no-JS states. Do not redesign or replace the section unless the user explicitly reopens it.
+
+## 2026-07-12 — Tilnærming approved and locked
+
+Decision:
+Keep the `Tre fag. Én helhet.` direction with three responsive material fields in ordinary document flow. Desktop assembles the fields through scroll; mobile uses a milder unpinned response.
+
+Reason:
+It explains Design, Teknologi and Synlighet as one system while preserving readable server-rendered copy. The final title hierarchy no longer competes with the following Tjenester heading.
+
+## 2026-07-12 — Effekt approved with temporary assets
+
+Decision:
+Keep the complete 2x2 result matrix for Funnet, Forstått, Valgt and Målt. The two current mockup strips are layout placeholders and must later be replaced by final user-supplied mockups.
+
+Reason:
+All four outcomes remain visible and measurable without a selector, sticky stack or decorative illustration. The temporary visuals add material weight without pretending to be final assets.
+
+## 2026-07-12 — Reject decorative Arbeid card fan
+
+Decision:
+Fully roll back the attempted static fan/collage of six tilted capability cards and preserve the existing `WorkProof` zig-zag catalogue.
+
+Reason:
+The fan created uncontrolled overlap and cropping, made capability labels harder to read and turned a useful capability section into decoration. Arbeid must explain what Tigon can create, not behave like a poster wall or portfolio collage.
+
+## 2026-07-13 — Prosess preserved with fallback fixes
+
+Decision:
+Keep the existing three-phase system map and make only two implementation corrections: accessible spacing in the closing statement and preservation of authored card transforms in reduced-motion mode.
+
+Reason:
+The section was already one of the strongest parts of the page. A redesign would add effect density without improving comprehension; the focused fixes make its fallback behavior match the approved static composition.
+
+## 2026-07-13 — Manifest reviewed and preserved
+
+Decision:
+Keep `SystemManifesto` unchanged as the quiet conclusion after Prosess. Keep Kontakt/footer unchanged as well.
+
+Reason:
+The dark-gray system layer, mark, statement and restrained reveal already create the correct final cadence. Another redesign or showpiece would weaken the transition into conversion.
+
+## 2026-07-13 — Header deferred, Hero preserved
+
+Decision:
+Do not adjust the current Header/navigation during section work. Treat it as a separate future full-redesign task. Keep Hero as-is for now.
+
+Reason:
+The user explicitly separated the upcoming Header redesign from the approved body-section sequence.

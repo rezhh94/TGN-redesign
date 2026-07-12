@@ -1,6 +1,6 @@
 # Current Homepage State
 
-Last verified: 2026-07-12
+Last verified: 2026-07-13
 
 This is the canonical implementation snapshot for the redesign checkout. Historical audits and section experiments may remain in the repository, but they do not override this file, `AGENTS.md`, `docs/current-project-rules.md` or the current user instruction.
 
@@ -40,6 +40,7 @@ The homepage is mounted in this order:
 
 ### Tilnærming
 
+- Status: approved and locked on 2026-07-12. Do not redesign or replace this section unless the user explicitly reopens it.
 - Uses the editorial `Tre fag. Én helhet.` direction introduced on 2026-07-12.
 - The opening follows the same typographic and material grammar as Arbeid and Prosess without copying either section's layout.
 - A responsive desktop scroll assembly aligns three large material fields for Design, Teknologi and Synlighet while the section stays in ordinary document flow.
@@ -55,6 +56,7 @@ The homepage is mounted in this order:
 
 ### Effekt
 
+- Status: approved and committed on 2026-07-12. Final mockup assets remain the only open item.
 - Uses one complete editorial result matrix in ordinary document flow.
 - Funnet, Forstått, Valgt and Målt are visible together as four large ruled fields rather than hidden behind a selector or active-card state.
 - Every outcome keeps its description, measurement point and tools in server-rendered HTML.
@@ -64,6 +66,7 @@ The homepage is mounted in this order:
 
 ### Arbeid
 
+- Status: restored and preserved after the 2026-07-12 review. Do not replace it with a decorative capability collage or card fan.
 - Uses the restored always-open zig-zag capability catalogue from historical revision `25b423a`.
 - Six complete rows alternate copy and three visual/mockup surfaces.
 - Webapp, Nettsted, Plattform, E-handel, AI and App remain immediately visible and readable.
@@ -71,20 +74,24 @@ The homepage is mounted in this order:
 - Every item describes something Tigon can create for a future project; the section does not refer to previously built websites or use case/archive links as proof.
 - The current `Dette kan Tigon lage.` heading is capability framing. It is not portfolio language and does not replace the global `BYGD FOR Å BLI VALGT.` promise.
 - The `Selected systems` pinned/orbital concept was rejected because it distracted from what Tigon delivers and reacted too aggressively to scroll.
+- A later static fan of six tilted capability cards was also rejected and fully rolled back because overlap, cropping and decorative composition obscured the capability argument.
 - Current motion is one-shot row settling and mild counter-phase column parallax. No pin or accordion.
 
 ### Prosess
 
+- Status: approved as the preserved baseline on 2026-07-13.
 - Uses a visible `TGN / Systemflyt` map from `Uklart behov` to `Målbar kontaktvei`.
 - The three phases are Retning, Bygg and Live, each with materials and an explicit output.
 - It is ordinary document flow on desktop and mobile.
 - The MWG 031-style pinned/receding card sequence and the later scroll-sensitive stage were rejected as repetitive and harder to read.
 - Current motion is one-shot material settling, title decode and a decorative line draw. No pin.
+- Accessible copy spacing and the reduced-motion fallback were corrected in commit `651145b`; the authored static card positions now remain intact when motion is reduced.
 
 ### Manifest and contact
 
-- Remain quiet closing sections.
-- No redesign or extra motion was added in the 2026-07-09 revision.
+- Manifest was reviewed on desktop and mobile on 2026-07-13 and intentionally preserved as the quiet system-level conclusion.
+- Kontakt/footer remains unchanged and intentionally calm.
+- No redesign or extra motion is currently planned for either section unless the user explicitly reopens them.
 
 ## Motion budget
 
@@ -97,9 +104,14 @@ The homepage is mounted in this order:
 
 ## Preservation state
 
-- Header and Hero were not changed in the 2026-07-09 revision.
-- Tilnærming was redesigned within its existing `01` scope on 2026-07-12.
+- Header and navigation were not changed. They are explicitly deferred for a separate full redesign.
+- Hero remains preserved for now.
+- Tilnærming was redesigned, approved and locked within its existing `01` scope on 2026-07-12.
 - Tjenester was approved and locked within its existing `02` scope on 2026-07-12.
+- Effekt was redesigned and committed within its existing `03` scope on 2026-07-12; its mockup strips are temporary asset placeholders.
+- Arbeid remains the restored capability-led `WorkProof` implementation after the rejected card-fan experiment was rolled back.
+- Prosess remains the readable three-phase system map, with only fallback/accessibility corrections committed on 2026-07-13.
+- Manifest and Kontakt/footer remain preserved quiet closing sections.
 - SEO metadata, schema, sitemap, robots, canonical, URLs and slugs were not changed.
 - Footer/NAP/important links were not changed.
 - No visible orange was introduced.
@@ -107,11 +119,13 @@ The homepage is mounted in this order:
 
 ## Verification
 
-Verified on 2026-07-12:
+Verified through 2026-07-13:
 
 - `npm run typecheck`
 - `npm run build`
 - `git diff --check`
-- Desktop browser review at 1440 x 900
+- Desktop browser review at 1440 x 900 and 1440 x 1000
 - Mobile browser review at 390 x 844
+- Reduced-motion and no-JS review of Prosess
+- Desktop/mobile review of Manifest and the Prosess-to-Manifest transition
 - Homepage remained statically prerendered

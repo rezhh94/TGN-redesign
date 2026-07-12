@@ -1,6 +1,6 @@
 # Tigon Motion and Asset Roadmap
 
-Last reconciled with the implementation: 2026-07-12.
+Last reconciled with the implementation: 2026-07-13.
 
 ## Purpose
 
@@ -66,6 +66,7 @@ This file records the active motion architecture. It is not a backlog of old eff
 - Static three-phase system map is the base state.
 - One-shot phase/material settling, title decode and decorative line draw.
 - No pin and no scroll-driven stage switching.
+- Reduced motion preserves the authored static card transforms; critical copy remains correctly spaced for assistive technology.
 
 ### Manifest and Kontakt
 
@@ -80,6 +81,7 @@ Do not restore unless the user explicitly reopens them:
 - pinned Overlevering ignite
 - `Selected systems` pinned/orbital Work stage
 - fast, scroll-sensitive Work image fly-ins
+- static tilted Work card fan/collage with overlapping capability cards
 - MWG 031 pinned/receding Process cards
 - Process stage whose visual state changed aggressively with scroll
 - repeated pinning across consecutive sections
@@ -87,6 +89,7 @@ Do not restore unless the user explicitly reopens them:
 ## Asset state
 
 - Current service and Work imagery uses repository assets under `public/work/mockups/`.
+- Effekt currently uses two existing Tigon mockup strips as explicit layout placeholders; replace them with final user-supplied mockups without changing the approved result matrix.
 - Images are treated near-monochrome.
 - Work items are explicitly presented as Tigon demonstrations/concepts, not delivered customer cases.
 - 04 / Arbeid does not use case or archive links to point at previously built websites; it stays focused on future capabilities.
