@@ -69,25 +69,21 @@ function heroEntrance(full: boolean) {
   tl.from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.4");
 }
 
-// 01 / Tilnærming — one full-viewport statement. The narrow image aperture
-// changes discipline while the composition stays fixed, as in the supplied
-// reference. No-JS / PRM keep the first image and the complete statement.
-function introParallaxScene() {
-  const section = document.querySelector<HTMLElement>("[data-intro-parallax]");
-  const surface = section?.querySelector<HTMLElement>("[data-intro-surface]");
+// 01 / Introduksjon — three beats: identity, the distance between idea and
+// solution, and the integrated payoff. The central field uses the scaling-on-
+// scroll principle from the Osmo reference; all copy stays readable without JS.
+function introStoryScene() {
+  const section = document.querySelector<HTMLElement>("[data-intro-story]");
   const heroVisual = document.querySelector<HTMLElement>(".hero__visual");
-  const journey = surface?.querySelector<HTMLElement>("[data-intro-journey]");
-  const apertureItems = surface
-    ? gsap.utils.toArray<HTMLElement>("[data-intro-aperture-item]", surface)
-    : [];
-  const discipline = surface?.querySelector<HTMLElement>("[data-intro-discipline]");
-  const titleLeft = surface?.querySelector<HTMLElement>("[data-intro-title-left]");
-  const titleRight = surface?.querySelector<HTMLElement>("[data-intro-title-right]");
-  const aperture = surface?.querySelector<HTMLElement>("[data-intro-aperture]");
-  const lines = surface
-    ? gsap.utils.toArray<HTMLElement>("[data-intro-title] > span", surface)
-    : [];
-  if (!section || !surface) return () => {};
+  const identity = section?.querySelector<HTMLElement>("[data-intro-identity]");
+  const journey = section?.querySelector<HTMLElement>("[data-intro-gap-journey]");
+  const stage = section?.querySelector<HTMLElement>("[data-intro-gap-stage]");
+  const field = section?.querySelector<HTMLElement>("[data-intro-gap-field]");
+  const disciplines = section?.querySelector<HTMLElement>("[data-intro-gap-disciplines]");
+  const left = section?.querySelector<HTMLElement>("[data-intro-gap-left]");
+  const right = section?.querySelector<HTMLElement>("[data-intro-gap-right]");
+  const resolution = section?.querySelector<HTMLElement>("[data-intro-resolution]");
+  if (!section) return () => {};
 
   const ctx = gsap.context(() => {
     if (heroVisual) {
@@ -103,74 +99,73 @@ function introParallaxScene() {
         },
       });
     }
-    if (lines.length) {
-      gsap.from(lines, {
-        yPercent: 28,
+    if (identity) {
+      const identityItems = [
+        ...gsap.utils.toArray<HTMLElement>(".approach-intro__head > *", identity),
+        ...gsap.utils.toArray<HTMLElement>(".approach-intro__identity > *", identity),
+      ];
+      gsap.from(identityItems, {
+        y: 34,
         autoAlpha: 0,
-        duration: 0.8,
-        stagger: 0.09,
+        duration: 0.82,
+        stagger: 0.075,
         ease: "power3.out",
-        scrollTrigger: { trigger: surface, start: "top 72%", once: true },
+        scrollTrigger: { trigger: identity, start: "top 74%", once: true },
       });
     }
+
     if (
       journey &&
-      apertureItems.length &&
-      window.matchMedia("(min-width: 801px) and (prefers-reduced-motion: no-preference)").matches
+      stage &&
+      field &&
+      disciplines &&
+      left &&
+      right &&
+      window.matchMedia("(min-width: 901px)").matches
     ) {
-      const labels = ["Design / 01", "Teknologi / 02", "Synlighet / 03"];
-      let activeIndex = -1;
-      const setActive = (index: number) => {
-        if (index === activeIndex) return;
-        activeIndex = index;
-        apertureItems.forEach((item, itemIndex) => {
-          item.dataset.active = String(itemIndex === index);
-        });
-        if (discipline) discipline.textContent = labels[index] ?? labels[0];
-      };
+      journey.classList.add("approach-gap--enhanced");
 
-      journey.classList.add("approach-intro__journey--enhanced");
-      setActive(0);
       const closeTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: journey,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.65,
+          scrub: 0.55,
+          invalidateOnRefresh: true,
         },
       });
-      if (titleLeft) {
-        closeTimeline.fromTo(titleLeft, { xPercent: -9 }, { xPercent: 0, ease: "none" }, 0);
-      }
-      if (titleRight) {
-        closeTimeline.fromTo(titleRight, { xPercent: 13 }, { xPercent: 0, ease: "none" }, 0);
-      }
-      if (aperture) {
-        closeTimeline
-          .fromTo(aperture, { scale: 0.72, yPercent: 14, rotation: -4 }, {
-            scale: 1.14,
-            yPercent: -4,
-            rotation: 2.5,
-            ease: "none",
-          }, 0)
-          .to(aperture, { scale: 1, yPercent: 0, rotation: 0, ease: "none" }, 0.72);
-      }
-      ScrollTrigger.create({
-        trigger: journey,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true,
-        onUpdate: (self) => setActive(Math.min(2, Math.floor(self.progress * 3))),
-        onLeaveBack: () => setActive(0),
+
+      closeTimeline
+        .fromTo(left, { xPercent: -8 }, { xPercent: 0, duration: 1, ease: "none" }, 0)
+        .fromTo(right, { xPercent: 8 }, { xPercent: 0, duration: 1, ease: "none" }, 0)
+        .to(field, { width: 12, duration: 1, ease: "none" }, 0)
+        .to(disciplines, { autoAlpha: 0, duration: 0.22, ease: "none" }, 0.18);
+    } else if (journey) {
+      gsap.from(journey.querySelectorAll(".approach-gap__head > *, .approach-gap__composition > *"), {
+        y: 26,
+        autoAlpha: 0,
+        duration: 0.72,
+        stagger: 0.07,
+        ease: "power3.out",
+        scrollTrigger: { trigger: journey, start: "top 76%", once: true },
+      });
+    }
+
+    if (resolution) {
+      gsap.from(resolution.children, {
+        y: 38,
+        autoAlpha: 0,
+        duration: 0.82,
+        stagger: 0.09,
+        ease: "power3.out",
+        scrollTrigger: { trigger: resolution, start: "top 72%", once: true },
       });
     }
   }, section);
 
   return () => {
     ctx.revert();
-    journey?.classList.remove("approach-intro__journey--enhanced");
-    apertureItems.forEach((item, index) => { item.dataset.active = String(index === 0); });
-    if (discipline) discipline.textContent = "Design / 01";
+    journey?.classList.remove("approach-gap--enhanced");
   };
 }
 
@@ -518,7 +513,7 @@ export function HomeMotion() {
 
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
-      const teardownIntro = introParallaxScene();
+      const teardownIntro = introStoryScene();
       const teardownBridge = bridgeScene();
       const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
       const teardownProcess = processTransformation();
@@ -536,7 +531,7 @@ export function HomeMotion() {
     // run; the cinematic Work stage remains disabled below tablet width.
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
-      const teardownIntro = introParallaxScene();
+      const teardownIntro = introStoryScene();
       const teardownBridge = bridgeScene();
       const teardownWork = workProof(false);
       const teardownProcess = processTransformation();
