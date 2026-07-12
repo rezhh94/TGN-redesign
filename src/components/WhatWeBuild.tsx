@@ -8,6 +8,7 @@ const services = [
     capabilities: ["Teknisk SEO", "Core Web Vitals", "Innholdsstruktur", "Konvertering"],
     href: "/tjenester/webutvikling-nextjs",
     image: "/services/tgn-nettsider-editorial.webp",
+    layout: "feature",
   },
   {
     id: "webapper",
@@ -18,6 +19,7 @@ const services = [
     capabilities: ["Innlogging", "Roller", "Integrasjoner", "Datamodell"],
     href: "/tjenester/custom-software",
     image: "/services/tgn-webapper-workflow.webp",
+    layout: "pair",
   },
   {
     id: "apper",
@@ -28,6 +30,7 @@ const services = [
     capabilities: ["Mobil", "Web", "Push", "Publisering"],
     href: "/tjenester/app-utvikling",
     image: "/services/tgn-apper-field.webp",
+    layout: "pair",
   },
   {
     id: "ai-systemer",
@@ -38,6 +41,7 @@ const services = [
     capabilities: ["Automasjon", "Søk", "Assistenter", "Interne verktøy"],
     href: "/tjenester/ai-implementering",
     image: "/services/tgn-ai-knowledge.webp",
+    layout: "wide",
   },
   {
     id: "seo-ai-sok",
@@ -48,6 +52,7 @@ const services = [
     capabilities: ["Teknisk SEO", "AI-synlighet", "Lokal synlighet", "Måling"],
     href: "/tjenester/seo-optimalisering",
     image: "/services/tgn-seo-query-map.webp",
+    layout: "finale",
   },
 ] as const;
 
@@ -68,29 +73,39 @@ export function WhatWeBuild() {
     >
       <header className="what-build__intro">
         <p className="what-build__label">02 / Tjenester</p>
-        <h2 className="what-build__title" id="what-build-title">Dette bygger vi.</h2>
-        <p className="what-build__intro-copy">
-          Fem fagområder bygget som én sammenhengende leveranse – fra første valg til
-          en løsning som kan finnes, forstås og måles.
-        </p>
+        <h2 className="what-build__title" id="what-build-title">
+          <span>Dette</span>
+          <span>bygger vi.</span>
+        </h2>
+        <div className="what-build__intro-copy">
+          <p>
+            Fem fagområder bygget som én sammenhengende leveranse — fra første
+            valg til en løsning som kan finnes, forstås og måles.
+          </p>
+          <span>TGN / service disciplines / 01—05</span>
+        </div>
       </header>
 
-      <div className="service-ledger sticky-tab-group">
-        <div className="sticky-tab-group__nav-bg" aria-hidden="true" />
+      <ol className="service-ledger">
         {services.map((service, index) => (
-          <article className="service-chapter sticky-tab" data-service-chapter key={service.id}>
-            <header className="service-chapter__head sticky-tab__sticky">
-              <div className="sticky-tab__inner">
-                <span className="service-chapter__number">{service.number}</span>
-                <h3><a href={service.href}>{service.title}</a></h3>
-                <span className="service-chapter__meta">{service.meta}</span>
-              </div>
+          <li
+            className={`service-chapter service-chapter--${service.layout}${index % 2 ? " service-chapter--reverse" : ""}`}
+            data-service-chapter
+            key={service.id}
+          >
+            <header className="service-chapter__head">
+              <span className="service-chapter__number">{service.number} / 05</span>
+              <h3><a href={service.href}>{service.title}</a></h3>
+              <span className="service-chapter__meta">{service.meta}</span>
             </header>
 
-            <div className="service-chapter__body sticky-tab__placeholder-content">
-              <div className="service-chapter__copy">
+            <div className="service-chapter__body">
+              <div className="service-chapter__copy" data-service-copy>
                 <p>{service.description}</p>
-                <p>{service.capabilities.join(" / ")}</p>
+                <ul aria-label={`${service.title} inkluderer`}>
+                  {service.capabilities.map((capability) => <li key={capability}>{capability}</li>)}
+                </ul>
+                <a href={service.href}>Se tjenesten <span aria-hidden="true">↗</span></a>
               </div>
 
               <figure className="service-chapter__visual" data-service-chapter-visual>
@@ -98,9 +113,9 @@ export function WhatWeBuild() {
                 <figcaption><span>TGN / Tjeneste {service.number}</span><span>{service.meta}</span></figcaption>
               </figure>
             </div>
-          </article>
+          </li>
         ))}
-      </div>
+      </ol>
 
       <div className="what-build__register">
         <p>Hele leveransen</p>

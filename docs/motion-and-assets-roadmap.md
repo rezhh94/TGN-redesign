@@ -35,10 +35,11 @@ This file records the active motion architecture. It is not a backlog of old eff
 
 ### 02 / Tjenester
 
-- Pre-sticky accordion is active.
-- Rows, panels and register remain real HTML.
-- JS enhances the accordion; no-JS keeps content readable.
-- No sticky service-image sequence.
+- Five editorial chapters remain in ordinary document flow, with varied scale rather than five repeated full-size scenes.
+- Names, descriptions, capability lists, images and service links remain real server-rendered HTML.
+- Copy and media settle from small opposing offsets while each chapter enters; images use mild section-scoped parallax.
+- Mobile keeps the same complete content order with smaller offsets.
+- Reduced motion and no-JS show the final static layout; there is no pin or sticky service-image sequence.
 
 ### Overlevering
 

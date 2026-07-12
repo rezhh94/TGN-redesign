@@ -19,9 +19,9 @@ gsap.registerPlugin(ScrollTrigger);
 // pinned scenes jump. Dimension changes from real rotation still refresh.
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-// 02 / Tjenester — one consistent dark editorial ledger, matching the supplied
-// references: copy left, landscape visual right. Motion stays inside the image;
-// service names, descriptions and links remain ordinary SSR document flow.
+// 02 / Tjenester — five complete editorial chapters in ordinary document flow.
+// Copy and media settle from small opposing offsets; service names, descriptions
+// and links remain visible, server-rendered content without JavaScript.
 function servicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
   if (!section) return () => {};
@@ -31,17 +31,47 @@ function servicesScene() {
   if (reduced) return () => {};
 
   const ctx = gsap.context(() => {
-    chapters.forEach((chapter) => {
-      const image = chapter.querySelector<HTMLElement>("[data-service-chapter-visual] img");
-      if (!image) return;
+    const compact = window.matchMedia("(max-width: 900px)").matches;
+
+    chapters.forEach((chapter, index) => {
+      const visual = chapter.querySelector<HTMLElement>("[data-service-chapter-visual]");
+      const image = visual?.querySelector<HTMLElement>("img");
+      const copy = chapter.querySelector<HTMLElement>("[data-service-copy]");
+      if (!visual || !image || !copy) return;
+
+      const direction = index % 2 ? -1 : 1;
+      const settle = gsap.timeline({
+        scrollTrigger: {
+          trigger: chapter,
+          start: "top 92%",
+          end: compact ? "top 38%" : "top 32%",
+          scrub: compact ? 0.14 : 0.18,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      settle
+        .fromTo(
+          visual,
+          { xPercent: direction * (compact ? 3 : 6), y: compact ? 12 : 20, scale: 0.985, autoAlpha: 0.76 },
+          { xPercent: 0, y: 0, scale: 1, autoAlpha: 1, duration: 1, ease: "none" },
+          0,
+        )
+        .fromTo(
+          copy,
+          { xPercent: direction * (compact ? -2 : -3), y: compact ? 10 : 16, autoAlpha: 0.68 },
+          { xPercent: 0, y: 0, autoAlpha: 1, duration: 0.82, ease: "none" },
+          0.12,
+        );
+
       gsap.fromTo(image, { yPercent: -6 }, {
-        yPercent: 0,
+        yPercent: 2,
         ease: "none",
         scrollTrigger: {
           trigger: chapter,
           start: "top bottom",
           end: "bottom top",
-          scrub: 0.55,
+          scrub: compact ? 0.22 : 0.32,
         },
       });
     });

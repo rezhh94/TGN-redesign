@@ -31,11 +31,11 @@ The homepage is mounted in this order:
 
 ### Tjenester
 
-- Uses the readable pre-sticky accordion.
-- All service names, descriptions and links are server-rendered.
-- Images are supporting material inside the rows, not the navigation mechanism.
-- The attempted sticky image-led service journey was rejected because users could see imagery without reliably seeing the services while scrolling.
-- Do not restore the sticky service prototype unless explicitly reopened.
+- Uses a varied editorial sequence in ordinary document flow: one lead chapter, a compact two-up pair, one wide technical chapter and a tighter closing chapter.
+- Every service name, description, capability list and service link is server-rendered and immediately available without JavaScript.
+- Existing Tigon service imagery supports each chapter but never becomes the navigation mechanism.
+- Desktop and mobile use small opposing scroll offsets for copy and media; there is no pin or sticky service header.
+- The previous sticky image-led journey remains rejected because it buried service readability.
 
 ### Tilnærming
 
