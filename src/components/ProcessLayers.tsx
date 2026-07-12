@@ -34,7 +34,7 @@ export function ProcessLayers() {
       <header className="process-journey__intro">
         <p className="process-journey__label">05 / Prosess</p>
         <h2 className="process-journey__title" id="process-journey-title">
-          <span>Uklart inn.</span>
+          <span>Uklart inn.{" "}</span>
           <span>System ut.</span>
         </h2>
         <div className="process-journey__intro-copy">

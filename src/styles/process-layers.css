@@ -337,5 +337,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .process-card { transform: none !important; opacity: 1 !important; }
+  .process-card { opacity: 1 !important; }
 }
