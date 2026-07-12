@@ -54,7 +54,7 @@ Do not, unless explicitly requested:
 - Do not call the active items cases, portfolio work or proof of past experience.
 - Concept surfaces must never be presented as delivered customer work.
 - Use capability, demonstration, concept, system, prototype or lab language when a label is needed.
-- `WorkProof` is the active implementation. `WorkShowcase` is a legacy unmounted variant and must not define the content direction.
+- `WorkProof` is the active implementation and the only content model for 04 / Arbeid.
 - `Dette kan Tigon lage` is the capability framing. `BYGD FOR Å BLI VALGT` is the global brand promise. Do not confuse either with a past-work portfolio claim.
 
 ## Design Freedom

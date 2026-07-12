@@ -1,83 +1,17 @@
-# Fable design review brief
+# Fable design reference notes
 
-Status: arbeidsnotater, ikke en låst designkontrakt. Referansene er innspill til selvstendige Tigon-beslutninger og kan utfordres, kombineres eller erstattes.
+Status: historical research and reference notes, not an active design contract or execution plan.
 
-## Beslutningsoppdatering 2026-07-09
+The current project truth is maintained in:
 
-Aktiv fasit ligger i `docs/current-homepage-state.md`.
+- `docs/current-homepage-state.md`
+- `docs/current-project-rules.md`
+- `docs/decision-log.md`
+- `docs/motion-and-assets-roadmap.md`
 
-Dette ble prøvd og forkastet:
-- sticky Tjenester der bilder var synlige, men tjenestene ikke ble pålitelig lesbare i scroll
-- pinned Overlevering/ignite som enda et langt scrolløyeblikk
-- `Selected systems` som pinned/orbital Arbeid-scene
-- for raske og sensitive bildeinnflyginger i Arbeid
-- MWG 031-inspirerte pinned/receding Prosess-kort
-- scrollstyrt Prosess-stage med raske tilstandsskifter
-- flere like pinned-scroll-seksjoner etter hverandre
+The active body sections were reconciled on 2026-07-13. Tilnærming and Tjenester are approved and locked; Effekt is approved with temporary assets; Arbeid remains the capability-led `WorkProof` catalogue; Prosess remains the three-phase system map; Manifest and Kontakt remain quiet closers. Header/navigation is deferred for a separate redesign and Hero remains preserved for now.
 
-Dette er aktiv retning:
-- Tjenester: tidligere, lesbar accordion
-- Tilnærming: beholdt
-- Overlevering: ikke-pinnet lagdelt handoff
-- Arbeid: normal-flow capability-indeks med tydelig leveranse per demonstrasjon
-- Prosess: tre-faset `TGN / Systemflyt`
-- Manifest og Kontakt: rolige avslutninger
-
-## Referanseoppdatering 2026-07-10
-
-- Lessestudio og Salo er fjernet fra det aktive referansesettet.
-- Jack & AI, Nudot, Nothin' og Trionn er lagt til med nye journey-skjermbilder fra live desktop-gjennomgang.
-- Samlet observasjon, asset-kart, GSAP-vurdering og anbefalt vei videre ligger i `_design-input/reference-motion-audit-2026-07-10.md`.
-- Aktiv gjennomføringsrekkefølge og godkjenningsporter ligger i `_design-input/homepage-finalization-plan-2026-07-10.md`.
-- Tjenester er en prioritert offer-, SEO- og internlenkeseksjon. Innhold og verifiserte service-URL-er skal låses før layout eller motion utforskes videre.
-- Verifisert servicekart og bevaringsdekning ligger i `_design-input/services-truth-table-2026-07-10.md`; det er fasit før neste link-/registerpatch.
-- Aktive runder er nå design-only. Full SEO-/URL-/schema-/indexability-kontroll er utsatt, men obligatorisk før go-live via `docs/pre-live-seo-gate.md`.
-- Statisk Tjenester-fase er gjennomført. Work-motion bygges med de seks eksisterende mockupene nå; et senere assetbytte skal ikke blokkere design- eller motionfasen.
-- Referansene brukes som motion- og komposisjonsarkitektur. Ingen ekstern kode, CSS, font eller asset skal kopieres inn i Tigon.
-
-## Målet
-Gjør Tigon-forsiden mer premium, mer regissert og mer Awwwards-inspirert uten å gjøre den rotete eller overanimert.
-
-## Dagens problem
-Siden har en sterk retning, men seksjonene føles fortsatt litt for like. Vi trenger bedre break-ups, mer visuell reise og tydeligere forskjell mellom seksjonene.
-
-## Dette fungerer
-- Hero er sterk
-- Stor typografi fungerer
-- BYGGER skal beholdes stort
-- Effekt-seksjonen har sterk typografisk retning
-- Kontakt/Footer fungerer som closing
-
-## Dette mangler
-- Tydeligere break-ups mellom kapitlene
-- Mer variasjon mellom seksjonene
-- En tydelig capability showcase i 04 / Arbeid: hva Tigon kan skape, ikke en oversikt over hva Tigon har laget
-- Bedre motion-plan
-- Tydelig hoved-showpiece
-- Bedre scroll-reise fra Hero til Kontakt
-
-## Må ikke gjøres
-- Ikke gjør BYGGER mindre
-- Ikke gjør Prosess-title mindre
-- Ikke gjør siden mer SaaS
-- Ikke lag card grid
-- Ikke lag portfolio grid
-- Ikke bruk orange
-- Ikke legg inn random AI-bilder
-- Ikke foreslå eller generer demo-/placeholder-bilder; mockups og bilder kommer fra brukeren senere
-- Ikke gjør 04 / Arbeid til en liste over tidligere kundeprosjekter, bransjer eller nettsider
-- Ikke bruk Arbeid til å bevise relevans gjennom at Tigon har laget noe lignende før
-- Ikke legg til nye hovedseksjoner
-- Ikke rør SEO, metadata, schema, sitemap, robots eller canonical
-
-## Hva Fable skal levere
-- Brutal design review
-- Hvor siden føles for lik
-- Hvilke break-ups som trengs
-- Hvilken seksjon bør være hoved-showpiece
-- Hvilken seksjon bør være rolig
-- Motion/GSAP-plan per seksjon
-- Hva Codex skal implementere først
+The notes below are retained only as reference-site observations. They may contain hypotheses or directions that were later rejected. They do not authorize restoring sticky Tjenester, pinned Overlevering, orbital or card-fan Arbeid, pinned Process cards, aggressive scroll stages, imported external assets or repeated pinned sections.
 
 # Referanse-notater for Fable
 

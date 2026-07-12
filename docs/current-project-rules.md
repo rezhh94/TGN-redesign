@@ -56,16 +56,16 @@ Current implementation note, 2026-07-09:
 - `WorkProof` is the active component.
 - It is a normal-flow editorial capability index using six Tigon demonstrations, not a customer portfolio.
 - The demonstrations must remain labelled so they cannot be mistaken for delivered client projects.
-- `WorkShowcase` is a legacy unmounted variant and must not be used as the content model for 04 / Arbeid.
 - `Dette kan Tigon lage` is the capability framing for 04 / Arbeid. It does not turn the section into proof of past work and does not replace the global brand promise.
 - The rejected `Selected systems` pinned/orbital layout must not be restored unless explicitly reopened.
+- The rejected tilted card fan/collage must not be restored unless explicitly reopened.
 
 ## Active Homepage Map
 
 The verified section order and current motion decisions are maintained in `docs/current-homepage-state.md`.
 
 Current non-negotiable motion decisions:
-- Tjenester uses the pre-sticky accordion; no sticky service-image journey.
+- Tjenester uses varied editorial chapters in ordinary flow; no sticky service-image journey.
 - Overlevering uses a non-pinned layered handoff.
 - Arbeid is normal flow with mild reveal/parallax only.
 - Prosess is a readable three-phase system map with no pin.
@@ -111,6 +111,7 @@ Do not recreate:
 - guide/article/resource modules in the main flow
 - the sticky service prototype where imagery displaced service readability
 - the `Selected systems` pinned/orbital Work concept
+- the tilted Work card fan/collage
 - the MWG 031 pinned/receding Process cards
 - the scroll-sensitive Process stage that changed too quickly
 - repeated pinned-scroll effects across adjacent sections

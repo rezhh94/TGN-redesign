@@ -154,3 +154,11 @@ Do not adjust the current Header/navigation during section work. Treat it as a s
 
 Reason:
 The user explicitly separated the upcoming Header redesign from the approved body-section sequence.
+
+## 2026-07-13 — Repository source-of-truth cleanup
+
+Decision:
+Remove superseded reports, old QA output, rejected drafts, the unmounted `WorkShowcase` implementation and assets with no active code references. Replace outdated section contracts with concise contracts that mirror the mounted homepage.
+
+Reason:
+The repository still contained multiple historical descriptions of Tjenester, Effekt, Arbeid and Prosess that contradicted the approved implementation. Git history preserves the removed tracked material; active agents now have one current documentation path instead of competing truths.

@@ -117,6 +117,12 @@ The homepage is mounted in this order:
 - No visible orange was introduced.
 - No old `styles.css`, `signature.css` or `main.js` was imported.
 
+## Repository hygiene
+
+- Active section contracts live under `docs/sections/` and mirror the mounted homepage.
+- Superseded audits, generated review snapshots, rejected drafts, old QA media and the unmounted `WorkShowcase` variant were removed on 2026-07-13.
+- Historical tracked material remains recoverable through git history; `_design-input/` is reference research and does not override active project documents.
+
 ## Verification
 
 Verified through 2026-07-13:

@@ -4,11 +4,9 @@ Date: 2026-07-10
 Status: durable review snapshot, not an implementation contract
 Scope: Jack & AI, Nudot, Nothin', Trionn, current Tigon homepage and MadeWithGSAP motion references
 
-## Execution update — 2026-07-10
+## Current use — 2026-07-13
 
-The motion conclusions remain valid, but the active execution order is now governed by `_design-input/homepage-finalization-plan-2026-07-10.md`.
-
-Tjenester is a primary offer, SEO and internal-linking section. Its content and verified service destinations must be resolved before Work motion or further service-layout exploration begins. The current structure remains the baseline because it keeps service names, descriptions and links readable in server-rendered HTML.
+This file preserves reference observations only. It does not govern execution order, current layouts or asset inventory. Use `docs/current-homepage-state.md`, `docs/current-project-rules.md`, `docs/decision-log.md` and `docs/motion-and-assets-roadmap.md` for the active project state.
 
 ## Why this document exists
 

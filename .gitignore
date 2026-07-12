@@ -14,3 +14,9 @@ pnpm-debug.log*
 
 # Playwright MCP verification artifacts (screenshots, snapshots, console logs)
 .playwright-mcp/
+
+# Local visual QA and reference capture sequences
+outputs/qa-*/
+/nothin-*.jpeg
+/nudot-*.jpeg
+/trionn-*.jpeg

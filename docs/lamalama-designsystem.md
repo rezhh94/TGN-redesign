@@ -109,7 +109,7 @@ roligere/større knapper.
 
 - **2026-07-07 (konsistens-pass):** Ferskt live-ekstrakt av lamalama bekreftet deres kjerneregel:
   `letter-spacing −0.02em` på ALT + seksjonstitler i vekt 400. TGN-siden auditert mot dette og
-  interne avvik samlet (full rapport: `forside-inkonsistens-rapport.md`). Tre nye ÉN-kilde-tokens:
+  interne avvik ble samlet i den daværende audit-runden. Tre nye ÉN-kilde-tokens:
   `--display-track 0.01em` (alle 8 display-titler → TGS 700 + 0.01em; contact 800→700),
   `--mono-track 0.08em` (alle 19 mono-labels; var ≥7 verdier), `--radius-fine 2px` (3-trinns
   radius-skala). `--color-signal` (bannlyst oransje) slettet. TGN beholder bevisst positiv

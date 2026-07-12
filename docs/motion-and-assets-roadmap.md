@@ -88,7 +88,7 @@ Do not restore unless the user explicitly reopens them:
 
 ## Asset state
 
-- Current service and Work imagery uses repository assets under `public/work/mockups/`.
+- Current service imagery uses `public/services/tgn-*.webp`; Work and temporary Effekt imagery use the active files under `public/work/capability-stage/`.
 - Effekt currently uses two existing Tigon mockup strips as explicit layout placeholders; replace them with final user-supplied mockups without changing the approved result matrix.
 - Images are treated near-monochrome.
 - Work items are explicitly presented as Tigon demonstrations/concepts, not delivered customer cases.
