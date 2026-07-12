@@ -6,6 +6,7 @@ const outcomes = [
     signal: "Målepunkt — synlighet / søk + AI-søk",
     description: "Struktur og innhold som gjør siden lettere å finne i Google og AI-søk.",
     tools: "Teknisk SEO · Sitemap · Schema · AI-lesbar struktur",
+    placeholder: "/work/capability-stage/tgn-product-os-laptop.webp",
   },
   {
     key: "forstatt",
@@ -14,6 +15,7 @@ const outcomes = [
     signal: "Målepunkt — klarhet / budskap",
     description: "Tydelig posisjonering, budskap og innhold som gjør tilbudet enklere å forstå.",
     tools: "Posisjonering · Budskapshierarki · Innhold",
+    placeholder: "/work/capability-stage/tgn-product-os-laptop.webp",
   },
   {
     key: "valgt",
@@ -22,6 +24,7 @@ const outcomes = [
     signal: "Målepunkt — konvertering / neste steg",
     description: "CTA-er, flyt og kontaktpunkter som gjør neste steg tydelig.",
     tools: "CTA-er · Kontaktflyt · Skjema",
+    placeholder: "/work/capability-stage/phone-hand.png",
   },
   {
     key: "malt",
@@ -30,77 +33,54 @@ const outcomes = [
     signal: "Målepunkt — sporing / hendelser",
     description: "Skjema, telefon, e-post og hendelser som kan spores fra start.",
     tools: "Hendelser · Skjema · Telefon · E-post",
+    placeholder: "/work/capability-stage/phone-hand.png",
   },
 ];
 
 export function WhatWeImprove() {
   return (
-    <section className="what-improve" aria-labelledby="what-improve-title" data-theme-section="light" data-bg-section="mauve">
+    <section
+      className="what-improve"
+      aria-labelledby="what-improve-title"
+      data-effect-section
+      data-theme-section="light"
+      data-bg-section="mauve"
+    >
       <div className="what-improve__inner">
         <header className="what-improve__intro">
           <p className="what-improve__label">03 / Effekt</p>
           <h2 className="what-improve__kicker" id="what-improve-title">
-            Én løsning. Fire målbare utslag.
+            <span>Effekt som{" "}</span>
+            <span>kan måles.</span>
           </h2>
-          <p className="what-improve__desc">
-            Design, teknologi og synlighet skal ikke levere hver sin effekt. De skal føre samme vei fra oppmerksomhet til dokumentert handling.
-          </p>
+          <div className="what-improve__desc">
+            <p>
+              Design, teknologi og synlighet skal føre samme vei — fra
+              oppmerksomhet til dokumentert handling.
+            </p>
+            <span>TGN / outcome system / 01—04</span>
+          </div>
         </header>
 
-        <div className="what-improve__word-stage looping-words" aria-hidden="true">
-          <div className="looping-words__containers">
-            <ul className="looping-words__list" data-looping-words-list="">
-              {outcomes.map((outcome) => (
-                <li className="looping-words__item" data-looping-key={outcome.key} key={outcome.key}>
-                  <p className="looping-words__word">{outcome.title}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="looping-words__fade" />
-          <div className="looping-words__selector" data-looping-words-selector="">
-            <span className="looping-words__edge" />
-            <span className="looping-words__edge looping-words__edge--2" />
-            <span className="looping-words__edge looping-words__edge--3" />
-            <span className="looping-words__edge looping-words__edge--4" />
-          </div>
-        </div>
-
-        <div className="what-improve__detail-stage">
-          <ol className="what-improve__index" aria-label="Resultatkjede">
-            {outcomes.map((outcome) => (
-              <li
-                data-looping-index={outcome.key}
-                data-active={outcome.key === "forstatt" ? "" : undefined}
-                key={outcome.key}
-              >
-                <span>{outcome.number}</span>
-                <strong>{outcome.title}</strong>
-              </li>
-            ))}
-          </ol>
-
-          <div className="what-improve__details">
-            {outcomes.map((outcome) => (
-              <article
-                className="what-improve__detail"
-                data-looping-detail={outcome.key}
-                data-active={outcome.key === "forstatt" ? "" : undefined}
-                key={outcome.key}
-              >
-                <header>
-                  <span>{outcome.number} / 04</span>
-                  <h3>{outcome.title}</h3>
-                </header>
-                <p className="what-improve__text">{outcome.description}</p>
-                <div className="what-improve__detail-meta">
-                  <p className="what-improve__signal">{outcome.signal}</p>
-                  <p className="what-improve__tools">{outcome.tools}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+        <ol className="what-improve__matrix" aria-label="Resultatkjede">
+          {outcomes.map((outcome) => (
+            <li className="what-improve__outcome" data-effect-outcome key={outcome.key}>
+              <header>
+                <span>{outcome.number} / 04</span>
+                <span>{outcome.signal}</span>
+              </header>
+              <h3>{outcome.title}</h3>
+              <figure className="what-improve__placeholder" data-effect-placeholder>
+                <img src={outcome.placeholder} alt="" loading="lazy" />
+                <figcaption>Midlertidig mockupflate / erstattes</figcaption>
+              </figure>
+              <div className="what-improve__outcome-copy">
+                <p>{outcome.description}</p>
+                <p>{outcome.tools}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
 
         <p className="what-improve__closing">
           <span>Synlighet inn</span>

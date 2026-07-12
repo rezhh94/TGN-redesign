@@ -9,7 +9,6 @@ import {
   initContentRevealScroll,
   initFooterParallax,
   initGlobalParallax,
-  initLoopingWordsWithSelector,
   initShutterScrollTransition,
 } from "@/lib/osmo-motion";
 
@@ -74,6 +73,48 @@ function servicesScene() {
           scrub: compact ? 0.22 : 0.32,
         },
       });
+    });
+  }, section);
+
+  return () => ctx.revert();
+}
+
+// 03 / Effekt — one complete 2x2 outcome field in ordinary document flow.
+// Motion only settles the already-visible cells; the result chain stays fully
+// readable in server-rendered HTML on every device and without JavaScript.
+function effectScene() {
+  const section = document.querySelector<HTMLElement>("[data-effect-section]");
+  if (!section) return () => {};
+
+  const outcomes = gsap.utils.toArray<HTMLElement>("[data-effect-outcome]", section);
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced) return () => {};
+
+  const compact = window.matchMedia("(max-width: 900px)").matches;
+  const ctx = gsap.context(() => {
+    outcomes.forEach((outcome, index) => {
+      const direction = index % 2 ? 1 : -1;
+      gsap.fromTo(
+        outcome,
+        {
+          xPercent: direction * (compact ? 2 : 3.5),
+          y: compact ? 14 : 24,
+          autoAlpha: 0.7,
+        },
+        {
+          xPercent: 0,
+          y: 0,
+          autoAlpha: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: outcome,
+            start: "top 92%",
+            end: compact ? "top 52%" : "top 46%",
+            scrub: compact ? 0.12 : 0.18,
+            invalidateOnRefresh: true,
+          },
+        },
+      );
     });
   }, section);
 
@@ -511,7 +552,7 @@ export function HomeMotion() {
     const teardownOsmoReveal = initContentRevealScroll();
     const teardownOsmoParallax = initGlobalParallax();
     const teardownServices = servicesScene();
-    let teardownLoopingWords = () => {};
+    const teardownEffect = effectScene();
     let teardownShutter = () => {};
     let teardownFooterParallax = () => {};
     let teardownApproachPath = () => {};
@@ -559,7 +600,6 @@ export function HomeMotion() {
       if (effectCancelled) return;
       footerInitFrame = window.requestAnimationFrame(() => {
         if (effectCancelled) return;
-        teardownLoopingWords = initLoopingWordsWithSelector();
         teardownShutter = initShutterScrollTransition();
         teardownFooterParallax = initFooterParallax();
         teardownApproachPath = initApproachPathJourney();
@@ -577,7 +617,7 @@ export function HomeMotion() {
       teardownOsmoParallax();
       teardownServices();
       teardownOsmoReveal();
-      teardownLoopingWords();
+      teardownEffect();
       teardownShutter();
       teardownApproachPath();
       teardownSectionTheme();

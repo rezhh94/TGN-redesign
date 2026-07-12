@@ -55,10 +55,12 @@ The homepage is mounted in this order:
 
 ### Effekt
 
-- Uses the restored stacked-outcome implementation from historical revision `25b423a`.
-- The left column remains the reading anchor with title, explanation and active measurement detail.
-- The right column contains four CSS-sticky cards: Funnet, Forstått, Valgt and Målt.
-- GSAP only marks the front card and matching detail as active; stacking and readability do not depend on JavaScript.
+- Uses one complete editorial result matrix in ordinary document flow.
+- Funnet, Forstått, Valgt and Målt are visible together as four large ruled fields rather than hidden behind a selector or active-card state.
+- Every outcome keeps its description, measurement point and tools in server-rendered HTML.
+- Two existing Tigon mockup surfaces currently act as clearly labelled layout placeholders across the row pairs. They must be replaced by the user's final Effect assets and are not an approved permanent asset choice.
+- Desktop uses a 2x2 field; mobile stacks the same four outcomes in order.
+- Motion is limited to small opposing settling offsets. There is no pin, sticky card stack or active-state dependency.
 
 ### Arbeid
 
@@ -89,7 +91,7 @@ The homepage is mounted in this order:
 - Important text and links remain visible in server-rendered HTML.
 - Reduced motion and no-JS states remain readable.
 - No pin is used in Tjenester, Overlevering, Arbeid or Prosess.
-- No main homepage section uses a JS-driven pin. Tjenester and Effekt retain their readable CSS-sticky elements.
+- No main homepage section uses a JS-driven pin. Overlevering retains its CSS-sticky viewport; Effekt remains in ordinary flow.
 - Continuous motion is limited to transform/opacity work scoped to the relevant section.
 - No MadeWithGSAP code, CSS, fonts, images or other assets were imported.
 
@@ -105,7 +107,7 @@ The homepage is mounted in this order:
 
 ## Verification
 
-Verified on 2026-07-10:
+Verified on 2026-07-12:
 
 - `npm run typecheck`
 - `npm run build`

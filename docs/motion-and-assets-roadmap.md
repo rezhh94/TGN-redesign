@@ -50,9 +50,10 @@ This file records the active motion architecture. It is not a backlog of old eff
 
 ### 03 / Effekt
 
-- CSS-sticky outcome cards stack in the right column while the left explanation remains the reading anchor.
-- GSAP only synchronises the active card and measurement detail.
-- No JS-driven pin or decorative signal rail.
+- One complete 2x2 result matrix remains visible in ordinary document flow.
+- Each outcome settles from a small opposing offset as it enters.
+- Mobile stacks the same complete fields with smaller offsets.
+- Reduced motion and no-JS show the final static result matrix; there is no selector, active-card state, sticky stack or pin.
 
 ### 04 / Arbeid
 
