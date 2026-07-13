@@ -79,46 +79,74 @@ function servicesScene() {
   return () => ctx.revert();
 }
 
-// 03 / Effekt — one complete 2x2 outcome field in ordinary document flow.
-// Motion only settles the already-visible cells; the result chain stays fully
-// readable in server-rendered HTML on every device and without JavaScript.
+// 03 / Effekt — Proof Lock replaces the generic whole-outcome slide.
+// The visible claim and proof surface converge into the approved static overlap;
+// headers and critical content stay readable in ordinary document flow.
 function effectScene() {
   const section = document.querySelector<HTMLElement>("[data-effect-section]");
   if (!section) return () => {};
 
   const outcomes = gsap.utils.toArray<HTMLElement>("[data-effect-outcome]", section);
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduced) return () => {};
+  const matchMedia = gsap.matchMedia();
 
-  const compact = window.matchMedia("(max-width: 900px)").matches;
-  const ctx = gsap.context(() => {
-    outcomes.forEach((outcome, index) => {
-      const direction = index % 2 ? 1 : -1;
-      gsap.fromTo(
-        outcome,
-        {
-          xPercent: direction * (compact ? 2 : 3.5),
-          y: compact ? 14 : 24,
-          autoAlpha: 0.7,
-        },
-        {
-          xPercent: 0,
-          y: 0,
-          autoAlpha: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: outcome,
-            start: "top 92%",
-            end: compact ? "top 52%" : "top 46%",
-            scrub: compact ? 0.12 : 0.18,
-            invalidateOnRefresh: true,
-          },
-        },
-      );
-    });
-  }, section);
+  matchMedia.add(
+    {
+      compact: "(max-width: 900px)",
+      motion: "(prefers-reduced-motion: no-preference)",
+    },
+    (context) => {
+      if (!context.conditions?.motion) return;
 
-  return () => ctx.revert();
+      const compact = Boolean(context.conditions?.compact);
+      const ctx = gsap.context(() => {
+        outcomes.forEach((outcome, index) => {
+          const title = outcome.querySelector<HTMLElement>("h3");
+          const proof = outcome.querySelector<HTMLElement>("[data-effect-placeholder]");
+          const copy = outcome.querySelector<HTMLElement>(".what-improve__outcome-copy");
+          if (!title || !proof || !copy) return;
+
+          const direction = index % 2 ? -1 : 1;
+          const timeline = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: {
+              trigger: outcome,
+              start: compact ? "top 90%" : "top 88%",
+              end: compact ? "top 66%" : "top 50%",
+              scrub: compact ? 0.12 : 0.18,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          timeline
+            .fromTo(
+              title,
+              { xPercent: direction * (compact ? 0.5 : 1) },
+              { xPercent: 0, duration: 1 },
+              0,
+            )
+            .fromTo(
+              proof,
+              {
+                xPercent: direction * (compact ? 4 : 8),
+                autoAlpha: compact ? 0.72 : 0.44,
+              },
+              { xPercent: 0, autoAlpha: 1, duration: 1 },
+              0,
+            )
+            .fromTo(
+              copy,
+              { y: compact ? 6 : 10 },
+              { y: 0, duration: 1 },
+              0,
+            );
+        });
+      }, section);
+
+      return () => ctx.revert();
+    },
+  );
+
+  return () => matchMedia.revert();
 }
 // One-time opening scene: the editorial masthead assembles once on load.
 // FROM-tweens only — without JS everything is simply visible (no CLS).

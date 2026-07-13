@@ -56,13 +56,15 @@ The homepage is mounted in this order:
 
 ### Effekt
 
-- Status: approved and committed on 2026-07-12. Final mockup assets remain the only open item.
-- Uses one complete editorial result matrix in ordinary document flow.
-- Funnet, Forstått, Valgt and Målt are visible together as four large ruled fields rather than hidden behind a selector or active-card state.
+- Status: redesigned, integration-tested and approved through G6 on 2026-07-13. Final mockup assets remain the only open item.
+- Uses one continuous asymmetric editorial result chain in ordinary document flow; the earlier equal 2x2 visual matrix is superseded.
+- Funnet, Forstått, Valgt and Målt remain in semantic order as four large alternating typographic fields rather than being hidden behind a selector or active-card state.
 - Every outcome keeps its description, measurement point and tools in server-rendered HTML.
-- Two existing Tigon mockup surfaces currently act as clearly labelled layout placeholders across the row pairs. They must be replaced by the user's final Effect assets and are not an approved permanent asset choice.
-- Desktop uses a 2x2 field; mobile stacks the same four outcomes in order.
-- Motion is limited to small opposing settling offsets. There is no pin, sticky card stack or active-state dependency.
+- Existing Tigon mockup surfaces currently act as clearly labelled proof placeholders attached to each outcome. They must be replaced by the user's final Effect assets and are not an approved permanent asset choice.
+- Desktop alternates word, proof surface and supporting copy across the grid. Tablet and mobile retain the same authored left/right rhythm while stacking all four outcomes in order.
+- The closing line resolves the chain as `Synlighet inn -> Målbar kontakt ut`.
+- Motion uses the section-scoped `Proof Lock`: each visible result word, proof surface and description converge over a short viewport pass into the approved static overlap. There is no pin, sticky stack, selector or active-state dependency.
+- Desktop uses the full restrained displacement; mobile keeps the same mechanism with smaller travel and higher starting proof opacity. Reduced motion and no-JS show the finished static composition.
 
 ### Arbeid
 
@@ -111,7 +113,7 @@ The homepage is mounted in this order:
 - Hero remains preserved for now.
 - Tilnærming was redesigned, approved and locked within its existing `01` scope on 2026-07-12.
 - Tjenester was approved and locked within its existing `02` scope on 2026-07-12.
-- Effekt was redesigned and committed within its existing `03` scope on 2026-07-12; its mockup strips are temporary asset placeholders.
+- Effekt is the approved asymmetric `03` result chain with section-scoped Proof Lock; its mockup surfaces remain temporary asset placeholders.
 - Arbeid is the capability-led light asymmetric `WorkProof` implementation with accessible detail triggers and the narrowly approved Dynamic Text Cursor.
 - Prosess remains the readable three-phase system map, with only fallback/accessibility corrections committed on 2026-07-13.
 - Manifest and Kontakt/footer remain preserved quiet closing sections.
@@ -134,7 +136,10 @@ Verified through 2026-07-13:
 - `npm run build`
 - `git diff --check`
 - Desktop browser review at 1440 x 900 and 1440 x 1000
-- Mobile browser review at 390 x 844
-- Reduced-motion and no-JS review of Prosess
+- Full-page responsive review at 1440, 1024, 768 and 390 px with no horizontal overflow, broken images or browser errors
+- Mobile/touch review at 390 x 844
+- Reduced-motion and no-JS review of Effekt, Arbeid and Prosess
+- Keyboard activation, native Work dialog, Escape close and focus return
+- Effect refresh-position and section-local motion cleanup
 - Desktop/mobile review of Manifest and the Prosess-to-Manifest transition
 - Homepage remained statically prerendered

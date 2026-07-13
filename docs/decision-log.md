@@ -123,6 +123,24 @@ Keep the complete 2x2 result matrix for Funnet, Forstått, Valgt and Målt. The 
 Reason:
 All four outcomes remain visible and measurable without a selector, sticky stack or decorative illustration. The temporary visuals add material weight without pretending to be final assets.
 
+Superseded on 2026-07-13 by the approved asymmetric result chain below. The semantic content and temporary-asset rule remain valid; the equal 2x2 visual arrangement does not.
+
+## 2026-07-13 — Effekt asymmetric result chain and Proof Lock approved
+
+Decision:
+Replace the equal 2x2 visual arrangement with one continuous asymmetric editorial chain for Funnet, Forstått, Valgt and Målt. Keep all four outcomes in server-rendered order and attach each large result word directly to its measurement signal, proof surface, explanation and tools. Use only the section-scoped `Proof Lock` motion, where the visible word, proof surface and description converge into the approved static overlap.
+
+Reason:
+The equal matrix read as four well-made boxes rather than Tigon's connected result system. The approved composition creates one authored reading rhythm without hiding content, adding a rail or introducing another pinned sequence. Desktop, tablet, mobile, reduced-motion, no-JS, keyboard/touch integration and production build all passed the final G6 gate.
+
+## 2026-07-13 — Reject literal three-colour discipline poster direction
+
+Decision:
+Do not revive the broad white/olive/mauve section coding or the three-column Design/Teknologi/Synlighet poster treatment as Tigon's homepage system.
+
+Reason:
+The direction flattened the page into a strategy presentation, repeated ideas already communicated in copy and made the design more generic rather than more authored. Colour may still create chapter contrast, but it must follow section role and page rhythm rather than label disciplines literally.
+
 ## 2026-07-12 — Reject decorative Arbeid card fan
 
 Decision:

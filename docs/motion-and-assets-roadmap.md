@@ -51,10 +51,11 @@ This file records the active motion architecture. It is not a backlog of old eff
 
 ### 03 / Effekt
 
-- One complete 2x2 result matrix remains visible in ordinary document flow.
-- Each outcome settles from a small opposing offset as it enters.
-- Mobile stacks the same complete fields with smaller offsets.
-- Reduced motion and no-JS show the final static result matrix; there is no selector, active-card state, sticky stack or pin.
+- One continuous asymmetric result chain remains visible in ordinary document flow; the equal 2x2 visual arrangement is superseded.
+- `Proof Lock` is the only Effect mechanism: each already-visible result word, proof surface and description converge into their authored static overlap as the outcome enters.
+- Odd and even outcomes mirror the same geometry. Desktop uses approximately 1% word travel, 8% proof travel and 10 px copy travel; mobile reduces these to approximately 0.5%, 4% and 6 px.
+- Each outcome owns one section-scoped ScrollTrigger timeline. Only transform and proof opacity animate; there is no pin, scale, blur, parallax, selector, active-card state or transition into Work.
+- Reduced motion and no-JS show the final static result chain. Refresh preserves the correct scroll-linked state.
 
 ### 04 / Arbeid
 
@@ -89,11 +90,14 @@ Do not restore unless the user explicitly reopens them:
 - MWG 031 pinned/receding Process cards
 - Process stage whose visual state changed aggressively with scroll
 - repeated pinning across consecutive sections
+- equal 2x2 Effect matrix as the final visual composition
+- generic whole-outcome Effect slide-in
+- literal white/olive/mauve discipline colour coding or a three-column Design/Teknologi/Synlighet poster system
 
 ## Asset state
 
 - Current service imagery uses `public/services/tgn-*.webp`; Work and temporary Effekt imagery use the active files under `public/work/capability-stage/`.
-- Effekt currently uses two existing Tigon mockup strips as explicit layout placeholders; replace them with final user-supplied mockups without changing the approved result matrix.
+- Effekt currently uses existing Tigon mockup surfaces as explicit proof placeholders; replace them with final user-supplied mockups without changing the approved asymmetric result chain.
 - Images are treated near-monochrome.
 - Work items are explicitly presented as Tigon demonstrations/concepts, not delivered customer cases.
 - 04 / Arbeid does not use case or archive links to point at previously built websites; it stays focused on future capabilities.
