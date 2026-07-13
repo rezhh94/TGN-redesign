@@ -292,9 +292,9 @@ function workProof(cinematic: boolean) {
   return () => ctx.revert();
 }
 
-// 05 / Prosess — same compositional grammar as 04 / Arbeid. Three process
-// surfaces settle into one assembly once; the readable phase index remains in
-// ordinary document flow below. No pin or scroll-switched content.
+// 05 / Prosess — the three surfaces use the same scroll-coupled assembly
+// behaviour as the cards in 01 / Tilnærming. The readable phase index remains
+// in ordinary document flow below. No pin or scroll-switched content.
 function processTransformation() {
   const stage = document.querySelector<HTMLElement>("[data-process-stage]");
   if (!stage) return () => {};
@@ -303,28 +303,37 @@ function processTransformation() {
   const legend = stage.querySelector<HTMLElement>(".process-assembly__legend strong");
 
   const ctx = gsap.context(() => {
-    if (surfaces.length) {
-      gsap.from(surfaces, {
-        x: (index) => [-110, 0, 110][index] ?? 0,
-        y: (index) => [54, -76, 68][index] ?? 0,
-        scale: (index) => [0.92, 0.88, 0.92][index] ?? 0.92,
-        autoAlpha: 0,
-        duration: 1,
-        stagger: 0.11,
-        ease: "power3.out",
-        scrollTrigger: { trigger: stage, start: "top 68%", once: true },
-      });
+    if (surfaces.length !== 3) return;
+
+    const isDesktop = window.matchMedia("(min-width: 901px)").matches;
+    const assemblyTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: stage,
+        start: isDesktop ? "top 88%" : "top 92%",
+        end: isDesktop ? "top 18%" : "top 32%",
+        scrub: isDesktop ? 0.18 : 0.14,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    if (isDesktop) {
+      assemblyTimeline
+        .from(surfaces[0], { xPercent: -18, yPercent: 11, rotation: "-=5", duration: 1, ease: "none" }, 0)
+        .from(surfaces[1], { yPercent: -14, scale: 0.91, duration: 1, ease: "none" }, 0)
+        .from(surfaces[2], { xPercent: 18, yPercent: 11, rotation: "+=5", duration: 1, ease: "none" }, 0);
+    } else {
+      assemblyTimeline
+        .from(surfaces[0], { xPercent: -7, duration: 1, ease: "none" }, 0)
+        .from(surfaces[1], { yPercent: -5, scale: 0.985, duration: 1, ease: "none" }, 0)
+        .from(surfaces[2], { xPercent: 7, duration: 1, ease: "none" }, 0);
     }
 
     if (legend) {
-      gsap.from(legend, {
-        y: 24,
-        autoAlpha: 0,
-        duration: 0.7,
-        delay: 0.25,
-        ease: "power3.out",
-        scrollTrigger: { trigger: stage, start: "top 68%", once: true },
-      });
+      assemblyTimeline.from(
+        legend,
+        { yPercent: 26, autoAlpha: 0.22, duration: 0.68, ease: "none" },
+        0.18,
+      );
     }
   }, stage);
 
