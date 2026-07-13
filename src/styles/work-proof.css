@@ -479,6 +479,18 @@
   text-transform: uppercase;
 }
 
+.work-proof__shutter {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 4;
+  color: #030303;
+  pointer-events: none;
+}
+
+.work-proof__shutter [data-shutter-scroll-row] {
+  height: 1.5em;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .work-tile:hover .work-tile__visual img {
     transform: scale(1.015);
@@ -674,7 +686,8 @@
     transform: none !important;
   }
 
-  .work-cursor {
+  .work-cursor,
+  .work-proof__shutter {
     display: none !important;
   }
 }

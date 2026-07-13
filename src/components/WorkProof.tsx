@@ -223,6 +223,15 @@ export function WorkProof() {
         <span>Dette kan Tigon lage</span>
         <span>Capability-demonstrasjoner / ikke kundecaser</span>
       </footer>
+
+      <div
+        className="work-proof__shutter"
+        data-shutter-scroll-transition=""
+        data-rows="6"
+        data-rows-tablet="5"
+        data-rows-mobile="4"
+        aria-hidden="true"
+      />
     </section>
   );
 }
