@@ -162,3 +162,11 @@ Remove superseded reports, old QA output, rejected drafts, the unmounted `WorkSh
 
 Reason:
 The repository still contained multiple historical descriptions of Tjenester, Effekt, Arbeid and Prosess that contradicted the approved implementation. Git history preserves the removed tracked material; active agents now have one current documentation path instead of competing truths.
+
+## 2026-07-13 — Dynamic Text Cursor is limited to functional Arbeid triggers
+
+Decision:
+Use the regular Dynamic Text Cursor only on the six clickable capability surfaces in `04 / Arbeid`. Keep the native cursor everywhere else. Scramble Text Cursor is not approved.
+
+Reason:
+The cursor gives large image-led surfaces a precise `Les mer / [capability]` affordance without turning the entire site into an effect system. Touch/mobile receives a visible `Les mer` action, reduced motion disables the custom cursor, and real buttons plus keyboard-accessible dialogs remain the underlying interaction.

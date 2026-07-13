@@ -66,16 +66,18 @@ The homepage is mounted in this order:
 
 ### Arbeid
 
-- Status: restored and preserved after the 2026-07-12 review. Do not replace it with a decorative capability collage or card fan.
-- Uses the restored always-open zig-zag capability catalogue from historical revision `25b423a`.
-- Six complete rows alternate copy and three visual/mockup surfaces.
+- Status: redesigned and under review on 2026-07-13 after the user explicitly reopened the section.
+- Uses a light, asymmetric editorial capability wall adapted from the Anatoly reference without adopting portfolio semantics.
+- Six complete surfaces use unequal widths, formats and vertical offsets in normal document flow.
 - Webapp, Nettsted, Plattform, E-handel, AI and App remain immediately visible and readable.
 - It is a capability catalogue, not a customer portfolio.
 - Every item describes something Tigon can create for a future project; the section does not refer to previously built websites or use case/archive links as proof.
 - The current `Dette kan Tigon lage.` heading is capability framing. It is not portfolio language and does not replace the global `BYGD FOR Å BLI VALGT.` promise.
+- Every surface is a real accessible detail trigger. Desktop fine-pointer hover uses the approved regular Dynamic Text Cursor; mobile shows a visible `Les mer` action.
+- Capability details open in a native dialog/bottom sheet without creating project slugs or presenting the concepts as delivered work.
 - The `Selected systems` pinned/orbital concept was rejected because it distracted from what Tigon delivers and reacted too aggressively to scroll.
 - A later static fan of six tilted capability cards was also rejected and fully rolled back because overlap, cropping and decorative composition obscured the capability argument.
-- Current motion is one-shot row settling and mild counter-phase column parallax. No pin or accordion.
+- Current motion is limited to small one-shot tile settling and the section-scoped functional cursor. No pin, orbit, parallax stage or scroll-driven state.
 
 ### Prosess
 
@@ -100,6 +102,7 @@ The homepage is mounted in this order:
 - No pin is used in Tjenester, Overlevering, Arbeid or Prosess.
 - No main homepage section uses a JS-driven pin. Overlevering retains its CSS-sticky viewport; Effekt remains in ordinary flow.
 - Continuous motion is limited to transform/opacity work scoped to the relevant section.
+- The only custom-cursor use is the functional Dynamic Text Cursor on clickable Arbeid surfaces; it is disabled for touch and reduced motion.
 - No MadeWithGSAP code, CSS, fonts, images or other assets were imported.
 
 ## Preservation state
@@ -109,7 +112,7 @@ The homepage is mounted in this order:
 - Tilnærming was redesigned, approved and locked within its existing `01` scope on 2026-07-12.
 - Tjenester was approved and locked within its existing `02` scope on 2026-07-12.
 - Effekt was redesigned and committed within its existing `03` scope on 2026-07-12; its mockup strips are temporary asset placeholders.
-- Arbeid remains the restored capability-led `WorkProof` implementation after the rejected card-fan experiment was rolled back.
+- Arbeid is the capability-led light asymmetric `WorkProof` implementation with accessible detail triggers and the narrowly approved Dynamic Text Cursor.
 - Prosess remains the readable three-phase system map, with only fallback/accessibility corrections committed on 2026-07-13.
 - Manifest and Kontakt/footer remain preserved quiet closing sections.
 - SEO metadata, schema, sitemap, robots, canonical, URLs and slugs were not changed.

@@ -15,7 +15,8 @@ This file records the active motion architecture. It is not a backlog of old eff
 - Prefer transform/opacity for continuous movement.
 - Do not add a pin merely to create visual novelty.
 - Do not import MadeWithGSAP CSS, JS, fonts or assets.
-- No visible orange, particles, cursor-follow gimmicks or horizontal scroll.
+- No visible orange, particles, decorative cursor-follow gimmicks or horizontal scroll.
+- The only approved cursor exception is the functional Dynamic Text Cursor on clickable `04 / Arbeid` capability surfaces, governed by `docs/current-project-rules.md`.
 
 ## Active motion map
 
@@ -57,9 +58,12 @@ This file records the active motion architecture. It is not a backlog of old eff
 
 ### 04 / Arbeid
 
-- Always-open zig-zag capability catalogue.
-- One-shot row settling plus mild desktop counter-phase parallax between copy and mockup columns.
-- No pin, accordion, orbit, active-card state or scroll-jacked progress.
+- Light, asymmetric capability wall in normal document flow.
+- Six complete, server-rendered capability surfaces remain visible without interaction.
+- Small one-shot tile settling only; no pin, orbit, parallax stage or scroll-jacked progress.
+- Fine-pointer hover uses the approved regular Dynamic Text Cursor with an action-and-target label.
+- Click or keyboard activation opens a native detail dialog. Mobile/touch uses a visible `Les mer` action and a bottom-sheet presentation.
+- Reduced motion and no-JS preserve the readable capability content; the custom cursor is disabled.
 
 ### 05 / Prosess
 
@@ -106,3 +110,4 @@ For every motion change:
 4. Run `npm run build`.
 5. Run `git diff --check`.
 6. Review desktop and mobile rendering before commit.
+7. For cursor-enabled surfaces, verify visible mobile action, keyboard focus, dialog close/Escape and that the cursor is not the sole affordance.

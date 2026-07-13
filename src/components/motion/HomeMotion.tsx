@@ -246,78 +246,46 @@ function bridgeScene() {
   return () => ctx.revert();
 }
 
-// 04 / Arbeid — én koordinert montering. Fem mockupflater samles til den
-// statiske capability-komposisjonen; den kompakte indeksen kommer etterpå.
-// Ingen pin, per-rad-gjentakelse eller kontinuerlig parallax.
+// 04 / Arbeid — den asymmetriske capability-veggen er ferdig uten JS.
+// Cinematic mode legger kun på små, uavhengige one-shot-forskyvninger.
+// Ingen pin, orbit, scrollstyrt fremdrift eller skjult kritisk innhold.
 function workProof(cinematic: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
-  const stage = section.querySelector<HTMLElement>("[data-work-stage]");
-  const media = gsap.utils.toArray<HTMLElement>("[data-work-media]", section);
-  const lock = section.querySelector<HTMLElement>("[data-work-lock]");
-  const indexItems = gsap.utils.toArray<HTMLElement>("[data-work-index] > li", section);
-  if (!stage || !media.length || !cinematic) return () => {};
-
-  const arm = (trigger: HTMLElement, play: () => void, start: string) => {
-    let done = false;
-    const fire = () => {
-      if (done) return;
-      done = true;
-      play();
-    };
-    ScrollTrigger.create({
-      trigger,
-      start,
-      onEnter: fire,
-      onRefresh: (self) => {
-        if (self.progress > 0) fire();
-      },
-    });
-  };
+  const tiles = gsap.utils.toArray<HTMLElement>("[data-work-tile]", section);
+  const statement = section.querySelector<HTMLElement>("[data-work-statement]");
+  if (!tiles.length || !cinematic) return () => {};
 
   const ctx = gsap.context(() => {
-    const starts = [
-      { x: -72, y: 34, rotation: -2.2, scale: 0.95 },
-      { x: 70, y: -26, rotation: 2.4, scale: 0.93 },
-      { x: 58, y: 62, rotation: 1.5, scale: 0.94 },
-      { x: -54, y: 56, rotation: -1.6, scale: 0.94 },
-      { x: 14, y: -58, rotation: 2.8, scale: 0.9 },
-    ];
+    const offsets = [30, 48, 22, 36, 54, 28];
 
-    media.forEach((item, index) => {
-      gsap.set(item, { autoAlpha: 0, ...starts[index % starts.length] });
+    tiles.forEach((tile, index) => {
+      gsap.from(tile, {
+        y: offsets[index] ?? 30,
+        autoAlpha: 0,
+        duration: 0.82,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: tile,
+          start: "top 86%",
+          once: true,
+        },
+      });
     });
-    if (lock) gsap.set(lock, { scaleX: 0, transformOrigin: "left center" });
 
-    const stageTimeline = gsap.timeline({ paused: true });
-    stageTimeline.to(media, {
-      autoAlpha: 1,
-      x: 0,
-      y: 0,
-      rotation: 0,
-      scale: 1,
-      duration: 0.9,
-      ease: "power3.out",
-      stagger: 0.085,
-    });
-    if (lock) {
-      stageTimeline.to(lock, { scaleX: 1, duration: 0.75, ease: "power2.inOut" }, 0.42);
-    }
-    arm(stage, () => stageTimeline.play(), "top 76%");
-
-    if (indexItems.length) {
-      const index = section.querySelector<HTMLElement>("[data-work-index]");
-      if (index) {
-        gsap.set(indexItems, { autoAlpha: 0, y: 18 });
-        arm(index, () => gsap.to(indexItems, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.58,
-          ease: "power3.out",
-          stagger: 0.055,
-        }), "top 82%");
-      }
+    if (statement) {
+      gsap.from(statement, {
+        y: 32,
+        autoAlpha: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: statement,
+          start: "top 84%",
+          once: true,
+        },
+      });
     }
   }, section);
 
@@ -468,6 +436,69 @@ function sectionThemeScene() {
   };
 }
 
+// Osmo Dynamic Text Cursor, adapted only in styling and lifecycle for Tigon.
+// The original data attributes and GSAP quickTo movement are preserved.
+function setupDynamicTextCursor() {
+  const cursor = document.querySelector<HTMLElement>("[data-cursor]");
+  const cursorTextTarget = document.querySelector<HTMLElement>("[data-cursor-text-target]");
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!cursor || !cursorTextTarget || !finePointer || reducedMotion) return () => {};
+
+  let mouseX = 0;
+  let mouseY = 0;
+  let hasMouseMoved = false;
+  let frame = 0;
+
+  const xTo = gsap.quickTo(cursor, "x", { duration: 0.4, ease: "power3.out" });
+  const yTo = gsap.quickTo(cursor, "y", { duration: 0.4, ease: "power3.out" });
+
+  const updateCursor = () => {
+    frame = 0;
+    const hoverItem = document
+      .elementFromPoint(mouseX, mouseY)
+      ?.closest<HTMLElement>("[data-cursor-hover]");
+    const text = hoverItem?.getAttribute("data-cursor-text");
+
+    if (text) cursorTextTarget.textContent = text;
+
+    const rect = cursor.getBoundingClientRect();
+    const isHovering = Boolean(hoverItem);
+    const isEdge = rect.right >= window.innerWidth;
+    cursor.setAttribute("data-cursor", isHovering ? (isEdge ? "active-edge" : "active") : "");
+  };
+
+  const queueUpdate = () => {
+    if (frame) return;
+    frame = window.requestAnimationFrame(updateCursor);
+  };
+
+  const onMouseMove = (event: MouseEvent) => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    hasMouseMoved = true;
+    xTo(mouseX);
+    yTo(mouseY);
+    queueUpdate();
+  };
+
+  const onScroll = () => {
+    if (hasMouseMoved) queueUpdate();
+  };
+
+  window.addEventListener("mousemove", onMouseMove);
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  return () => {
+    window.cancelAnimationFrame(frame);
+    window.removeEventListener("mousemove", onMouseMove);
+    window.removeEventListener("scroll", onScroll);
+    cursor.setAttribute("data-cursor", "");
+    gsap.killTweensOf(cursor);
+  };
+}
+
 // Utility enhancements — run whenever JS is available (not motion-gated):
 // live Oslo clock in the footer status line and copy-to-clipboard for email.
 function setupFooterUtilities() {
@@ -544,6 +575,7 @@ function setupFooterUtilities() {
 export function HomeMotion() {
   useEffect(() => {
     const teardownUtilities = setupFooterUtilities();
+    const teardownWorkCursor = setupDynamicTextCursor();
     const teardownSectionTheme = sectionThemeScene();
     const lenis = initLenis({ lerp: 0.12 });
     lenis?.lenis.on("scroll", ScrollTrigger.update);
@@ -619,6 +651,7 @@ export function HomeMotion() {
       teardownShutter();
       teardownApproachPath();
       teardownSectionTheme();
+      teardownWorkCursor();
       teardownUtilities();
     };
   }, []);
