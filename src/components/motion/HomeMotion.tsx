@@ -120,24 +120,22 @@ function effectScene() {
 
   return () => ctx.revert();
 }
-// One-time opening scene: title lines rise, then the film and interface settle.
+// One-time opening scene: the editorial masthead assembles once on load.
 // FROM-tweens only — without JS everything is simply visible (no CLS).
 function heroEntrance(full: boolean) {
-  const titleLines = gsap.utils.toArray<HTMLElement>(".hero__title span");
+  const hero = document.querySelector<HTMLElement>(".hero");
+  const titleLines = gsap.utils.toArray<HTMLElement>(".hero__title-line-inner", hero);
   if (!titleLines.length) return;
 
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-  tl.from(titleLines, { yPercent: 26, autoAlpha: 0, duration: 0.8, stagger: 0.09 });
-
-  if (full) {
-    tl.from(".hero__visual", { autoAlpha: 0, scale: 1.025, duration: 0.9 }, "-=0.7");
-    tl.from(
-      ".hero__axis, .hero__meta, .hero__scene",
-      { autoAlpha: 0, y: 10, duration: 0.45, stagger: 0.05 },
-      "-=0.48",
-    );
-  }
-  tl.from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.4");
+  tl.from(".hero__head", { autoAlpha: 0, y: -8, duration: 0.45 })
+    .from(titleLines, {
+      yPercent: 108,
+      duration: full ? 0.88 : 0.72,
+      stagger: 0.08,
+    }, "-=0.2")
+    .from(".hero__offer", { autoAlpha: 0, y: 18, duration: 0.55 }, "-=0.4")
+    .from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.34");
 }
 
 // 01 / Tilnærming — three disciplines settle into one precise composition.

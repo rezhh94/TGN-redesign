@@ -1,0 +1,80 @@
+.tgn-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cta-gap);
+  min-width: 220px;
+  min-height: var(--cta-height);
+  padding: 0 var(--cta-pad-x);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--cta-fz);
+  line-height: 1;
+  letter-spacing: var(--cta-tracking);
+  text-align: center;
+  text-transform: uppercase;
+  transition:
+    background-color var(--motion-fast) ease-out,
+    border-color var(--motion-fast) ease-out,
+    color var(--motion-fast) ease-out,
+    transform var(--motion-base) var(--ease-standard);
+}
+
+.tgn-action--primary {
+  border-color: rgba(242, 241, 235, 0.3);
+  background: rgba(242, 241, 235, 0.065);
+  color: var(--color-on-dark);
+  box-shadow: inset 0 1px 0 rgba(242, 241, 235, 0.035);
+}
+
+.tgn-action--primary:hover,
+.tgn-action--primary:focus-visible {
+  border-color: rgba(242, 241, 235, 0.52);
+  background: rgba(242, 241, 235, 0.13);
+}
+
+.tgn-action--secondary {
+  border-color: rgba(242, 241, 235, 0.15);
+  background: transparent;
+  color: var(--color-on-dark);
+}
+
+.tgn-action--secondary:hover,
+.tgn-action--secondary:focus-visible {
+  border-color: rgba(242, 241, 235, 0.46);
+  background: rgba(242, 241, 235, 0.06);
+}
+
+.tgn-action--hero {
+  min-width: clamp(230px, 18vw, 280px);
+  min-height: 60px;
+}
+
+.tgn-action__arrow {
+  width: 9px;
+  height: 10px;
+  display: inline-block;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--arrow-ne) center / contain no-repeat;
+  mask: var(--arrow-ne) center / contain no-repeat;
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+.tgn-action:hover .tgn-action__arrow,
+.tgn-action:focus-visible .tgn-action__arrow {
+  transform: translate(3px, -3px);
+}
+
+.tgn-action:focus-visible {
+  outline: 2px solid var(--color-on-dark);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tgn-action,
+  .tgn-action__arrow {
+    transition: none;
+  }
+}
