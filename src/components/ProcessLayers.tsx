@@ -3,7 +3,7 @@ const phases = [
     n: "01",
     tag: "Retning",
     heading: "Vi finner retningen.",
-    body: "Behovet presses ned til scope. Vi avklarer hva som skal bygges, hvem det skal treffe og hva som må velges bort før uttrykket låses.",
+    body: "Vi avklarer hva som skal bygges, hvem det skal treffe og hva som velges bort før uttrykket låses.",
     materials: ["Behov", "Mål", "Innhold"],
     output: "Definert retning",
     tone: "paper",
@@ -12,7 +12,7 @@ const phases = [
     n: "02",
     tag: "Bygg",
     heading: "Vi bygger løsningen.",
-    body: "Design og kode utvikles som ett materiale. UI, komponenter, ytelse og integrasjoner formes sammen med tydelig prioritering.",
+    body: "Design, kode, ytelse og integrasjoner formes som én prioritert løsning.",
     materials: ["Flyt", "Teknologi", "Integrasjon"],
     output: "Levende løsning",
     tone: "olive",
@@ -21,7 +21,7 @@ const phases = [
     n: "03",
     tag: "Live",
     heading: "Vi sender den ut.",
-    body: "Løsningen går live med teknisk kontroll og måling fra dag én. Hver kontakt kobles til en tydelig neste beslutning.",
+    body: "Løsningen lanseres med teknisk kontroll, måling og en tydelig neste handling.",
     materials: ["Måling", "Kontaktvei", "Resultat"],
     output: "Målbar kontaktvei",
     tone: "mauve",
@@ -38,7 +38,7 @@ export function ProcessLayers() {
           <span>System ut.</span>
         </h2>
         <div className="process-journey__intro-copy">
-          <p>Tre beslutninger gjør et uklart behov til en levende, målbar løsning.</p>
+          <p>Tre beslutninger gjør behovet til en levende, målbar løsning.</p>
           <span>TGN / process assembly / 01—03</span>
         </div>
       </header>
@@ -60,9 +60,6 @@ export function ProcessLayers() {
                   <i data-active={pieceIndex < phaseIndex + 1 ? "true" : "false"} key={pieceIndex} />
                 ))}
               </div>
-              <div className="process-card__materials">
-                {phase.materials.map((material) => <span key={material}>{material}</span>)}
-              </div>
               <footer>
                 <span>Ut / {phase.n}</span>
                 <strong>{phase.output}</strong>
@@ -72,15 +69,12 @@ export function ProcessLayers() {
         </div>
 
         <div className="process-assembly__legend">
-          <span>TGN / material in motion / 01—03</span>
           <strong>System ut.</strong>
-          <span>Retning / Bygg / Live</span>
         </div>
       </div>
 
       <div className="process-journey__index-head">
         <p>Fra behov til live</p>
-        <p>Én produksjon — tre beslutninger</p>
       </div>
 
       <ol
