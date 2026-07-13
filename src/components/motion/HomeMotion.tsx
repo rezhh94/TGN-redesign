@@ -63,16 +63,18 @@ function servicesScene() {
           0.12,
         );
 
-      gsap.fromTo(image, { yPercent: -6 }, {
-        yPercent: 2,
-        ease: "none",
-        scrollTrigger: {
-          trigger: chapter,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: compact ? 0.22 : 0.32,
-        },
-      });
+      if (!compact) {
+        gsap.fromTo(image, { yPercent: -6 }, {
+          yPercent: 2,
+          ease: "none",
+          scrollTrigger: {
+            trigger: chapter,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.32,
+          },
+        });
+      }
     });
   }, section);
 

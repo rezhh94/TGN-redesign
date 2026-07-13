@@ -3,7 +3,7 @@ const services = [
     id: "nettsider",
     number: "01",
     title: "Nettsider",
-    description: "Raske nettsider med tydelig struktur, teknisk SEO og måling fra start.",
+    description: "Raske nettsider med tydelig struktur, teknisk SEO og måling.",
     meta: "Next.js / SEO / CWV",
     capabilities: ["Teknisk SEO", "Core Web Vitals", "Innholdsstruktur", "Konvertering"],
     href: "/tjenester/webutvikling-nextjs",
@@ -14,7 +14,7 @@ const services = [
     id: "webapper",
     number: "02",
     title: "Webapper",
-    description: "Portaler og digitale verktøy bygget rundt en reell arbeidsflyt – ikke et generisk dashboard.",
+    description: "Digitale verktøy formet rundt virksomhetens faktiske arbeidsflyt.",
     meta: "Portaler / Systemer",
     capabilities: ["Innlogging", "Roller", "Integrasjoner", "Datamodell"],
     href: "/tjenester/custom-software",
@@ -25,7 +25,7 @@ const services = [
     id: "apper",
     number: "03",
     title: "Apper",
-    description: "App-løsninger for mobil og web når produktet må være mer enn en nettside.",
+    description: "Mobil- og webprodukter for behov som går utover en nettside.",
     meta: "Mobil / Web",
     capabilities: ["Mobil", "Web", "Push", "Publisering"],
     href: "/tjenester/app-utvikling",
@@ -36,7 +36,7 @@ const services = [
     id: "ai-systemer",
     number: "04",
     title: "AI-systemer",
-    description: "Automatisering, søk og interne arbeidsflyter koblet til virksomhetens ekte data.",
+    description: "AI-verktøy koblet til virksomhetens egne data og arbeidsflyter.",
     meta: "Automasjon / Søk / Data",
     capabilities: ["Automasjon", "Søk", "Assistenter", "Interne verktøy"],
     href: "/tjenester/ai-implementering",
@@ -47,7 +47,7 @@ const services = [
     id: "seo-ai-sok",
     number: "05",
     title: "SEO & AI-søk",
-    description: "Innhold og struktur som gjør løsningen lettere å finne, forstå og velge.",
+    description: "Struktur og innhold som gjør løsningen synlig og lettere å velge.",
     meta: "Innhold / Struktur",
     capabilities: ["Teknisk SEO", "AI-synlighet", "Lokal synlighet", "Måling"],
     href: "/tjenester/seo-optimalisering",
@@ -110,7 +110,7 @@ export function WhatWeBuild() {
 
               <figure className="service-chapter__visual" data-service-chapter-visual>
                 <img src={service.image} alt="" loading={index < 2 ? "eager" : "lazy"} />
-                <figcaption><span>TGN / Tjeneste {service.number}</span><span>{service.meta}</span></figcaption>
+                <figcaption><span>TGN / Tjeneste {service.number}</span></figcaption>
               </figure>
             </div>
           </li>
