@@ -4,7 +4,7 @@
 .work-proof {
   position: relative;
   overflow: clip;
-  padding-bottom: clamp(104px, 14vh, 184px);
+  padding-bottom: clamp(96px, 12vh, 156px);
   background: var(--paper);
   color: var(--blekk);
 }
@@ -21,7 +21,7 @@
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
-  padding: clamp(112px, 14vh, 184px) var(--gutter) clamp(64px, 8vh, 104px);
+  padding: clamp(104px, 12vh, 156px) var(--gutter) clamp(56px, 7vh, 88px);
 }
 
 .work-proof__label {
@@ -96,12 +96,12 @@
 
 .work-wall__row--opening .work-tile--portrait {
   grid-column: 7 / 10;
-  margin-top: clamp(72px, 8vw, 156px);
+  margin-top: clamp(64px, 7vw, 132px);
 }
 
 .work-wall__row--opening .work-tile--square {
   grid-column: 10 / -1;
-  margin-top: clamp(18px, 2vw, 42px);
+  margin-top: clamp(16px, 1.6vw, 34px);
 }
 
 .work-wall__row--closing .work-tile--landscape {
@@ -110,12 +110,12 @@
 
 .work-wall__row--closing .work-tile--narrow {
   grid-column: 6 / 9;
-  margin-top: clamp(88px, 10vw, 190px);
+  margin-top: clamp(76px, 8.5vw, 158px);
 }
 
 .work-wall__row--closing .work-tile--offset {
   grid-column: 9 / -1;
-  margin-top: clamp(28px, 3.5vw, 72px);
+  margin-top: clamp(24px, 2.8vw, 58px);
 }
 
 .work-tile {
@@ -262,7 +262,7 @@
 
 .work-proof__statement {
   max-width: 20ch;
-  margin: clamp(150px, 18vh, 244px) 0 clamp(130px, 16vh, 218px);
+  margin: clamp(124px, 15vh, 204px) 0 clamp(110px, 13vh, 178px);
   color: var(--blekk);
   font-family: var(--font-sans);
   font-size: clamp(48px, 6.2vw, 112px);
@@ -523,12 +523,12 @@
 
   .work-wall__row--opening .work-tile--portrait {
     grid-column: 1 / 4;
-    margin-top: 64px;
+    margin-top: 52px;
   }
 
   .work-wall__row--opening .work-tile--square {
     grid-column: 4 / -1;
-    margin-top: 132px;
+    margin-top: 108px;
   }
 
   .work-wall__row--closing .work-tile--landscape {
@@ -537,22 +537,22 @@
 
   .work-wall__row--closing .work-tile--narrow {
     grid-column: 5 / -1;
-    margin-top: 116px;
+    margin-top: 94px;
   }
 
   .work-wall__row--closing .work-tile--offset {
     grid-column: 2 / 6;
-    margin-top: 96px;
+    margin-top: 76px;
   }
 }
 
 @media (max-width: 640px) {
   .work-proof {
-    padding-bottom: 96px;
+    padding-bottom: 88px;
   }
 
   .work-proof__intro {
-    padding: 92px 20px 74px;
+    padding: 88px 20px 64px;
   }
 
   .work-proof__title {
@@ -569,18 +569,18 @@
 
   .work-tile {
     width: 100%;
-    padding-bottom: 48px;
+    padding-bottom: 44px;
   }
 
   .work-wall__row--opening .work-tile--portrait {
     width: 72%;
-    margin-top: 72px;
+    margin-top: 58px;
     margin-left: auto;
   }
 
   .work-wall__row--opening .work-tile--square {
     width: 84%;
-    margin-top: 82px;
+    margin-top: 66px;
   }
 
   .work-wall__row--closing .work-tile--landscape {
@@ -589,13 +589,13 @@
 
   .work-wall__row--closing .work-tile--narrow {
     width: 68%;
-    margin-top: 84px;
+    margin-top: 68px;
     margin-left: auto;
   }
 
   .work-wall__row--closing .work-tile--offset {
     width: 82%;
-    margin-top: 88px;
+    margin-top: 70px;
     margin-left: 7%;
   }
 
@@ -646,7 +646,7 @@
   }
 
   .work-proof__statement {
-    margin: 124px 0 112px;
+    margin: 100px 0 90px;
     font-size: clamp(44px, 12.6vw, 58px);
     line-height: 0.97;
   }
