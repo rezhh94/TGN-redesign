@@ -40,34 +40,48 @@ export function ProcessLayers() {
         </div>
       </header>
 
-      <div className="process-field" data-process-stage>
-        <div className="process-field__materials" aria-hidden="true">
-          <i className="process-field__material process-field__material--paper" />
-        </div>
+      <div className="process-system" data-process-stage>
+        <header className="process-system__rail">
+          <p>TGN / Systemflyt</p>
+          <p>Fra behov til live</p>
+          <p><span aria-hidden="true" /> 00—03 / Klar linje</p>
+        </header>
 
-        <p className="process-field__entry">
-          <span>Inn / 00</span>
-          <strong>Fra behov til live</strong>
-        </p>
-
-        <ol className="process-field__phases">
+        <ol className="process-system__sequence">
           {phases.map((phase) => (
-            <li className={`process-field__phase process-field__phase--${phase.n}`} key={phase.n}>
-              <header>
+            <li className={`process-phase process-phase--${phase.n}`} key={phase.n} data-process-surface>
+              <header className="process-phase__head">
                 <span>{phase.n} / 03</span>
                 <strong>{phase.tag}</strong>
               </header>
-              <h3>{phase.heading}</h3>
-              <p>{phase.body}</p>
-              <small>{phase.materials.join(" / ")}</small>
-              <footer>
+
+              <div className="process-phase__signal" aria-hidden="true">
+                <span className="process-phase__numeral">{phase.n}</span>
+                <span className="process-phase__glyph">
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                </span>
+              </div>
+
+              <div className="process-phase__copy">
+                <h3>{phase.heading}</h3>
+                <p>{phase.body}</p>
+              </div>
+
+              <p className="process-phase__materials">
+                <span>Arbeidsflate</span>
+                <small>{phase.materials.join(" / ")}</small>
+              </p>
+
+              <footer className="process-phase__output">
                 <span>Ut / {phase.n}</span>
                 <strong>{phase.output}</strong>
               </footer>
             </li>
           ))}
         </ol>
-
       </div>
 
       <footer className="process-journey__closer">
