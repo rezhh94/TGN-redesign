@@ -587,6 +587,145 @@ export function initShutterScrollTransition(root: ParentNode = document) {
   return () => matchMedia.revert();
 }
 
+// Osmo: Pixelated Scroll Transition. A responsive grid is generated inside
+// each wrapper and covers the outgoing section in the adjacent section colour.
+// Reduced motion keeps the ordinary hard section boundary and creates no DOM.
+export function initPixelatedScrollTransition(root: ParentNode = document) {
+  const defaultColumns = 12;
+  const defaultRows = 6;
+  const breakpoints = {
+    mobile: "(max-width: 478px)",
+    landscape: "(max-width: 767px)",
+    tablet: "(max-width: 991px)",
+  };
+  const instances: Array<{
+    wrapper: HTMLElement;
+    timeline: gsap.core.Timeline;
+  }> = [];
+  const matchMedia = gsap.matchMedia();
+
+  const getColumns = (wrapper: HTMLElement) => {
+    const base = Number.parseInt(wrapper.dataset.columns ?? "", 10) || defaultColumns;
+    if (window.matchMedia(breakpoints.mobile).matches) {
+      return Number.parseInt(wrapper.dataset.columnsMobile ?? "", 10) || Math.max(4, Math.round(base * 0.4));
+    }
+    if (window.matchMedia(breakpoints.landscape).matches) {
+      return Number.parseInt(wrapper.dataset.columnsLandscape ?? "", 10) || Math.max(6, Math.round(base * 0.6));
+    }
+    if (window.matchMedia(breakpoints.tablet).matches) {
+      return Number.parseInt(wrapper.dataset.columnsTablet ?? "", 10) || Math.max(8, Math.round(base * 0.75));
+    }
+    return base;
+  };
+
+  const getRows = (wrapper: HTMLElement) => {
+    const base = Number.parseInt(wrapper.dataset.rows ?? "", 10) || defaultRows;
+    if (window.matchMedia(breakpoints.mobile).matches) {
+      return Number.parseInt(wrapper.dataset.rowsMobile ?? "", 10) || base;
+    }
+    if (window.matchMedia(breakpoints.landscape).matches) {
+      return Number.parseInt(wrapper.dataset.rowsLandscape ?? "", 10) || base;
+    }
+    if (window.matchMedia(breakpoints.tablet).matches) {
+      return Number.parseInt(wrapper.dataset.rowsTablet ?? "", 10) || base;
+    }
+    return base;
+  };
+
+  const buildGrid = (wrapper: HTMLElement, columns: number, rows: number) => {
+    const panel = document.createElement("div");
+    panel.className = "pixelated-scroll-transition__panel";
+    panel.setAttribute("data-pixelated-scroll-panel", "");
+
+    const fragment = document.createDocumentFragment();
+    for (let columnIndex = 0; columnIndex < columns; columnIndex += 1) {
+      const column = document.createElement("div");
+      column.className = "pixelated-scroll-transition__col";
+      column.setAttribute("data-pixelated-scroll-column", "");
+      for (let rowIndex = 0; rowIndex < rows; rowIndex += 1) {
+        const pixel = document.createElement("div");
+        pixel.className = "pixelated-scroll-transition__pixel";
+        pixel.setAttribute("data-pixelated-scroll-pixel", "");
+        column.appendChild(pixel);
+      }
+      fragment.appendChild(column);
+    }
+    panel.appendChild(fragment);
+    wrapper.appendChild(panel);
+    return panel;
+  };
+
+  const collectCells = (panel: HTMLElement, rows: number) => {
+    const columns = panel.querySelectorAll<HTMLElement>("[data-pixelated-scroll-column]");
+    const cells: Array<{ element: Element; priority: number }> = [];
+
+    for (let rowIndex = 0; rowIndex < rows; rowIndex += 1) {
+      columns.forEach((column, columnIndex) => {
+        const pixel = column.children[rowIndex];
+        if (!pixel) return;
+        const distance = rows - 1 - rowIndex;
+        const priority = distance * 50 + Math.random() * 300 + Math.sin(columnIndex * 0.3) * 30;
+        cells.push({ element: pixel, priority });
+      });
+    }
+
+    cells.sort((a, b) => a.priority - b.priority);
+    return cells.map(({ element }) => element);
+  };
+
+  const destroyAll = () => {
+    instances.forEach(({ wrapper, timeline }) => {
+      timeline.scrollTrigger?.kill();
+      timeline.kill();
+      wrapper.querySelector("[data-pixelated-scroll-panel]")?.remove();
+    });
+    instances.length = 0;
+  };
+
+  matchMedia.add(
+    {
+      desktop: "(min-width: 992px)",
+      tablet: "(min-width: 768px) and (max-width: 991px)",
+      landscape: "(min-width: 479px) and (max-width: 767px)",
+      mobile: "(max-width: 478px)",
+      reduce: "(prefers-reduced-motion: reduce)",
+    },
+    (context) => {
+      if (context.conditions?.reduce) return;
+
+      root.querySelectorAll<HTMLElement>("[data-pixelated-scroll-transition]").forEach((wrapper) => {
+        const section = wrapper.closest("section") ?? wrapper.parentElement ?? wrapper;
+        const rows = getRows(wrapper);
+        const panel = buildGrid(wrapper, getColumns(wrapper), rows);
+        const cells = collectCells(panel, rows);
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: wrapper.dataset.scrollStart || "bottom bottom",
+            end: wrapper.dataset.scrollEnd || "bottom top",
+            scrub: 0.3,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        gsap.set(cells, { autoAlpha: 0 });
+        timeline.to(cells, {
+          autoAlpha: 1,
+          duration: 0.1,
+          stagger: { amount: 1.5, from: "start" },
+          ease: "none",
+        });
+        instances.push({ wrapper, timeline });
+      });
+
+      ScrollTrigger.refresh();
+      return destroyAll;
+    },
+  );
+
+  return () => matchMedia.revert();
+}
+
 // Osmo: Sticky Features. Desktop keeps the source's pinned two-column scene,
 // clip transitions and progress bar. Mobile, reduced motion and no-JS retain
 // the fully expanded server-rendered list instead of hiding service content.

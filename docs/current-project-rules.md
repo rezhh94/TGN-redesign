@@ -67,7 +67,7 @@ The verified section order and current motion decisions are maintained in `docs/
 
 Current non-negotiable motion decisions:
 - Tjenester uses varied editorial chapters in ordinary flow; no sticky service-image journey.
-- Overlevering uses a non-pinned layered handoff.
+- Tjenester hands directly to Effekt through a compact server-rendered line and section-scoped pixel cover; no separate Overlevering scene.
 - Arbeid is normal flow with small one-shot reveals and the narrowly approved functional Dynamic Text Cursor; no parallax stage or pin.
 - Prosess is a readable three-phase system map with no pin.
 - Manifest and contact remain calm closing sections.

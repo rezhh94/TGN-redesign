@@ -188,3 +188,14 @@ Use the regular Dynamic Text Cursor only on the six clickable capability surface
 
 Reason:
 The cursor gives large image-led surfaces a precise `Les mer / [capability]` affordance without turning the entire site into an effect system. Touch/mobile receives a visible `Les mer` action, reduced motion disables the custom cursor, and real buttons plus keyboard-accessible dialogs remain the underlying interaction.
+
+## 2026-07-15 — Simplify Intro and remove separate Overlevering
+
+Decision:
+Keep `Tre fag. Én helhet.` but replace the large Intro assembly, repeated discipline cards and closing restatement with one compact Design / Teknologi / Synlighet index. Unmount the separate `EffectBridge` and let Tjenester hand directly to Effekt through `Lansert er ikke ferdig.` and a section-scoped pixel cover adapted from Osmo.
+
+Reason:
+The earlier journey repeated the same Design / Teknologi / Synlighet argument and created another full visual stop between Tjenester and Effekt. The shorter route is more direct while the pixel cover gives the dark-to-mauve handoff an intentional digital transition without adding another content section.
+
+Rollback:
+The complete removed structure, preserved files and selective restore steps are documented in `docs/homepage-simplification-rollback.md`. The full pre-change implementation remains available at commit `c82a3fc871a2206ff795da289a90f06c776826d1`.

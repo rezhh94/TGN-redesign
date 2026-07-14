@@ -9,6 +9,7 @@ import {
   initContentRevealScroll,
   initFooterParallax,
   initGlobalParallax,
+  initPixelatedScrollTransition,
   initShutterScrollTransition,
 } from "@/lib/osmo-motion";
 
@@ -168,18 +169,13 @@ function heroEntrance(full: boolean) {
     .from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.34");
 }
 
-// 01 / Tilnærming — three disciplines settle into one precise composition.
-// The assembly reacts while it moves through ordinary document flow; the same
-// argument remains fully readable without JavaScript.
+// 01 / Tilnærming — one compact editorial statement with a quiet discipline
+// index. The content is complete without JavaScript; motion only settles the
+// opening hierarchy once.
 function introStoryScene() {
   const section = document.querySelector<HTMLElement>("[data-intro-story]");
   const identity = section?.querySelector<HTMLElement>("[data-intro-identity]");
-  const assembly = section?.querySelector<HTMLElement>("[data-intro-assembly]");
-  const stage = section?.querySelector<HTMLElement>("[data-intro-assembly-stage]");
-  const materials = gsap.utils.toArray<HTMLElement>("[data-intro-material]", section);
-  const lock = section?.querySelector<HTMLElement>("[data-intro-lock]");
-  const rule = section?.querySelector<HTMLElement>("[data-intro-rule]");
-  const resolution = section?.querySelector<HTMLElement>("[data-intro-resolution]");
+  const disciplines = section?.querySelector<HTMLElement>(".approach-disciplines");
   if (!section) return () => {};
 
   const ctx = gsap.context(() => {
@@ -195,49 +191,14 @@ function introStoryScene() {
       });
     }
 
-    if (
-      assembly &&
-      stage &&
-      materials.length === 3 &&
-      lock &&
-      rule
-    ) {
-      const isDesktop = window.matchMedia("(min-width: 901px)").matches;
-      const assemblyTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: stage,
-          start: isDesktop ? "top 88%" : "top 92%",
-          end: isDesktop ? "top 18%" : "top 32%",
-          scrub: isDesktop ? 0.18 : 0.14,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      if (isDesktop) {
-        assemblyTimeline
-          .fromTo(materials[0], { xPercent: -18, yPercent: 11, rotation: -5 }, { xPercent: 0, yPercent: 0, rotation: 0, duration: 1, ease: "none" }, 0)
-          .fromTo(materials[1], { yPercent: -14, scale: 0.91 }, { yPercent: 0, scale: 1, duration: 1, ease: "none" }, 0)
-          .fromTo(materials[2], { xPercent: 18, yPercent: 11, rotation: 5 }, { xPercent: 0, yPercent: 0, rotation: 0, duration: 1, ease: "none" }, 0)
-          .fromTo(lock, { yPercent: 26, autoAlpha: 0.22 }, { yPercent: 0, autoAlpha: 1, duration: 0.68, ease: "none" }, 0.18)
-          .fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.48, ease: "none" }, 0.38);
-      } else {
-        assemblyTimeline
-          .fromTo(materials[0], { xPercent: -7 }, { xPercent: 0, duration: 1, ease: "none" }, 0)
-          .fromTo(materials[1], { yPercent: -5, scale: 0.985 }, { yPercent: 0, scale: 1, duration: 1, ease: "none" }, 0)
-          .fromTo(materials[2], { xPercent: 7 }, { xPercent: 0, duration: 1, ease: "none" }, 0)
-          .fromTo(lock, { yPercent: 12, autoAlpha: 0.62 }, { yPercent: 0, autoAlpha: 1, duration: 0.72, ease: "none" }, 0.14)
-          .fromTo(rule, { scaleX: 0.45 }, { scaleX: 1, duration: 0.5, ease: "none" }, 0.34);
-      }
-    }
-
-    if (resolution) {
-      gsap.from(resolution.children, {
-        y: 38,
+    if (disciplines) {
+      gsap.from(disciplines.children, {
+        y: 18,
         autoAlpha: 0,
-        duration: 0.82,
-        stagger: 0.09,
+        duration: 0.68,
+        stagger: 0.07,
         ease: "power3.out",
-        scrollTrigger: { trigger: resolution, start: "top 72%", once: true },
+        scrollTrigger: { trigger: disciplines, start: "top 88%", once: true },
       });
     }
   }, section);
@@ -245,35 +206,6 @@ function introStoryScene() {
   return () => {
     ctx.revert();
   };
-}
-
-// 02→03 / Overlevering — Jack & AI-adaptert lagdeling without another pin.
-// The two oversized decorative tracks cross in opposite directions while the
-// readable lockup and image settle once. All continuous work is transform-only
-// and scoped to the section's viewport pass.
-function bridgeScene() {
-  const section = document.querySelector<HTMLElement>(".effect-bridge");
-  if (!section) return () => {};
-
-  const stage = section.querySelector<HTMLElement>("[data-bridge-stage]");
-  const windowEl = section.querySelector<HTMLElement>("[data-bridge-window]");
-
-  const ctx = gsap.context(() => {
-    if (stage && windowEl && window.matchMedia("(min-width: 761px)").matches) {
-      gsap.fromTo(windowEl, { scale: 0.68 }, {
-        scale: 1,
-        ease: "none",
-        scrollTrigger: { trigger: stage, start: "top 76%", end: "bottom bottom", scrub: 0.65 },
-      });
-      gsap.fromTo(windowEl.querySelector("img"), { scale: 1.12 }, {
-        scale: 1,
-        ease: "none",
-        scrollTrigger: { trigger: stage, start: "top 76%", end: "bottom bottom", scrub: 0.65 },
-      });
-    }
-  }, section);
-
-  return () => ctx.revert();
 }
 
 // 04 / Arbeid — den asymmetriske capability-veggen er ferdig uten JS.
@@ -575,6 +507,7 @@ export function HomeMotion() {
     const teardownServices = servicesScene();
     const teardownEffect = effectScene();
     let teardownShutter = () => {};
+    let teardownPixelated = () => {};
     let teardownFooterParallax = () => {};
     let teardownApproachPath = () => {};
     let footerInitFrame = 0;
@@ -585,13 +518,11 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
       const teardownIntro = introStoryScene();
-      const teardownBridge = bridgeScene();
       const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
       manifestoReveal();
       footerReveals();
       return () => {
         teardownIntro();
-        teardownBridge();
         teardownWork();
       };
     });
@@ -601,13 +532,11 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownIntro = introStoryScene();
-      const teardownBridge = bridgeScene();
       const teardownWork = workProof(false);
       manifestoReveal();
       footerReveals();
       return () => {
         teardownIntro();
-        teardownBridge();
         teardownWork();
       };
     });
@@ -618,6 +547,7 @@ export function HomeMotion() {
       footerInitFrame = window.requestAnimationFrame(() => {
         if (effectCancelled) return;
         teardownShutter = initShutterScrollTransition();
+        teardownPixelated = initPixelatedScrollTransition();
         teardownFooterParallax = initFooterParallax();
         teardownApproachPath = initApproachPathJourney();
         ScrollTrigger.refresh();
@@ -636,6 +566,7 @@ export function HomeMotion() {
       teardownOsmoReveal();
       teardownEffect();
       teardownShutter();
+      teardownPixelated();
       teardownApproachPath();
       teardownSectionTheme();
       teardownWorkCursor();

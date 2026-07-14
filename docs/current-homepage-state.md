@@ -1,6 +1,6 @@
 # Current Homepage State
 
-Last verified: 2026-07-13
+Last verified: 2026-07-14
 
 This is the canonical implementation snapshot for the redesign checkout. Historical audits and section experiments may remain in the repository, but they do not override this file, `AGENTS.md`, `docs/current-project-rules.md` or the current user instruction.
 
@@ -20,12 +20,11 @@ The homepage is mounted in this order:
 1. Header / Hero
 2. 01 / Tilnærming — `ApproachStatementBridge`
 3. 02 / Tjenester — `WhatWeBuild`
-4. Overlevering — `EffectBridge`
-5. 03 / Effekt — `WhatWeImprove`
-6. 04 / Arbeid — `WorkProof`
-7. 05 / Prosess — `ProcessLayers`
-8. Manifest — `SystemManifesto`
-9. Kontakt / footer — `ContactFooter`
+4. 03 / Effekt — `WhatWeImprove`
+5. 04 / Arbeid — `WorkProof`
+6. 05 / Prosess — `ProcessLayers`
+7. Manifest — `SystemManifesto`
+8. Kontakt / footer — `ContactFooter`
 
 ## Current section decisions
 
@@ -40,19 +39,18 @@ The homepage is mounted in this order:
 
 ### Tilnærming
 
-- Status: approved and locked on 2026-07-12. Do not redesign or replace this section unless the user explicitly reopens it.
+- Status: explicitly reopened and simplified on 2026-07-14.
 - Uses the editorial `Tre fag. Én helhet.` direction introduced on 2026-07-12.
-- The opening follows the same typographic and material grammar as Arbeid and Prosess without copying either section's layout.
-- A responsive desktop scroll assembly aligns three large material fields for Design, Teknologi and Synlighet while the section stays in ordinary document flow.
-- The assembly is decorative. The argument remains complete in the server-rendered intro, three-part index and closing statement.
-- Mobile uses a mild, unpinned scroll response adapted to the vertically stacked material fields.
-- Reduced-motion and no-JS states use the finished static composition.
+- The section now resolves in one editorial statement plus a compact Design / Teknologi / Synlighet index.
+- The former material assembly, repeated three-column explanations and closing restatement are removed.
+- Desktop and mobile remain ordinary document flow; motion is limited to a small one-shot settle.
+- Reduced-motion and no-JS states show the same complete static content.
 
 ### Overlevering
 
-- Uses a Jack & AI-inspired layered handoff: readable foreground statement and image, oversized words moving in opposite directions behind it.
-- It is not pinned.
-- The previous long pinned ignite treatment was removed to reduce repeated pinned-scroll moments.
+- `EffectBridge` is no longer mounted as a separate homepage section.
+- Tjenester now ends with the compact line `Lansert er ikke ferdig.` and an Osmo-adapted pixel transition directly into 03 / Effekt.
+- The handoff copy is server-rendered inside `WhatWeBuild`; the generated transition grid is decorative and section-scoped.
 
 ### Effekt
 
