@@ -4,7 +4,6 @@ const phases = [
     tag: "Retning",
     heading: "Vi finner retningen.",
     body: "Vi avklarer hva som skal bygges, hvem det skal treffe og hva som velges bort før uttrykket låses.",
-    materials: ["Behov", "Mål", "Innhold"],
     output: "Definert retning",
   },
   {
@@ -12,7 +11,6 @@ const phases = [
     tag: "Bygg",
     heading: "Vi bygger løsningen.",
     body: "Design, kode, ytelse og integrasjoner formes som én prioritert løsning.",
-    materials: ["Flyt", "Teknologi", "Integrasjon"],
     output: "Levende løsning",
   },
   {
@@ -20,7 +18,6 @@ const phases = [
     tag: "Live",
     heading: "Vi sender den ut.",
     body: "Løsningen lanseres med teknisk kontroll, måling og en tydelig neste handling.",
-    materials: ["Måling", "Kontaktvei", "Resultat"],
     output: "Målbar kontaktvei",
   },
 ] as const;
@@ -55,25 +52,14 @@ export function ProcessLayers() {
                 <strong>{phase.tag}</strong>
               </header>
 
-              <div className="process-phase__signal" aria-hidden="true">
-                <span className="process-phase__numeral">{phase.n}</span>
-                <span className="process-phase__glyph">
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                </span>
+              <div className="process-phase__signal">
+                <span className="process-phase__numeral" aria-hidden="true">{phase.n}</span>
               </div>
 
               <div className="process-phase__copy">
                 <h3>{phase.heading}</h3>
                 <p>{phase.body}</p>
               </div>
-
-              <p className="process-phase__materials">
-                <span>Arbeidsflate</span>
-                <small>{phase.materials.join(" / ")}</small>
-              </p>
 
               <footer className="process-phase__output">
                 <span>Ut / {phase.n}</span>
