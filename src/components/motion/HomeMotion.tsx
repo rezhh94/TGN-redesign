@@ -322,39 +322,6 @@ function workProof(cinematic: boolean) {
   return () => ctx.revert();
 }
 
-// 05 / Prosess — three material layers settle into one shared processed field.
-// The phase copy is already in its finished position and never depends on JS.
-// No pin, state switching or additional motion mechanism.
-function processTransformation() {
-  const stage = document.querySelector<HTMLElement>("[data-process-stage]");
-  if (!stage) return () => {};
-
-  const surfaces = gsap.utils.toArray<HTMLElement>("[data-process-surface]", stage);
-  const isDesktop = window.matchMedia("(min-width: 1101px)").matches;
-  if (!isDesktop) return () => {};
-
-  const ctx = gsap.context(() => {
-    if (surfaces.length !== 3) return;
-
-    const assemblyTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: stage,
-        start: "top 88%",
-        end: "top 24%",
-        scrub: 0.18,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    assemblyTimeline
-      .from(surfaces[0], { xPercent: -3.5, yPercent: 3, duration: 1, ease: "none" }, 0)
-      .from(surfaces[1], { xPercent: 2.5, yPercent: 1.5, duration: 1, ease: "none" }, 0)
-      .from(surfaces[2], { yPercent: -2.5, duration: 1, ease: "none" }, 0);
-  }, stage);
-
-  return () => ctx.revert();
-}
-
 // 06 / System — manifesto lines rise out of their masks once; support and
 // corner marks settle after. The page's quietest reveal.
 function manifestoReveal() {
@@ -620,14 +587,12 @@ export function HomeMotion() {
       const teardownIntro = introStoryScene();
       const teardownBridge = bridgeScene();
       const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
-      const teardownProcess = processTransformation();
       manifestoReveal();
       footerReveals();
       return () => {
         teardownIntro();
         teardownBridge();
         teardownWork();
-        teardownProcess();
       };
     });
 
@@ -638,14 +603,12 @@ export function HomeMotion() {
       const teardownIntro = introStoryScene();
       const teardownBridge = bridgeScene();
       const teardownWork = workProof(false);
-      const teardownProcess = processTransformation();
       manifestoReveal();
       footerReveals();
       return () => {
         teardownIntro();
         teardownBridge();
         teardownWork();
-        teardownProcess();
       };
     });
 

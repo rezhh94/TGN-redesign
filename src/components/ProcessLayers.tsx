@@ -42,9 +42,7 @@ export function ProcessLayers() {
 
       <div className="process-field" data-process-stage>
         <div className="process-field__materials" aria-hidden="true">
-          <i className="process-field__material process-field__material--mauve" data-process-surface />
-          <i className="process-field__material process-field__material--olive" data-process-surface />
-          <i className="process-field__material process-field__material--paper" data-process-surface />
+          <i className="process-field__material process-field__material--paper" />
         </div>
 
         <p className="process-field__entry">
@@ -70,7 +68,6 @@ export function ProcessLayers() {
           ))}
         </ol>
 
-        <span className="process-field__seal" aria-hidden="true" />
       </div>
 
       <footer className="process-journey__closer">
