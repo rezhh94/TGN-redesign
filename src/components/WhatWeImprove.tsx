@@ -62,31 +62,42 @@ export function WhatWeImprove() {
           </div>
         </header>
 
-        <ol className="what-improve__matrix" aria-label="Resultatkjede">
-          {outcomes.map((outcome) => (
-            <li className="what-improve__outcome" data-effect-outcome key={outcome.key}>
-              <header>
-                <span>{outcome.number} / 04</span>
-                <span>{outcome.signal}</span>
-              </header>
-              <h3>{outcome.title}</h3>
-              <figure className="what-improve__placeholder" data-effect-placeholder>
-                <img src={outcome.placeholder} alt="" loading="lazy" />
-                <figcaption>Midlertidig mockupflate / erstattes</figcaption>
-              </figure>
-              <div className="what-improve__outcome-copy">
-                <p>{outcome.description}</p>
-                <p>{outcome.tools}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+        <div className="what-improve__field" data-effect-field>
+          <figure className="what-improve__visual">
+            <img src={outcomes[0].placeholder} alt="" loading="lazy" />
+            <figcaption>Midlertidig mockupflate / erstattes</figcaption>
+          </figure>
 
-        <p className="what-improve__closing">
-          <span>Synlighet inn</span>
-          <span aria-hidden="true">→</span>
-          <span>Målbar kontakt ut</span>
-        </p>
+          <div className="what-improve__cuts" aria-hidden="true">
+            {Array.from({ length: 6 }, (_, index) => <i key={index} />)}
+          </div>
+
+          <ol className="what-improve__matrix" aria-label="Resultatkjede">
+            {outcomes.map((outcome) => (
+              <li
+                className={`what-improve__outcome what-improve__outcome--${outcome.key}`}
+                data-effect-outcome
+                key={outcome.key}
+              >
+                <header>
+                  <span>{outcome.number} / 04</span>
+                  <span>{outcome.signal}</span>
+                </header>
+                <h3>{outcome.title}</h3>
+                <div className="what-improve__outcome-copy">
+                  <p>{outcome.description}</p>
+                  <p>{outcome.tools}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <p className="what-improve__closing">
+            <span>Synlighet inn</span>
+            <span aria-hidden="true">→</span>
+            <span>Målbar kontakt ut</span>
+          </p>
+        </div>
       </div>
     </section>
   );
