@@ -37,7 +37,20 @@ function servicesScene() {
       const visual = chapter.querySelector<HTMLElement>("[data-service-chapter-visual]");
       const image = visual?.querySelector<HTMLElement>("img");
       const copy = chapter.querySelector<HTMLElement>("[data-service-copy]");
-      if (!visual || !image || !copy) return;
+      if (!copy) return;
+
+      // Tekstledede register-rader (03–05) har ingen visual; de settler
+      // med én stille one-shot i stedet for det motgående paret.
+      if (!visual || !image) {
+        gsap.from(chapter, {
+          y: 22,
+          autoAlpha: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: { trigger: chapter, start: "top 88%", once: true },
+        });
+        return;
+      }
 
       const direction = index % 2 ? -1 : 1;
       const settle = gsap.timeline({
@@ -169,37 +182,34 @@ function heroEntrance(full: boolean) {
     .from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.34");
 }
 
-// 01 / Tilnærming — one compact editorial statement with a quiet discipline
-// index. The content is complete without JavaScript; motion only settles the
-// opening hierarchy once.
+// 01 / Tilnærming — one editorial statement; the lines rise out of their
+// masks once (same grammar as 06 / System), support settles after. The
+// content is complete without JavaScript.
 function introStoryScene() {
   const section = document.querySelector<HTMLElement>("[data-intro-story]");
-  const identity = section?.querySelector<HTMLElement>("[data-intro-identity]");
-  const disciplines = section?.querySelector<HTMLElement>(".approach-disciplines");
   if (!section) return () => {};
 
   const ctx = gsap.context(() => {
-    if (identity) {
-      const identityItems = gsap.utils.toArray<HTMLElement>(":scope > *", identity);
-      gsap.from(identityItems, {
-        y: 34,
-        autoAlpha: 0,
-        duration: 0.82,
-        stagger: 0.075,
-        ease: "power3.out",
-        scrollTrigger: { trigger: identity, start: "top 74%", once: true },
-      });
-    }
+    const label = section.querySelector<HTMLElement>(".approach-intro__label");
+    const lines = gsap.utils.toArray<HTMLElement>(
+      ".approach-intro__line-inner",
+      section,
+    );
+    const support = section.querySelector<HTMLElement>(".approach-intro__support");
 
-    if (disciplines) {
-      gsap.from(disciplines.children, {
-        y: 18,
-        autoAlpha: 0,
-        duration: 0.68,
-        stagger: 0.07,
-        ease: "power3.out",
-        scrollTrigger: { trigger: disciplines, start: "top 88%", once: true },
-      });
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: section, start: "top 70%", once: true },
+      defaults: { ease: "power3.out" },
+    });
+
+    if (label) {
+      tl.from(label, { autoAlpha: 0, duration: 0.5 }, 0);
+    }
+    if (lines.length) {
+      tl.from(lines, { yPercent: 108, duration: 0.8, stagger: 0.12 }, 0.05);
+    }
+    if (support) {
+      tl.from(support, { autoAlpha: 0, y: 20, duration: 0.6 }, "-=0.35");
     }
   }, section);
 

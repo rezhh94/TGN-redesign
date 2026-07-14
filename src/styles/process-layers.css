@@ -284,17 +284,20 @@
   gap: 32px;
   align-items: end;
   margin-top: clamp(64px, 8vh, 100px);
-  padding: clamp(58px, 7.5vh, 94px) var(--gutter) 0;
+  padding: clamp(48px, 6vh, 72px) var(--gutter) 0;
   border-top: 1px solid var(--tigon-line-dark);
 }
 
+/* Overgangstekst mot kontakt — ikke et display-statement. Work-statementet
+   eier den store JUST Sans-kontrasten alene. */
 .process-journey__closer > p {
-  max-width: 18ch;
+  max-width: 30ch;
   margin: 0;
+  color: var(--on-dark-strong);
   font-family: var(--tigon-type-editorial);
-  font-size: clamp(38px, 5vw, 84px);
-  letter-spacing: -0.055em;
-  line-height: 0.96;
+  font-size: clamp(22px, 1.9vw, 30px);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
 }
 
 .process-journey__closer a {
@@ -418,8 +421,8 @@
 
   .process-journey__closer {
     grid-template-columns: 1fr;
-    gap: 42px;
+    gap: 26px;
     margin-top: 68px;
-    padding: 58px 20px 0;
+    padding: 46px 20px 0;
   }
 }

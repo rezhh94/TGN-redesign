@@ -19,7 +19,7 @@ const services = [
     capabilities: ["Innlogging", "Roller", "Integrasjoner", "Datamodell"],
     href: "/tjenester/custom-software",
     image: "/services/tgn-webapper-workflow.webp",
-    layout: "pair",
+    layout: "feature",
   },
   {
     id: "apper",
@@ -29,8 +29,8 @@ const services = [
     meta: "Mobil / Web",
     capabilities: ["Mobil", "Web", "Push", "Publisering"],
     href: "/tjenester/app-utvikling",
-    image: "/services/tgn-apper-field.webp",
-    layout: "pair",
+    image: null,
+    layout: "row",
   },
   {
     id: "ai-systemer",
@@ -40,8 +40,8 @@ const services = [
     meta: "Automasjon / Søk / Data",
     capabilities: ["Automasjon", "Søk", "Assistenter", "Interne verktøy"],
     href: "/tjenester/ai-implementering",
-    image: "/services/tgn-ai-knowledge.webp",
-    layout: "wide",
+    image: null,
+    layout: "row",
   },
   {
     id: "seo-ai-sok",
@@ -51,8 +51,8 @@ const services = [
     meta: "Innhold / Struktur",
     capabilities: ["Teknisk SEO", "AI-synlighet", "Lokal synlighet", "Måling"],
     href: "/tjenester/seo-optimalisering",
-    image: "/services/tgn-seo-query-map.webp",
-    layout: "finale",
+    image: null,
+    layout: "row",
   },
 ] as const;
 
@@ -89,7 +89,7 @@ export function WhatWeBuild() {
       <ol className="service-ledger">
         {services.map((service, index) => (
           <li
-            className={`service-chapter service-chapter--${service.layout}${index % 2 ? " service-chapter--reverse" : ""}`}
+            className={`service-chapter service-chapter--${service.layout}${service.layout === "feature" && index % 2 ? " service-chapter--reverse" : ""}`}
             data-service-chapter
             key={service.id}
           >
@@ -108,10 +108,12 @@ export function WhatWeBuild() {
                 <a href={service.href}>Se tjenesten <span aria-hidden="true">↗</span></a>
               </div>
 
-              <figure className="service-chapter__visual" data-service-chapter-visual>
-                <img src={service.image} alt="" loading={index < 2 ? "eager" : "lazy"} />
-                <figcaption><span>TGN / Tjeneste {service.number}</span></figcaption>
-              </figure>
+              {service.image ? (
+                <figure className="service-chapter__visual" data-service-chapter-visual>
+                  <img src={service.image} alt="" loading={index < 1 ? "eager" : "lazy"} />
+                  <figcaption><span>TGN / Tjeneste {service.number}</span></figcaption>
+                </figure>
+              ) : null}
             </div>
           </li>
         ))}

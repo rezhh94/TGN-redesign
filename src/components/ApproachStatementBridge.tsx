@@ -1,5 +1,3 @@
-const disciplines = ["Design", "Teknologi", "Synlighet"] as const;
-
 export function ApproachStatementBridge() {
   return (
     <section
@@ -9,29 +7,31 @@ export function ApproachStatementBridge() {
       data-theme-section="dark"
       data-bg-section="dark"
     >
-      <header className="approach-intro" data-intro-identity>
+      <div className="approach-intro" data-intro-identity>
         <p className="approach-intro__label">01 / Tilnærming</p>
-        <h2 className="approach-intro__title" id="approach-bridge-title">
-          <span>Tre fag.</span>
-          <span>Én helhet.</span>
+        <h2 className="approach-intro__statement" id="approach-bridge-title">
+          <span className="approach-intro__line approach-intro__line--quiet">
+            <span className="approach-intro__line-inner">Hver for seg</span>
+          </span>
+          <span className="approach-intro__line approach-intro__line--quiet">
+            <span className="approach-intro__line-inner">blir det lansert.</span>
+          </span>
+          <span className="approach-intro__line">
+            <span className="approach-intro__line-inner">Bygd sammen</span>
+          </span>
+          <span className="approach-intro__line">
+            <span className="approach-intro__line-inner">blir det valgt.</span>
+          </span>
         </h2>
-        <div className="approach-intro__copy">
+        <div className="approach-intro__support">
           <p>
-            Design, teknologi og synlighet utviklet sammen fra første
-            beslutning — så løsningen både treffer, virker og blir funnet.
+            Design uten synlighet blir ikke funnet. Synlighet uten substans blir
+            ikke valgt. Derfor utvikler Tigon design, teknologi og synlighet som
+            én løsning — fra første beslutning.
           </p>
-          <span>TGN / integrated practice / 01—03</span>
+          <span>TGN / integrated practice</span>
         </div>
-      </header>
-
-      <ol className="approach-disciplines" aria-label="Tigons tre fag">
-        {disciplines.map((discipline, index) => (
-          <li key={discipline}>
-            <span>0{index + 1}</span>
-            <strong>{discipline}</strong>
-          </li>
-        ))}
-      </ol>
+      </div>
     </section>
   );
 }
