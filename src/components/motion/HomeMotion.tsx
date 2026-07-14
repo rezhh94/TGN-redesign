@@ -322,49 +322,34 @@ function workProof(cinematic: boolean) {
   return () => ctx.revert();
 }
 
-// 05 / Prosess — the three surfaces use the same scroll-coupled assembly
-// behaviour as the cards in 01 / Tilnærming. The readable phase index remains
-// in ordinary document flow below. No pin or scroll-switched content.
+// 05 / Prosess — three material layers settle into one shared processed field.
+// The phase copy is already in its finished position and never depends on JS.
+// No pin, state switching or additional motion mechanism.
 function processTransformation() {
   const stage = document.querySelector<HTMLElement>("[data-process-stage]");
   if (!stage) return () => {};
 
   const surfaces = gsap.utils.toArray<HTMLElement>("[data-process-surface]", stage);
-  const legend = stage.querySelector<HTMLElement>(".process-assembly__legend strong");
+  const isDesktop = window.matchMedia("(min-width: 1101px)").matches;
+  if (!isDesktop) return () => {};
 
   const ctx = gsap.context(() => {
     if (surfaces.length !== 3) return;
 
-    const isDesktop = window.matchMedia("(min-width: 901px)").matches;
     const assemblyTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: stage,
-        start: isDesktop ? "top 88%" : "top 92%",
-        end: isDesktop ? "top 18%" : "top 32%",
-        scrub: isDesktop ? 0.18 : 0.14,
+        start: "top 88%",
+        end: "top 24%",
+        scrub: 0.18,
         invalidateOnRefresh: true,
       },
     });
 
-    if (isDesktop) {
-      assemblyTimeline
-        .from(surfaces[0], { xPercent: -18, yPercent: 11, rotation: "-=5", duration: 1, ease: "none" }, 0)
-        .from(surfaces[1], { yPercent: -14, scale: 0.91, duration: 1, ease: "none" }, 0)
-        .from(surfaces[2], { xPercent: 18, yPercent: 11, rotation: "+=5", duration: 1, ease: "none" }, 0);
-    } else {
-      assemblyTimeline
-        .from(surfaces[0], { xPercent: -7, duration: 1, ease: "none" }, 0)
-        .from(surfaces[1], { yPercent: -5, scale: 0.985, duration: 1, ease: "none" }, 0)
-        .from(surfaces[2], { xPercent: 7, duration: 1, ease: "none" }, 0);
-    }
-
-    if (legend) {
-      assemblyTimeline.from(
-        legend,
-        { yPercent: 26, autoAlpha: 0.22, duration: 0.68, ease: "none" },
-        0.18,
-      );
-    }
+    assemblyTimeline
+      .from(surfaces[0], { xPercent: -3.5, yPercent: 3, duration: 1, ease: "none" }, 0)
+      .from(surfaces[1], { xPercent: 2.5, yPercent: 1.5, duration: 1, ease: "none" }, 0)
+      .from(surfaces[2], { yPercent: -2.5, duration: 1, ease: "none" }, 0);
   }, stage);
 
   return () => ctx.revert();

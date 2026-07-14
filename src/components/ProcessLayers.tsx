@@ -6,7 +6,6 @@ const phases = [
     body: "Vi avklarer hva som skal bygges, hvem det skal treffe og hva som velges bort før uttrykket låses.",
     materials: ["Behov", "Mål", "Innhold"],
     output: "Definert retning",
-    tone: "paper",
   },
   {
     n: "02",
@@ -15,7 +14,6 @@ const phases = [
     body: "Design, kode, ytelse og integrasjoner formes som én prioritert løsning.",
     materials: ["Flyt", "Teknologi", "Integrasjon"],
     output: "Levende løsning",
-    tone: "olive",
   },
   {
     n: "03",
@@ -24,7 +22,6 @@ const phases = [
     body: "Løsningen lanseres med teknisk kontroll, måling og en tydelig neste handling.",
     materials: ["Måling", "Kontaktvei", "Resultat"],
     output: "Målbar kontaktvei",
-    tone: "mauve",
   },
 ] as const;
 
@@ -43,58 +40,38 @@ export function ProcessLayers() {
         </div>
       </header>
 
-      <div className="process-assembly" data-process-stage aria-hidden="true">
-        <div className="process-assembly__cards">
-          {phases.map((phase, phaseIndex) => (
-            <article
-              className={`process-card process-card--${phase.tone} process-card--${phase.n}`}
-              data-process-surface
-              key={phase.n}
-            >
+      <div className="process-field" data-process-stage>
+        <div className="process-field__materials" aria-hidden="true">
+          <i className="process-field__material process-field__material--mauve" data-process-surface />
+          <i className="process-field__material process-field__material--olive" data-process-surface />
+          <i className="process-field__material process-field__material--paper" data-process-surface />
+        </div>
+
+        <p className="process-field__entry">
+          <span>Inn / 00</span>
+          <strong>Fra behov til live</strong>
+        </p>
+
+        <ol className="process-field__phases">
+          {phases.map((phase) => (
+            <li className={`process-field__phase process-field__phase--${phase.n}`} key={phase.n}>
               <header>
                 <span>{phase.n} / 03</span>
                 <strong>{phase.tag}</strong>
               </header>
-              <div className="process-card__mark">
-                {Array.from({ length: 4 }, (_, pieceIndex) => (
-                  <i data-active={pieceIndex < phaseIndex + 1 ? "true" : "false"} key={pieceIndex} />
-                ))}
-              </div>
+              <h3>{phase.heading}</h3>
+              <p>{phase.body}</p>
+              <small>{phase.materials.join(" / ")}</small>
               <footer>
                 <span>Ut / {phase.n}</span>
                 <strong>{phase.output}</strong>
               </footer>
-            </article>
+            </li>
           ))}
-        </div>
+        </ol>
 
-        <div className="process-assembly__legend">
-          <strong>System ut.</strong>
-        </div>
+        <span className="process-field__seal" aria-hidden="true" />
       </div>
-
-      <div className="process-journey__index-head">
-        <p>Fra behov til live</p>
-      </div>
-
-      <ol
-        className="process-journey__index"
-        data-reveal-group
-        data-distance="1em"
-        data-stagger="90"
-      >
-        {phases.map((phase) => (
-          <li className="process-journey__phase" key={phase.n}>
-            <span>{phase.n}</span>
-            <div>
-              <h3>{phase.tag}</h3>
-              <p>{phase.body}</p>
-              <small>{phase.materials.join(" / ")}</small>
-            </div>
-            <strong>{phase.output}</strong>
-          </li>
-        ))}
-      </ol>
 
       <footer className="process-journey__closer">
         <p>Scope først. Ingen ferdig brief nødvendig.</p>
