@@ -196,7 +196,6 @@
 
 .work-tile--hero .work-tile__visual {
   aspect-ratio: 16 / 10;
-  border-radius: 0 clamp(76px, 7vw, 148px) clamp(76px, 7vw, 148px) 0;
 }
 
 .work-tile--portrait .work-tile__visual {

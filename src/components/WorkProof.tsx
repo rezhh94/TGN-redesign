@@ -156,8 +156,8 @@ export function WorkProof() {
         </div>
 
         <p className="work-proof__statement" data-work-statement>
-          Nettsider, apper og digitale systemer hvor design, teknologi og
-          synlighet virker som én helhet.
+          Nettsider, apper og digitale systemer som gjør komplekse behov
+          tydelige, brukbare og målbare.
         </p>
 
         <div className="work-wall__row work-wall__row--closing">
