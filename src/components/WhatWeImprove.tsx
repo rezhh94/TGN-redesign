@@ -83,7 +83,16 @@ export function WhatWeImprove() {
                   <span>{outcome.number} / 04</span>
                   <span>{outcome.signal}</span>
                 </header>
-                <h3>{outcome.title}</h3>
+                <h3>
+                  <span className="what-improve__mark">
+                    <span
+                      className="what-improve__mark-cover"
+                      data-effect-marker
+                      aria-hidden="true"
+                    />
+                    {outcome.title}
+                  </span>
+                </h3>
                 <div className="what-improve__outcome-copy">
                   <p>{outcome.description}</p>
                   <p>{outcome.tools}</p>

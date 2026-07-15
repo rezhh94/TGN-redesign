@@ -10,6 +10,7 @@ const capabilities = [
     meta: "Produkt / Next.js",
     blurb: "Et konsentrert arbeidsrom der komplekse oppgaver kjennes enkle.",
     src: "/work/capability-stage/tgn-product-os-laptop.webp",
+    href: "/tjenester/custom-software",
     layout: "hero",
     detail: "En webapp samler oppgaver, data og roller i en arbeidsflate som er laget for gjentatt bruk. Strukturen formes rundt den faktiske arbeidsflyten, ikke rundt et generisk dashboard.",
     deliverables: ["Innlogging og roller", "Integrasjoner og datamodell", "Måling og stabil drift"],
@@ -20,6 +21,7 @@ const capabilities = [
     meta: "SEO / Struktur",
     blurb: "En tydelig digital front som gjør virksomheten enkel å forstå og naturlig å velge.",
     src: "/work/capability-stage/laptop-chair.png",
+    href: "/tjenester/webutvikling-nextjs",
     layout: "portrait",
     detail: "Et nettsted skal gjøre det lett å forstå hva virksomheten tilbyr, hvorfor den er riktig og hva neste steg er. Design, innhold, teknisk SEO og ytelse utvikles som én leveranse.",
     deliverables: ["Innholdsstruktur og UX", "Teknisk SEO og ytelse", "Konvertering og måling"],
@@ -30,6 +32,7 @@ const capabilities = [
     meta: "Portal / System",
     blurb: "Et sammenhengende økosystem der mennesker, data og tjenester møtes.",
     src: "/work/capability-stage/ipad-hand.png",
+    href: "/tjenester/digital-infrastruktur",
     layout: "square",
     detail: "En plattform kobler mennesker, innhold og systemer sammen over tid. Tigon kan forme både den synlige tjenesten og strukturen som gjør den mulig å drifte og videreutvikle.",
     deliverables: ["Portaler og arbeidsflater", "Roller og tilgang", "Systemarkitektur og integrasjoner"],
@@ -40,6 +43,7 @@ const capabilities = [
     meta: "Konvertering / Flyt",
     blurb: "En kjøpsopplevelse som gjør valget enkelt og fremdriften friksjonsfri.",
     src: "/work/capability-stage/tgn-ehandel-ipad.webp",
+    href: "/tjenester/e-handel-losninger",
     layout: "landscape",
     detail: "E-handel handler om mer enn en produktgrid. Sortiment, valg, innhold, søk, betaling og oppfølging må fungere som én tydelig kjøpsreise.",
     deliverables: ["Produkt- og kategoristruktur", "Kjøpsflyt og betaling", "Søk, måling og videreutvikling"],
@@ -50,6 +54,7 @@ const capabilities = [
     meta: "Integrasjon / Automasjon",
     blurb: "Et presist verktøy som gjør kunnskap søkbar og neste handling tydelig.",
     src: "/work/capability-stage/laptop-rocks.png",
+    href: "/tjenester/ai-implementering",
     layout: "narrow",
     muted: true,
     detail: "AI gir verdi når den er koblet til virksomhetens egne data, systemer og beslutninger. Tigon kan utvikle avgrensede verktøy som reduserer manuelt arbeid og gjør kunnskap lettere å bruke.",
@@ -61,6 +66,7 @@ const capabilities = [
     meta: "UI / Interaksjon",
     blurb: "En nær, responsiv opplevelse for korte og naturlige handlinger.",
     src: "/work/capability-stage/tgn-brand-phone.webp",
+    href: "/tjenester/app-utvikling",
     layout: "offset",
     detail: "En app formes rundt situasjonen den skal brukes i: korte handlinger, tydelig respons og et grensesnitt som fungerer på små skjermer. Mobil og web kan bygges som ett sammenhengende produkt.",
     deliverables: ["Mobil UX og grensesnitt", "Push, konto og publisering", "API-er og produktmåling"],
@@ -107,7 +113,12 @@ function CapabilityTile({ capability, onOpen }: { capability: Capability; onOpen
 
       <footer className="work-tile__foot">
         <p>{capability.blurb}</p>
-        <span>Capability / konseptflate</span>
+        <div className="work-tile__foot-meta">
+          <span>Capability / konseptflate</span>
+          <a href={capability.href} aria-label={`Se tjenesten ${capability.name}`}>
+            Se tjenesten <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </footer>
     </article>
   );
@@ -155,6 +166,62 @@ function makeClone(sourceImg: HTMLImageElement, rect: DOMRect) {
 
   clone.appendChild(img);
   return clone;
+}
+
+/* Pixelate-render under åpne-morphen: valgt flate går fra grove blokker til
+   skarpt bilde mens den ekspanderer — mikro-varianten av pixel-motivet fra
+   02→03-broen. Canvas-lag over klonen; fjernes når bildet er skarpt. */
+const PIXEL_STAGES = [12, 18, 26, 38, 56, 84];
+const PIXEL_RESOLVE_S = 0.42;
+
+function attachPixelStages(
+  clone: HTMLElement,
+  sourceImg: HTMLImageElement,
+  rect: DOMRect,
+  tl: gsap.core.Timeline,
+) {
+  if (!sourceImg.naturalWidth || !sourceImg.naturalHeight) return;
+
+  const canvas = document.createElement("canvas");
+  Object.assign(canvas.style, {
+    position: "absolute",
+    inset: "0",
+    width: "100%",
+    height: "100%",
+    imageRendering: "pixelated",
+    // Samme fargebehandling som kildebildet, så muted-flater aldri hopper.
+    filter: getComputedStyle(sourceImg).filter,
+  } satisfies Partial<CSSStyleDeclaration>);
+  canvas.setAttribute("aria-hidden", "true");
+  clone.appendChild(canvas);
+
+  const context = canvas.getContext("2d");
+  if (!context) {
+    canvas.remove();
+    return;
+  }
+
+  const aspect = rect.height / rect.width;
+  const nw = sourceImg.naturalWidth;
+  const nh = sourceImg.naturalHeight;
+
+  const drawStage = (cols: number) => {
+    const rows = Math.max(2, Math.round(cols * aspect));
+    // Cover-beskjæring av kilden, tegnet uten glatting → harde blokker.
+    const scale = Math.max(cols / nw, rows / nh);
+    const sw = cols / scale;
+    const sh = rows / scale;
+    canvas.width = cols;
+    canvas.height = rows;
+    context.imageSmoothingEnabled = false;
+    context.drawImage(sourceImg, (nw - sw) / 2, (nh - sh) / 2, sw, sh, 0, 0, cols, rows);
+  };
+
+  const stepLength = PIXEL_RESOLVE_S / PIXEL_STAGES.length;
+  PIXEL_STAGES.forEach((cols, index) => {
+    tl.add(() => drawStage(cols), index * stepLength);
+  });
+  tl.add(() => canvas.remove(), PIXEL_RESOLVE_S);
 }
 
 export function WorkProof() {
@@ -246,6 +313,7 @@ export function WorkProof() {
 
     if (activeCapability && !dialog.open) {
       dialog.showModal();
+      dialog.scrollTop = 0;
 
       const source = sourceVisualRef.current;
       const sourceImg = source?.querySelector("img");
@@ -292,6 +360,10 @@ export function WorkProof() {
             clearStaging();
           },
         });
+        // Pixel-stadiene kjører i første del av flukten: valgt flate går fra
+        // oversikt (grov) til fokus (skarp) idet den lander. Kun ved åpning.
+        attachPixelStages(clone, sourceImg, fromRect, tl);
+
         tl.to(clone, {
           top: toRect.top,
           left: toRect.left,
@@ -388,6 +460,7 @@ export function WorkProof() {
         id="work-detail-dialog"
         className="work-detail"
         ref={dialogRef}
+        data-lenis-prevent=""
         aria-labelledby="work-detail-title"
         aria-describedby="work-detail-description"
         onClose={() => {
@@ -433,6 +506,9 @@ export function WorkProof() {
                 ))}
               </ul>
             </div>
+            <a className="work-detail__service-link" href={activeCapability.href}>
+              Se tjenesten {activeCapability.name} <span aria-hidden="true">↗</span>
+            </a>
             <p className="work-detail__note">Capability-demonstrasjon / ikke kundecase</p>
           </div>
         )}
@@ -444,6 +520,7 @@ export function WorkProof() {
             <section key={capability.n}>
               <h3>{capability.name}</h3>
               <p>{capability.detail}</p>
+              <a href={capability.href}>Se tjenesten {capability.name}</a>
             </section>
           ))}
         </div>

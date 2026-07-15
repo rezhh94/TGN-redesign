@@ -267,6 +267,30 @@
   text-transform: uppercase;
 }
 
+/* Highlight marker: en mørk flate dekker resultatordet og trekker seg bort —
+   utvelgelse som grafisk øyeblikk. Uten JS er dekket usynlig (scaleX 0) og
+   ordet står vanlig; JS armerer dekket og avslører i resultatrekkefølge. */
+.what-improve__mark {
+  position: relative;
+  display: inline-block;
+}
+
+.what-improve__mark-cover {
+  position: absolute;
+  inset: -0.04em -0.08em;
+  z-index: 1;
+  background: var(--blekk);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .what-improve__mark-cover {
+    transform: scaleX(0) !important;
+  }
+}
+
 .what-improve__outcome-copy {
   margin-top: 12px;
 }

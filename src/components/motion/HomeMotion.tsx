@@ -95,72 +95,52 @@ function servicesScene() {
   return () => ctx.revert();
 }
 
-// 03 / Effekt — Proof Lock replaces the generic whole-outcome slide.
-// The visible claim and proof surface converge into the approved static overlap;
-// headers and critical content stay readable in ordinary document flow.
+// 03 / Effekt — Highlight Marker på resultatordene. En mørk flate dekker
+// FUNNET/FORSTÅTT/VALGT/MÅLT og trekker seg bort i resultatrekkefølge — én
+// one-shot per synlig rad, ingen scrub. Erstatter den tidligere Proof Lock-logikken som
+// aldri kjørte (krevde et [data-effect-placeholder] som ikke fantes i DOM).
+// Copy og UI ligger i ro; uten JS står ordene vanlig (dekket er scaleX 0).
 function effectScene() {
   const section = document.querySelector<HTMLElement>("[data-effect-section]");
   if (!section) return () => {};
 
   const outcomes = gsap.utils.toArray<HTMLElement>("[data-effect-outcome]", section);
+  const markers = gsap.utils.toArray<HTMLElement>("[data-effect-marker]", section);
+  if (!markers.length || outcomes.length < 4) return () => {};
+
   const matchMedia = gsap.matchMedia();
 
-  matchMedia.add(
-    {
-      compact: "(max-width: 900px)",
-      motion: "(prefers-reduced-motion: no-preference)",
-    },
-    (context) => {
-      if (!context.conditions?.motion) return;
+  matchMedia.add("(prefers-reduced-motion: no-preference)", () => {
+    const ctx = gsap.context(() => {
+      // Armer dekkene ved init. Hver rad avsløres først når den faktisk er
+      // synlig, slik at 03/04 ikke spiller ferdig under viewporten.
+      gsap.set(markers, { scaleX: 1, transformOrigin: "100% 50%" });
 
-      const compact = Boolean(context.conditions?.compact);
-      const ctx = gsap.context(() => {
-        outcomes.forEach((outcome, index) => {
-          const title = outcome.querySelector<HTMLElement>("h3");
-          const proof = outcome.querySelector<HTMLElement>("[data-effect-placeholder]");
-          const copy = outcome.querySelector<HTMLElement>(".what-improve__outcome-copy");
-          if (!title || !proof || !copy) return;
+      const revealRow = (row: HTMLElement[]) => {
+        const rowMarkers = row
+          .map((outcome) => outcome.querySelector<HTMLElement>("[data-effect-marker]"))
+          .filter((marker): marker is HTMLElement => Boolean(marker));
+        if (!rowMarkers.length) return;
 
-          const direction = index % 2 ? -1 : 1;
-          const timeline = gsap.timeline({
-            defaults: { ease: "none" },
-            scrollTrigger: {
-              trigger: outcome,
-              start: compact ? "top 90%" : "top 88%",
-              end: compact ? "top 66%" : "top 50%",
-              scrub: compact ? 0.12 : 0.18,
-              invalidateOnRefresh: true,
-            },
-          });
-
-          timeline
-            .fromTo(
-              title,
-              { xPercent: direction * (compact ? 0.5 : 1) },
-              { xPercent: 0, duration: 1 },
-              0,
-            )
-            .fromTo(
-              proof,
-              {
-                xPercent: direction * (compact ? 4 : 8),
-                autoAlpha: compact ? 0.72 : 0.44,
-              },
-              { xPercent: 0, autoAlpha: 1, duration: 1 },
-              0,
-            )
-            .fromTo(
-              copy,
-              { y: compact ? 6 : 10 },
-              { y: 0, duration: 1 },
-              0,
-            );
+        gsap.to(rowMarkers, {
+          scaleX: 0,
+          duration: 0.5,
+          stagger: 0.14,
+          ease: "power3.inOut",
+          scrollTrigger: {
+            trigger: row[0],
+            start: "top 82%",
+            once: true,
+          },
         });
-      }, section);
+      };
 
-      return () => ctx.revert();
-    },
-  );
+      revealRow(outcomes.slice(0, 2));
+      revealRow(outcomes.slice(2, 4));
+    }, section);
+
+    return () => ctx.revert();
+  });
 
   return () => matchMedia.revert();
 }
