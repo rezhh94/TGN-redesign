@@ -4,7 +4,7 @@
 .work-proof {
   position: relative;
   overflow: clip;
-  padding-bottom: clamp(96px, 12vh, 156px);
+  padding-bottom: 0;
   background: var(--paper);
   color: var(--blekk);
 }
@@ -487,6 +487,29 @@ body:has(.work-detail[open]) {
   object-fit: cover;
 }
 
+/* Medie-rammen er Flip-target: den bærer data-flip-id og pixelate-canvasen,
+   og fyller medieområdet i ro. muted-filteret ligger på rammen slik at bilde
+   og canvas får samme fargebehandling. */
+.work-detail__media-frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.work-detail__media-frame[data-muted] {
+  filter: grayscale(1) contrast(1.03);
+}
+
+/* Under Flip-flukten løftes klippingen så targetet kan bevege seg fritt
+   mellom flaten og dialogen; rammen klipper fortsatt sitt eget innhold. */
+.work-detail[data-morphing] {
+  overflow: visible;
+}
+
+.work-detail[data-morphing] .work-detail__media {
+  overflow: visible;
+}
+
 .work-detail__head button span {
   font-family: var(--font-sans);
   font-size: 22px;
@@ -515,7 +538,6 @@ body:has(.work-detail[open]) {
 
 .work-detail__deliverables {
   padding-top: clamp(12px, 1.8vh, 18px);
-  border-top: 1px solid var(--color-line);
 }
 
 .work-detail__deliverables ol {
@@ -530,7 +552,10 @@ body:has(.work-detail[open]) {
   gap: 12px;
   align-items: baseline;
   padding: clamp(6px, 1vh, 10px) 0;
-  border-bottom: 1px solid var(--color-line);
+}
+
+.work-detail__deliverables li + li {
+  margin-top: clamp(2px, 0.45vh, 5px);
 }
 
 .work-detail__deliverables li > span {
@@ -555,7 +580,6 @@ body:has(.work-detail[open]) {
   margin-top: clamp(13px, 2vh, 20px);
   padding: clamp(11px, 1.7vh, 16px) 0;
   border-top: 1px solid var(--blekk);
-  border-bottom: 1px solid var(--blekk);
   color: var(--blekk);
   font-family: var(--font-sans);
   font-size: clamp(20px, 1.8vw, 28px);
@@ -593,7 +617,6 @@ body:has(.work-detail[open]) {
   align-items: center;
   margin-top: clamp(10px, 1.5vh, 16px);
   padding: clamp(14px, 2.4vh, 24px) 0;
-  border-top: 1px solid var(--color-line);
 }
 
 .work-detail__nav > span {
@@ -699,6 +722,72 @@ body:has(.work-detail[open]) {
   text-transform: uppercase;
 }
 
+/* 04 → 05-replikken står tett på Osmo-shutteren, slik at teksten og kuttet
+   leses som én scene uten et eget tomrom mellom seksjonene. */
+.work-proof__handoff {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 2fr 7fr 3fr;
+  gap: var(--grid-gutter);
+  align-items: start;
+  padding: clamp(52px, 6vh, 76px) var(--gutter) clamp(148px, 17vh, 176px);
+}
+
+.work-proof__handoff > p:first-child {
+  color: var(--on-light-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.work-proof__handoff h3 {
+  margin: 0;
+  color: var(--blekk);
+  font-family: var(--font-display);
+  font-size: clamp(46px, 5.2vw, 92px);
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.78;
+  text-transform: uppercase;
+}
+
+.work-proof__handoff h3 span {
+  display: inline;
+}
+
+.work-proof__handoff h3 span:last-child {
+  color: var(--on-light-faint);
+}
+
+.work-proof__handoff-copy {
+  max-width: 26ch;
+  margin-top: clamp(18px, 2.6vh, 30px);
+  color: var(--blekk);
+  font-family: var(--font-sans);
+  font-size: clamp(17px, 1.2vw, 20px);
+  letter-spacing: -0.02em;
+  line-height: 1.45;
+}
+
+/* Fase-indeksen forhåndsvarsler bandene under. */
+.work-proof__handoff-index {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+  color: var(--on-light-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1.4;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+/* Osmo Shutter Scroll Transition. Radene genereres klientside og bruker
+   currentColor fra wrapperen, identisk med kilden og den mørke 05-flaten. */
 .work-proof__shutter {
   position: absolute;
   inset: auto 0 0;
@@ -708,7 +797,11 @@ body:has(.work-detail[open]) {
 }
 
 .work-proof__shutter [data-shutter-scroll-row] {
+  width: 100%;
   height: 1.5em;
+  background-color: currentColor;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -718,6 +811,12 @@ body:has(.work-detail[open]) {
 }
 
 @media (max-width: 1000px) {
+  .work-proof__handoff {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-bottom: clamp(116px, 14vh, 140px);
+  }
+
   .work-proof__intro {
     grid-template-columns: 1fr;
     gap: 34px;
@@ -902,7 +1001,7 @@ body:has(.work-detail[open]) {
 
 @media (max-width: 640px) {
   .work-proof {
-    padding-bottom: 88px;
+    padding-bottom: 0;
   }
 
   .work-proof__intro {

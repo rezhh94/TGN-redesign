@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import { destroyLenis, initLenis } from "@/lib/motion";
 import {
   initApproachPathJourney,
@@ -13,7 +14,7 @@ import {
   initShutterScrollTransition,
 } from "@/lib/osmo-motion";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
@@ -162,39 +163,87 @@ function heroEntrance(full: boolean) {
     .from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.34");
 }
 
-// 01 / Tilnærming — one editorial statement; the lines rise out of their
-// masks once (same grammar as 06 / System), support settles after. The
-// content is complete without JavaScript.
+// 01 / Tilnærming — Osmo Masked Text Reveal (GSAP SplitText): hver autor-linje
+// maskes klientside (mask: "lines", autoSplit) og stiger fra bunnen med
+// FROM-tweens. Koreografien spiller tesen i stedet for å stagge jevnt:
+// «Hver for seg»-linjene ankommer hver for seg (ulik start, ulik varighet),
+// «Bygd sammen»-linjene låser samtidig som én enhet, og støtten settler i
+// låse-øyeblikket. Innholdet er komplett uten JavaScript.
 function introStoryScene() {
   const section = document.querySelector<HTMLElement>("[data-intro-story]");
   if (!section) return () => {};
 
-  const ctx = gsap.context(() => {
-    const label = section.querySelector<HTMLElement>(".approach-intro__label");
-    const lines = gsap.utils.toArray<HTMLElement>(
-      ".approach-intro__line-inner",
-      section,
-    );
-    const support = section.querySelector<HTMLElement>(".approach-intro__support");
+  const authoredLines = gsap.utils.toArray<HTMLElement>("[data-intro-line]", section);
+  if (authoredLines.length < 4) return () => {};
 
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: section, start: "top 70%", once: true },
-      defaults: { ease: "power3.out" },
+  const label = section.querySelector<HTMLElement>(".approach-intro__label");
+  const support = section.querySelector<HTMLElement>(".approach-intro__support");
+  const handoff = section.querySelector<HTMLElement>("[data-intro-handoff]");
+
+  const splits: SplitText[] = [];
+  let tl: gsap.core.Timeline | null = null;
+  let rebuildFrame = 0;
+  let played = false;
+
+  // autoSplit re-splitter ved resize: før scenen har spilt bygges timelinen
+  // om mot de nye linjeelementene; etterpå står nye elementer naturlig synlige.
+  const buildScene = () => {
+    rebuildFrame = 0;
+    if (played) return;
+    tl?.scrollTrigger?.kill();
+    tl?.kill();
+
+    const lines = splits
+      .map((split) => (split.lines as HTMLElement[])[0])
+      .filter((line): line is HTMLElement => Boolean(line));
+    if (lines.length < 4) return;
+
+    tl = gsap.timeline({
+      scrollTrigger: { trigger: section, start: "clamp(top 70%)", once: true },
+      defaults: { ease: "expo.out" },
+      onComplete: () => {
+        played = true;
+      },
     });
 
-    if (label) {
-      tl.from(label, { autoAlpha: 0, duration: 0.5 }, 0);
-    }
-    if (lines.length) {
-      tl.from(lines, { yPercent: 108, duration: 0.8, stagger: 0.12 }, 0.05);
-    }
+    if (label) tl.from(label, { autoAlpha: 0, duration: 0.5, ease: "power3.out" }, 0);
+    // Hver for seg: to selvstendige ankomster.
+    tl.from(lines[0], { yPercent: 110, duration: 0.7 }, 0.05);
+    tl.from(lines[1], { yPercent: 110, duration: 0.85 }, 0.26);
+    // Bygd sammen: én samlet, fastere landing.
+    tl.from([lines[2], lines[3]], { yPercent: 110, duration: 0.9, ease: "power4.out" }, 0.6);
     if (support) {
-      tl.from(support, { autoAlpha: 0, y: 20, duration: 0.6 }, "-=0.35");
+      tl.from(support, { autoAlpha: 0, y: 20, duration: 0.6, ease: "power3.out" }, 0.78);
     }
-  }, section);
+    if (handoff) {
+      tl.from(handoff, { autoAlpha: 0, y: 12, duration: 0.5, ease: "power3.out" }, 1.0);
+    }
+  };
+
+  const queueBuild = () => {
+    if (!rebuildFrame) rebuildFrame = window.requestAnimationFrame(buildScene);
+  };
+
+  authoredLines.forEach((line) => {
+    splits.push(
+      SplitText.create(line, {
+        type: "lines",
+        mask: "lines",
+        autoSplit: true,
+        linesClass: "line",
+        onSplit: () => {
+          queueBuild();
+        },
+      }),
+    );
+  });
+  queueBuild();
 
   return () => {
-    ctx.revert();
+    window.cancelAnimationFrame(rebuildFrame);
+    tl?.scrollTrigger?.kill();
+    tl?.kill();
+    splits.forEach((split) => split.revert());
   };
 }
 

@@ -517,70 +517,120 @@ export function initLoopingWordsWithSelector(root: ParentNode = document) {
   return () => cleanups.forEach((cleanup) => cleanup());
 }
 
-// Osmo: Shutter Scroll Transition. Rows are generated per breakpoint and use
-// the adjacent section colour through currentColor. Reduced motion keeps the
-// ordinary document transition and creates no extra DOM.
+// Osmo: Shutter Scroll Transition. Bevarer kildens genererte panel/rader,
+// cover/reveal-retning, data-styrte scrollposisjoner, stagger og breakpoints.
+// Tigon tilpasser bare wrapperens farge, radantall og start/slutt i markup/CSS.
 export function initShutterScrollTransition(root: ParentNode = document) {
+  const defaultRows = 6;
+  const defaultMode = "cover";
+  const defaultScrollStart = { cover: "bottom bottom", reveal: "top bottom" };
+  const defaultScrollEnd = { cover: "bottom top", reveal: "top center" };
+  const defaultScrub = 0.3;
+  const defaultShutterDuration = 0.1;
+  const defaultStaggerAmount = 0.01;
+  const panelClass = "shutter-scroll-transition__panel";
+  const rowClass = "shutter-scroll-transition__row";
+
+  const breakpoints = {
+    mobile: "(max-width: 478px)",
+    landscape: "(max-width: 767px)",
+    tablet: "(max-width: 991px)",
+  };
+
+  type ShutterMode = keyof typeof defaultScrollStart;
+  type ShutterInstance = {
+    wrapper: HTMLElement;
+    timeline: gsap.core.Timeline;
+  };
+
+  const wrappers = Array.from(
+    root.querySelectorAll<HTMLElement>("[data-shutter-scroll-transition]"),
+  );
+  if (!wrappers.length) return () => {};
+
+  const getMode = (wrapper: HTMLElement): ShutterMode =>
+    wrapper.dataset.mode === "reveal" ? "reveal" : defaultMode;
+
+  const getRows = (wrapper: HTMLElement) => {
+    const base = Number.parseInt(wrapper.dataset.rows ?? "", 10) || defaultRows;
+    if (window.matchMedia(breakpoints.mobile).matches) {
+      return Number.parseInt(wrapper.dataset.rowsMobile ?? "", 10) || base;
+    }
+    if (window.matchMedia(breakpoints.landscape).matches) {
+      return Number.parseInt(wrapper.dataset.rowsLandscape ?? "", 10) || base;
+    }
+    if (window.matchMedia(breakpoints.tablet).matches) {
+      return Number.parseInt(wrapper.dataset.rowsTablet ?? "", 10) || base;
+    }
+    return base;
+  };
+
+  const buildInstance = (wrapper: HTMLElement): ShutterInstance => {
+    const mode = getMode(wrapper);
+    const section = wrapper.closest("section") ?? wrapper.parentElement ?? wrapper;
+    const panel = document.createElement("div");
+    panel.classList.add(panelClass);
+    panel.setAttribute("data-shutter-scroll-panel", "");
+
+    const fragment = document.createDocumentFragment();
+    for (let index = 0; index < getRows(wrapper); index += 1) {
+      const row = document.createElement("div");
+      row.classList.add(rowClass);
+      row.setAttribute("data-shutter-scroll-row", "");
+      fragment.appendChild(row);
+    }
+    panel.appendChild(fragment);
+    wrapper.appendChild(panel);
+
+    const rows = Array.from(panel.children) as HTMLElement[];
+    const fromScale = mode === "cover" ? 0 : 1;
+    const toScale = mode === "cover" ? 1 : 0;
+    const origin = mode === "cover" ? "bottom center" : "top center";
+
+    gsap.set(rows, { scaleY: fromScale, transformOrigin: origin });
+
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: wrapper.dataset.scrollStart || defaultScrollStart[mode],
+        end: wrapper.dataset.scrollEnd || defaultScrollEnd[mode],
+        scrub: defaultScrub,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    timeline.to(rows, {
+      scaleY: toScale,
+      duration: defaultShutterDuration,
+      stagger: { each: defaultStaggerAmount, from: "end" },
+      ease: "none",
+    });
+
+    return { wrapper, timeline };
+  };
+
+  const destroyInstance = (instance: ShutterInstance) => {
+    instance.timeline.scrollTrigger?.kill();
+    instance.timeline.kill();
+    instance.wrapper.querySelector("[data-shutter-scroll-panel]")?.remove();
+  };
+
   const matchMedia = gsap.matchMedia();
 
   matchMedia.add(
     {
-      desktop: "(min-width: 992px)",
-      tablet: "(min-width: 768px) and (max-width: 991px)",
-      mobile: "(max-width: 767px)",
-      reduce: "(prefers-reduced-motion: reduce)",
+      isDesktop: "(min-width: 992px)",
+      isTablet: "(min-width: 768px) and (max-width: 991px)",
+      isLandscape: "(min-width: 479px) and (max-width: 767px)",
+      isMobile: "(max-width: 478px)",
+      reduceMotion: "(prefers-reduced-motion: reduce)",
     },
     (context) => {
-      if (context.conditions?.reduce) return;
-      const cleanups: Array<() => void> = [];
-
-      root.querySelectorAll<HTMLElement>("[data-shutter-scroll-transition]").forEach((wrapper) => {
-        const base = Number.parseInt(wrapper.dataset.rows ?? "", 10) || 6;
-        const count = context.conditions?.desktop
-          ? base
-          : context.conditions?.tablet
-            ? Number.parseInt(wrapper.dataset.rowsTablet ?? "", 10) || base
-            : Number.parseInt(wrapper.dataset.rowsMobile ?? "", 10) || base;
-        const panel = document.createElement("div");
-        panel.className = "shutter-scroll-transition__panel";
-        panel.setAttribute("data-shutter-scroll-panel", "");
-
-        for (let index = 0; index < count; index += 1) {
-          const row = document.createElement("div");
-          row.className = "shutter-scroll-transition__row";
-          row.setAttribute("data-shutter-scroll-row", "");
-          panel.appendChild(row);
-        }
-        wrapper.appendChild(panel);
-
-        const rows = Array.from(panel.children) as HTMLElement[];
-        const section = wrapper.closest("section") ?? wrapper.parentElement ?? wrapper;
-        gsap.set(rows, { scaleY: 0, transformOrigin: "bottom center" });
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "bottom bottom",
-            end: "bottom top",
-            scrub: 0.3,
-            invalidateOnRefresh: true,
-          },
-        });
-        timeline.to(rows, {
-          scaleY: 1,
-          duration: 0.1,
-          stagger: { each: 0.01, from: "end" },
-          ease: "none",
-        });
-
-        cleanups.push(() => {
-          timeline.scrollTrigger?.kill();
-          timeline.kill();
-          panel.remove();
-        });
-      });
+      if (context.conditions?.reduceMotion) return;
+      const instances = wrappers.map(buildInstance);
 
       ScrollTrigger.refresh();
-      return () => cleanups.forEach((cleanup) => cleanup());
+      return () => instances.forEach(destroyInstance);
     },
   );
 
@@ -1040,4 +1090,259 @@ export function initHighlightMarkerTextReveal(root: ParentNode = document) {
   });
 
   return () => cleanups.forEach((cleanup) => cleanup());
+}
+
+// Osmo: Pixelate Image Render Effect. The stepping algorithm, data attributes
+// and trigger modes (load/inview/hover/click) are preserved from the source.
+// Lifecycle is adapted for scoped init and cleanup so dynamic content (e.g.
+// dialog media) can re-run the render per activation.
+export function initPixelateImageRenderEffect(root: ParentNode = document) {
+  const renderDuration = 150; // Duration per step (in ms)
+  const renderSteps = 12; // Number of steps from chunky to sharp
+  const renderColumns = 12; // Starting number of columns at the most pixelated stage
+
+  const cleanups: Array<() => void> = [];
+
+  root.querySelectorAll<HTMLElement>("[data-pixelate-render]").forEach(setupPixelate);
+
+  function setupPixelate(rootEl: HTMLElement) {
+    const img = rootEl.querySelector<HTMLImageElement>("[data-pixelate-render-img]");
+    if (!img) return;
+
+    const trigger = (rootEl.getAttribute("data-pixelate-render-trigger") || "load").toLowerCase();
+
+    // Per-element overrides
+    const durAttr = parseInt(rootEl.getAttribute("data-pixelate-render-duration") ?? "", 10);
+    const stepsAttr = parseInt(rootEl.getAttribute("data-pixelate-render-steps") ?? "", 10);
+    const colsAttr = parseInt(rootEl.getAttribute("data-pixelate-render-columns") ?? "", 10);
+
+    const fitMode = (rootEl.getAttribute("data-pixelate-render-fit") || "cover").toLowerCase();
+
+    const elRenderDuration = Number.isFinite(durAttr) ? Math.max(16, durAttr) : renderDuration;
+    const elRenderSteps = Number.isFinite(stepsAttr) ? Math.max(1, stepsAttr) : renderSteps;
+    const elRenderColumns = Number.isFinite(colsAttr) ? Math.max(1, colsAttr) : renderColumns;
+
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("data-pixelate-canvas", "");
+    canvas.style.position = "absolute";
+    canvas.style.inset = "0";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.pointerEvents = "none";
+    rootEl.style.position ||= "relative";
+    rootEl.appendChild(canvas);
+
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) {
+      canvas.remove();
+      return;
+    }
+    ctx.imageSmoothingEnabled = false;
+
+    const back = document.createElement("canvas");
+    const tiny = document.createElement("canvas");
+    const bctx = back.getContext("2d", { alpha: true });
+    const tctx = tiny.getContext("2d", { alpha: true });
+    if (!bctx || !tctx) {
+      canvas.remove();
+      return;
+    }
+
+    let naturalW = 0;
+    let naturalH = 0;
+    let playing = false;
+    let stageIndex = 0;
+    let stageStart = 0;
+    let backDirty = true;
+    let resizeTimeout = 0;
+    let steps = [elRenderColumns];
+    let disposed = false;
+
+    function fitCanvas() {
+      const r = rootEl.getBoundingClientRect();
+      const dpr = Math.max(1, Math.floor(window.devicePixelRatio || 1));
+      const w = Math.max(1, Math.round(r.width * dpr));
+      const h = Math.max(1, Math.round(r.height * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+        back.width = w;
+        back.height = h;
+        backDirty = true;
+      }
+      regenerateSteps();
+    }
+
+    function regenerateSteps() {
+      const cw = Math.max(1, canvas.width);
+      const startCols = Math.min(elRenderColumns, cw);
+      const total = Math.max(1, elRenderSteps);
+      const use = Math.max(1, Math.floor(total * 0.9)); // hard-coded 80%
+      const a: number[] = [];
+      const ratio = Math.pow(cw / startCols, 1 / total);
+      for (let i = 0; i < use; i++) {
+        a.push(Math.max(1, Math.round(startCols * Math.pow(ratio, i))));
+      }
+      for (let i = 1; i < a.length; i++) if (a[i] <= a[i - 1]) a[i] = a[i - 1] + 1;
+      steps = a.length ? a : [startCols];
+    }
+
+    function drawImageToBack() {
+      if (!backDirty || !naturalW || !naturalH) return;
+      const cw = back.width;
+      const ch = back.height;
+      let dw = cw;
+      let dh = ch;
+      let dx = 0;
+      let dy = 0;
+      if (fitMode !== "stretch") {
+        const s =
+          fitMode === "cover"
+            ? Math.max(cw / naturalW, ch / naturalH)
+            : Math.min(cw / naturalW, ch / naturalH);
+        dw = Math.max(1, Math.round(naturalW * s));
+        dh = Math.max(1, Math.round(naturalH * s));
+        dx = (cw - dw) >> 1;
+        dy = (ch - dh) >> 1;
+      }
+      bctx!.clearRect(0, 0, cw, ch);
+      bctx!.imageSmoothingEnabled = true;
+      bctx!.drawImage(img!, dx, dy, dw, dh);
+      backDirty = false;
+    }
+
+    function pixelate(columns: number) {
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const cols = Math.max(1, Math.floor(columns));
+      const rows = Math.max(1, Math.round(cols * (ch / cw)));
+      if (tiny.width !== cols || tiny.height !== rows) {
+        tiny.width = cols;
+        tiny.height = rows;
+      }
+      tctx!.imageSmoothingEnabled = false;
+      tctx!.clearRect(0, 0, cols, rows);
+      tctx!.drawImage(back, 0, 0, cw, ch, 0, 0, cols, rows);
+      ctx!.imageSmoothingEnabled = false;
+      ctx!.clearRect(0, 0, cw, ch);
+      ctx!.drawImage(tiny, 0, 0, cols, rows, 0, 0, cw, ch);
+    }
+
+    function draw(stepCols: number) {
+      if (!canvas.width || !canvas.height) return;
+      drawImageToBack();
+      pixelate(stepCols);
+    }
+
+    function animate(t: number) {
+      if (!playing || disposed) return;
+      if (!stageStart) stageStart = t;
+      if (t - stageStart >= elRenderDuration) {
+        stageIndex++;
+        stageStart = t;
+      }
+      draw(steps[Math.min(stageIndex, steps.length - 1)]);
+      if (stageIndex >= steps.length - 1) {
+        canvas.style.opacity = "0";
+        playing = false;
+        window.removeEventListener("resize", onWindowResize);
+        setTimeout(() => {
+          canvas.remove();
+        }, 250);
+        return;
+      }
+      requestAnimationFrame(animate);
+    }
+
+    function prime() {
+      fitCanvas();
+      const run = () => {
+        if (disposed) return;
+        naturalW = img!.naturalWidth;
+        naturalH = img!.naturalHeight;
+        if (!naturalW || !naturalH) return;
+        stageIndex = 0;
+        canvas.style.opacity = "1";
+        backDirty = true;
+        draw(steps[0]);
+      };
+      if (img!.complete && img!.naturalWidth) run();
+      else img!.addEventListener("load", run, { once: true });
+    }
+
+    function start() {
+      if (playing || disposed) return;
+      fitCanvas();
+      const run = () => {
+        if (disposed) return;
+        naturalW = img!.naturalWidth;
+        naturalH = img!.naturalHeight;
+        if (!naturalW || !naturalH) return;
+        stageIndex = 0;
+        stageStart = 0;
+        canvas.style.opacity = "1";
+        backDirty = true;
+        playing = true;
+        requestAnimationFrame(animate);
+      };
+      if (img!.complete && img!.naturalWidth) run();
+      else img!.addEventListener("load", run, { once: true });
+    }
+
+    function onResize() {
+      fitCanvas();
+      if (!playing) draw(steps[Math.min(stageIndex, steps.length - 1)] || steps[0]);
+    }
+
+    function onWindowResize() {
+      window.clearTimeout(resizeTimeout);
+      resizeTimeout = window.setTimeout(onResize, 250);
+    }
+
+    let observer: IntersectionObserver | null = null;
+
+    if (trigger === "load") {
+      prime();
+      start();
+    } else if (trigger === "inview") {
+      prime();
+      observer = new IntersectionObserver(
+        (es) => {
+          for (const e of es)
+            if (e.isIntersecting) {
+              start();
+              observer?.disconnect();
+              break;
+            }
+        },
+        { rootMargin: "0px 0px -25% 0px", threshold: 0.25 },
+      );
+      observer.observe(rootEl);
+      window.addEventListener("resize", onWindowResize);
+    } else if (trigger === "hover") {
+      prime();
+      rootEl.addEventListener("mouseenter", start, { once: true });
+      window.addEventListener("resize", onWindowResize);
+    } else if (trigger === "click") {
+      prime();
+      rootEl.addEventListener("click", start, { once: true });
+      window.addEventListener("resize", onWindowResize);
+    }
+
+    cleanups.push(() => {
+      disposed = true;
+      playing = false;
+      observer?.disconnect();
+      window.clearTimeout(resizeTimeout);
+      window.removeEventListener("resize", onWindowResize);
+      rootEl.removeEventListener("mouseenter", start);
+      rootEl.removeEventListener("click", start);
+      canvas.remove();
+    });
+  }
+
+  return () => {
+    cleanups.forEach((cleanup) => cleanup());
+    cleanups.length = 0;
+  };
 }

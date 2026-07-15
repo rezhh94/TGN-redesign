@@ -2,6 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { Flip } from "gsap/Flip";
+import { initPixelateImageRenderEffect } from "@/lib/osmo-motion";
+
+gsap.registerPlugin(Flip);
 
 const capabilities = [
   {
@@ -120,6 +124,7 @@ function CapabilityTile({
           src={capability.src}
           alt=""
           loading="lazy"
+          data-flip-id={`work-media-${capability.n}`}
         />
       </figure>
 
@@ -138,10 +143,12 @@ function CapabilityTile({
 
 /* 04 / Arbeid — en lys, asymmetrisk capability-vegg i normal dokumentflyt.
    Flatene viser hva Tigon kan skape og presenteres aldri som kundecaser. */
-/* Delt-element-morph (klikkdrevet): den valgte flatens bilde ekspanderer inn i
-   dialogens medieområde og flyr tilbake ved lukking. Geometrien animeres via en
-   klone — React-DOM-en reparentes aldri. Under 769px og ved reduced motion
-   åpner/lukker dialogen direkte som før. */
+/* Delt-element-morph (klikkdrevet) med GSAP Flip: tile-bildet og dialogens
+   medieflate deler data-flip-id; Flip.getState() fanger kilden og Flip.from()
+   animerer det ekte destinasjonselementet mellom layouttilstandene
+   (scale: false → object-fit-croppen re-beskjæres under flukten).
+   Osmo Pixelate Image Render Effect kjører på dialog-mediet under åpningen.
+   Under 769px og ved reduced motion åpner/lukker dialogen direkte som før. */
 const MORPH_OPEN_S = 0.6;
 const MORPH_CLOSE_S = 0.45;
 
@@ -152,90 +159,6 @@ function morphEnabled() {
   );
 }
 
-function makeClone(sourceImg: HTMLImageElement, rect: DOMRect) {
-  const clone = document.createElement("div");
-  clone.setAttribute("aria-hidden", "true");
-  Object.assign(clone.style, {
-    position: "fixed",
-    top: `${rect.top}px`,
-    left: `${rect.left}px`,
-    width: `${rect.width}px`,
-    height: `${rect.height}px`,
-    overflow: "hidden",
-    zIndex: "60",
-    pointerEvents: "none",
-  } satisfies Partial<CSSStyleDeclaration>);
-
-  const img = document.createElement("img");
-  img.src = sourceImg.currentSrc || sourceImg.src;
-  img.alt = "";
-  Object.assign(img.style, {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    filter: getComputedStyle(sourceImg).filter,
-  } satisfies Partial<CSSStyleDeclaration>);
-
-  clone.appendChild(img);
-  return clone;
-}
-
-/* Pixelate-render under åpne-morphen: valgt flate går fra grove blokker til
-   skarpt bilde mens den ekspanderer — mikro-varianten av pixel-motivet fra
-   02→03-broen. Canvas-lag over klonen; fjernes når bildet er skarpt. */
-const PIXEL_STAGES = [12, 18, 26, 38, 56, 84];
-const PIXEL_RESOLVE_S = 0.42;
-
-function attachPixelStages(
-  clone: HTMLElement,
-  sourceImg: HTMLImageElement,
-  rect: DOMRect,
-  tl: gsap.core.Timeline,
-) {
-  if (!sourceImg.naturalWidth || !sourceImg.naturalHeight) return;
-
-  const canvas = document.createElement("canvas");
-  Object.assign(canvas.style, {
-    position: "absolute",
-    inset: "0",
-    width: "100%",
-    height: "100%",
-    imageRendering: "pixelated",
-    // Samme fargebehandling som kildebildet, så muted-flater aldri hopper.
-    filter: getComputedStyle(sourceImg).filter,
-  } satisfies Partial<CSSStyleDeclaration>);
-  canvas.setAttribute("aria-hidden", "true");
-  clone.appendChild(canvas);
-
-  const context = canvas.getContext("2d");
-  if (!context) {
-    canvas.remove();
-    return;
-  }
-
-  const aspect = rect.height / rect.width;
-  const nw = sourceImg.naturalWidth;
-  const nh = sourceImg.naturalHeight;
-
-  const drawStage = (cols: number) => {
-    const rows = Math.max(2, Math.round(cols * aspect));
-    // Cover-beskjæring av kilden, tegnet uten glatting → harde blokker.
-    const scale = Math.max(cols / nw, rows / nh);
-    const sw = cols / scale;
-    const sh = rows / scale;
-    canvas.width = cols;
-    canvas.height = rows;
-    context.imageSmoothingEnabled = false;
-    context.drawImage(sourceImg, (nw - sw) / 2, (nh - sh) / 2, sw, sh, 0, 0, cols, rows);
-  };
-
-  const stepLength = PIXEL_RESOLVE_S / PIXEL_STAGES.length;
-  PIXEL_STAGES.forEach((cols, index) => {
-    tl.add(() => drawStage(cols), index * stepLength);
-  });
-  tl.add(() => canvas.remove(), PIXEL_RESOLVE_S);
-}
-
 export function WorkProof() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [activeCapability, setActiveCapability] = useState<Capability | null>(null);
@@ -244,19 +167,28 @@ export function WorkProof() {
   const restoreKeyboardFocusRef = useRef(false);
   const morphRef = useRef<{
     phase: "open" | "close";
-    clone: HTMLElement;
     timeline?: gsap.core.Timeline;
+    targets: HTMLElement[];
+    finalize?: () => void;
   } | null>(null);
+  const pixelateCleanupRef = useRef<(() => void) | null>(null);
+  const openCapabilityNRef = useRef<string | null>(null);
 
   const restoreSource = () => {
     if (sourceVisualRef.current) sourceVisualRef.current.style.visibility = "";
     sourceVisualRef.current = null;
   };
 
+  const stopPixelate = () => {
+    pixelateCleanupRef.current?.();
+    pixelateCleanupRef.current = null;
+  };
+
   // Fjern alle iscenesettelses-styles fra dialogflaten og innholdet.
   const clearStaging = () => {
     const dialog = dialogRef.current;
     if (!dialog) return;
+    dialog.removeAttribute("data-morphing");
     gsap.set(dialog, { clearProps: "backgroundColor,borderColor,boxShadow" });
     const inner = dialog.querySelector<HTMLElement>(".work-detail__inner");
     if (inner) {
@@ -265,18 +197,23 @@ export function WorkProof() {
         { clearProps: "all" },
       );
     }
-    const media = dialog.querySelector<HTMLElement>("[data-detail-media]");
-    if (media) media.style.opacity = "";
   };
 
-  // Avbryt en pågående morph trygt: drep timeline, fjern klonen, vis flaten.
+  // Avbryt en pågående morph trygt: drep timeline, nullstill Flip-target,
+  // stopp pixel-renderen og vis kildeflaten.
   const abortMorph = () => {
     const morph = morphRef.current;
     if (!morph) return;
     morph.timeline?.kill();
-    gsap.killTweensOf(morph.clone);
-    morph.clone.remove();
+    morph.targets.forEach((target) => {
+      if (!target.isConnected) return;
+      gsap.killTweensOf(target);
+      gsap.set(target, { clearProps: "all" });
+      target.style.overflow = "";
+    });
     morphRef.current = null;
+    morph.finalize?.();
+    stopPixelate();
     clearStaging();
     restoreSource();
   };
@@ -294,42 +231,50 @@ export function WorkProof() {
     setActiveCapability(capability);
   };
 
-  // Lukking med revers-morph: bildet flyr fra dialogen tilbake til flaten.
-  // Kjøres bare når åpne-morphen er ferdig og forholdene er robuste; ellers
-  // faller vi tilbake til vanlig dialog-lukking.
+  // Lukking med revers-Flip: dialog-mediet fanges med Flip.getState før
+  // dialogen lukkes, så animeres det ekte tile-bildet fra dialogposisjonen
+  // hjem til flaten sin (samme data-flip-id). Kjøres bare når åpne-morphen
+  // er ferdig og forholdene er robuste; ellers vanlig dialog-lukking.
   const requestClose = () => {
     const dialog = dialogRef.current;
     const source = sourceVisualRef.current;
-    const media = dialog?.querySelector<HTMLElement>("[data-detail-media]");
-    const mediaImg = media?.querySelector("img");
+    const frame = dialog?.querySelector<HTMLElement>("[data-detail-media-frame]");
+    const sourceImg = source?.querySelector<HTMLImageElement>("img");
 
-    if (!dialog || !source || !media || !mediaImg || !morphEnabled() || morphRef.current) {
+    if (!dialog || !source || !frame || !sourceImg || !morphEnabled() || morphRef.current) {
       abortMorph();
       restoreSource();
       dialogRef.current?.close();
       return;
     }
 
-    const fromRect = media.getBoundingClientRect();
-    const toRect = source.getBoundingClientRect();
-    const clone = makeClone(mediaImg, fromRect);
-    document.body.appendChild(clone);
-    morphRef.current = { phase: "close", clone };
+    stopPixelate();
+    const state = Flip.getState(frame);
+    morphRef.current = { phase: "close", targets: [sourceImg] };
     dialog.close();
 
-    gsap.to(clone, {
-      top: toRect.top,
-      left: toRect.left,
-      width: toRect.width,
-      height: toRect.height,
+    // Kilden må være synlig og uklippet mens bildet flyr hjem; flaten selv
+    // beholder aspect-ratio-boksen sin i layouten.
+    source.style.visibility = "";
+    source.style.overflow = "visible";
+    const finalize = () => {
+      source.style.overflow = "";
+      sourceVisualRef.current = null;
+    };
+
+    const timeline = Flip.from(state, {
+      targets: sourceImg,
       duration: MORPH_CLOSE_S,
       ease: "power3.inOut",
+      scale: false,
+      absolute: true,
+      zIndex: 60,
       onComplete: () => {
         morphRef.current = null;
-        restoreSource();
-        clone.remove();
+        finalize();
       },
     });
+    morphRef.current = { phase: "close", targets: [sourceImg], timeline, finalize };
   };
 
   useEffect(() => {
@@ -339,18 +284,19 @@ export function WorkProof() {
     if (activeCapability && !dialog.open) {
       dialog.showModal();
       dialog.scrollTop = 0;
+      const body = dialog.querySelector<HTMLElement>(".work-detail__body");
+      if (body) body.scrollTop = 0;
+      openCapabilityNRef.current = activeCapability.n;
 
       const source = sourceVisualRef.current;
-      const sourceImg = source?.querySelector("img");
-      const media = dialog.querySelector<HTMLElement>("[data-detail-media]");
+      const sourceImg = source?.querySelector<HTMLImageElement>("img");
+      const frame = dialog.querySelector<HTMLElement>("[data-detail-media-frame]");
 
-      if (source && sourceImg && media && morphEnabled()) {
-        const fromRect = source.getBoundingClientRect();
-        const toRect = media.getBoundingClientRect();
-        const clone = makeClone(sourceImg, fromRect);
-        dialog.appendChild(clone);
+      if (source && sourceImg && frame && morphEnabled()) {
+        // Flip-tilstanden fanges etter showModal(): scrollbaren forsvinner
+        // idet dialogen åpner, og kilderekten må fanges etter reflow.
+        const state = Flip.getState(sourceImg);
         source.style.visibility = "hidden";
-        media.style.opacity = "0";
 
         // Iscenesettelse: først flyr bildet alene over backdropen, så
         // materialiserer papirflaten seg rundt det, og til slutt ankommer
@@ -366,6 +312,9 @@ export function WorkProof() {
           borderColor: "rgba(0, 0, 0, 0)",
           boxShadow: "none",
         });
+        // Under flukten løftes overflow-klippingen (CSS via data-morphing),
+        // så Flip-targetet kan bevege seg fritt fra flaten inn i dialogen.
+        dialog.setAttribute("data-morphing", "");
         const inner = dialog.querySelector<HTMLElement>(".work-detail__inner");
         // Headeren (med fokusert Lukk-knapp) holdes tilgjengelig gjennom hele
         // animasjonen: kun opacity, aldri visibility — ellers dropper
@@ -377,33 +326,35 @@ export function WorkProof() {
         gsap.set(parts, { autoAlpha: 0, y: 14 });
         if (head) gsap.set(head, { opacity: 0 });
 
+        // Osmo Pixelate Image Render Effect på dialog-mediet: valgt flate
+        // går fra grove blokker til skarpt bilde mens den lander.
+        stopPixelate();
+        pixelateCleanupRef.current = initPixelateImageRenderEffect(dialog);
+
         const tl = gsap.timeline({
           onComplete: () => {
             morphRef.current = null;
             clearStaging();
           },
         });
-        // Pixel-stadiene kjører i første del av flukten: valgt flate går fra
-        // oversikt (grov) til fokus (skarp) idet den lander. Kun ved åpning.
-        attachPixelStages(clone, sourceImg, fromRect, tl);
 
-        tl.to(clone, {
-          top: toRect.top,
-          left: toRect.left,
-          width: toRect.width,
-          height: toRect.height,
-          duration: MORPH_OPEN_S,
-          ease: "power3.inOut",
-        }, 0)
+        tl.add(
+          Flip.from(state, {
+            targets: frame,
+            duration: MORPH_OPEN_S,
+            ease: "power3.inOut",
+            scale: false,
+            absolute: true,
+            zIndex: 60,
+          }),
+          0,
+        )
           .to(dialog, {
             ...surfaceTo,
             duration: 0.4,
             ease: "power2.out",
           }, MORPH_OPEN_S - 0.18)
-          .add(() => {
-            media.style.opacity = "";
-            clone.remove();
-          }, MORPH_OPEN_S)
+          .add(() => dialog.removeAttribute("data-morphing"), MORPH_OPEN_S)
           .to(parts, {
             autoAlpha: 1,
             y: 0,
@@ -416,18 +367,50 @@ export function WorkProof() {
           tl.to(head, { opacity: 1, duration: 0.4, ease: "power2.out" }, MORPH_OPEN_S - 0.18);
         }
 
-        morphRef.current = { phase: "open", clone, timeline: tl };
+        morphRef.current = { phase: "open", targets: [frame], timeline: tl };
       } else {
         restoreSource();
       }
+    } else if (
+      activeCapability &&
+      dialog.open &&
+      openCapabilityNRef.current !== activeCapability.n
+    ) {
+      // Capability-bytte i åpen dialog: det nye mediet render-pikselerer inn
+      // (Osmo Pixelate), tekstpartiene settler med kort stagger. Fokus står i
+      // navigasjonen og røres ikke — opacity-only, og nav-en holdes utenfor.
+      openCapabilityNRef.current = activeCapability.n;
+      if (morphEnabled()) {
+        stopPixelate();
+        pixelateCleanupRef.current = initPixelateImageRenderEffect(dialog);
+        const parts = Array.from(
+          dialog.querySelectorAll<HTMLElement>("[data-detail-reveal]:not(.work-detail__nav)"),
+        );
+        gsap.fromTo(
+          parts,
+          { opacity: 0, y: 10 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.4,
+            stagger: 0.05,
+            ease: "power3.out",
+            clearProps: "opacity,transform",
+          },
+        );
+      }
     }
 
-    if (!activeCapability && dialog.open) dialog.close();
+    if (!activeCapability) {
+      openCapabilityNRef.current = null;
+      if (dialog.open) dialog.close();
+    }
   }, [activeCapability]);
 
   // Sikkerhetsnett ved unmount: flaten skal aldri bli stående skjult.
   useEffect(() => () => {
     abortMorph();
+    stopPixelate();
     restoreSource();
   }, []);
 
@@ -453,6 +436,9 @@ export function WorkProof() {
     restoreKeyboardFocusRef.current = false;
     setActiveCapability(nextCapability);
     dialogRef.current?.scrollTo({ top: 0 });
+    dialogRef.current
+      ?.querySelector<HTMLElement>(".work-detail__body")
+      ?.scrollTo({ top: 0 });
   };
 
   return (
@@ -514,7 +500,10 @@ export function WorkProof() {
           // Lukket midt i åpne-morphen (f.eks. Escape): avbryt trygt.
           if (morphRef.current?.phase === "open") abortMorph();
           // Ved close-morph rydder tweenens onComplete; ellers vis flaten nå.
-          if (!morphRef.current) restoreSource();
+          if (!morphRef.current) {
+            stopPixelate();
+            restoreSource();
+          }
           setActiveCapability(null);
           sourceTriggerRef.current = null;
           restoreKeyboardFocusRef.current = false;
@@ -536,11 +525,20 @@ export function WorkProof() {
         {activeCapability && (
           <div className="work-detail__inner">
             <figure className="work-detail__media" data-detail-media>
-              <img
-                className={"muted" in activeCapability && activeCapability.muted ? "work-tile__image--muted" : undefined}
-                src={activeCapability.src}
-                alt=""
-              />
+              <div
+                className="work-detail__media-frame"
+                style={{ position: "absolute" }}
+                data-detail-media-frame=""
+                data-flip-id={`work-media-${activeCapability.n}`}
+                data-muted={"muted" in activeCapability && activeCapability.muted ? "" : undefined}
+                data-pixelate-render=""
+                data-pixelate-render-trigger="load"
+                data-pixelate-render-duration="60"
+                data-pixelate-render-steps="12"
+                data-pixelate-render-columns="12"
+              >
+                <img data-pixelate-render-img="" src={activeCapability.src} alt="" />
+              </div>
             </figure>
 
             <div className="work-detail__panel">
@@ -621,12 +619,35 @@ export function WorkProof() {
         <span>Capability-demonstrasjoner / ikke kundecaser</span>
       </footer>
 
+      {/* Replikk til 05: grensen omorganiserer mulighetene til en metode. */}
+      <footer className="work-proof__handoff">
+        <p>04 → 05</p>
+        <div>
+          <h3>
+            <span>Slik blir</span> <span>det til.</span>
+          </h3>
+          <p className="work-proof__handoff-copy">Seks muligheter. Én metode.</p>
+        </div>
+        <div className="work-proof__handoff-index">
+          <span>01 / Retning</span>
+          <span>02 / Bygg</span>
+          <span>03 / Live</span>
+        </div>
+      </footer>
+
+      {/* Osmo Shutter Scroll Transition: én sammenhengende, generert radstabel.
+          De data-styrte posisjonene starter scenen idet 05 nærmer seg og
+          fullfører kuttet før prosessinnholdet tar over. */}
       <div
         className="work-proof__shutter"
         data-shutter-scroll-transition=""
+        data-mode="cover"
         data-rows="6"
         data-rows-tablet="5"
+        data-rows-landscape="5"
         data-rows-mobile="4"
+        data-scroll-start="bottom 92%"
+        data-scroll-end="bottom 64%"
         aria-hidden="true"
       />
     </section>

@@ -39,12 +39,9 @@
   text-transform: uppercase;
 }
 
+/* Ingen egen maske her: Osmo Masked Text Reveal (SplitText, mask: "lines")
+   wrapper linjeinnholdet klientside. Uten JS står linjene som vanlige blokker. */
 .approach-intro__line {
-  display: block;
-  overflow: hidden;
-}
-
-.approach-intro__line-inner {
   display: block;
 }
 
@@ -90,6 +87,18 @@
   text-transform: uppercase;
 }
 
+/* Replikk til 02: stille mono-linje som lukker tesen mot svaret. */
+.approach-intro__handoff {
+  grid-column: 7 / -1;
+  margin-top: clamp(48px, 7vh, 88px);
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
 @media (max-width: 900px) {
   .approach-intro {
     grid-template-columns: 1fr;
@@ -98,7 +107,8 @@
 
   .approach-intro__label,
   .approach-intro__statement,
-  .approach-intro__support {
+  .approach-intro__support,
+  .approach-intro__handoff {
     grid-column: auto;
   }
 
@@ -133,7 +143,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .approach-intro > *,
-  .approach-intro__line-inner {
+  .approach-intro__line .line {
     opacity: 1 !important;
     transform: none !important;
   }
