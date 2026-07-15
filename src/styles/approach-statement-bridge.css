@@ -39,8 +39,8 @@
   text-transform: uppercase;
 }
 
-/* Ingen egen maske her: Osmo Masked Text Reveal (SplitText, mask: "lines")
-   wrapper linjeinnholdet klientside. Uten JS står linjene som vanlige blokker. */
+/* Osmo Highlight Text on Scroll splitter tegn klientside. Uten JS står
+   autorlinjene som vanlige blokker med samme typografiske komposisjon. */
 .approach-intro__line {
   display: block;
 }
@@ -143,7 +143,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .approach-intro > *,
-  .approach-intro__line .line {
+  .approach-intro__line .char {
     opacity: 1 !important;
     transform: none !important;
   }

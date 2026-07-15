@@ -9,19 +9,19 @@ export function ApproachStatementBridge() {
     >
       <div className="approach-intro" data-intro-identity>
         <p className="approach-intro__label">01 / Tilnærming</p>
-        {/* Fire autor-linjer, server-rendret og lesbare uten JS. Maskene lages
-            klientside av Osmo Masked Text Reveal (SplitText, mask: "lines"). */}
+        {/* Fire autor-linjer, server-rendret og lesbare uten JS. Osmo Highlight
+            Text on Scroll deler hver linje i tegn og løfter opasiteten med scroll. */}
         <h2 className="approach-intro__statement" id="approach-bridge-title">
-          <span className="approach-intro__line approach-intro__line--quiet" data-intro-line>
+          <span className="approach-intro__line approach-intro__line--quiet" data-highlight-text>
             Hver for seg
           </span>
-          <span className="approach-intro__line approach-intro__line--quiet" data-intro-line>
+          <span className="approach-intro__line approach-intro__line--quiet" data-highlight-text>
             blir det lansert.
           </span>
-          <span className="approach-intro__line" data-intro-line>
+          <span className="approach-intro__line" data-highlight-text>
             Bygd sammen
           </span>
-          <span className="approach-intro__line" data-intro-line>
+          <span className="approach-intro__line" data-highlight-text>
             blir det valgt.
           </span>
         </h2>

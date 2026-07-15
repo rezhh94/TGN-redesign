@@ -163,17 +163,15 @@ function heroEntrance(full: boolean) {
     .from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.34");
 }
 
-// 01 / Tilnærming — Osmo Masked Text Reveal (GSAP SplitText): hver autor-linje
-// maskes klientside (mask: "lines", autoSplit) og stiger fra bunnen med
-// FROM-tweens. Koreografien spiller tesen i stedet for å stagge jevnt:
-// «Hver for seg»-linjene ankommer hver for seg (ulik start, ulik varighet),
-// «Bygd sammen»-linjene låser samtidig som én enhet, og støtten settler i
-// låse-øyeblikket. Innholdet er komplett uten JavaScript.
+// 01 / Tilnærming — Osmo Highlight Text on Scroll. Hver autor-linje deles i
+// ord og tegn, og tegnene går fra lav til full opasitet i direkte takt med
+// scroll. De dempede linjene beholder sin roligere CSS-farge, mens tesens
+// resolusjon får full kontrast. Innholdet er komplett uten JavaScript.
 function introStoryScene() {
   const section = document.querySelector<HTMLElement>("[data-intro-story]");
   if (!section) return () => {};
 
-  const authoredLines = gsap.utils.toArray<HTMLElement>("[data-intro-line]", section);
+  const authoredLines = gsap.utils.toArray<HTMLElement>("[data-highlight-text]", section);
   if (authoredLines.length < 4) return () => {};
 
   const label = section.querySelector<HTMLElement>(".approach-intro__label");
@@ -181,68 +179,52 @@ function introStoryScene() {
   const handoff = section.querySelector<HTMLElement>("[data-intro-handoff]");
 
   const splits: SplitText[] = [];
-  let tl: gsap.core.Timeline | null = null;
-  let rebuildFrame = 0;
-  let played = false;
-
-  // autoSplit re-splitter ved resize: før scenen har spilt bygges timelinen
-  // om mot de nye linjeelementene; etterpå står nye elementer naturlig synlige.
-  const buildScene = () => {
-    rebuildFrame = 0;
-    if (played) return;
-    tl?.scrollTrigger?.kill();
-    tl?.kill();
-
-    const lines = splits
-      .map((split) => (split.lines as HTMLElement[])[0])
-      .filter((line): line is HTMLElement => Boolean(line));
-    if (lines.length < 4) return;
-
-    tl = gsap.timeline({
-      scrollTrigger: { trigger: section, start: "clamp(top 70%)", once: true },
-      defaults: { ease: "expo.out" },
-      onComplete: () => {
-        played = true;
-      },
-    });
-
-    if (label) tl.from(label, { autoAlpha: 0, duration: 0.5, ease: "power3.out" }, 0);
-    // Hver for seg: to selvstendige ankomster.
-    tl.from(lines[0], { yPercent: 110, duration: 0.7 }, 0.05);
-    tl.from(lines[1], { yPercent: 110, duration: 0.85 }, 0.26);
-    // Bygd sammen: én samlet, fastere landing.
-    tl.from([lines[2], lines[3]], { yPercent: 110, duration: 0.9, ease: "power4.out" }, 0.6);
-    if (support) {
-      tl.from(support, { autoAlpha: 0, y: 20, duration: 0.6, ease: "power3.out" }, 0.78);
-    }
-    if (handoff) {
-      tl.from(handoff, { autoAlpha: 0, y: 12, duration: 0.5, ease: "power3.out" }, 1.0);
-    }
-  };
-
-  const queueBuild = () => {
-    if (!rebuildFrame) rebuildFrame = window.requestAnimationFrame(buildScene);
-  };
 
   authoredLines.forEach((line) => {
+    const scrollStart = line.getAttribute("data-highlight-scroll-start") || "top 90%";
+    const scrollEnd = line.getAttribute("data-highlight-scroll-end") || "center 40%";
+    const fadedValue = parseFloat(line.getAttribute("data-highlight-fade") || "") || 0.2;
+    const staggerValue = parseFloat(line.getAttribute("data-highlight-stagger") || "") || 0.1;
+
     splits.push(
       SplitText.create(line, {
-        type: "lines",
-        mask: "lines",
+        type: "words, chars",
         autoSplit: true,
-        linesClass: "line",
-        onSplit: () => {
-          queueBuild();
+        onSplit(self) {
+          const ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+              scrollTrigger: {
+                scrub: true,
+                trigger: line,
+                start: scrollStart,
+                end: scrollEnd,
+              },
+            });
+
+            tl.from(self.chars, {
+              autoAlpha: fadedValue,
+              stagger: staggerValue,
+              ease: "linear",
+            });
+          }, line);
+
+          return ctx;
         },
       }),
     );
   });
-  queueBuild();
+
+  const detailTimeline = gsap.timeline({
+    scrollTrigger: { trigger: section, start: "clamp(top 70%)", once: true },
+    defaults: { ease: "power3.out" },
+  });
+  if (label) detailTimeline.from(label, { autoAlpha: 0, duration: 0.5 }, 0);
+  if (support) detailTimeline.from(support, { autoAlpha: 0, y: 20, duration: 0.6 }, 0.78);
+  if (handoff) detailTimeline.from(handoff, { autoAlpha: 0, y: 12, duration: 0.5 }, 1.0);
 
   return () => {
-    window.cancelAnimationFrame(rebuildFrame);
-    tl?.scrollTrigger?.kill();
-    tl?.kill();
+    detailTimeline.scrollTrigger?.kill();
+    detailTimeline.kill();
     splits.forEach((split) => split.revert());
   };
 }
