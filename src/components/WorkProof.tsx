@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 
 const capabilities = [
   {
@@ -95,7 +96,7 @@ function CapabilityTile({ capability, onOpen }: { capability: Capability; onOpen
         <p>{capability.meta}</p>
       </header>
 
-      <figure className="work-tile__visual">
+      <figure className="work-tile__visual" data-tile-visual={capability.n}>
         <img
           className={"muted" in capability && capability.muted ? "work-tile__image--muted" : undefined}
           src={capability.src}
@@ -114,19 +115,228 @@ function CapabilityTile({ capability, onOpen }: { capability: Capability; onOpen
 
 /* 04 / Arbeid — en lys, asymmetrisk capability-vegg i normal dokumentflyt.
    Flatene viser hva Tigon kan skape og presenteres aldri som kundecaser. */
+/* Delt-element-morph (klikkdrevet): den valgte flatens bilde ekspanderer inn i
+   dialogens medieområde og flyr tilbake ved lukking. Geometrien animeres via en
+   klone — React-DOM-en reparentes aldri. Under 769px og ved reduced motion
+   åpner/lukker dialogen direkte som før. */
+const MORPH_OPEN_S = 0.6;
+const MORPH_CLOSE_S = 0.45;
+
+function morphEnabled() {
+  return (
+    window.matchMedia("(min-width: 769px)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+function makeClone(sourceImg: HTMLImageElement, rect: DOMRect) {
+  const clone = document.createElement("div");
+  clone.setAttribute("aria-hidden", "true");
+  Object.assign(clone.style, {
+    position: "fixed",
+    top: `${rect.top}px`,
+    left: `${rect.left}px`,
+    width: `${rect.width}px`,
+    height: `${rect.height}px`,
+    overflow: "hidden",
+    zIndex: "60",
+    pointerEvents: "none",
+  } satisfies Partial<CSSStyleDeclaration>);
+
+  const img = document.createElement("img");
+  img.src = sourceImg.currentSrc || sourceImg.src;
+  img.alt = "";
+  Object.assign(img.style, {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    filter: getComputedStyle(sourceImg).filter,
+  } satisfies Partial<CSSStyleDeclaration>);
+
+  clone.appendChild(img);
+  return clone;
+}
+
 export function WorkProof() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [activeCapability, setActiveCapability] = useState<Capability | null>(null);
+  const sourceVisualRef = useRef<HTMLElement | null>(null);
+  const morphRef = useRef<{
+    phase: "open" | "close";
+    clone: HTMLElement;
+    timeline?: gsap.core.Timeline;
+  } | null>(null);
+
+  const restoreSource = () => {
+    if (sourceVisualRef.current) sourceVisualRef.current.style.visibility = "";
+    sourceVisualRef.current = null;
+  };
+
+  // Fjern alle iscenesettelses-styles fra dialogflaten og innholdet.
+  const clearStaging = () => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    gsap.set(dialog, { clearProps: "backgroundColor,borderColor,boxShadow" });
+    const inner = dialog.querySelector<HTMLElement>(".work-detail__inner");
+    if (inner) gsap.set(Array.from(inner.children), { clearProps: "all" });
+    const media = dialog.querySelector<HTMLElement>("[data-detail-media]");
+    if (media) media.style.opacity = "";
+  };
+
+  // Avbryt en pågående morph trygt: drep timeline, fjern klonen, vis flaten.
+  const abortMorph = () => {
+    const morph = morphRef.current;
+    if (!morph) return;
+    morph.timeline?.kill();
+    gsap.killTweensOf(morph.clone);
+    morph.clone.remove();
+    morphRef.current = null;
+    clearStaging();
+    restoreSource();
+  };
+
+  const openCapability = (capability: Capability) => {
+    sourceVisualRef.current = document.querySelector<HTMLElement>(
+      `[data-tile-visual="${capability.n}"]`,
+    );
+    setActiveCapability(capability);
+  };
+
+  // Lukking med revers-morph: bildet flyr fra dialogen tilbake til flaten.
+  // Kjøres bare når åpne-morphen er ferdig og forholdene er robuste; ellers
+  // faller vi tilbake til vanlig dialog-lukking.
+  const requestClose = () => {
+    const dialog = dialogRef.current;
+    const source = sourceVisualRef.current;
+    const media = dialog?.querySelector<HTMLElement>("[data-detail-media]");
+    const mediaImg = media?.querySelector("img");
+
+    if (!dialog || !source || !media || !mediaImg || !morphEnabled() || morphRef.current) {
+      abortMorph();
+      restoreSource();
+      dialogRef.current?.close();
+      return;
+    }
+
+    const fromRect = media.getBoundingClientRect();
+    const toRect = source.getBoundingClientRect();
+    const clone = makeClone(mediaImg, fromRect);
+    document.body.appendChild(clone);
+    morphRef.current = { phase: "close", clone };
+    dialog.close();
+
+    gsap.to(clone, {
+      top: toRect.top,
+      left: toRect.left,
+      width: toRect.width,
+      height: toRect.height,
+      duration: MORPH_CLOSE_S,
+      ease: "power3.inOut",
+      onComplete: () => {
+        morphRef.current = null;
+        restoreSource();
+        clone.remove();
+      },
+    });
+  };
 
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
-    if (activeCapability && !dialog.open) dialog.showModal();
+    if (activeCapability && !dialog.open) {
+      dialog.showModal();
+
+      const source = sourceVisualRef.current;
+      const sourceImg = source?.querySelector("img");
+      const media = dialog.querySelector<HTMLElement>("[data-detail-media]");
+
+      if (source && sourceImg && media && morphEnabled()) {
+        const fromRect = source.getBoundingClientRect();
+        const toRect = media.getBoundingClientRect();
+        const clone = makeClone(sourceImg, fromRect);
+        dialog.appendChild(clone);
+        source.style.visibility = "hidden";
+        media.style.opacity = "0";
+
+        // Iscenesettelse: først flyr bildet alene over backdropen, så
+        // materialiserer papirflaten seg rundt det, og til slutt ankommer
+        // teksten. Flaten og teksten kommer ETTER transformasjonen.
+        const surface = getComputedStyle(dialog);
+        const surfaceTo = {
+          backgroundColor: surface.backgroundColor,
+          borderColor: surface.borderColor,
+          boxShadow: surface.boxShadow,
+        };
+        gsap.set(dialog, {
+          backgroundColor: "rgba(242, 242, 239, 0)",
+          borderColor: "rgba(0, 0, 0, 0)",
+          boxShadow: "none",
+        });
+        const inner = dialog.querySelector<HTMLElement>(".work-detail__inner");
+        // Headeren (med fokusert Lukk-knapp) holdes tilgjengelig gjennom hele
+        // animasjonen: kun opacity, aldri visibility — ellers dropper
+        // nettleseren fokus til <body>.
+        const head = inner?.querySelector<HTMLElement>(".work-detail__head") ?? null;
+        const parts = inner
+          ? Array.from(inner.children).filter(
+              (el) => !el.matches(".work-detail__media, .work-detail__head"),
+            )
+          : [];
+        gsap.set(parts, { autoAlpha: 0, y: 14 });
+        if (head) gsap.set(head, { opacity: 0 });
+
+        const tl = gsap.timeline({
+          onComplete: () => {
+            morphRef.current = null;
+            clearStaging();
+          },
+        });
+        tl.to(clone, {
+          top: toRect.top,
+          left: toRect.left,
+          width: toRect.width,
+          height: toRect.height,
+          duration: MORPH_OPEN_S,
+          ease: "power3.inOut",
+        }, 0)
+          .to(dialog, {
+            ...surfaceTo,
+            duration: 0.4,
+            ease: "power2.out",
+          }, MORPH_OPEN_S - 0.18)
+          .add(() => {
+            media.style.opacity = "";
+            clone.remove();
+          }, MORPH_OPEN_S)
+          .to(parts, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.45,
+            stagger: 0.06,
+            ease: "power3.out",
+          }, MORPH_OPEN_S - 0.05);
+
+        if (head) {
+          tl.to(head, { opacity: 1, duration: 0.4, ease: "power2.out" }, MORPH_OPEN_S - 0.18);
+        }
+
+        morphRef.current = { phase: "open", clone, timeline: tl };
+      } else {
+        restoreSource();
+      }
+    }
+
     if (!activeCapability && dialog.open) dialog.close();
   }, [activeCapability]);
 
-  const closeDetails = () => dialogRef.current?.close();
+  // Sikkerhetsnett ved unmount: flaten skal aldri bli stående skjult.
+  useEffect(() => () => {
+    abortMorph();
+    restoreSource();
+  }, []);
+
+  const closeDetails = () => requestClose();
 
   return (
     <section
@@ -151,7 +361,7 @@ export function WorkProof() {
       <div className="work-wall" data-work-wall>
         <div className="work-wall__row work-wall__row--opening">
           {capabilities.slice(0, 3).map((capability) => (
-            <CapabilityTile capability={capability} key={capability.n} onOpen={setActiveCapability} />
+            <CapabilityTile capability={capability} key={capability.n} onOpen={openCapability} />
           ))}
         </div>
 
@@ -162,7 +372,7 @@ export function WorkProof() {
 
         <div className="work-wall__row work-wall__row--closing">
           {capabilities.slice(3).map((capability) => (
-            <CapabilityTile capability={capability} key={capability.n} onOpen={setActiveCapability} />
+            <CapabilityTile capability={capability} key={capability.n} onOpen={openCapability} />
           ))}
         </div>
       </div>
@@ -180,7 +390,20 @@ export function WorkProof() {
         ref={dialogRef}
         aria-labelledby="work-detail-title"
         aria-describedby="work-detail-description"
-        onClose={() => setActiveCapability(null)}
+        onClose={() => {
+          // Lukket midt i åpne-morphen (f.eks. Escape): avbryt trygt.
+          if (morphRef.current?.phase === "open") abortMorph();
+          // Ved close-morph rydder tweenens onComplete; ellers vis flaten nå.
+          if (!morphRef.current) restoreSource();
+          setActiveCapability(null);
+        }}
+        onCancel={(event) => {
+          // Escape etter ferdig åpning: kjør revers-morphen i stedet.
+          if (morphEnabled() && sourceVisualRef.current && !morphRef.current) {
+            event.preventDefault();
+            requestClose();
+          }
+        }}
         onClick={(event) => {
           if (event.target === event.currentTarget) closeDetails();
         }}
@@ -193,6 +416,13 @@ export function WorkProof() {
                 Lukk <span aria-hidden="true">×</span>
               </button>
             </header>
+            <figure className="work-detail__media" data-detail-media>
+              <img
+                className={"muted" in activeCapability && activeCapability.muted ? "work-tile__image--muted" : undefined}
+                src={activeCapability.src}
+                alt=""
+              />
+            </figure>
             <h2 id="work-detail-title">{activeCapability.name}</h2>
             <p id="work-detail-description">{activeCapability.detail}</p>
             <div className="work-detail__deliverables">
