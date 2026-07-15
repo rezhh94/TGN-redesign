@@ -1,8 +1,10 @@
 # 03 / Effekt — P1 Direction Brief
 
-Status: `COMPLETE — DIRECTION IMPLEMENTED AND G6 APPROVED`
+Status: `HISTORICAL CHECKPOINT — LAYOUT DIRECTION RETAINED, ENTRY AND MOTION LATER SUPERSEDED`
 Date: 2026-07-13
 Mode: read-only baseline and art-direction decision; no product implementation
+
+Current-use note, 2026-07-15: this file preserves the P1 review evidence. The active entry now comes directly from Tjenester through the pixel transition, and active motion is documented in `docs/sections/03-effect.md`.
 
 ## Verified baseline
 

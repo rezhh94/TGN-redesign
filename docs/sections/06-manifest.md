@@ -1,6 +1,6 @@
 # 06 / System Manifest — active contract
 
-Last reconciled: 2026-07-13.
+Last reconciled: 2026-07-15.
 
 - Active files: `src/components/SystemManifesto.tsx`, `src/styles/system-manifesto.css` and the restrained reveal in `HomeMotion.tsx`.
 - The section is the quiet system-level conclusion after Prosess.

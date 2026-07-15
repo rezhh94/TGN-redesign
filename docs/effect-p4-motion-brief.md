@@ -1,8 +1,10 @@
 # 03 / Effekt — P4 Motion Brief
 
-Status: `COMPLETE — PROOF LOCK IMPLEMENTED AND G6 APPROVED`
+Status: `HISTORICAL IMPLEMENTATION RECORD — PROOF LOCK SUPERSEDED 2026-07-15`
 Date: 2026-07-13
 Mode: approved specification and implementation record
+
+Current-use note: the asymmetric Effect layout remains active, but Proof Lock was replaced by the one-shot Osmo Highlight Marker in commit `a1216e2`. See `docs/sections/03-effect.md` for the active contract.
 
 ## Decision
 

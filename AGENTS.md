@@ -55,6 +55,8 @@ Do not, unless explicitly requested:
 - Concept surfaces must never be presented as delivered customer work.
 - Use capability, demonstration, concept, system, prototype or lab language when a label is needed.
 - `WorkProof` is the active implementation and the only content model for 04 / Arbeid.
+- Each capability surface is a direct, accessible link to its established service/guide URL. Do not restore the removed detail dialog, bottom sheet, capability switcher or card-opening interaction unless explicitly requested.
+- The functional Dynamic Text Cursor may label these large links as `Utforsk / [capability]`; touch/mobile keeps a visible on-surface `Utforsk` action.
 - `Dette kan Tigon lage` is the capability framing. `BYGD FOR Å BLI VALGT` is the global brand promise. Do not confuse either with a past-work portfolio claim.
 
 ## Design Freedom

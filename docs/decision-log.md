@@ -133,6 +133,8 @@ Replace the equal 2x2 visual arrangement with one continuous asymmetric editoria
 Reason:
 The equal matrix read as four well-made boxes rather than Tigon's connected result system. The approved composition creates one authored reading rhythm without hiding content, adding a rail or introducing another pinned sequence. Desktop, tablet, mobile, reduced-motion, no-JS, keyboard/touch integration and production build all passed the final G6 gate.
 
+Motion superseded on 2026-07-15 by the Highlight Marker decision below. The asymmetric result chain and server-rendered content remain active; Proof Lock does not.
+
 ## 2026-07-13 — Reject literal three-colour discipline poster direction
 
 Decision:
@@ -189,6 +191,8 @@ Use the regular Dynamic Text Cursor only on the six clickable capability surface
 Reason:
 The cursor gives large image-led surfaces a precise `Les mer / [capability]` affordance without turning the entire site into an effect system. Touch/mobile receives a visible `Les mer` action, reduced motion disables the custom cursor, and real buttons plus keyboard-accessible dialogs remain the underlying interaction.
 
+Superseded on 2026-07-15 by the direct-link decision below. The cursor scope remains valid, but its active label is now `Utforsk / [capability]` and the underlying interaction is a real link rather than a dialog trigger.
+
 ## 2026-07-15 — Simplify Intro and remove separate Overlevering
 
 Decision:
@@ -199,3 +203,29 @@ The earlier journey repeated the same Design / Teknologi / Synlighet argument an
 
 Rollback:
 The complete removed structure, preserved files and selective restore steps are documented in `docs/homepage-simplification-rollback.md`. The full pre-change implementation remains available at commit `c82a3fc871a2206ff795da289a90f06c776826d1`.
+
+Superseded later on 2026-07-15 for the active Intro copy only: the compact discipline index was replaced by the four-line `Hver for seg / blir det lansert. / Bygd sammen / blir det valgt.` thesis, its supporting explanation and `01 → 02 / Én helhet. Fem fag.` handoff. The removal of the large assembly and separate `EffectBridge` remains active.
+
+## 2026-07-15 — Arbeid cards navigate directly
+
+Decision:
+Remove the complete capability detail dialog, bottom sheet, shared-element opening Flip, opening Pixelate and next/previous switcher from `WorkProof`. Make each of the six capability surfaces one accessible direct link to its established service/guide URL. Keep the Dynamic Text Cursor only as a fine-pointer cue with `Utforsk / [capability]`; touch/mobile keeps a visible `Utforsk` action.
+
+Reason:
+The dialog repeated information that belongs on the service pages, introduced an unnecessary interaction step and interrupted the homepage journey. Direct links make the capability wall clearer, faster and more honest while preserving the future-facing `Dette kan Tigon lage` framing. Implemented in commit `859a4d4`.
+
+## 2026-07-15 — Section replies form the active homepage story
+
+Decision:
+Keep the Intro's four-line `Hver for seg / blir det lansert. / Bygd sammen / blir det valgt.` thesis and semantic Osmo Masked Text Reveal, the `Lansert er ikke ferdig.` Pixelated Scroll Transition from 02 to 03, and the `Slik blir det til.` three-row Shutter Scroll Transition from 04 to 05. Use the provided Osmo/GSAP mechanisms as section-scoped motion architecture while keeping all important copy server-rendered.
+
+Reason:
+The effects now connect claims and answers between sections instead of acting as isolated decoration: separate disciplines become one whole, launch becomes measurable effect, and six capabilities become one three-phase method. Mobile, reduced-motion and no-JS retain readable static boundaries.
+
+## 2026-07-15 — Effekt uses Highlight Marker, not Proof Lock
+
+Decision:
+Keep the asymmetric result chain, but replace the non-running Proof Lock selector logic with the provided Osmo Highlight Marker behavior. Reveal FUNNET, FORSTÅTT, VALGT and MÅLT in two visible rows while copy, measurement UI and proof surfaces remain still.
+
+Reason:
+The former implementation queried a proof placeholder that did not exist in the mounted DOM and therefore added no visible behavior. The one-shot marker reveal now runs against real result-word hooks, preserves the approved composition and retains the static reduced-motion/no-JS state. Implemented in commit `a1216e2`.

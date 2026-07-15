@@ -9,7 +9,7 @@ The current project truth is maintained in:
 - `docs/decision-log.md`
 - `docs/motion-and-assets-roadmap.md`
 
-The active body sections were reconciled on 2026-07-13. Tilnærming and Tjenester are approved and locked; Effekt is approved with temporary assets; Arbeid remains the capability-led `WorkProof` catalogue; Prosess remains the three-phase system map; Manifest and Kontakt remain quiet closers. Header/navigation is deferred for a separate redesign and Hero remains preserved for now.
+The active body sections were reconciled again on 2026-07-15. Tilnærming uses `Hver for seg / blir det lansert. / Bygd sammen / blir det valgt.` with a semantic masked line reveal and a direct handoff to `Dette bygger vi`; Tjenester hands directly to Effekt through the pixel cover; Arbeid remains the capability-led `WorkProof` catalogue but its six surfaces now navigate directly to established URLs; the three-row shutter hands Arbeid to the preserved three-phase Prosess map. Manifest and Kontakt remain quiet closers. Header/navigation is deferred and Hero remains preserved.
 
 The notes below are retained only as reference-site observations. They may contain hypotheses or directions that were later rejected. They do not authorize restoring sticky Tjenester, pinned Overlevering, orbital or card-fan Arbeid, pinned Process cards, aggressive scroll stages, imported external assets or repeated pinned sections.
 
@@ -39,7 +39,8 @@ Målet er å gjøre Tigon mer premium, mer regissert og mer Awwwards-inspirert u
 - Seksjonen skal vise **hva Tigon kan lage**, ikke ramse opp **hva Tigon har laget**.
 - Den skal være en capability showcase / visuell demonstrasjon, ikke en portefølje, caseoversikt eller kundeliste.
 - Relevansen skal komme fra kvaliteten, bredden og anvendeligheten i det Tigon viser at studioet kan skape — ikke fra bransjematching mot tidligere kunder.
-- Mockups og bilder kommer fra brukeren i et senere asset-pass. Ikke start bildekonsepter, generering, sourcing eller placeholder-retning uten en ny eksplisitt bestilling.
+- Behold de aktive mockupene til brukeren eksplisitt åpner et nytt asset-pass. Ikke start bildekonsepter, generering, sourcing eller placeholder-retning uten en ny bestilling.
+- Hver capability-flate navigerer direkte til sin etablerte tjeneste-/guide-URL. Den fjernede detaljdialogen er ikke del av gjeldende retning.
 - Seksjonen kan fortsatt være sidens visuelle showpiece, men den skal ikke fremstille konseptflater som tidligere leverte kundeprosjekter.
 
 ## Må ikke kopieres

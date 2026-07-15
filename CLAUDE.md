@@ -4,5 +4,7 @@ Use these as the source of truth:
 
 - AGENTS.md
 - docs/current-project-rules.md
+- docs/current-homepage-state.md
+- docs/sections/*.md
 
 Follow the user's current task. Do not over-plan. Do not commit or push unless explicitly asked.

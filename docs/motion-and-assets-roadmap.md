@@ -1,6 +1,6 @@
 # Tigon Motion and Asset Roadmap
 
-Last reconciled with the implementation: 2026-07-13.
+Last reconciled with the implementation: 2026-07-15.
 
 ## Purpose
 
@@ -28,10 +28,10 @@ This file records the active motion architecture. It is not a backlog of old eff
 
 ### 01 / Tilnærming
 
-- The `Tre fag. Én helhet.` intro and three-discipline index remain normal document flow.
-- On desktop, three material fields react as the stage enters the viewport and settle from separate offsets into one aligned composition in ordinary document flow.
-- The material stage is decorative; important copy remains server-rendered outside it.
-- Mobile uses a short unpinned scrub: the stacked fields enter from small opposing offsets while the `Én helhet` lockup settles into place.
+- The four-line thesis `Hver for seg / blir det lansert. / Bygd sammen / blir det valgt.` remains in normal document flow with its supporting paragraph and `01 → 02 / Én helhet. Fem fag.` handoff.
+- Osmo Masked Text Reveal uses the original GSAP SplitText line-mask mechanism on the authored intro lines.
+- The two `Hver for seg` lines arrive independently; the two `Bygd sammen` lines land together, followed by the support and handoff copy.
+- The reveal is one-shot and unpinned. Important copy remains complete and server-rendered before JavaScript enhances it.
 - Reduced motion and no-JS show the final static composition.
 
 ### 02 / Tjenester
@@ -42,19 +42,18 @@ This file records the active motion architecture. It is not a backlog of old eff
 - Mobile keeps the same complete content order with smaller offsets.
 - Reduced motion and no-JS show the final static layout; there is no pin or sticky service-image sequence.
 
-### Overlevering
+### 02 → 03 / Tjenester → Effekt
 
-- Foreground statement and image settle once.
-- Two decorative background words drift in opposite directions.
-- No pin.
-- Continuous work is section-scoped and transform-only.
+- The former separate `EffectBridge`/Overlevering scene is not mounted.
+- Tjenester ends with the server-rendered `Lansert er ikke ferdig.` reply.
+- Osmo Pixelated Scroll Transition generates a responsive decorative grid that covers the dark service surface with the mauve Effect colour.
+- The grid is section-scoped, unpinned and absent in reduced motion; the static handoff remains readable without JavaScript.
 
 ### 03 / Effekt
 
 - One continuous asymmetric result chain remains visible in ordinary document flow; the equal 2x2 visual arrangement is superseded.
-- `Proof Lock` is the only Effect mechanism: each already-visible result word, proof surface and description converge into their authored static overlap as the outcome enters.
-- Odd and even outcomes mirror the same geometry. Desktop uses approximately 1% word travel, 8% proof travel and 10 px copy travel; mobile reduces these to approximately 0.5%, 4% and 6 px.
-- Each outcome owns one section-scoped ScrollTrigger timeline. Only transform and proof opacity animate; there is no pin, scale, blur, parallax, selector, active-card state or transition into Work.
+- Osmo Highlight Marker is the active Effect mechanism: dark covers withdraw from FUNNET, FORSTÅTT, VALGT and MÅLT in two visible rows with a short stagger.
+- Copy, measurement UI and proof surfaces remain stationary. The reveal is one-shot and section-scoped; there is no pin, scrubbed Proof Lock, blur, parallax, selector, active-card state or transition into Work.
 - Reduced motion and no-JS show the final static result chain. Refresh preserves the correct scroll-linked state.
 
 ### 04 / Arbeid
@@ -63,20 +62,29 @@ This file records the active motion architecture. It is not a backlog of old eff
 - Six complete, server-rendered capability surfaces remain visible without interaction.
 - Small one-shot tile settling only; no pin, orbit, parallax stage or scroll-jacked progress.
 - Fine-pointer hover uses the approved regular Dynamic Text Cursor with an action-and-target label.
-- Click or keyboard activation opens a native detail dialog. Mobile/touch uses a visible `Les mer` action and a bottom-sheet presentation.
-- Reduced motion and no-JS preserve the readable capability content; the custom cursor is disabled.
+- Every surface is one real link to its established service/guide URL. There is no dialog, bottom sheet, shared-element Flip, opening Pixelate or next/previous capability switcher.
+- Mobile/touch uses a visible `Utforsk` action. Reduced motion and no-JS preserve the same direct links; the custom cursor is disabled.
+
+### 04 → 05 / Arbeid → Prosess
+
+- The server-rendered `Slik blir det til.` reply and Retning / Bygg / Live index prepare the process answer.
+- Osmo Shutter Scroll Transition generates exactly three horizontal rows across desktop, tablet and mobile.
+- The rows cover the light Work surface with the dark Process colour during the boundary pass; no content is cloned or hidden behind the generated layer.
+- Reduced motion generates no shutter rows and preserves the ordinary section boundary.
 
 ### 05 / Prosess
 
 - Static three-phase system map is the base state.
-- One-shot phase/material settling, title decode and decorative line draw.
+- One-shot panel settling runs in phase order 01→02→03; copy/material/output arrives before the oversized numeral in each panel.
 - No pin and no scroll-driven stage switching.
 - Reduced motion preserves the authored static card transforms; critical copy remains correctly spaced for assistive technology.
 
 ### Manifest and Kontakt
 
 - Quiet closing sections.
-- Existing restrained reveals only; no new showpiece.
+- Manifest keeps its restrained one-shot assembly reveal.
+- Kontakt uses the existing desktop Osmo Footer Parallax wrapper and one-shot wordmark reveal; mobile, reduced motion and no-JS keep normal document flow.
+- No new showpiece.
 
 ## Rejected motion experiments
 
@@ -114,4 +122,4 @@ For every motion change:
 4. Run `npm run build`.
 5. Run `git diff --check`.
 6. Review desktop and mobile rendering before commit.
-7. For cursor-enabled surfaces, verify visible mobile action, keyboard focus, dialog close/Escape and that the cursor is not the sole affordance.
+7. For cursor-enabled surfaces, verify the visible mobile action, the six real hrefs, keyboard focus, absence of nested links/dialog markup and that the cursor is not the sole affordance.

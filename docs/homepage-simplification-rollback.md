@@ -10,8 +10,9 @@ Use this note when the longer Intro, the separate Overlevering section or the en
 
 ## Current implementation
 
-- `01 / Tilnærming` keeps `Tre fag. Én helhet.`, its short explanation and a compact Design / Teknologi / Synlighet index.
-- The large Intro assembly, three explanatory discipline cards and closing restatement are removed.
+- `01 / Tilnærming` now uses `Hver for seg / blir det lansert. / Bygd sammen / blir det valgt.`, its complete supporting explanation and the handoff `01 → 02 / Én helhet. Fem fag.`.
+- The current Intro enhancement is Osmo Masked Text Reveal with GSAP SplitText: separate lines arrive independently and the `Bygd sammen` conclusion locks together. This later enhancement is not part of the removed assembly described below.
+- The large Intro assembly, compact discipline index, three explanatory discipline cards and closing restatement are removed.
 - `EffectBridge` is not mounted between Tjenester and Effekt.
 - Tjenester ends with `Lansert er ikke ferdig.` and an Osmo-adapted pixel cover into `03 / Effekt`.
 - The pixel cover is decorative. Reduced motion and no-JS use a clean direct section boundary.
@@ -32,7 +33,7 @@ Removed from `src/components/ApproachStatementBridge.tsx`:
 
 - The matching assembly, material-card, index-card and resolution CSS was removed from `src/styles/approach-statement-bridge.css`.
 - The scroll-coupled three-material assembly and closing-resolution reveal were removed from `introStoryScene()` in `src/components/motion/HomeMotion.tsx`.
-- The remaining Intro motion is only a small one-shot reveal for the title group and compact discipline index.
+- A small one-shot reveal was the immediate replacement at the time of this rollback bundle. It was later superseded by the current semantic Osmo Masked Text Reveal; restoring the old assembly must not overwrite that later motion unintentionally.
 
 ## Removed from the Tjenester → Effekt journey
 

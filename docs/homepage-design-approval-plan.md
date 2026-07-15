@@ -5,6 +5,8 @@ Created: 2026-07-13
 Current checkpoint: `P7 complete — Effect delivery accepted`
 Exact next step: `No active implementation phase; open a new explicit scope before further homepage work`
 
+Current-use note, 2026-07-15: this is a completed approval record, not the current motion or handoff specification. Later Intro, Effekt, Arbeid and cross-section changes are governed by `docs/current-homepage-state.md` and `docs/sections/`.
+
 ## Purpose
 
 This plan prevents another broad design pass from reaching the page before its core idea is proven. It controls sequence, scope, approval and rollback for the reopened homepage refinement.
@@ -17,7 +19,7 @@ The target is an authored, Awwwards-level Tigon experience: editorial, restraine
 - The mounted homepage described in `docs/current-homepage-state.md` remains the approved implementation baseline.
 - The previous multi-section experiment was fully reverted and must not be reconstructed from memory.
 - No section implementation is changed by this plan.
-- Final Effect and Work assets remain a separate user-supplied asset pass.
+- Final Effect assets remain a separate user-supplied asset pass. Work uses the current active capability mockups; any replacement is a separate explicit asset task.
 
 ## Locked while 03 / Effekt is explored
 

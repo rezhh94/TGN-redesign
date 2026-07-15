@@ -36,7 +36,7 @@ Do not, unless explicitly requested:
 - use visible orange
 - make the design SaaS, card-grid or dashboard-like
 - turn 04 / Arbeid into a portfolio, case list, client list or industry-by-industry history
-- propose, generate or source demo/placeholder imagery for 04 / Arbeid; the user will provide mockups and images later
+- replace, generate or source new imagery for 04 / Arbeid unless the user explicitly opens an asset task
 - commit or push
 
 ## 04 / Arbeid — Capability Rule
@@ -50,13 +50,14 @@ Do not, unless explicitly requested:
 - Use capability, demonstration, concept, system, prototype or lab language instead of case or portfolio language in the active implementation.
 - Do not imply that a concept surface is a delivered customer project.
 - Do not start an asset concept, image-generation pass, placeholder pass or sourcing exercise unless the user explicitly asks for it.
-- The user is working on mockups and imagery; design work may reserve deliberate asset space without inventing the assets.
+- Preserve the current capability mockups until an explicit asset task replaces them.
 
-Current implementation note, 2026-07-13:
+Current implementation note, 2026-07-15:
 - `WorkProof` is the active component.
 - It is a light, asymmetric normal-flow capability wall using six Tigon demonstrations, not a customer portfolio.
 - The demonstrations must remain labelled so they cannot be mistaken for delivered client projects.
-- Every capability surface is a real detail trigger with a visible mobile action and accessible native dialog.
+- Every capability surface is one real accessible link to its established service/guide URL. The whole surface is clickable; there is no detail dialog, bottom sheet, card-opening state or next/previous capability switcher.
+- Desktop fine-pointer hover may use `Utforsk / [capability]` in the functional Dynamic Text Cursor. Touch/mobile receives a visible `Utforsk` action.
 - `Dette kan Tigon lage` is the capability framing for 04 / Arbeid. It does not turn the section into proof of past work and does not replace the global brand promise.
 - The rejected `Selected systems` pinned/orbital layout must not be restored unless explicitly reopened.
 - The rejected tilted card fan/collage must not be restored unless explicitly reopened.
@@ -66,11 +67,14 @@ Current implementation note, 2026-07-13:
 The verified section order and current motion decisions are maintained in `docs/current-homepage-state.md`.
 
 Current non-negotiable motion decisions:
+- Tilnærming uses the four-line `Hver for seg … / Bygd sammen …` thesis and hands directly to `Dette bygger vi`; its section-scoped SplitText reveal does not replace or hide the server-rendered copy.
 - Tjenester uses varied editorial chapters in ordinary flow; no sticky service-image journey.
 - Tjenester hands directly to Effekt through a compact server-rendered line and section-scoped pixel cover; no separate Overlevering scene.
-- Arbeid is normal flow with small one-shot reveals and the narrowly approved functional Dynamic Text Cursor; no parallax stage or pin.
+- Effekt keeps the asymmetric result chain and uses a one-shot Osmo Highlight Marker on the four result words; the former Proof Lock motion is not active.
+- Arbeid is normal flow with direct links, small one-shot reveals and the narrowly approved functional Dynamic Text Cursor; no dialog, parallax stage or pin.
+- Arbeid hands to Prosess through the server-rendered `Slik blir det til.` reply and the three-row Osmo Shutter Scroll Transition. Reduced motion keeps a clean static section boundary.
 - Prosess is a readable three-phase system map with no pin.
-- Manifest and contact remain calm closing sections.
+- Manifest remains a calm system conclusion. Kontakt keeps its existing desktop Osmo Footer Parallax and falls back to ordinary flow on mobile and reduced motion.
 
 ## Creative Freedom
 
@@ -97,13 +101,13 @@ Motion must respect reduced motion, mobile/touch behavior and no-JS readability.
 The native cursor is the default across Tigon. A dynamic text cursor is a functional interaction cue, not a general visual effect.
 
 - Current approved use: the six clickable capability surfaces in `04 / Arbeid` only.
-- Use it only when a large editorial surface is genuinely clickable and opens or navigates to meaningful detail content.
-- The cursor label must describe both action and target, for example `Les mer / Webapp`.
+- Use it only when a large editorial surface is genuinely clickable and navigates to meaningful detail content.
+- The cursor label must describe both action and target, for example `Utforsk / Webapp`.
 - Never use it on Header/navigation, footer, body copy, ordinary inline links, forms, decorative imagery, non-clickable surfaces or motion-only elements.
 - Do not mix cursor systems. Tigon uses the regular Dynamic Text Cursor; Scramble Text Cursor is not approved.
 - The cursor runs only with a fine pointer and hover support. Touch/mobile must receive a visible on-surface action instead.
 - `prefers-reduced-motion` disables the custom cursor.
-- A real button or link, keyboard focus, accessible naming and a non-cursor affordance must remain. The cursor can never be the only indication that something is interactive.
+- A real link, keyboard focus, accessible naming and a non-cursor affordance must remain. The cursor can never be the only indication that something is interactive.
 - Do not add the cursor to another section without explicitly reopening this rule and confirming that the new use has the same interaction purpose.
 
 ## Task Language

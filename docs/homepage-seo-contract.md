@@ -1,6 +1,6 @@
 # Homepage SEO/CRO Contract
 
-Status: 2026-06-30
+Status: preservation contract from 2026-06-30; current redesign link surface reconciled 2026-07-15
 Scope: Forsiden `/` i Tigon-prosjektet. Dette er en bevaringskontrakt, ikke et designforslag. Ingen kode, metadata, schema, sitemap, robots, canonical, URL-er eller slugs skal endres med denne kontrakten som eneste mandat.
 
 > Brand relationship, 2026-07-10: dette dokumentet beskytter SEO-/CRO-semantikk og eksisterende lenker. Det definerer ikke Tigons merkevareidé. Kanonisk branding ligger i `docs/tigon-brand-platform.md`.
@@ -200,6 +200,17 @@ Servicekort i `ServicesSection`:
 - `Programmatic SEO` -> `/tjenester/webutvikling-nextjs/oslo/oslo`
 - `Infrastruktur` -> `/tjenester/digital-infrastruktur`
 - `Salgsdrevet Design` -> `/tjenester/webutvikling-nextjs`
+
+Direkte capability-lenker i `04 / Arbeid` / `WorkProof`:
+
+- `Webapp` -> `/tjenester/custom-software`
+- `Nettsted` -> `/tjenester/webutvikling-nextjs`
+- `Plattform` -> `/hva-koster-digital-plattform`
+- `E-handel` -> `/tjenester/e-handel-losninger`
+- `AI` -> `/tjenester/ai-implementering`
+- `App` -> `/tjenester/app-utvikling`
+
+Hele capability-flaten er den ene tilgjengelige lenken. Ikke legg en dialog, ekstra CTA-lenke eller nestet lenke over samme flate. Redesign-checkouten monterer bare forsiden; mål-rutene eies av den komplette TGN-applikasjonen og skal ikke omdøpes her.
 
 Utvidet tjenesteoversikt:
 

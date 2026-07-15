@@ -1,10 +1,12 @@
 # Tigon Creative Direction
 
-Status: levende arbeidsgrunnlag, sist vurdert 2026-07-10.
+Status: referanse og beslutningsstøtte, sist avstemt mot aktiv implementasjon 2026-07-15.
 
 Dette dokumentet skal hjelpe oss å ta bedre designbeslutninger. Det er ikke en oppskrift, en låst seksjonsplan eller en erstatning for selvstendig vurdering.
 
 Den kanoniske merkevareplattformen ligger i `docs/tigon-brand-platform.md` og skal ikke omtolkes av løsere referansenotater.
+
+Aktiv seksjonsrekkefølge, interaksjoner og motion ligger i `docs/current-homepage-state.md`, `docs/current-project-rules.md` og `docs/sections/`. Eldre hypoteser lenger ned i dette dokumentet er referanse, ikke tillatelse til å gjeninnføre fjernede løsninger.
 
 ## Merkevareplattform
 
@@ -142,10 +144,11 @@ Det betyr:
 - ingen «se hva vi har laget»-retorikk, case-lenker eller arkiv-lenker som argument i seksjonen
 - alle elementer skal leses fremoverlent: dette er noe Tigon kan skape for et nytt prosjekt
 - ingen avhengighet av at en besøkende må kjenne seg igjen i en tidligere kundes bransje
-- ingen forslag til demo-/placeholder-bilder mens brukeren arbeider med å skaffe mockups og bilder
+- ingen utskifting, generering eller sourcing av nye capability-bilder uten et eksplisitt asset-pass
 - ingen fremstilling av konseptflater som om de var tidligere leverte kundeprosjekter
+- hver capability-flate er én direkte tilgjengelig lenke til etablert tjeneste-/guide-URL; ingen detaljdialog, bottom sheet eller nested CTA
 
-Seksjonens verdi skal ligge i at en potensiell kunde kan forstå nivået, spennvidden og typen digitale opplevelser Tigon er i stand til å utvikle. Den skal ikke omtales som bevis på tidligere arbeid. Visuell retning og konkrete assets avgjøres i et senere, eksplisitt asset-pass.
+Seksjonens verdi skal ligge i at en potensiell kunde kan forstå nivået, spennvidden og typen digitale opplevelser Tigon er i stand til å utvikle. Den skal ikke omtales som bevis på tidligere arbeid. Aktive assets beholdes til et senere, eksplisitt asset-pass eventuelt erstatter dem.
 
 ## Hva som ikke er en regel
 
