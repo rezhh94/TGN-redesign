@@ -11,9 +11,10 @@ const capabilities = [
     blurb: "Et konsentrert arbeidsrom der komplekse oppgaver kjennes enkle.",
     src: "/work/capability-stage/tgn-product-os-laptop.webp",
     href: "/tjenester/custom-software",
+    linkLabel: "Se tjenesten",
     layout: "hero",
-    detail: "En webapp samler oppgaver, data og roller i en arbeidsflate som er laget for gjentatt bruk. Strukturen formes rundt den faktiske arbeidsflyten, ikke rundt et generisk dashboard.",
-    deliverables: ["Innlogging og roller", "Integrasjoner og datamodell", "Måling og stabil drift"],
+    detail: "Tigon kan bygge skreddersydde webapper for arbeidsflyter som hyllevare ikke dekker — med roller, integrasjoner og full kontroll på kode og data.",
+    deliverables: ["Arbeidsflyt og grensesnitt", "Innlogging, roller og data", "API-er, testing og videreutvikling"],
   },
   {
     n: "02",
@@ -22,9 +23,10 @@ const capabilities = [
     blurb: "En tydelig digital front som gjør virksomheten enkel å forstå og naturlig å velge.",
     src: "/work/capability-stage/laptop-chair.png",
     href: "/tjenester/webutvikling-nextjs",
+    linkLabel: "Se tjenesten",
     layout: "portrait",
-    detail: "Et nettsted skal gjøre det lett å forstå hva virksomheten tilbyr, hvorfor den er riktig og hva neste steg er. Design, innhold, teknisk SEO og ytelse utvikles som én leveranse.",
-    deliverables: ["Innholdsstruktur og UX", "Teknisk SEO og ytelse", "Konvertering og måling"],
+    detail: "Tigon kan bygge raske Next.js-nettsteder der design, strukturert innhold, teknisk SEO og integrasjoner fungerer som én løsning.",
+    deliverables: ["Design og innholdsstruktur", "Next.js, CMS og integrasjoner", "Teknisk SEO og Core Web Vitals"],
   },
   {
     n: "03",
@@ -32,10 +34,11 @@ const capabilities = [
     meta: "Portal / System",
     blurb: "Et sammenhengende økosystem der mennesker, data og tjenester møtes.",
     src: "/work/capability-stage/ipad-hand.png",
-    href: "/tjenester/digital-infrastruktur",
+    href: "/hva-koster-digital-plattform",
+    linkLabel: "Se plattformguiden",
     layout: "square",
-    detail: "En plattform kobler mennesker, innhold og systemer sammen over tid. Tigon kan forme både den synlige tjenesten og strukturen som gjør den mulig å drifte og videreutvikle.",
-    deliverables: ["Portaler og arbeidsflater", "Roller og tilgang", "Systemarkitektur og integrasjoner"],
+    detail: "Tigon kan bygge digitale plattformer som samler brukere, roller, data og tjenester i ett system som kan videreutvikles over tid.",
+    deliverables: ["Portaler og selvbetjening", "Roller, data og API-er", "Arkitektur, drift og videreutvikling"],
   },
   {
     n: "04",
@@ -44,9 +47,10 @@ const capabilities = [
     blurb: "En kjøpsopplevelse som gjør valget enkelt og fremdriften friksjonsfri.",
     src: "/work/capability-stage/tgn-ehandel-ipad.webp",
     href: "/tjenester/e-handel-losninger",
+    linkLabel: "Se tjenesten",
     layout: "landscape",
-    detail: "E-handel handler om mer enn en produktgrid. Sortiment, valg, innhold, søk, betaling og oppfølging må fungere som én tydelig kjøpsreise.",
-    deliverables: ["Produkt- og kategoristruktur", "Kjøpsflyt og betaling", "Søk, måling og videreutvikling"],
+    detail: "Tigon kan bygge nettbutikker med skreddersydd design, raske produktsider, norsk betaling og integrasjoner mot lager, ordre og frakt.",
+    deliverables: ["Produkt- og kategoristruktur", "Vipps, Klarna og utsjekk", "Lager-, ordre- og fraktintegrasjoner"],
   },
   {
     n: "05",
@@ -55,10 +59,11 @@ const capabilities = [
     blurb: "Et presist verktøy som gjør kunnskap søkbar og neste handling tydelig.",
     src: "/work/capability-stage/laptop-rocks.png",
     href: "/tjenester/ai-implementering",
+    linkLabel: "Se tjenesten",
     layout: "narrow",
     muted: true,
-    detail: "AI gir verdi når den er koblet til virksomhetens egne data, systemer og beslutninger. Tigon kan utvikle avgrensede verktøy som reduserer manuelt arbeid og gjør kunnskap lettere å bruke.",
-    deliverables: ["Søk og kunnskapsflater", "Automatiserte arbeidsflyter", "Integrasjon mot egne systemer"],
+    detail: "Tigon kan bygge AI-søk, kunnskapsverktøy og automatiserte arbeidsflyter som bruker virksomhetens egne data med logging og tilgangskontroll.",
+    deliverables: ["RAG-søk og kunnskapsbase", "Agenter og automatiserte flyter", "API-er, logging og datakontroll"],
   },
   {
     n: "06",
@@ -67,15 +72,22 @@ const capabilities = [
     blurb: "En nær, responsiv opplevelse for korte og naturlige handlinger.",
     src: "/work/capability-stage/tgn-brand-phone.webp",
     href: "/tjenester/app-utvikling",
+    linkLabel: "Se tjenesten",
     layout: "offset",
-    detail: "En app formes rundt situasjonen den skal brukes i: korte handlinger, tydelig respons og et grensesnitt som fungerer på små skjermer. Mobil og web kan bygges som ett sammenhengende produkt.",
-    deliverables: ["Mobil UX og grensesnitt", "Push, konto og publisering", "API-er og produktmåling"],
+    detail: "Tigon kan bygge stabile apper for iOS og Android, fra første kjerneflyt til innlogging, betaling, push og integrasjoner.",
+    deliverables: ["Mobil UX og grensesnitt", "React Native eller native", "API, innlogging, betaling og push"],
   },
 ] as const;
 
 type Capability = (typeof capabilities)[number];
 
-function CapabilityTile({ capability, onOpen }: { capability: Capability; onOpen: (capability: Capability) => void }) {
+function CapabilityTile({
+  capability,
+  onOpen,
+}: {
+  capability: Capability;
+  onOpen: (capability: Capability, trigger: HTMLButtonElement, fromKeyboard: boolean) => void;
+}) {
   return (
     <article
       className={`work-tile work-tile--${capability.layout}`}
@@ -89,7 +101,7 @@ function CapabilityTile({ capability, onOpen }: { capability: Capability; onOpen
         aria-controls="work-detail-dialog"
         data-cursor-hover=""
         data-cursor-text={`Les mer / ${capability.name}`}
-        onClick={() => onOpen(capability)}
+        onClick={(event) => onOpen(capability, event.currentTarget, event.detail === 0)}
       >
         <span className="work-tile__tap-label" aria-hidden="true">Les mer <span>↗</span></span>
       </button>
@@ -115,8 +127,8 @@ function CapabilityTile({ capability, onOpen }: { capability: Capability; onOpen
         <p>{capability.blurb}</p>
         <div className="work-tile__foot-meta">
           <span>Capability / konseptflate</span>
-          <a href={capability.href} aria-label={`Se tjenesten ${capability.name}`}>
-            Se tjenesten <span aria-hidden="true">↗</span>
+          <a href={capability.href} aria-label={`${capability.linkLabel}: ${capability.name}`}>
+            {capability.linkLabel} <span aria-hidden="true">↗</span>
           </a>
         </div>
       </footer>
@@ -228,6 +240,8 @@ export function WorkProof() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [activeCapability, setActiveCapability] = useState<Capability | null>(null);
   const sourceVisualRef = useRef<HTMLElement | null>(null);
+  const sourceTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const restoreKeyboardFocusRef = useRef(false);
   const morphRef = useRef<{
     phase: "open" | "close";
     clone: HTMLElement;
@@ -245,7 +259,12 @@ export function WorkProof() {
     if (!dialog) return;
     gsap.set(dialog, { clearProps: "backgroundColor,borderColor,boxShadow" });
     const inner = dialog.querySelector<HTMLElement>(".work-detail__inner");
-    if (inner) gsap.set(Array.from(inner.children), { clearProps: "all" });
+    if (inner) {
+      gsap.set(
+        Array.from(inner.querySelectorAll<HTMLElement>("[data-detail-reveal], .work-detail__head")),
+        { clearProps: "all" },
+      );
+    }
     const media = dialog.querySelector<HTMLElement>("[data-detail-media]");
     if (media) media.style.opacity = "";
   };
@@ -262,10 +281,16 @@ export function WorkProof() {
     restoreSource();
   };
 
-  const openCapability = (capability: Capability) => {
+  const openCapability = (
+    capability: Capability,
+    trigger: HTMLButtonElement,
+    fromKeyboard: boolean,
+  ) => {
     sourceVisualRef.current = document.querySelector<HTMLElement>(
       `[data-tile-visual="${capability.n}"]`,
     );
+    sourceTriggerRef.current = trigger;
+    restoreKeyboardFocusRef.current = fromKeyboard;
     setActiveCapability(capability);
   };
 
@@ -347,9 +372,7 @@ export function WorkProof() {
         // nettleseren fokus til <body>.
         const head = inner?.querySelector<HTMLElement>(".work-detail__head") ?? null;
         const parts = inner
-          ? Array.from(inner.children).filter(
-              (el) => !el.matches(".work-detail__media, .work-detail__head"),
-            )
+          ? Array.from(inner.querySelectorAll<HTMLElement>("[data-detail-reveal]"))
           : [];
         gsap.set(parts, { autoAlpha: 0, y: 14 });
         if (head) gsap.set(head, { opacity: 0 });
@@ -410,6 +433,28 @@ export function WorkProof() {
 
   const closeDetails = () => requestClose();
 
+  const showAdjacentCapability = (direction: -1 | 1) => {
+    if (!activeCapability || morphRef.current) return;
+
+    const currentIndex = capabilities.findIndex(({ n }) => n === activeCapability.n);
+    const nextIndex = (currentIndex + direction + capabilities.length) % capabilities.length;
+    const nextCapability = capabilities[nextIndex];
+
+    // En eventuell skjult kildeflate fra åpne-morphen må tilbake før vi
+    // flytter detaljvisningen til neste capability.
+    restoreSource();
+    const nextVisual = document.querySelector<HTMLElement>(
+      `[data-tile-visual="${nextCapability.n}"]`,
+    );
+    sourceVisualRef.current = nextVisual;
+    sourceTriggerRef.current = nextVisual
+      ?.closest<HTMLElement>("[data-work-tile]")
+      ?.querySelector<HTMLButtonElement>(".work-tile__trigger") ?? null;
+    restoreKeyboardFocusRef.current = false;
+    setActiveCapability(nextCapability);
+    dialogRef.current?.scrollTo({ top: 0 });
+  };
+
   return (
     <section
       id="arbeid"
@@ -464,11 +509,18 @@ export function WorkProof() {
         aria-labelledby="work-detail-title"
         aria-describedby="work-detail-description"
         onClose={() => {
+          const sourceTrigger = sourceTriggerRef.current;
+          const shouldRestoreKeyboardFocus = restoreKeyboardFocusRef.current;
           // Lukket midt i åpne-morphen (f.eks. Escape): avbryt trygt.
           if (morphRef.current?.phase === "open") abortMorph();
           // Ved close-morph rydder tweenens onComplete; ellers vis flaten nå.
           if (!morphRef.current) restoreSource();
           setActiveCapability(null);
+          sourceTriggerRef.current = null;
+          restoreKeyboardFocusRef.current = false;
+          if (shouldRestoreKeyboardFocus) {
+            requestAnimationFrame(() => sourceTrigger?.focus());
+          }
         }}
         onCancel={(event) => {
           // Escape etter ferdig åpning: kjør revers-morphen i stedet.
@@ -483,12 +535,6 @@ export function WorkProof() {
       >
         {activeCapability && (
           <div className="work-detail__inner">
-            <header className="work-detail__head">
-              <span>{activeCapability.n} / 06 · {activeCapability.meta}</span>
-              <button type="button" onClick={closeDetails} autoFocus>
-                Lukk <span aria-hidden="true">×</span>
-              </button>
-            </header>
             <figure className="work-detail__media" data-detail-media>
               <img
                 className={"muted" in activeCapability && activeCapability.muted ? "work-tile__image--muted" : undefined}
@@ -496,20 +542,64 @@ export function WorkProof() {
                 alt=""
               />
             </figure>
-            <h2 id="work-detail-title">{activeCapability.name}</h2>
-            <p id="work-detail-description">{activeCapability.detail}</p>
-            <div className="work-detail__deliverables">
-              <span>Dette kan inngå</span>
-              <ul>
-                {activeCapability.deliverables.map((deliverable) => (
-                  <li key={deliverable}>{deliverable}</li>
-                ))}
-              </ul>
+
+            <div className="work-detail__panel">
+              <header className="work-detail__head">
+                <span>{activeCapability.n} / 06 · {activeCapability.meta}</span>
+                <button type="button" onClick={closeDetails} autoFocus>
+                  Lukk <span aria-hidden="true">×</span>
+                </button>
+              </header>
+
+              <div className="work-detail__body">
+                <div className="work-detail__intro" data-detail-reveal>
+                  <h2 id="work-detail-title">{activeCapability.name}</h2>
+                  <p id="work-detail-description">{activeCapability.detail}</p>
+                </div>
+
+                <div className="work-detail__content">
+                  <div className="work-detail__deliverables" data-detail-reveal>
+                    <span>Dette kan inngå</span>
+                    <ol>
+                      {activeCapability.deliverables.map((deliverable, index) => (
+                        <li key={deliverable}>
+                          <span>{String(index + 1).padStart(2, "0")}</span>
+                          <strong>{deliverable}</strong>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                  <a className="work-detail__service-link" href={activeCapability.href} data-detail-reveal>
+                    <span>{activeCapability.linkLabel}</span>
+                    <strong>{activeCapability.name}</strong>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                  <p className="work-detail__note" data-detail-reveal>
+                    Capability-demonstrasjon / ikke kundecase
+                  </p>
+                </div>
+              </div>
+
+              <nav className="work-detail__nav" aria-label="Bytt capability" data-detail-reveal>
+                <span>{activeCapability.n} / 06</span>
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => showAdjacentCapability(-1)}
+                    aria-label="Forrige capability"
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => showAdjacentCapability(1)}
+                    aria-label="Neste capability"
+                  >
+                    →
+                  </button>
+                </div>
+              </nav>
             </div>
-            <a className="work-detail__service-link" href={activeCapability.href}>
-              Se tjenesten {activeCapability.name} <span aria-hidden="true">↗</span>
-            </a>
-            <p className="work-detail__note">Capability-demonstrasjon / ikke kundecase</p>
           </div>
         )}
       </dialog>
@@ -520,7 +610,7 @@ export function WorkProof() {
             <section key={capability.n}>
               <h3>{capability.name}</h3>
               <p>{capability.detail}</p>
-              <a href={capability.href}>Se tjenesten {capability.name}</a>
+              <a href={capability.href}>{capability.linkLabel}: {capability.name}</a>
             </section>
           ))}
         </div>
