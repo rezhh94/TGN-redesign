@@ -10,7 +10,6 @@ import {
   initContentRevealScroll,
   initFooterParallax,
   initGlobalParallax,
-  initPixelatedScrollTransition,
   initShutterScrollTransition,
 } from "@/lib/osmo-motion";
 
@@ -94,6 +93,94 @@ function servicesScene() {
   }, section);
 
   return () => ctx.revert();
+}
+
+// 02 → 03 — Osmo Sticky Title Scroll adapted as an unnumbered tension bridge.
+// Desktop and mobile keep one typographic stage sticky while three complete,
+// server-rendered statements replace one another. Only the final beat shifts
+// the surface into 03's mauve so "Effekt som kan måles" becomes the payoff.
+// Reduced motion and no-JS stay in ordinary readable document flow.
+function outcomeTensionBridge() {
+  const section = document.querySelector<HTMLElement>("[data-outcome-tension]");
+  if (!section) return () => {};
+
+  const titles = gsap.utils.toArray<HTMLElement>("[data-outcome-tension-title]", section);
+  const titleList = section.querySelector<HTMLElement>(".outcome-tension__titles");
+  if (titles.length < 3 || !titleList) return () => {};
+
+  const styles = getComputedStyle(document.documentElement);
+  const mauve = styles.getPropertyValue("--mauve-warm").trim() || "#c8bcc1";
+  const ink = styles.getPropertyValue("--blekk").trim() || "#10100f";
+
+  const ctx = gsap.context(() => {
+    // Place every statement on the same stage only after GSAP is running.
+    // Without JS the list remains normal, readable document flow.
+    gsap.set(titleList, { position: "relative" });
+    gsap.set(titles, {
+      position: "absolute",
+      inset: 0,
+      display: "grid",
+      placeItems: "center",
+      autoAlpha: 0,
+      yPercent: 14,
+    });
+    gsap.set(titles[0], { autoAlpha: 1, yPercent: 0 });
+    section.setAttribute("data-tension-ready", "");
+
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.4,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    timeline
+      .to(titles[0], {
+        autoAlpha: 0,
+        yPercent: -14,
+        duration: 0.34,
+        ease: "power2.in",
+      }, 0.38)
+      .fromTo(titles[1], {
+        autoAlpha: 0,
+        yPercent: 14,
+      }, {
+        autoAlpha: 1,
+        yPercent: 0,
+        duration: 0.4,
+        ease: "power3.out",
+      }, 0.52)
+      .to(titles[1], {
+        autoAlpha: 0,
+        yPercent: -14,
+        duration: 0.34,
+        ease: "power2.in",
+      }, 1.16)
+      .fromTo(titles[2], {
+        autoAlpha: 0,
+        yPercent: 14,
+      }, {
+        autoAlpha: 1,
+        yPercent: 0,
+        duration: 0.4,
+        ease: "power3.out",
+      }, 1.3)
+      .to(section, {
+        backgroundColor: mauve,
+        color: ink,
+        duration: 0.28,
+        ease: "none",
+      }, 1.25)
+      .to(titles[2], { autoAlpha: 1, duration: 0.5 }, 1.7);
+  }, section);
+
+  return () => {
+    section.removeAttribute("data-tension-ready");
+    ctx.revert();
+  };
 }
 
 // 03 / Effekt — Highlight Marker på resultatordene. En mørk flate dekker
@@ -587,7 +674,6 @@ export function HomeMotion() {
     const teardownServices = servicesScene();
     const teardownEffect = effectScene();
     let teardownShutter = () => {};
-    let teardownPixelated = () => {};
     let teardownFooterParallax = () => {};
     let teardownApproachPath = () => {};
     let footerInitFrame = 0;
@@ -598,12 +684,14 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
       const teardownIntro = introStoryScene();
+      const teardownTension = outcomeTensionBridge();
       const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
       const teardownProcess = processScene(false);
       manifestoReveal();
       footerReveals();
       return () => {
         teardownIntro();
+        teardownTension();
         teardownWork();
         teardownProcess();
       };
@@ -614,12 +702,14 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownIntro = introStoryScene();
+      const teardownTension = outcomeTensionBridge();
       const teardownWork = workProof(false);
       const teardownProcess = processScene(true);
       manifestoReveal();
       footerReveals();
       return () => {
         teardownIntro();
+        teardownTension();
         teardownWork();
         teardownProcess();
       };
@@ -631,7 +721,6 @@ export function HomeMotion() {
       footerInitFrame = window.requestAnimationFrame(() => {
         if (effectCancelled) return;
         teardownShutter = initShutterScrollTransition();
-        teardownPixelated = initPixelatedScrollTransition();
         teardownFooterParallax = initFooterParallax();
         teardownApproachPath = initApproachPathJourney();
         ScrollTrigger.refresh();
@@ -650,7 +739,6 @@ export function HomeMotion() {
       teardownOsmoReveal();
       teardownEffect();
       teardownShutter();
-      teardownPixelated();
       teardownApproachPath();
       teardownSectionTheme();
       teardownWorkCursor();

@@ -132,29 +132,6 @@ export function WhatWeBuild() {
         <a href="/tjenester">Se alle tjenester <span aria-hidden="true">↗</span></a>
       </div>
 
-      <footer className="what-build__handoff">
-        <p>02 → 03</p>
-        <h3>
-          <span>Lansert er</span>
-          <span>ikke ferdig.</span>
-        </h3>
-        <p>Det som er live kan måles og forbedres.</p>
-      </footer>
-
-      <div
-        className="what-build__pixel-transition"
-        data-pixelated-scroll-transition=""
-        data-columns="16"
-        data-columns-tablet="12"
-        data-columns-landscape="9"
-        data-columns-mobile="6"
-        data-rows="6"
-        data-rows-tablet="5"
-        data-rows-landscape="4"
-        data-rows-mobile="4"
-        data-pixel-ratio="2.5/1"
-        aria-hidden="true"
-      />
     </section>
   );
 }
