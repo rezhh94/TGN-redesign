@@ -305,6 +305,65 @@ function manifestoReveal() {
   }
 }
 
+// 05 / Prosess — panelene settler én gang i beslutningsrekkefølge 01→02→03;
+// kjempenumret ankommer sist og låser hvert panel. FROM-tweens med clearProps,
+// så numeralens prosent-sentrering i CSS overlever resize. Ferdig uten JS.
+function processScene(compact: boolean) {
+  const section = document.querySelector<HTMLElement>("[data-process-stage]");
+  if (!section) return () => {};
+
+  const panels = gsap.utils.toArray<HTMLElement>("[data-process-surface]", section);
+  if (!panels.length) return () => {};
+
+  const ctx = gsap.context(() => {
+    const settlePanel = (
+      panel: HTMLElement,
+      tl: gsap.core.Timeline,
+      position: number,
+    ) => {
+      const parts = panel.querySelectorAll(
+        ".process-phase__head, .process-phase__copy, .process-phase__output",
+      );
+      const numeral = panel.querySelector<HTMLElement>(".process-phase__numeral");
+
+      tl.from(parts, {
+        y: 20,
+        autoAlpha: 0,
+        duration: 0.55,
+        stagger: 0.07,
+        ease: "power3.out",
+        clearProps: "transform,opacity,visibility",
+      }, position);
+
+      if (numeral) {
+        tl.from(numeral, {
+          y: 56,
+          autoAlpha: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          clearProps: "transform,opacity,visibility",
+        }, position + 0.28);
+      }
+    };
+
+    if (compact) {
+      panels.forEach((panel) => {
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: panel, start: "top 82%", once: true },
+        });
+        settlePanel(panel, tl, 0);
+      });
+    } else {
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: section, start: "top 72%", once: true },
+      });
+      panels.forEach((panel, index) => settlePanel(panel, tl, index * 0.16));
+    }
+  }, section);
+
+  return () => ctx.revert();
+}
+
 function footerReveals() {
   const wordmark = document.querySelector<HTMLElement>(".contact-footer__wordmark");
   if (wordmark) {
@@ -529,11 +588,13 @@ export function HomeMotion() {
       heroEntrance(true);
       const teardownIntro = introStoryScene();
       const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
+      const teardownProcess = processScene(false);
       manifestoReveal();
       footerReveals();
       return () => {
         teardownIntro();
         teardownWork();
+        teardownProcess();
       };
     });
 
@@ -543,11 +604,13 @@ export function HomeMotion() {
       heroEntrance(false);
       const teardownIntro = introStoryScene();
       const teardownWork = workProof(false);
+      const teardownProcess = processScene(true);
       manifestoReveal();
       footerReveals();
       return () => {
         teardownIntro();
         teardownWork();
+        teardownProcess();
       };
     });
 

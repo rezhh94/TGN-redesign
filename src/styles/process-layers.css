@@ -253,8 +253,8 @@
 }
 
 .process-phase__output {
-  padding-top: 16px;
-  border-top: 1px solid var(--tigon-line-light);
+  padding-top: 14px;
+  border-top: 1px solid rgba(5, 6, 6, 0.3);
   color: var(--on-light-faint);
 }
 
@@ -270,7 +270,7 @@
 }
 
 .process-phase--03 .process-phase__output {
-  border-color: var(--tigon-line-dark);
+  border-color: rgba(242, 242, 239, 0.3);
   color: var(--on-dark-faint);
 }
 
@@ -424,5 +424,21 @@
     gap: 26px;
     margin-top: 68px;
     padding: 46px 20px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-phase__head,
+  .process-phase__copy,
+  .process-phase__output {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Numeralen sentreres med prosent-transform i CSS — tving kun synlighet,
+     aldri transform. */
+  .process-phase__numeral {
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 }
