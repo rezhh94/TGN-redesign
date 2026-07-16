@@ -54,7 +54,7 @@ Do not, unless explicitly requested:
 
 Current implementation note, 2026-07-15:
 - `WorkProof` is the active component.
-- It is a light, asymmetric normal-flow capability wall using six Tigon demonstrations, not a customer portfolio.
+- It is an asymmetric capability wall using six Tigon demonstrations, not a customer portfolio. The one `Dette kan Tigon lage.` node introduced by 03→04 may remain sticky behind three authored pairs of real capability links while they move in ordinary scroll.
 - The demonstrations must remain labelled so they cannot be mistaken for delivered client projects.
 - Every capability surface is one real accessible link to its established service/guide URL. The whole surface is clickable; there is no detail dialog, bottom sheet, card-opening state or next/previous capability switcher.
 - Desktop fine-pointer hover may use `Utforsk / [capability]` in the functional Dynamic Text Cursor. Touch/mobile receives a visible `Utforsk` action.
@@ -72,8 +72,8 @@ Current non-negotiable motion decisions:
 - Tjenester hands directly to Effekt through a compact server-rendered line and section-scoped pixel cover; no separate Overlevering scene.
 - Effekt keeps the asymmetric result chain and uses a one-shot Osmo Highlight Marker on the four result words; the former Proof Lock motion is not active.
 - Effekt hands to Arbeid through a two-sided MWG 053-inspired typographic flip: `Effekt må bygges inn.` rotates out line by line while `Dette kan Tigon lage.` rotates in on the same pinned mauve stage. No image participates, and no MWG code, fonts or assets are imported. Mobile/reduced motion remain ordinary flow.
-- Arbeid keeps direct links, small one-shot reveals and the narrowly approved functional Dynamic Text Cursor. The complete catalogue continues on the same `mauve-warm` surface as Effekt and the handoff; there is no white paper cut, dialog, parallax stage or pin inside the Work catalogue.
-- Arbeid hands to Prosess through the server-rendered `Slik blir det til.` reply and the three-row Osmo Shutter Scroll Transition. Reduced motion keeps a clean static section boundary.
+- Arbeid keeps direct links and the narrowly approved functional Dynamic Text Cursor. The shared 03→04→Arbeid wrapper keeps the final title sticky behind a 2–2–2 sequence of all six links; no duplicate title, random placement, infinite media loop, Observer, scroll capture, white paper cut, dialog or parallax stage is used.
+- Arbeid hands to Prosess through an opaque viewport-height `Slik blir det til.` cover and the three-row Osmo Shutter Scroll Transition. The wrapper clips the sticky title at the boundary so it cannot leak into 05. Reduced motion keeps a clean static section boundary.
 - Prosess is a readable three-phase system map with no pin.
 - Manifest remains a calm system conclusion. Kontakt keeps its existing desktop Osmo Footer Parallax and falls back to ordinary flow on mobile and reduced motion.
 

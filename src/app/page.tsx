@@ -18,8 +18,9 @@ export default function Home() {
       <WhatWeBuild />
       <OutcomeTensionBridge />
       <WhatWeImprove />
-      <EffectWorkBridge />
-      <WorkProof />
+      <EffectWorkBridge>
+        <WorkProof />
+      </EffectWorkBridge>
       <ProcessLayers />
       <SystemManifesto />
       <ContactFooter />

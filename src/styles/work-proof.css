@@ -3,9 +3,10 @@
 
 .work-proof {
   position: relative;
+  z-index: 1;
   overflow: clip;
   padding-bottom: 0;
-  background: var(--mauve-warm);
+  background: transparent;
   color: var(--blekk);
 }
 
@@ -17,8 +18,17 @@
   margin-left: auto;
 }
 
-.work-proof__paper {
+.work-proof__catalogue {
   position: relative;
+  z-index: 1;
+  padding-top: clamp(32px, 5vh, 72px);
+}
+
+.work-proof__cover {
+  position: relative;
+  z-index: 3;
+  min-height: 100svh;
+  margin-top: clamp(132px, 18vh, 240px);
   background: var(--mauve-warm);
   color: var(--blekk);
   isolation: isolate;
@@ -53,46 +63,52 @@
 }
 
 .work-wall {
+  display: grid;
+  gap: clamp(80px, 10vh, 140px);
   padding: 0 var(--gutter);
 }
 
-.work-wall__row {
+.work-wall__pair {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: clamp(10px, 1.15vw, 24px);
-  align-items: start;
+  align-items: center;
+  min-height: 105svh;
 }
 
-.work-wall__row--opening .work-tile--hero {
-  grid-column: 1 / 7;
-}
-
-.work-wall__row--opening .work-tile--portrait {
-  grid-column: 7 / 10;
-  margin-top: clamp(64px, 7vw, 132px);
-}
-
-.work-wall__row--opening .work-tile--square {
-  grid-column: 10 / -1;
-  margin-top: clamp(16px, 1.6vw, 34px);
-}
-
-.work-wall__row--closing .work-tile--landscape {
+.work-wall__pair--01 .work-tile:first-child {
   grid-column: 1 / 6;
+  margin-top: clamp(-54px, -5vh, -24px);
 }
 
-.work-wall__row--closing .work-tile--narrow {
-  grid-column: 6 / 9;
-  margin-top: clamp(76px, 8.5vw, 158px);
-}
-
-.work-wall__row--closing .work-tile--offset {
+.work-wall__pair--01 .work-tile:last-child {
   grid-column: 9 / -1;
-  margin-top: clamp(24px, 2.8vw, 58px);
+  margin-top: clamp(64px, 9vh, 116px);
+}
+
+.work-wall__pair--02 .work-tile:first-child {
+  grid-column: 1 / 5;
+  margin-top: clamp(72px, 10vh, 128px);
+}
+
+.work-wall__pair--02 .work-tile:last-child {
+  grid-column: 8 / -1;
+  margin-top: clamp(-72px, -7vh, -32px);
+}
+
+.work-wall__pair--03 .work-tile:first-child {
+  grid-column: 2 / 6;
+  margin-top: clamp(-44px, -4vh, -20px);
+}
+
+.work-wall__pair--03 .work-tile:last-child {
+  grid-column: 8 / -1;
+  margin-top: clamp(84px, 11vh, 142px);
 }
 
 .work-tile {
   position: relative;
+  z-index: 1;
   min-width: 0;
   padding-top: clamp(11px, 0.9vw, 17px);
   border-top: 1px solid var(--color-line);
@@ -254,17 +270,6 @@
   text-transform: uppercase;
 }
 
-.work-proof__statement {
-  max-width: 20ch;
-  margin: clamp(124px, 15vh, 204px) 0 clamp(110px, 13vh, 178px);
-  color: var(--blekk);
-  font-family: var(--font-sans);
-  font-size: clamp(48px, 6.2vw, 112px);
-  font-weight: 500;
-  letter-spacing: -0.058em;
-  line-height: 0.96;
-}
-
 .work-cursor {
   position: fixed;
   top: 0;
@@ -329,7 +334,7 @@
 
 .work-proof__disclaimer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 24px;
   margin-top: clamp(120px, 15vh, 194px);
   padding: 22px var(--gutter) 0;
@@ -351,7 +356,10 @@
   grid-template-columns: 2fr 7fr 3fr;
   gap: var(--grid-gutter);
   align-items: start;
-  padding: clamp(52px, 6vh, 76px) var(--gutter) clamp(148px, 17vh, 176px);
+  align-content: center;
+  min-height: 100svh;
+  padding: clamp(64px, 8vh, 104px) var(--gutter) clamp(148px, 17vh, 176px);
+  border-top: 1px solid rgba(16, 16, 15, 0.16);
 }
 
 .work-proof__handoff > p:first-child {
@@ -450,36 +458,37 @@
     grid-column: 3 / -1;
   }
 
-  .work-wall__row {
+  .work-wall {
+    gap: 72px;
+  }
+
+  .work-wall__pair {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+    min-height: 88svh;
   }
 
-  .work-wall__row--opening .work-tile--hero {
-    grid-column: 1 / -1;
-  }
-
-  .work-wall__row--opening .work-tile--portrait {
+  .work-wall__pair--01 .work-tile:first-child,
+  .work-wall__pair--02 .work-tile:first-child,
+  .work-wall__pair--03 .work-tile:first-child {
     grid-column: 1 / 4;
-    margin-top: 52px;
   }
 
-  .work-wall__row--opening .work-tile--square {
+  .work-wall__pair--01 .work-tile:last-child,
+  .work-wall__pair--02 .work-tile:last-child,
+  .work-wall__pair--03 .work-tile:last-child {
     grid-column: 4 / -1;
-    margin-top: 108px;
   }
 
-  .work-wall__row--closing .work-tile--landscape {
-    grid-column: 1 / 5;
+  .work-wall__pair--01 .work-tile:first-child,
+  .work-wall__pair--02 .work-tile:last-child,
+  .work-wall__pair--03 .work-tile:first-child {
+    margin-top: -32px;
   }
 
-  .work-wall__row--closing .work-tile--narrow {
-    grid-column: 5 / -1;
-    margin-top: 94px;
-  }
-
-  .work-wall__row--closing .work-tile--offset {
-    grid-column: 2 / 6;
-    margin-top: 76px;
+  .work-wall__pair--01 .work-tile:last-child,
+  .work-wall__pair--02 .work-tile:first-child,
+  .work-wall__pair--03 .work-tile:last-child {
+    margin-top: 68px;
   }
 
 }
@@ -493,6 +502,14 @@
     padding-bottom: 0;
   }
 
+  .work-proof__catalogue {
+    padding-top: 0;
+  }
+
+  .work-proof__cover {
+    margin-top: 96px;
+  }
+
   .work-proof__lead {
     display: block;
     padding: 64px 20px 72px;
@@ -503,11 +520,17 @@
   }
 
   .work-wall {
+    display: block;
     padding: 0 20px;
   }
 
-  .work-wall__row {
+  .work-wall__pair {
     display: block;
+    min-height: auto;
+  }
+
+  .work-wall__pair + .work-wall__pair {
+    margin-top: 112px;
   }
 
   .work-tile {
@@ -515,28 +538,32 @@
     padding-bottom: 44px;
   }
 
-  .work-wall__row--opening .work-tile--portrait {
+  .work-wall__pair .work-tile {
+    margin-top: 0;
+  }
+
+  .work-wall__pair--01 .work-tile:last-child {
     width: 72%;
     margin-top: 58px;
     margin-left: auto;
   }
 
-  .work-wall__row--opening .work-tile--square {
+  .work-wall__pair--02 .work-tile:first-child {
     width: 84%;
-    margin-top: 66px;
   }
 
-  .work-wall__row--closing .work-tile--landscape {
+  .work-wall__pair--02 .work-tile:last-child {
     width: 94%;
-  }
-
-  .work-wall__row--closing .work-tile--narrow {
-    width: 68%;
-    margin-top: 68px;
+    margin-top: 66px;
     margin-left: auto;
   }
 
-  .work-wall__row--closing .work-tile--offset {
+  .work-wall__pair--03 .work-tile:first-child {
+    width: 68%;
+    margin-left: auto;
+  }
+
+  .work-wall__pair--03 .work-tile:last-child {
     width: 82%;
     margin-top: 70px;
     margin-left: 7%;
@@ -589,13 +616,6 @@
     font-size: 14px;
   }
 
-  .work-proof__statement {
-    margin: 100px 0 90px;
-    font-size: clamp(44px, 12.6vw, 58px);
-    line-height: 0.97;
-  }
-
-
   .work-proof__disclaimer {
     display: grid;
     gap: 10px;
@@ -606,6 +626,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .work-wall__pair {
+    min-height: auto;
+    margin-bottom: clamp(92px, 12vh, 144px);
+  }
+
   .work-tile__visual img {
     transition: none;
     transform: none !important;

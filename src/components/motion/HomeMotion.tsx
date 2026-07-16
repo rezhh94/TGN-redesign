@@ -238,11 +238,16 @@ function effectScene() {
 // roterer ut rundt Y-aksen mens Work-tittelen roterer inn fra baksiden.
 // Ingen MWG-kode, fonter eller assets importeres; kun bevegelsesarkitekturen.
 function effectWorkJourney() {
-  const section = document.querySelector<HTMLElement>("[data-effect-work-bridge]");
-  if (!section) return () => {};
+  const journey = document.querySelector<HTMLElement>("[data-effect-work-journey]");
+  const section = journey?.querySelector<HTMLElement>("[data-effect-work-bridge]");
+  if (!journey || !section) return () => {};
 
-  const titles = gsap.utils.toArray<HTMLElement>("[data-effect-work-title]", section);
-  const titleList = section.querySelector<HTMLElement>(".effect-work-bridge__titles");
+  const titles = gsap.utils.toArray<HTMLElement>("[data-effect-work-title]", journey);
+  const titleList = journey.querySelector<HTMLElement>(".effect-work-bridge__titles");
+  const workCatalogue = journey.querySelector<HTMLElement>("[data-work-catalogue]");
+  const bridgeMeta = journey.querySelectorAll<HTMLElement>(
+    ".effect-work-bridge__index, .effect-work-bridge__next",
+  );
   const paragraphs = titles
     .map((title) => title.querySelector<HTMLElement>("p"))
     .filter((paragraph): paragraph is HTMLElement => Boolean(paragraph));
@@ -280,7 +285,7 @@ function effectWorkJourney() {
 
     gsap.set(currentLines, { rotationY: 0 });
     gsap.set(nextLines, { rotationY: 90 });
-    section.setAttribute("data-effect-work-ready", "");
+    journey.setAttribute("data-effect-work-ready", "");
 
     const bridgeTimeline = gsap.timeline({
       scrollTrigger: {
@@ -305,11 +310,31 @@ function effectWorkJourney() {
         stagger: 0.075,
         ease: "back.inOut(1.2)",
       }, 0.55)
-      .to(nextLines, { rotationY: 0, duration: 0.72 }, 1.55);
-  }, section);
+      .to(nextLines, { rotationY: 0, duration: 0.72 }, 1.55)
+      .to(bridgeMeta, {
+        autoAlpha: 0,
+        duration: 0.28,
+        ease: "power2.out",
+      }, 1.68);
+
+    if (workCatalogue) {
+      gsap.to(titles[1], {
+        autoAlpha: 0.26,
+        scale: 0.84,
+        transformOrigin: "50% 50%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: workCatalogue,
+          start: "top bottom",
+          end: "top 48%",
+          scrub: 0.35,
+        },
+      });
+    }
+  }, journey);
 
   return () => {
-    section.removeAttribute("data-effect-work-ready");
+    journey.removeAttribute("data-effect-work-ready");
     ctx.revert();
     splits.forEach((split) => split.revert());
   };
@@ -398,50 +423,61 @@ function introStoryScene() {
   };
 }
 
-// 04 / Arbeid — den asymmetriske capability-veggen er ferdig uten JS.
-// Cinematic mode legger kun på små, uavhengige one-shot-forskyvninger.
-// Ingen pin, orbit, scrollstyrt fremdrift eller skjult kritisk innhold.
+// 04 / Arbeid — de seks faktiske capability-lenkene beveger seg i vanlig,
+// deterministisk scroll over den ene tittelen som eies av 03→04→Arbeid-wrapperen.
+// Ingen kopiert tittel, tilfeldig plassering, medieloop eller scroll-kapring.
 function workProof(cinematic: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
-  const tiles = gsap.utils.toArray<HTMLElement>("[data-work-tile]", section);
-  const statement = section.querySelector<HTMLElement>("[data-work-statement]");
-  if (!tiles.length || !cinematic) return () => {};
+  const pairs = gsap.utils.toArray<HTMLElement>("[data-work-pair]", section);
+  const handoff = section.querySelector<HTMLElement>("[data-work-handoff]");
+  if (!pairs.length || !cinematic) return () => {};
 
   const ctx = gsap.context(() => {
-    const offsets = [30, 48, 22, 36, 54, 28];
-
-    tiles.forEach((tile, index) => {
-      gsap.from(tile, {
-        y: offsets[index] ?? 30,
-        autoAlpha: 0,
-        duration: 0.82,
-        ease: "power3.out",
+    pairs.forEach((pair, pairIndex) => {
+      const pairTiles = gsap.utils.toArray<HTMLElement>("[data-work-tile]", pair);
+      gsap.fromTo(pairTiles, {
+        xPercent: (index) => index === 0 ? -1.8 : 1.8,
+        yPercent: (index) => index === 0
+          ? 18 + pairIndex * 2
+          : 28 - pairIndex * 2,
+      }, {
+        xPercent: 0,
+        yPercent: 0,
+        ease: "none",
         scrollTrigger: {
-          trigger: tile,
-          start: "top 86%",
-          once: true,
+          trigger: pair,
+          start: "top 98%",
+          end: "top 18%",
+          scrub: 0.38,
+          invalidateOnRefresh: true,
         },
       });
     });
 
-    if (statement) {
-      gsap.from(statement, {
-        y: 32,
+    if (handoff) {
+      const handoffParts = handoff.querySelectorAll(
+        ":scope > p, :scope > div",
+      );
+      gsap.from(handoffParts, {
+        y: 24,
         autoAlpha: 0,
-        duration: 0.9,
+        duration: 0.7,
+        stagger: 0.08,
         ease: "power3.out",
         scrollTrigger: {
-          trigger: statement,
-          start: "top 84%",
+          trigger: handoff,
+          start: "top 72%",
           once: true,
         },
       });
     }
   }, section);
 
-  return () => ctx.revert();
+  return () => {
+    ctx.revert();
+  };
 }
 
 // 06 / System — manifesto lines rise out of their masks once; support and

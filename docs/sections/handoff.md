@@ -25,12 +25,13 @@ Last reconciled: 2026-07-16.
 - The `mauve-warm` Effect surface continues through the bridge and the complete Work catalogue. No colour cut or white paper surface is introduced at this boundary.
 - Desktop deliberately differs from 02→03: `Effekt må bygges inn.` rotates out line by line around the Y-axis while `Dette kan Tigon lage.` rotates in as the reverse side of the same typographic surface.
 - The MWG 053 reference informs only the 3D line-flip architecture; no external code, fonts or assets are imported. No image crosses or competes with the Work heading, and the first capability visual is never clipped. Mobile, reduced motion and no-JS use ordinary readable flow with no sticky enhancement.
+- The flip and complete Work catalogue share one wrapper, so the actual final title remains sticky behind three 2–2 capability chapters. It contracts into a restrained central watermark as Work enters; no duplicate title is rendered.
 - The shared image is an existing Tigon capability asset. No new or external asset was introduced, and the transition does not imply delivered customer work.
 
 ## 04 → 05 / Arbeid → Prosess
 
 - Active files: `src/components/WorkProof.tsx`, `src/styles/work-proof.css`, `src/lib/osmo-motion.ts` and initialization in `HomeMotion.tsx`.
-- Arbeid ends with `Slik blir det til.`, `Seks muligheter. Én metode.` and the Retning / Bygg / Live index.
+- Arbeid ends with an opaque viewport-height cover containing `Slik blir det til.`, `Seks muligheter. Én metode.` and the Retning / Bygg / Live index. The cover terminates the sticky title before the shutter starts.
 - The transition uses the original Osmo Shutter Scroll Transition architecture with exactly three generated rows across breakpoints.
-- The rows cover the light Work surface with the dark Process colour before 05 content takes over; they are decorative and contain no critical text.
+- The rows cover the light Work surface with the dark Process colour before 05 content takes over; the shared journey clips at this boundary so the Work title cannot reappear beneath the shutter.
 - Reduced motion generates no rows and keeps the clean static boundary.

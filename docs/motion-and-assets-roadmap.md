@@ -60,21 +60,21 @@ This file records the active motion architecture. It is not a backlog of old eff
 
 - A server-rendered bridge uses two complete statements on the same mauve surface: `Effekt må bygges inn.` and `Dette kan Tigon lage.`.
 - Desktop uses an MWG 053-inspired pinned 3D line flip so the handoff does not repeat the 02→03 sticky-title rhythm. The first statement rotates out as the second rotates in; no image or colour transition participates.
-- The capability wall follows on the same `mauve-warm` surface with every image complete from its first visible frame. The first capability remains a normal accessible link, and no moving layer crosses the Work heading.
+- The bridge and Work catalogue share one wrapper and one semantic `Dette kan Tigon lage.` node. That same title contracts and fades into a restrained centre watermark behind three 2–2 capability chapters, then is clipped at the end of the wrapper.
 - Tablet/mobile, reduced motion and no-JS skip the pinned enhancement and preserve ordinary document flow.
 
 ### 04 / Arbeid
 
-- Light mineral-mauve introduction followed by a paper-based, asymmetric capability wall in normal document flow.
+- Continuous mauve introduction and asymmetric capability wall.
 - Six complete, server-rendered capability surfaces remain visible without interaction.
-- Small one-shot tile settling only; no pin, orbit, parallax stage or scroll-jacked progress.
+- MWG 051-inspired foreground-over-message principle across three authored pairs: Webapp/Nettsted, Plattform/E-handel and AI/App. Each pair approaches the centre with small deterministic scrubbed settling over one shared title. No random image loop, Observer, orbit, parallax stage or scroll-jacked progress.
 - Fine-pointer hover uses the approved regular Dynamic Text Cursor with an action-and-target label.
 - Every surface is one real link to its established service/guide URL. There is no dialog, bottom sheet, shared-element Flip, opening Pixelate or next/previous capability switcher.
 - Mobile/touch uses a visible `Utforsk` action. Reduced motion and no-JS preserve the same direct links; the custom cursor is disabled.
 
 ### 04 → 05 / Arbeid → Prosess
 
-- The server-rendered `Slik blir det til.` reply and Retning / Bygg / Live index prepare the process answer.
+- A viewport-height opaque cover brings in the server-rendered `Slik blir det til.` reply and Retning / Bygg / Live index while naturally covering the shared background title.
 - Osmo Shutter Scroll Transition generates exactly three horizontal rows across desktop, tablet and mobile.
 - The rows cover the light Work surface with the dark Process colour during the boundary pass; no content is cloned or hidden behind the generated layer.
 - Reduced motion generates no shutter rows and preserves the ordinary section boundary.

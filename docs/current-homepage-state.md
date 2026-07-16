@@ -69,14 +69,16 @@ The homepage is mounted in this order:
 
 - The new unnumbered handoff states `Effekt må bygges inn.` and labels the boundary `03 → 04 / Fra resultat til form`.
 - One continuous `mauve-warm` surface now connects Effekt, the 03→04 bridge and the entire Work catalogue. The former mineral-mauve and white paper cuts are removed.
-- Desktop uses a distinct MWG 053-inspired 3D line flip rather than repeating 02→03. `Effekt må bygges inn.` rotates away around the Y-axis while `Dette kan Tigon lage.` rotates into the same pinned position. The final title holds before the complete capability wall continues on the same surface.
+- Desktop uses a distinct MWG 053-inspired 3D line flip rather than repeating 02→03. `Effekt må bygges inn.` rotates away around the Y-axis while the single semantic `Dette kan Tigon lage.` title rotates into the shared 03→04→Arbeid sticky stage.
 - Mobile, reduced motion and no-JS remain in ordinary flow with all text, images and links visible. No new asset or external effect code was imported.
 
 ### Arbeid
 
 - Status: simplified and verified on 2026-07-15 after the user removed the card-opening layer.
 - Uses one continuous mauve, asymmetric editorial capability wall adapted from the Anatoly reference without adopting portfolio semantics.
-- Six complete surfaces use unequal widths, formats and vertical offsets in normal document flow.
+- The same `Dette kan Tigon lage.` node introduced by the 03→04 flip remains sticky behind all six capability links. It contracts into a restrained central background title as the catalogue enters; no duplicate Work title is rendered.
+- The catalogue is paced as three asymmetric 2–2–2 chapters: Webapp + Nettsted, Plattform + E-handel, then AI + App. Each pair receives roughly one desktop viewport so the centre title can breathe between the two surfaces.
+- Six complete surfaces still use unequal widths, formats and vertical offsets in normal document flow.
 - Webapp, Nettsted, Plattform, E-handel, AI and App remain immediately visible and readable.
 - It is a capability catalogue, not a customer portfolio.
 - Every item describes something Tigon can create for a future project; the section does not refer to previously built websites or use case/archive links as proof.
@@ -85,11 +87,11 @@ The homepage is mounted in this order:
 - Desktop fine-pointer hover uses the approved regular Dynamic Text Cursor with `Utforsk / [capability]`; mobile shows a visible `Utforsk` action.
 - The `Selected systems` pinned/orbital concept was rejected because it distracted from what Tigon delivers and reacted too aggressively to scroll.
 - A later static fan of six tilted capability cards was also rejected and fully rolled back because overlap, cropping and decorative composition obscured the capability argument.
-- Current motion inside the catalogue is limited to small one-shot tile settling and the section-scoped functional cursor. The preceding handoff owns the pinned 3D title flip; there is still no pin, clipping, orbit, parallax stage or scroll-driven state inside the Work wall.
+- Each pair uses one coordinated scrubbed approach from the left and right over the shared background title. The removed `Nettsider, apper og digitale systemer …` interstitial no longer interrupts the sequence. The MWG 051 reference contributes no random placement, infinite loop, Observer or scroll capture; there is still no orbit, parallax stage or hidden active state.
 
 ### Arbeid → Prosess
 
-- Arbeid ends with the server-rendered reply `Slik blir det til.` and `Seks muligheter. Én metode.`.
+- An opaque, viewport-height cover ends Arbeid with the server-rendered reply `Slik blir det til.` and `Seks muligheter. Én metode.`. It covers and terminates the shared sticky title before Prosess.
 - The handoff index names Retning, Bygg and Live before 05 / Prosess takes over.
 - A three-row Osmo Shutter Scroll Transition covers the light Work surface with the dark Process colour across the boundary.
 - The generated rows are decorative and section-scoped. Reduced motion creates no rows and keeps the ordinary static boundary.

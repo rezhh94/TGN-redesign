@@ -63,6 +63,11 @@ const capabilities = [
 ] as const;
 
 type Capability = (typeof capabilities)[number];
+const capabilityPairs = [
+  capabilities.slice(0, 2),
+  capabilities.slice(2, 4),
+  capabilities.slice(4, 6),
+] as const;
 
 function CapabilityTile({ capability }: { capability: Capability }) {
   return (
@@ -126,41 +131,34 @@ export function WorkProof() {
       data-theme-section="light"
       data-bg-section="mauve"
     >
-      <div
-        className="work-proof__paper"
-        data-work-paper
-      >
+      <div className="work-proof__catalogue" data-work-catalogue>
         <header className="work-proof__lead">
           <p>Seks mulige leveranser. Utviklet som demonstrasjoner, systemer og konsepter.</p>
           <span>TGN / capability field / 01—06</span>
         </header>
 
         <div className="work-wall" data-work-wall>
-          <div className="work-wall__row work-wall__row--opening">
-            {capabilities.slice(0, 3).map((capability) => (
-              <CapabilityTile capability={capability} key={capability.n} />
-            ))}
-          </div>
-
-          <p className="work-proof__statement" data-work-statement>
-            Nettsider, apper og digitale systemer som gjør komplekse behov
-            tydelige, brukbare og målbare.
-          </p>
-
-          <div className="work-wall__row work-wall__row--closing">
-            {capabilities.slice(3).map((capability) => (
-              <CapabilityTile capability={capability} key={capability.n} />
-            ))}
-          </div>
+          {capabilityPairs.map((pair, index) => (
+            <div
+              className={`work-wall__pair work-wall__pair--0${index + 1}`}
+              data-work-pair
+              key={pair[0].n}
+            >
+              {pair.map((capability) => (
+                <CapabilityTile capability={capability} key={capability.n} />
+              ))}
+            </div>
+          ))}
         </div>
 
         <footer className="work-proof__disclaimer">
-          <span>Dette kan Tigon lage</span>
           <span>Capability-demonstrasjoner / ikke kundecaser</span>
         </footer>
+      </div>
 
+      <div className="work-proof__cover" data-work-cover>
         {/* Replikk til 05: grensen omorganiserer mulighetene til en metode. */}
-        <footer className="work-proof__handoff">
+        <footer className="work-proof__handoff" data-work-handoff>
           <p>04 → 05</p>
           <div>
             <h3>
