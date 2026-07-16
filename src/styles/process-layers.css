@@ -1,229 +1,444 @@
-/* 05 / Prosess — "Prosjektreisen". Monumental tittel + tre steg-rader stablet
-   loddrett (STEG · 0X + tekst venstre, stort media-panel høyre, hårstrek mellom).
-   Lyst rom — bevisst kontrast mot mørke 04 over. Ren vertikal scroll: samme
-   layout på desktop og mobil, ingen pin. */
+/* 05 / Prosess — one continuous editorial system surface.
+   The references inform the poster grid and progression, while typography,
+   material, contrast and the final lock-up stay inside Tigon's own system. */
 
 .process-journey {
-  --pj-line: rgba(16, 16, 15, 0.14);
   position: relative;
-  /* Lyst rom, varm nøytral — bryter mot den mørke 04 rett over. */
-  background: var(--bone);
-  color: var(--blekk);
-  border-top: 1px solid var(--pj-line);
+  overflow: hidden;
+  padding-bottom: clamp(96px, 11vh, 148px);
+  background: var(--tigon-canvas);
+  color: var(--color-on-dark);
 }
 
-.process-journey__inner {
+.process-journey__intro,
+.process-system,
+.process-journey__closer {
   width: min(100%, var(--page-max));
-  margin: 0 auto;
-  padding: var(--section-pad-y) var(--gutter);
+  margin-right: auto;
+  margin-left: auto;
 }
 
-/* --- Tittel-hode -------------------------------------------------------- */
-
-.process-journey__head {
-  margin-bottom: clamp(40px, 6vh, 88px);
+.process-journey__intro {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  padding: clamp(104px, 12vh, 156px) var(--gutter) clamp(56px, 7vh, 88px);
 }
 
-.process-journey__eyebrow {
-  color: var(--on-light-quiet);
-  font-family: var(--font-mono);
+.process-journey__label {
+  grid-column: 1 / 3;
+  align-self: start;
+  color: var(--on-dark-quiet);
+  font-family: var(--tigon-type-meta);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
 
 .process-journey__title {
-  margin-top: clamp(20px, 3vh, 36px);
-  font-family: var(--font-display);
+  grid-column: 3 / 10;
+  margin: 0;
+  color: var(--color-on-dark);
+  font-family: var(--tigon-type-display);
+  font-size: clamp(72px, 9.3vw, 170px);
   font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.8;
   text-transform: uppercase;
-  letter-spacing: 0.01em;
-  line-height: 0.9;
-  /* Monumental — kapittel-stor mot de store proof-flatene i 04. */
-  font-size: clamp(56px, 11vw, 200px);
 }
 
-.process-journey__line1 {
+.process-journey__title span {
   display: block;
+}
+
+.process-journey__title span:first-child {
+  color: rgba(242, 241, 235, 0.28);
+}
+
+.process-journey__intro-copy {
+  grid-column: 10 / -1;
+  align-self: end;
+}
+
+.process-journey__intro-copy p {
+  max-width: 31ch;
+  color: var(--on-dark-strong);
+  font-family: var(--tigon-type-editorial);
+  font-size: var(--fz-lead-l);
+  line-height: 1.45;
+}
+
+.process-journey__intro-copy span {
+  display: block;
+  margin-top: 22px;
+  color: var(--on-dark-faint);
+  font-family: var(--tigon-type-meta);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.process-system {
+  padding: 0 var(--gutter);
+}
+
+.process-system__rail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: 64px;
+  border: 1px solid var(--tigon-line-dark);
+  border-bottom: 0;
+  color: var(--on-dark-quiet);
+  font-family: var(--tigon-type-meta);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.process-system__rail p {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0;
+  padding: 18px 22px;
+}
+
+.process-system__rail p + p {
+  border-left: 1px solid var(--tigon-line-dark);
+}
+
+.process-system__rail p:last-child {
+  justify-content: flex-end;
+}
+
+.process-system__rail p:last-child span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pine-tint);
+}
+
+.process-system__sequence {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--tigon-line-dark);
   color: var(--blekk);
+  list-style: none;
 }
 
-.process-journey__line2 {
-  display: block;
+.process-phase {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(360px, 1fr) auto auto;
+  min-width: 0;
+  min-height: clamp(720px, 56vw, 940px);
+  padding: clamp(22px, 2.1vw, 40px);
+  overflow: hidden;
+  background: var(--tigon-paper);
+}
+
+.process-phase + .process-phase {
+  border-left: 1px solid var(--tigon-line-light);
+}
+
+.process-phase--02 {
+  background: var(--tigon-mineral);
+}
+
+.process-phase--03 {
+  background: var(--tigon-canvas-raised);
+  color: var(--color-on-dark);
+}
+
+.process-phase__head,
+.process-phase__output {
+  font-family: var(--tigon-type-meta);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.process-phase__head,
+.process-phase__output {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.process-phase__head {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--tigon-line-light);
+}
+
+.process-phase__head strong,
+.process-phase__output strong {
+  font-weight: 400;
+}
+
+.process-phase--03 .process-phase__head {
+  border-color: var(--tigon-line-dark);
+  color: var(--on-dark-medium);
+}
+
+.process-phase__signal {
+  position: relative;
+  display: grid;
+  min-height: clamp(360px, 31vw, 540px);
+  place-items: center;
+  isolation: isolate;
+}
+
+.process-phase__numeral {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  color: var(--blekk);
+  font-family: var(--tigon-type-display);
+  font-size: clamp(210px, 18vw, 332px);
+  font-weight: 700;
+  letter-spacing: -0.09em;
+  line-height: 0.72;
+  transform: translate(-52%, -50%);
+}
+
+.process-phase--02 .process-phase__numeral {
+  color: var(--on-light-strong);
+}
+
+.process-phase--03 .process-phase__numeral {
+  color: var(--color-on-dark);
+}
+
+.process-phase__copy {
+  position: relative;
+  z-index: 2;
+  padding: clamp(20px, 2vw, 34px) 0 clamp(28px, 2.8vw, 46px);
+  text-align: center;
+}
+
+.process-phase__copy h3 {
+  max-width: 10ch;
+  margin: 0 auto;
+  font-family: var(--tigon-type-display);
+  font-size: clamp(43px, 4.4vw, 72px);
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.process-phase--03 .process-phase__copy h3 {
+  max-width: 10ch;
+}
+
+.process-phase__copy p {
+  max-width: 35ch;
+  margin: clamp(18px, 1.5vw, 24px) auto 0;
+  color: var(--on-light-strong);
+  font-family: var(--tigon-type-editorial);
+  font-size: var(--fz-lead-s);
+  line-height: 1.48;
+}
+
+.process-phase--03 .process-phase__copy p {
+  color: var(--on-dark-medium);
+}
+
+.process-phase__output {
+  padding-top: 14px;
+  border-top: 1px solid rgba(5, 6, 6, 0.3);
   color: var(--on-light-faint);
 }
 
-.process-journey__note {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: clamp(20px, 3vh, 30px);
-  color: var(--on-light-quiet);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.process-journey__note-mark {
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 8px solid var(--pine);
-}
-
-/* --- Steg-rader --------------------------------------------------------- */
-
-.process-journey__steps {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.process-journey__row {
-  display: grid;
-  grid-template-columns: 92px minmax(0, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(20px, 3.5vw, 64px);
-  align-items: start;
-  padding: clamp(40px, 6vh, 80px) 0;
-  border-top: 1px solid var(--pj-line);
-}
-
-.process-journey__step {
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--on-light-quiet);
-  /* Flukter med overskriftens optiske topp. */
-  padding-top: 6px;
-}
-
-.process-journey__text {
-  max-width: 44ch;
-}
-
-.process-journey__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-  line-height: 1;
+.process-phase__output strong {
+  max-width: 15ch;
   color: var(--blekk);
-  font-size: clamp(28px, 2.6vw, 46px);
+  font-family: var(--tigon-type-editorial);
+  font-size: var(--fz-lead-s);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-align: right;
+  text-transform: none;
 }
 
-.process-journey__body {
-  margin-top: clamp(16px, 2vh, 24px);
-  max-width: 42ch;
-  font-family: var(--font-sans);
-  font-size: var(--fz-lead-m);
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--on-light-medium);
+.process-phase--03 .process-phase__output {
+  border-color: rgba(242, 242, 239, 0.3);
+  color: var(--on-dark-faint);
 }
 
-.process-journey__out {
-  display: inline-block;
-  margin-top: clamp(22px, 3vh, 34px);
-  padding-bottom: 5px;
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--on-light-quiet);
-  border-bottom: 1px solid var(--pj-line);
+.process-phase--03 .process-phase__output strong {
+  color: var(--color-on-dark);
 }
-
-/* Media-panel — skarp editoriell ramme (radius 0 + hårstrek), bildet er helten. */
-.process-journey__media {
-  position: relative;
-  margin: 0;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: var(--stein);
-  box-shadow: inset 0 0 0 1px rgba(16, 16, 15, 0.1);
-}
-
-.process-journey__media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.process-journey__media-tag {
-  position: absolute;
-  top: clamp(16px, 2vw, 24px);
-  left: clamp(16px, 2vw, 26px);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.92);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
-}
-
-/* --- Avslutning (outro → kontakt) --------------------------------------- */
 
 .process-journey__closer {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: clamp(18px, 2.4vh, 28px);
-  padding-top: clamp(44px, 6vh, 80px);
-  border-top: 1px solid var(--pj-line);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: end;
+  margin-top: clamp(64px, 8vh, 100px);
+  padding: clamp(48px, 6vh, 72px) var(--gutter) 0;
+  border-top: 1px solid var(--tigon-line-dark);
 }
 
-.process-journey__closer-title {
-  max-width: 20ch;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  font-size: clamp(24px, 2.7vw, 42px);
-  line-height: 1.16;
-  letter-spacing: -0.01em;
-  color: var(--blekk);
+/* Overgangstekst mot kontakt — ikke et display-statement. Work-statementet
+   eier den store JUST Sans-kontrasten alene. */
+.process-journey__closer > p {
+  max-width: 30ch;
+  margin: 0;
+  color: var(--on-dark-strong);
+  font-family: var(--tigon-type-editorial);
+  font-size: clamp(22px, 1.9vw, 30px);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
 }
 
-.process-journey__closer-cta {
-  font-family: var(--font-mono);
+.process-journey__closer a {
+  padding-bottom: 6px;
+  color: var(--color-on-dark);
+  font-family: var(--tigon-type-meta);
   font-size: var(--fz-mono-l);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--blekk);
+  letter-spacing: var(--mono-track);
   text-decoration: none;
-  border-bottom: 1px solid var(--blekk);
-  padding-bottom: 5px;
-  transition: color var(--motion-fast) ease-out, border-color var(--motion-fast) ease-out;
+  text-transform: uppercase;
 }
 
-.process-journey__closer-cta:hover {
-  color: var(--pine);
-  border-color: var(--pine);
-}
-
-/* --- Mobil -------------------------------------------------------------- */
-
-@media (max-width: 768px) {
-  .process-journey__title {
-    font-size: clamp(46px, 15vw, 84px);
-  }
-
-  .process-journey__row {
+@media (max-width: 1100px) {
+  .process-journey__intro {
     grid-template-columns: 1fr;
-    gap: clamp(16px, 3vw, 24px);
-    padding: clamp(36px, 6vh, 56px) 0;
+    gap: 34px;
   }
 
-  .process-journey__step {
-    padding-top: 0;
+  .process-journey__label,
+  .process-journey__title,
+  .process-journey__intro-copy {
+    grid-column: auto;
   }
 
-  .process-journey__media {
-    margin-top: 4px;
-    aspect-ratio: 3 / 2;
+  .process-journey__intro-copy {
+    max-width: 44ch;
+  }
+
+  .process-system__rail {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .process-system__rail p:nth-child(2) {
+    display: none;
+  }
+
+  .process-system__sequence {
+    grid-template-columns: 1fr;
+  }
+
+  .process-phase {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(420px, 1fr) auto auto;
+    min-height: 780px;
+  }
+
+  .process-phase + .process-phase {
+    border-top: 1px solid var(--tigon-line-light);
+    border-left: 0;
+  }
+
+  .process-phase__copy h3,
+  .process-phase--02 .process-phase__copy h3,
+  .process-phase--03 .process-phase__copy h3 {
+    font-size: clamp(52px, 7vw, 76px);
+  }
+}
+
+@media (max-width: 640px) {
+  .process-journey {
+    padding-bottom: 88px;
+  }
+
+  .process-journey__intro {
+    padding: 88px 20px 48px;
+  }
+
+  .process-journey__title {
+    font-size: clamp(58px, 18vw, 86px);
+  }
+
+  .process-system {
+    padding: 0 20px;
+  }
+
+  .process-system__rail {
+    min-height: 54px;
+  }
+
+  .process-system__rail p {
+    padding: 14px;
+  }
+
+  .process-system__rail p:last-child {
+    text-align: right;
+  }
+
+  .process-phase {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(310px, 1fr) auto auto;
+    min-height: 680px;
+    padding: 20px;
+  }
+
+  .process-phase__head,
+  .process-phase__signal,
+  .process-phase__copy,
+  .process-phase__output {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .process-phase__copy h3,
+  .process-phase--02 .process-phase__copy h3,
+  .process-phase--03 .process-phase__copy h3 {
+    font-size: clamp(44px, 13vw, 58px);
+  }
+
+  .process-phase__copy p {
+    font-size: var(--fz-lead-s);
+  }
+
+  .process-phase__signal {
+    min-height: 310px;
+  }
+
+  .process-phase__numeral {
+    font-size: clamp(210px, 64vw, 276px);
+  }
+
+  .process-journey__closer {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    margin-top: 68px;
+    padding: 46px 20px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-phase__head,
+  .process-phase__copy,
+  .process-phase__output {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Numeralen sentreres med prosent-transform i CSS — tving kun synlighet,
+     aldri transform. */
+  .process-phase__numeral {
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 }

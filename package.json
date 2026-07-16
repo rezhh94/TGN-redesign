@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:mobile": "node scripts/mobile-dev.mjs",
     "build": "next build",
     "typecheck": "tsc --noEmit"
   },
@@ -18,6 +19,7 @@
     "@types/node": "^26.1.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "qrcode-terminal": "^0.12.0",
     "typescript": "^6.0.3"
   }
 }

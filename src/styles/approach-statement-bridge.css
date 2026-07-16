@@ -1,99 +1,150 @@
-/* 01 / Tilnærming — MWG 049-oversatt «defying gravity». Statementet pinnes
-   øverst i en 100vh-container mens hver bokstav reiser sin egen tilfeldige
-   distanse opp på plass — UKLART starter spredt og monteres til byggbart.
-
-   Default (no JS / PRM) er statisk, samlet statement — splitting skjer kun
-   på runtime og reverseres ved teardown. */
-
 .approach-bridge {
-  /* Standard mørk base — erstatter den varme ad-hoc-gradienten. */
-  background: var(--ink-base);
+  position: relative;
+  z-index: 2;
+  overflow: clip;
+  background: #030303;
   color: var(--color-on-dark);
 }
 
-.approach-bridge__inner {
+.approach-intro {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
   width: min(100%, var(--page-max));
-  margin: 0 auto;
-  padding: 0 var(--gutter) clamp(96px, 14vh, 180px);
+  margin-right: auto;
+  margin-left: auto;
+  padding: clamp(112px, 14vh, 184px) var(--gutter) clamp(96px, 12vh, 160px);
 }
 
-/* 100vh-containeren er scatter-rommet: tittelen pinnes i toppen av den,
-   bokstavene henger nedover i resten (MWG 049 verbatim geometri). */
-
-.approach-bridge__container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding-top: calc(var(--header-height) + clamp(20px, 4vh, 44px));
-}
-
-.approach-bridge__label {
-  margin-bottom: clamp(22px, 3.6vh, 40px);
+.approach-intro__label {
+  grid-column: 1 / 3;
+  align-self: start;
   color: var(--on-dark-quiet);
   font-family: var(--font-mono);
   font-size: var(--fz-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--mono-track);
   line-height: 1.2;
   text-transform: uppercase;
 }
 
-.approach-bridge__statement {
+.approach-intro__statement {
+  grid-column: 3 / -1;
+  margin: 0;
   color: var(--color-on-dark);
   font-family: var(--font-display);
-  /* Tier 1 i den typografiske stigen — deles med 02s BYGGER-tittel */
-  font-size: clamp(64px, 8.6vw, 170px);
+  font-size: clamp(60px, 7.4vw, 138px);
   font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 0.92;
+  letter-spacing: var(--display-track);
+  line-height: 0.82;
   text-transform: uppercase;
 }
 
-.approach-bridge__line {
+/* Osmo Highlight Text on Scroll splitter tegn klientside. Uten JS står
+   autorlinjene som vanlige blokker med samme typografiske komposisjon. */
+.approach-intro__line {
   display: block;
 }
 
-.approach-bridge__line--indent {
-  margin-left: clamp(48px, 10vw, 240px);
-  color: var(--on-dark-quiet);
+/* Utsagnet driver diagonalt mot resolusjonen; tonen løftes der argumentet
+   snur (lansert -> valgt). */
+.approach-intro__line--quiet {
+  color: rgba(242, 241, 235, 0.28);
 }
 
-/* Runtime-splittede bokstaver (JS) — inline-block for transform */
-
-.approach-bridge .ab-letter {
-  display: inline-block;
-  will-change: transform;
+.approach-intro__line:nth-child(2) {
+  margin-left: 0.55em;
 }
 
-.approach-bridge__support {
-  max-width: 640px;
-  /* Holder støtteavsnittet unna scatter-sonen til bokstavene er samlet */
-  margin-top: clamp(96px, 24vh, 280px);
+.approach-intro__line:nth-child(3) {
+  margin-left: 1.35em;
+}
+
+.approach-intro__line:nth-child(4) {
+  margin-left: 1.9em;
+}
+
+.approach-intro__support {
+  grid-column: 7 / 11;
+  margin-top: clamp(56px, 8vh, 104px);
+}
+
+.approach-intro__support p {
+  max-width: 38ch;
   color: var(--on-dark-medium);
   font-family: var(--font-sans);
-  font-size: clamp(17px, 1.35vw, 21px);
-  font-weight: 400;
+  font-size: clamp(17px, 1.3vw, 21px);
   line-height: 1.5;
 }
 
-@media (max-width: 768px) {
-  .approach-bridge__inner {
-    padding: 0 20px 96px;
+.approach-intro__support span {
+  display: block;
+  margin-top: 28px;
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* Replikk til 02: stille mono-linje som lukker tesen mot svaret. */
+.approach-intro__handoff {
+  grid-column: 7 / -1;
+  margin-top: clamp(48px, 7vh, 88px);
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .approach-intro {
+    grid-template-columns: 1fr;
+    padding-top: 96px;
   }
 
-  .approach-bridge__container {
-    padding-top: calc(var(--header-height) + 16px);
+  .approach-intro__label,
+  .approach-intro__statement,
+  .approach-intro__support,
+  .approach-intro__handoff {
+    grid-column: auto;
   }
 
-  .approach-bridge__statement {
-    font-size: clamp(44px, 13vw, 72px);
+  .approach-intro__statement {
+    margin-top: 44px;
+    font-size: clamp(46px, 12.5vw, 88px);
   }
 
-  .approach-bridge__line--indent {
-    margin-left: 32px;
+  .approach-intro__line:nth-child(2) {
+    margin-left: 0.4em;
   }
 
-  .approach-bridge__support {
-    margin-top: 40px;
-    font-size: 16px;
+  .approach-intro__line:nth-child(3) {
+    margin-left: 0.8em;
+  }
+
+  .approach-intro__line:nth-child(4) {
+    margin-left: 1.2em;
+  }
+
+  .approach-intro__support {
+    margin-top: 48px;
+  }
+}
+
+@media (max-width: 640px) {
+  .approach-intro {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .approach-intro > *,
+  .approach-intro__line .char {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

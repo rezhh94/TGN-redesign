@@ -5,6 +5,13 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { destroyLenis, initLenis } from "@/lib/motion";
+import {
+  initApproachPathJourney,
+  initContentRevealScroll,
+  initFooterParallax,
+  initGlobalParallax,
+  initShutterScrollTransition,
+} from "@/lib/osmo-motion";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -12,514 +19,464 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 // pinned scenes jump. Dimension changes from real rotation still refresh.
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-// 02 / Tjenester — three-part chapter. Pillars + accordion rows rise in once;
-// the accordion becomes interactive (one row open at a time, no images); the
-// bottom register decodes in on scroll. All content is SSR and readable with
-// no JS (rows stay open, register text is final). Teardown restores that state.
+// 02 / Tjenester — five complete editorial chapters in ordinary document flow.
+// Copy and media settle from small opposing offsets; service names, descriptions
+// and links remain visible, server-rendered content without JavaScript.
 function servicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
   if (!section) return () => {};
 
-  const cleanups: Array<() => void> = [];
+  const chapters = gsap.utils.toArray<HTMLElement>("[data-service-chapter]", section);
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced) return () => {};
 
-  const pillars = section.querySelector<HTMLElement>("[data-build-list]");
-  const accordion = section.querySelector<HTMLElement>("[data-build-accordion]");
-  const rows = accordion
-    ? gsap.utils.toArray<HTMLElement>("[data-build-row]", accordion)
-    : [];
+  const ctx = gsap.context(() => {
+    const compact = window.matchMedia("(max-width: 900px)").matches;
 
-  if (accordion && rows.length) {
-    // Enhance into an accordion — one row open at a time. Default open = first.
-    section.classList.add("what-build--enhanced");
-    const panelOf = (row: HTMLElement) =>
-      row.querySelector<HTMLElement>("[data-build-panel]");
-    const btnOf = (row: HTMLElement) =>
-      row.querySelector<HTMLElement>("[data-build-toggle]");
+    chapters.forEach((chapter, index) => {
+      const visual = chapter.querySelector<HTMLElement>("[data-service-chapter-visual]");
+      const image = visual?.querySelector<HTMLElement>("img");
+      const copy = chapter.querySelector<HTMLElement>("[data-service-copy]");
+      if (!copy) return;
 
-    rows.forEach((row, i) => {
-      const panel = panelOf(row);
-      const btn = btnOf(row);
-      const open = i === 0;
-      if (open) row.setAttribute("data-open", "");
-      else row.removeAttribute("data-open");
-      btn?.setAttribute("aria-expanded", String(open));
-      if (panel) gsap.set(panel, { height: open ? "auto" : 0 });
-    });
-
-    const openRow = (row: HTMLElement) => {
-      const panel = panelOf(row);
-      if (!panel) return;
-      row.setAttribute("data-open", "");
-      btnOf(row)?.setAttribute("aria-expanded", "true");
-      gsap.set(panel, { height: "auto" });
-      const h = panel.offsetHeight;
-      gsap.fromTo(
-        panel,
-        { height: 0 },
-        {
-          height: h,
-          duration: 0.5,
-          ease: "power3.inOut",
-          onComplete: () => gsap.set(panel, { height: "auto" }),
-        }
-      );
-    };
-
-    const closeRow = (row: HTMLElement) => {
-      const panel = panelOf(row);
-      if (!panel) return;
-      row.removeAttribute("data-open");
-      btnOf(row)?.setAttribute("aria-expanded", "false");
-      gsap.fromTo(
-        panel,
-        { height: panel.offsetHeight },
-        { height: 0, duration: 0.45, ease: "power3.inOut" }
-      );
-    };
-
-    rows.forEach((row) => {
-      const btn = btnOf(row);
-      if (!btn) return;
-      const onClick = () => {
-        const isOpen = row.hasAttribute("data-open");
-        if (isOpen) {
-          closeRow(row);
-          return;
-        }
-        rows.forEach((other) => {
-          if (other !== row && other.hasAttribute("data-open")) closeRow(other);
+      // Tekstledede register-rader (03–05) har ingen visual; de settler
+      // med én stille one-shot i stedet for det motgående paret.
+      if (!visual || !image) {
+        gsap.from(chapter, {
+          y: 22,
+          autoAlpha: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: { trigger: chapter, start: "top 88%", once: true },
         });
-        openRow(row);
-      };
-      btn.addEventListener("click", onClick);
-      cleanups.push(() => btn.removeEventListener("click", onClick));
-    });
+        return;
+      }
 
-    cleanups.push(() => {
-      section.classList.remove("what-build--enhanced");
-      rows.forEach((row) => {
-        row.removeAttribute("data-open");
-        btnOf(row)?.setAttribute("aria-expanded", "true");
-        const panel = panelOf(row);
-        if (panel) gsap.set(panel, { clearProps: "height" });
+      const direction = index % 2 ? -1 : 1;
+      const settle = gsap.timeline({
+        scrollTrigger: {
+          trigger: chapter,
+          start: "top 92%",
+          end: compact ? "top 38%" : "top 32%",
+          scrub: compact ? 0.14 : 0.18,
+          invalidateOnRefresh: true,
+        },
       });
-    });
-  }
 
-  // Register: decode each label in on scroll (same engine as Prosess title).
-  const register = section.querySelector<HTMLElement>("[data-build-register]");
-  if (register) {
-    const targets = gsap.utils.toArray<HTMLElement>("[data-scramble]", register);
-    const GLYPH = "ABCDEFGHIJKLMNOPQR#%&/()=+*0123456789";
-    let rafId = 0;
-    const finals = new Map<HTMLElement, string>();
-    targets.forEach((el) => {
-      const final = el.textContent ?? "";
-      finals.set(el, final);
-      el.textContent = final
-        .split("")
-        .map((c) => (c === " " ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)]))
-        .join("");
-    });
+      settle
+        .fromTo(
+          visual,
+          { xPercent: direction * (compact ? 3 : 6), y: compact ? 12 : 20, scale: 0.985, autoAlpha: 0.76 },
+          { xPercent: 0, y: 0, scale: 1, autoAlpha: 1, duration: 1, ease: "none" },
+          0,
+        )
+        .fromTo(
+          copy,
+          { xPercent: direction * (compact ? -2 : -3), y: compact ? 10 : 16, autoAlpha: 0.68 },
+          { xPercent: 0, y: 0, autoAlpha: 1, duration: 0.82, ease: "none" },
+          0.12,
+        );
 
-    const run = (el: HTMLElement, finalText: string, durationMs: number) => {
-      let startT = 0;
-      const chars = finalText.split("");
-      const frame = (now: number) => {
-        if (!startT) startT = now;
-        const p = Math.min(1, (now - startT) / durationMs);
-        const locked = Math.floor(p * chars.length);
-        let out = "";
-        for (let i = 0; i < chars.length; i++) {
-          const c = chars[i];
-          out += c === " " || i < locked ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)];
-        }
-        el.textContent = out;
-        if (p < 1) rafId = requestAnimationFrame(frame);
-        else el.textContent = finalText;
-      };
-      rafId = requestAnimationFrame(frame);
-    };
-
-    const st = ScrollTrigger.create({
-      trigger: register,
-      start: "top 84%",
-      once: true,
-      onEnter: () => {
-        targets.forEach((el, i) => {
-          window.setTimeout(() => run(el, finals.get(el) ?? "", 620), i * 55);
+      if (!compact) {
+        gsap.fromTo(image, { yPercent: -6 }, {
+          yPercent: 2,
+          ease: "none",
+          scrollTrigger: {
+            trigger: chapter,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.32,
+          },
         });
+      }
+    });
+  }, section);
+
+  return () => ctx.revert();
+}
+
+// 02 → 03 — Osmo Sticky Title Scroll adapted as an unnumbered tension bridge.
+// Desktop and mobile keep one typographic stage sticky while three complete,
+// server-rendered statements replace one another. Only the final beat shifts
+// the surface into 03's mauve so "Effekt som kan måles" becomes the payoff.
+// Reduced motion and no-JS stay in ordinary readable document flow.
+function outcomeTensionBridge() {
+  const section = document.querySelector<HTMLElement>("[data-outcome-tension]");
+  if (!section) return () => {};
+
+  const titles = gsap.utils.toArray<HTMLElement>("[data-outcome-tension-title]", section);
+  const titleList = section.querySelector<HTMLElement>(".outcome-tension__titles");
+  if (titles.length < 3 || !titleList) return () => {};
+
+  const styles = getComputedStyle(document.documentElement);
+  const mauve = styles.getPropertyValue("--mauve-warm").trim() || "#c8bcc1";
+  const ink = styles.getPropertyValue("--blekk").trim() || "#10100f";
+
+  const ctx = gsap.context(() => {
+    // Place every statement on the same stage only after GSAP is running.
+    // Without JS the list remains normal, readable document flow.
+    gsap.set(titleList, { position: "relative" });
+    gsap.set(titles, {
+      position: "absolute",
+      inset: 0,
+      display: "grid",
+      placeItems: "center",
+      autoAlpha: 0,
+      yPercent: 14,
+    });
+    gsap.set(titles[0], { autoAlpha: 1, yPercent: 0 });
+    section.setAttribute("data-tension-ready", "");
+
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.4,
+        invalidateOnRefresh: true,
       },
     });
 
-    cleanups.push(() => {
-      if (rafId) cancelAnimationFrame(rafId);
-      st.kill();
-      targets.forEach((el) => {
-        el.textContent = finals.get(el) ?? "";
-      });
-    });
-  }
-
-  // Reveal — rise 40 + fade, matching Arbeid (workProof). Explicit hidden state
-  // via gsap.set (unconditional, unlike gsap.from's immediateRender which
-  // ScrollTrigger was skipping here after the accordion collapse), then fade in
-  // on enter. onRefresh reveals immediately if a group is already in view at
-  // load, so content is never stuck hidden.
-  const revealCtx = gsap.context(() => {
-    const groups: Array<[string, string]> = [
-      ["[data-build-list]", "[data-build-list] [data-build-row]"],
-      ["[data-build-accordion]", "[data-build-accordion] [data-build-row]"],
-    ];
-    groups.forEach(([trigger, target]) => {
-      const els = gsap.utils.toArray<HTMLElement>(target);
-      if (!els.length) return;
-      gsap.set(els, { autoAlpha: 0, y: 40 });
-      let done = false;
-      const reveal = () => {
-        if (done) return;
-        done = true;
-        gsap.to(els, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.07,
-        });
-      };
-      ScrollTrigger.create({
-        trigger,
-        start: "top 80%",
-        onEnter: reveal,
-        onRefresh: (self) => {
-          if (self.progress > 0) reveal();
-        },
-      });
-    });
+    timeline
+      .to(titles[0], {
+        autoAlpha: 0,
+        yPercent: -14,
+        duration: 0.34,
+        ease: "power2.in",
+      }, 0.38)
+      .fromTo(titles[1], {
+        autoAlpha: 0,
+        yPercent: 14,
+      }, {
+        autoAlpha: 1,
+        yPercent: 0,
+        duration: 0.4,
+        ease: "power3.out",
+      }, 0.52)
+      .to(titles[1], {
+        autoAlpha: 0,
+        yPercent: -14,
+        duration: 0.34,
+        ease: "power2.in",
+      }, 1.16)
+      .fromTo(titles[2], {
+        autoAlpha: 0,
+        yPercent: 14,
+      }, {
+        autoAlpha: 1,
+        yPercent: 0,
+        duration: 0.4,
+        ease: "power3.out",
+      }, 1.3)
+      .to(section, {
+        backgroundColor: mauve,
+        color: ink,
+        duration: 0.28,
+        ease: "none",
+      }, 1.25)
+      .to(titles[2], { autoAlpha: 1, duration: 0.5 }, 1.7);
   }, section);
-  cleanups.push(() => revealCtx.revert());
 
   return () => {
-    for (const c of cleanups) c();
+    section.removeAttribute("data-tension-ready");
+    ctx.revert();
   };
 }
 
-// One-time opening scene: title lines rise, then panel and bar settle.
+// 03 / Effekt — Highlight Marker på resultatordene. En mørk flate dekker
+// FUNNET/FORSTÅTT/VALGT/MÅLT og trekker seg bort i resultatrekkefølge — én
+// one-shot per synlig rad, ingen scrub. Erstatter den tidligere Proof Lock-logikken som
+// aldri kjørte (krevde et [data-effect-placeholder] som ikke fantes i DOM).
+// Copy og UI ligger i ro; uten JS står ordene vanlig (dekket er scaleX 0).
+function effectScene() {
+  const section = document.querySelector<HTMLElement>("[data-effect-section]");
+  if (!section) return () => {};
+
+  const outcomes = gsap.utils.toArray<HTMLElement>("[data-effect-outcome]", section);
+  const markers = gsap.utils.toArray<HTMLElement>("[data-effect-marker]", section);
+  if (!markers.length || outcomes.length < 4) return () => {};
+
+  const matchMedia = gsap.matchMedia();
+
+  matchMedia.add("(prefers-reduced-motion: no-preference)", () => {
+    const ctx = gsap.context(() => {
+      // Armer dekkene ved init. Hver rad avsløres først når den faktisk er
+      // synlig, slik at 03/04 ikke spiller ferdig under viewporten.
+      gsap.set(markers, { scaleX: 1, transformOrigin: "100% 50%" });
+
+      const revealRow = (row: HTMLElement[]) => {
+        const rowMarkers = row
+          .map((outcome) => outcome.querySelector<HTMLElement>("[data-effect-marker]"))
+          .filter((marker): marker is HTMLElement => Boolean(marker));
+        if (!rowMarkers.length) return;
+
+        gsap.to(rowMarkers, {
+          scaleX: 0,
+          duration: 0.5,
+          stagger: 0.14,
+          ease: "power3.inOut",
+          scrollTrigger: {
+            trigger: row[0],
+            start: "top 82%",
+            once: true,
+          },
+        });
+      };
+
+      revealRow(outcomes.slice(0, 2));
+      revealRow(outcomes.slice(2, 4));
+    }, section);
+
+    return () => ctx.revert();
+  });
+
+  return () => matchMedia.revert();
+}
+
+// 03 → 04 — MWG 053-inspirert typografisk sidevending. To komplette,
+// server-renderte statements deler én mauve 3D-stage. Linjene i Effect-tesen
+// roterer ut rundt Y-aksen mens Work-tittelen roterer inn fra baksiden.
+// Ingen MWG-kode, fonter eller assets importeres; kun bevegelsesarkitekturen.
+function effectWorkJourney() {
+  const journey = document.querySelector<HTMLElement>("[data-effect-work-journey]");
+  const section = journey?.querySelector<HTMLElement>("[data-effect-work-bridge]");
+  if (!journey || !section) return () => {};
+
+  const titles = gsap.utils.toArray<HTMLElement>("[data-effect-work-title]", journey);
+  const titleList = journey.querySelector<HTMLElement>(".effect-work-bridge__titles");
+  const workCatalogue = journey.querySelector<HTMLElement>("[data-work-catalogue]");
+  const bridgeMeta = journey.querySelectorAll<HTMLElement>(
+    ".effect-work-bridge__index, .effect-work-bridge__next",
+  );
+  const paragraphs = titles
+    .map((title) => title.querySelector<HTMLElement>("p"))
+    .filter((paragraph): paragraph is HTMLElement => Boolean(paragraph));
+  if (titles.length < 2 || paragraphs.length < 2 || !titleList) return () => {};
+
+  const splits: SplitText[] = [];
+  const ctx = gsap.context(() => {
+    gsap.set(titleList, { position: "relative" });
+    gsap.set(titles, {
+      position: "absolute",
+      inset: 0,
+      display: "grid",
+      placeItems: "center",
+    });
+
+    const lineGroups = paragraphs.map((paragraph) => {
+      const split = SplitText.create(paragraph, {
+        type: "lines",
+        linesClass: "effect-work-bridge__line",
+      });
+      splits.push(split);
+
+      split.lines.forEach((line) => {
+        const inner = document.createElement("span");
+        inner.className = "effect-work-bridge__line-inner";
+        while (line.firstChild) inner.appendChild(line.firstChild);
+        line.appendChild(inner);
+      });
+
+      return split.lines;
+    });
+
+    const currentLines = lineGroups[0];
+    const nextLines = lineGroups[1];
+
+    gsap.set(currentLines, { rotationY: 0 });
+    gsap.set(nextLines, { rotationY: 90 });
+    journey.setAttribute("data-effect-work-ready", "");
+
+    const bridgeTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.45,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    bridgeTimeline
+      .to(currentLines, {
+        rotationY: -90,
+        duration: 1,
+        stagger: 0.075,
+        ease: "back.inOut(1.2)",
+      }, 0.55)
+      .to(nextLines, {
+        rotationY: 0,
+        duration: 1,
+        stagger: 0.075,
+        ease: "back.inOut(1.2)",
+      }, 0.55)
+      .to(nextLines, { rotationY: 0, duration: 0.72 }, 1.55)
+      .to(bridgeMeta, {
+        autoAlpha: 0,
+        duration: 0.28,
+        ease: "power2.out",
+      }, 1.68);
+
+    if (workCatalogue) {
+      gsap.to(titles[1], {
+        autoAlpha: 0.26,
+        scale: 0.84,
+        transformOrigin: "50% 50%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: workCatalogue,
+          start: "top bottom",
+          end: "top 48%",
+          scrub: 0.35,
+        },
+      });
+    }
+  }, journey);
+
+  return () => {
+    journey.removeAttribute("data-effect-work-ready");
+    ctx.revert();
+    splits.forEach((split) => split.revert());
+  };
+}
+// One-time opening scene: the editorial masthead assembles once on load.
 // FROM-tweens only — without JS everything is simply visible (no CLS).
 function heroEntrance(full: boolean) {
-  const titleLines = gsap.utils.toArray<HTMLElement>(".hero__title span");
+  const hero = document.querySelector<HTMLElement>(".hero");
+  const titleLines = gsap.utils.toArray<HTMLElement>(".hero__title-line-inner", hero);
   if (!titleLines.length) return;
 
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-  tl.from(titleLines, { yPercent: 26, autoAlpha: 0, duration: 0.8, stagger: 0.09 });
-
-  if (full) {
-    tl.from(".hero__visual", { autoAlpha: 0, y: 26, duration: 0.7 }, "-=0.55");
-  }
-  tl.from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.4");
+  tl.from(".hero__head", { autoAlpha: 0, y: -8, duration: 0.45 })
+    .from(titleLines, {
+      yPercent: 108,
+      duration: full ? 0.88 : 0.72,
+      stagger: 0.08,
+    }, "-=0.2")
+    .from(".hero__offer", { autoAlpha: 0, y: 18, duration: 0.55 }, "-=0.4")
+    .from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.34");
 }
 
-// 01 / Tilnærming — MWG 049-adapted defying gravity. The statement pins at
-// the top of its 100vh container while every runtime-wrapped letter starts
-// offset downward by a random distance and scrubs back into place over
-// exactly that distance — the sentence assembles as you scroll. Teardown
-// restores the original markup.
-function approachScene() {
-  const section = document.querySelector<HTMLElement>(".approach-bridge");
+// 01 / Tilnærming — Osmo Highlight Text on Scroll. Hver autor-linje deles i
+// ord og tegn, og tegnene går fra lav til full opasitet i direkte takt med
+// scroll. De dempede linjene beholder sin roligere CSS-farge, mens tesens
+// resolusjon får full kontrast. Innholdet er komplett uten JavaScript.
+function introStoryScene() {
+  const section = document.querySelector<HTMLElement>("[data-intro-story]");
   if (!section) return () => {};
 
-  const container = section.querySelector<HTMLElement>("[data-approach-container]");
-  const title = section.querySelector<HTMLElement>("[data-approach-title]");
-  const support = section.querySelector<HTMLElement>("[data-approach-support]");
-  if (!container || !title) return () => {};
+  const authoredLines = gsap.utils.toArray<HTMLElement>("[data-highlight-text]", section);
+  if (authoredLines.length < 4) return () => {};
 
-  // Wrap every character in a span (MWG 049 util) — screen readers keep the
-  // full statement via aria-label; the spans are presentation only.
-  const lines = gsap.utils.toArray<HTMLElement>(".approach-bridge__line", title);
-  const originals = lines.map((line) => line.innerHTML);
-  title.setAttribute("aria-label", (title.textContent ?? "").replace(/\s+/g, " ").trim());
-  for (const line of lines) {
-    const text = line.textContent ?? "";
-    line.setAttribute("aria-hidden", "true");
-    line.innerHTML = text
-      .split("")
-      .map((char) =>
-        char === " " ? '<span class="ab-letter">&nbsp;</span>' : `<span class="ab-letter">${char}</span>`
-      )
-      .join("");
-  }
+  const label = section.querySelector<HTMLElement>(".approach-intro__label");
+  const support = section.querySelector<HTMLElement>(".approach-intro__support");
+  const handoff = section.querySelector<HTMLElement>("[data-intro-handoff]");
 
-  const ctx = gsap.context(() => {
-    const dist = container.clientHeight - title.clientHeight;
+  const splits: SplitText[] = [];
 
-    ScrollTrigger.create({
-      trigger: container,
-      pin: title,
-      start: "top top",
-      end: "+=" + dist,
-    });
+  authoredLines.forEach((line) => {
+    const scrollStart = line.getAttribute("data-highlight-scroll-start") || "top 90%";
+    const scrollEnd = line.getAttribute("data-highlight-scroll-end") || "center 40%";
+    const fadedValue = parseFloat(line.getAttribute("data-highlight-fade") || "") || 0.2;
+    const staggerValue = parseFloat(line.getAttribute("data-highlight-stagger") || "") || 0.1;
 
-    // NB: the reference triggers on the title, but its title sits flush with
-    // the container top. Ours is offset by the fixed header, so the title
-    // never reaches 'top top' — trigger on the container instead, which is
-    // exactly where the pin starts.
-    const letters = title.querySelectorAll<HTMLElement>(".ab-letter");
-    letters.forEach((letter) => {
-      const randomDistance = Math.random() * dist;
-      gsap.from(letter, {
-        y: randomDistance,
-        ease: "none",
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: "+=" + randomDistance,
-          scrub: true,
+    splits.push(
+      SplitText.create(line, {
+        type: "words, chars",
+        autoSplit: true,
+        onSplit(self) {
+          const ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+              scrollTrigger: {
+                scrub: true,
+                trigger: line,
+                start: scrollStart,
+                end: scrollEnd,
+              },
+            });
+
+            tl.from(self.chars, {
+              autoAlpha: fadedValue,
+              stagger: staggerValue,
+              ease: "linear",
+            });
+          }, line);
+
+          return ctx;
         },
-      });
-    });
+      }),
+    );
+  });
 
-    if (support) {
-      gsap.from(support, {
-        autoAlpha: 0,
-        y: 18,
-        duration: 0.6,
-        ease: "power2.out",
-        scrollTrigger: { trigger: support, start: "top 88%", once: true },
-      });
-    }
-  }, section);
+  const detailTimeline = gsap.timeline({
+    scrollTrigger: { trigger: section, start: "clamp(top 70%)", once: true },
+    defaults: { ease: "power3.out" },
+  });
+  if (label) detailTimeline.from(label, { autoAlpha: 0, duration: 0.5 }, 0);
+  if (support) detailTimeline.from(support, { autoAlpha: 0, y: 20, duration: 0.6 }, 0.78);
+  if (handoff) detailTimeline.from(handoff, { autoAlpha: 0, y: 12, duration: 0.5 }, 1.0);
 
   return () => {
-    ctx.revert();
-    lines.forEach((line, index) => {
-      line.innerHTML = originals[index];
-      line.removeAttribute("aria-hidden");
-    });
-    title.removeAttribute("aria-label");
+    detailTimeline.scrollTrigger?.kill();
+    detailTimeline.kill();
+    splits.forEach((split) => split.revert());
   };
 }
 
-// 02→03 / Overlevering — dominant "ignite" pin. On desktop the statement is
-// pinned to the center of the viewport while the scroll scrubs through ~120vh;
-// the first line stays dim and the second line's words burn from muted grey to
-// full white in a stagger, with a subtle scale settle. On mobile there is no
-// pin — the same ignite scrubs as the section crosses the viewport. Colours are
-// set from JS, so no-JS / reduced-motion keep the static SSR statement.
-function bridgeScene(pin: boolean) {
-  const section = document.querySelector<HTMLElement>(".effect-bridge");
-  if (!section) return () => {};
-
-  const inner = section.querySelector<HTMLElement>("[data-bridge-inner]");
-  const ignite = gsap.utils.toArray<HTMLElement>("[data-bridge-ignite]", section);
-  if (!inner || !ignite.length) return () => {};
-
-  const dim = "rgba(242, 241, 235, 0.2)";
-  const bright = "rgba(246, 245, 241, 1)";
-
-  const ctx = gsap.context(() => {
-    // Start the second line dim; the scrub burns it to full white.
-    gsap.set(ignite, { color: dim });
-
-    const trigger = pin
-      ? { trigger: section, start: "top top", end: "+=120%", scrub: 0.5, pin: inner, anticipatePin: 1, invalidateOnRefresh: true }
-      : { trigger: section, start: "top 78%", end: "top 32%", scrub: 0.5 };
-
-    const tl = gsap.timeline({ scrollTrigger: trigger });
-
-    if (pin) {
-      tl.fromTo(inner, { scale: 0.94 }, { scale: 1, ease: "none" }, 0);
-    }
-    tl.to(ignite, { color: bright, ease: "none", stagger: 0.5 }, 0.12);
-  }, section);
-
-  return () => ctx.revert();
-}
-
-// 03 / Effekt — stacking outcome cards. The right column's four cards stack via
-// CSS position:sticky (pure layout, works with no JS). This only tracks which
-// card is currently at the front and lights its index entry + un-greys its
-// image. No-JS / reduced motion keep the static two-column document (cards still
-// stack — that's CSS, not motion).
-function improveScene() {
-  const section = document.querySelector<HTMLElement>(".what-improve");
-  if (!section) return () => {};
-
-  const blocks = gsap.utils.toArray<HTMLElement>("[data-improve-block]", section);
-  const dots = gsap.utils.toArray<HTMLElement>("[data-improve-dot]", section);
-  if (!blocks.length) return () => {};
-
-  section.classList.add("what-improve--tracked");
-
-  // Only the front-most card is active at a time.
-  const setActive = (index: number) => {
-    blocks.forEach((block, i) => block.classList.toggle("is-active", i === index));
-    dots.forEach((dot, i) => dot.classList.toggle("is-active", i === index));
-  };
-  setActive(0);
-
-  const ctx = gsap.context(() => {
-    // A card becomes the front one exactly when its top reaches its own sticky
-    // offset (read from the resolved CSS `top`, so it tracks the clamp + resize).
-    // Scrolling up, when a card un-sticks the previous one is front again.
-    blocks.forEach((block, index) => {
-      ScrollTrigger.create({
-        trigger: block,
-        start: () => "top top+=" + (parseFloat(getComputedStyle(block).top) + 2),
-        end: "max",
-        onToggle: (self) => {
-          if (self.isActive) setActive(index);
-          else if (index > 0) setActive(index - 1);
-        },
-      });
-    });
-  }, section);
-
-  return () => {
-    ctx.revert();
-    section.classList.remove("what-improve--tracked");
-    blocks.forEach((block) => block.classList.remove("is-active"));
-    dots.forEach((dot) => dot.classList.remove("is-active"));
-  };
-}
-
-// 04 / Arbeid — utvalg som alltid-åpne sikk-sakk-rader. The case rows rise in
-// once as the list enters (stagger reveal); no accordion, no JS drives layout.
-// On desktop (parallax=true) each row's two columns drift in gentle counter-phase
-// as the row crosses the viewport — the mockups travel a touch more than the
-// copy, so depth reads without any pin or stack. Mobile collapses to one column,
-// so parallax is off there. PRM / no-JS keep the static, readable, full list.
-function workProof(parallax: boolean) {
+// 04 / Arbeid — de seks faktiske capability-lenkene beveger seg i vanlig,
+// deterministisk scroll over den ene tittelen som eies av 03→04→Arbeid-wrapperen.
+// Ingen kopiert tittel, tilfeldig plassering, medieloop eller scroll-kapring.
+function workProof(cinematic: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
 
-  const rows = gsap.utils.toArray<HTMLElement>("[data-work-case]", section);
-  if (!rows.length) return () => {};
+  const pairs = gsap.utils.toArray<HTMLElement>("[data-work-pair]", section);
+  const handoff = section.querySelector<HTMLElement>("[data-work-handoff]");
+  if (!pairs.length || !cinematic) return () => {};
 
   const ctx = gsap.context(() => {
-    gsap.from(rows, {
-      y: 40,
-      autoAlpha: 0,
-      duration: 0.7,
-      ease: "power3.out",
-      stagger: 0.07,
-      scrollTrigger: { trigger: "[data-work-cases]", start: "top 80%", once: true },
+    pairs.forEach((pair, pairIndex) => {
+      const pairTiles = gsap.utils.toArray<HTMLElement>("[data-work-tile]", pair);
+      gsap.fromTo(pairTiles, {
+        xPercent: (index) => index === 0 ? -1.8 : 1.8,
+        yPercent: (index) => index === 0
+          ? 18 + pairIndex * 2
+          : 28 - pairIndex * 2,
+      }, {
+        xPercent: 0,
+        yPercent: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: pair,
+          start: "top 98%",
+          end: "top 18%",
+          scrub: 0.38,
+          invalidateOnRefresh: true,
+        },
+      });
     });
 
-    if (!parallax) return;
-
-    // Column parallax — centred on the row's natural position (midpoint ≈ 0),
-    // so nothing shifts layout at rest. Counter-phase + unequal travel gives the
-    // mockups the heavier drift; the copy holds steadier as the reading anchor.
-    rows.forEach((row) => {
-      const copy = row.querySelector<HTMLElement>(".wp-case__copy");
-      const posters = row.querySelector<HTMLElement>(".wp-case__posters");
-      const st = { trigger: row, start: "top bottom", end: "bottom top", scrub: 0.6 };
-      if (posters) {
-        gsap.fromTo(posters, { y: 54 }, { y: -54, ease: "none", scrollTrigger: st });
-      }
-      if (copy) {
-        gsap.fromTo(copy, { y: -20 }, { y: 20, ease: "none", scrollTrigger: st });
-      }
-    });
-  }, section);
-
-  return () => ctx.revert();
-}
-
-// 05 / Prosess — "Prosjektreisen". Three step rows stacked vertically (STEG · 0X
-// + text left, large media right). A plain scroll-reveal: each row's text and
-// media rise once on enter, the media pushes in from a slight over-scale, and
-// the title decodes from noise. Same layout on desktop and mobile — no pin, so
-// nothing to break on a tall screen. PRM / no-JS keep the static, readable
-// section fully visible.
-function processJourney() {
-  const section = document.querySelector<HTMLElement>(".process-journey");
-  if (!section) return () => {};
-
-  const rows = gsap.utils.toArray<HTMLElement>("[data-journey-row]", section);
-
-  // Title decode ("Uklart inn." resolves from noise). Own rAF so it can be
-  // cancelled on teardown; text is restored to its final value.
-  const decode = section.querySelector<HTMLElement>("[data-process-decode]");
-  const line1 = decode?.querySelector<HTMLElement>(".process-journey__line1") ?? null;
-  const line1Final = line1?.textContent ?? "Uklart inn.";
-  const GLYPH = "ABCDEFGHIJKLMNOPQR#%&/()=+*0123456789";
-  const noise = (s: string) =>
-    s
-      .split("")
-      .map((c) => (c === " " || c === "." ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)]))
-      .join("");
-  let rafId = 0;
-  const scramble = (el: HTMLElement, finalText: string, durationMs: number) => {
-    let start = 0;
-    const chars = finalText.split("");
-    const frame = (now: number) => {
-      if (!start) start = now;
-      const p = Math.min(1, (now - start) / durationMs);
-      const locked = Math.floor(p * chars.length);
-      let out = "";
-      for (let i = 0; i < chars.length; i++) {
-        const c = chars[i];
-        out += c === " " || c === "." || i < locked ? c : GLYPH[Math.floor(Math.random() * GLYPH.length)];
-      }
-      el.textContent = out;
-      if (p < 1) rafId = requestAnimationFrame(frame);
-      else el.textContent = finalText;
-    };
-    rafId = requestAnimationFrame(frame);
-  };
-
-  const ctx = gsap.context(() => {
-    rows.forEach((row) => {
-      const parts = row.querySelectorAll<HTMLElement>(
-        ".process-journey__step, .process-journey__heading, .process-journey__body, .process-journey__out"
+    if (handoff) {
+      const handoffParts = handoff.querySelectorAll(
+        ":scope > p, :scope > div",
       );
-      gsap.from(parts, {
-        y: 26,
+      gsap.from(handoffParts, {
+        y: 24,
         autoAlpha: 0,
         duration: 0.7,
+        stagger: 0.08,
         ease: "power3.out",
-        stagger: 0.06,
-        scrollTrigger: { trigger: row, start: "top 80%", once: true },
-      });
-
-      const media = row.querySelector<HTMLElement>("[data-journey-media]");
-      if (media) {
-        gsap.from(media, {
-          autoAlpha: 0,
-          y: 42,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: { trigger: row, start: "top 80%", once: true },
-        });
-        const img = media.querySelector<HTMLElement>("img");
-        if (img) {
-          gsap.from(img, {
-            scale: 1.12,
-            duration: 1.4,
-            ease: "power3.out",
-            scrollTrigger: { trigger: row, start: "top 80%", once: true },
-          });
-        }
-      }
-    });
-
-    // Title decode: prefill with noise, resolve on enter (once).
-    if (decode && line1) {
-      line1.textContent = noise(line1Final);
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top 82%",
-        once: true,
-        onEnter: () => scramble(line1, line1Final, 900),
+        scrollTrigger: {
+          trigger: handoff,
+          start: "top 72%",
+          once: true,
+        },
       });
     }
   }, section);
 
   return () => {
-    if (rafId) cancelAnimationFrame(rafId);
     ctx.revert();
-    if (line1) line1.textContent = line1Final;
   };
 }
 
@@ -534,7 +491,8 @@ function manifestoReveal() {
     section
   );
   const support = section.querySelector("[data-manifesto-support]");
-  const corners = section.querySelectorAll(".system-manifesto__corner");
+  const gridColumns = section.querySelectorAll(".system-manifesto__grid span");
+  const pieces = gsap.utils.toArray<HTMLElement>("[data-system-piece]", section);
 
   const tl = gsap.timeline({
     scrollTrigger: { trigger: section, start: "top 64%", once: true },
@@ -544,12 +502,82 @@ function manifestoReveal() {
   if (lines.length) {
     tl.from(lines, { yPercent: 108, duration: 0.8, stagger: 0.12 });
   }
+  if (pieces.length) {
+    tl.from(pieces, {
+      x: (index) => [-90, 86, -62, 70][index] ?? 0,
+      y: (index) => [-56, -72, 70, 58][index] ?? 0,
+      rotation: (index) => [-8, 7, 5, -6][index] ?? 0,
+      autoAlpha: 0,
+      duration: 0.95,
+      stagger: 0.08,
+      ease: "power3.inOut",
+    }, 0.1);
+  }
   if (support) {
     tl.from(support, { autoAlpha: 0, y: 16, duration: 0.55 }, "-=0.35");
   }
-  if (corners.length) {
-    tl.from(corners, { autoAlpha: 0, duration: 0.45, stagger: 0.05 }, "-=0.4");
+  if (gridColumns.length) {
+    tl.from(gridColumns, { autoAlpha: 0, yPercent: 10, duration: 0.6, stagger: 0.025 }, "-=0.4");
   }
+}
+
+// 05 / Prosess — panelene settler én gang i beslutningsrekkefølge 01→02→03;
+// kjempenumret ankommer sist og låser hvert panel. FROM-tweens med clearProps,
+// så numeralens prosent-sentrering i CSS overlever resize. Ferdig uten JS.
+function processScene(compact: boolean) {
+  const section = document.querySelector<HTMLElement>("[data-process-stage]");
+  if (!section) return () => {};
+
+  const panels = gsap.utils.toArray<HTMLElement>("[data-process-surface]", section);
+  if (!panels.length) return () => {};
+
+  const ctx = gsap.context(() => {
+    const settlePanel = (
+      panel: HTMLElement,
+      tl: gsap.core.Timeline,
+      position: number,
+    ) => {
+      const parts = panel.querySelectorAll(
+        ".process-phase__head, .process-phase__copy, .process-phase__output",
+      );
+      const numeral = panel.querySelector<HTMLElement>(".process-phase__numeral");
+
+      tl.from(parts, {
+        y: 20,
+        autoAlpha: 0,
+        duration: 0.55,
+        stagger: 0.07,
+        ease: "power3.out",
+        clearProps: "transform,opacity,visibility",
+      }, position);
+
+      if (numeral) {
+        tl.from(numeral, {
+          y: 56,
+          autoAlpha: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          clearProps: "transform,opacity,visibility",
+        }, position + 0.28);
+      }
+    };
+
+    if (compact) {
+      panels.forEach((panel) => {
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: panel, start: "top 82%", once: true },
+        });
+        settlePanel(panel, tl, 0);
+      });
+    } else {
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: section, start: "top 72%", once: true },
+      });
+      panels.forEach((panel, index) => settlePanel(panel, tl, index * 0.16));
+    }
+  }, section);
+
+  return () => ctx.revert();
 }
 
 function footerReveals() {
@@ -563,6 +591,120 @@ function footerReveals() {
       scrollTrigger: { trigger: wordmark, start: "top 96%", once: true },
     });
   }
+}
+
+// Osmo: Check Section Theme on Scroll. The active section tells the floating
+// header whether it sits over a light or dark surface. This changes chrome
+// contrast only; it does not animate or recolor page content.
+function sectionThemeScene() {
+  const header = document.querySelector<HTMLElement>(".site-header");
+  const bar = header?.querySelector<HTMLElement>(".site-header__bar");
+  const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-theme-section]"));
+  if (!header || !sections.length) return () => {};
+
+  let frame = 0;
+  let currentTheme = "";
+  let currentBg = "";
+
+  const check = () => {
+    frame = 0;
+    const offset = (bar?.offsetHeight ?? 0) / 2 + 12;
+    const active = sections.find((section) => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= offset && rect.bottom >= offset;
+    });
+    if (!active) return;
+
+    const theme = active.dataset.themeSection ?? "dark";
+    const bg = active.dataset.bgSection ?? theme;
+    if (theme !== currentTheme) {
+      header.dataset.themeNav = theme;
+      currentTheme = theme;
+    }
+    if (bg !== currentBg) {
+      header.dataset.bgNav = bg;
+      currentBg = bg;
+    }
+  };
+
+  const requestCheck = () => {
+    if (!frame) frame = window.requestAnimationFrame(check);
+  };
+
+  window.addEventListener("scroll", requestCheck, { passive: true });
+  window.addEventListener("resize", requestCheck);
+  check();
+
+  return () => {
+    window.cancelAnimationFrame(frame);
+    window.removeEventListener("scroll", requestCheck);
+    window.removeEventListener("resize", requestCheck);
+    delete header.dataset.themeNav;
+    delete header.dataset.bgNav;
+  };
+}
+
+// Osmo Dynamic Text Cursor, adapted only in styling and lifecycle for Tigon.
+// The original data attributes and GSAP quickTo movement are preserved.
+function setupDynamicTextCursor() {
+  const cursor = document.querySelector<HTMLElement>("[data-cursor]");
+  const cursorTextTarget = document.querySelector<HTMLElement>("[data-cursor-text-target]");
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!cursor || !cursorTextTarget || !finePointer || reducedMotion) return () => {};
+
+  let mouseX = 0;
+  let mouseY = 0;
+  let hasMouseMoved = false;
+  let frame = 0;
+
+  const xTo = gsap.quickTo(cursor, "x", { duration: 0.4, ease: "power3.out" });
+  const yTo = gsap.quickTo(cursor, "y", { duration: 0.4, ease: "power3.out" });
+
+  const updateCursor = () => {
+    frame = 0;
+    const hoverItem = document
+      .elementFromPoint(mouseX, mouseY)
+      ?.closest<HTMLElement>("[data-cursor-hover]");
+    const text = hoverItem?.getAttribute("data-cursor-text");
+
+    if (text) cursorTextTarget.textContent = text;
+
+    const rect = cursor.getBoundingClientRect();
+    const isHovering = Boolean(hoverItem);
+    const isEdge = rect.right >= window.innerWidth;
+    cursor.setAttribute("data-cursor", isHovering ? (isEdge ? "active-edge" : "active") : "");
+  };
+
+  const queueUpdate = () => {
+    if (frame) return;
+    frame = window.requestAnimationFrame(updateCursor);
+  };
+
+  const onMouseMove = (event: MouseEvent) => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    hasMouseMoved = true;
+    xTo(mouseX);
+    yTo(mouseY);
+    queueUpdate();
+  };
+
+  const onScroll = () => {
+    if (hasMouseMoved) queueUpdate();
+  };
+
+  window.addEventListener("mousemove", onMouseMove);
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  return () => {
+    window.cancelAnimationFrame(frame);
+    window.removeEventListener("mousemove", onMouseMove);
+    window.removeEventListener("scroll", onScroll);
+    cursor.setAttribute("data-cursor", "");
+    gsap.killTweensOf(cursor);
+  };
 }
 
 // Utility enhancements — run whenever JS is available (not motion-gated):
@@ -630,7 +772,6 @@ function setupFooterUtilities() {
       window.clearTimeout(resetTimer);
       copyButton.removeAttribute("data-copied");
       copyButton.textContent = idleLabel;
-      copyButton.hidden = true;
     });
   }
 
@@ -642,62 +783,87 @@ function setupFooterUtilities() {
 export function HomeMotion() {
   useEffect(() => {
     const teardownUtilities = setupFooterUtilities();
+    const teardownWorkCursor = setupDynamicTextCursor();
+    const teardownSectionTheme = sectionThemeScene();
     const lenis = initLenis({ lerp: 0.12 });
     lenis?.lenis.on("scroll", ScrollTrigger.update);
+    const teardownOsmoReveal = initContentRevealScroll();
+    const teardownOsmoParallax = initGlobalParallax();
+    const teardownServices = servicesScene();
+    const teardownEffect = effectScene();
+    let teardownShutter = () => {};
+    let teardownFooterParallax = () => {};
+    let teardownApproachPath = () => {};
+    let footerInitFrame = 0;
+    let effectCancelled = false;
 
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
-      const teardownApproach = approachScene();
-      const teardownServices = servicesScene();
-      const teardownBridge = bridgeScene(true);
-      const teardownImprove = improveScene();
-      const teardownWork = workProof(true);
-      const teardownProcess = processJourney();
+      const teardownIntro = introStoryScene();
+      const teardownTension = outcomeTensionBridge();
+      const teardownEffectWork = effectWorkJourney();
+      const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
+      const teardownProcess = processScene(false);
       manifestoReveal();
       footerReveals();
       return () => {
-        teardownApproach();
-        teardownServices();
-        teardownBridge();
-        teardownImprove();
+        teardownIntro();
+        teardownTension();
+        teardownEffectWork();
         teardownWork();
         teardownProcess();
       };
     });
 
-    // Mobile: no horizontal Prosess-pin. The rail's sideways scroll-jack is
-    // clumsy on a tall narrow screen, and the production-line beat is a
-    // horizontal device that leaves a dead gap when stretched vertically — so
-    // mobile falls back to the static vertical list (the same clean, readable
-    // mode as no-JS / reduced-motion). Everything else keeps its motion.
+    // Mobile keeps the same 03→04 typographic page turn, while the capability
+    // wall itself stays in ordinary document flow with small one-shot reveals.
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
-      const teardownApproach = approachScene();
-      const teardownServices = servicesScene();
-      const teardownBridge = bridgeScene(false);
-      const teardownImprove = improveScene();
+      const teardownIntro = introStoryScene();
+      const teardownTension = outcomeTensionBridge();
+      const teardownEffectWork = effectWorkJourney();
       const teardownWork = workProof(false);
-      const teardownProcess = processJourney();
+      const teardownProcess = processScene(true);
       manifestoReveal();
       footerReveals();
       return () => {
-        teardownApproach();
-        teardownServices();
-        teardownBridge();
-        teardownImprove();
+        teardownIntro();
+        teardownTension();
+        teardownEffectWork();
         teardownWork();
         teardownProcess();
       };
     });
 
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+    const layoutReady = document.fonts?.ready ?? Promise.resolve();
+    layoutReady.then(() => {
+      if (effectCancelled) return;
+      footerInitFrame = window.requestAnimationFrame(() => {
+        if (effectCancelled) return;
+        teardownShutter = initShutterScrollTransition();
+        teardownFooterParallax = initFooterParallax();
+        teardownApproachPath = initApproachPathJourney();
+        ScrollTrigger.refresh();
+      });
+    });
 
     return () => {
+      effectCancelled = true;
+      window.cancelAnimationFrame(footerInitFrame);
       mm.revert();
       lenis?.lenis.off("scroll", ScrollTrigger.update);
       destroyLenis();
+      teardownFooterParallax();
+      teardownOsmoParallax();
+      teardownServices();
+      teardownOsmoReveal();
+      teardownEffect();
+      teardownShutter();
+      teardownApproachPath();
+      teardownSectionTheme();
+      teardownWorkCursor();
       teardownUtilities();
     };
   }, []);

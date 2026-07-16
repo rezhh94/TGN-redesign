@@ -1,8 +1,9 @@
 import { ApproachStatementBridge } from "@/components/ApproachStatementBridge";
-import { EffectBridge } from "@/components/EffectBridge";
+import { EffectWorkBridge } from "@/components/EffectWorkBridge";
 import { HomeMotion } from "@/components/motion/HomeMotion";
 import { ContactFooter } from "@/components/ContactFooter";
 import { Hero } from "@/components/Hero";
+import { OutcomeTensionBridge } from "@/components/OutcomeTensionBridge";
 import { ProcessLayers } from "@/components/ProcessLayers";
 import { SystemManifesto } from "@/components/SystemManifesto";
 import { WorkProof } from "@/components/WorkProof";
@@ -15,9 +16,11 @@ export default function Home() {
       <Hero />
       <ApproachStatementBridge />
       <WhatWeBuild />
-      <EffectBridge />
+      <OutcomeTensionBridge />
       <WhatWeImprove />
-      <WorkProof />
+      <EffectWorkBridge>
+        <WorkProof />
+      </EffectWorkBridge>
       <ProcessLayers />
       <SystemManifesto />
       <ContactFooter />

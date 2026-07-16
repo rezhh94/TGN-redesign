@@ -6,7 +6,7 @@ const outcomes = [
     signal: "Målepunkt — synlighet / søk + AI-søk",
     description: "Struktur og innhold som gjør siden lettere å finne i Google og AI-søk.",
     tools: "Teknisk SEO · Sitemap · Schema · AI-lesbar struktur",
-    image: "/work/carousel/01.png",
+    placeholder: "/work/capability-stage/tgn-product-os-laptop.webp",
   },
   {
     key: "forstatt",
@@ -15,7 +15,7 @@ const outcomes = [
     signal: "Målepunkt — klarhet / budskap",
     description: "Tydelig posisjonering, budskap og innhold som gjør tilbudet enklere å forstå.",
     tools: "Posisjonering · Budskapshierarki · Innhold",
-    image: "/work/carousel/02.png",
+    placeholder: "/work/capability-stage/tgn-product-os-laptop.webp",
   },
   {
     key: "valgt",
@@ -24,7 +24,7 @@ const outcomes = [
     signal: "Målepunkt — konvertering / neste steg",
     description: "CTA-er, flyt og kontaktpunkter som gjør neste steg tydelig.",
     tools: "CTA-er · Kontaktflyt · Skjema",
-    image: "/work/carousel/03.png",
+    placeholder: "/work/capability-stage/phone-hand.png",
   },
   {
     key: "malt",
@@ -33,71 +33,79 @@ const outcomes = [
     signal: "Målepunkt — sporing / hendelser",
     description: "Skjema, telefon, e-post og hendelser som kan spores fra start.",
     tools: "Hendelser · Skjema · Telefon · E-post",
-    image: "/work/carousel/04.png",
+    placeholder: "/work/capability-stage/phone-hand.png",
   },
 ];
 
-/* 03 / Effekt — stablede utfalls-kort. Venstre: en sticky kolonne (tittel +
-   beskrivelse + index 01–04) som blir stående. Høyre: de fire målepunktene som
-   kort som legger seg oppå hverandre på scroll (CSS position:sticky med økende
-   top → forrige korts header «01 Funnet» stikker opp over det neste). Kun
-   høyre-kolonnen stabler; venstre er fast referanse.
-
-   Default (no-JS / PRM): stablingen er ren CSS og virker uansett; JS legger bare
-   på aktiv-markering av index + fargeglød på det fremste kortets bilde. */
 export function WhatWeImprove() {
   return (
-    <section className="what-improve" aria-labelledby="what-improve-title">
+    <section
+      className="what-improve"
+      aria-labelledby="what-improve-title"
+      data-effect-section
+      data-theme-section="light"
+      data-bg-section="mauve"
+    >
       <div className="what-improve__inner">
-        <div className="what-improve__layout" data-improve-root>
-          {/* Venstre — fast tittel/beskrivelse + index */}
-          <aside className="what-improve__aside">
-            <p className="what-improve__label">Effekt</p>
-            <h2 className="what-improve__kicker" id="what-improve-title">
-              Alt vi bygger, bygges for å bli funnet, forstått, valgt og målt.
-            </h2>
-            <p className="what-improve__desc">
-              Fire målepunkter under hver flate — fra du blir funnet i søk til hver kontakt kan spores.
+        <header className="what-improve__intro">
+          <p className="what-improve__label">03 / Effekt</p>
+          <h2 className="what-improve__kicker" id="what-improve-title">
+            <span>Effekt som{" "}</span>
+            <span>kan måles.</span>
+          </h2>
+          <div className="what-improve__desc">
+            <p>
+              Design, teknologi og synlighet skal føre samme vei — fra
+              oppmerksomhet til dokumentert handling.
             </p>
+            <span>TGN / outcome system / 01—04</span>
+          </div>
+        </header>
 
-            {/* Aktiv-detalj — bytter med det fremste kortet. Sier HVORDAN (spakene)
-                mens kortet sier HVA, så venstre ikke bare gjentar de fire navnene. */}
-            <div className="what-improve__meter" aria-hidden="true">
-              {outcomes.map((outcome, index) => (
-                <p className="what-improve__detail" data-improve-dot={index} key={outcome.key}>
-                  <span className="what-improve__detail-count">
-                    {outcome.number} <span className="what-improve__detail-total">/ 0{outcomes.length}</span>
-                  </span>
-                  <span className="what-improve__detail-tools">{outcome.tools}</span>
-                </p>
-              ))}
-            </div>
-          </aside>
+        <div className="what-improve__field" data-effect-field>
+          <figure className="what-improve__visual">
+            <img src={outcomes[0].placeholder} alt="" loading="lazy" />
+            <figcaption>Midlertidig mockupflate / erstattes</figcaption>
+          </figure>
 
-          {/* Høyre — stablede utfalls-kort */}
-          <div className="what-improve__stream">
-            {outcomes.map((outcome, index) => (
-              <article
-                className="what-improve__outcome"
-                data-improve-block={index}
+          <div className="what-improve__cuts" aria-hidden="true">
+            {Array.from({ length: 6 }, (_, index) => <i key={index} />)}
+          </div>
+
+          <ol className="what-improve__matrix" aria-label="Resultatkjede">
+            {outcomes.map((outcome) => (
+              <li
+                className={`what-improve__outcome what-improve__outcome--${outcome.key}`}
+                data-effect-outcome
                 key={outcome.key}
               >
-                <div className="what-improve__head">
-                  <p className="what-improve__num" aria-hidden="true">
-                    {outcome.number}
-                  </p>
-                  <h3 className="what-improve__title">{outcome.title}</h3>
+                <header>
+                  <span>{outcome.number} / 04</span>
+                  <span>{outcome.signal}</span>
+                </header>
+                <h3>
+                  <span className="what-improve__mark">
+                    <span
+                      className="what-improve__mark-cover"
+                      data-effect-marker
+                      aria-hidden="true"
+                    />
+                    {outcome.title}
+                  </span>
+                </h3>
+                <div className="what-improve__outcome-copy">
+                  <p>{outcome.description}</p>
+                  <p>{outcome.tools}</p>
                 </div>
-                <div className="what-improve__body">
-                  <p className="what-improve__text">{outcome.description}</p>
-                  <p className="what-improve__signal">{outcome.signal}</p>
-                </div>
-                <figure className="what-improve__media">
-                  <img src={outcome.image} alt="" loading="lazy" />
-                </figure>
-              </article>
+              </li>
             ))}
-          </div>
+          </ol>
+
+          <p className="what-improve__closing">
+            <span>Synlighet inn</span>
+            <span aria-hidden="true">→</span>
+            <span>Målbar kontakt ut</span>
+          </p>
         </div>
       </div>
     </section>

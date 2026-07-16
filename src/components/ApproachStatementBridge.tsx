@@ -1,27 +1,41 @@
-/* 01 / Tilnærming — MWG 049 architecture: a 100vh container whose statement
-   pins at the top while every letter travels its own random distance back
-   into place — «UKLART» starts scattered and assembles into «byggbart».
-   All text is server-rendered; JS wraps letters at runtime and the
-   teardown restores the original markup. */
 export function ApproachStatementBridge() {
   return (
-    <section className="approach-bridge" aria-labelledby="approach-bridge-title">
-      <div className="approach-bridge__inner">
-        <div className="approach-bridge__container" data-approach-container>
-          <p className="approach-bridge__label">Tilnærming</p>
-
-          <h2 className="approach-bridge__statement" id="approach-bridge-title" data-approach-title>
-            <span className="approach-bridge__line">UKLART blir</span>
-            <span className="approach-bridge__line approach-bridge__line--indent">byggbart.</span>
-          </h2>
+    <section
+      className="approach-bridge"
+      aria-labelledby="approach-bridge-title"
+      data-intro-story
+      data-theme-section="dark"
+      data-bg-section="dark"
+    >
+      <div className="approach-intro" data-intro-identity>
+        <p className="approach-intro__label">01 / Tilnærming</p>
+        {/* Fire autor-linjer, server-rendret og lesbare uten JS. Osmo Highlight
+            Text on Scroll deler hver linje i tegn og løfter opasiteten med scroll. */}
+        <h2 className="approach-intro__statement" id="approach-bridge-title">
+          <span className="approach-intro__line approach-intro__line--quiet" data-highlight-text>
+            Hver for seg
+          </span>
+          <span className="approach-intro__line approach-intro__line--quiet" data-highlight-text>
+            blir det lansert.
+          </span>
+          <span className="approach-intro__line" data-highlight-text>
+            Bygd sammen
+          </span>
+          <span className="approach-intro__line" data-highlight-text>
+            blir det valgt.
+          </span>
+        </h2>
+        <div className="approach-intro__support">
+          <p>
+            Design uten synlighet blir ikke funnet. Synlighet uten substans blir
+            ikke valgt. Derfor utvikler Tigon design, teknologi og synlighet som
+            én løsning — fra første beslutning.
+          </p>
+          <span>TGN / integrated practice</span>
         </div>
-
-        <p className="approach-bridge__support" data-approach-support>
-          Før design, kode og animasjon kommer struktur:
-          <br />
-          hva som skal bygges, hvem det skal treffe,
-          <br />
-          og hvordan resultatet skal måles.
+        {/* Replikk til neste seksjon: 02 svarer med «Dette bygger vi.» */}
+        <p className="approach-intro__handoff" data-intro-handoff>
+          01 → 02 / Én helhet. Fem fag.
         </p>
       </div>
     </section>

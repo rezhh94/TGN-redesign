@@ -1,92 +1,79 @@
-const steps = [
+const phases = [
   {
     n: "01",
-    tag: "Prosess / Scope",
-    heading: "Vi finner retningen",
-    body: "Behovet presses ned til scope. Vi avklarer hva som faktisk skal bygges, hvorfor det trengs og hva som må velges bort — så innholdet får en teknisk rekkefølge før uttrykket låses.",
+    tag: "Retning",
+    heading: "Vi finner retningen.",
+    body: "Vi avklarer hva som skal bygges, hvem det skal treffe og hva som velges bort før uttrykket låses.",
     output: "Definert retning",
-    image: "/work/mockups/15.png",
   },
   {
     n: "02",
-    tag: "Prosess / Bygg",
-    heading: "Vi bygger løsningen",
-    body: "Design og kode bygges som ett materiale. UI, komponenter, ytelse og integrasjoner utvikles sammen, med rask feedback og ryddig prioritering.",
+    tag: "Bygg",
+    heading: "Vi bygger løsningen.",
+    body: "Design, kode, ytelse og integrasjoner formes som én prioritert løsning.",
     output: "Levende løsning",
-    image: "/work/mockups/12.png",
   },
   {
     n: "03",
-    tag: "Prosess / Live",
-    heading: "Vi sender det ut i verden",
-    body: "Siden går live med måling fra dag én. Publisering, teknisk sjekk, skjema, telefon og hendelser kobles til én tydelig neste beslutning.",
+    tag: "Live",
+    heading: "Vi sender den ut.",
+    body: "Løsningen lanseres med teknisk kontroll, måling og en tydelig neste handling.",
     output: "Målbar kontaktvei",
-    image: "/work/mockups/05.png",
   },
-];
+] as const;
 
-/* 05 / Prosess — "Prosjektreisen". Monumental tittel, så tre steg-rader stablet
-   loddrett: STEG · 0X + overskrift/tekst til venstre, stort media-panel til
-   høyre, hårstrek mellom radene. Ren vertikal scroll (ingen pin) → samme layout
-   på desktop og mobil; radene stiger inn på scroll og tittelen dekoder fra støy.
-   Default (no-JS / PRM) er alt synlig og lesbart uten JavaScript.
-
-   Bildene er midlertidige mockup-assets til ekte steg-bilder finnes. */
 export function ProcessLayers() {
   return (
-    <section className="process-journey" id="prosess" aria-labelledby="process-journey-title">
-      <div className="process-journey__inner">
-        <header className="process-journey__head">
-          <p className="process-journey__eyebrow">Prosess</p>
-          <h2
-            className="process-journey__title"
-            id="process-journey-title"
-            data-process-decode
-            aria-label="Uklart inn. System ut."
-          >
-            <span className="process-journey__line1" aria-hidden="true">
-              Uklart inn.
-            </span>
-            <span className="process-journey__line2" aria-hidden="true">
-              System ut.
-            </span>
-          </h2>
-          <p className="process-journey__note">
-            <span className="process-journey__note-mark" aria-hidden="true" />
-            Tre steg — én produksjonslinje
-          </p>
+    <section className="process-journey" id="prosess" aria-labelledby="process-journey-title" data-theme-section="dark" data-bg-section="dark">
+      <header className="process-journey__intro">
+        <p className="process-journey__label">05 / Prosess</p>
+        <h2 className="process-journey__title" id="process-journey-title">
+          <span>Uklart inn.{" "}</span>
+          <span>System ut.</span>
+        </h2>
+        <div className="process-journey__intro-copy">
+          <p>Tre beslutninger gjør behovet til en levende, målbar løsning.</p>
+          <span>TGN / process assembly / 01—03</span>
+        </div>
+      </header>
+
+      <div className="process-system" data-process-stage>
+        <header className="process-system__rail">
+          <p>TGN / Systemflyt</p>
+          <p>Fra behov til live</p>
+          <p><span aria-hidden="true" /> 00—03 / Klar linje</p>
         </header>
 
-        <ol className="process-journey__steps">
-          {steps.map((step) => (
-            <li className="process-journey__row" data-journey-row key={step.n}>
-              <p className="process-journey__step">Steg · {step.n}</p>
+        <ol className="process-system__sequence">
+          {phases.map((phase) => (
+            <li className={`process-phase process-phase--${phase.n}`} key={phase.n} data-process-surface>
+              <header className="process-phase__head">
+                <span>{phase.n} / 03</span>
+                <strong>{phase.tag}</strong>
+              </header>
 
-              <div className="process-journey__text">
-                <h3 className="process-journey__heading">{step.heading}</h3>
-                <p className="process-journey__body">{step.body}</p>
-                <p className="process-journey__out">Ut — {step.output} →</p>
+              <div className="process-phase__signal">
+                <span className="process-phase__numeral" aria-hidden="true">{phase.n}</span>
               </div>
 
-              <figure className="process-journey__media" data-journey-media>
-                <img src={step.image} alt="" loading="lazy" />
-                <figcaption className="process-journey__media-tag">
-                  {step.tag} · {step.n}
-                </figcaption>
-              </figure>
+              <div className="process-phase__copy">
+                <h3>{phase.heading}</h3>
+                <p>{phase.body}</p>
+              </div>
+
+              <footer className="process-phase__output">
+                <span>Ut / {phase.n}</span>
+                <strong>{phase.output}</strong>
+              </footer>
             </li>
           ))}
         </ol>
-
-        <div className="process-journey__closer">
-          <p className="process-journey__closer-title">
-            Fra et uklart behov til et målbart system.
-          </p>
-          <a className="process-journey__closer-cta" href="/kontakt?ref=prosess">
-            Start et prosjekt →
-          </a>
-        </div>
       </div>
+
+      <footer className="process-journey__closer">
+        <p>Scope først. Ingen ferdig brief nødvendig.</p>
+        <a href="/kontakt?ref=prosess">Start et prosjekt <span aria-hidden="true">↗</span></a>
+      </footer>
     </section>
   );
 }

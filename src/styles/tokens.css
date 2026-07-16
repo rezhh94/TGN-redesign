@@ -10,7 +10,6 @@
   --color-dark-soft: #1a1b16;
   --color-on-dark: #f2f1eb;
   --color-on-dark-muted: #b6b4aa;
-  --color-signal: #c44414;
 
   /* Varm nøytral-stige — lyse rom skiller seg tonalt uten å bli rene hvite.
      Namma-referansens grå, oversatt til Tigons varme skala. */
@@ -50,6 +49,28 @@
      Aldri stor bakgrunnsflate. Erstatter --color-signal (bannlyst oransje). */
   --pine: #33453b;
   --pine-tint: #dbe2dc;
+  /* Canonical Tigon brand colour from the delivered brand poster. */
+  --tigon-green: #001a1a;
+  /* Samlet art direction for de nye homepage-kapitlene. Disse er bevisst
+     seksjons-tokens, slik at Header/Hero ikke endres indirekte. */
+  --tigon-canvas: #050606;
+  --tigon-canvas-raised: #0b0d0d;
+  --tigon-canvas-lifted: #1a1c1c;
+  --tigon-paper: #f2f2ef;
+  --tigon-mineral: #d3d8d5;
+  --tigon-line-dark: rgba(242, 242, 239, 0.16);
+  --tigon-line-light: rgba(5, 6, 6, 0.16);
+  --tigon-type-display: var(--font-display);
+  --tigon-type-editorial: var(--font-sans);
+  --tigon-type-meta: var(--font-mono);
+  /* Varm Osmo-oversettelse — dempet mineral/oliven for utvalgte store
+     redaksjonelle flater. Brukes som et bevisst kapittel, ikke som generell
+     aksent eller dekor. */
+  --olive-warm: #b1ae91;
+  --mauve-warm: #c8bcc1;
+  --sage-warm: #d5d4c3;
+  --sand-warm: #e1d5bd;
+  --plum-deep: #261e24;
 
   --font-display: "TGS Perfect", "Arial Narrow", "Arial Black", sans-serif;
   --font-sans: "JUST Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -62,17 +83,69 @@
   --gutter: clamp(24px, 5vw, 150px);
   --header-height: 76px;
 
+  /* Osmo Scaling System — dormant aliases for staged section migration.
+     These are intentionally not connected to body font-size or --page-max yet,
+     so adding the foundation does not change the current composition. */
+  --size-unit: 16;
+  --size-container-ideal: 1440;
+  --size-container-min: 992px;
+  --size-container-max: 1920px;
+  --size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
+  --size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+
   /* Vertikal seksjons-rytme — «kapittel-start/slutt»-luft. Én kilde for alle
      vanlige seksjoner (var før 104–120 / 14–16vh / 184–212, litt ulikt hver).
      vh-delen vokser med skjermhøyden (premium pust). Broen (helskjerms pin) og
      Prosess (horisontale paneler) har egen struktur og bruker den ikke. */
   --section-pad-y: clamp(128px, 16vh, 216px);
 
+  /* Navngitt seksjons-skala (lamalama-oversatt) — fluid vertikal rytme der hver
+     verdi er max(fast rem, vw): luften vokser lineært med skjermbredden i stedet
+     for å hoppe i clamp-trinn. vw-delen = px/1440*100 (deres referansebredde).
+     Bruk til intern seksjons-spacing (blokk-avstand); --section-pad-y forblir
+     standard «kapittel»-topp/bunn.
+       xs 30/60 · sm 40/80 · md 60/120 · lg 80/160 · xl 100/200 · 2xl 110/220 · 3xl 120/240 */
+  --section-xs: max(1.875rem, 4.167vw);
+  --section-sm: max(2.5rem, 5.556vw);
+  --section-md: max(3.75rem, 8.333vw);
+  --section-lg: max(5rem, 11.111vw);
+  --section-xl: max(6.25rem, 13.889vw);
+  --section-2xl: max(6.875rem, 15.278vw);
+  --section-3xl: max(7.5rem, 16.667vw);
+
+  /* Kolonne-grid (lamalama-oversatt) — 12 kol desktop / 6 mobil (media under).
+     Gir seksjoner én delt venstrekant og kolonne-rytme i stedet for ad hoc
+     bredder. Bruk: display:grid; grid-template-columns: repeat(var(--grid-cols), 1fr);
+     column-gap: var(--grid-gutter); innenfor --grid-margin sidemargin. */
+  --grid-cols: 12;
+  --grid-gutter: 24px;
+  --grid-margin: var(--gutter);
+
+  /* CTA-knapp (lamalama-kalibrert) — ÉN delt resept for primær/sekundær side-CTA
+     (hero + kontakt). Lamalama norm.: 50px høy, 10px mono, gap 20, radius 4, tett
+     tracking (−0.02em). Tigon: en hair større (11px / 52px) siden Caleb Mono
+     kjører mindre enn Sometype. Nav- og meny-piller er chrome (--radius-chrome,
+     0.08em) og bruker bevisst IKKE denne resepten. */
+  --cta-height: 52px;
+  --cta-fz: 11px;
+  --cta-gap: 18px;
+  --cta-pad-x: 24px;
+  --cta-tracking: -0.02em;
+
+  /* Display-tittel-tracking — ÉN kilde for alle kondenserte TGS-caps-titler
+     (seksjonstitler + pilar/kort-navn). Var før spredt: 0 / 0.01 / −0.012em på
+     visuelt like titler. Snappet til den dominerende 0.01em. Hero-wordmarken
+     (bokstavstablet TIGON/STUDIO) er egen sak og bruker ikke denne. */
+  --display-track: 0.01em;
+
   /* F: skarp-editorial (lamalama-oversatt). Ett hjørne-token for avrundede
      rektangler + knapper. Piller (999) beholdes kun som flytende nav-chrome,
      prikker (50%) og skarpe rammer (0) som før. Ett fremover-motiv: diagonal
      ↗ (--arrow-ne), erstatter prikkekjede + chevron. */
   --radius: 4px;
+  /* Fin-radius — bittesmå elementer (hamburger-strek, tag-brikker 5×9px) der 4px
+     ville lest for rundt. ÉN kilde for alle 2px-hjørner, aldri en løs px. */
+  --radius-fine: 2px;
   /* Chrome-radius — flytende glass-flater (header-bar, meny-kort, aside-piller).
      Bevisst mykere enn --radius men klart mer firkantet enn de gamle 14–18px.
      ÉN kilde: alle piller/kort/barer bruker denne, aldri en px imellom. */
@@ -119,6 +192,12 @@
   --fz-mono: 11px;
   --fz-mono-s: 10px;
 
+  /* Mono/eyebrow-tracking — ÉN kilde for alle uppercase Caleb-Mono-labels
+     (eyebrows, tags, meta, CTA-piler). Var før spredt: 0,04–0,14em på visuelt
+     like labels. Samlet til arbeidshesten 0,08em. CTA-label bruker bevisst
+     --cta-tracking (−0,02em, lamalama-kalibrert), ikke denne. */
+  --mono-track: 0.08em;
+
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -126,4 +205,36 @@
   --motion-fast: 200ms;
   --motion-base: 300ms;
   --motion-medium: 500ms;
+}
+
+/* Grid — mobil: 6 kol + strammere gutter (lamalama-oversatt). */
+@media (max-width: 640px) {
+  :root {
+    --grid-cols: 6;
+    --grid-gutter: 10px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  :root {
+    --size-container-ideal: 834;
+    --size-container-min: 768px;
+    --size-container-max: 991px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  :root {
+    --size-container-ideal: 550;
+    --size-container-min: 480px;
+    --size-container-max: 767px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  :root {
+    --size-container-ideal: 390;
+    --size-container-min: 320px;
+    --size-container-max: 479px;
+  }
 }

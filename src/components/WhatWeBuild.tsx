@@ -1,244 +1,137 @@
-/* 02 / Tjenester — tredelt kapittel, adaptert fra en award-referanse men holdt
-   i Tigons editorielle, near-monokrome system:
-
-     1) Tre pilarer (Bygg → System → Synlighet): reisen fra produkt til drift til
-        vekst. Stor tittel + mono-tag + kort beskrivelse per pilar.
-     2) Tjeneste-akkordeon: de fem hovedtjenestene som åpne/lukk-rader (uten
-        bilder inni). SSR-default = alle åpne (no-JS / reduced-motion lesbart);
-        JS legger til .what-build--enhanced, kollapser og lar én være åpen.
-     3) Scramble-register: alle tjenestene i tre mono-kolonner. Etikettene
-        dekodes inn på scroll (samme motor som Prosess-tittelen).
-
-   Et bilde-/mockup-felt ligger som ramme øverst (placeholder — ekte Tigon-
-   mockup settes inn senere). En seksjons-scopet pixel-cursor lever på desktop.
-   All tekst og alle lenker er server-rendret. */
-
-const pillars = [
+const services = [
   {
-    id: "bygg",
-    tag: "Produkt",
-    title: "Bygg",
-    body: "Nettsider, apper og grensesnitt bygget for fart, struktur og konvertering fra første linje.",
+    id: "nettsider",
+    number: "01",
+    title: "Nettsider",
+    description: "Raske nettsider med tydelig struktur, teknisk SEO og måling.",
+    meta: "Next.js / SEO / CWV",
+    capabilities: ["Teknisk SEO", "Core Web Vitals", "Innholdsstruktur", "Konvertering"],
+    href: "/tjenester/webutvikling-nextjs",
+    image: "/services/tgn-nettsider-editorial.webp",
+    layout: "feature",
   },
   {
-    id: "system",
-    tag: "Drift",
-    title: "System",
-    body: "Infrastruktur, integrasjoner og AI som holder løsningen i drift — og lar den vokse videre.",
+    id: "webapper",
+    number: "02",
+    title: "Webapper",
+    description: "Digitale verktøy formet rundt virksomhetens faktiske arbeidsflyt.",
+    meta: "Portaler / Systemer",
+    capabilities: ["Innlogging", "Roller", "Integrasjoner", "Datamodell"],
+    href: "/tjenester/custom-software",
+    image: "/services/tgn-webapper-workflow.webp",
+    layout: "feature",
   },
   {
-    id: "synlighet",
-    tag: "Vekst",
-    title: "Synlighet",
-    body: "Teknisk SEO, innhold og måling som gjør at løsningen blir funnet, forstått og valgt.",
+    id: "apper",
+    number: "03",
+    title: "Apper",
+    description: "Mobil- og webprodukter for behov som går utover en nettside.",
+    meta: "Mobil / Web",
+    capabilities: ["Mobil", "Web", "Push", "Publisering"],
+    href: "/tjenester/app-utvikling",
+    image: null,
+    layout: "row",
+  },
+  {
+    id: "ai-systemer",
+    number: "04",
+    title: "AI-systemer",
+    description: "AI-verktøy koblet til virksomhetens egne data og arbeidsflyter.",
+    meta: "Automasjon / Søk / Data",
+    capabilities: ["Automasjon", "Søk", "Assistenter", "Interne verktøy"],
+    href: "/tjenester/ai-implementering",
+    image: null,
+    layout: "row",
+  },
+  {
+    id: "seo-ai-sok",
+    number: "05",
+    title: "SEO & AI-søk",
+    description: "Struktur og innhold som gjør løsningen synlig og lettere å velge.",
+    meta: "Innhold / Struktur",
+    capabilities: ["Teknisk SEO", "AI-synlighet", "Lokal synlighet", "Måling"],
+    href: "/tjenester/seo-optimalisering",
+    image: null,
+    layout: "row",
   },
 ] as const;
 
-const services = [
-  {
-    title: "Nettsider",
-    description: "Raske nettsider med tydelig struktur, teknisk SEO og måling fra start.",
-    meta: "NEXT.JS / SEO / CWV",
-    tagline: "Teknisk SEO / Core Web Vitals / Struktur / Måling / Konvertering / Next.js",
-    href: "/tjenester/webutvikling-nextjs",
-  },
-  {
-    title: "Webapper",
-    description: "Portaler, dashboards og digitale verktøy bygget for reell arbeidsflyt.",
-    meta: "PORTALER / DASHBOARDS",
-    tagline: "Innlogging / Roller / Integrasjoner / Datamodell / Drift",
-    href: "/tjenester",
-  },
-  {
-    title: "Apper",
-    description: "App-løsninger for mobil og web når produktet må være mer enn en nettside.",
-    meta: "MOBIL / WEB",
-    tagline: "Mobil / Web / Push / Innlogging / Publisering",
-    href: "/tjenester/app-utvikling",
-  },
-  {
-    title: "AI-systemer",
-    description: "Automatisering, søk, assistenter og interne workflows koblet til ekte data.",
-    meta: "AUTOMASJON / SØK / DATA",
-    tagline: "Automasjon / Søk / Assistenter / Interne verktøy / Ekte data",
-    href: "/tjenester/ai-implementering",
-  },
-  {
-    title: "SEO & AI-søk",
-    description: "Innhold og struktur som gjør løsningen lettere å finne, forstå og velge.",
-    meta: "INNHOLD / STRUKTUR",
-    tagline: "Teknisk SEO / Innholdsstruktur / AI-synlighet / Lokal synlighet / Måling",
-    href: "/tjenester",
-  },
-];
-
-/* Fullt tjeneste-register — gruppert etter pilar. Bunn-listen scrambles inn.
-   Slugs fylles inn etter hvert som sidene finnes. */
 const register = [
-  {
-    id: "bygg",
-    tag: "Bygg",
-    items: [
-      { name: "Nettsider", href: "/tjenester/webutvikling-nextjs" },
-      { name: "Webapper", href: "/tjenester" },
-      { name: "Apper", href: "/tjenester/app-utvikling" },
-      { name: "E-handel", href: "/tjenester/e-handel-losninger" },
-      { name: "Headless CMS" },
-      { name: "UX/UI-design" },
-    ],
-  },
-  {
-    id: "system",
-    tag: "System",
-    items: [
-      { name: "AI-systemer", href: "/tjenester/ai-implementering" },
-      { name: "Digital infrastruktur", href: "/tjenester/digital-infrastruktur" },
-      { name: "Integrasjoner" },
-      { name: "Vedlikehold & sikkerhet" },
-    ],
-  },
-  {
-    id: "synlighet",
-    tag: "Synlighet",
-    items: [
-      { name: "Teknisk SEO" },
-      { name: "AI-søk" },
-      { name: "Innholdsstruktur" },
-      { name: "Lokal synlighet" },
-      { name: "Måling" },
-    ],
-  },
+  ["Bygg", "Nettsider", "Webapper", "Apper", "E-handel", "Headless CMS", "UX/UI-design"],
+  ["System", "AI-systemer", "Digital infrastruktur", "Integrasjoner", "Vedlikehold & sikkerhet"],
+  ["Synlighet", "Teknisk SEO", "AI-søk", "Innholdsstruktur", "Lokal synlighet", "Måling"],
 ] as const;
 
 export function WhatWeBuild() {
   return (
-    <section className="what-build" aria-labelledby="what-build-title" data-build-section>
-      <div className="what-build__inner what-build__inner--head">
-        <header className="what-build__top">
-          <p className="what-build__label">Tjenester</p>
-          <div className="what-build__top-copy">
-            <h2 className="what-build__title" id="what-build-title">
-              BYGGER
-            </h2>
-            <div className="what-build__intro-stack">
-              <p className="what-build__intro what-build__intro--primary">
-                Digitale løsninger som blir funnet, forstått og brukt.
-              </p>
-              <p className="what-build__intro what-build__intro--secondary">
-                Fra produkt til drift til vekst — struktur, fart, søkbarhet og måling fra start.
-              </p>
+    <section
+      className="what-build"
+      aria-labelledby="what-build-title"
+      data-build-section
+      data-theme-section="dark"
+      data-bg-section="dark"
+    >
+      <header className="what-build__intro">
+        <p className="what-build__label">02 / Tjenester</p>
+        <h2 className="what-build__title" id="what-build-title">
+          <span>Dette</span>
+          <span>bygger vi.</span>
+        </h2>
+        <div className="what-build__intro-copy">
+          <p>
+            Fem fagområder bygget som én sammenhengende leveranse — fra første
+            valg til en løsning som kan finnes, forstås og måles.
+          </p>
+          <span>TGN / service disciplines / 01—05</span>
+        </div>
+      </header>
+
+      <ol className="service-ledger">
+        {services.map((service, index) => (
+          <li
+            className={`service-chapter service-chapter--${service.layout}${service.layout === "feature" && index % 2 ? " service-chapter--reverse" : ""}`}
+            data-service-chapter
+            key={service.id}
+          >
+            <header className="service-chapter__head">
+              <span className="service-chapter__number">{service.number} / 05</span>
+              <h3><a href={service.href}>{service.title}</a></h3>
+              <span className="service-chapter__meta">{service.meta}</span>
+            </header>
+
+            <div className="service-chapter__body">
+              <div className="service-chapter__copy" data-service-copy>
+                <p>{service.description}</p>
+                <ul aria-label={`${service.title} inkluderer`}>
+                  {service.capabilities.map((capability) => <li key={capability}>{capability}</li>)}
+                </ul>
+                <a href={service.href}>Se tjenesten <span aria-hidden="true">↗</span></a>
+              </div>
+
+              {service.image ? (
+                <figure className="service-chapter__visual" data-service-chapter-visual>
+                  <img src={service.image} alt="" loading={index < 1 ? "eager" : "lazy"} />
+                  <figcaption><span>TGN / Tjeneste {service.number}</span></figcaption>
+                </figure>
+              ) : null}
             </div>
-          </div>
-        </header>
-      </div>
-
-      {/* 1) Tre pilarer — Bygg → System → Synlighet */}
-      <div className="what-build__inner what-build__inner--pillars">
-        <ol className="what-build__pillars" data-build-list aria-label="Slik jobber vi">
-          {pillars.map((pillar, i) => (
-            <li className="what-build__pillar" data-build-row key={pillar.id}>
-              <div className="what-build__pillar-top">
-                <h3 className="what-build__pillar-title">{pillar.title}</h3>
-                {i < pillars.length - 1 ? (
-                  <span className="what-build__pillar-arrow" aria-hidden="true" />
-                ) : null}
-              </div>
-              <p className="what-build__pillar-tag">{pillar.tag}</p>
-              <p className="what-build__pillar-body">{pillar.body}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      {/* 2) Tjeneste-akkordeon — uten bilder */}
-      <ol className="what-build__list" aria-label="Tjenester" data-build-accordion>
-        {services.map((service, i) => {
-          const tags = service.meta.split(" / ");
-          const panelId = `wb-panel-${i}`;
-          return (
-            <li className="what-build__row" data-build-row key={service.title}>
-              <button
-                type="button"
-                className="what-build__row-head"
-                data-build-toggle
-                aria-expanded="true"
-                aria-controls={panelId}
-              >
-                <span className="what-build__service-title">{service.title}</span>
-                <span className="what-build__row-tags">
-                  {tags.map((tag) => (
-                    <span className="what-build__row-tag" key={tag}>
-                      {tag}
-                    </span>
-                  ))}
-                </span>
-                <span className="what-build__row-strip" aria-hidden="true">
-                  <span className="what-build__row-thumb" />
-                  <span className="what-build__row-thumb" />
-                </span>
-                <span className="what-build__row-toggle" aria-hidden="true" />
-              </button>
-
-              <div className="what-build__body" id={panelId} data-build-panel>
-                <div className="what-build__body-inner">
-                  <div className="what-build__body-grid">
-                    <div className="what-build__body-copy">
-                      <p className="what-build__description">{service.description}</p>
-                      <a className="what-build__row-link" href={service.href}>
-                        Les mer
-                        <span className="what-build__cta-arrow" aria-hidden="true" />
-                      </a>
-                    </div>
-                    <div className="what-build__posters" aria-hidden="true">
-                      <span className="what-build__poster">
-                        <span className="what-build__poster-tag">Mockup</span>
-                      </span>
-                      <span className="what-build__poster">
-                        <span className="what-build__poster-tag">Mockup</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-          );
-        })}
+          </li>
+        ))}
       </ol>
 
-      {/* 3) Scramble-register — alle tjenestene */}
-      <div className="what-build__inner what-build__inner--foot">
-        <div className="what-build__register" data-build-register>
-          <p className="what-build__register-label">Alle tjenester</p>
-          <div className="what-build__register-cols">
-            {register.map((col) => (
-              <div className="what-build__register-col" key={col.id}>
-                <p className="what-build__register-tag">{col.tag}</p>
-                <ul className="what-build__register-list">
-                  {col.items.map((item) => (
-                    <li className="what-build__register-item" key={item.name}>
-                      {"href" in item && item.href ? (
-                        <a href={item.href} data-scramble>
-                          {item.name}
-                        </a>
-                      ) : (
-                        <span data-scramble>{item.name}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+      <div className="what-build__register">
+        <p>Hele leveransen</p>
+        <div>
+          {register.map(([title, ...items]) => (
+            <section key={title}>
+              <h3>{title}</h3>
+              <p>{items.join(" / ")}</p>
+            </section>
+          ))}
         </div>
-
-        <footer className="what-build__foot">
-          <p className="what-build__foot-note">Én produksjon — samme grunnmur</p>
-          <a className="what-build__foot-link" href="/tjenester">
-            Alle tjenester
-            <span className="what-build__foot-arrow" aria-hidden="true" />
-          </a>
-        </footer>
+        <a href="/tjenester">Se alle tjenester <span aria-hidden="true">↗</span></a>
       </div>
+
     </section>
   );
 }
