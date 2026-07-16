@@ -141,7 +141,7 @@
   }
 
   .effect-work-bridge__line-inner {
-    transform: none;
+    transform: translate3d(0, 0, clamp(40px, 14vw, 88px));
   }
 }
 

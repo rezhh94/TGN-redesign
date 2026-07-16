@@ -803,9 +803,7 @@ export function HomeMotion() {
       heroEntrance(true);
       const teardownIntro = introStoryScene();
       const teardownTension = outcomeTensionBridge();
-      const teardownEffectWork = window.matchMedia("(min-width: 901px)").matches
-        ? effectWorkJourney()
-        : () => {};
+      const teardownEffectWork = effectWorkJourney();
       const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
       const teardownProcess = processScene(false);
       manifestoReveal();
@@ -819,12 +817,13 @@ export function HomeMotion() {
       };
     });
 
-    // Mobile keeps the same static content order. Only small one-shot reveals
-    // run; the cinematic Work stage remains disabled below tablet width.
+    // Mobile keeps the same 03→04 typographic page turn, while the capability
+    // wall itself stays in ordinary document flow with small one-shot reveals.
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownIntro = introStoryScene();
       const teardownTension = outcomeTensionBridge();
+      const teardownEffectWork = effectWorkJourney();
       const teardownWork = workProof(false);
       const teardownProcess = processScene(true);
       manifestoReveal();
@@ -832,6 +831,7 @@ export function HomeMotion() {
       return () => {
         teardownIntro();
         teardownTension();
+        teardownEffectWork();
         teardownWork();
         teardownProcess();
       };
