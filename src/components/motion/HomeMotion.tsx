@@ -431,7 +431,6 @@ function workProof(cinematic: boolean) {
   if (!section) return () => {};
 
   const pairs = gsap.utils.toArray<HTMLElement>("[data-work-pair]", section);
-  const handoff = section.querySelector<HTMLElement>("[data-work-handoff]");
   if (!pairs.length || !cinematic) return () => {};
 
   const ctx = gsap.context(() => {
@@ -456,26 +455,109 @@ function workProof(cinematic: boolean) {
       });
     });
 
-    if (handoff) {
-      const handoffParts = handoff.querySelectorAll(
-        ":scope > p, :scope > div",
-      );
-      gsap.from(handoffParts, {
-        y: 24,
-        autoAlpha: 0,
-        duration: 0.7,
-        stagger: 0.08,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: handoff,
-          start: "top 72%",
-          once: true,
-        },
-      });
-    }
   }, section);
 
   return () => {
+    ctx.revert();
+  };
+}
+
+// 04 → 05 — Curved Wipe + Overlapping Parallax tilpasset én side.
+// Den ekte Process-seksjonen overlapper siste Work-viewport og stiger med en
+// buet mørk forkant. Work flyttes bare et kort stykke og dempes mens Process
+// dekker den, så overleveringen leses som én fysisk bevegelse.
+function workProcessJourney(compact: boolean) {
+  const journey = document.querySelector<HTMLElement>("[data-work-process-journey]");
+  const transition = document.querySelector<HTMLElement>("[data-work-process-transition]");
+  const handoff = transition?.querySelector<HTMLElement>("[data-work-handoff]");
+  const process = journey?.querySelector<HTMLElement>(".process-journey");
+  const processWipe = process?.querySelector<HTMLElement>("[data-process-wipe]");
+  if (!journey || !transition || !handoff || !process || !processWipe) return () => {};
+
+  const content = transition.querySelector<HTMLElement>("[data-work-handoff-content]");
+  const statusLine = transition.querySelector<HTMLElement>(".work-proof__handoff-status i");
+  const meta = transition.querySelector<HTMLElement>(".work-proof__handoff-meta");
+  const shade = transition.querySelector<HTMLElement>("[data-work-handoff-shade]");
+  const effectBackdrop = journey.querySelector<HTMLElement>(".effect-work-journey__sticky");
+
+  if (
+    !content
+    || !statusLine
+    || !meta
+    || !shade
+  ) {
+    return () => {};
+  }
+
+  const ctx = gsap.context(() => {
+    journey.setAttribute("data-work-process-ready", "");
+    transition.setAttribute("data-work-process-ready", "");
+
+    gsap.set(statusLine, {
+      scaleX: 0,
+      transformOrigin: "0% 50%",
+    });
+    gsap.set(processWipe, {
+      scaleX: compact ? 0.94 : 0.9,
+      transformOrigin: "50% 100%",
+    });
+
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: transition,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: compact ? 0.78 : 0.92,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    timeline
+      .to(statusLine, {
+        scaleX: 1,
+        duration: 0.72,
+        ease: "none",
+      }, 0)
+      .to(processWipe, {
+        scaleX: 1,
+        duration: 0.62,
+        ease: "power2.out",
+      }, 0.08)
+      .to(handoff, {
+        y: compact ? "-14svh" : "-22svh",
+        duration: 0.78,
+        ease: "none",
+      }, 0.14)
+      .to(content, {
+        y: compact ? -30 : -52,
+        scale: compact ? 0.975 : 0.96,
+        autoAlpha: 0.32,
+        duration: 0.62,
+        ease: "none",
+      }, 0.22)
+      .to(meta, {
+        y: compact ? -12 : -20,
+        autoAlpha: 0.34,
+        duration: 0.56,
+        ease: "none",
+      }, 0.2)
+      .to(shade, {
+        autoAlpha: compact ? 0.12 : 0.18,
+        duration: 0.58,
+        ease: "none",
+      }, 0.18)
+      .to(effectBackdrop, {
+        autoAlpha: 0,
+        duration: 0.28,
+        ease: "none",
+      }, 0.32);
+  }, transition);
+
+  return () => {
+    journey.removeAttribute("data-work-process-ready");
+    transition.dataset.themeSection = "light";
+    transition.dataset.bgSection = "mauve";
+    transition.removeAttribute("data-work-process-ready");
     ctx.revert();
   };
 }
@@ -609,10 +691,12 @@ function sectionThemeScene() {
   const check = () => {
     frame = 0;
     const offset = (bar?.offsetHeight ?? 0) / 2 + 12;
-    const active = sections.find((section) => {
-      const rect = section.getBoundingClientRect();
-      return rect.top <= offset && rect.bottom >= offset;
-    });
+    const active = sections
+      .filter((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= offset && rect.bottom >= offset;
+      })
+      .at(-1);
     if (!active) return;
 
     const theme = active.dataset.themeSection ?? "dark";
@@ -805,6 +889,9 @@ export function HomeMotion() {
       const teardownTension = outcomeTensionBridge();
       const teardownEffectWork = effectWorkJourney();
       const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
+      const teardownWorkProcess = workProcessJourney(
+        window.matchMedia("(max-width: 1100px)").matches,
+      );
       const teardownProcess = processScene(false);
       manifestoReveal();
       footerReveals();
@@ -813,6 +900,7 @@ export function HomeMotion() {
         teardownTension();
         teardownEffectWork();
         teardownWork();
+        teardownWorkProcess();
         teardownProcess();
       };
     });
@@ -825,6 +913,7 @@ export function HomeMotion() {
       const teardownTension = outcomeTensionBridge();
       const teardownEffectWork = effectWorkJourney();
       const teardownWork = workProof(false);
+      const teardownWorkProcess = workProcessJourney(true);
       const teardownProcess = processScene(true);
       manifestoReveal();
       footerReveals();
@@ -833,6 +922,7 @@ export function HomeMotion() {
         teardownTension();
         teardownEffectWork();
         teardownWork();
+        teardownWorkProcess();
         teardownProcess();
       };
     });

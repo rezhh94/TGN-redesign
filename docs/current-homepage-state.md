@@ -91,10 +91,14 @@ The homepage is mounted in this order:
 
 ### Arbeid → Prosess
 
-- An opaque, viewport-height cover ends Arbeid with the server-rendered reply `Slik blir det til.` and `Seks muligheter. Én metode.`. It covers and terminates the shared sticky title before Prosess.
-- The handoff index names Retning, Bygg and Live before 05 / Prosess takes over.
-- A three-row Osmo Shutter Scroll Transition covers the light Work surface with the dark Process colour across the boundary.
-- The generated rows are decorative and section-scoped. Reduced motion creates no rows and keeps the ordinary static boundary.
+- A shared Work/Process wrapper lets the scoped sticky cover and the real dark Process section occupy the same final viewport.
+- The handoff now keeps only the server-rendered `Slik blir det til.` statement. There is no rotating word, second statement or intermediate output line.
+- The enhanced pass uses an Osmo-inspired Overlapping Parallax architecture: the mauve Work surface moves only 14–22svh and darkens slightly while the real Process section travels over it in normal scroll.
+- Process owns a broad curved leading edge adapted from Curved Wipe. The curve enters before the rectangular section boundary, covers the outgoing statement and continues directly into `Uklart inn. System ut.`
+- The transition provides roughly 140svh of real scroll on desktop and 125svh on mobile, while a softened GSAP scrub controls only the slower outgoing parallax and curve expansion.
+- The earlier horizontal MWG 052 line, six-to-three field scene, three dark panels and black hold remain removed.
+- No Osmo CSS, JavaScript, Barba instance, fonts or media are imported; only the overlapping movement and curved-edge principles are rebuilt with existing structure and GSAP.
+- Reduced motion and no-JS preserve the single handoff statement and complete Process section in readable ordinary flow without overlap or a decorative curve.
 
 ### Prosess
 
@@ -116,8 +120,8 @@ The homepage is mounted in this order:
 
 - Important text and links remain visible in server-rendered HTML.
 - Reduced motion and no-JS states remain readable.
-- No pin is used inside Tjenester, Effekt, Arbeid or Prosess. The unnumbered 03→04 handoff uses one short desktop sticky scene.
-- No main homepage section uses a JS-driven pin. The former separate Overlevering section is not mounted; Effekt remains in ordinary flow.
+- No pin is used inside Tjenester, Effekt or the Process system map. The unnumbered 03→04 and 04→05 handoffs use scoped sticky scenes; the Work catalogue itself remains ordinary flow.
+- No numbered content system is hidden behind a JS-driven pin. The former separate Overlevering section is not mounted; Effekt, the Work links and the Process panels remain readable ordinary flow.
 - Continuous motion is limited to transform/opacity work scoped to the relevant section.
 - The only custom-cursor use is the functional Dynamic Text Cursor on clickable Arbeid surfaces; it is disabled for touch and reduced motion.
 - No MadeWithGSAP code, CSS, fonts, images or other assets were imported.

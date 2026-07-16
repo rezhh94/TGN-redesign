@@ -18,10 +18,12 @@ export default function Home() {
       <WhatWeBuild />
       <OutcomeTensionBridge />
       <WhatWeImprove />
-      <EffectWorkBridge>
-        <WorkProof />
-      </EffectWorkBridge>
-      <ProcessLayers />
+      <div className="work-process-journey" data-work-process-journey>
+        <EffectWorkBridge>
+          <WorkProof />
+        </EffectWorkBridge>
+        <ProcessLayers />
+      </div>
       <SystemManifesto />
       <ContactFooter />
       <HomeMotion />

@@ -156,38 +156,35 @@ export function WorkProof() {
         </footer>
       </div>
 
-      <div className="work-proof__cover" data-work-cover>
-        {/* Replikk til 05: grensen omorganiserer mulighetene til en metode. */}
+      <div
+        className="work-proof__cover"
+        data-work-process-transition
+        data-theme-section="light"
+        data-bg-section="mauve"
+      >
+        {/* 04 → 05: Arbeid står som en rolig avgangsflate. Den ekte mørke
+            Prosess-seksjonen glir over med en buet forkant og parallax. */}
         <footer className="work-proof__handoff" data-work-handoff>
-          <p>04 → 05</p>
-          <div>
-            <h3>
-              <span>Slik blir</span> <span>det til.</span>
-            </h3>
-            <p className="work-proof__handoff-copy">Seks muligheter. Én metode.</p>
+          <div className="work-proof__handoff-shade" data-work-handoff-shade aria-hidden="true" />
+
+          <div className="work-proof__handoff-meta">
+            <p>04 → 05 / Fra muligheter til prosess</p>
+            <p>Neste / 05 Prosess</p>
           </div>
-          <div className="work-proof__handoff-index">
-            <span>01 / Retning</span>
-            <span>02 / Bygg</span>
-            <span>03 / Live</span>
+
+          <div className="work-proof__handoff-statement" data-work-handoff-content>
+            <h3>
+              <strong>Slik blir</strong>
+              <em>det til.</em>
+            </h3>
+          </div>
+
+          <div className="work-proof__handoff-status" aria-hidden="true">
+            <span>04</span>
+            <i />
+            <span>05</span>
           </div>
         </footer>
-
-        {/* Osmo Shutter Scroll Transition: én sammenhengende, generert radstabel.
-            De data-styrte posisjonene starter scenen idet 05 nærmer seg og
-            fullfører kuttet før prosessinnholdet tar over. */}
-        <div
-          className="work-proof__shutter"
-          data-shutter-scroll-transition=""
-          data-mode="cover"
-          data-rows="3"
-          data-rows-tablet="3"
-          data-rows-landscape="3"
-          data-rows-mobile="3"
-          data-scroll-start="bottom 92%"
-          data-scroll-end="bottom 64%"
-          aria-hidden="true"
-        />
       </div>
 
       <div className="work-cursor" data-cursor="" aria-hidden="true">

@@ -1,6 +1,33 @@
 /* 04 / Arbeid — asymmetrisk capability-vegg på samme mauve flate som Effekt
    og den foregående 03→04-scenen. Ingen hvit mellomflate bryter reisen. */
 
+.work-process-journey {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+  background: var(--mauve-warm);
+}
+
+.work-process-journey > .effect-work-journey {
+  position: relative;
+  z-index: 2;
+}
+
+.work-process-journey > .process-journey {
+  position: relative;
+  z-index: 1;
+}
+
+.work-process-journey[data-work-process-ready] > .effect-work-journey {
+  background: transparent;
+}
+
+.work-process-journey[data-work-process-ready] > .process-journey {
+  z-index: 4;
+  margin-top: -100svh;
+  overflow: visible;
+}
+
 .work-proof {
   position: relative;
   z-index: 1;
@@ -27,7 +54,6 @@
 .work-proof__cover {
   position: relative;
   z-index: 3;
-  min-height: 100svh;
   margin-top: clamp(132px, 18vh, 240px);
   background: var(--mauve-warm);
   color: var(--blekk);
@@ -347,89 +373,124 @@
   text-transform: uppercase;
 }
 
-/* 04 → 05-replikken står tett på Osmo-shutteren, slik at teksten og kuttet
-   leses som én scene uten et eget tomrom mellom seksjonene. */
+/* 04 → 05 — Overlapping Parallax: Work står sticky og flyttes bare et kort
+   stykke mens den ekte Process-seksjonen stiger over med en buet forkant. */
 .work-proof__handoff {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: 2fr 7fr 3fr;
-  gap: var(--grid-gutter);
-  align-items: start;
-  align-content: center;
   min-height: 100svh;
-  padding: clamp(64px, 8vh, 104px) var(--gutter) clamp(148px, 17vh, 176px);
   border-top: 1px solid rgba(16, 16, 15, 0.16);
+  overflow: hidden;
+  background: var(--mauve-warm);
 }
 
-.work-proof__handoff > p:first-child {
-  color: var(--on-light-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.work-proof__handoff h3 {
-  margin: 0;
-  color: var(--blekk);
-  font-family: var(--font-display);
-  font-size: clamp(46px, 5.2vw, 92px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.78;
-  text-transform: uppercase;
-}
-
-.work-proof__handoff h3 span {
-  display: inline;
-}
-
-.work-proof__handoff h3 span:last-child {
-  color: var(--on-light-faint);
-}
-
-.work-proof__handoff-copy {
-  max-width: 26ch;
-  margin-top: clamp(18px, 2.6vh, 30px);
-  color: var(--blekk);
-  font-family: var(--font-sans);
-  font-size: clamp(17px, 1.2vw, 20px);
-  letter-spacing: -0.02em;
-  line-height: 1.45;
-}
-
-/* Fase-indeksen forhåndsvarsler bandene under. */
-.work-proof__handoff-index {
-  display: grid;
-  gap: 10px;
-  justify-items: end;
-  color: var(--on-light-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.4;
-  text-align: right;
-  text-transform: uppercase;
-}
-
-/* Osmo Shutter Scroll Transition. Radene genereres klientside og bruker
-   currentColor fra wrapperen, identisk med kilden og den mørke 05-flaten. */
-.work-proof__shutter {
+.work-proof__handoff-shade {
   position: absolute;
-  inset: auto 0 0;
-  z-index: 4;
-  color: #030303;
+  inset: 0;
+  z-index: 1;
+  background: var(--blekk);
+  opacity: 0;
   pointer-events: none;
 }
 
-.work-proof__shutter [data-shutter-scroll-row] {
-  width: 100%;
-  height: 3em;
-  background-color: currentColor;
-  backface-visibility: hidden;
+.work-proof__handoff-meta {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: min(100%, var(--page-max));
+  margin: 0 auto;
+  padding: clamp(30px, 4vh, 48px) var(--gutter);
+  color: var(--on-light-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.work-proof__handoff-meta p {
+  margin: 0;
+}
+
+.work-proof__handoff-meta p:last-child {
+  text-align: right;
+}
+
+.work-proof__handoff-statement {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: clamp(120px, 16vh, 184px) var(--gutter);
+  pointer-events: none;
+}
+
+.work-proof__handoff-statement h3 {
+  width: min(100%, 12ch);
+  margin: 0;
+  color: var(--blekk);
+  font-family: var(--font-display);
+  font-size: clamp(64px, 7.8vw, 142px);
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 0.78;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.work-proof__handoff-statement strong,
+.work-proof__handoff-statement em {
+  display: block;
+  font: inherit;
+}
+
+.work-proof__handoff-statement em {
+  color: var(--on-light-faint);
+  font-style: normal;
+}
+
+.work-proof__handoff-status {
+  display: none;
+}
+
+.work-proof__cover[data-work-process-ready] {
+  height: 240svh;
+  background: transparent;
+}
+
+.work-proof__cover[data-work-process-ready] .work-proof__handoff {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 0;
   will-change: transform;
+}
+
+.work-proof__cover[data-work-process-ready] .work-proof__handoff-status {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(32px, 4vh, 48px);
+  left: var(--gutter);
+  z-index: 4;
+  display: grid;
+  grid-template-columns: auto minmax(80px, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  color: var(--on-light-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  line-height: 1;
+}
+
+.work-proof__handoff-status i {
+  height: 1px;
+  background: rgba(16, 16, 15, 0.34);
+  transform-origin: 0 50%;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -439,16 +500,6 @@
 }
 
 @media (max-width: 1000px) {
-  .work-proof__shutter [data-shutter-scroll-row] {
-    height: 2.5em;
-  }
-
-  .work-proof__handoff {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding-bottom: clamp(116px, 14vh, 140px);
-  }
-
   .work-proof__lead {
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
@@ -494,10 +545,6 @@
 }
 
 @media (max-width: 640px) {
-  .work-proof__shutter [data-shutter-scroll-row] {
-    height: 2em;
-  }
-
   .work-proof {
     padding-bottom: 0;
   }
@@ -623,6 +670,37 @@
     padding-right: 20px;
     padding-left: 20px;
   }
+
+  .work-proof__handoff-meta,
+  .work-proof__handoff-statement {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .work-proof__handoff-meta {
+    inset: var(--header-height) 0 auto;
+    padding-top: 16px;
+  }
+
+  .work-proof__handoff-meta p:first-child {
+    max-width: 22ch;
+  }
+
+  .work-proof__handoff-statement h3 {
+    width: min(100%, 10ch);
+    font-size: clamp(46px, 13vw, 64px);
+    line-height: 0.82;
+  }
+
+  .work-proof__cover[data-work-process-ready] {
+    height: 225svh;
+  }
+
+  .work-proof__cover[data-work-process-ready] .work-proof__handoff-status {
+    right: 20px;
+    bottom: 28px;
+    left: 20px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -636,8 +714,13 @@
     transform: none !important;
   }
 
-  .work-cursor,
-  .work-proof__shutter {
+  .work-cursor {
     display: none !important;
+  }
+
+  .work-proof__handoff,
+  .work-proof__handoff-statement {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

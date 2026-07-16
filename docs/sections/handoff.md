@@ -30,8 +30,12 @@ Last reconciled: 2026-07-16.
 
 ## 04 → 05 / Arbeid → Prosess
 
-- Active files: `src/components/WorkProof.tsx`, `src/styles/work-proof.css`, `src/lib/osmo-motion.ts` and initialization in `HomeMotion.tsx`.
-- Arbeid ends with an opaque viewport-height cover containing `Slik blir det til.`, `Seks muligheter. Én metode.` and the Retning / Bygg / Live index. The cover terminates the sticky title before the shutter starts.
-- The transition uses the original Osmo Shutter Scroll Transition architecture with exactly three generated rows across breakpoints.
-- The rows cover the light Work surface with the dark Process colour before 05 content takes over; the shared journey clips at this boundary so the Work title cannot reappear beneath the shutter.
-- Reduced motion generates no rows and keeps the clean static boundary.
+- Active files: `src/components/WorkProof.tsx`, `src/styles/work-proof.css`, `src/components/ProcessLayers.tsx`, `src/styles/process-layers.css` and initialization in `HomeMotion.tsx`.
+- Arbeid and Process share a wrapper so the real dark 05 section can sit one viewport underneath the sticky mauve handoff.
+- `Slik blir det til.` is the only transition statement. It remains centered on the outgoing Work surface; no text replacement or looping effect is used.
+- The real Process section rises in front through normal scroll. Its wide elliptical top edge is adapted from Curved Wipe, while Work shifts only 14–22svh and darkens underneath using the Overlapping Parallax depth principle.
+- The enhanced range is roughly 140svh desktop and 125svh mobile. GSAP scrub softens the outgoing parallax, veil and subtle curve expansion; the incoming section itself remains directly connected to scroll.
+- The older 03→04 sticky backdrop fades as the curved Process surface enters. `Uklart inn. System ut.` and the real process system are part of the incoming surface, not transition duplicates.
+- The earlier MWG 052 line, six-to-three scene, dark fields and black hold remain removed.
+- Only the Osmo curved-edge and overlapping-motion principles are adapted. No external code, CSS, Barba instance, fonts, Lenis instance or media are imported.
+- Reduced motion and no-JS show the single transition statement and the complete sections in readable ordinary flow without overlap.

@@ -74,10 +74,14 @@ This file records the active motion architecture. It is not a backlog of old eff
 
 ### 04 → 05 / Arbeid → Prosess
 
-- A viewport-height opaque cover brings in the server-rendered `Slik blir det til.` reply and Retning / Bygg / Live index while naturally covering the shared background title.
-- Osmo Shutter Scroll Transition generates exactly three horizontal rows across desktop, tablet and mobile.
-- The rows cover the light Work surface with the dark Process colour during the boundary pass; no content is cloned or hidden behind the generated layer.
-- Reduced motion generates no shutter rows and preserves the ordinary section boundary.
+- A shared wrapper places the actual Process section one viewport underneath the scoped mauve cover.
+- `Slik blir det til.` is the only handoff statement and remains still long enough to read.
+- An Overlapping Parallax adaptation moves the outgoing Work surface a short distance upward and applies a restrained dark veil while the real Process section rises over it.
+- A wide elliptical leading edge adapted from Curved Wipe enters ahead of the Process rectangle. The same dark surface continues through the real Process intro and system; there is no separate transition panel or repeated 05 label.
+- The pass provides roughly 140svh of real scroll on desktop and 125svh on mobile. Delayed scrub affects the outgoing parallax, veil and small curve expansion, while the incoming section keeps natural scroll continuity.
+- The earlier MWG 052 line, three dark fields, repeated process panels and long black hold are removed.
+- No external code, CSS, Barba runtime, fonts, media or Lenis instance is imported from the Osmo references.
+- Reduced motion and no-JS preserve the single typographic statement and normal non-overlapping section flow.
 
 ### 05 / Prosess
 
