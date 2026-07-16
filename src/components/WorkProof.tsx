@@ -90,7 +90,10 @@ function CapabilityTile({ capability }: { capability: Capability }) {
         <p>{capability.meta}</p>
       </header>
 
-      <figure className="work-tile__visual" data-tile-visual={capability.n}>
+      <figure
+        className="work-tile__visual"
+        data-tile-visual={capability.n}
+      >
         <img
           className={"muted" in capability && capability.muted ? "work-tile__image--muted" : undefined}
           src={capability.src}
@@ -121,37 +124,72 @@ export function WorkProof() {
       className="work-proof"
       aria-labelledby="work-proof-title"
       data-theme-section="light"
-      data-bg-section="light"
+      data-bg-section="mauve"
     >
-      <header className="work-proof__intro">
-        <p className="work-proof__label">04 / Arbeid</p>
-        <h2 className="work-proof__title" id="work-proof-title">
-          <span>Dette kan</span>
-          <span>Tigon lage.</span>
-        </h2>
-        <div className="work-proof__intro-copy">
+      <div
+        className="work-proof__paper"
+        data-work-paper
+      >
+        <header className="work-proof__lead">
           <p>Seks mulige leveranser. Utviklet som demonstrasjoner, systemer og konsepter.</p>
           <span>TGN / capability field / 01—06</span>
-        </div>
-      </header>
+        </header>
 
-      <div className="work-wall" data-work-wall>
-        <div className="work-wall__row work-wall__row--opening">
-          {capabilities.slice(0, 3).map((capability) => (
-            <CapabilityTile capability={capability} key={capability.n} />
-          ))}
+        <div className="work-wall" data-work-wall>
+          <div className="work-wall__row work-wall__row--opening">
+            {capabilities.slice(0, 3).map((capability) => (
+              <CapabilityTile capability={capability} key={capability.n} />
+            ))}
+          </div>
+
+          <p className="work-proof__statement" data-work-statement>
+            Nettsider, apper og digitale systemer som gjør komplekse behov
+            tydelige, brukbare og målbare.
+          </p>
+
+          <div className="work-wall__row work-wall__row--closing">
+            {capabilities.slice(3).map((capability) => (
+              <CapabilityTile capability={capability} key={capability.n} />
+            ))}
+          </div>
         </div>
 
-        <p className="work-proof__statement" data-work-statement>
-          Nettsider, apper og digitale systemer som gjør komplekse behov
-          tydelige, brukbare og målbare.
-        </p>
+        <footer className="work-proof__disclaimer">
+          <span>Dette kan Tigon lage</span>
+          <span>Capability-demonstrasjoner / ikke kundecaser</span>
+        </footer>
 
-        <div className="work-wall__row work-wall__row--closing">
-          {capabilities.slice(3).map((capability) => (
-            <CapabilityTile capability={capability} key={capability.n} />
-          ))}
-        </div>
+        {/* Replikk til 05: grensen omorganiserer mulighetene til en metode. */}
+        <footer className="work-proof__handoff">
+          <p>04 → 05</p>
+          <div>
+            <h3>
+              <span>Slik blir</span> <span>det til.</span>
+            </h3>
+            <p className="work-proof__handoff-copy">Seks muligheter. Én metode.</p>
+          </div>
+          <div className="work-proof__handoff-index">
+            <span>01 / Retning</span>
+            <span>02 / Bygg</span>
+            <span>03 / Live</span>
+          </div>
+        </footer>
+
+        {/* Osmo Shutter Scroll Transition: én sammenhengende, generert radstabel.
+            De data-styrte posisjonene starter scenen idet 05 nærmer seg og
+            fullfører kuttet før prosessinnholdet tar over. */}
+        <div
+          className="work-proof__shutter"
+          data-shutter-scroll-transition=""
+          data-mode="cover"
+          data-rows="3"
+          data-rows-tablet="3"
+          data-rows-landscape="3"
+          data-rows-mobile="3"
+          data-scroll-start="bottom 92%"
+          data-scroll-end="bottom 64%"
+          aria-hidden="true"
+        />
       </div>
 
       <div className="work-cursor" data-cursor="" aria-hidden="true">
@@ -160,43 +198,6 @@ export function WorkProof() {
           <span className="work-cursor__arrow">↗</span>
         </div>
       </div>
-
-      <footer className="work-proof__disclaimer">
-        <span>Dette kan Tigon lage</span>
-        <span>Capability-demonstrasjoner / ikke kundecaser</span>
-      </footer>
-
-      {/* Replikk til 05: grensen omorganiserer mulighetene til en metode. */}
-      <footer className="work-proof__handoff">
-        <p>04 → 05</p>
-        <div>
-          <h3>
-            <span>Slik blir</span> <span>det til.</span>
-          </h3>
-          <p className="work-proof__handoff-copy">Seks muligheter. Én metode.</p>
-        </div>
-        <div className="work-proof__handoff-index">
-          <span>01 / Retning</span>
-          <span>02 / Bygg</span>
-          <span>03 / Live</span>
-        </div>
-      </footer>
-
-      {/* Osmo Shutter Scroll Transition: én sammenhengende, generert radstabel.
-          De data-styrte posisjonene starter scenen idet 05 nærmer seg og
-          fullfører kuttet før prosessinnholdet tar over. */}
-      <div
-        className="work-proof__shutter"
-        data-shutter-scroll-transition=""
-        data-mode="cover"
-        data-rows="3"
-        data-rows-tablet="3"
-        data-rows-landscape="3"
-        data-rows-mobile="3"
-        data-scroll-start="bottom 92%"
-        data-scroll-end="bottom 64%"
-        aria-hidden="true"
-      />
     </section>
   );
 }

@@ -1,6 +1,6 @@
 # Current Homepage State
 
-Last verified: 2026-07-15
+Last verified: 2026-07-16
 
 This is the canonical implementation snapshot for the redesign checkout. Historical audits and section experiments may remain in the repository, but they do not override this file, `AGENTS.md`, `docs/current-project-rules.md` or the current user instruction.
 
@@ -21,10 +21,11 @@ The homepage is mounted in this order:
 2. 01 / Tilnærming — `ApproachStatementBridge`
 3. 02 / Tjenester — `WhatWeBuild`
 4. 03 / Effekt — `WhatWeImprove`
-5. 04 / Arbeid — `WorkProof`
-6. 05 / Prosess — `ProcessLayers`
-7. Manifest — `SystemManifesto`
-8. Kontakt / footer — `ContactFooter`
+5. 03 → 04 / Fra resultat til form — `EffectWorkBridge`
+6. 04 / Arbeid — `WorkProof`
+7. 05 / Prosess — `ProcessLayers`
+8. Manifest — `SystemManifesto`
+9. Kontakt / footer — `ContactFooter`
 
 ## Current section decisions
 
@@ -64,10 +65,17 @@ The homepage is mounted in this order:
 - Motion uses the section-scoped Osmo Highlight Marker reveal: dark covers withdraw from FUNNET, FORSTÅTT, VALGT and MÅLT in two visible rows. Copy and proof surfaces stay still; there is no pin, scrubbed Proof Lock, sticky stack, selector or active-state dependency.
 - Desktop uses the full restrained displacement; mobile keeps the same mechanism with smaller travel and higher starting proof opacity. Reduced motion and no-JS show the finished static composition.
 
+### Effekt → Arbeid
+
+- The new unnumbered handoff states `Effekt må bygges inn.` and labels the boundary `03 → 04 / Fra resultat til form`.
+- One continuous `mauve-warm` surface now connects Effekt, the 03→04 bridge and the entire Work catalogue. The former mineral-mauve and white paper cuts are removed.
+- Desktop uses a distinct MWG 053-inspired 3D line flip rather than repeating 02→03. `Effekt må bygges inn.` rotates away around the Y-axis while `Dette kan Tigon lage.` rotates into the same pinned position. The final title holds before the complete capability wall continues on the same surface.
+- Mobile, reduced motion and no-JS remain in ordinary flow with all text, images and links visible. No new asset or external effect code was imported.
+
 ### Arbeid
 
 - Status: simplified and verified on 2026-07-15 after the user removed the card-opening layer.
-- Uses a light, asymmetric editorial capability wall adapted from the Anatoly reference without adopting portfolio semantics.
+- Uses one continuous mauve, asymmetric editorial capability wall adapted from the Anatoly reference without adopting portfolio semantics.
 - Six complete surfaces use unequal widths, formats and vertical offsets in normal document flow.
 - Webapp, Nettsted, Plattform, E-handel, AI and App remain immediately visible and readable.
 - It is a capability catalogue, not a customer portfolio.
@@ -77,7 +85,7 @@ The homepage is mounted in this order:
 - Desktop fine-pointer hover uses the approved regular Dynamic Text Cursor with `Utforsk / [capability]`; mobile shows a visible `Utforsk` action.
 - The `Selected systems` pinned/orbital concept was rejected because it distracted from what Tigon delivers and reacted too aggressively to scroll.
 - A later static fan of six tilted capability cards was also rejected and fully rolled back because overlap, cropping and decorative composition obscured the capability argument.
-- Current motion is limited to small one-shot tile settling and the section-scoped functional cursor. No pin, orbit, parallax stage or scroll-driven state.
+- Current motion inside the catalogue is limited to small one-shot tile settling and the section-scoped functional cursor. The preceding handoff owns the pinned 3D title flip; there is still no pin, clipping, orbit, parallax stage or scroll-driven state inside the Work wall.
 
 ### Arbeid → Prosess
 
@@ -106,7 +114,7 @@ The homepage is mounted in this order:
 
 - Important text and links remain visible in server-rendered HTML.
 - Reduced motion and no-JS states remain readable.
-- No pin is used in Tjenester, Effekt, Arbeid or Prosess.
+- No pin is used inside Tjenester, Effekt, Arbeid or Prosess. The unnumbered 03→04 handoff uses one short desktop sticky scene.
 - No main homepage section uses a JS-driven pin. The former separate Overlevering section is not mounted; Effekt remains in ordinary flow.
 - Continuous motion is limited to transform/opacity work scoped to the relevant section.
 - The only custom-cursor use is the functional Dynamic Text Cursor on clickable Arbeid surfaces; it is disabled for touch and reduced motion.
@@ -146,6 +154,7 @@ Verified through 2026-07-15:
 - Mobile/touch review at 390 x 844
 - Reduced-motion and no-JS review of Effekt, Arbeid and Prosess
 - Six Work capability anchors, correct established hrefs, no dialog/buttons/nested links and keyboard focus on the real link
+- Server-rendered 03→04 thesis, mauve/light background zones and the real first Webapp match target
 - Desktop review of the direct-link Work wall and the three-row Work→Process shutter
 - Effect refresh-position and section-local motion cleanup
 - Desktop/mobile review of Manifest and the Prosess-to-Manifest transition

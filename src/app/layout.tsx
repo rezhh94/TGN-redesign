@@ -11,6 +11,7 @@ import "@/styles/approach-statement-bridge.css";
 import "@/styles/what-we-build.css";
 import "@/styles/outcome-tension-bridge.css";
 import "@/styles/what-we-improve.css";
+import "@/styles/effect-work-bridge.css";
 import "@/styles/work-proof.css";
 import "@/styles/process-layers.css";
 import "@/styles/system-manifesto.css";

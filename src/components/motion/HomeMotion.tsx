@@ -232,6 +232,88 @@ function effectScene() {
 
   return () => matchMedia.revert();
 }
+
+// 03 → 04 — MWG 053-inspirert typografisk sidevending. To komplette,
+// server-renderte statements deler én mauve 3D-stage. Linjene i Effect-tesen
+// roterer ut rundt Y-aksen mens Work-tittelen roterer inn fra baksiden.
+// Ingen MWG-kode, fonter eller assets importeres; kun bevegelsesarkitekturen.
+function effectWorkJourney() {
+  const section = document.querySelector<HTMLElement>("[data-effect-work-bridge]");
+  if (!section) return () => {};
+
+  const titles = gsap.utils.toArray<HTMLElement>("[data-effect-work-title]", section);
+  const titleList = section.querySelector<HTMLElement>(".effect-work-bridge__titles");
+  const paragraphs = titles
+    .map((title) => title.querySelector<HTMLElement>("p"))
+    .filter((paragraph): paragraph is HTMLElement => Boolean(paragraph));
+  if (titles.length < 2 || paragraphs.length < 2 || !titleList) return () => {};
+
+  const splits: SplitText[] = [];
+  const ctx = gsap.context(() => {
+    gsap.set(titleList, { position: "relative" });
+    gsap.set(titles, {
+      position: "absolute",
+      inset: 0,
+      display: "grid",
+      placeItems: "center",
+    });
+
+    const lineGroups = paragraphs.map((paragraph) => {
+      const split = SplitText.create(paragraph, {
+        type: "lines",
+        linesClass: "effect-work-bridge__line",
+      });
+      splits.push(split);
+
+      split.lines.forEach((line) => {
+        const inner = document.createElement("span");
+        inner.className = "effect-work-bridge__line-inner";
+        while (line.firstChild) inner.appendChild(line.firstChild);
+        line.appendChild(inner);
+      });
+
+      return split.lines;
+    });
+
+    const currentLines = lineGroups[0];
+    const nextLines = lineGroups[1];
+
+    gsap.set(currentLines, { rotationY: 0 });
+    gsap.set(nextLines, { rotationY: 90 });
+    section.setAttribute("data-effect-work-ready", "");
+
+    const bridgeTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.45,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    bridgeTimeline
+      .to(currentLines, {
+        rotationY: -90,
+        duration: 1,
+        stagger: 0.075,
+        ease: "back.inOut(1.2)",
+      }, 0.55)
+      .to(nextLines, {
+        rotationY: 0,
+        duration: 1,
+        stagger: 0.075,
+        ease: "back.inOut(1.2)",
+      }, 0.55)
+      .to(nextLines, { rotationY: 0, duration: 0.72 }, 1.55);
+  }, section);
+
+  return () => {
+    section.removeAttribute("data-effect-work-ready");
+    ctx.revert();
+    splits.forEach((split) => split.revert());
+  };
+}
 // One-time opening scene: the editorial masthead assembles once on load.
 // FROM-tweens only — without JS everything is simply visible (no CLS).
 function heroEntrance(full: boolean) {
@@ -685,6 +767,9 @@ export function HomeMotion() {
       heroEntrance(true);
       const teardownIntro = introStoryScene();
       const teardownTension = outcomeTensionBridge();
+      const teardownEffectWork = window.matchMedia("(min-width: 901px)").matches
+        ? effectWorkJourney()
+        : () => {};
       const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
       const teardownProcess = processScene(false);
       manifestoReveal();
@@ -692,6 +777,7 @@ export function HomeMotion() {
       return () => {
         teardownIntro();
         teardownTension();
+        teardownEffectWork();
         teardownWork();
         teardownProcess();
       };

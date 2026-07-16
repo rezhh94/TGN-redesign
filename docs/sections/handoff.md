@@ -1,6 +1,6 @@
 # Homepage handoffs — active contract
 
-Last reconciled: 2026-07-15.
+Last reconciled: 2026-07-16.
 
 ## 01 → 02 / Tilnærming → Tjenester
 
@@ -17,6 +17,15 @@ Last reconciled: 2026-07-15.
 - The handoff is part of Tjenester, not a separate numbered section or scroll scene.
 - The transition adapts Osmo's Pixelated Scroll Transition with Tigon's mauve Effect colour; it imports no external CSS, JS, fonts or assets.
 - Important copy remains fully readable without JavaScript, while reduced motion falls back to the clean section boundary.
+
+## 03 → 04 / Effekt → Arbeid
+
+- Active files: `src/components/EffectWorkBridge.tsx`, `src/styles/effect-work-bridge.css`, `src/components/WorkProof.tsx`, `src/styles/work-proof.css` and section-scoped initialization in `HomeMotion.tsx`.
+- Effekt hands off through the server-rendered thesis `Effekt må bygges inn.` and the label `03 → 04 / Fra resultat til form`.
+- The `mauve-warm` Effect surface continues through the bridge and the complete Work catalogue. No colour cut or white paper surface is introduced at this boundary.
+- Desktop deliberately differs from 02→03: `Effekt må bygges inn.` rotates out line by line around the Y-axis while `Dette kan Tigon lage.` rotates in as the reverse side of the same typographic surface.
+- The MWG 053 reference informs only the 3D line-flip architecture; no external code, fonts or assets are imported. No image crosses or competes with the Work heading, and the first capability visual is never clipped. Mobile, reduced motion and no-JS use ordinary readable flow with no sticky enhancement.
+- The shared image is an existing Tigon capability asset. No new or external asset was introduced, and the transition does not imply delivered customer work.
 
 ## 04 → 05 / Arbeid → Prosess
 

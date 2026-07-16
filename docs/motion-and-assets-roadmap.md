@@ -1,6 +1,6 @@
 # Tigon Motion and Asset Roadmap
 
-Last reconciled with the implementation: 2026-07-15.
+Last reconciled with the implementation: 2026-07-16.
 
 ## Purpose
 
@@ -53,12 +53,19 @@ This file records the active motion architecture. It is not a backlog of old eff
 
 - One continuous asymmetric result chain remains visible in ordinary document flow; the equal 2x2 visual arrangement is superseded.
 - Osmo Highlight Marker is the active Effect mechanism: dark covers withdraw from FUNNET, FORSTÅTT, VALGT and MÅLT in two visible rows with a short stagger.
-- Copy, measurement UI and proof surfaces remain stationary. The reveal is one-shot and section-scoped; there is no pin, scrubbed Proof Lock, blur, parallax, selector, active-card state or transition into Work.
+- Copy, measurement UI and proof surfaces remain stationary. The reveal is one-shot and section-scoped; there is no pin, scrubbed Proof Lock, blur, parallax, selector or active-card state inside Effekt.
 - Reduced motion and no-JS show the final static result chain. Refresh preserves the correct scroll-linked state.
+
+### 03 → 04 / Effekt → Arbeid
+
+- A server-rendered bridge uses two complete statements on the same mauve surface: `Effekt må bygges inn.` and `Dette kan Tigon lage.`.
+- Desktop uses an MWG 053-inspired pinned 3D line flip so the handoff does not repeat the 02→03 sticky-title rhythm. The first statement rotates out as the second rotates in; no image or colour transition participates.
+- The capability wall follows on the same `mauve-warm` surface with every image complete from its first visible frame. The first capability remains a normal accessible link, and no moving layer crosses the Work heading.
+- Tablet/mobile, reduced motion and no-JS skip the pinned enhancement and preserve ordinary document flow.
 
 ### 04 / Arbeid
 
-- Light, asymmetric capability wall in normal document flow.
+- Light mineral-mauve introduction followed by a paper-based, asymmetric capability wall in normal document flow.
 - Six complete, server-rendered capability surfaces remain visible without interaction.
 - Small one-shot tile settling only; no pin, orbit, parallax stage or scroll-jacked progress.
 - Fine-pointer hover uses the approved regular Dynamic Text Cursor with an action-and-target label.
