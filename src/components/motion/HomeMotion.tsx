@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import { gsap } from "gsap";
+import { Flip } from "gsap/Flip";
+import ScrambleTextPlugin from "gsap/ScrambleTextPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { destroyLenis, initLenis } from "@/lib/motion";
@@ -13,7 +15,7 @@ import {
   initShutterScrollTransition,
 } from "@/lib/osmo-motion";
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger, Flip, ScrambleTextPlugin);
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
@@ -376,69 +378,177 @@ function heroEntrance(full: boolean) {
     .from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.34");
 }
 
-// 01 / Tilnærming — Osmo Highlight Text on Scroll. Hver autor-linje deles i
-// ord og tegn, og tegnene går fra lav til full opasitet i direkte takt med
-// scroll. De dempede linjene beholder sin roligere CSS-farge, mens tesens
-// resolusjon får full kontrast. Innholdet er komplett uten JavaScript.
+// 01 / Tilnærming — direkte seksjonsavgrenset adaptasjon av Codrops
+// ScrollTextMotion: samme posisjonsklasser, Flip-passering og scramble-logikk.
 function introStoryScene() {
   const section = document.querySelector<HTMLElement>("[data-intro-story]");
   if (!section) return () => {};
 
-  const authoredLines = gsap.utils.toArray<HTMLElement>("[data-highlight-text]", section);
-  if (authoredLines.length < 4) return () => {};
-
-  const label = section.querySelector<HTMLElement>(".approach-intro__label");
-  const support = section.querySelector<HTMLElement>(".approach-intro__support");
+  const textElements = gsap.utils.toArray<HTMLElement>(".el", section);
+  const logoBlock = section.querySelector<HTMLElement>(".logo__block");
+  const wave = section.querySelector<HTMLVideoElement>("[data-intro-wave]");
+  const support = section.querySelector<HTMLElement>(".approach-intro__preserved");
   const handoff = section.querySelector<HTMLElement>("[data-intro-handoff]");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!textElements.length) return () => {};
 
-  const splits: SplitText[] = [];
+  textElements.forEach((element) => {
+    const textTarget = element.querySelector<HTMLElement>(".el__text") ?? element;
+    textTarget.dataset.text = textTarget.textContent ?? "";
+  });
+  const scrambleTweens = new WeakMap<HTMLElement, gsap.core.Tween>();
+  let clearanceFrame = 0;
+  section.setAttribute("data-intro-clearance-ready", "");
 
-  authoredLines.forEach((line) => {
-    const scrollStart = line.getAttribute("data-highlight-scroll-start") || "top 90%";
-    const scrollEnd = line.getAttribute("data-highlight-scroll-end") || "center 40%";
-    const fadedValue = parseFloat(line.getAttribute("data-highlight-fade") || "") || 0.2;
-    const staggerValue = parseFloat(line.getAttribute("data-highlight-stagger") || "") || 0.1;
+  const updateClearance = () => {
+    clearanceFrame = 0;
+    if (!logoBlock) return;
 
-    splits.push(
-      SplitText.create(line, {
-        type: "words, chars",
-        autoSplit: true,
-        onSplit(self) {
-          const ctx = gsap.context(() => {
-            const tl = gsap.timeline({
-              scrollTrigger: {
-                scrub: true,
-                trigger: line,
-                start: scrollStart,
-                end: scrollEnd,
-              },
-            });
+    const block = logoBlock.getBoundingClientRect();
+    const protectedRect = {
+      left: block.left - 30,
+      right: block.right + 30,
+      top: block.top - 24,
+      bottom: block.bottom + 24,
+    };
+    const feather = 72;
 
-            tl.from(self.chars, {
-              autoAlpha: fadedValue,
-              stagger: staggerValue,
-              ease: "linear",
-            });
-          }, line);
+    textElements.forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      const horizontalGap = Math.max(
+        protectedRect.left - rect.right,
+        rect.left - protectedRect.right,
+        0,
+      );
+      const verticalGap = Math.max(
+        protectedRect.top - rect.bottom,
+        rect.top - protectedRect.bottom,
+        0,
+      );
+      const distance = Math.hypot(horizontalGap, verticalGap);
+      const clearance = horizontalGap === 0 && verticalGap === 0
+        ? 0
+        : gsap.utils.clamp(0, 1, distance / feather);
+      element.style.setProperty("--intro-clearance", clearance.toFixed(3));
+    });
+  };
 
-          return ctx;
+  const requestClearance = () => {
+    if (!clearanceFrame) clearanceFrame = window.requestAnimationFrame(updateClearance);
+  };
+
+  const ctx = gsap.context(() => {
+    if (wave && !reduced && !window.matchMedia("(max-width: 768px)").matches) {
+      const source = wave.querySelector<HTMLSourceElement>("source[data-src]");
+      const loadAndPlay = () => {
+        if (source?.dataset.src && !source.src) {
+          source.src = source.dataset.src;
+          wave.load();
+        }
+        void wave.play().catch(() => {});
+      };
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top bottom",
+        end: "bottom top",
+        onEnter: loadAndPlay,
+        onEnterBack: loadAndPlay,
+        onLeave: () => wave.pause(),
+        onLeaveBack: () => wave.pause(),
+      });
+    }
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: "top bottom",
+      end: "bottom top",
+      onEnter: requestClearance,
+      onEnterBack: requestClearance,
+      onUpdate: requestClearance,
+      onRefresh: requestClearance,
+    });
+
+    textElements.forEach((element) => {
+      if (reduced) return;
+
+      gsap.set(element, { clearProps: "transform,filter" });
+
+      const originalClass = [...element.classList].find((name) => name.startsWith("pos-"));
+      const targetClass = element.dataset.altPos;
+      const flipEase = element.dataset.flipEase || "expo.inOut";
+      if (!originalClass || !targetClass) return;
+
+      element.classList.add(targetClass);
+      element.classList.remove(originalClass);
+      const flipState = Flip.getState(element, { props: "filter,width" });
+      element.classList.add(originalClass);
+      element.classList.remove(targetClass);
+
+      Flip.to(flipState, {
+        ease: flipEase,
+        scrollTrigger: {
+          trigger: element,
+          start: "clamp(bottom bottom-=10%)",
+          end: "clamp(center center)",
+          scrub: true,
         },
-      }),
-    );
-  });
+      });
 
-  const detailTimeline = gsap.timeline({
-    scrollTrigger: { trigger: section, start: "clamp(top 70%)", once: true },
-    defaults: { ease: "power3.out" },
-  });
-  if (label) detailTimeline.from(label, { autoAlpha: 0, duration: 0.5 }, 0);
-  if (support) detailTimeline.from(support, { autoAlpha: 0, y: 20, duration: 0.6 }, 0.78);
-  if (handoff) detailTimeline.from(handoff, { autoAlpha: 0, y: 12, duration: 0.5 }, 1.0);
+      Flip.from(flipState, {
+        ease: flipEase,
+        scrollTrigger: {
+          trigger: element,
+          start: "clamp(center center)",
+          end: "clamp(top top)",
+          scrub: true,
+        },
+      });
+
+      const scramble = () => {
+        const textTarget = element.querySelector<HTMLElement>(".el__text") ?? element;
+        const text = textTarget.dataset.text ?? textTarget.textContent ?? "";
+        const duration = textTarget.dataset.scrambleDuration
+          ? Number.parseFloat(textTarget.dataset.scrambleDuration)
+          : 1;
+
+        scrambleTweens.get(textTarget)?.kill();
+        const scrambleTween = gsap.fromTo(
+          textTarget,
+          { scrambleText: { text: "", chars: "" } },
+          {
+            scrambleText: { text, chars: "upperAndLowerCase" },
+            duration,
+          },
+        );
+        scrambleTweens.set(textTarget, scrambleTween);
+      };
+
+      ScrollTrigger.create({
+        trigger: element,
+        start: "top bottom",
+        end: "bottom top",
+        onEnter: scramble,
+        onEnterBack: scramble,
+      });
+    });
+
+    if (!reduced) {
+      const detailTimeline = gsap.timeline({
+        scrollTrigger: { trigger: support ?? section, start: "clamp(top 84%)", once: true },
+        defaults: { ease: "power3.out" },
+      });
+      if (support) detailTimeline.from(support, { autoAlpha: 0, y: 20, duration: 0.6 }, 0);
+      if (handoff) detailTimeline.from(handoff, { autoAlpha: 0, y: 12, duration: 0.5 }, 0.16);
+    }
+  }, section);
 
   return () => {
-    detailTimeline.scrollTrigger?.kill();
-    detailTimeline.kill();
-    splits.forEach((split) => split.revert());
+    window.cancelAnimationFrame(clearanceFrame);
+    wave?.pause();
+    section.removeAttribute("data-intro-clearance-ready");
+    textElements.forEach((element) => element.style.removeProperty("--intro-clearance"));
+    ctx.revert();
   };
 }
 
