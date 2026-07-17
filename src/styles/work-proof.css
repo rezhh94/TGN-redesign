@@ -1,11 +1,11 @@
-/* 04 / Arbeid — asymmetrisk capability-vegg på samme mauve flate som Effekt
-   og den foregående 03→04-scenen. Ingen hvit mellomflate bryter reisen. */
+/* 04 / Arbeid — asymmetrisk capability-vegg på den mørke flaten som vokser
+   frem direkte fra 03. Ingen hvit mellomflate bryter reisen. */
 
 .work-process-journey {
   position: relative;
   overflow: clip;
   isolation: isolate;
-  background: var(--mauve-warm);
+  background: #070707;
 }
 
 .work-process-journey > .effect-work-journey {
@@ -22,22 +22,28 @@
   background: transparent;
 }
 
+.work-process-journey[data-work-process-ready] {
+  background: transparent;
+}
+
 .work-process-journey[data-work-process-ready] > .process-journey {
   z-index: 4;
-  margin-top: -100svh;
   overflow: visible;
 }
 
 .work-proof {
+  --work-canvas: #070707;
+  --work-canvas-raised: #111111;
+  --work-line: rgba(242, 241, 235, 0.17);
+  --work-line-strong: rgba(242, 241, 235, 0.3);
   position: relative;
   z-index: 1;
   overflow: clip;
   padding-bottom: 0;
-  background: transparent;
-  color: var(--blekk);
+  background: var(--work-canvas);
+  color: var(--color-on-dark);
 }
 
-.work-proof__lead,
 .work-wall,
 .work-proof__disclaimer {
   width: min(100%, var(--page-max));
@@ -48,96 +54,166 @@
 .work-proof__catalogue {
   position: relative;
   z-index: 1;
-  padding-top: clamp(32px, 5vh, 72px);
+  padding-top: 0;
+  background:
+    radial-gradient(ellipse 70% 54% at 3% 22%, rgba(154, 166, 163, 0.055), transparent 68%),
+    #060707;
 }
 
-.work-proof__cover {
+.effect-work-journey[data-effect-work-ready] .work-proof,
+.effect-work-journey[data-effect-work-ready] .work-proof__catalogue {
+  background: transparent;
+}
+
+/* ── Sticky arkivflate (nudot-inspirert scroll-sandwich) ─────────────────
+   Flaten står sticky i første viewport av katalogen; veggen (z-2) ruller
+   over den. Tittelordene ligger i overflow-klippede wrappere så entré og
+   exit kan maskeres. Uten JS: helt vanlig, synlig tekst. */
+
+.work-archive {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100svh;
+  padding: 0 var(--gutter);
+  text-align: center;
+}
+
+.work-archive__label {
   position: relative;
-  z-index: 3;
-  margin-top: clamp(132px, 18vh, 240px);
-  background: var(--mauve-warm);
-  color: var(--blekk);
-  isolation: isolate;
-}
-
-.work-proof__lead {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--grid-gutter);
-  padding: clamp(64px, 8vh, 104px) var(--gutter) clamp(72px, 9vh, 120px);
-  border-top: 1px solid rgba(16, 16, 15, 0.16);
-}
-
-.work-proof__lead p {
-  grid-column: 9 / -1;
-  max-width: 31ch;
-  color: var(--on-light-strong);
-  font-family: var(--font-sans);
-  font-size: clamp(18px, 1.4vw, 23px);
-  line-height: 1.45;
-}
-
-.work-proof__lead span {
-  grid-column: 9 / -1;
-  margin-top: 28px;
-  color: var(--on-light-faint);
+  z-index: 2;
+  margin-bottom: 3vh;
+  color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
   letter-spacing: var(--mono-track);
-  line-height: 1.4;
   text-transform: uppercase;
 }
 
+.work-archive__title {
+  position: relative;
+  z-index: 2;
+  margin: 0 0 1.4rem;
+  color: var(--color-on-dark);
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 80px);
+  font-weight: 700;
+  letter-spacing: var(--display-track);
+  line-height: 1.04;
+  text-transform: uppercase;
+}
+
+.work-archive__line {
+  display: flex;
+  gap: 0.26em;
+  justify-content: center;
+}
+
+.work-archive__word {
+  display: inline-block;
+  overflow: clip;
+}
+
+.work-archive__word-inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+.work-archive__sub {
+  position: relative;
+  z-index: 2;
+  max-width: 44ch;
+  color: var(--on-dark-medium);
+  font-family: var(--font-sans);
+  font-size: clamp(14px, 1.05vw, 18px);
+  line-height: 1.45;
+}
+
+.work-archive__meta {
+  position: relative;
+  z-index: 2;
+  margin-top: 12px;
+  color: var(--on-dark-faint);
+  font-family: var(--font-mono);
+  font-size: var(--fz-mono-s);
+  letter-spacing: var(--mono-track);
+  text-transform: uppercase;
+}
+
+/* ── Sikksakk-vegg: seks flater, én per rad, venstre/høyre/senter ──────── */
+
 .work-wall {
+  position: relative;
+  z-index: 2;
   display: grid;
-  gap: clamp(80px, 10vh, 140px);
-  padding: 0 var(--gutter);
-}
-
-.work-wall__pair {
-  display: grid;
+  width: 100%;
+  max-width: none;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: clamp(10px, 1.15vw, 24px);
-  align-items: center;
-  min-height: 105svh;
+  column-gap: 2vw;
+  row-gap: 12vw;
+  padding: 0 4vw 22vh;
 }
 
-.work-wall__pair--01 .work-tile:first-child {
+.work-wall .work-tile:nth-child(1) {
   grid-column: 1 / 6;
-  margin-top: clamp(-54px, -5vh, -24px);
+  grid-row: 1;
 }
 
-.work-wall__pair--01 .work-tile:last-child {
-  grid-column: 9 / -1;
-  margin-top: clamp(64px, 9vh, 116px);
+.work-wall .work-tile:nth-child(2) {
+  grid-column: 7 / 13;
+  grid-row: 2;
 }
 
-.work-wall__pair--02 .work-tile:first-child {
-  grid-column: 1 / 5;
-  margin-top: clamp(72px, 10vh, 128px);
+.work-wall .work-tile:nth-child(3) {
+  grid-column: 4 / 10;
+  grid-row: 3;
 }
 
-.work-wall__pair--02 .work-tile:last-child {
-  grid-column: 8 / -1;
-  margin-top: clamp(-72px, -7vh, -32px);
+.work-wall .work-tile:nth-child(4) {
+  grid-column: 1 / 6;
+  grid-row: 4;
 }
 
-.work-wall__pair--03 .work-tile:first-child {
-  grid-column: 2 / 6;
-  margin-top: clamp(-44px, -4vh, -20px);
+.work-wall .work-tile:nth-child(5) {
+  grid-column: 7 / 13;
+  grid-row: 5;
 }
 
-.work-wall__pair--03 .work-tile:last-child {
-  grid-column: 8 / -1;
-  margin-top: clamp(84px, 11vh, 142px);
+.work-wall .work-tile:nth-child(6) {
+  grid-column: 4 / 10;
+  grid-row: 6;
+}
+
+/* Faste Nudot-proporsjoner. Mockupene beholder lesbarhet via et 140 %
+   parallaxrom som aldri avdekker kanten. */
+.work-wall .work-tile:nth-child(1) .work-tile__visual,
+.work-wall .work-tile:nth-child(4) .work-tile__visual {
+  aspect-ratio: auto;
+  height: 27.9vw;
+}
+
+.work-wall .work-tile:nth-child(2) .work-tile__visual,
+.work-wall .work-tile:nth-child(5) .work-tile__visual {
+  aspect-ratio: auto;
+  height: 33.75vw;
+}
+
+.work-wall .work-tile:nth-child(3) .work-tile__visual,
+.work-wall .work-tile:nth-child(6) .work-tile__visual {
+  aspect-ratio: auto;
+  height: 33.75vw;
 }
 
 .work-tile {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   min-width: 0;
   padding-top: clamp(11px, 0.9vw, 17px);
-  border-top: 1px solid var(--color-line);
+  border-top: 1px solid var(--work-line);
 }
 
 .work-tile__trigger {
@@ -158,7 +234,7 @@
 }
 
 .work-tile:has(.work-tile__trigger:focus-visible) {
-  outline: 1px solid var(--pine);
+  outline: 1px solid var(--pine-tint);
   outline-offset: 4px;
 }
 
@@ -168,7 +244,7 @@
   gap: 20px;
   min-height: clamp(62px, 5vw, 88px);
   padding-bottom: clamp(10px, 0.8vw, 16px);
-  color: var(--blekk);
+  color: var(--color-on-dark);
 }
 
 .work-tile__head > div {
@@ -181,7 +257,7 @@
 .work-tile__head span,
 .work-tile__head > p,
 .work-tile__foot-meta > span {
-  color: var(--on-light-faint);
+  color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
   letter-spacing: var(--mono-track);
@@ -207,7 +283,22 @@
   position: relative;
   margin: 0;
   overflow: hidden;
-  background: var(--stein);
+  background: var(--work-canvas-raised);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.24),
+    0 0 0 1px rgba(242, 241, 235, 0.06);
+  isolation: isolate;
+}
+
+.work-tile__visual::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(5, 6, 6, 0.04), transparent 24%, transparent 72%, rgba(5, 6, 6, 0.14));
+  box-shadow: inset 0 0 0 1px rgba(5, 6, 6, 0.12);
+  content: "";
+  pointer-events: none;
 }
 
 .work-tile--hero .work-tile__visual {
@@ -228,20 +319,25 @@
 
 .work-tile--narrow .work-tile__visual {
   aspect-ratio: 4 / 5;
-  background: var(--sage-warm);
+  background: #262626;
 }
 
 .work-tile--offset .work-tile__visual {
   aspect-ratio: 5 / 4;
-  background: var(--greige);
+  background: #1d1d1d;
 }
 
+/* 140 % høyde / -20 % topp gir parallaxen rom uten å avsløre kanten.
+   Uten JS er dette bare et litt strammere senterutsnitt. */
 .work-tile__visual img {
+  position: absolute;
+  top: -20%;
+  left: 0;
   display: block;
   width: 100%;
-  height: 100%;
+  height: 140%;
   object-fit: cover;
-  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
 .work-tile--portrait .work-tile__visual img,
@@ -264,7 +360,7 @@
 
 .work-tile__foot p {
   max-width: 42ch;
-  color: var(--on-light-medium);
+  color: var(--on-dark-medium);
   font-family: var(--font-sans);
   font-size: clamp(14px, 1vw, 17px);
   line-height: 1.45;
@@ -285,7 +381,7 @@
 .work-tile__cta {
   display: inline-block;
   padding: 3px 0;
-  color: var(--blekk);
+  color: var(--color-on-dark);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
   letter-spacing: var(--mono-track);
@@ -364,8 +460,8 @@
   gap: 24px;
   margin-top: clamp(120px, 15vh, 194px);
   padding: 22px var(--gutter) 0;
-  border-top: 1px solid var(--color-line);
-  color: var(--on-light-faint);
+  border-top: 1px solid var(--work-line);
+  color: var(--on-dark-faint);
   font-family: var(--font-mono);
   font-size: var(--fz-mono-s);
   letter-spacing: var(--mono-track);
@@ -373,175 +469,46 @@
   text-transform: uppercase;
 }
 
-/* 04 → 05 — Overlapping Parallax: Work står sticky og flyttes bare et kort
-   stykke mens den ekte Process-seksjonen stiger over med en buet forkant. */
-.work-proof__handoff {
-  position: relative;
-  z-index: 1;
-  min-height: 100svh;
-  border-top: 1px solid rgba(16, 16, 15, 0.16);
-  overflow: hidden;
-  background: var(--mauve-warm);
-}
-
-.work-proof__handoff-shade {
+.work-proof__exit-shade {
   position: absolute;
   inset: 0;
-  z-index: 1;
-  background: var(--blekk);
+  z-index: 5;
+  background: #000;
   opacity: 0;
   pointer-events: none;
-}
-
-.work-proof__handoff-meta {
-  position: absolute;
-  inset: 0 0 auto;
-  z-index: 4;
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  width: min(100%, var(--page-max));
-  margin: 0 auto;
-  padding: clamp(30px, 4vh, 48px) var(--gutter);
-  color: var(--on-light-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.work-proof__handoff-meta p {
-  margin: 0;
-}
-
-.work-proof__handoff-meta p:last-child {
-  text-align: right;
-}
-
-.work-proof__handoff-statement {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  padding: clamp(120px, 16vh, 184px) var(--gutter);
-  pointer-events: none;
-}
-
-.work-proof__handoff-statement h3 {
-  width: min(100%, 12ch);
-  margin: 0;
-  color: var(--blekk);
-  font-family: var(--font-display);
-  font-size: clamp(64px, 7.8vw, 142px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.78;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.work-proof__handoff-statement strong,
-.work-proof__handoff-statement em {
-  display: block;
-  font: inherit;
-}
-
-.work-proof__handoff-statement em {
-  color: var(--on-light-faint);
-  font-style: normal;
-}
-
-.work-proof__handoff-status {
-  display: none;
-}
-
-.work-proof__cover[data-work-process-ready] {
-  height: 240svh;
-  background: transparent;
-}
-
-.work-proof__cover[data-work-process-ready] .work-proof__handoff {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  min-height: 0;
-  will-change: transform;
-}
-
-.work-proof__cover[data-work-process-ready] .work-proof__handoff-status {
-  position: absolute;
-  right: var(--gutter);
-  bottom: clamp(32px, 4vh, 48px);
-  left: var(--gutter);
-  z-index: 4;
-  display: grid;
-  grid-template-columns: auto minmax(80px, 1fr) auto;
-  gap: 16px;
-  align-items: center;
-  color: var(--on-light-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1;
-}
-
-.work-proof__handoff-status i {
-  height: 1px;
-  background: rgba(16, 16, 15, 0.34);
-  transform-origin: 0 50%;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .work-tile:hover .work-tile__visual img {
-    transform: scale(1.015);
-  }
+  will-change: opacity;
 }
 
 @media (max-width: 1000px) {
-  .work-proof__lead {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-
-  .work-proof__lead p,
-  .work-proof__lead span {
-    grid-column: 3 / -1;
-  }
-
   .work-wall {
-    gap: 72px;
-  }
-
-  .work-wall__pair {
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    min-height: 88svh;
+    row-gap: clamp(84px, 12vw, 150px);
   }
 
-  .work-wall__pair--01 .work-tile:first-child,
-  .work-wall__pair--02 .work-tile:first-child,
-  .work-wall__pair--03 .work-tile:first-child {
+  .work-wall .work-tile:nth-child(1),
+  .work-wall .work-tile:nth-child(4) {
     grid-column: 1 / 4;
   }
 
-  .work-wall__pair--01 .work-tile:last-child,
-  .work-wall__pair--02 .work-tile:last-child,
-  .work-wall__pair--03 .work-tile:last-child {
+  .work-wall .work-tile:nth-child(2),
+  .work-wall .work-tile:nth-child(5) {
     grid-column: 4 / -1;
   }
 
-  .work-wall__pair--01 .work-tile:first-child,
-  .work-wall__pair--02 .work-tile:last-child,
-  .work-wall__pair--03 .work-tile:first-child {
-    margin-top: -32px;
+  .work-wall .work-tile:nth-child(3),
+  .work-wall .work-tile:nth-child(6) {
+    grid-column: 2 / 6;
   }
+}
 
-  .work-wall__pair--01 .work-tile:last-child,
-  .work-wall__pair--02 .work-tile:first-child,
-  .work-wall__pair--03 .work-tile:last-child {
-    margin-top: 68px;
+/* Mobil: arkivflaten demonteres ærlig — vanlig flyt, ingen sticky media. */
+@media (max-width: 768px) {
+  .work-archive {
+    position: relative;
+    top: auto;
+    height: auto;
+    padding: 84px 20px 96px;
   }
-
 }
 
 @media (max-width: 640px) {
@@ -553,31 +520,9 @@
     padding-top: 0;
   }
 
-  .work-proof__cover {
-    margin-top: 96px;
-  }
-
-  .work-proof__lead {
-    display: block;
-    padding: 64px 20px 72px;
-  }
-
-  .work-proof__lead span {
-    display: block;
-  }
-
   .work-wall {
     display: block;
     padding: 0 20px;
-  }
-
-  .work-wall__pair {
-    display: block;
-    min-height: auto;
-  }
-
-  .work-wall__pair + .work-wall__pair {
-    margin-top: 112px;
   }
 
   .work-tile {
@@ -585,35 +530,21 @@
     padding-bottom: 44px;
   }
 
-  .work-wall__pair .work-tile {
-    margin-top: 0;
+  .work-wall .work-tile + .work-tile {
+    margin-top: 84px;
   }
 
-  .work-wall__pair--01 .work-tile:last-child {
-    width: 72%;
-    margin-top: 58px;
-    margin-left: auto;
-  }
-
-  .work-wall__pair--02 .work-tile:first-child {
+  .work-wall .work-tile:nth-child(even) {
     width: 84%;
-  }
-
-  .work-wall__pair--02 .work-tile:last-child {
-    width: 94%;
-    margin-top: 66px;
     margin-left: auto;
   }
 
-  .work-wall__pair--03 .work-tile:first-child {
-    width: 68%;
-    margin-left: auto;
-  }
-
-  .work-wall__pair--03 .work-tile:last-child {
-    width: 82%;
-    margin-top: 70px;
-    margin-left: 7%;
+  /* Mobil: nudot-lignende kompakte flater i stedet for høye portretter.
+     :nth-child(n) matcher alt, men løfter spesificiteten over
+     desktop-høydereglene (som ellers vinner inn i mobilbredder). */
+  .work-wall .work-tile:nth-child(n) .work-tile__visual {
+    aspect-ratio: auto;
+    height: 62vw;
   }
 
   .work-tile__head {
@@ -651,7 +582,7 @@
     display: inline-flex;
     gap: 14px;
     align-items: center;
-    color: var(--blekk);
+    color: var(--color-on-dark);
     font-family: var(--font-mono);
     font-size: var(--fz-mono-s);
     letter-spacing: var(--mono-track);
@@ -671,42 +602,14 @@
     padding-left: 20px;
   }
 
-  .work-proof__handoff-meta,
-  .work-proof__handoff-statement {
-    padding-right: 20px;
-    padding-left: 20px;
-  }
-
-  .work-proof__handoff-meta {
-    inset: var(--header-height) 0 auto;
-    padding-top: 16px;
-  }
-
-  .work-proof__handoff-meta p:first-child {
-    max-width: 22ch;
-  }
-
-  .work-proof__handoff-statement h3 {
-    width: min(100%, 10ch);
-    font-size: clamp(46px, 13vw, 64px);
-    line-height: 0.82;
-  }
-
-  .work-proof__cover[data-work-process-ready] {
-    height: 225svh;
-  }
-
-  .work-proof__cover[data-work-process-ready] .work-proof__handoff-status {
-    right: 20px;
-    bottom: 28px;
-    left: 20px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .work-wall__pair {
-    min-height: auto;
-    margin-bottom: clamp(92px, 12vh, 144px);
+  .work-archive {
+    position: relative;
+    height: auto;
+    padding-top: clamp(84px, 14vh, 160px);
+    padding-bottom: clamp(84px, 14vh, 160px);
   }
 
   .work-tile__visual img {
@@ -718,9 +621,7 @@
     display: none !important;
   }
 
-  .work-proof__handoff,
-  .work-proof__handoff-statement {
-    opacity: 1 !important;
-    transform: none !important;
+  .work-proof__exit-shade {
+    opacity: 0 !important;
   }
 }

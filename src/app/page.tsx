@@ -1,5 +1,8 @@
 import { ApproachStatementBridge } from "@/components/ApproachStatementBridge";
-import { EffectWorkBridge } from "@/components/EffectWorkBridge";
+import {
+  EffectWorkAtmosphere,
+  EffectWorkBridge,
+} from "@/components/EffectWorkBridge";
 import { HomeMotion } from "@/components/motion/HomeMotion";
 import { ContactFooter } from "@/components/ContactFooter";
 import { Hero } from "@/components/Hero";
@@ -16,13 +19,16 @@ export default function Home() {
       <Hero />
       <ApproachStatementBridge />
       <WhatWeBuild />
-      <OutcomeTensionBridge />
-      <WhatWeImprove />
-      <div className="work-process-journey" data-work-process-journey>
-        <EffectWorkBridge>
-          <WorkProof />
-        </EffectWorkBridge>
-        <ProcessLayers />
+      <div className="effect-work-continuum" data-effect-work-continuum>
+        <EffectWorkAtmosphere />
+        <OutcomeTensionBridge />
+        <WhatWeImprove />
+        <div className="work-process-journey" data-work-process-journey>
+          <EffectWorkBridge>
+            <WorkProof />
+          </EffectWorkBridge>
+          <ProcessLayers />
+        </div>
       </div>
       <SystemManifesto />
       <ContactFooter />

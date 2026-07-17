@@ -17,7 +17,10 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
-ScrollTrigger.config({ ignoreMobileResize: true });
+ScrollTrigger.config({
+  ignoreMobileResize: true,
+  limitCallbacks: true,
+});
 
 // 02 / Tjenester — five complete editorial chapters in ordinary document flow.
 // Copy and media settle from small opposing offsets; service names, descriptions
@@ -85,7 +88,7 @@ function servicesScene() {
             trigger: chapter,
             start: "top bottom",
             end: "bottom top",
-            scrub: 0.32,
+            scrub: true,
           },
         });
       }
@@ -97,9 +100,8 @@ function servicesScene() {
 
 // 02 → 03 — Osmo Sticky Title Scroll adapted as an unnumbered tension bridge.
 // Desktop and mobile keep one typographic stage sticky while three complete,
-// server-rendered statements replace one another. Only the final beat shifts
-// the surface into 03's mauve so "Effekt som kan måles" becomes the payoff.
-// Reduced motion and no-JS stay in ordinary readable document flow.
+// server-rendered statements replace one another over the same dark video/grain
+// atmosphere as 03 and 04. Reduced motion and no-JS remain readable in flow.
 function outcomeTensionBridge() {
   const section = document.querySelector<HTMLElement>("[data-outcome-tension]");
   if (!section) return () => {};
@@ -107,10 +109,6 @@ function outcomeTensionBridge() {
   const titles = gsap.utils.toArray<HTMLElement>("[data-outcome-tension-title]", section);
   const titleList = section.querySelector<HTMLElement>(".outcome-tension__titles");
   if (titles.length < 3 || !titleList) return () => {};
-
-  const styles = getComputedStyle(document.documentElement);
-  const mauve = styles.getPropertyValue("--mauve-warm").trim() || "#c8bcc1";
-  const ink = styles.getPropertyValue("--blekk").trim() || "#10100f";
 
   const ctx = gsap.context(() => {
     // Place every statement on the same stage only after GSAP is running.
@@ -168,12 +166,6 @@ function outcomeTensionBridge() {
         duration: 0.4,
         ease: "power3.out",
       }, 1.3)
-      .to(section, {
-        backgroundColor: mauve,
-        color: ink,
-        duration: 0.28,
-        ease: "none",
-      }, 1.25)
       .to(titles[2], { autoAlpha: 1, duration: 0.5 }, 1.7);
   }, section);
 
@@ -183,160 +175,187 @@ function outcomeTensionBridge() {
   };
 }
 
-// 03 / Effekt — Highlight Marker på resultatordene. En mørk flate dekker
-// FUNNET/FORSTÅTT/VALGT/MÅLT og trekker seg bort i resultatrekkefølge — én
-// one-shot per synlig rad, ingen scrub. Erstatter den tidligere Proof Lock-logikken som
-// aldri kjørte (krevde et [data-effect-placeholder] som ikke fantes i DOM).
-// Copy og UI ligger i ro; uten JS står ordene vanlig (dekket er scaleX 0).
+// 03 / Effekt — én delt 02→03→04-scene. Introduksjonen står på mørk flate,
+// resultatfeltet blir sticky, og den samme video/grain-flaten som bærer broen og 04
+// vokser frem under mockup og resultatord. Bildet bruker samme maske, zoom og
+// overscan-parallax som capability-flatene. Uten JS står alt lesbart i flyt.
 function effectScene() {
   const section = document.querySelector<HTMLElement>("[data-effect-section]");
-  if (!section) return () => {};
+  const continuum = document.querySelector<HTMLElement>("[data-effect-work-continuum]");
+  const field = section?.querySelector<HTMLElement>("[data-effect-field]");
+  const stage = section?.querySelector<HTMLElement>("[data-effect-stage]");
+  const visual = section?.querySelector<HTMLElement>("[data-effect-visual]");
+  const image = visual?.querySelector<HTMLElement>("img");
+  const details = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-details]");
+  const mauve = continuum?.querySelector<HTMLElement>("[data-effect-mauve]");
+  const grain = continuum?.querySelector<HTMLElement>("[data-effect-grain]");
+  const wave = continuum?.querySelector<HTMLVideoElement>("video[data-work-wave]");
+  const work = continuum?.querySelector<HTMLElement>(".work-proof");
+  if (!section || !continuum || !field || !stage || !visual || !image || !mauve) {
+    return () => {};
+  }
 
   const outcomes = gsap.utils.toArray<HTMLElement>("[data-effect-outcome]", section);
   const markers = gsap.utils.toArray<HTMLElement>("[data-effect-marker]", section);
+  const closing = section.querySelector<HTMLElement>("[data-effect-closing]");
+  const mutedCopy = section.querySelectorAll<HTMLElement>(
+    ".what-improve__outcome header, .what-improve__outcome-copy p:last-child",
+  );
+  const bodyCopy = section.querySelectorAll<HTMLElement>(
+    ".what-improve__outcome-copy p:first-child",
+  );
   if (!markers.length || outcomes.length < 4) return () => {};
 
   const matchMedia = gsap.matchMedia();
 
   matchMedia.add("(prefers-reduced-motion: no-preference)", () => {
+    const compact = window.matchMedia("(max-width: 768px)").matches;
+    let hydrated = false;
+
     const ctx = gsap.context(() => {
-      // Armer dekkene ved init. Hver rad avsløres først når den faktisk er
-      // synlig, slik at 03/04 ikke spiller ferdig under viewporten.
-      gsap.set(markers, { scaleX: 1, transformOrigin: "100% 50%" });
+      if (details) gsap.set(details, { autoAlpha: compact ? 0 : 0.42 });
+      if (grain) gsap.set(grain, { autoAlpha: compact ? 0 : 0.35 });
+      gsap.set(mauve, { autoAlpha: 0.58 });
 
-      const revealRow = (row: HTMLElement[]) => {
-        const rowMarkers = row
-          .map((outcome) => outcome.querySelector<HTMLElement>("[data-effect-marker]"))
-          .filter((marker): marker is HTMLElement => Boolean(marker));
-        if (!rowMarkers.length) return;
+      if (wave && !compact) {
+        const playWave = () => {
+          if (!hydrated) {
+            wave.querySelectorAll<HTMLSourceElement>("source[data-src]").forEach((source) => {
+              source.src = source.dataset.src ?? "";
+            });
+            wave.muted = true;
+            wave.load();
+            hydrated = true;
+          }
+          wave.play().catch(() => {});
+        };
 
-        gsap.to(rowMarkers, {
-          scaleX: 0,
-          duration: 0.5,
-          stagger: 0.14,
-          ease: "power3.inOut",
+        ScrollTrigger.create({
+          trigger: continuum,
+          start: "top 140%",
+          endTrigger: work ?? continuum,
+          end: "bottom -40%",
+          onEnter: playWave,
+          onEnterBack: playWave,
+          onLeave: () => wave.pause(),
+          onLeaveBack: () => wave.pause(),
+        });
+      }
+
+      const atmosphere = gsap.timeline({
+        scrollTrigger: {
+          trigger: field,
+          start: compact ? "top 92%" : "top bottom",
+          end: compact ? "bottom 34%" : "bottom bottom",
+          scrub: compact ? 0.22 : 0.55,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      if (details && !compact) {
+        atmosphere.to(details, { autoAlpha: 1, duration: 0.3, ease: "none" }, 0.08);
+      }
+      if (grain && !compact) {
+        atmosphere.to(grain, { autoAlpha: 1, duration: 0.24, ease: "none" }, 0.16);
+      }
+
+      atmosphere
+        .to(mauve, { autoAlpha: 0, duration: 0.5, ease: "none" }, 0.18)
+        .to(stage, { color: "#f2f1eb", duration: 0.3, ease: "none" }, 0.53)
+        .to(outcomes, { borderColor: "rgba(242, 241, 235, 0.28)", duration: 0.3, ease: "none" }, 0.53)
+        .to(bodyCopy, { color: "rgba(242, 241, 235, 0.82)", duration: 0.3, ease: "none" }, 0.53)
+        .to(mutedCopy, { color: "rgba(242, 241, 235, 0.54)", duration: 0.3, ease: "none" }, 0.53)
+        .to(closing, { color: "rgba(242, 241, 235, 0.62)", duration: 0.3, ease: "none" }, 0.53);
+
+      // Samme maske- og zoominngang som 04-flatene.
+      gsap.set(visual, { clipPath: "inset(100% 0% 0% 0%)" });
+      const visualEnter = gsap.timeline({
+        scrollTrigger: {
+          trigger: field,
+          start: "top 86%",
+          toggleActions: "play none none reverse",
+        },
+      });
+      visualEnter
+        .to(visual, {
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 0.7,
+          ease: "expo.out",
+        }, 0)
+        .fromTo(image, { scale: 1.3 }, {
+          scale: 1,
+          duration: 1,
+          ease: "power3.out",
+        }, 0);
+
+      if (!compact) {
+        gsap.fromTo(image, { yPercent: -10 }, {
+          yPercent: 10,
+          ease: "none",
           scrollTrigger: {
-            trigger: row[0],
-            start: "top 82%",
-            once: true,
+            trigger: field,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.2,
           },
         });
-      };
+      }
 
-      revealRow(outcomes.slice(0, 2));
-      revealRow(outcomes.slice(2, 4));
-    }, section);
+      // Resultatordene avdekkes i én kontrollert kjede når sticky-scenen
+      // kommer inn; markøren er fortsatt synlighetsprinsippet fra 03.
+      gsap.set(markers, { scaleX: 1, transformOrigin: "100% 50%" });
+      gsap.to(markers, {
+        scaleX: 0,
+        duration: 0.5,
+        stagger: 0.14,
+        ease: "power3.inOut",
+        scrollTrigger: { trigger: field, start: "top 78%", once: true },
+      });
 
-    return () => ctx.revert();
+      if (!compact) {
+        const exitTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: field,
+            start: "bottom 72%",
+            end: "bottom 18%",
+            scrub: 1.2,
+          },
+        });
+        exitTimeline
+          .to(outcomes, {
+            autoAlpha: 0,
+            y: -18,
+            stagger: 0.035,
+            ease: "power2.in",
+          }, 0)
+          .to(closing, { autoAlpha: 0, y: -12, ease: "power2.in" }, 0)
+          .to(visual, {
+            clipPath: "inset(0% 0% 100% 0%)",
+            ease: "power2.inOut",
+          }, 0.08);
+      }
+    }, continuum);
+
+    return () => {
+      wave?.pause();
+      ctx.revert();
+    };
   });
 
   return () => matchMedia.revert();
 }
 
-// 03 → 04 — MWG 053-inspirert typografisk sidevending. To komplette,
-// server-renderte statements deler én mauve 3D-stage. Linjene i Effect-tesen
-// roterer ut rundt Y-aksen mens Work-tittelen roterer inn fra baksiden.
-// Ingen MWG-kode, fonter eller assets importeres; kun bevegelsesarkitekturen.
+// 03 → 04 — nudot-grep: ingen mellomtittel. Broen er en kort, scrubbet
+// fargeovergang der mauve mørknes til 04-flaten mens atmosfæren tones inn.
+// «Dette kan Tigon lage» finnes ett sted: som arkivtittelen i selve 04.
 function effectWorkJourney() {
   const journey = document.querySelector<HTMLElement>("[data-effect-work-journey]");
-  const section = journey?.querySelector<HTMLElement>("[data-effect-work-bridge]");
-  if (!journey || !section) return () => {};
+  if (!journey) return () => {};
 
-  const titles = gsap.utils.toArray<HTMLElement>("[data-effect-work-title]", journey);
-  const titleList = journey.querySelector<HTMLElement>(".effect-work-bridge__titles");
-  const workCatalogue = journey.querySelector<HTMLElement>("[data-work-catalogue]");
-  const bridgeMeta = journey.querySelectorAll<HTMLElement>(
-    ".effect-work-bridge__index, .effect-work-bridge__next",
-  );
-  const paragraphs = titles
-    .map((title) => title.querySelector<HTMLElement>("p"))
-    .filter((paragraph): paragraph is HTMLElement => Boolean(paragraph));
-  if (titles.length < 2 || paragraphs.length < 2 || !titleList) return () => {};
-
-  const splits: SplitText[] = [];
-  const ctx = gsap.context(() => {
-    gsap.set(titleList, { position: "relative" });
-    gsap.set(titles, {
-      position: "absolute",
-      inset: 0,
-      display: "grid",
-      placeItems: "center",
-    });
-
-    const lineGroups = paragraphs.map((paragraph) => {
-      const split = SplitText.create(paragraph, {
-        type: "lines",
-        linesClass: "effect-work-bridge__line",
-      });
-      splits.push(split);
-
-      split.lines.forEach((line) => {
-        const inner = document.createElement("span");
-        inner.className = "effect-work-bridge__line-inner";
-        while (line.firstChild) inner.appendChild(line.firstChild);
-        line.appendChild(inner);
-      });
-
-      return split.lines;
-    });
-
-    const currentLines = lineGroups[0];
-    const nextLines = lineGroups[1];
-
-    gsap.set(currentLines, { rotationY: 0 });
-    gsap.set(nextLines, { rotationY: 90 });
-    journey.setAttribute("data-effect-work-ready", "");
-
-    const bridgeTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 0.45,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    bridgeTimeline
-      .to(currentLines, {
-        rotationY: -90,
-        duration: 1,
-        stagger: 0.075,
-        ease: "back.inOut(1.2)",
-      }, 0.55)
-      .to(nextLines, {
-        rotationY: 0,
-        duration: 1,
-        stagger: 0.075,
-        ease: "back.inOut(1.2)",
-      }, 0.55)
-      .to(nextLines, { rotationY: 0, duration: 0.72 }, 1.55)
-      .to(bridgeMeta, {
-        autoAlpha: 0,
-        duration: 0.28,
-        ease: "power2.out",
-      }, 1.68);
-
-    if (workCatalogue) {
-      gsap.to(titles[1], {
-        autoAlpha: 0.26,
-        scale: 0.84,
-        transformOrigin: "50% 50%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: workCatalogue,
-          start: "top bottom",
-          end: "top 48%",
-          scrub: 0.35,
-        },
-      });
-    }
-  }, journey);
+  journey.setAttribute("data-effect-work-ready", "");
 
   return () => {
     journey.removeAttribute("data-effect-work-ready");
-    ctx.revert();
-    splits.forEach((split) => split.revert());
   };
 }
 // One-time opening scene: the editorial masthead assembles once on load.
@@ -423,141 +442,181 @@ function introStoryScene() {
   };
 }
 
-// 04 / Arbeid — de seks faktiske capability-lenkene beveger seg i vanlig,
-// deterministisk scroll over den ene tittelen som eies av 03→04→Arbeid-wrapperen.
-// Ingen kopiert tittel, tilfeldig plassering, medieloop eller scroll-kapring.
-function workProof(cinematic: boolean) {
+// 04 / Arbeid — arkiv-scene i tre lag. En sticky tittelflate med dempet
+// bølgevideo blir liggende mens capability-veggen ruller over og begraver
+// den. Hver flate klippes opp nedenfra og får utakts-parallax; tittelordene
+// maskeres inn én gang og scrubbes ut når veggen nærmer seg slutten.
+// Alt innhold er server-rendret og komplett uten JavaScript.
+function workArchiveScene(compact: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
-  if (!section) return () => {};
-
-  const pairs = gsap.utils.toArray<HTMLElement>("[data-work-pair]", section);
-  if (!pairs.length || !cinematic) return () => {};
+  const archive = section?.querySelector<HTMLElement>("[data-work-archive]");
+  if (!section || !archive) return () => {};
 
   const ctx = gsap.context(() => {
-    pairs.forEach((pair, pairIndex) => {
-      const pairTiles = gsap.utils.toArray<HTMLElement>("[data-work-tile]", pair);
-      gsap.fromTo(pairTiles, {
-        xPercent: (index) => index === 0 ? -1.8 : 1.8,
-        yPercent: (index) => index === 0
-          ? 18 + pairIndex * 2
-          : 28 - pairIndex * 2,
-      }, {
-        xPercent: 0,
+    const words = gsap.utils.toArray<HTMLElement>("[data-archive-word]", archive);
+    const fades = gsap.utils.toArray<HTMLElement>("[data-archive-fade]", archive);
+    const tiles = gsap.utils.toArray<HTMLElement>("[data-work-tile]", section);
+
+    // Broens tittel-exit eies av effectWorkJourney (handoff-tidslinjen der);
+    // arkivscenen rører ikke broens elementer.
+
+    // Entré: maskede ord stiger opp én gang, timet til at broens linjer er
+    // halvveis ute (handoff-tidslinjen i effectWorkJourney) — samme utsagn
+    // vender om fra liten bro-tittel til monumental arkivtittel.
+    // Ved dyp-lasting midt i seksjonen står alt ferdig uten animasjon.
+    const alreadyPast =
+      archive.getBoundingClientRect().top <= window.innerHeight * 0.85;
+    if (words.length && !alreadyPast) {
+      gsap.set(words, { yPercent: 130 });
+      gsap.to(words, {
         yPercent: 0,
-        ease: "none",
+        duration: 1.2,
+        ease: "power4.out",
+        stagger: 0.08,
+        scrollTrigger: { trigger: archive, start: "top 85%", once: true },
+      });
+    }
+    if (fades.length && !alreadyPast) {
+      gsap.from(fades, {
+        autoAlpha: 0,
+        y: 24,
+        duration: 1.1,
+        ease: "power3.out",
+        stagger: 0.12,
+        delay: 0.3,
+        scrollTrigger: { trigger: archive, start: "top 85%", once: true },
+      });
+    }
+
+    // Flatene: klipp-reveal nedenfra + zoom-settle, deretter kontinuerlig
+    // utakts-parallax i bildets 140 %-rom.
+    tiles.forEach((tile, index) => {
+      const visual = tile.querySelector<HTMLElement>(".work-tile__visual");
+      const image = visual?.querySelector<HTMLElement>("img");
+      if (!visual || !image) return;
+
+      const tileVisible =
+        tile.getBoundingClientRect().top < window.innerHeight * 0.9;
+      gsap.set(visual, {
+        clipPath: tileVisible ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)",
+      });
+
+      if (!tileVisible) {
+        const enter = gsap.timeline({
+          scrollTrigger: {
+            trigger: tile,
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+        });
+        enter
+          .to(visual, {
+            clipPath: "inset(0% 0% 0% 0%)",
+            duration: 0.7,
+            ease: "expo.out",
+          }, 0)
+          .fromTo(
+            image,
+            { scale: 1.3 },
+            { scale: 1, duration: 1, ease: "power3.out" },
+            0,
+          );
+      }
+
+      if (!compact) {
+        const speed = [12, 18, 10, 20, 15, 22][index % 6];
+        gsap.fromTo(
+          image,
+          { yPercent: -speed },
+          {
+            yPercent: speed,
+            ease: "none",
+            scrollTrigger: {
+              trigger: tile,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.2,
+            },
+          },
+        );
+      }
+    });
+
+    // Exit: når nest siste flate passerer, scrubbes tittelordene opp og ut
+    // av maskene sine mens label/undertekst faller stille bort. Kun desktop —
+    // på mobil er flaten i vanlig flyt og forlater viewporten selv.
+    if (!compact && words.length && tiles.length >= 2) {
+      const exitTrigger = tiles[tiles.length - 2];
+      const exitTl = gsap.timeline({
         scrollTrigger: {
-          trigger: pair,
-          start: "top 98%",
-          end: "top 18%",
-          scrub: 0.38,
-          invalidateOnRefresh: true,
+          trigger: exitTrigger,
+          start: "bottom 65%",
+          end: "bottom 5%",
+          scrub: 1.2,
         },
       });
-    });
-
+      exitTl.to(words, {
+        yPercent: -130,
+        ease: "power2.in",
+        stagger: { each: 0.04, from: "start" },
+      }, 0);
+      if (fades.length) {
+        exitTl.to(fades, { autoAlpha: 0, y: -15, ease: "power2.in" }, 0);
+      }
+    }
   }, section);
 
-  return () => {
-    ctx.revert();
-  };
+  return () => ctx.revert();
 }
 
-// 04 → 05 — Curved Wipe + Overlapping Parallax tilpasset én side.
-// Den ekte Process-seksjonen overlapper siste Work-viewport og stiger med en
-// buet mørk forkant. Work flyttes bare et kort stykke og dempes mens Process
-// dekker den, så overleveringen leses som én fysisk bevegelse.
+// 04 → 05 — Osmo Overlapping Parallax tilpasset én sammenhengende side.
+// Prosess er den faktiske innkommende flaten. Arbeid trekker seg bare et kort
+// stykke tilbake og mørklegges mens Prosess dekker det nedenfra.
 function workProcessJourney(compact: boolean) {
   const journey = document.querySelector<HTMLElement>("[data-work-process-journey]");
-  const transition = document.querySelector<HTMLElement>("[data-work-process-transition]");
-  const handoff = transition?.querySelector<HTMLElement>("[data-work-handoff]");
+  const work = document.querySelector<HTMLElement>("[data-work-process-transition]");
   const process = journey?.querySelector<HTMLElement>(".process-journey");
-  const processWipe = process?.querySelector<HTMLElement>("[data-process-wipe]");
-  if (!journey || !transition || !handoff || !process || !processWipe) return () => {};
-
-  const content = transition.querySelector<HTMLElement>("[data-work-handoff-content]");
-  const statusLine = transition.querySelector<HTMLElement>(".work-proof__handoff-status i");
-  const meta = transition.querySelector<HTMLElement>(".work-proof__handoff-meta");
-  const shade = transition.querySelector<HTMLElement>("[data-work-handoff-shade]");
-  const effectBackdrop = journey.querySelector<HTMLElement>(".effect-work-journey__sticky");
-
-  if (
-    !content
-    || !statusLine
-    || !meta
-    || !shade
-  ) {
-    return () => {};
-  }
+  const shade = work?.querySelector<HTMLElement>("[data-work-exit-shade]");
+  const continuum = document.querySelector<HTMLElement>("[data-effect-work-continuum]");
+  const grain = continuum?.querySelector<HTMLElement>("[data-effect-grain]");
+  const atmosphere = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-details]");
+  if (!journey || !work || !process || !shade) return () => {};
 
   const ctx = gsap.context(() => {
+    gsap.set(shade, { autoAlpha: 0 });
     journey.setAttribute("data-work-process-ready", "");
-    transition.setAttribute("data-work-process-ready", "");
-
-    gsap.set(statusLine, {
-      scaleX: 0,
-      transformOrigin: "0% 50%",
-    });
-    gsap.set(processWipe, {
-      scaleX: compact ? 0.94 : 0.9,
-      transformOrigin: "50% 100%",
-    });
 
     const timeline = gsap.timeline({
       scrollTrigger: {
-        trigger: transition,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: compact ? 0.78 : 0.92,
+        trigger: work,
+        start: "bottom bottom",
+        end: "+=100%",
+        scrub: true,
         invalidateOnRefresh: true,
       },
     });
 
     timeline
-      .to(statusLine, {
-        scaleX: 1,
-        duration: 0.72,
-        ease: "none",
+      .to(work, {
+        y: compact ? "-16svh" : "-24svh",
+        duration: 1,
+        ease: "power3.in",
       }, 0)
-      .to(processWipe, {
-        scaleX: 1,
-        duration: 0.62,
-        ease: "power2.out",
-      }, 0.08)
-      .to(handoff, {
-        y: compact ? "-14svh" : "-22svh",
-        duration: 0.78,
-        ease: "none",
-      }, 0.14)
-      .to(content, {
-        y: compact ? -30 : -52,
-        scale: compact ? 0.975 : 0.96,
-        autoAlpha: 0.32,
-        duration: 0.62,
-        ease: "none",
-      }, 0.22)
-      .to(meta, {
-        y: compact ? -12 : -20,
-        autoAlpha: 0.34,
-        duration: 0.56,
-        ease: "none",
-      }, 0.2)
       .to(shade, {
-        autoAlpha: compact ? 0.12 : 0.18,
-        duration: 0.58,
-        ease: "none",
-      }, 0.18)
-      .to(effectBackdrop, {
-        autoAlpha: 0,
-        duration: 0.28,
-        ease: "none",
-      }, 0.32);
-  }, transition);
+        autoAlpha: compact ? 0.58 : 0.68,
+        duration: 0.84,
+        ease: "power2.in",
+      }, 0);
+    if (grain) {
+      timeline.to(grain, { autoAlpha: 0, duration: 0.42, ease: "none" }, 0.12);
+    }
+    if (atmosphere) {
+      timeline.to(atmosphere, { autoAlpha: 0, duration: 0.55, ease: "none" }, 0.2);
+    }
+  }, journey);
 
   return () => {
     journey.removeAttribute("data-work-process-ready");
-    transition.dataset.themeSection = "light";
-    transition.dataset.bgSection = "mauve";
-    transition.removeAttribute("data-work-process-ready");
     ctx.revert();
   };
 }
@@ -738,6 +797,13 @@ function setupDynamicTextCursor() {
 
   if (!cursor || !cursorTextTarget || !finePointer || reducedMotion) return () => {};
 
+  // WorkProof is translated during the 04→05 handoff. A fixed element inside
+  // that transformed section would use the section as its containing block and
+  // be clipped by its overflow. Keep the cursor at the viewport root instead.
+  const cursorParent = cursor.parentNode;
+  const cursorNextSibling = cursor.nextSibling;
+  document.body.appendChild(cursor);
+
   let mouseX = 0;
   let mouseY = 0;
   let hasMouseMoved = false;
@@ -788,6 +854,12 @@ function setupDynamicTextCursor() {
     window.removeEventListener("scroll", onScroll);
     cursor.setAttribute("data-cursor", "");
     gsap.killTweensOf(cursor);
+    if (cursorParent) {
+      const nextSibling = cursorNextSibling?.parentNode === cursorParent
+        ? cursorNextSibling
+        : null;
+      cursorParent.insertBefore(cursor, nextSibling);
+    }
   };
 }
 
@@ -869,8 +941,17 @@ export function HomeMotion() {
     const teardownUtilities = setupFooterUtilities();
     const teardownWorkCursor = setupDynamicTextCursor();
     const teardownSectionTheme = sectionThemeScene();
-    const lenis = initLenis({ lerp: 0.12 });
+    const lenis = initLenis({
+      lerp: 0.095,
+      smoothWheel: true,
+      wheelMultiplier: 1,
+    });
     lenis?.lenis.on("scroll", ScrollTrigger.update);
+    // Dev-verktøy: gir konsoll/verifisering tilgang til å styre scroll via
+    // Lenis i stedet for å kjempe mot lerp-loopen. Fjernes av prod-bundling.
+    if (process.env.NODE_ENV === "development") {
+      (window as unknown as { __lenis?: unknown }).__lenis = lenis?.lenis;
+    }
     const teardownOsmoReveal = initContentRevealScroll();
     const teardownOsmoParallax = initGlobalParallax();
     const teardownServices = servicesScene();
@@ -888,7 +969,7 @@ export function HomeMotion() {
       const teardownIntro = introStoryScene();
       const teardownTension = outcomeTensionBridge();
       const teardownEffectWork = effectWorkJourney();
-      const teardownWork = workProof(window.matchMedia("(min-width: 901px)").matches);
+      const teardownWorkArchive = workArchiveScene(false);
       const teardownWorkProcess = workProcessJourney(
         window.matchMedia("(max-width: 1100px)").matches,
       );
@@ -899,7 +980,7 @@ export function HomeMotion() {
         teardownIntro();
         teardownTension();
         teardownEffectWork();
-        teardownWork();
+        teardownWorkArchive();
         teardownWorkProcess();
         teardownProcess();
       };
@@ -912,7 +993,7 @@ export function HomeMotion() {
       const teardownIntro = introStoryScene();
       const teardownTension = outcomeTensionBridge();
       const teardownEffectWork = effectWorkJourney();
-      const teardownWork = workProof(false);
+      const teardownWorkArchive = workArchiveScene(true);
       const teardownWorkProcess = workProcessJourney(true);
       const teardownProcess = processScene(true);
       manifestoReveal();
@@ -921,7 +1002,7 @@ export function HomeMotion() {
         teardownIntro();
         teardownTension();
         teardownEffectWork();
-        teardownWork();
+        teardownWorkArchive();
         teardownWorkProcess();
         teardownProcess();
       };

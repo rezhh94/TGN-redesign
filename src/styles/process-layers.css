@@ -10,26 +10,6 @@
   color: var(--color-on-dark);
 }
 
-.process-journey__wipe {
-  display: none;
-}
-
-.work-process-journey[data-work-process-ready] .process-journey__wipe {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  z-index: 0;
-  display: block;
-  width: 140vw;
-  height: clamp(150px, 22vw, 360px);
-  margin-left: -70vw;
-  overflow: hidden;
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  background: var(--tigon-canvas);
-  transform: translateY(-68%);
-  will-change: transform;
-}
-
 .process-journey__intro,
 .process-system,
 .process-journey__closer {
@@ -379,12 +359,6 @@
 }
 
 @media (max-width: 640px) {
-  .work-process-journey[data-work-process-ready] .process-journey__wipe {
-    width: 190vw;
-    height: clamp(132px, 34vw, 180px);
-    margin-left: -95vw;
-  }
-
   .process-journey {
     padding-bottom: 88px;
   }

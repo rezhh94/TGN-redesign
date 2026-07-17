@@ -63,10 +63,14 @@ const capabilities = [
 ] as const;
 
 type Capability = (typeof capabilities)[number];
-const capabilityPairs = [
-  capabilities.slice(0, 2),
-  capabilities.slice(2, 4),
-  capabilities.slice(4, 6),
+
+/* Tittellinjene er ferdig ord-splittet i server-HTML slik at maske-entré og
+   scrubbet exit kan animere inner-spans uten DOM-manipulasjon. Uten JS står
+   ordene helt vanlig. Samme utsagn som broen flipper frem — arkivflaten er
+   den monumentale versjonen av det, ikke et portefølje-arkiv. */
+const archiveTitleLines = [
+  ["DETTE", "KAN"],
+  ["TIGON", "LAGE"],
 ] as const;
 
 function CapabilityTile({ capability }: { capability: Capability }) {
@@ -120,7 +124,7 @@ function CapabilityTile({ capability }: { capability: Capability }) {
   );
 }
 
-/* 04 / Arbeid — en lys, asymmetrisk capability-vegg i normal dokumentflyt.
+/* 04 / Arbeid — en mørk, asymmetrisk capability-vegg i normal dokumentflyt.
    Hver flate peker direkte til den relevante undersiden. */
 export function WorkProof() {
   return (
@@ -128,26 +132,43 @@ export function WorkProof() {
       id="arbeid"
       className="work-proof"
       aria-labelledby="work-proof-title"
-      data-theme-section="light"
-      data-bg-section="mauve"
+      data-theme-section="dark"
+      data-bg-section="dark"
+      data-work-process-transition
     >
       <div className="work-proof__catalogue" data-work-catalogue>
-        <header className="work-proof__lead">
-          <p>Seks mulige leveranser. Utviklet som demonstrasjoner, systemer og konsepter.</p>
-          <span>TGN / capability field / 01—06</span>
-        </header>
+        {/* Sticky arkivflate: veggen under ruller over og «begraver» tittelen.
+            Ren visuell reprise av seksjonens semantiske tittel (#work-proof-title
+            ligger i broen), derfor p/span og ikke en ny heading. */}
+        <div className="work-archive" data-work-archive>
+          <p className="work-archive__label" data-archive-fade>
+            ( Demonstrasjoner — ikke kundecaser )
+          </p>
+          <p className="work-archive__title" id="work-proof-title">
+            {archiveTitleLines.map((line) => (
+              <span className="work-archive__line" key={line.join("-")}>
+                {line.map((word) => (
+                  <span className="work-archive__word" key={word}>
+                    <span className="work-archive__word-inner" data-archive-word>
+                      {word}
+                    </span>
+                  </span>
+                ))}
+              </span>
+            ))}
+          </p>
+          <p className="work-archive__sub" data-archive-fade>
+            Seks flater som viser hva vi kan bygge for deg — utviklet som
+            demonstrasjoner, systemer og konsepter.
+          </p>
+          <span className="work-archive__meta" data-archive-fade>
+            TGN / capability field / 01—06
+          </span>
+        </div>
 
         <div className="work-wall" data-work-wall>
-          {capabilityPairs.map((pair, index) => (
-            <div
-              className={`work-wall__pair work-wall__pair--0${index + 1}`}
-              data-work-pair
-              key={pair[0].n}
-            >
-              {pair.map((capability) => (
-                <CapabilityTile capability={capability} key={capability.n} />
-              ))}
-            </div>
+          {capabilities.map((capability) => (
+            <CapabilityTile capability={capability} key={capability.n} />
           ))}
         </div>
 
@@ -156,36 +177,7 @@ export function WorkProof() {
         </footer>
       </div>
 
-      <div
-        className="work-proof__cover"
-        data-work-process-transition
-        data-theme-section="light"
-        data-bg-section="mauve"
-      >
-        {/* 04 → 05: Arbeid står som en rolig avgangsflate. Den ekte mørke
-            Prosess-seksjonen glir over med en buet forkant og parallax. */}
-        <footer className="work-proof__handoff" data-work-handoff>
-          <div className="work-proof__handoff-shade" data-work-handoff-shade aria-hidden="true" />
-
-          <div className="work-proof__handoff-meta">
-            <p>04 → 05 / Fra muligheter til prosess</p>
-            <p>Neste / 05 Prosess</p>
-          </div>
-
-          <div className="work-proof__handoff-statement" data-work-handoff-content>
-            <h3>
-              <strong>Slik blir</strong>
-              <em>det til.</em>
-            </h3>
-          </div>
-
-          <div className="work-proof__handoff-status" aria-hidden="true">
-            <span>04</span>
-            <i />
-            <span>05</span>
-          </div>
-        </footer>
-      </div>
+      <div className="work-proof__exit-shade" data-work-exit-shade aria-hidden="true" />
 
       <div className="work-cursor" data-cursor="" aria-hidden="true">
         <div className="work-cursor__bubble">

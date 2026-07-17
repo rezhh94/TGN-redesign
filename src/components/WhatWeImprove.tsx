@@ -6,7 +6,7 @@ const outcomes = [
     signal: "Målepunkt — synlighet / søk + AI-søk",
     description: "Struktur og innhold som gjør siden lettere å finne i Google og AI-søk.",
     tools: "Teknisk SEO · Sitemap · Schema · AI-lesbar struktur",
-    placeholder: "/work/capability-stage/tgn-product-os-laptop.webp",
+    placeholder: "/work/capability-stage/tgn-product-os-laptop-alpha.png",
   },
   {
     key: "forstatt",
@@ -15,7 +15,7 @@ const outcomes = [
     signal: "Målepunkt — klarhet / budskap",
     description: "Tydelig posisjonering, budskap og innhold som gjør tilbudet enklere å forstå.",
     tools: "Posisjonering · Budskapshierarki · Innhold",
-    placeholder: "/work/capability-stage/tgn-product-os-laptop.webp",
+    placeholder: "/work/capability-stage/tgn-product-os-laptop-alpha.png",
   },
   {
     key: "valgt",
@@ -43,8 +43,8 @@ export function WhatWeImprove() {
       className="what-improve"
       aria-labelledby="what-improve-title"
       data-effect-section
-      data-theme-section="light"
-      data-bg-section="mauve"
+      data-theme-section="dark"
+      data-bg-section="dark"
     >
       <div className="what-improve__inner">
         <header className="what-improve__intro">
@@ -63,49 +63,52 @@ export function WhatWeImprove() {
         </header>
 
         <div className="what-improve__field" data-effect-field>
-          <figure className="what-improve__visual">
-            <img src={outcomes[0].placeholder} alt="" loading="lazy" />
-            <figcaption>Midlertidig mockupflate / erstattes</figcaption>
-          </figure>
+          <div
+            className="what-improve__stage"
+            data-effect-stage
+            data-theme-section="dark"
+            data-bg-section="dark"
+          >
+            <figure className="what-improve__visual" data-effect-visual>
+              <img src={outcomes[0].placeholder} alt="" loading="lazy" />
+              <figcaption>Capability-system / målbart grensesnitt</figcaption>
+            </figure>
 
-          <div className="what-improve__cuts" aria-hidden="true">
-            {Array.from({ length: 6 }, (_, index) => <i key={index} />)}
+            <ol className="what-improve__matrix" aria-label="Resultatkjede">
+              {outcomes.map((outcome) => (
+                <li
+                  className={`what-improve__outcome what-improve__outcome--${outcome.key}`}
+                  data-effect-outcome
+                  key={outcome.key}
+                >
+                  <header>
+                    <span>{outcome.number} / 04</span>
+                    <span>{outcome.signal}</span>
+                  </header>
+                  <h3>
+                    <span className="what-improve__mark">
+                      <span
+                        className="what-improve__mark-cover"
+                        data-effect-marker
+                        aria-hidden="true"
+                      />
+                      {outcome.title}
+                    </span>
+                  </h3>
+                  <div className="what-improve__outcome-copy">
+                    <p>{outcome.description}</p>
+                    <p>{outcome.tools}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <p className="what-improve__closing" data-effect-closing>
+              <span>Synlighet inn</span>
+              <span aria-hidden="true">→</span>
+              <span>Målbar kontakt ut</span>
+            </p>
           </div>
-
-          <ol className="what-improve__matrix" aria-label="Resultatkjede">
-            {outcomes.map((outcome) => (
-              <li
-                className={`what-improve__outcome what-improve__outcome--${outcome.key}`}
-                data-effect-outcome
-                key={outcome.key}
-              >
-                <header>
-                  <span>{outcome.number} / 04</span>
-                  <span>{outcome.signal}</span>
-                </header>
-                <h3>
-                  <span className="what-improve__mark">
-                    <span
-                      className="what-improve__mark-cover"
-                      data-effect-marker
-                      aria-hidden="true"
-                    />
-                    {outcome.title}
-                  </span>
-                </h3>
-                <div className="what-improve__outcome-copy">
-                  <p>{outcome.description}</p>
-                  <p>{outcome.tools}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-
-          <p className="what-improve__closing">
-            <span>Synlighet inn</span>
-            <span aria-hidden="true">→</span>
-            <span>Målbar kontakt ut</span>
-          </p>
         </div>
       </div>
     </section>
