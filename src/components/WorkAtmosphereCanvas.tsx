@@ -7,15 +7,16 @@ export function WorkAtmosphereCanvas() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const compact = window.matchMedia("(max-width: 768px)").matches;
-    if (!canvas || reduced || compact) return;
+    if (!canvas) return;
 
     const context = canvas.getContext("2d", { alpha: true });
     if (!context) return;
 
+    const reducedQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compactQuery = window.matchMedia("(max-width: 768px)");
     const frameCount = 10;
     const density = 0.7;
+    const maxPixelBudget = 1920 * 1080;
     const playbackFps = 25;
     const scrollHoldMs = 180;
     const resizeDebounceMs = 160;
@@ -60,15 +61,24 @@ export function WorkAtmosphereCanvas() {
     };
 
     const start = () => {
-      if (running) return;
+      if (running || reducedQuery.matches || compactQuery.matches) return;
       running = true;
       animationFrame = window.requestAnimationFrame(tick);
     };
 
     const setup = () => {
       stop();
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      if (reducedQuery.matches || compactQuery.matches) {
+        frames = [];
+        canvas.width = 0;
+        canvas.height = 0;
+        return;
+      }
+
+      const viewportPixels = window.innerWidth * window.innerHeight;
+      const renderScale = Math.min(1, Math.sqrt(maxPixelBudget / viewportPixels));
+      width = canvas.width = Math.max(1, Math.round(window.innerWidth * renderScale));
+      height = canvas.height = Math.max(1, Math.round(window.innerHeight * renderScale));
       context.clearRect(0, 0, width, height);
       bakeFrames();
       context.putImageData(frames[0], 0, 0);
@@ -89,9 +99,13 @@ export function WorkAtmosphereCanvas() {
       else start();
     };
 
+    const handleMotionMode = () => setup();
+
     window.addEventListener("scroll", holdGrain, { passive: true });
     window.addEventListener("resize", handleResize, { passive: true });
     document.addEventListener("visibilitychange", handleVisibility);
+    reducedQuery.addEventListener("change", handleMotionMode);
+    compactQuery.addEventListener("change", handleMotionMode);
     setup();
 
     return () => {
@@ -100,6 +114,8 @@ export function WorkAtmosphereCanvas() {
       window.removeEventListener("scroll", holdGrain);
       window.removeEventListener("resize", handleResize);
       document.removeEventListener("visibilitychange", handleVisibility);
+      reducedQuery.removeEventListener("change", handleMotionMode);
+      compactQuery.removeEventListener("change", handleMotionMode);
       frames = [];
     };
   }, []);

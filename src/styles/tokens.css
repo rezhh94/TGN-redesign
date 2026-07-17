@@ -63,6 +63,26 @@
   --tigon-type-display: var(--font-display);
   --tigon-type-editorial: var(--font-sans);
   --tigon-type-meta: var(--font-mono);
+
+  /* Dark homepage contract. These semantic roles are the canonical surface,
+     line and layout vocabulary from Intro/01 through 06/System. Header/Hero
+     and footer keep their existing tokens and therefore do not change when
+     this body system is calibrated. */
+  --surface-deep: #030303;
+  --surface-base: #070707;
+  --surface-raised: #0d0f0f;
+  --surface-focus: #171a19;
+  --text-strong: var(--color-on-dark);
+  --text-medium: var(--on-dark-medium);
+  --text-quiet: var(--on-dark-quiet);
+  --text-faint: var(--on-dark-faint);
+  --line-subtle: rgba(242, 241, 235, 0.08);
+  --line-default: rgba(242, 241, 235, 0.16);
+  --line-strong: rgba(242, 241, 235, 0.3);
+  --homepage-gutter: var(--gutter);
+  --homepage-section-intro-y: clamp(104px, 13vh, 176px);
+  --homepage-section-block-y: clamp(52px, 7vh, 88px);
+  --homepage-section-exit-y: clamp(88px, 11vh, 148px);
   /* Varm Osmo-oversettelse — dempet mineral/oliven for utvalgte store
      redaksjonelle flater. Brukes som et bevisst kapittel, ikke som generell
      aksent eller dekor. */
@@ -192,6 +212,40 @@
   --fz-mono: 11px;
   --fz-mono-s: 10px;
 
+  /* Semantisk typografikontrakt — størrelsesroller, ikke fontbytte.
+     Første forbrukere er 03 / Effekt og 04 / Arbeid. De eksisterende
+     --fz-* tokenene beholdes som bakoverkompatible primitive verdier til
+     resten av siden migreres i egne, eksplisitte pass. */
+  --type-display-hero-size: clamp(108px, 16vw, 300px);
+  --type-display-hero-leading: 0.78;
+  --type-display-2xl-size: clamp(72px, 9.5vw, 170px);
+  --type-display-2xl-leading: 0.82;
+  --type-display-xl-size: clamp(64px, 6.8vw, 122px);
+  --type-display-xl-leading: 0.84;
+  --type-display-lg-size: clamp(38px, 3.4vw, 52px);
+  --type-display-lg-leading: 0.86;
+  --type-display-md-size: clamp(25px, 2.2vw, 42px);
+  --type-display-md-leading: 0.95;
+
+  --type-lead-lg-size: var(--fz-lead-l);
+  --type-lead-lg-leading: 1.45;
+  --type-lead-md-size: var(--fz-lead-m);
+  --type-lead-md-leading: 1.45;
+  --type-lead-sm-size: var(--fz-lead-s);
+  --type-lead-sm-leading: 1.5;
+
+  --type-body-md-size: var(--fz-body);
+  --type-body-md-leading: 1.55;
+  --type-body-sm-size: clamp(14px, 1vw, 17px);
+  --type-body-sm-leading: 1.45;
+  --type-body-xs-size: clamp(12px, 0.95vw, 14px);
+  --type-body-xs-leading: 1.36;
+
+  --type-meta-lg-size: var(--fz-mono-l);
+  --type-meta-md-size: var(--fz-mono);
+  --type-meta-sm-size: var(--fz-mono-s);
+  --type-meta-leading: 1.4;
+
   /* Mono/eyebrow-tracking — ÉN kilde for alle uppercase Caleb-Mono-labels
      (eyebrows, tags, meta, CTA-piler). Var før spredt: 0,04–0,14em på visuelt
      like labels. Samlet til arbeidshesten 0,08em. CTA-label bruker bevisst
@@ -223,6 +277,24 @@
   }
 }
 
+/* Display-rollene beholder den eksisterende 03-komposisjonen gjennom de
+   etablerte brekkpunktene. 04 arver nå nøyaktig samme xl-nivå. */
+@media screen and (max-width: 1100px) {
+  :root {
+    --type-display-2xl-size: clamp(68px, 12vw, 132px);
+    --type-display-xl-size: clamp(84px, 9.5vw, 104px);
+    --type-display-lg-size: 42px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  :root {
+    --type-display-2xl-size: clamp(58px, 14vw, 96px);
+    --type-display-xl-size: clamp(82px, 13vw, 104px);
+    --type-display-lg-size: 38px;
+  }
+}
+
 @media screen and (max-width: 767px) {
   :root {
     --size-container-ideal: 550;
@@ -236,5 +308,18 @@
     --size-container-ideal: 390;
     --size-container-min: 320px;
     --size-container-max: 479px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  :root {
+    --homepage-gutter: 20px;
+    --homepage-section-intro-y: 88px;
+    --homepage-section-block-y: 48px;
+    --homepage-section-exit-y: 88px;
+    --type-display-2xl-size: clamp(52px, 15vw, 76px);
+    --type-display-xl-size: clamp(64px, 17vw, 82px);
+    --type-display-lg-size: clamp(28px, 8.1vw, 34px);
+    --type-display-md-size: clamp(28px, 9vw, 40px);
   }
 }

@@ -20,10 +20,14 @@ export function EffectWorkAtmosphere() {
           >
             <source data-src="/video/work-wave-loop.mp4" type="video/mp4" />
           </video>
+          <div
+            className="work-atmosphere__spotlight"
+            data-work-atmosphere-spotlight
+          />
           <div className="work-atmosphere__vignette" />
         </div>
 
-        <div className="effect-work-continuum__mauve" data-effect-mauve />
+        <div className="effect-work-continuum__veil" data-effect-veil />
       </div>
 
       <div

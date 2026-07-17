@@ -19,7 +19,11 @@ export default function Home() {
       <Hero />
       <ApproachStatementBridge />
       <WhatWeBuild />
-      <div className="effect-work-continuum" data-effect-work-continuum>
+      <div
+        className="effect-work-continuum"
+        data-effect-work-continuum
+        data-atmosphere-state="static"
+      >
         <EffectWorkAtmosphere />
         <OutcomeTensionBridge />
         <WhatWeImprove />

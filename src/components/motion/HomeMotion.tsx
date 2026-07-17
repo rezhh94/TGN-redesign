@@ -181,6 +181,50 @@ function outcomeTensionBridge() {
 // resultatfeltet blir sticky, og den samme video/grain-flaten som bærer broen og 04
 // vokser frem under mockup og resultatord. Bildet bruker samme maske, zoom og
 // overscan-parallax som capability-flatene. Uten JS står alt lesbart i flyt.
+function atmosphereStateScene() {
+  const continuum = document.querySelector<HTMLElement>("[data-effect-work-continuum]");
+  const field = continuum?.querySelector<HTMLElement>("[data-effect-field]");
+  const archive = continuum?.querySelector<HTMLElement>("[data-work-archive]");
+  const work = continuum?.querySelector<HTMLElement>("[data-work-process-transition]");
+  if (!continuum || !field || !archive || !work) return () => {};
+
+  let frame = 0;
+  const check = () => {
+    frame = 0;
+    const viewport = window.innerHeight;
+    const fieldRect = field.getBoundingClientRect();
+    const archiveRect = archive.getBoundingClientRect();
+    const workRect = work.getBoundingClientRect();
+
+    let state = "entry";
+    if (workRect.bottom <= viewport * 1.04) state = "exit";
+    else if (archiveRect.top <= viewport * 0.7) state = "work-focus";
+    else if (fieldRect.bottom <= viewport * 1.05) state = "handoff";
+    else if (fieldRect.top <= viewport * 0.9) state = "effect-focus";
+
+    if (continuum.dataset.atmosphereState !== state) {
+      continuum.dataset.atmosphereState = state;
+    }
+  };
+
+  const requestCheck = () => {
+    if (!frame) frame = window.requestAnimationFrame(check);
+  };
+
+  window.addEventListener("scroll", requestCheck, { passive: true });
+  window.addEventListener("resize", requestCheck);
+  ScrollTrigger.addEventListener("refresh", requestCheck);
+  check();
+
+  return () => {
+    window.cancelAnimationFrame(frame);
+    window.removeEventListener("scroll", requestCheck);
+    window.removeEventListener("resize", requestCheck);
+    ScrollTrigger.removeEventListener("refresh", requestCheck);
+    continuum.dataset.atmosphereState = "static";
+  };
+}
+
 function effectScene() {
   const section = document.querySelector<HTMLElement>("[data-effect-section]");
   const continuum = document.querySelector<HTMLElement>("[data-effect-work-continuum]");
@@ -189,11 +233,12 @@ function effectScene() {
   const visual = section?.querySelector<HTMLElement>("[data-effect-visual]");
   const image = visual?.querySelector<HTMLElement>("img");
   const details = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-details]");
-  const mauve = continuum?.querySelector<HTMLElement>("[data-effect-mauve]");
+  const spotlight = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-spotlight]");
+  const veil = continuum?.querySelector<HTMLElement>("[data-effect-veil]");
   const grain = continuum?.querySelector<HTMLElement>("[data-effect-grain]");
   const wave = continuum?.querySelector<HTMLVideoElement>("video[data-work-wave]");
   const work = continuum?.querySelector<HTMLElement>(".work-proof");
-  if (!section || !continuum || !field || !stage || !visual || !image || !mauve) {
+  if (!section || !continuum || !field || !stage || !visual || !image || !veil) {
     return () => {};
   }
 
@@ -211,13 +256,21 @@ function effectScene() {
   const matchMedia = gsap.matchMedia();
 
   matchMedia.add("(prefers-reduced-motion: no-preference)", () => {
-    const compact = window.matchMedia("(max-width: 768px)").matches;
+    const compact = window.matchMedia("(max-width: 900px)").matches;
     let hydrated = false;
 
     const ctx = gsap.context(() => {
-      if (details) gsap.set(details, { autoAlpha: compact ? 0 : 0.42 });
-      if (grain) gsap.set(grain, { autoAlpha: compact ? 0 : 0.35 });
-      gsap.set(mauve, { autoAlpha: 0.58 });
+      if (details) gsap.set(details, { autoAlpha: compact ? 1 : 0.3 });
+      if (spotlight) {
+        gsap.set(spotlight, {
+          autoAlpha: compact ? 0.28 : 0.16,
+          scale: compact ? 1.04 : 1.08,
+          xPercent: compact ? 0 : -2,
+          yPercent: compact ? 0 : 2,
+        });
+      }
+      if (grain) gsap.set(grain, { autoAlpha: compact ? 0 : 0.16 });
+      gsap.set(veil, { autoAlpha: compact ? 0.54 : 0.68 });
 
       if (wave && !compact) {
         const playWave = () => {
@@ -255,14 +308,24 @@ function effectScene() {
       });
 
       if (details && !compact) {
-        atmosphere.to(details, { autoAlpha: 1, duration: 0.3, ease: "none" }, 0.08);
+        atmosphere.to(details, { autoAlpha: 0.9, duration: 0.34, ease: "none" }, 0.08);
+      }
+      if (spotlight) {
+        atmosphere.to(spotlight, {
+          autoAlpha: compact ? 0.44 : 0.86,
+          scale: 1,
+          xPercent: 0,
+          yPercent: compact ? -2 : -4,
+          duration: 0.52,
+          ease: "none",
+        }, 0.1);
       }
       if (grain && !compact) {
-        atmosphere.to(grain, { autoAlpha: 1, duration: 0.24, ease: "none" }, 0.16);
+        atmosphere.to(grain, { autoAlpha: 0.58, duration: 0.3, ease: "none" }, 0.16);
       }
 
       atmosphere
-        .to(mauve, { autoAlpha: 0, duration: 0.5, ease: "none" }, 0.18)
+        .to(veil, { autoAlpha: compact ? 0.34 : 0.08, duration: 0.5, ease: "none" }, 0.18)
         .to(stage, { color: "#f2f1eb", duration: 0.3, ease: "none" }, 0.53)
         .to(outcomes, { borderColor: "rgba(242, 241, 235, 0.28)", duration: 0.3, ease: "none" }, 0.53)
         .to(bodyCopy, { color: "rgba(242, 241, 235, 0.82)", duration: 0.3, ease: "none" }, 0.53)
@@ -348,16 +411,56 @@ function effectScene() {
 }
 
 // 03 → 04 — nudot-grep: ingen mellomtittel. Broen er en kort, scrubbet
-// fargeovergang der mauve mørknes til 04-flaten mens atmosfæren tones inn.
+// lysovergang der sløret mørkner 04-flaten mens atmosfæren roes ned.
 // «Dette kan Tigon lage» finnes ett sted: som arkivtittelen i selve 04.
-function effectWorkJourney() {
+function effectWorkJourney(compact: boolean) {
   const journey = document.querySelector<HTMLElement>("[data-effect-work-journey]");
-  if (!journey) return () => {};
+  const continuum = document.querySelector<HTMLElement>("[data-effect-work-continuum]");
+  const archive = journey?.querySelector<HTMLElement>("[data-work-archive]");
+  const details = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-details]");
+  const spotlight = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-spotlight]");
+  const veil = continuum?.querySelector<HTMLElement>("[data-effect-veil]");
+  const grain = continuum?.querySelector<HTMLElement>("[data-effect-grain]");
+  const wave = continuum?.querySelector<HTMLVideoElement>("video[data-work-wave]");
+  if (!journey || !continuum || !archive || !veil) return () => {};
 
   journey.setAttribute("data-effect-work-ready", "");
 
+  const ctx = gsap.context(() => {
+    const handoff = gsap.timeline({
+      scrollTrigger: {
+        trigger: archive,
+        start: compact ? "top 92%" : "top bottom",
+        end: compact ? "top 34%" : "top 28%",
+        scrub: compact ? 0.24 : 0.7,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    if (details) {
+      handoff.to(details, { autoAlpha: compact ? 1 : 0.72, ease: "none" }, 0);
+    }
+    if (spotlight) {
+      handoff.to(spotlight, {
+        autoAlpha: compact ? 0.44 : 0.72,
+        scale: compact ? 1.04 : 1.14,
+        xPercent: 0,
+        yPercent: compact ? -3 : -7,
+        ease: "none",
+      }, 0);
+    }
+    if (wave && !compact) {
+      handoff.to(wave, { opacity: 0.3, scale: 1.07, ease: "none" }, 0);
+    }
+    if (grain && !compact) {
+      handoff.to(grain, { autoAlpha: 0.32, ease: "none" }, 0);
+    }
+    handoff.to(veil, { autoAlpha: compact ? 0.32 : 0.18, ease: "none" }, 0);
+  }, continuum);
+
   return () => {
     journey.removeAttribute("data-effect-work-ready");
+    ctx.revert();
   };
 }
 // One-time opening scene: the editorial masthead assembles once on load.
@@ -688,8 +791,9 @@ function workProcessJourney(compact: boolean) {
   const process = journey?.querySelector<HTMLElement>(".process-journey");
   const shade = work?.querySelector<HTMLElement>("[data-work-exit-shade]");
   const continuum = document.querySelector<HTMLElement>("[data-effect-work-continuum]");
+  const backdrop = continuum?.querySelector<HTMLElement>("[data-effect-work-backdrop]");
   const grain = continuum?.querySelector<HTMLElement>("[data-effect-grain]");
-  const atmosphere = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-details]");
+  const grainCanvas = grain?.querySelector<HTMLElement>(".work-film-grain");
   if (!journey || !work || !process || !shade) return () => {};
 
   const ctx = gsap.context(() => {
@@ -717,11 +821,11 @@ function workProcessJourney(compact: boolean) {
         duration: 0.84,
         ease: "power2.in",
       }, 0);
-    if (grain) {
-      timeline.to(grain, { autoAlpha: 0, duration: 0.42, ease: "none" }, 0.12);
+    if (grainCanvas) {
+      timeline.to(grainCanvas, { autoAlpha: 0, duration: 0.42, ease: "none" }, 0.12);
     }
-    if (atmosphere) {
-      timeline.to(atmosphere, { autoAlpha: 0, duration: 0.55, ease: "none" }, 0.2);
+    if (backdrop) {
+      timeline.to(backdrop, { autoAlpha: 0, duration: 0.55, ease: "none" }, 0.2);
     }
   }, journey);
 
@@ -1051,6 +1155,7 @@ export function HomeMotion() {
     const teardownUtilities = setupFooterUtilities();
     const teardownWorkCursor = setupDynamicTextCursor();
     const teardownSectionTheme = sectionThemeScene();
+    const teardownAtmosphereState = atmosphereStateScene();
     const lenis = initLenis({
       lerp: 0.095,
       smoothWheel: true,
@@ -1078,8 +1183,10 @@ export function HomeMotion() {
       heroEntrance(true);
       const teardownIntro = introStoryScene();
       const teardownTension = outcomeTensionBridge();
-      const teardownEffectWork = effectWorkJourney();
-      const teardownWorkArchive = workArchiveScene(false);
+      const teardownEffectWork = effectWorkJourney(false);
+      const teardownWorkArchive = workArchiveScene(
+        window.matchMedia("(max-width: 1000px)").matches,
+      );
       const teardownWorkProcess = workProcessJourney(
         window.matchMedia("(max-width: 1100px)").matches,
       );
@@ -1102,7 +1209,7 @@ export function HomeMotion() {
       heroEntrance(false);
       const teardownIntro = introStoryScene();
       const teardownTension = outcomeTensionBridge();
-      const teardownEffectWork = effectWorkJourney();
+      const teardownEffectWork = effectWorkJourney(true);
       const teardownWorkArchive = workArchiveScene(true);
       const teardownWorkProcess = workProcessJourney(true);
       const teardownProcess = processScene(true);
@@ -1141,6 +1248,7 @@ export function HomeMotion() {
       teardownServices();
       teardownOsmoReveal();
       teardownEffect();
+      teardownAtmosphereState();
       teardownShutter();
       teardownApproachPath();
       teardownSectionTheme();
