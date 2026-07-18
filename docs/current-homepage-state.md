@@ -5,7 +5,8 @@ Last reconciled against mounted source and Git: 2026-07-18.
 This is the canonical mounted-state snapshot. Read
 `docs/project-continuation-context.md` first for commit/worktree boundaries,
 `docs/remaining-work.md` for the open backlog and
-`docs/homepage-dark-design-contract.md` for reusable design rules.
+`design.md` for the canonical design language. The detailed dark-surface
+recipes remain in `docs/homepage-dark-design-contract.md`.
 
 ## Git boundary
 
@@ -14,6 +15,8 @@ This is the canonical mounted-state snapshot. Read
 - Broader 02/05/06 dark calibration and global Lenis removal are present as
   existing uncommitted worktree changes. They are mounted locally but must not
   be discarded or silently included in another commit.
+- The canonical design-handbook/read-order reconciliation is also uncommitted,
+  documentation-only work. It changes no mounted component, CSS or motion.
 
 ## Active page journey
 
@@ -60,7 +63,8 @@ This is the canonical mounted-state snapshot. Read
 - Reuses 04's existing wave/spotlight/vignette recipe. Video is desktop-only;
   reduced motion and mobile use the static lightweight atmosphere.
 - The handoff `01 → 02 / Én helhet. Fem fag.` remains server-rendered.
-- Full implementation contract: `design.md`.
+- Full implementation contract: Appendix A in `design.md` and
+  `docs/sections/01-approach.md`.
 
 ### 02 / Tjenester
 

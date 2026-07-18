@@ -16,6 +16,11 @@ contracts. Mounted source code wins if documentation and runtime disagree.
   `docs/project-continuation-context.md`, `docs/remaining-work.md`,
   `docs/services-link-contract.md`, `docs/homepage-dark-design-contract.md` and
   `docs/adr-global-lenis.md`.
+- A documentation-only design-system reconciliation is now present as
+  uncommitted worktree state: `design.md` is the canonical design entry point,
+  `tokens.css` is identified as the value authority, the approved Intro
+  contract is preserved in Appendix A, and the project/section documents share
+  one read order. No production source was changed by that pass.
 - The worktree intentionally still contains pre-existing, uncommitted changes
   for 02/Tjenester, 05/Prosess, 06/System, global Lenis removal, lifecycle
   cleanup and supporting documentation. Preserve them. Do not reset, discard,
@@ -41,10 +46,10 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 2. This file.
 3. `docs/current-homepage-state.md`.
 4. `docs/current-project-rules.md`.
-5. `docs/remaining-work.md`.
+5. `design.md` for the shared design language and token authority.
 6. The relevant `docs/sections/*.md` contract.
-7. `design.md` for Intro work.
-8. `docs/homepage-dark-design-contract.md` for shared tokens, surfaces and
+7. `docs/remaining-work.md`.
+8. `docs/homepage-dark-design-contract.md` for detailed surfaces and
    motion rules.
 9. `docs/tigon-brand-platform.md` for meaning and copy decisions.
 
@@ -75,7 +80,8 @@ contracts. Mounted source code wins if documentation and runtime disagree.
   `/video/work-wave-loop.mp4`; mobile/reduced motion disables the video.
 - Uses the original Codrops Typekit kit `upd0woi`, scoped to Intro. This is a
   deliberate exception and must not spread to other sections.
-- Full active contract: `design.md` and `docs/sections/01-approach.md`.
+- Full active contract: Appendix A in `design.md` and
+  `docs/sections/01-approach.md`.
 
 ### 03 / Effekt + 04 / Arbeid
 
@@ -99,6 +105,7 @@ contracts. Mounted source code wins if documentation and runtime disagree.
   `HomeMotion.tsx`, `package.json`, `package-lock.json` and deleted
   `src/lib/motion.ts`.
 - Active design/status documentation describing the broader dark homepage.
+- The canonical `design.md` handbook and its reconciled read-order references.
 
 Treat this as protected in-progress work. Before working on 02, 05, 06 or the
 global scroll lifecycle, inspect the dirty diff and ask only if the intended

@@ -4,7 +4,8 @@ Last reconciled: 2026-07-18.
 
 Read `docs/project-continuation-context.md` for Git/worktree boundaries,
 `docs/current-homepage-state.md` for mounted state and
-`docs/remaining-work.md` before opening another section.
+`design.md` for the canonical design language before opening another section.
+Then read the relevant section contract and `docs/remaining-work.md`.
 
 ## Design direction
 
@@ -48,7 +49,8 @@ exception. Do not introduce visible orange.
 
 ### 01 / Intro
 
-- `design.md` is the full contract.
+- Appendix A in `design.md` and `docs/sections/01-approach.md` are the full
+  Intro contract.
 - Stable `BYGD SAMMEN` foreground with Tigon integrated-practice copy.
 - Decorative Tigon terms move and scramble behind it.
 - Each decorative term fades before colliding with the foreground copy.

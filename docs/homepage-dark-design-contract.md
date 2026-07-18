@@ -3,8 +3,10 @@
 Last reconciled: 2026-07-18.
 
 This contract governs the mounted body journey from Intro through 06/System.
-Header/Hero and Kontakt/footer are protected boundaries. `design.md` owns the
-approved Intro-specific composition.
+Header/Hero and Kontakt/footer are protected boundaries. `design.md` is the
+canonical design entry point; this file records the detailed dark-homepage
+surface and motion recipes. Appendix A in `design.md` owns the approved
+Intro-specific composition.
 
 ## Principle
 

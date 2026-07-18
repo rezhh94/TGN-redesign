@@ -8,9 +8,10 @@ It is not a rigid template.
 It is a set of principles for building a premium digital studio website without repeating the old chaos.
 
 For current implementation and Git status, read
-`docs/project-continuation-context.md` before applying these principles. This
-operating system does not override an approved section contract such as
-`design.md` for Intro.
+`docs/project-continuation-context.md` before applying these principles.
+`design.md` is now the canonical visual-language and token-governance entry
+point. This operating system remains supporting method and does not override
+`design.md` or an approved `docs/sections/*.md` contract.
 
 The canonical brand meaning is defined in `docs/tigon-brand-platform.md`: `BYGD FOR Å BLI VALGT` is the promise, `FUNNET. FORSTÅTT. VALGT. MÅLT.` is the result system, and selection/focus/distinction is the visual concept. This operating system must support that platform without turning the slogan into repeated decoration.
 

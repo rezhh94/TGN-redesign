@@ -4,7 +4,9 @@ Last reconciled: 2026-07-18. Approved commit: `e4dbba7`.
 
 - Files: `ApproachStatementBridge.tsx`, `approach-statement-bridge.css`,
   `introStoryScene` in `HomeMotion.tsx`.
-- `design.md` is the detailed implementation and reference contract.
+- Appendix A in `design.md` is the detailed implementation, reference and
+  licence contract. The main body of `design.md` governs the shared homepage
+  language.
 - Stable foreground: `BYGD SAMMEN`, the integrated-practice paragraph and
   `TGN / integrated practice`. It never scrambles, flips or scroll-transforms.
 - Decorative Tigon capability words preserve Codrops' `group`, `el`, `pos-*`,

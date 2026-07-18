@@ -28,9 +28,10 @@ Before changing a section in a new task, read these in order:
    worktree and what may safely be worked on next.
 2. `docs/current-homepage-state.md` — what is actually mounted now.
 3. `docs/current-project-rules.md` — active execution boundaries.
-4. The relevant file under `docs/sections/`.
-5. `docs/remaining-work.md` — open work and recommended continuation order.
-6. `design.md` when the task touches 01 / Intro.
+4. `design.md` — canonical shared design language, token authority and motion
+   vocabulary for every homepage section.
+5. The relevant file under `docs/sections/`.
+6. `docs/remaining-work.md` — open work and recommended continuation order.
 
 Do not use deleted historical reference material or reconstruct removed
 directions from Git history unless the user explicitly requests a rollback.
@@ -85,6 +86,11 @@ GSAP is allowed when the user explicitly asks for an effect or motion implementa
 External effects are motion architecture only unless a section contract records
 a specific approved exception. The visual design must stay Tigon: premium,
 editorial, typographic and near-monochrome.
+
+`design.md` is the canonical design entry point. New work uses the semantic
+surface, text, line, type, grid and rhythm roles documented there. Do not
+create a competing section-local design system or copy reference-site tokens
+directly into components.
 
 Rejected old directions should not control new work unless the user reopens them.
 

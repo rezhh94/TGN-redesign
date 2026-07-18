@@ -109,6 +109,7 @@ If the answer is no, the idea does not support the active Tigon brand platform.
   the safe starting point for a new chat.
 - `AGENTS.md` and `docs/current-project-rules.md` hold execution boundaries.
 - `docs/current-homepage-state.md` records what is currently mounted.
-- `design.md` owns the approved 01 / Intro implementation.
+- `design.md` owns the shared visual language, token governance and the
+  approved Intro implementation in Appendix A.
 - `docs/tigon-design-operating-system.md` guides art direction and execution.
 - This file defines the canonical brand meaning shared across those documents.

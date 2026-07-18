@@ -16,6 +16,14 @@ working documentation so they cannot steer later tasks.
   and `focus` roles. Different sections retain distinct compositions.
 - TGS Perfect, JUST Sans and Caleb Mono remain the Tigon font system.
 - No visible orange.
+- `design.md` is the canonical design entry point; `tokens.css` owns actual
+  values and section contracts own local composition.
+- NuDot is a clean-room reference for flow, hierarchy, depth and motion
+  grammar. Its fonts, code, assets, global Lenis, loader, decorative cursor and
+  default-heavy WebGL architecture are not part of the Tigon system.
+- New work prefers semantic `surface-*`, `text-*`, `line-*`, `type-*`, grid and
+  rhythm roles. Legacy aliases are retired only inside explicitly opened
+  sections, never through an unrelated global rewrite.
 
 ## Protected boundaries
 
@@ -35,7 +43,8 @@ use Flip/scramble motion behind it and fade before colliding with the foreground
 copy. Reuse the existing Work wave/spotlight recipe without a visible text box.
 
 Status:
-Approved and committed as `e4dbba7`. `design.md` is the detailed contract.
+Approved and committed as `e4dbba7`. Appendix A in `design.md` is the detailed
+contract; the main body of `design.md` governs the shared homepage language.
 
 ## 02 / Tjenester
 

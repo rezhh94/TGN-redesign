@@ -10,6 +10,9 @@ without prescribing old reference sites or rejected visual concepts.
 - 01 / Intro is approved and committed in `e4dbba7`.
 - 03 / Effekt and 04 / Arbeid are approved and committed in `c349ef7`.
 - Header/Hero, SEO infrastructure and Kontakt/footer remain protected.
+- `design.md` is the canonical design entry point for all remaining sections;
+  `tokens.css` remains the implementation value authority and section
+  contracts own local composition.
 
 ## Worktree review before new design work
 
@@ -20,7 +23,7 @@ The current worktree contains existing, uncommitted changes for:
 - 06 / System dark-token calibration.
 - 02→03 token alignment.
 - global Lenis removal and dormant lifecycle cleanup.
-- the active documentation set.
+- the canonical design handbook and reconciled documentation read order.
 
 These changes must be reviewed section by section. Do not discard them and do
 not combine them into the next unrelated commit.
@@ -30,12 +33,13 @@ not combine them into the next unrelated commit.
 The user chooses the next section. For each selected section:
 
 1. Inspect its current source and dirty diff.
-2. Take a before screenshot and create a scoped rollback point when requested.
-3. Preserve content, links and neighboring approved sections.
-4. Implement only that section and the minimum transition it owns.
-5. Verify desktop, tablet, mobile, reduced motion, touch and no-JS as relevant.
-6. Show before/after and stop for approval when requested.
-7. Commit only after explicit approval.
+2. Read `design.md` and map new styling to its canonical semantic roles.
+3. Take a before screenshot and create a scoped rollback point when requested.
+4. Preserve content, links and neighboring approved sections.
+5. Implement only that section and the minimum transition it owns.
+6. Verify desktop, tablet, mobile, reduced motion, touch and no-JS as relevant.
+7. Show before/after and stop for approval when requested.
+8. Commit only after explicit approval.
 
 Recommended review order if the user has no preference:
 
