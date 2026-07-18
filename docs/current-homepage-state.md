@@ -12,11 +12,12 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 
 - `e4dbba7` contains the approved ScrollTextMotion Intro.
 - `c349ef7` contains the approved 03/04 atmosphere and typography work.
-- Broader 02/05/06 dark calibration and global Lenis removal are present as
-  existing uncommitted worktree changes. They are mounted locally but must not
-  be discarded or silently included in another commit.
-- The canonical design-handbook/read-order reconciliation is also uncommitted,
-  documentation-only work. It changes no mounted component, CSS or motion.
+- `2aaa6ad` is the clean baseline and contains the canonical design handbook.
+- The active 02/Tjenester checkpoint consists of the new mosaic, its
+  `servicesScene` motion owner and current design/status documentation.
+- Global Lenis removal is not present after the user-requested reset. Lenis and
+  dormant homepage initializers remain mounted and must be handled only in a
+  separate lifecycle task.
 
 ## Active page journey
 
@@ -45,9 +46,9 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   roles and named section rhythm.
 - Spotlight, vignette, existing media and the approved 03→04 grain/video layer
   create the background journey. No new third-party asset was introduced.
-- In the current worktree, global Lenis is removed and native scroll is the one
-  transport; approved GSAP owners keep section-scoped scrub. This lifecycle
-  cleanup is not part of the two approved section commits above.
+- The current clean baseline still mounts global Lenis. The canonical future
+  direction remains native scroll, but lifecycle cleanup is outside the active
+  02 design scope.
 
 ## Section state
 
@@ -70,10 +71,16 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 
 - Five services, descriptions, capability lists, images and established hrefs
   are unchanged and server-rendered.
-- Uses a dark base/raised gradient, shared line/media recipes and semantic type.
-- Feature chapters use `display-xl`; compact rows use `display-lg`.
-- Small opposing settles and mild image parallax remain; there is no pin or
-  sticky service-image navigation.
+- Uses `surface-base` plus the existing wave/spotlight/vignette/veil recipe;
+  there is no separate grey section canvas.
+- A restrained sticky rail anchors a three-row asymmetric desktop mosaic. The
+  two existing images are media anchors; the other three services are compact
+  text modules.
+- Service hierarchy uses moderate JUST Sans rather than large display type.
+  Repeated chapter borders and the redundant delivery register are removed.
+- Motion is limited to small module settles, mild image parallax and lazy
+  desktop wave playback. Through 900 px the rail is static; mobile/reduced
+  motion disable video and keep ordinary flow.
 
 ### 02 → 03
 
@@ -121,12 +128,12 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 
 - `HomeMotion` is the active owner map. `introStoryScene` owns Intro Flip,
   scramble, collision clearance and lazy wave playback.
-- In the current dirty worktree, dormant content-reveal, generic parallax,
-  shutter and approach-path initializers are no longer mounted.
+- Global Lenis plus the generic reveal/parallax/shutter/approach initializers
+  remain mounted in the clean baseline; their removal is a separate open task.
 - CSS and JS compact geometry are reconciled: Effekt uses compact logic through
   900 px; Work archive through 1000 px.
 - No master pin, global ScrollTrigger kill or critical animation-dependent
-  content. The current worktree uses no global Lenis.
+  content was added by 02. The current baseline still uses global Lenis.
 - Explicit scroll margins keep `#arbeid`, `#prosess` and heading fragments
   below the fixed header.
 
@@ -144,6 +151,12 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 
 Verification record:
 
+- The current 02/Tjenester worktree passes TypeScript, the optimized production
+  build and `git diff --check`.
+- The new mosaic was reviewed at 1440, 1024, 900, 768 and 390 px. Reduced
+  motion, 390 px no-JS, all five service hrefs and horizontal overflow were
+  checked directly; all five modules remain visible and video is disabled in
+  compact/reduced states.
 - The isolated Intro commit passed TypeScript and production build checks.
 - The isolated 03/04 commit passed TypeScript and a production Webpack build.
 - The earlier integrated dark-homepage pass was checked on 2026-07-17 at 1440,

@@ -24,80 +24,111 @@ ScrollTrigger.config({
   limitCallbacks: true,
 });
 
-// 02 / Tjenester — five complete editorial chapters in ordinary document flow.
-// Copy and media settle from small opposing offsets; service names, descriptions
-// and links remain visible, server-rendered content without JavaScript.
+// 02 / Tjenester — compact NuDot-inspired service mosaic in ordinary flow.
+// A quiet sticky rail anchors the section while five real service links settle
+// through an asymmetric grid. The shared Tigon wave is lazy and desktop-only;
+// compact/reduced/no-JS states remain complete without the motion layer.
 function servicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
   if (!section) return () => {};
 
-  const chapters = gsap.utils.toArray<HTMLElement>("[data-service-chapter]", section);
+  const modules = gsap.utils.toArray<HTMLElement>("[data-service-module]", section);
+  const wave = section.querySelector<HTMLVideoElement>("[data-service-wave]");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduced) return () => {};
+  if (!modules.length || reduced) return () => {};
+  const mm = gsap.matchMedia();
 
   const ctx = gsap.context(() => {
-    const compact = window.matchMedia("(max-width: 900px)").matches;
+    mm.add("(min-width: 901px)", () => {
+      if (wave) {
+        const source = wave.querySelector<HTMLSourceElement>("source[data-src]");
+        const loadAndPlay = () => {
+          if (source?.dataset.src && !source.src) {
+            source.src = source.dataset.src;
+            wave.load();
+          }
+          void wave.play().catch(() => {});
+        };
 
-    chapters.forEach((chapter, index) => {
-      const visual = chapter.querySelector<HTMLElement>("[data-service-chapter-visual]");
-      const image = visual?.querySelector<HTMLElement>("img");
-      const copy = chapter.querySelector<HTMLElement>("[data-service-copy]");
-      if (!copy) return;
-
-      // Tekstledede register-rader (03–05) har ingen visual; de settler
-      // med én stille one-shot i stedet for det motgående paret.
-      if (!visual || !image) {
-        gsap.from(chapter, {
-          y: 22,
-          autoAlpha: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: { trigger: chapter, start: "top 88%", once: true },
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          onEnter: loadAndPlay,
+          onEnterBack: loadAndPlay,
+          onLeave: () => wave.pause(),
+          onLeaveBack: () => wave.pause(),
         });
-        return;
       }
 
-      const direction = index % 2 ? -1 : 1;
-      const settle = gsap.timeline({
-        scrollTrigger: {
-          trigger: chapter,
-          start: "top 92%",
-          end: compact ? "top 38%" : "top 32%",
-          scrub: compact ? 0.14 : 0.18,
-          invalidateOnRefresh: true,
-        },
-      });
+      modules.forEach((module, index) => {
+        const image = module.querySelector<HTMLElement>("[data-service-visual] img");
+        const distance = [44, 34, 28, 36, 30][index] ?? 32;
 
-      settle
-        .fromTo(
-          visual,
-          { xPercent: direction * (compact ? 3 : 6), y: compact ? 12 : 20, scale: 0.985, autoAlpha: 0.76 },
-          { xPercent: 0, y: 0, scale: 1, autoAlpha: 1, duration: 1, ease: "none" },
-          0,
-        )
-        .fromTo(
-          copy,
-          { xPercent: direction * (compact ? -2 : -3), y: compact ? 10 : 16, autoAlpha: 0.68 },
-          { xPercent: 0, y: 0, autoAlpha: 1, duration: 0.82, ease: "none" },
-          0.12,
+        gsap.fromTo(
+          module,
+          { y: distance, autoAlpha: 0.58 },
+          {
+            y: -Math.round(distance * 0.28),
+            autoAlpha: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: module,
+              start: "top 92%",
+              end: "top 34%",
+              scrub: 0.32,
+              invalidateOnRefresh: true,
+            },
+          },
         );
 
-      if (!compact) {
-        gsap.fromTo(image, { yPercent: -6 }, {
-          yPercent: 2,
-          ease: "none",
+        if (image) {
+          gsap.fromTo(
+            image,
+            { yPercent: -5, scale: 1.025 },
+            {
+              yPercent: 1,
+              scale: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: module,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.4,
+                invalidateOnRefresh: true,
+              },
+            },
+          );
+        }
+      });
+
+      return () => {};
+    });
+
+    mm.add("(max-width: 900px)", () => {
+      modules.forEach((module) => {
+        gsap.from(module, {
+          y: 20,
+          autoAlpha: 0,
+          duration: 0.65,
+          ease: "power3.out",
           scrollTrigger: {
-            trigger: chapter,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
+            trigger: module,
+            start: "top 90%",
+            once: true,
           },
         });
-      }
+      });
+
+      return () => {};
     });
   }, section);
 
-  return () => ctx.revert();
+  return () => {
+    wave?.pause();
+    mm.revert();
+    ctx.revert();
+  };
 }
 
 // 02 → 03 — Osmo Sticky Title Scroll adapted as an unnumbered tension bridge.

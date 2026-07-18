@@ -4,8 +4,8 @@ Last reconciled: 2026-07-18.
 
 ## Global guardrails
 
-- Native scroll is canonical. Global Lenis and its dependency are removed in
-  the current protected, uncommitted worktree state.
+- Native scroll remains the canonical target. The mounted clean baseline still
+  initializes global Lenis; removal is an open, separate lifecycle task.
 - Important text and links remain server-rendered and visible without JS.
 - Respect reduced motion, touch and compact layouts.
 - Motion is section-scoped with one owner and explicit cleanup.
@@ -31,9 +31,10 @@ Last reconciled: 2026-07-18.
 
 ### 02 / Tjenester
 
-- `servicesScene`: small opposing copy/media settle, one-shot register rows and
-  mild desktop image parallax.
-- Compact threshold matches the 900 px CSS composition.
+- `servicesScene`: lazy desktop playback of the existing wave, small mosaic
+  module settles and mild parallax on the two existing service images.
+- The desktop sticky rail is CSS-owned and does not pin the viewport. Compact
+  through 900 px uses one-shot settles; mobile/reduced motion disable video.
 
 ### 02 → 03
 
@@ -74,15 +75,17 @@ Last reconciled: 2026-07-18.
 - Existing footer parallax and wordmark reveal remain. Footer markup and links
   are protected and unchanged.
 
-## Removed lifecycle debt
+## Open lifecycle debt
 
-Status note: the following cleanup is present in the current dirty worktree,
-not in the two approved Intro and 03/04 commits.
+The user-requested reset restored the clean `2aaa6ad` baseline. It still mounts:
 
-- Global Lenis init, RAF ticker bridge, dependency and unused helper module.
-- Dormant homepage initialization of generic content reveal, generic parallax,
-  shutter transition and approach-path journey; none had mounted hooks.
-- 769–900 Effekt and 769–1000 Work JS/CSS geometry mismatch.
+- global Lenis init, RAF ticker bridge, dependency and helper module;
+- generic content reveal, generic parallax, shutter and approach-path
+  initializers;
+- older compact lifecycle behavior outside the active 02 scope.
+
+Review and remove this only in a separate lifecycle task. Do not mix it into
+the Tjenester visual approval or commit.
 
 ## Asset state
 

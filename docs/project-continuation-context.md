@@ -16,16 +16,17 @@ contracts. Mounted source code wins if documentation and runtime disagree.
   `docs/project-continuation-context.md`, `docs/remaining-work.md`,
   `docs/services-link-contract.md`, `docs/homepage-dark-design-contract.md` and
   `docs/adr-global-lenis.md`.
-- A documentation-only design-system reconciliation is now present as
-  uncommitted worktree state: `design.md` is the canonical design entry point,
-  `tokens.css` is identified as the value authority, the approved Intro
-  contract is preserved in Appendix A, and the project/section documents share
-  one read order. No production source was changed by that pass.
-- The worktree intentionally still contains pre-existing, uncommitted changes
-  for 02/Tjenester, 05/Prosess, 06/System, global Lenis removal, lifecycle
-  cleanup and supporting documentation. Preserve them. Do not reset, discard,
-  fold into another section or commit them without inspecting the exact diff
-  and obtaining the user's instruction.
+- `2aaa6ad` is the clean baseline and includes the canonical `design.md`
+  handbook/read order.
+- The earlier broad dirty worktree was discarded at the user's explicit
+  request. Do not reconstruct its 05/06 or lifecycle directions from stale
+  notes or Git history.
+- The active 02/Tjenester checkpoint is intentionally scoped to the mosaic in
+  `WhatWeBuild.tsx`, `what-we-build.css`, `servicesScene` and the current
+  design/status documentation. The user approved this direction on 2026-07-18;
+  later spacing/calibration changes should be separate polish work.
+- Global Lenis and dormant homepage initializers remain mounted in the clean
+  baseline. Cleanup is still open but must stay separate from 02 design work.
 - `videos/tigon-work-atmosphere/` is tracked source material for the active
   12-second `public/video/work-wave-loop.mp4` and must be retained. It contains
   the 1920×1080 render source, project metadata and QA snapshots.
@@ -95,21 +96,18 @@ contracts. Mounted source code wins if documentation and runtime disagree.
   touch, reduced motion and no-JS use normal flow.
 - The functional cursor remains limited to the six capability links.
 
-## Present in the worktree but not in the two approved commits
+## Active 02 checkpoint scope
 
-- 02/Tjenester dark-token and layout calibration in `what-we-build.css`.
-- 05/Prosess dark-surface calibration in `process-layers.css`.
-- 06/System dark-token calibration in `system-manifesto.css`.
-- 02→03 token alignment in `outcome-tension-bridge.css`.
-- Removal of global Lenis and dormant homepage initializers in
-  `HomeMotion.tsx`, `package.json`, `package-lock.json` and deleted
-  `src/lib/motion.ts`.
-- Active design/status documentation describing the broader dark homepage.
-- The canonical `design.md` handbook and its reconciled read-order references.
+- A compact, clean-room NuDot-inspired 02/Tjenester mosaic.
+- The existing Tigon wave/spotlight/vignette/veil atmosphere, lazy on desktop
+  and static on mobile/reduced motion.
+- Two existing service media anchors, three text-led services and five complete
+  accessible links with unchanged hrefs/content.
+- Small section-scoped settles and media parallax in `servicesScene`.
+- Updated 02/design/status documentation recording this exact direction.
 
-Treat this as protected in-progress work. Before working on 02, 05, 06 or the
-global scroll lifecycle, inspect the dirty diff and ask only if the intended
-scope cannot be determined from the user's task.
+No 05/06, Header/Hero, Effekt, Arbeid, footer, SEO, URL or global lifecycle
+source is part of this worktree scope.
 
 ## Non-negotiable preservation
 
@@ -126,6 +124,10 @@ scope cannot be determined from the user's task.
 
 ## Verification truth
 
+- The current 02/Tjenester worktree passes TypeScript, optimized production
+  build and `git diff --check`.
+- The 02 visual matrix was checked at 1440, 1024, 900, 768 and 390 px, plus
+  reduced motion, 390 px no-JS, five hrefs and horizontal overflow.
 - The isolated Intro commit passed TypeScript and production build checks.
 - The isolated 03/04 commit passed TypeScript and a production Webpack build.
 - A previous full dark-homepage pass was recorded on 2026-07-17, but the Intro

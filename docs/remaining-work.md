@@ -14,19 +14,18 @@ without prescribing old reference sites or rejected visual concepts.
   `tokens.css` remains the implementation value authority and section
   contracts own local composition.
 
-## Worktree review before new design work
+## Current worktree review
 
-The current worktree contains existing, uncommitted changes for:
-
-- 02 / Tjenester dark-token and layout calibration.
-- 05 / Prosess dark-surface calibration.
-- 06 / System dark-token calibration.
-- 02→03 token alignment.
-- global Lenis removal and dormant lifecycle cleanup.
-- the canonical design handbook and reconciled documentation read order.
-
-These changes must be reviewed section by section. Do not discard them and do
-not combine them into the next unrelated commit.
+- 02 / Tjenester has an approved compact NuDot-inspired mosaic, shared Tigon
+  atmosphere and scoped `servicesScene` motion. Minor polish may follow without
+  reopening its composition.
+- Supporting current-state, motion and design documents are updated with that
+  exact direction.
+- The earlier broader dirty worktree was discarded at the user's explicit
+  request. Do not reconstruct its 05/06 or lifecycle changes from historical
+  notes.
+- Global Lenis and dormant homepage initializers remain in the mounted clean
+  baseline. Their cleanup is still open and must be a separate technical task.
 
 ## Next section sequence
 
@@ -43,7 +42,7 @@ The user chooses the next section. For each selected section:
 
 Recommended review order if the user has no preference:
 
-1. 02 / Tjenester — closest open section after approved Intro.
+1. Optional scoped polish of the approved 02 / Tjenester checkpoint.
 2. 05 / Prosess — confirm the existing 04 exit lands cleanly.
 3. 06 / System — finish the body journey into the protected footer.
 4. Global lifecycle cleanup — review and commit separately from visual work.

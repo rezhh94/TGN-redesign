@@ -4,62 +4,51 @@ const services = [
     number: "01",
     title: "Nettsider",
     description: "Raske nettsider med tydelig struktur, teknisk SEO og måling.",
-    meta: "Next.js / SEO / CWV",
     capabilities: ["Teknisk SEO", "Core Web Vitals", "Innholdsstruktur", "Konvertering"],
     href: "/tjenester/webutvikling-nextjs",
     image: "/services/tgn-nettsider-editorial.webp",
-    layout: "feature",
+    placement: "lead",
   },
   {
     id: "webapper",
     number: "02",
     title: "Webapper",
     description: "Digitale verktøy formet rundt virksomhetens faktiske arbeidsflyt.",
-    meta: "Portaler / Systemer",
     capabilities: ["Innlogging", "Roller", "Integrasjoner", "Datamodell"],
     href: "/tjenester/custom-software",
     image: "/services/tgn-webapper-workflow.webp",
-    layout: "feature",
+    placement: "media",
   },
   {
     id: "apper",
     number: "03",
     title: "Apper",
     description: "Mobil- og webprodukter for behov som går utover en nettside.",
-    meta: "Mobil / Web",
     capabilities: ["Mobil", "Web", "Push", "Publisering"],
     href: "/tjenester/app-utvikling",
     image: null,
-    layout: "row",
+    placement: "compact-right",
   },
   {
     id: "ai-systemer",
     number: "04",
     title: "AI-systemer",
     description: "AI-verktøy koblet til virksomhetens egne data og arbeidsflyter.",
-    meta: "Automasjon / Søk / Data",
     capabilities: ["Automasjon", "Søk", "Assistenter", "Interne verktøy"],
     href: "/tjenester/ai-implementering",
     image: null,
-    layout: "row",
+    placement: "compact-left",
   },
   {
     id: "seo-ai-sok",
     number: "05",
     title: "SEO & AI-søk",
     description: "Struktur og innhold som gjør løsningen synlig og lettere å velge.",
-    meta: "Innhold / Struktur",
     capabilities: ["Teknisk SEO", "AI-synlighet", "Lokal synlighet", "Måling"],
     href: "/tjenester/seo-optimalisering",
     image: null,
-    layout: "row",
+    placement: "compact-end",
   },
-] as const;
-
-const register = [
-  ["Bygg", "Nettsider", "Webapper", "Apper", "E-handel", "Headless CMS", "UX/UI-design"],
-  ["System", "AI-systemer", "Digital infrastruktur", "Integrasjoner", "Vedlikehold & sikkerhet"],
-  ["Synlighet", "Teknisk SEO", "AI-søk", "Innholdsstruktur", "Lokal synlighet", "Måling"],
 ] as const;
 
 export function WhatWeBuild() {
@@ -71,67 +60,76 @@ export function WhatWeBuild() {
       data-theme-section="dark"
       data-bg-section="dark"
     >
-      <header className="what-build__intro">
-        <p className="what-build__label">02 / Tjenester</p>
-        <h2 className="what-build__title" id="what-build-title">
-          <span>Dette</span>
-          <span>bygger vi.</span>
-        </h2>
-        <div className="what-build__intro-copy">
-          <p>
-            Fem fagområder bygget som én sammenhengende leveranse — fra første
-            valg til en løsning som kan finnes, forstås og måles.
-          </p>
-          <span>TGN / service disciplines / 01—05</span>
-        </div>
-      </header>
-
-      <ol className="service-ledger">
-        {services.map((service, index) => (
-          <li
-            className={`service-chapter service-chapter--${service.layout}${service.layout === "feature" && index % 2 ? " service-chapter--reverse" : ""}`}
-            data-service-chapter
-            key={service.id}
-          >
-            <header className="service-chapter__head">
-              <span className="service-chapter__number">{service.number} / 05</span>
-              <h3><a href={service.href}>{service.title}</a></h3>
-              <span className="service-chapter__meta">{service.meta}</span>
-            </header>
-
-            <div className="service-chapter__body">
-              <div className="service-chapter__copy" data-service-copy>
-                <p>{service.description}</p>
-                <ul aria-label={`${service.title} inkluderer`}>
-                  {service.capabilities.map((capability) => <li key={capability}>{capability}</li>)}
-                </ul>
-                <a href={service.href}>Se tjenesten <span aria-hidden="true">↗</span></a>
-              </div>
-
-              {service.image ? (
-                <figure className="service-chapter__visual" data-service-chapter-visual>
-                  <img src={service.image} alt="" loading={index < 1 ? "eager" : "lazy"} />
-                  <figcaption><span>TGN / Tjeneste {service.number}</span></figcaption>
-                </figure>
-              ) : null}
-            </div>
-          </li>
-        ))}
-      </ol>
-
-      <div className="what-build__register">
-        <p>Hele leveransen</p>
-        <div>
-          {register.map(([title, ...items]) => (
-            <section key={title}>
-              <h3>{title}</h3>
-              <p>{items.join(" / ")}</p>
-            </section>
-          ))}
-        </div>
-        <a href="/tjenester">Se alle tjenester <span aria-hidden="true">↗</span></a>
+      <div className="what-build__atmosphere" aria-hidden="true">
+        <video
+          className="what-build__atmosphere-video"
+          muted
+          playsInline
+          loop
+          preload="none"
+          data-service-wave
+        >
+          <source data-src="/video/work-wave-loop.mp4" type="video/mp4" />
+        </video>
+        <div className="what-build__atmosphere-spotlight" />
+        <div className="what-build__atmosphere-vignette" />
+        <div className="what-build__atmosphere-veil" />
       </div>
 
+      <div className="what-build__shell">
+        <header className="what-build__rail">
+          <p className="what-build__label">02 / Tjenester</p>
+          <div className="what-build__rail-copy">
+            <h2 className="what-build__title" id="what-build-title">
+              Hva vi bygger
+            </h2>
+            <p>
+              Fem fagområder. Én sammenhengende leveranse fra første valg til
+              en løsning som kan finnes, forstås og måles.
+            </p>
+          </div>
+          <span className="what-build__count">TGN / service disciplines / 01—05</span>
+        </header>
+
+        <ol className="service-mosaic">
+          {services.map((service, index) => (
+            <li
+              className={`service-module service-module--${service.placement}`}
+              data-service-module
+              key={service.id}
+            >
+              <a className="service-module__link" href={service.href}>
+                {service.image ? (
+                  <figure className="service-module__visual" data-service-visual>
+                    <img
+                      src={service.image}
+                      alt=""
+                      loading={index === 0 ? "eager" : "lazy"}
+                    />
+                  </figure>
+                ) : null}
+
+                <div className="service-module__content">
+                  <div className="service-module__meta">
+                    <span>Service {service.number}</span>
+                    <span>{service.number} / 05</span>
+                  </div>
+                  <h3>{service.title}</h3>
+                  <p className="service-module__description">{service.description}</p>
+                  <ul aria-label={`${service.title} inkluderer`}>
+                    {service.capabilities.map((capability) => (
+                      <li key={capability}>{capability}</li>
+                    ))}
+                  </ul>
+                  <span className="service-module__action">
+                    Utforsk tjenesten <span aria-hidden="true">↗</span>
+                  </span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
     </section>
   );
 }

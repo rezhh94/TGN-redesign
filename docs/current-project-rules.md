@@ -61,8 +61,12 @@ exception. Do not introduce visible orange.
 ### 02 / Tjenester
 
 - Preserve all five services, copy, capability lists, images and hrefs.
-- Ordinary editorial flow with small settles and mild image parallax.
-- Existing dark-token worktree changes must be reviewed before new work.
+- Keep the active compact asymmetric mosaic and quiet sticky desktop rail.
+- Do not turn the section into a full-screen pin, giant-type sequence, card
+  grid or five-image template.
+- Reuse the established wave/spotlight/vignette atmosphere and restrained JUST
+  Sans/Caleb Mono hierarchy.
+- Motion remains small settle/parallax; compact/reduced/no-JS use normal flow.
 
 ### 02 → 03
 
@@ -122,8 +126,10 @@ exception. Do not introduce visible orange.
 ## Git discipline
 
 - Approved commits: Intro `e4dbba7`; 03/04 `c349ef7`.
-- Existing 02/05/06 and lifecycle changes are protected, uncommitted work.
-- Inspect the exact dirty diff before touching one of those areas.
+- The active 02/Tjenester checkpoint includes the redesign and supporting
+  current documentation. Later changes should remain scoped polish.
+- Global Lenis/lifecycle cleanup remains a separate task and must not be folded
+  silently into a visual section commit.
 - Never reset or discard the full worktree for a section rollback.
 - Commit or push only after explicit user instruction.
 

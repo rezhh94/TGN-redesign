@@ -234,7 +234,7 @@ journey rather than add an isolated showpiece.
 |---|---|---|
 | Header/Hero | protected source and project rules | establish offer; unchanged |
 | 01 / Intro | `docs/sections/01-approach.md` and Appendix A below | Flip/scramble term stream with stable foreground |
-| 02 / Tjenester | `docs/sections/02-services.md` | editorial service chapters; next design gate |
+| 02 / Tjenester | `docs/sections/02-services.md` | compact asymmetric service mosaic on shared atmosphere |
 | 02 → 03 | mounted `OutcomeTensionBridge` contract | typographic handoff |
 | 03 / Effekt | `docs/sections/03-effect.md` | measurable result system and focus |
 | 04 / Arbeid | `docs/sections/04-work-proof.md` | future-facing capability archive |
@@ -242,9 +242,29 @@ journey rather than add an isolated showpiece.
 | 06 / System | `docs/sections/06-manifest.md` | quiet assembly and conclusion |
 | Kontakt/footer | protected contact/footer contract | factual commercial close |
 
-The Tjenester composition is not redesigned by this documentation pass. User
-proposals must be evaluated against this handbook and its active section
-contract before source changes begin.
+The Tjenester composition below records the active implementation in the
+current worktree. Future proposals must be evaluated against this handbook and
+the narrower section contract before source changes begin.
+
+### 02 / Tjenester composition contract
+
+The active Tjenester direction is a clean-room NuDot translation: restrained
+typography, asymmetric placement, mixed media/text density and ordinary
+vertical flow. It deliberately rejects a full-screen service title, giant
+service names, a repeated card grid and image-sequence spectacle.
+
+- one quiet sticky rail on desktop, never a pinned viewport;
+- one existing Tigon atmosphere recipe shared visually with Intro, Effekt and
+  Arbeid;
+- two existing media anchors and three compact text-led services;
+- JUST Sans service hierarchy, Caleb Mono metadata and no new font family;
+- five complete real links with established content and hrefs;
+- small settle/parallax only; compact, reduced-motion and no-JS use normal
+  flow.
+
+The exact local geometry and scroll distances belong to
+`docs/sections/02-services.md` and `what-we-build.css`; they are not global
+tokens.
 
 ## Change protocol
 
