@@ -1,16 +1,24 @@
-.effect-work-continuum {
-  --atmosphere-canvas: var(--surface-base);
+.home-atmosphere-continuum {
+  --home-atmosphere-surface: var(--surface-base);
+  --home-atmosphere-wave-opacity: 0.42;
+  --home-atmosphere-light-x: -2%;
+  --home-atmosphere-light-y: 2%;
+  --home-atmosphere-light-scale: 1.08;
+  --home-atmosphere-light-opacity: 0.62;
+  --home-atmosphere-veil-opacity: 0.22;
+  --home-atmosphere-vignette-opacity: 1;
+  --home-atmosphere-grain-opacity: 0.2;
   --atmosphere-light: rgba(192, 207, 201, 0.18);
   --atmosphere-light-soft: rgba(105, 128, 119, 0.1);
   position: relative;
   isolation: isolate;
-  background: var(--atmosphere-canvas);
+  background: var(--home-atmosphere-surface);
 }
 
-/* Én delt viewport-flate eier atmosfæren gjennom både 03 og 04. De to
-   sticky lagene tar ingen dokumenthøyde på grunn av negativ margin. */
-.effect-work-continuum__backdrop,
-.effect-work-continuum__grain-stage {
+/* Én fysisk viewport-flate eier Arbeid-atmosfæren fra Intro gjennom Arbeid.
+   Sticky-lagene tar ingen dokumenthøyde på grunn av negativ margin. */
+.home-atmosphere__backdrop,
+.home-atmosphere__grain-stage {
   position: sticky;
   top: 0;
   height: 100svh;
@@ -19,29 +27,29 @@
   pointer-events: none;
 }
 
-.effect-work-continuum__backdrop {
+.home-atmosphere__backdrop {
   z-index: 0;
-  background: var(--atmosphere-canvas);
+  background: var(--home-atmosphere-surface);
   isolation: isolate;
 }
 
-.effect-work-continuum__grain-stage {
+.home-atmosphere__grain-stage {
   z-index: 40;
-  opacity: 0;
+  opacity: var(--home-atmosphere-grain-opacity);
   contain: strict;
   will-change: opacity;
 }
 
-.work-atmosphere__details {
+.home-atmosphere__details {
   position: absolute;
   inset: 0;
   z-index: 1;
   overflow: hidden;
-  opacity: 0;
+  opacity: 1;
   will-change: opacity;
 }
 
-.work-atmosphere__video {
+.home-atmosphere__video {
   position: absolute;
   inset: 0;
   display: block;
@@ -49,12 +57,12 @@
   height: 100%;
   object-fit: cover;
   filter: grayscale(1) contrast(1.08) brightness(0.72);
-  opacity: 0.42;
+  opacity: var(--home-atmosphere-wave-opacity);
   transform: scale(1.035);
   will-change: opacity, transform;
 }
 
-.work-atmosphere__spotlight {
+.home-atmosphere__spotlight {
   position: absolute;
   inset: -8%;
   z-index: 1;
@@ -62,13 +70,15 @@
     radial-gradient(ellipse 54% 42% at 50% 42%, var(--atmosphere-light), transparent 72%),
     radial-gradient(ellipse 78% 66% at 50% 48%, var(--atmosphere-light-soft), transparent 76%);
   mix-blend-mode: screen;
-  opacity: 0;
-  transform: scale(1.08) translate3d(-2%, 2%, 0);
+  opacity: var(--home-atmosphere-light-opacity);
+  transform:
+    scale(var(--home-atmosphere-light-scale))
+    translate3d(var(--home-atmosphere-light-x), var(--home-atmosphere-light-y), 0);
   transform-origin: 50% 45%;
   will-change: opacity, transform;
 }
 
-.work-atmosphere__vignette {
+.home-atmosphere__vignette {
   position: absolute;
   inset: 0;
   z-index: 2;
@@ -76,13 +86,15 @@
     radial-gradient(ellipse 72% 62% at 50% 46%, transparent 36%, rgba(0, 0, 0, 0.34) 100%),
     linear-gradient(90deg, rgba(0, 0, 0, 0.18), transparent 28%, transparent 72%, rgba(0, 0, 0, 0.28)),
     linear-gradient(180deg, rgba(0, 0, 0, 0.24), transparent 22%, transparent 74%, rgba(0, 0, 0, 0.32));
+  opacity: var(--home-atmosphere-vignette-opacity);
 }
 
-.effect-work-continuum__veil {
+.home-atmosphere__veil {
   position: absolute;
   inset: 0;
   z-index: 3;
-  background: var(--atmosphere-canvas);
+  background: var(--home-atmosphere-surface);
+  opacity: var(--home-atmosphere-veil-opacity);
   will-change: opacity;
 }
 
@@ -104,7 +116,7 @@
   z-index: 2;
   overflow: clip;
   isolation: isolate;
-  background: var(--surface-base);
+  background: transparent;
   color: var(--color-on-dark);
 }
 
@@ -113,12 +125,17 @@
 }
 
 @media (max-width: 768px) {
-  .effect-work-continuum__grain-stage,
-  .work-atmosphere__video {
+  .home-atmosphere-continuum {
+    --home-atmosphere-light-opacity: 0.38;
+    --home-atmosphere-veil-opacity: 0.38;
+  }
+
+  .home-atmosphere__grain-stage,
+  .home-atmosphere__video {
     display: none;
   }
 
-  .work-atmosphere__spotlight {
+  .home-atmosphere__spotlight {
     inset: -4%;
     background:
       radial-gradient(ellipse 78% 44% at 50% 38%, rgba(192, 207, 201, 0.13), transparent 74%),
@@ -127,34 +144,34 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .effect-work-continuum__grain-stage {
+  .home-atmosphere__grain-stage {
     display: none !important;
   }
 
-  .work-atmosphere__video {
+  .home-atmosphere__video {
     display: none !important;
   }
 
-  .work-atmosphere__details {
+  .home-atmosphere__details {
     opacity: 1 !important;
     visibility: visible !important;
   }
 
-  .work-atmosphere__spotlight {
+  .home-atmosphere__spotlight {
     opacity: 0.32 !important;
     transform: none !important;
   }
 
-  .effect-work-continuum__veil {
+  .home-atmosphere__veil {
     opacity: 0.5 !important;
   }
 
-  .effect-work-continuum,
-  .effect-work-journey {
-    background: var(--atmosphere-canvas);
+  .home-atmosphere-continuum {
+    background: var(--home-atmosphere-surface);
   }
 
   .effect-work-journey {
+    background: transparent;
     opacity: 1 !important;
     transform: none !important;
   }

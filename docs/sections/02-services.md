@@ -9,8 +9,9 @@ may refine spacing or calibration without reopening the composition contract.
 - NuDot is the composition reference for restrained scale, asymmetric service
   placement and media/text balance. No NuDot code, font, image or asset is
   imported.
-- The section reuses Tigon's `surface-base` wave, spotlight, vignette and veil
-  recipe so Intro releases into Tjenester without a new grey section canvas.
+- The section sits transparently above the canonical global
+  Intro-through-Arbeid wave, spotlight, vignette and veil. It must not own a
+  duplicate full-section background after the global atmosphere migration.
 - Desktop uses a quiet sticky information rail and a three-row asymmetric
   mosaic. It is not a full-viewport pin, card grid or large-title sequence.
 - `Hva vi bygger` and all service names use restrained JUST Sans scale. Caleb
@@ -23,9 +24,13 @@ may refine spacing or calibration without reopening the composition contract.
   descriptions and complete capability lists remain server-rendered.
 - The former `Hele leveransen` register and repeated card-like chapter framing
   are removed because they duplicated visible service information.
-- `servicesScene` lazy-loads and pauses the existing wave on desktop, applies a
-  small transform/opacity settle and mild media parallax, and owns cleanup.
+- `servicesScene` owns only the small module settle and mild media parallax.
+  Wave playback and background state belong to `HomeAtmosphere`.
 - Through 900 px the rail is no longer sticky; at 640 px the composition is one
   normal-flow column. Mobile and reduced motion disable the video. No-JS keeps
   all content and links visible.
 - Preserve the clean release into the existing `OutcomeTensionBridge`.
+
+The former Tjenester backdrop/video is removed. The section root is transparent
+and the reduced Intro-exit/Tjenester-intro spacing no longer creates a black
+reset.

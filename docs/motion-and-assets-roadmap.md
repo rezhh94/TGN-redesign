@@ -18,6 +18,15 @@ Last reconciled: 2026-07-18.
 
 - Existing one-time entrance only. Protected and unchanged.
 
+### Global Intro → Arbeid atmosphere
+
+- Mounted owner: one persistent Work wave/spotlight/vignette/veil/grain field spanning
+  Intro, Tjenester, Effekt and Arbeid with named focus/handoff states.
+- `HomeAtmosphere` owns playback and responsive fallback. The former Intro and
+  Tjenester background instances are removed.
+- Compact/reduced/no-JS use one continuous static CSS light field. Section
+  content timelines remain locally owned.
+
 ### 01 / Tilnærming
 
 - `introStoryScene`: reference-faithful Codrops ScrollTextMotion adaptation.
@@ -25,14 +34,14 @@ Last reconciled: 2026-07-18.
   entry/re-entry while the stable `BYGD SAMMEN` foreground never transforms.
 - A measured collision-clearance pass fades each decorative word before it
   intersects the foreground copy, without a visible blocking surface.
-- The existing Work wave is lazy-loaded only for desktop motion; mobile and
-  reduced motion disable video. Cleanup pauses video, removes clearance state
-  and reverts section-scoped triggers/tweens.
+- The global Work wave plays once on desktop; mobile and reduced motion disable
+  video/grain. Collision clearance and Flip/scramble cleanup remain
+  section-scoped.
 
 ### 02 / Tjenester
 
-- `servicesScene`: lazy desktop playback of the existing wave, small mosaic
-  module settles and mild parallax on the two existing service images.
+- `servicesScene` owns only small mosaic settles and mild parallax on the two
+  existing service images. Background playback belongs to `HomeAtmosphere`.
 - The desktop sticky rail is CSS-owned and does not pin the viewport. Compact
   through 900 px uses one-shot settles; mobile/reduced motion disable video.
 
@@ -89,8 +98,9 @@ the Tjenester visual approval or commit.
 
 ## Asset state
 
-- Intro reuses `/video/work-wave-loop.mp4` and deliberately imports Codrops'
-  Typekit kit `upd0woi` inside its namespaced stylesheet. This is the only new
+- The mounted global Intro-through-Arbeid owner uses
+  `/video/work-wave-loop.mp4`. Intro deliberately imports Codrops' Typekit kit
+  `upd0woi` inside its namespaced stylesheet. This is the only new
   external-font exception.
 - `videos/tigon-work-atmosphere/` is the retained source project for the active
   12-second Work/Intro wave loop. Keep its 1920×1080 source and QA snapshots;
@@ -99,8 +109,8 @@ the Tjenester visual approval or commit.
 - Work and temporary Effekt surfaces use existing Tigon files under
   `public/work/capability-stage/`.
 - Effekt mockups remain placeholders awaiting final user-supplied assets.
-- Desktop-only 03→04 wave/grain remains existing scoped media; mobile/reduced
-  motion disables it.
+- Restrained desktop grain is part of the global Work atmosphere through
+  Intro→Arbeid; mobile/reduced motion use one continuous static CSS field.
 - No unapproved third-party code, font, image, video, shader or tracking was
   added.
 

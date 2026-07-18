@@ -11,9 +11,10 @@ Intro-specific composition.
 ## Principle
 
 The homepage is one dark editorial environment with changing focus, not a
-series of identical black sections. Continuity comes from type hierarchy,
+series of identical black sections. Intro through Arbeid use one physical
+global atmosphere. Continuity comes from that persistent field plus type,
 gutters, grid, line roles and controlled motion. Variation comes from density,
-composition, media and light.
+composition, media and light states.
 
 ## Typography
 
@@ -34,7 +35,7 @@ approved section contract. It must not spread to other sections.
 | Role | Value | Use |
 |---|---:|---|
 | `surface-deep` | `#030303` | maximum depth and negative space |
-| `surface-base` | `#070707` | standard dark chapter and 03/04 continuum |
+| `surface-base` | `#070707` | base under the global Intro-through-Arbeid continuum |
 | `surface-raised` | `#0d0f0f` | media or readable layer above base |
 | `surface-focus` | `#171a19` | temporary light lift around chosen content |
 
@@ -70,8 +71,10 @@ Intro is a documented exception: its Codrops composition uses local
 - Media uses restrained corners, near-monochrome treatment and a dark raised
   surface when edge definition is needed.
 - Clip and scale reveals are limited to media introduction, not every element.
-- Grain is limited to the approved desktop 03/04 atmosphere.
-- Intro reuses the existing Work wave/spotlight/vignette recipe without grain.
+- One persistent owner supplies wave, spotlight, vignette and veil from Intro
+  through Arbeid. Sections above it do not mount duplicate backdrops.
+- Restrained grain belongs to the one global desktop atmosphere; sections do
+  not create or tune separate grain layers.
 - Mobile, touch and reduced motion avoid unnecessary video/canvas work and use
   lightweight or static CSS light.
 - No new external media, shader or canvas without a separate decision.
@@ -81,9 +84,10 @@ Intro is a documented exception: its Codrops composition uses local
 1. Hero remains unchanged and hands into the Intro's first viewport.
 2. Intro keeps stable foreground copy while decorative terms move behind it,
    then resolves through `01 → 02 / Én helhet. Fem fag.`.
-3. Tjenester uses darker material and ordinary editorial chapters.
+3. Tjenester changes the global light/focus state while remaining in the same
+   visual field as Intro.
 4. `OutcomeTensionBridge` moves from launch to understanding to action.
-5. Effekt and Arbeid share one named atmosphere journey.
+5. Effekt and Arbeid continue the named global atmosphere journey.
 6. Work darkens and shifts while the real Prosess section rises into view.
 7. Prosess resolves into the quieter System composition.
 8. System releases into the protected footer without a new wipe or loader.
@@ -92,6 +96,7 @@ Intro is a documented exception: its Codrops composition uses local
 
 | Owner | Mechanic | Fallback |
 |---|---|---|
+| Global atmosphere | persistent Intro→Arbeid light/media states | one continuous static CSS field |
 | Intro | Flip/scramble term stream with collision clearance | stable foreground and readable handoff |
 | Tjenester | small opposing settles and mild image parallax | normal flow |
 | 02→03 | three statements on one typographic stage | complete statement list |
@@ -103,14 +108,16 @@ Intro is a documented exception: its Codrops composition uses local
 | System | one-shot assembly | complete static conclusion |
 | Footer | existing footer parallax | normal flow |
 
-Every mechanic has one owner and cleanup. No master pin, global trigger kill,
-captured scrolling or animation-dependent critical content.
+Every mechanic has one owner and cleanup. The global atmosphere owns only
+background lifecycle; content mechanics remain section-scoped. No master pin,
+global trigger kill, captured scrolling or animation-dependent critical
+content.
 
 ## Scroll decision
 
-Native scroll is canonical. The current worktree removes global Lenis and its
-unused helper/dependency. This is protected uncommitted lifecycle work and must
-be reviewed separately from section design.
+Native scroll is canonical. The mounted checkpoint still includes global Lenis
+and dormant homepage initializers. Their removal is a separate lifecycle task
+and must not be folded into the atmosphere implementation.
 
 ## Accessibility and performance
 

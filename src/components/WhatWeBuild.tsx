@@ -60,22 +60,6 @@ export function WhatWeBuild() {
       data-theme-section="dark"
       data-bg-section="dark"
     >
-      <div className="what-build__atmosphere" aria-hidden="true">
-        <video
-          className="what-build__atmosphere-video"
-          muted
-          playsInline
-          loop
-          preload="none"
-          data-service-wave
-        >
-          <source data-src="/video/work-wave-loop.mp4" type="video/mp4" />
-        </video>
-        <div className="what-build__atmosphere-spotlight" />
-        <div className="what-build__atmosphere-vignette" />
-        <div className="what-build__atmosphere-veil" />
-      </div>
-
       <div className="what-build__shell">
         <header className="what-build__rail">
           <p className="what-build__label">02 / Tjenester</p>

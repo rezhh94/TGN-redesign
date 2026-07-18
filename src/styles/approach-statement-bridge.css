@@ -9,18 +9,15 @@
 
 .approach-bridge {
   --color-text: #fff;
-  --color-bg: var(--surface-base);
   --color-link: #fff;
   --color-link-hover: #fff;
-  --atmosphere-light: rgba(192, 207, 201, 0.18);
-  --atmosphere-light-soft: rgba(105, 128, 119, 0.1);
   --page-padding: 1.5rem;
   position: relative;
   z-index: 60;
   overflow: clip;
   isolation: isolate;
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background: transparent;
   font-family: "forma-djr-mono", var(--font-mono), monospace;
   font-size: 13px;
   text-transform: uppercase;
@@ -39,60 +36,6 @@
   clip-path: inset(50%);
   border: 0;
   white-space: nowrap;
-}
-
-.approach-atmosphere {
-  position: sticky;
-  top: 0;
-  z-index: 0;
-  height: 100svh;
-  margin-bottom: -100svh;
-  overflow: hidden;
-  background: var(--color-bg);
-  pointer-events: none;
-}
-
-.approach-atmosphere__video {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) contrast(1.08) brightness(0.72);
-  opacity: 0.42;
-  transform: scale(1.035);
-}
-
-.approach-atmosphere__spotlight {
-  position: absolute;
-  inset: -8%;
-  z-index: 1;
-  background:
-    radial-gradient(ellipse 54% 42% at 50% 42%, var(--atmosphere-light), transparent 72%),
-    radial-gradient(ellipse 78% 66% at 50% 48%, var(--atmosphere-light-soft), transparent 76%);
-  mix-blend-mode: screen;
-  opacity: 0.32;
-  transform: scale(1.08) translate3d(-2%, 2%, 0);
-  transform-origin: 50% 45%;
-}
-
-.approach-atmosphere__vignette {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background:
-    radial-gradient(ellipse 72% 62% at 50% 46%, transparent 36%, rgba(0, 0, 0, 0.34) 100%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.18), transparent 28%, transparent 72%, rgba(0, 0, 0, 0.28)),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.24), transparent 22%, transparent 74%, rgba(0, 0, 0, 0.32));
-}
-
-.approach-atmosphere__veil {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  background: var(--color-bg);
-  opacity: 0.42;
 }
 
 .approach-bridge .content {
@@ -244,7 +187,7 @@
   z-index: 2;
   width: min(100%, 1000px);
   margin: 0 auto;
-  padding: 5rem var(--page-padding) 10vh;
+  padding: 5rem var(--page-padding) clamp(24px, 4vh, 48px);
   color: var(--color-text);
   font-family: "forma-djr-mono", var(--font-mono), monospace;
   font-size: 13px;
@@ -259,25 +202,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .approach-atmosphere__video {
-    display: none;
-  }
-
   .approach-bridge .el,
   .approach-bridge .logo__block {
     transform: none !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .approach-atmosphere__video {
-    display: none;
-  }
-
-  .approach-atmosphere__spotlight {
-    inset: -4%;
-    background:
-      radial-gradient(ellipse 78% 44% at 50% 38%, rgba(192, 207, 201, 0.13), transparent 74%),
-      radial-gradient(ellipse 92% 68% at 50% 48%, rgba(105, 128, 119, 0.08), transparent 78%);
   }
 }

@@ -10,6 +10,7 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 
 - Active branch: `codex/work-services-accordion`.
 - Approved Intro commit: `e4dbba7 feat: redesign intro scroll typography`.
+- Approved 02/Tjenester commit: `7ef236d feat: redesign services as compact mosaic`.
 - Approved 03/04 commit: `c349ef7 feat: unify effect and work atmosphere`.
 - The active instruction, status, decision, section and design documents are
   maintained as tracked project context. This includes
@@ -25,6 +26,10 @@ contracts. Mounted source code wins if documentation and runtime disagree.
   `WhatWeBuild.tsx`, `what-we-build.css`, `servicesScene` and the current
   design/status documentation. The user approved this direction on 2026-07-18;
   later spacing/calibration changes should be separate polish work.
+- The user made one physical global background from Intro through Arbeid
+  explicit and non-negotiable. The current dirty worktree implements it through
+  `HomeAtmosphere`, transparent 01→04 section roots and one Work wave/grain
+  lifecycle. Local Intro/Tjenester backdrop copies are removed.
 - Global Lenis and dormant homepage initializers remain mounted in the clean
   baseline. Cleanup is still open but must stay separate from 02 design work.
 - `videos/tigon-work-atmosphere/` is tracked source material for the active
@@ -96,18 +101,29 @@ contracts. Mounted source code wins if documentation and runtime disagree.
   touch, reduced motion and no-JS use normal flow.
 - The functional cursor remains limited to the six capability links.
 
-## Active 02 checkpoint scope
+## Committed 02 checkpoint
 
 - A compact, clean-room NuDot-inspired 02/Tjenester mosaic.
-- The existing Tigon wave/spotlight/vignette/veil atmosphere, lazy on desktop
-  and static on mobile/reduced motion.
 - Two existing service media anchors, three text-led services and five complete
   accessible links with unchanged hrefs/content.
 - Small section-scoped settles and media parallax in `servicesScene`.
-- Updated 02/design/status documentation recording this exact direction.
+- Approved commit: `7ef236d`.
 
-No 05/06, Header/Hero, Effekt, Arbeid, footer, SEO, URL or global lifecycle
-source is part of this worktree scope.
+## Active global atmosphere worktree
+
+- Adds `HomeAtmosphere` as the one physical Work background owner from Intro
+  through Arbeid.
+- Removes Intro/Tjenester backdrop and duplicate wave markup/styles/playback.
+- Makes Intro, Tjenester, Effekt and Arbeid roots transparent and preserves
+  their approved content, typography, links and local choreography.
+- Reduces only the stacked 01→02 transition spacing that created the empty
+  black hold.
+- Adds one responsive playback owner: one desktop video/grain field; mobile
+  and reduced motion use the static spotlight.
+- Updates the global state selectors and documentation to the one-owner model.
+
+No 05/06 content, Header/Hero, footer, SEO, URL, service content/link or global
+Lenis cleanup is part of this worktree scope.
 
 ## Non-negotiable preservation
 
@@ -124,8 +140,12 @@ source is part of this worktree scope.
 
 ## Verification truth
 
-- The current 02/Tjenester worktree passes TypeScript, optimized production
-  build and `git diff --check`.
+- The current global atmosphere worktree passes TypeScript, optimized
+  production build and `git diff --check`.
+- Desktop QA confirms one video, one sticky backdrop, transparent 01→04 roots,
+  no horizontal overflow and a continuous Intro→Tjenester handoff. Mobile and
+  reduced-motion QA confirm video/grain are disabled and the static spotlight
+  remains continuous.
 - The 02 visual matrix was checked at 1440, 1024, 900, 768 and 390 px, plus
   reduced motion, 390 px no-JS, five hrefs and horizontal overflow.
 - The isolated Intro commit passed TypeScript and production build checks.
@@ -138,6 +158,10 @@ source is part of this worktree scope.
   plus reverse scroll, resize, touch, reduced motion and no-JS where relevant.
 
 ## Safe next-step protocol
+
+The active uncommitted visual task is the implemented global atmosphere across
+Intro, Tjenester, Effekt and Arbeid. Preserve its one-owner architecture while
+reviewing light strength and spacing; do not restore local section backdrops.
 
 When the user opens another section:
 

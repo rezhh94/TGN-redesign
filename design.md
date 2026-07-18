@@ -97,8 +97,70 @@ orange, decorative accent palettes and light SaaS cards are outside the active
 direction.
 
 Atmosphere may use restrained spotlight, vignette, veil, existing media and
-the approved 03/04 grain layer. Same system does not mean the same background
-recipe in every section.
+the approved desktop grain layer. From `01 / Intro` through `04 / Arbeid`,
+these are states of one global background owner, not separate section
+backgrounds that happen to use the same recipe.
+
+### Global homepage atmosphere — non-negotiable
+
+The visual journey from `01 / Intro` through `02 / Tjenester`, `03 / Effekt`
+and `04 / Arbeid` must read as one uninterrupted environment. NuDot is the
+flow reference: chapters may change composition and focal point, but the page
+must not reveal a flat black reset, empty background hold or hard canvas seam
+between them.
+
+- One persistent atmosphere owner spans Intro through Arbeid and owns the
+  shared Work wave, spotlight, vignette, veil and restrained desktop grain.
+- Intro, Tjenester, Effekt and Arbeid own content and local choreography. Their
+  root section surfaces remain transparent above the global atmosphere.
+- The atmosphere changes through named states such as `intro-focus`,
+  `intro-services-handoff`, `services-focus`, `services-effect-handoff`,
+  `effect-focus`, `work-focus` and `exit`; it does not restart at section
+  boundaries.
+- Background continuity does not mean a frozen image. Light position,
+  intensity, veil, media visibility and depth may evolve to support the active
+  content while remaining recognizably the same visual field.
+- Whitespace is allowed, but it must contain visible atmospheric life and must
+  never be produced by stacked section exit/intro padding that reads as an
+  accidental black gap.
+- Full-section `surface-base`, video, spotlight or veil duplicates are not
+  allowed inside these four sections after the global owner is mounted.
+  `surface-raised` and `surface-focus` remain valid for local media and focus
+  objects.
+- Global atmosphere state values use shared semantic custom properties or one
+  named configuration. Do not create unrelated per-section colour recipes.
+- Desktop may use the existing optimized wave video. Compact, touch, reduced
+  motion and no-JS use one continuous static CSS light field without hiding or
+  delaying important content.
+- The global owner controls background lifecycle only. Flip, scramble,
+  parallax, archive and content reveals remain scoped to their owning section
+  with independent cleanup.
+- The atmosphere releases after Arbeid into the established `04 → 05` depth
+  transition; Header/Hero and the protected footer are outside this owner.
+
+The global owner exposes one canonical state interface. These variables are
+scoped to that owner and are implemented there rather than copied into section
+styles:
+
+| Role | Canonical custom property |
+|---|---|
+| base canvas | `--home-atmosphere-surface` |
+| wave visibility | `--home-atmosphere-wave-opacity` |
+| light position | `--home-atmosphere-light-x`, `--home-atmosphere-light-y` |
+| light scale/intensity | `--home-atmosphere-light-scale`, `--home-atmosphere-light-opacity` |
+| continuity veil | `--home-atmosphere-veil-opacity` |
+| edge depth | `--home-atmosphere-vignette-opacity` |
+| shared desktop texture | `--home-atmosphere-grain-opacity` |
+
+Named atmosphere states set this interface. Individual section styles may
+request a named state, but may not set independent background colours, video
+opacity or spotlight recipes.
+
+Mounted-source status: compliant. `HomeAtmosphere` is the single physical owner
+from Intro through Arbeid. All four section roots are transparent; local Intro
+and Tjenester backdrop/video copies have been removed. Desktop runs one Work
+wave and restrained grain layer, while compact/reduced states use the shared
+static spotlight.
 
 ### Typography
 
@@ -233,8 +295,8 @@ journey rather than add an isolated showpiece.
 | Scope | Active contract | Current design role |
 |---|---|---|
 | Header/Hero | protected source and project rules | establish offer; unchanged |
-| 01 / Intro | `docs/sections/01-approach.md` and Appendix A below | Flip/scramble term stream with stable foreground |
-| 02 / Tjenester | `docs/sections/02-services.md` | compact asymmetric service mosaic on shared atmosphere |
+| 01 / Intro | `docs/sections/01-approach.md` and Appendix A below | Flip/scramble term stream with stable foreground above the global atmosphere |
+| 02 / Tjenester | `docs/sections/02-services.md` | compact asymmetric service mosaic above the global atmosphere |
 | 02 → 03 | mounted `OutcomeTensionBridge` contract | typographic handoff |
 | 03 / Effekt | `docs/sections/03-effect.md` | measurable result system and focus |
 | 04 / Arbeid | `docs/sections/04-work-proof.md` | future-facing capability archive |
@@ -254,8 +316,7 @@ vertical flow. It deliberately rejects a full-screen service title, giant
 service names, a repeated card grid and image-sequence spectacle.
 
 - one quiet sticky rail on desktop, never a pinned viewport;
-- one existing Tigon atmosphere recipe shared visually with Intro, Effekt and
-  Arbeid;
+- one global Tigon atmosphere physically shared with Intro, Effekt and Arbeid;
 - two existing media anchors and three compact text-led services;
 - JUST Sans service hierarchy, Caleb Mono metadata and no new font family;
 - five complete real links with established content and hrefs;
@@ -341,9 +402,11 @@ Intro uses the motion architecture from Codrops `ScrollTextMotion`:
 - reuse `/video/work-wave-loop.mp4`;
 - use the approved grayscale, contrast, brightness and video opacity recipe;
 - use the same spotlight gradients and vignette;
-- keep Intro namespacing and section-scoped playback;
+- keep Intro content/motion namespacing while playback and background lifecycle
+  belong to the global Intro-through-Arbeid atmosphere owner;
 - disable video on mobile and with reduced motion;
-- do not add the 03/04 grain layer to Intro.
+- use the restrained global desktop grain already owned by `HomeAtmosphere`;
+  Intro does not create or tune its own grain layer.
 
 The demo's visible frame line is removed. The main message is visible from the
 first Intro viewport without a separate JS activation point or empty waiting

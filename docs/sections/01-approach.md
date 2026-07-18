@@ -13,9 +13,13 @@ Last reconciled: 2026-07-18. Approved commit: `e4dbba7`.
   Flip and scramble architecture behind the foreground copy.
 - Each decorative word fades before it intersects the measured foreground
   rectangle. Do not add a visible card, text box, mask or backdrop blur.
-- Reuses the existing 04 wave/spotlight/vignette atmosphere. Desktop may lazy
-  play `/video/work-wave-loop.mp4`; mobile and reduced motion disable video.
+- Sits above the global Intro-through-Arbeid Work
+  wave/spotlight/vignette/grain atmosphere. `HomeAtmosphere` plays the one
+  desktop video; mobile and reduced motion disable video/grain.
 - The scoped Typekit kit `upd0woi` is an explicit Intro-only exception.
 - The server-rendered handoff `01 → 02 / Én helhet. Fem fag.` remains.
 - Reduced motion/no-JS keep stable foreground content and readable handoff.
 - Header and Hero are outside this section's writable scope.
+
+The former Intro-local backdrop is removed. Intro keeps only its content and
+Flip/scramble/collision-clearance contract above `HomeAtmosphere`.

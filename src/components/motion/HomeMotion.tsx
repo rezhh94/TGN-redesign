@@ -26,41 +26,19 @@ ScrollTrigger.config({
 
 // 02 / Tjenester — compact NuDot-inspired service mosaic in ordinary flow.
 // A quiet sticky rail anchors the section while five real service links settle
-// through an asymmetric grid. The shared Tigon wave is lazy and desktop-only;
-// compact/reduced/no-JS states remain complete without the motion layer.
+// through an asymmetric grid. Background playback belongs to the global
+// Intro→Arbeid atmosphere; this owner only animates service content.
 function servicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
   if (!section) return () => {};
 
   const modules = gsap.utils.toArray<HTMLElement>("[data-service-module]", section);
-  const wave = section.querySelector<HTMLVideoElement>("[data-service-wave]");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!modules.length || reduced) return () => {};
   const mm = gsap.matchMedia();
 
   const ctx = gsap.context(() => {
     mm.add("(min-width: 901px)", () => {
-      if (wave) {
-        const source = wave.querySelector<HTMLSourceElement>("source[data-src]");
-        const loadAndPlay = () => {
-          if (source?.dataset.src && !source.src) {
-            source.src = source.dataset.src;
-            wave.load();
-          }
-          void wave.play().catch(() => {});
-        };
-
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top bottom",
-          end: "bottom top",
-          onEnter: loadAndPlay,
-          onEnterBack: loadAndPlay,
-          onLeave: () => wave.pause(),
-          onLeaveBack: () => wave.pause(),
-        });
-      }
-
       modules.forEach((module, index) => {
         const image = module.querySelector<HTMLElement>("[data-service-visual] img");
         const distance = [44, 34, 28, 36, 30][index] ?? 32;
@@ -125,7 +103,6 @@ function servicesScene() {
   }, section);
 
   return () => {
-    wave?.pause();
     mm.revert();
     ctx.revert();
   };
@@ -212,29 +189,106 @@ function outcomeTensionBridge() {
 // resultatfeltet blir sticky, og den samme video/grain-flaten som bærer broen og 04
 // vokser frem under mockup og resultatord. Bildet bruker samme maske, zoom og
 // overscan-parallax som capability-flatene. Uten JS står alt lesbart i flyt.
-function atmosphereStateScene() {
-  const continuum = document.querySelector<HTMLElement>("[data-effect-work-continuum]");
+function homeAtmosphereStateScene() {
+  const continuum = document.querySelector<HTMLElement>("[data-home-atmosphere]");
+  const intro = continuum?.querySelector<HTMLElement>("[data-intro-story]");
+  const services = continuum?.querySelector<HTMLElement>("[data-build-section]");
+  const tension = continuum?.querySelector<HTMLElement>("[data-outcome-tension]");
   const field = continuum?.querySelector<HTMLElement>("[data-effect-field]");
   const archive = continuum?.querySelector<HTMLElement>("[data-work-archive]");
   const work = continuum?.querySelector<HTMLElement>("[data-work-process-transition]");
-  if (!continuum || !field || !archive || !work) return () => {};
+  const details = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-details]");
+  const spotlight = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-spotlight]");
+  const veil = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-veil]");
+  const grain = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-grain]");
+  if (
+    !continuum || !intro || !services || !tension || !field || !archive || !work
+    || !details || !spotlight || !veil || !grain
+  ) return () => {};
+
+  const compact = window.matchMedia("(max-width: 768px)").matches;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let appliedState = "";
+  let stateTweens: gsap.core.Tween[] = [];
+
+  const clearStateTweens = () => {
+    stateTweens.forEach((tween) => tween.kill());
+    stateTweens = [];
+  };
+
+  const applyEarlyState = (state: string, immediate: boolean) => {
+    if (reduced || !state.includes("intro") && !state.includes("services")) return;
+
+    const values = state === "intro-focus"
+      ? { details: 1, light: compact ? 0.38 : 0.62, scale: 1.08, x: -2, y: 2, veil: compact ? 0.38 : 0.22, grain: 0.2 }
+      : state === "intro-services-handoff"
+        ? { details: 1, light: compact ? 0.4 : 0.68, scale: 1.05, x: 0, y: 0, veil: compact ? 0.36 : 0.18, grain: 0.2 }
+        : state === "services-focus"
+          ? { details: 1, light: compact ? 0.42 : 0.74, scale: 1.02, x: 4, y: -3, veil: compact ? 0.34 : 0.14, grain: 0.24 }
+          : { details: 1, light: compact ? 0.4 : 0.66, scale: 1.04, x: 1, y: -2, veil: compact ? 0.36 : 0.24, grain: 0.24 };
+
+    clearStateTweens();
+    const detailVars: gsap.TweenVars = { autoAlpha: values.details, overwrite: "auto" };
+    const spotlightVars: gsap.TweenVars = {
+        autoAlpha: values.light,
+        scale: values.scale,
+        xPercent: values.x,
+        yPercent: values.y,
+        ease: "power2.out",
+        overwrite: "auto",
+      };
+    const veilVars: gsap.TweenVars = {
+      autoAlpha: values.veil,
+      ease: "power2.out",
+      overwrite: "auto",
+    };
+    const grainVars: gsap.TweenVars = {
+      autoAlpha: compact ? 0 : values.grain,
+      ease: "power2.out",
+      overwrite: "auto",
+    };
+
+    if (immediate) {
+      gsap.set(details, detailVars);
+      gsap.set(spotlight, spotlightVars);
+      gsap.set(veil, veilVars);
+      gsap.set(grain, grainVars);
+      return;
+    }
+
+    stateTweens = [
+      gsap.to(details, { ...detailVars, duration: 0.8 }),
+      gsap.to(spotlight, { ...spotlightVars, duration: 0.8 }),
+      gsap.to(veil, { ...veilVars, duration: 0.8 }),
+      gsap.to(grain, { ...grainVars, duration: 0.8 }),
+    ];
+  };
 
   let frame = 0;
   const check = () => {
     frame = 0;
     const viewport = window.innerHeight;
+    const introRect = intro.getBoundingClientRect();
+    const servicesRect = services.getBoundingClientRect();
+    const tensionRect = tension.getBoundingClientRect();
     const fieldRect = field.getBoundingClientRect();
     const archiveRect = archive.getBoundingClientRect();
     const workRect = work.getBoundingClientRect();
 
-    let state = "entry";
+    let state = "intro-focus";
     if (workRect.bottom <= viewport * 1.04) state = "exit";
     else if (archiveRect.top <= viewport * 0.7) state = "work-focus";
     else if (fieldRect.bottom <= viewport * 1.05) state = "handoff";
     else if (fieldRect.top <= viewport * 0.9) state = "effect-focus";
+    else if (tensionRect.top <= viewport * 0.82) state = "services-effect-handoff";
+    else if (servicesRect.top <= viewport * 0.82) state = "services-focus";
+    else if (introRect.bottom <= viewport * 1.08) state = "intro-services-handoff";
 
-    if (continuum.dataset.atmosphereState !== state) {
+    if (appliedState !== state) {
       continuum.dataset.atmosphereState = state;
+      applyEarlyState(state, !appliedState);
+      if (!state.includes("intro") && !state.includes("services")) clearStateTweens();
+      appliedState = state;
     }
   };
 
@@ -252,23 +306,22 @@ function atmosphereStateScene() {
     window.removeEventListener("scroll", requestCheck);
     window.removeEventListener("resize", requestCheck);
     ScrollTrigger.removeEventListener("refresh", requestCheck);
-    continuum.dataset.atmosphereState = "static";
+    clearStateTweens();
+    continuum.dataset.atmosphereState = "intro-focus";
   };
 }
 
 function effectScene() {
   const section = document.querySelector<HTMLElement>("[data-effect-section]");
-  const continuum = document.querySelector<HTMLElement>("[data-effect-work-continuum]");
+  const continuum = document.querySelector<HTMLElement>("[data-home-atmosphere]");
   const field = section?.querySelector<HTMLElement>("[data-effect-field]");
   const stage = section?.querySelector<HTMLElement>("[data-effect-stage]");
   const visual = section?.querySelector<HTMLElement>("[data-effect-visual]");
   const image = visual?.querySelector<HTMLElement>("img");
-  const details = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-details]");
-  const spotlight = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-spotlight]");
-  const veil = continuum?.querySelector<HTMLElement>("[data-effect-veil]");
-  const grain = continuum?.querySelector<HTMLElement>("[data-effect-grain]");
-  const wave = continuum?.querySelector<HTMLVideoElement>("video[data-work-wave]");
-  const work = continuum?.querySelector<HTMLElement>(".work-proof");
+  const details = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-details]");
+  const spotlight = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-spotlight]");
+  const veil = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-veil]");
+  const grain = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-grain]");
   if (!section || !continuum || !field || !stage || !visual || !image || !veil) {
     return () => {};
   }
@@ -288,46 +341,7 @@ function effectScene() {
 
   matchMedia.add("(prefers-reduced-motion: no-preference)", () => {
     const compact = window.matchMedia("(max-width: 900px)").matches;
-    let hydrated = false;
-
     const ctx = gsap.context(() => {
-      if (details) gsap.set(details, { autoAlpha: compact ? 1 : 0.3 });
-      if (spotlight) {
-        gsap.set(spotlight, {
-          autoAlpha: compact ? 0.28 : 0.16,
-          scale: compact ? 1.04 : 1.08,
-          xPercent: compact ? 0 : -2,
-          yPercent: compact ? 0 : 2,
-        });
-      }
-      if (grain) gsap.set(grain, { autoAlpha: compact ? 0 : 0.16 });
-      gsap.set(veil, { autoAlpha: compact ? 0.54 : 0.68 });
-
-      if (wave && !compact) {
-        const playWave = () => {
-          if (!hydrated) {
-            wave.querySelectorAll<HTMLSourceElement>("source[data-src]").forEach((source) => {
-              source.src = source.dataset.src ?? "";
-            });
-            wave.muted = true;
-            wave.load();
-            hydrated = true;
-          }
-          wave.play().catch(() => {});
-        };
-
-        ScrollTrigger.create({
-          trigger: continuum,
-          start: "top 140%",
-          endTrigger: work ?? continuum,
-          end: "bottom -40%",
-          onEnter: playWave,
-          onEnterBack: playWave,
-          onLeave: () => wave.pause(),
-          onLeaveBack: () => wave.pause(),
-        });
-      }
-
       const atmosphere = gsap.timeline({
         scrollTrigger: {
           trigger: field,
@@ -433,7 +447,6 @@ function effectScene() {
     }, continuum);
 
     return () => {
-      wave?.pause();
       ctx.revert();
     };
   });
@@ -446,13 +459,13 @@ function effectScene() {
 // «Dette kan Tigon lage» finnes ett sted: som arkivtittelen i selve 04.
 function effectWorkJourney(compact: boolean) {
   const journey = document.querySelector<HTMLElement>("[data-effect-work-journey]");
-  const continuum = document.querySelector<HTMLElement>("[data-effect-work-continuum]");
+  const continuum = document.querySelector<HTMLElement>("[data-home-atmosphere]");
   const archive = journey?.querySelector<HTMLElement>("[data-work-archive]");
-  const details = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-details]");
-  const spotlight = continuum?.querySelector<HTMLElement>("[data-work-atmosphere-spotlight]");
-  const veil = continuum?.querySelector<HTMLElement>("[data-effect-veil]");
-  const grain = continuum?.querySelector<HTMLElement>("[data-effect-grain]");
-  const wave = continuum?.querySelector<HTMLVideoElement>("video[data-work-wave]");
+  const details = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-details]");
+  const spotlight = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-spotlight]");
+  const veil = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-veil]");
+  const grain = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-grain]");
+  const wave = continuum?.querySelector<HTMLVideoElement>("[data-home-atmosphere-wave]");
   if (!journey || !continuum || !archive || !veil) return () => {};
 
   journey.setAttribute("data-effect-work-ready", "");
@@ -520,7 +533,6 @@ function introStoryScene() {
 
   const textElements = gsap.utils.toArray<HTMLElement>(".el", section);
   const logoBlock = section.querySelector<HTMLElement>(".logo__block");
-  const wave = section.querySelector<HTMLVideoElement>("[data-intro-wave]");
   const support = section.querySelector<HTMLElement>(".approach-intro__preserved");
   const handoff = section.querySelector<HTMLElement>("[data-intro-handoff]");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -572,27 +584,6 @@ function introStoryScene() {
   };
 
   const ctx = gsap.context(() => {
-    if (wave && !reduced && !window.matchMedia("(max-width: 768px)").matches) {
-      const source = wave.querySelector<HTMLSourceElement>("source[data-src]");
-      const loadAndPlay = () => {
-        if (source?.dataset.src && !source.src) {
-          source.src = source.dataset.src;
-          wave.load();
-        }
-        void wave.play().catch(() => {});
-      };
-
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top bottom",
-        end: "bottom top",
-        onEnter: loadAndPlay,
-        onEnterBack: loadAndPlay,
-        onLeave: () => wave.pause(),
-        onLeaveBack: () => wave.pause(),
-      });
-    }
-
     ScrollTrigger.create({
       trigger: section,
       start: "top bottom",
@@ -679,7 +670,6 @@ function introStoryScene() {
 
   return () => {
     window.cancelAnimationFrame(clearanceFrame);
-    wave?.pause();
     section.removeAttribute("data-intro-clearance-ready");
     textElements.forEach((element) => element.style.removeProperty("--intro-clearance"));
     ctx.revert();
@@ -821,9 +811,9 @@ function workProcessJourney(compact: boolean) {
   const work = document.querySelector<HTMLElement>("[data-work-process-transition]");
   const process = journey?.querySelector<HTMLElement>(".process-journey");
   const shade = work?.querySelector<HTMLElement>("[data-work-exit-shade]");
-  const continuum = document.querySelector<HTMLElement>("[data-effect-work-continuum]");
-  const backdrop = continuum?.querySelector<HTMLElement>("[data-effect-work-backdrop]");
-  const grain = continuum?.querySelector<HTMLElement>("[data-effect-grain]");
+  const continuum = document.querySelector<HTMLElement>("[data-home-atmosphere]");
+  const backdrop = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-backdrop]");
+  const grain = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-grain]");
   const grainCanvas = grain?.querySelector<HTMLElement>(".work-film-grain");
   if (!journey || !work || !process || !shade) return () => {};
 
@@ -1186,7 +1176,7 @@ export function HomeMotion() {
     const teardownUtilities = setupFooterUtilities();
     const teardownWorkCursor = setupDynamicTextCursor();
     const teardownSectionTheme = sectionThemeScene();
-    const teardownAtmosphereState = atmosphereStateScene();
+    const teardownAtmosphereState = homeAtmosphereStateScene();
     const lenis = initLenis({
       lerp: 0.095,
       smoothWheel: true,

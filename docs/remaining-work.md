@@ -27,6 +27,15 @@ without prescribing old reference sites or rejected visual concepts.
 - Global Lenis and dormant homepage initializers remain in the mounted clean
   baseline. Their cleanup is still open and must be a separate technical task.
 
+## Completed global atmosphere consolidation
+
+`design.md` now makes one physical background owner from Intro through Arbeid
+non-negotiable, and the mounted worktree now complies. `HomeAtmosphere` owns
+one Work wave/spotlight/vignette/veil/grain field; Intro, Tjenester, Effekt and
+Arbeid are transparent above it. The duplicate Intro/Tjenester wave players
+and their stacked transition gap are removed. Desktop, mobile and reduced
+motion continuity are verified; the change still awaits user approval/commit.
+
 ## Next section sequence
 
 The user chooses the next section. For each selected section:
@@ -42,7 +51,7 @@ The user chooses the next section. For each selected section:
 
 Recommended review order if the user has no preference:
 
-1. Optional scoped polish of the approved 02 / Tjenester checkpoint.
+1. Optional spacing/light-state polish after review of the global atmosphere.
 2. 05 / Prosess — confirm the existing 04 exit lands cleanly.
 3. 06 / System — finish the body journey into the protected footer.
 4. Global lifecycle cleanup — review and commit separately from visual work.

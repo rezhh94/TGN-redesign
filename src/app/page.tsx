@@ -1,11 +1,9 @@
 import { ApproachStatementBridge } from "@/components/ApproachStatementBridge";
-import {
-  EffectWorkAtmosphere,
-  EffectWorkBridge,
-} from "@/components/EffectWorkBridge";
+import { EffectWorkBridge } from "@/components/EffectWorkBridge";
 import { HomeMotion } from "@/components/motion/HomeMotion";
 import { ContactFooter } from "@/components/ContactFooter";
 import { Hero } from "@/components/Hero";
+import { HomeAtmosphere } from "@/components/HomeAtmosphere";
 import { OutcomeTensionBridge } from "@/components/OutcomeTensionBridge";
 import { ProcessLayers } from "@/components/ProcessLayers";
 import { SystemManifesto } from "@/components/SystemManifesto";
@@ -17,14 +15,14 @@ export default function Home() {
   return (
     <main id="main" className="page-shell">
       <Hero />
-      <ApproachStatementBridge />
-      <WhatWeBuild />
       <div
-        className="effect-work-continuum"
-        data-effect-work-continuum
-        data-atmosphere-state="static"
+        className="home-atmosphere-continuum"
+        data-home-atmosphere
+        data-atmosphere-state="intro-focus"
       >
-        <EffectWorkAtmosphere />
+        <HomeAtmosphere />
+        <ApproachStatementBridge />
+        <WhatWeBuild />
         <OutcomeTensionBridge />
         <WhatWeImprove />
         <div className="work-process-journey" data-work-process-journey>

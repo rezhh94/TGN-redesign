@@ -122,22 +122,6 @@ export function ApproachStatementBridge() {
         Hver for seg blir det lansert. Bygd sammen blir det valgt.
       </h2>
 
-      <div className="approach-atmosphere" aria-hidden="true">
-        <video
-          className="approach-atmosphere__video"
-          muted
-          playsInline
-          loop
-          preload="none"
-          data-intro-wave
-        >
-          <source data-src="/video/work-wave-loop.mp4" type="video/mp4" />
-        </video>
-        <div className="approach-atmosphere__spotlight" />
-        <div className="approach-atmosphere__vignette" />
-        <div className="approach-atmosphere__veil" />
-      </div>
-
       <div className="logo fixed">
         <div className="logo__block">
           <span className="logo__title">Bygd sammen</span>

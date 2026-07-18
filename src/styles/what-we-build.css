@@ -1,89 +1,9 @@
 .what-build {
-  --service-atmosphere-light: rgba(192, 207, 201, 0.18);
-  --service-atmosphere-light-soft: rgba(105, 128, 119, 0.1);
   position: relative;
   overflow: clip;
   isolation: isolate;
-  background: var(--surface-base);
+  background: transparent;
   color: var(--text-strong);
-}
-
-.what-build__atmosphere {
-  position: sticky;
-  top: 0;
-  z-index: 0;
-  height: 100svh;
-  margin-bottom: -100svh;
-  overflow: hidden;
-  background: var(--surface-base);
-  pointer-events: none;
-}
-
-.what-build__atmosphere-video {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) contrast(1.08) brightness(0.72);
-  opacity: 0.42;
-  transform: scale(1.035);
-}
-
-.what-build__atmosphere-spotlight {
-  position: absolute;
-  inset: -8%;
-  z-index: 1;
-  background:
-    radial-gradient(
-      ellipse 54% 42% at 50% 42%,
-      var(--service-atmosphere-light),
-      transparent 72%
-    ),
-    radial-gradient(
-      ellipse 78% 66% at 50% 48%,
-      var(--service-atmosphere-light-soft),
-      transparent 76%
-    );
-  mix-blend-mode: screen;
-  opacity: 0.32;
-  transform: scale(1.08) translate3d(-2%, 2%, 0);
-  transform-origin: 50% 45%;
-}
-
-.what-build__atmosphere-vignette {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background:
-    radial-gradient(
-      ellipse 72% 62% at 50% 46%,
-      transparent 36%,
-      rgba(0, 0, 0, 0.34) 100%
-    ),
-    linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.18),
-      transparent 28%,
-      transparent 72%,
-      rgba(0, 0, 0, 0.28)
-    ),
-    linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.24),
-      transparent 22%,
-      transparent 74%,
-      rgba(0, 0, 0, 0.32)
-    );
-}
-
-.what-build__atmosphere-veil {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  background: var(--surface-base);
-  opacity: 0.42;
 }
 
 .what-build__shell {
@@ -95,7 +15,7 @@
   width: min(100%, var(--page-max));
   margin: 0 auto;
   padding:
-    var(--homepage-section-intro-y)
+    clamp(72px, 9vh, 112px)
     var(--homepage-gutter)
     var(--homepage-section-exit-y);
 }
@@ -398,25 +318,6 @@
 }
 
 @media (max-width: 900px) {
-  .what-build__atmosphere-video {
-    display: none;
-  }
-
-  .what-build__atmosphere-spotlight {
-    inset: -4%;
-    background:
-      radial-gradient(
-        ellipse 78% 44% at 50% 38%,
-        rgba(192, 207, 201, 0.13),
-        transparent 74%
-      ),
-      radial-gradient(
-        ellipse 92% 68% at 50% 48%,
-        rgba(105, 128, 119, 0.08),
-        transparent 78%
-      );
-  }
-
   .what-build__shell {
     display: block;
     padding-top: 88px;
@@ -522,10 +423,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .what-build__atmosphere-video {
-    display: none !important;
-  }
-
   .service-module,
   .service-module__visual img,
   .service-module__action {

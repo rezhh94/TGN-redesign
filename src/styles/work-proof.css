@@ -5,7 +5,7 @@
   position: relative;
   overflow: clip;
   isolation: isolate;
-  background: var(--surface-base);
+  background: transparent;
 }
 
 .work-process-journey > .effect-work-journey {
@@ -40,7 +40,7 @@
   z-index: 1;
   overflow: clip;
   padding-bottom: 0;
-  background: var(--work-canvas);
+  background: transparent;
   color: var(--color-on-dark);
   scroll-margin-top: calc(var(--header-height) + 24px);
 }
@@ -56,9 +56,7 @@
   position: relative;
   z-index: 1;
   padding-top: 0;
-  background:
-    radial-gradient(ellipse 70% 54% at 3% 22%, rgba(154, 166, 163, 0.055), transparent 68%),
-    #060707;
+  background: transparent;
 }
 
 .effect-work-journey[data-effect-work-ready] .work-proof,

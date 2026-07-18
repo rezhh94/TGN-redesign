@@ -5,23 +5,27 @@ Last reconciled: 2026-07-18.
 ## Hero → 01 → 02
 
 - Hero remains unchanged. Intro starts its ScrollTextMotion stream in the first
-  viewport with no empty black hold. Its existing 04-derived wave/spotlight is
-  section-scoped; mobile/reduced motion use the lightweight static version.
+  viewport with no empty black hold. One global atmosphere begins with Intro
+  and persists through Tjenester, Effekt and Arbeid; mobile/reduced motion use
+  one lightweight continuous static field.
 - Stable `BYGD SAMMEN` foreground copy stays readable while decorative words
   fade before collision. No visible box or mask is allowed behind the copy.
-- `01 → 02 / Én helhet. Fem fag.` resolves directly into `Dette bygger vi.`
+- `01 → 02 / Én helhet. Fem fag.` resolves directly into `Hva vi bygger`
+  without restarting video/light, resetting the veil or exposing a flat black
+  canvas between the two compositions.
 
 ## 02 → 03
 
 - Mounted owner: `OutcomeTensionBridge`.
 - Three server-rendered statements share one sticky typographic stage on
   enhanced motion and remain complete in compact/reduced/no-JS states.
-- The stage is already inside the shared 03→04 atmosphere, so no color cut is
-  introduced.
+- The stage remains inside the same global Intro-through-Arbeid atmosphere, so
+  no colour or media reset is introduced.
 
 ## 03 → 04
 
-- `EffectWorkBridge` and Effekt share one `surface-base` continuum.
+- `EffectWorkBridge` and Effekt use the effect/work states of the global
+  Intro-through-Arbeid continuum.
 - `Effekt må bygges inn.` hands to the single Work archive title; existing
   spotlight/video/grain are calibrated by state using only project assets.
 

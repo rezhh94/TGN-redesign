@@ -15,7 +15,21 @@ must not drift into SaaS, dashboard, SEO-portal, generic agency-template or
 effect-demo styling.
 
 The page uses one dark design family with different levels of depth, focus,
-media density and motion. Same system does not mean identical section layouts.
+media density and motion. Intro through Arbeid share one physical global
+atmosphere; the sections retain different content layouts above it.
+
+## Global background rule
+
+- `01 / Intro`, `02 / Tjenester`, `03 / Effekt` and `04 / Arbeid` must sit
+  above one persistent wave/spotlight/vignette/veil atmosphere owner.
+- A section may change the atmosphere state, but may not restart or replace the
+  full background at its boundary.
+- Do not allow stacked exit/intro spacing, a veil reset or an unloaded media
+  layer to create an empty black hold between these sections.
+- Local raised/focus surfaces remain valid for media. Full-section backgrounds
+  stay transparent after the shared owner is mounted.
+- Mobile, reduced motion and no-JS use one continuous static CSS field.
+- Section content motion remains scoped; only background lifecycle is global.
 
 ## Brand platform
 
@@ -55,8 +69,8 @@ exception. Do not introduce visible orange.
 - Decorative Tigon terms move and scramble behind it.
 - Each decorative term fades before colliding with the foreground copy.
 - No visible card, box, mask or backdrop blur behind the main statement.
-- Existing Work wave/spotlight recipe is reused; mobile/reduced motion disables
-  video.
+- The global Intro-through-Arbeid owner supplies the wave/spotlight field;
+  mobile/reduced motion disable video.
 
 ### 02 / Tjenester
 
@@ -64,8 +78,8 @@ exception. Do not introduce visible orange.
 - Keep the active compact asymmetric mosaic and quiet sticky desktop rail.
 - Do not turn the section into a full-screen pin, giant-type sequence, card
   grid or five-image template.
-- Reuse the established wave/spotlight/vignette atmosphere and restrained JUST
-  Sans/Caleb Mono hierarchy.
+- Sit above the global wave/spotlight/vignette atmosphere and retain the
+  restrained JUST Sans/Caleb Mono hierarchy.
 - Motion remains small settle/parallax; compact/reduced/no-JS use normal flow.
 
 ### 02 → 03

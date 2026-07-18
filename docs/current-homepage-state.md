@@ -11,6 +11,7 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 ## Git boundary
 
 - `e4dbba7` contains the approved ScrollTextMotion Intro.
+- `7ef236d` contains the approved compact Tjenester mosaic.
 - `c349ef7` contains the approved 03/04 atmosphere and typography work.
 - `2aaa6ad` is the clean baseline and contains the canonical design handbook.
 - The active 02/Tjenester checkpoint consists of the new mosaic, its
@@ -44,8 +45,11 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   Visible meta has a 10 px minimum.
 - All body sections share `homepage-gutter`, 12/6-column grid logic, dark line
   roles and named section rhythm.
-- Spotlight, vignette, existing media and the approved 03→04 grain/video layer
-  create the background journey. No new third-party asset was introduced.
+- `HomeAtmosphere` physically owns one Work wave, spotlight, vignette, veil and
+  restrained desktop grain layer from Intro through Arbeid. All four section
+  roots are transparent; no section boundary restarts the background.
+- Mobile/reduced motion disable video and grain but retain the same continuous
+  static spotlight. No new third-party asset was introduced.
 - The current clean baseline still mounts global Lenis. The canonical future
   direction remains native scroll, but lifecycle cleanup is outside the active
   02 design scope.
@@ -61,8 +65,8 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   Flip and scramble architecture behind the foreground statement.
 - Collision clearance fades each decorative word before it overlaps the
   foreground copy. The background motion continues above and below the text.
-- Reuses 04's existing wave/spotlight/vignette recipe. Video is desktop-only;
-  reduced motion and mobile use the static lightweight atmosphere.
+- Sits above the one global Work wave/spotlight/vignette/grain field. Video and
+  grain are desktop-only; reduced motion and mobile use the static spotlight.
 - The handoff `01 → 02 / Én helhet. Fem fag.` remains server-rendered.
 - Full implementation contract: Appendix A in `design.md` and
   `docs/sections/01-approach.md`.
@@ -71,16 +75,16 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 
 - Five services, descriptions, capability lists, images and established hrefs
   are unchanged and server-rendered.
-- Uses `surface-base` plus the existing wave/spotlight/vignette/veil recipe;
-  there is no separate grey section canvas.
+- Sits transparently above `HomeAtmosphere`; there is no local section canvas,
+  duplicate wave or separate grey background.
 - A restrained sticky rail anchors a three-row asymmetric desktop mosaic. The
   two existing images are media anchors; the other three services are compact
   text modules.
 - Service hierarchy uses moderate JUST Sans rather than large display type.
   Repeated chapter borders and the redundant delivery register are removed.
-- Motion is limited to small module settles, mild image parallax and lazy
-  desktop wave playback. Through 900 px the rail is static; mobile/reduced
-  motion disable video and keep ordinary flow.
+- Motion is limited to small module settles and mild image parallax. Through
+  900 px the rail is static; mobile/reduced motion keep ordinary flow while the
+  global atmosphere supplies its lightweight fallback.
 
 ### 02 → 03
 
@@ -92,10 +96,10 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 ### 03 / Effekt and 03 → 04
 
 - Semantic typography and the 10 px meta floor are active.
-- The shared atmosphere owns
-  `entry → effect-focus → handoff → work-focus → exit`.
-- Desktop may use existing wave video and scoped grain; mobile/reduced motion
-  use light/static CSS spotlight only.
+- The global atmosphere continues through
+  `effect-focus → handoff → work-focus → exit`.
+- Desktop uses the same existing Work wave/grain already visible in Intro and
+  Tjenester; mobile/reduced motion use the continuous static CSS spotlight.
 - The asymmetric result content and established 03→04 thesis remain unchanged.
 
 ### 04 / Arbeid
@@ -126,14 +130,15 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 
 ## Motion and lifecycle
 
-- `HomeMotion` is the active owner map. `introStoryScene` owns Intro Flip,
-  scramble, collision clearance and lazy wave playback.
+- `HomeAtmosphere` owns global background playback and responsive fallback.
+  `HomeMotion` owns atmosphere states and local content choreography;
+  `introStoryScene` owns only Intro Flip, scramble and collision clearance.
 - Global Lenis plus the generic reveal/parallax/shutter/approach initializers
   remain mounted in the clean baseline; their removal is a separate open task.
 - CSS and JS compact geometry are reconciled: Effekt uses compact logic through
   900 px; Work archive through 1000 px.
 - No master pin, global ScrollTrigger kill or critical animation-dependent
-  content was added by 02. The current baseline still uses global Lenis.
+  content was added. The current baseline still uses global Lenis.
 - Explicit scroll margins keep `#arbeid`, `#prosess` and heading fragments
   below the fixed header.
 
@@ -151,8 +156,12 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 
 Verification record:
 
-- The current 02/Tjenester worktree passes TypeScript, the optimized production
+- The global atmosphere worktree passes TypeScript, the optimized production
   build and `git diff --check`.
+- Desktop QA confirmed one wave video, one sticky backdrop, transparent
+  Intro/Tjenester/Effekt/Arbeid roots, continuous Intro→Tjenester light and no
+  horizontal overflow. Mobile and reduced-motion QA confirmed video/grain are
+  disabled while the static spotlight and all content remain present.
 - The new mosaic was reviewed at 1440, 1024, 900, 768 and 390 px. Reduced
   motion, 390 px no-JS, all five service hrefs and horizontal overflow were
   checked directly; all five modules remain visible and video is disabled in
