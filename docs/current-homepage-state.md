@@ -47,18 +47,18 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   Visible meta has a 10 px minimum.
 - All body sections share `homepage-gutter`, 12/6-column grid logic, dark line
   roles and named section rhythm.
-- `HomeAtmosphere` physically owns one supplied wave, poster, asymmetric
+- `HomeAtmosphere` physically owns one Tigon focus-field loop, poster, asymmetric
   spotlight, vignette, dark material, veil and two-scale film-grain field from
   Intro through Arbeid. All four section roots are transparent; no section
   boundary restarts the background.
-- Both grain scales are restrained background layers below chapter text and
+- Both grain scales are restrained static background layers below chapter text and
   media; the former page-wide overlay above content is explicitly rejected.
-- Desktop and mobile play the same lightweight 644×360 wave. Reduced motion and
+- Desktop and mobile play the same lightweight 644×360 focus-field loop. Reduced motion and
   no-JS use its static poster plus static grain. The former 25 FPS viewport
   grain canvas has been removed.
-- The user-supplied `wavebg.mp4` is the one documented external-media
-  exception. It was remuxed without audio; no external code, font, image,
-  shader or tracking asset was added.
+- The mounted loop is independently authored for Tigon and reproducible under
+  `videos/tigon-focus-field/`. The former user-supplied `wavebg.mp4` remux is
+  retained for rollback but is no longer mounted.
 - The current clean baseline still mounts global Lenis. The canonical future
   direction remains native scroll, but lifecycle cleanup is outside the active
   02 design scope.
@@ -174,8 +174,8 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   sitemap, robots, canonical, URLs and slugs were not changed.
 - 04 capability semantics and six established hrefs were not changed.
 - No visible orange or unapproved third-party code, shader, loader or asset was
-  added. The user-supplied wave file and Intro's Codrops Typekit kit `upd0woi`
-  are the two scoped exceptions documented in `design.md`; neither may spread.
+  added. Intro's Codrops Typekit kit `upd0woi` remains the scoped mounted
+  exception documented in `design.md`; it may not spread.
 - No old `styles.css`, `signature.css` or `main.js` was imported.
 
 ## Verification
@@ -191,9 +191,12 @@ Verification record:
 - Production QA at 1440, 1024, 900, 768 and 390 px confirmed exactly one
   atmosphere owner, backdrop, wave and grain stage; named states resolve from
   Intro through Work and every width has zero horizontal overflow.
-- The wave plays on desktop and mobile. Reduced motion and 390 px no-JS hide
+- The atmosphere video plays on desktop and mobile. Reduced motion and 390 px no-JS hide
   the video, keep the poster/material/grain visible and retain all five service
-  links. Fine grain motion is disabled at 768 px, mobile and reduced motion.
+  links. Both grain scales are static at every width and motion preference.
+- The Tigon focus-field source passed HyperFrames lint/runtime/layout/motion
+  checks; the mounted source swap passes TypeScript, production build and
+  `git diff --check` with the existing 644×360 playback contract unchanged.
 - The matrix exposed only the already documented protected `/kontakt` route
   prefetch 404 at wider widths; this task did not change that link or route.
 - The revised Tjenester composition was checked at 1440, 1100, 1024, 900, 800,

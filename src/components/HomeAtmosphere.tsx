@@ -51,11 +51,11 @@ export function HomeAtmosphere() {
             playsInline
             loop
             preload="auto"
-            poster="/video/work-wave-poster.jpg"
+            poster="/video/tigon-focus-field-poster.jpg"
             disablePictureInPicture
             data-home-atmosphere-wave
           >
-            <source src="/video/work-wave-loop.mp4" type="video/mp4" />
+            <source src="/video/tigon-focus-field.mp4" type="video/mp4" />
           </video>
           <noscript>
             <style>{`.home-atmosphere__video{display:none!important}`}</style>

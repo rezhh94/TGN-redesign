@@ -35,8 +35,9 @@ contracts. Mounted source code wins if documentation and runtime disagree.
   baseline. Cleanup is still open but must stay separate from 02 design work.
 - `videos/tigon-work-atmosphere/` remains tracked historical/reproducible source
   material for the former generated 12-second wave and must not be removed.
-  The active delivery file is now the documented user-supplied `wavebg.mp4`
-  remux described in `design.md`.
+  The user-supplied `wavebg.mp4` remux is also retained for rollback. The
+  active delivery is the independently authored Tigon focus-field loop with
+  reproducible source under `videos/tigon-focus-field/`.
 - The former external-reference image/PDF library had no production references
   or duplicates under `public/` and was removed on 2026-07-18. Its tracked
   files remain recoverable from Git history if an explicit historical audit is
@@ -84,7 +85,7 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 - Decorative Tigon capability words Flip, scramble and move behind it.
 - Each decorative word fades before it enters the protected foreground text
   rectangle; there is no visible card, box or mask behind the main statement.
-- Reuses the global atmosphere with `/video/work-wave-loop.mp4`; mobile keeps
+- Reuses the global atmosphere with `/video/tigon-focus-field.mp4`; mobile keeps
   the lightweight wave and reduced motion/no-JS use its static poster.
 - Uses the original Codrops Typekit kit `upd0woi`, scoped to Intro. This is a
   deliberate exception and must not spread to other sections.
@@ -143,13 +144,15 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 - Retains the one global atmosphere from `b5d1a10`; no local background was
   introduced.
 
-## Active global atmosphere material worktree
+## Active global atmosphere material and media
 
-- Replaces the former generated delivery loop with the exact user-supplied
-  644×360 `wavebg.mp4` video stream, remuxed without audio and with fast-start.
+- Uses the independently authored 10-second Tigon focus-field loop as a
+  644×360 fast-start delivery file, with a local poster and HyperFrames source.
+- Retains the user-supplied `wavebg.mp4` remux and former generated source for
+  rollback/history; neither is mounted.
 - Adds a local poster and deterministic tiled grain asset.
 - Replaces the 25 FPS full-viewport grain canvas with CSS material/grain layers:
-  dark multiply texture, restrained two-scale film texture, asymmetric light
+  reduced dark multiply texture, restrained static two-scale film texture, asymmetric light
   and deeper irregular vignette, all below chapter text and media.
 - Keeps `HomeAtmosphere` as the only physical owner; Intro, Tjenester, Effekt
   and Arbeid remain transparent and no new scroll trigger is introduced.
@@ -202,12 +205,15 @@ Lenis cleanup is part of this worktree scope.
   remain active; through 800 px both service panels are full-width with zero
   horizontal travel. Reduced motion, 390 px no-JS, five hrefs and overflow were
   checked directly.
-- The active global material was checked in the production build at 1440,
+- The one-owner global material baseline was checked in production at 1440,
   1024, 900, 768 and 390 px. Every width has one atmosphere owner, one
   backdrop, one video, one grain stage, correct named state changes and zero
   horizontal overflow. Desktop/mobile play the wave; reduced motion and 390 px
-  no-JS use the poster and static grain. The fine grain animation is absent at
-  768 px, mobile and reduced motion.
+  no-JS use the poster and static grain. Both grain scales are now static at
+  every width and motion preference.
+- The Tigon focus-field source passes HyperFrames lint/runtime/layout/motion;
+  its mounted 644×360 delivery passes TypeScript, production build and
+  `git diff --check` without changing owner count or section geometry.
 - The only production matrix network failure was the already documented
   protected `/kontakt` prefetch 404. Header/Hero links and routes were outside
   this task and remain unchanged.

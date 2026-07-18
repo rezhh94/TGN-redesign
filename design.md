@@ -63,13 +63,12 @@ verified. The site states all rights reserved. Therefore:
 - do not import NuDot CSS, JavaScript, fonts, images, models or tracking;
 - do not claim a fitted Tigon value is NuDot's original implementation.
 
-Documented asset exception, 2026-07-18: the user explicitly supplied
-`wavebg.mp4` and instructed that this exact wave source be used for the global
-homepage atmosphere. The mounted `/video/work-wave-loop.mp4` is a video-only,
-fast-start remux of that supplied file; its frames, 644×360 geometry and
-approximately 9.97-second duration are preserved. This exception covers only
-that one supplied wave file. It does not authorize any other NuDot asset,
-source code, font or media import.
+Historical asset exception, 2026-07-18: the user explicitly supplied
+`wavebg.mp4` for the global homepage atmosphere. Its video-only fast-start
+remux remains retained as `/video/work-wave-loop.mp4` for rollback, but is no
+longer mounted. On 2026-07-19 it was superseded by the independently authored
+Tigon focus-field loop at `/video/tigon-focus-field.mp4`, with reproducible
+HyperFrames source under `videos/tigon-focus-field/`.
 
 ### Transfer decisions
 
@@ -84,7 +83,8 @@ source code, font or media import.
 | Global Lenis and captured scroll | `REJECT` | Native scroll remains canonical |
 | WebGL, canvas or video in every chapter | `REJECT` | Add only through a separate performance decision |
 | Global decorative cursor and loader | `REJECT` | Keep the one functional Work cursor only |
-| User-supplied `wavebg.mp4` | `KEEP` | One documented global-atmosphere exception; audio removed |
+| User-supplied `wavebg.mp4` | `SUPERSEDED` | Retained rollback source; active atmosphere is Tigon-owned |
+| Tigon focus-field loop | `KEEP` | Independently authored selection/focus/distinction atmosphere |
 | Other NuDot fonts, code and assets | `REJECT` | Rights and brand conflict |
 
 ## Shared design grammar
@@ -105,7 +105,7 @@ Use the corresponding `--surface-*`, `--text-*` and `--line-*` variables from
 orange, decorative accent palettes and light SaaS cards are outside the active
 direction.
 
-Atmosphere uses the supplied wave, asymmetric light, deep vignette, dark
+Atmosphere uses the Tigon focus-field loop, asymmetric light, deep vignette, dark
 material texture, continuity veil and a two-scale film-grain field. From
 `01 / Intro` through `04 / Arbeid`,
 these are states of one global background owner, not separate section
@@ -139,9 +139,9 @@ between them.
   objects.
 - Global atmosphere state values use shared semantic custom properties or one
   named configuration. Do not create unrelated per-section colour recipes.
-- Desktop and compact/touch use the same 644×360 supplied wave source. The
+- Desktop and compact/touch use the same 644×360 Tigon focus-field source. The
   small source and CSS texture tiles keep this to one inexpensive decoder and
-  no animated canvas. Reduced motion and no-JS use the supplied wave's static
+  no animated canvas. Reduced motion and no-JS use the focus-field's static
   poster, the same vignette/light field and static grain without hiding or
   delaying important content.
 - The global owner controls background lifecycle only. Flip, scramble,
@@ -174,7 +174,7 @@ opacity or spotlight recipes.
 The background is a material stack, not a gradient preset:
 
 1. `surface-base` supplies the near-black canvas.
-2. `/video/work-wave-loop.mp4` supplies the slow blue-grey moving light.
+2. `/video/tigon-focus-field.mp4` supplies the slow blue-grey moving light.
 3. The asymmetric spotlight adds only controlled off-axis lift.
 4. The vignette creates deep edges and irregular black pockets.
 5. A multiply-blended texture binds the wave and shadows into one surface.
@@ -183,9 +183,8 @@ The background is a material stack, not a gradient preset:
    below every chapter's text and media. Content must stay optically clean.
 
 The grain asset is `/atmosphere/film-grain.png`. It is a small deterministic
-local tile, not a viewport-sized JavaScript canvas. Only the fine desktop layer
-shifts with a low-frequency stepped transform; compact and reduced-motion
-states keep both texture scales static. Grain may texture the background light,
+local tile, not a viewport-sized JavaScript canvas. Both texture scales are
+static across desktop, compact and reduced-motion states. Grain may texture the background light,
 but must never render above text, links, navigation or local media. Do not
 restore the former per-pixel 25 FPS canvas or multiply the effect inside
 individual sections.
@@ -453,8 +452,8 @@ Intro uses the motion architecture from Codrops `ScrollTextMotion`:
 
 ### Global atmosphere
 
-- reuse `/video/work-wave-loop.mp4`;
-- preserve the supplied blue-grey wave tone and its global contrast/brightness
+- reuse `/video/tigon-focus-field.mp4`;
+- preserve the Tigon focus-field's blue-grey tone and its global contrast/brightness
   treatment;
 - use the same asymmetric spotlight, deep vignette, material and veil;
 - keep Intro content/motion namespacing while playback and background lifecycle

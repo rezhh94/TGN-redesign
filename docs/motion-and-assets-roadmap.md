@@ -20,7 +20,7 @@ Last reconciled: 2026-07-18.
 
 ### Global Intro → Arbeid atmosphere
 
-- Mounted owner: one persistent supplied wave/poster, asymmetric spotlight,
+- Mounted owner: one persistent Tigon focus-field/poster, asymmetric spotlight,
   vignette, dark material, veil and two-scale grain field spanning Intro,
   Tjenester, Effekt and Arbeid with named focus/handoff states.
 - `HomeAtmosphere` owns playback and responsive fallback. The former Intro and
@@ -115,14 +115,14 @@ the Tjenester visual approval or commit.
 
 ## Asset state
 
-- The mounted global Intro-through-Arbeid owner uses the explicitly
-  user-supplied wave source as `/video/work-wave-loop.mp4`; its audio track is
-  removed without re-encoding the video frames. Intro deliberately imports
+- The mounted global Intro-through-Arbeid owner uses the independently authored
+  `/video/tigon-focus-field.mp4`, with reproducible HyperFrames source under
+  `videos/tigon-focus-field/`. Intro deliberately imports
   Codrops' Typekit kit `upd0woi` inside its namespaced stylesheet.
 - `videos/tigon-work-atmosphere/` remains the retained source project and QA
   record for the former generated 12-second loop. It is no longer the active
   delivery source and must not be deleted silently.
-- `/video/work-wave-poster.jpg` is the reduced-motion/no-JS frame and
+- `/video/tigon-focus-field-poster.jpg` is the reduced-motion/no-JS frame and
   `/atmosphere/film-grain.png` is the deterministic local texture tile.
 - Five existing files under `public/services/` are mounted by the active center
   visual; no NuDot or Codrops image asset is imported.
@@ -130,9 +130,10 @@ the Tjenester visual approval or commit.
   `public/work/capability-stage/`.
 - Effekt mockups remain placeholders awaiting final user-supplied assets.
 - The two-scale grain is part of the global atmosphere through Intro→Arbeid.
-  Only the fine desktop tile shifts; mobile and reduced motion keep it static.
+  Both scales remain static across desktop, mobile and reduced motion.
 - No unapproved third-party code, font, image, shader or tracking was added.
-  The user-supplied wave and Intro Typekit kit are the documented exceptions.
+  Intro's scoped Typekit kit remains the mounted documented exception. The
+  supplied wave is retained only for rollback and is no longer active media.
 
 ## Validation gate
 

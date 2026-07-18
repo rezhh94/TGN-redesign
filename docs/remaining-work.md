@@ -32,7 +32,7 @@ without prescribing old reference sites or rejected visual concepts.
 - Global Lenis and dormant homepage initializers remain in the mounted clean
   baseline. Their cleanup is still open and must be a separate technical task.
 
-## Global atmosphere consolidation and active material pass
+## Global atmosphere consolidation and Tigon-owned media
 
 `design.md` now makes one physical background owner from Intro through Arbeid
 non-negotiable, and the mounted worktree now complies. `HomeAtmosphere` owns
@@ -41,10 +41,10 @@ and Arbeid are transparent above it. The duplicate Intro/Tjenester wave players
 and their stacked transition gap are removed. Ownership and continuity were
 committed in `b5d1a10`.
 
-The active material pass replaces only that owner's visual internals with the
-user-supplied wave, a static poster, stronger NuDot-like material/grain and
-mobile playback. It removes the animated viewport grain canvas and awaits user
-review/commit together with the active Tjenester worktree.
+The mounted owner now uses the independently authored Tigon focus-field loop,
+its static poster, reduced material/grain and mobile playback. It removes the
+animated viewport grain canvas and keeps both remaining grain scales static.
+The previous user-supplied wave remains available only as rollback material.
 
 ## Next section sequence
 
@@ -70,8 +70,9 @@ Recommended review order if the user has no preference:
 
 - Effekt proof mockups are temporary and await a separate, explicit asset task.
 - Retain the tracked `videos/tigon-work-atmosphere/` project as historical
-  source/QA for the former generated loop. The active delivery source is the
-  explicitly user-supplied wave documented in `design.md`.
+  source/QA for the former generated loop. Retain the supplied wave remux as a
+  rollback source. The active delivery and reproducible source live under
+  `/video/tigon-focus-field.mp4` and `videos/tigon-focus-field/`.
 - Service/link decisions that are not exact label-to-route matches remain a
   content decision; see `docs/services-link-contract.md`.
 - The protected Hero contains a known service-link issue documented in the SEO

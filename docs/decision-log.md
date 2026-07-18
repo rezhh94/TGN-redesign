@@ -121,7 +121,17 @@ FPS viewport canvas. Desktop and mobile play the one lightweight wave; reduced
 motion/no-JS use its poster and static material. No local section background or
 new scroll owner is allowed.
 
-Status: implemented in the active worktree and awaiting review/commit.
+Status: material principles retained; active media source superseded by the
+Tigon-owned revision below.
+
+Tigon-owned atmosphere revision, 2026-07-19:
+Replace the mounted supplied wave with an independently authored focus-field
+loop expressing selection, focus and distinction. Keep the existing one-owner
+`HomeAtmosphere`, state interface, 644×360 delivery geometry and fallback
+contract. Reduce the multiply material, make both film-grain scales static and
+retain the previous wave only for rollback.
+
+Status: user-reviewed, mounted and approved for commit.
 
 ## 05 / Prosess
 
