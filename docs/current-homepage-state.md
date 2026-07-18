@@ -83,25 +83,31 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 ### 02 / Tjenester
 
 - Five services, descriptions, capability lists and established hrefs are
-  unchanged and server-rendered. Five existing local service images form one
-  small, borderless center visual.
+  unchanged and server-rendered. Five existing local service images occupy five
+  brighter faces of one large CSS-3D cube on the center axis.
 - Sits transparently above `HomeAtmosphere`; there is no local section canvas,
   duplicate wave or separate grey background.
 - `Hva vi bygger` and its explanation form a concise normal-flow prelude. The
-  sticky scene that follows contains only the active image and `01 / 05`
+  sticky scene that follows contains only the active cube face and `01 / 05`
   index, removing the former hero-like center stack.
 - Above 800 px, paired service panels move in opposing left/right streams
-  around that image axis. Through 800 px, every active service is one complete
-  full-width chapter below the sticky image; there are no split ghost columns.
+  around that cube axis. Through 800 px, every active service is one complete
+  full-width chapter below the sticky cube; there are no split ghost columns.
 - The service hierarchy remains moderate JUST Sans with Caleb Mono metadata;
   it does not use full-screen service names, cards or ornamental dividers.
 - One section-scoped `servicesScene` adapts the audited Codrops dual-wave
   mechanics: measured ranges, sine offsets, opposing directions and
-  closest-to-center focus. That same index switches the local center image;
+  closest-to-center focus. That same row position holds the active face around
+  its service centre, then rotates the local cube through five service faces;
   there is no second trigger, preloader or ScrollSmoother.
+- Each held stop isolates one active service; adjacent rows are visually hidden
+  and pointer-inactive until scroll transfers focus. Keyboard focus reveals an
+  inactive real link, while reduced-motion/no-JS retain the complete ledger.
+  The cube keeps more of its size during each turn.
 - From 801–900 px the dual streams use smaller measured ranges. Through 800 px
-  horizontal travel is zero. Reduced motion and no-JS receive the first static
-  image and a complete normal-flow ledger.
+  horizontal travel is zero, the cube-level count is hidden and the visible
+  service metadata owns orientation. Reduced motion and no-JS receive the first
+  static image and a complete normal-flow ledger.
 - `services-focus` strengthens the existing global atmosphere with asymmetric
   light, higher wave/grain presence and a lower veil. It does not add a local
   background owner.
@@ -190,13 +196,14 @@ Verification record:
   links. Fine grain motion is disabled at 768 px, mobile and reduced motion.
 - The matrix exposed only the already documented protected `/kontakt` route
   prefetch 404 at wider widths; this task did not change that link or route.
-- The revised Tjenester composition was checked at 1440, 900, 800, 768 and 390
-  px, including the exact 800/801 px choreography boundary. Desktop/tablet-wide
-  retain opposing transforms; through 800 px both panels are full-width with
-  zero horizontal transform. All tested widths have zero document overflow.
-- The NuDot-derived center visual and `01 / 05` index map one-to-one with active
-  services. Stronger global `services-focus` light/wave state, all five links,
-  reduced-motion and 390 px no-JS were checked directly, with no console errors.
+- The revised Tjenester composition was checked at 1440, 1100, 1024, 900, 800,
+  768 and 390 px, including the exact 800/801 px choreography boundary.
+  Desktop/tablet-wide retain opposing transforms; through 800 px both panels
+  are full-width with zero horizontal transform. All tested widths have zero
+  document overflow and the larger cube clears both text panels.
+- The CSS-3D cube and `01 / 05` index map one-to-one with active services.
+  Its held stop isolates the matching service before the mid-interval turn.
+  Reduced-motion and no-JS retain the large first face as a static visual.
 - The isolated Intro commit passed TypeScript and production build checks.
 - The isolated 03/04 commit passed TypeScript and a production Webpack build.
 - The earlier integrated dark-homepage pass was checked on 2026-07-17 at 1440,

@@ -100,7 +100,7 @@ Intro is a documented exception: its Codrops composition uses local
 |---|---|---|
 | Global atmosphere | persistent Intro→Arbeid wave/material states | poster plus static material |
 | Intro | Flip/scramble term stream with collision clearance | stable foreground and readable handoff |
-| Tjenester | prelude → active-image axis with desktop dual streams / mobile chapters | first static image and normal-flow ledger |
+| Tjenester | prelude → scroll-driven cube axis with desktop dual streams / mobile chapters | first static cube face and normal-flow ledger |
 | 02→03 | three statements on one typographic stage | complete statement list |
 | Effekt | result/media reveal and atmosphere focus | complete static results |
 | 03→04 | scoped atmosphere handoff | static light and normal flow |

@@ -14,11 +14,11 @@ checkpoint. The rollback point remains `b5d1a10`.
 - The complete heading statement is:
   `Fem fagområder. Én sammenhengende leveranse fra første valg til en løsning
   som kan finnes, forstås og måles.`
-- Above 800 px, five service rows travel around a sticky center-image axis. The
+- Above 800 px, five service rows travel around a sticky CSS-3D cube axis. The
   left stream carries service number, title and action; the right stream carries
   the description and complete capability list.
 - Through 800 px, horizontal wave travel resolves to zero. Each service becomes
-  one complete full-width chapter below the sticky image, with title,
+  one complete full-width chapter below the sticky cube, with title,
   description, capabilities and action in the same readable column.
 - The two sides of a row belong to one real service link. They are a visual
   split, never duplicate interactive or accessible content.
@@ -28,9 +28,11 @@ checkpoint. The rollback point remains `b5d1a10`.
   wave presence, material/grain and depth while lowering the veil. Mobile uses
   the same lightweight wave with static grain; reduced motion/no-JS use the
   poster and static material.
-- A compact, borderless center visual uses the five existing Tigon service
-  images. The crop varies between portrait, square and landscape like the
-  supplied NuDot recording, but the stage keeps stable geometry.
+- A large local CSS-3D cube uses the five existing Tigon service images on its
+  front, right, back, left and top faces. It keeps stable square geometry while
+  the brighter near-monochrome imagery remains full-bleed and readable. Desktop
+  gives the object the largest scale; compact and mobile retain protected text
+  clearance.
 - Typography stays restrained: JUST Sans for title/body and Caleb Mono for
   numbering, capabilities and actions. No giant full-screen service titles.
 
@@ -44,9 +46,13 @@ The motion reference is Valentin Descombes/Codrops
   `calculateWavePosition`, opposing column multipliers, centre-focus selection,
   quick setters, resize recalculation and `destroy` cleanup are adapted.
 - The reference's imperative `src` swap and image preloader are not copied.
-  Five local images are server-rendered in one stable stage, and the same
-  closest-to-center index exposes the active image. This adds no second trigger
-  or media lifecycle.
+  Five local images are server-rendered on five cube faces, and the same
+  closest-to-center calculation rotates the active face forward. This adds no
+  second trigger or media lifecycle.
+- The additional user-supplied `N > Six Faces / Walking The Cow V2` reference
+  is MIT licensed by Luis Alberto Martinez Riancho. Tigon uses its generic
+  six-face CSS-3D and 90-degree stop principles, not its UI, copy, assets,
+  scroll capture or source files.
 - Reference `ScrollSmoother` and `normalizeScroll` are deliberately omitted.
   Tjenester owns no global scroll transport.
 - Reference CSS is not imported. Its two-column relationship is rebuilt with
@@ -60,9 +66,14 @@ The motion reference is Valentin Descombes/Codrops
 - Desktop uses one section-scoped ScrollTrigger. A sine function moves the two
   streams in opposing horizontal directions while natural document scroll
   supplies vertical movement.
-- The service row closest to viewport centre gains focus. Focus is hierarchy,
-  not hidden content: every service remains readable and clickable. The same
-  index activates its corresponding local center image.
+- The service row closest to viewport centre owns the focus stop. At rest only
+  that service is visible and pointer-active; the next service appears when
+  scroll transfers focus through the interval. Each cube face holds around its
+  row centre; the middle of the interval owns the 90-degree turn and a shallow
+  scale settle.
+- Inactive rows remain server-rendered real links, but are visually isolated
+  during the enhanced scene. Keyboard focus reveals its complete row before
+  interaction; no-JS and reduced-motion keep the full ledger visible.
 - Range values are derived from measured lane and panel widths and recalculated
   on real viewport changes. Animation writes only transform/opacity state.
 - No master pin, captured scrolling, duplicate trigger per service, global
@@ -73,15 +84,18 @@ The motion reference is Valentin Descombes/Codrops
 ## Compact, touch and fallback
 
 - Compact/touch through 800 px is a separately authored choreography, not the
-  desktop columns squeezed into a narrow viewport. The sticky image remains in
+  desktop columns squeezed into a narrow viewport. The sticky cube remains in
   the upper field while one complete service chapter occupies the lower field.
+- The cube-level `01 / 05` counter is hidden through 800 px because the visible
+  `SERVICE 01` metadata already provides orientation without colliding with the
+  projected cube face. Desktop retains the cube counter.
 - Service text may wrap, but no established description, capability or href is
   removed. Touch has a visible action and does not depend on hover.
 - Reduced motion and no-JS use an ordinary single-column service ledger after
-  the centred heading and retain the first image as a static visual. No
+  the centred heading and retain the first cube face as a static visual. No
   important content starts hidden in CSS.
-- Keyboard focus outlines the complete service link and raises the same focus
-  state as scroll/hover without moving focus or trapping the user.
+- Keyboard focus reveals and outlines the complete service link without moving
+  focus or trapping the user.
 - The section must have no horizontal document overflow at 1440, 1024, 900,
   800, 768 or 390 px.
 

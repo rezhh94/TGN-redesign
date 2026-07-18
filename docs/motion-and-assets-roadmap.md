@@ -45,15 +45,18 @@ Last reconciled: 2026-07-18.
 - `servicesScene` owns one section-scoped dual-wave engine. It measures the
   paired lanes, applies sine-wave horizontal offsets in opposing directions
   and marks the service closest to the viewport center.
-- The text thesis is a normal-flow prelude. Only the active image/index axis is
+- The text thesis is a normal-flow prelude. Only the active cube/index axis is
   CSS-sticky; it does not pin or capture the viewport.
 - From 801 px, compact/desktop use measured opposing ranges. Through 800 px,
   the range resolves to zero and each active service reads as one full-width
-  chapter below the sticky image.
-- Reduced motion and no-JS skip the engine and use the first static image plus
+  chapter below the sticky cube.
+- Reduced motion and no-JS skip the engine and use the first static cube face plus
   a normal-flow service ledger.
-- The closest-to-center index also switches one borderless center visual among
-  five local images. It reuses the existing trigger and adds no preloader.
+- Position between row centers holds five local image faces at readable stops,
+  then rotates through the middle of each interval with a shallow scale pulse.
+  It reuses the existing trigger and adds no preloader.
+- Each stop visually isolates its active service; scroll transfers visibility
+  to the next row, while keyboard focus and static fallbacks preserve access.
 - No ScrollSmoother, reference asset or duplicate scroll transport is part of
   the implementation.
 - `homeAtmosphereStateScene` owns the stronger asymmetric `services-focus`

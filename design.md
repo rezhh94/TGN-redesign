@@ -330,7 +330,7 @@ journey rather than add an isolated showpiece.
 |---|---|---|
 | Header/Hero | protected source and project rules | establish offer; unchanged |
 | 01 / Intro | `docs/sections/01-approach.md` and Appendix A below | Flip/scramble term stream with stable foreground above the global atmosphere |
-| 02 / Tjenester | `docs/sections/02-services.md` | concise service prelude followed by an active-image axis and responsive service chapters |
+| 02 / Tjenester | `docs/sections/02-services.md` | concise service prelude followed by a scroll-driven cube axis and responsive service chapters |
 | 02 → 03 | mounted `OutcomeTensionBridge` contract | typographic handoff |
 | 03 / Effekt | `docs/sections/03-effect.md` | measurable result system and focus |
 | 04 / Arbeid | `docs/sections/04-work-proof.md` | future-facing capability archive |
@@ -353,19 +353,20 @@ five real services become the moving material.
 - one concise normal-flow prelude contains `Hva vi bygger` and the approved
   explanatory paragraph; it does not remain inside the scroll scene;
 - desktop and 801–900 px place two opposing service streams around a sticky
-  active-image axis, with title/action left and details right;
+  scroll-driven cube axis, with title/action left and details right;
 - one global Tigon atmosphere physically shared with Intro, Effekt and Arbeid;
 - JUST Sans service hierarchy, Caleb Mono metadata and no new font family;
 - five complete server-rendered links with established content and hrefs;
 - one section-scoped ScrollTrigger calculates sine-wave horizontal offsets,
   opposing lane direction and closest-to-center focus;
-- one compact, borderless center visual maps the five existing Tigon service
-  images to that same closest-to-center index, with varied portrait, square and
-  landscape crops inspired by the supplied NuDot recording;
+- one large CSS-3D cube maps the five existing Tigon service images to five
+  faces; each face holds around its service centre before the same
+  closest-to-center calculation rotates forward with a shallow transition-depth
+  pulse inspired by the supplied NuDot recording;
 - no ScrollSmoother, external assets, separate image trigger or captured
   scrolling;
 - through 800 px, the horizontal wave resolves to zero and each service becomes
-  one complete full-width chapter beneath the sticky image;
+  one complete full-width chapter beneath the sticky cube;
 - the global `services-focus` state supplies stronger asymmetric light, wave,
   material/grain and reduced veil without creating a local section background;
 - reduced-motion and no-JS use the prelude, first static image and a complete

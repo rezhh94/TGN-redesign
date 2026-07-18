@@ -115,19 +115,25 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 ## Active 02 / Tjenester worktree
 
 - Replaces the old mosaic with a concise normal-flow `Hva vi bygger` prelude,
-  followed by a sticky active-image/index axis.
+  followed by a sticky scroll-driven cube/index axis.
 - Above 800 px, five paired service rows move in opposing left/right streams.
   Through 800 px, each service is one complete full-width chapter with no
   horizontal travel or split ghost text.
 - Preserves every service label, description, capability and established href
   as server-rendered content. Five existing local service images are mounted
-  as one compact, borderless center visual.
+  on five faces of one large local CSS-3D cube.
 - Adapts the fully audited dual-wave motion architecture from
   `ValentinDBS/codrops-tutorial-text-animation` at commit
   `90dfeb2eec89dd6879cabf2e76f4e7096e515a8a`: measured ranges, sine offsets,
   opposing multipliers, closest-to-center focus and resize recalculation.
-- The same closest-to-center index swaps portrait, square and landscape image
-  crops; it adds no second trigger or preloader.
+- The same closest-to-center calculation holds each readable face around its
+  service centre, then rotates through five 90-degree stops with a shallow
+  scale pulse; it adds no second trigger or preloader.
+- Each enhanced stop shows only its active service. Inactive rows remain
+  server-rendered but visually hidden and pointer-inactive until scroll or
+  keyboard focus transfers the service focus.
+- The polished cube is approximately 10–15 percent larger on desktop, modestly
+  larger on compact/mobile and uses brighter near-monochrome service imagery.
 - Does not import reference CSS, JS, fonts or assets and does not add
   ScrollSmoother or captured scrolling.
 - Reduced-motion and no-JS use the first static image and a complete
@@ -206,9 +212,15 @@ Lenis cleanup is part of this worktree scope.
   protected `/kontakt` prefetch 404. Header/Hero links and routes were outside
   this task and remain unchanged.
 - The supplied NuDot recording was sampled at one-second and 50 ms intervals.
-  Its compact borderless active-image behavior was translated with existing
-  Tigon assets and checked for all five active indices at 1440 and 390 px;
-  reduced-motion/no-JS retain the first static image.
+  Its fixed focal-object behavior was translated with existing Tigon assets;
+  the later user-supplied MIT cube reference supplies the six-face CSS-3D
+  precedent without importing its CSS, JavaScript or images.
+- The polished cube pass was checked in the production build at 1440, 1100,
+  1024, 900, 800 and 390 px. All five active indices expose the matching face,
+  the protected center axis clears both text panels and document overflow
+  remains zero. The face transform is unchanged through the first 10 percent
+  of each interval before rotating through its middle; reduced-motion/no-JS
+  retain five links plus the static first face.
 - The isolated Intro commit passed TypeScript and production build checks.
 - The isolated 03/04 commit passed TypeScript and a production Webpack build.
 - A previous full dark-homepage pass was recorded on 2026-07-17, but the Intro

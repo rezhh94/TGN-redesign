@@ -17,7 +17,7 @@ without prescribing old reference sites or rejected visual concepts.
 ## Current worktree review
 
 - 02 / Tjenester has been reopened by explicit user direction and rebuilt as a
-  concise prelude followed by an active-image axis. Desktop/tablet-wide retain
+  concise prelude followed by a scroll-driven cube axis. Desktop/tablet-wide retain
   paired dual-wave streams; through 800 px, services become complete full-width
   chapters. It preserves the shared atmosphere, five real links and content.
 - The motion is a source-audited, section-scoped adaptation of the Codrops

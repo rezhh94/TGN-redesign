@@ -80,9 +80,10 @@ not introduce visible orange.
 ### 02 / Tjenester
 
 - Preserve all five services, copy, capability lists, hrefs and the five local
-  images mapped to the center visual.
+  images mapped to the five service faces of the center cube.
 - Keep `Hva vi bygger` as a concise normal-flow prelude. The sticky scene owns
-  only the active image and index; do not rebuild the former center copy stack.
+  only the active cube face and index; do not rebuild the former center copy
+  stack.
 - Above 800 px, preserve the paired left/right streams. Through 800 px, keep
   one complete full-width service chapter at a time with zero horizontal wave.
 - Do not turn the section into giant service type, a card grid, a five-image

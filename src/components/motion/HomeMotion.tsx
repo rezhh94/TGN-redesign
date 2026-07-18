@@ -26,7 +26,7 @@ ScrollTrigger.config({
 
 // 02 / Tjenester — Tigon-adaptasjon av Codrops DualWaveAnimation.
 // Original mekanikk: Valentin Descombes/Codrops, MIT, commit 90dfeb2.
-// Én sticky midtakse, fem lokale fokusbilder og komplette lenker i to
+// Én sticky midtakse, fem lokale kubeflater og komplette lenker i to
 // motgående sinusstrømmer. Ingen ScrollSmoother eller fremmed asset-livssyklus.
 function servicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
@@ -53,8 +53,9 @@ function servicesScene() {
     '[data-service-wave-panel="right"]',
     wave,
   );
-  const serviceImages = gsap.utils.toArray<HTMLImageElement>(
-    "[data-service-image]",
+  const cube = anchorCopy?.querySelector<HTMLElement>("[data-service-cube]");
+  const cubeFaces = gsap.utils.toArray<HTMLElement>(
+    "[data-service-cube-face]",
     anchorCopy,
   );
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -65,11 +66,19 @@ function servicesScene() {
     || rightLanes.length !== rows.length
     || leftPanels.length !== rows.length
     || rightPanels.length !== rows.length
-    || serviceImages.length !== rows.length
+    || !cube
+    || cubeFaces.length !== rows.length
   ) return () => {};
 
   const waveNumber = Number.parseFloat(wave.dataset.waveNumber ?? "1.42");
   const waveSpeed = Number.parseFloat(wave.dataset.waveSpeed ?? "0.92");
+  const cubeStops = [
+    { rotateX: 0, rotateY: 0 },
+    { rotateX: 0, rotateY: -90 },
+    { rotateX: 0, rotateY: -180 },
+    { rotateX: 0, rotateY: -270 },
+    { rotateX: -90, rotateY: -360 },
+  ] as const;
   const mm = gsap.matchMedia();
 
   const ctx = gsap.context(() => {
@@ -151,12 +160,59 @@ function servicesScene() {
           if (index === closestIndex) row.setAttribute("data-service-active", "");
           else row.removeAttribute("data-service-active");
         });
-        serviceImages.forEach((image, index) => {
-          if (index === closestIndex) image.setAttribute("data-service-image-active", "");
-          else image.removeAttribute("data-service-image-active");
+        cubeFaces.forEach((face, index) => {
+          if (index === closestIndex) face.setAttribute("data-service-cube-face-active", "");
+          else face.removeAttribute("data-service-cube-face-active");
         });
         serviceIndex.textContent = `${String(closestIndex + 1).padStart(2, "0")} / 05`;
         activeIndex = closestIndex;
+      };
+
+      const updateCube = () => {
+        const viewportCenter = window.innerHeight / 2;
+        const centers = rows.map((row) => {
+          const rect = row.getBoundingClientRect();
+          return rect.top + rect.height / 2;
+        });
+        let position = 0;
+
+        if (viewportCenter >= centers[centers.length - 1]) {
+          position = centers.length - 1;
+        } else if (viewportCenter > centers[0]) {
+          for (let index = 0; index < centers.length - 1; index += 1) {
+            const start = centers[index];
+            const end = centers[index + 1];
+            if (viewportCenter <= end) {
+              position = index + gsap.utils.clamp(
+                0,
+                1,
+                (viewportCenter - start) / Math.max(1, end - start),
+              );
+              break;
+            }
+          }
+        }
+
+        const fromIndex = Math.min(Math.floor(position), cubeStops.length - 1);
+        const toIndex = Math.min(fromIndex + 1, cubeStops.length - 1);
+        const localProgress = position - fromIndex;
+        const dwell = mobile ? 0.24 : compact ? 0.22 : 0.18;
+        const turnProgress = gsap.utils.clamp(
+          0,
+          1,
+          (localProgress - dwell) / (1 - dwell * 2),
+        );
+        const easedProgress = turnProgress * turnProgress * (3 - 2 * turnProgress);
+        const from = cubeStops[fromIndex];
+        const to = cubeStops[toIndex];
+        const transitionDepth = mobile ? 0.025 : compact ? 0.035 : 0.045;
+
+        gsap.set(cube, {
+          rotateX: gsap.utils.interpolate(from.rotateX, to.rotateX, easedProgress),
+          rotateY: gsap.utils.interpolate(from.rotateY, to.rotateY, easedProgress),
+          scale: 1 - Math.sin(turnProgress * Math.PI) * transitionDepth,
+          transformOrigin: "50% 50%",
+        });
       };
 
       const updateColumn = (
@@ -173,6 +229,7 @@ function servicesScene() {
       const handleScroll = (self: ReturnType<typeof ScrollTrigger.create>) => {
         updateColumn(leftSetters, leftRange, self.progress, 1);
         updateColumn(rightSetters, rightRange, self.progress, -1);
+        updateCube();
         setActiveRow();
 
         const edge = 0.055;
@@ -198,6 +255,7 @@ function servicesScene() {
       setInitialPositions(leftPanels, leftRange, 1);
       setInitialPositions(rightPanels, rightRange, -1);
       gsap.set(anchorCopy, { opacity: 0, visibility: "visible" });
+      gsap.set(cube, { rotateX: 0, rotateY: 0, scale: 1 });
       wave.setAttribute("data-service-wave-ready", "");
 
       scrollTrigger = ScrollTrigger.create({
@@ -217,13 +275,14 @@ function servicesScene() {
         window.cancelAnimationFrame(resizeFrame);
         window.removeEventListener("resize", requestRecalculate);
         scrollTrigger?.kill();
-        gsap.killTweensOf([...leftPanels, ...rightPanels, anchorCopy]);
+        gsap.killTweensOf([...leftPanels, ...rightPanels, anchorCopy, cube]);
         gsap.set([...leftPanels, ...rightPanels], { clearProps: "transform" });
         gsap.set(anchorCopy, { clearProps: "opacity,visibility" });
+        gsap.set(cube, { clearProps: "transform,transformOrigin" });
         rows.forEach((row) => row.removeAttribute("data-service-active"));
-        serviceImages.forEach((image, index) => {
-          if (index === 0) image.setAttribute("data-service-image-active", "");
-          else image.removeAttribute("data-service-image-active");
+        cubeFaces.forEach((face, index) => {
+          if (index === 0) face.setAttribute("data-service-cube-face-active", "");
+          else face.removeAttribute("data-service-cube-face-active");
         });
         serviceIndex.textContent = "01 / 05";
         wave.removeAttribute("data-service-wave-ready");

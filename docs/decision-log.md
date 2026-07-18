@@ -56,21 +56,21 @@ Decision:
 Keep five complete services with their existing copy, capability lists and
 verified hrefs as server-rendered links. Place a moderate centered
 `Hva vi bygger` prelude in normal flow, then let paired title/detail streams
-move around a sticky image-only axis. Existing service imagery forms one small,
-borderless center visual. Its portrait, square and landscape crops change with
-the service nearest the viewport center, following the supplied NuDot motion
-recording without copying NuDot assets.
+move around a sticky cube-only axis. Existing service imagery occupies five
+large faces of one local CSS-3D cube. The face nearest the active 90-degree stop
+follows the service closest to the viewport center, translating the supplied
+NuDot recording and MIT cube reference without copying their assets or UI.
 
 Adapt only the audited motion architecture from
 `ValentinDBS/codrops-tutorial-text-animation` commit
 `90dfeb2eec89dd6879cabf2e76f4e7096e515a8a`: measured ranges, opposing
 multipliers, sine offsets, closest-center focus and resize recalculation. Keep
-it section-scoped; do not add ScrollSmoother or external assets. The
-active-index image switch belongs to the same owner and may not create a second
-trigger or media lifecycle. Reduced motion and no-JS use normal flow.
+it section-scoped; do not add ScrollSmoother or external assets. The held-stop
+cube rotation belongs to the same owner and may not create a second trigger or
+media lifecycle. Reduced motion and no-JS use normal flow.
 
 Revision after direct visual review: through 800 px, remove horizontal travel
-and present one full-width service chapter at a time beneath the sticky image.
+and present one full-width service chapter at a time beneath the sticky cube.
 The existing global `services-focus` state becomes more asymmetric and vivid;
 no local background is added.
 

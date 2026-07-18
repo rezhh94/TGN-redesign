@@ -7,7 +7,7 @@ const services = [
     capabilities: ["Teknisk SEO", "Core Web Vitals", "Innholdsstruktur", "Konvertering"],
     href: "/tjenester/webutvikling-nextjs",
     image: "/services/tgn-nettsider-editorial.webp",
-    visualFormat: "portrait",
+    cubeFace: "front",
     visualPosition: "50% 50%",
   },
   {
@@ -18,7 +18,7 @@ const services = [
     capabilities: ["Innlogging", "Roller", "Integrasjoner", "Datamodell"],
     href: "/tjenester/custom-software",
     image: "/services/tgn-webapper-workflow.webp",
-    visualFormat: "square",
+    cubeFace: "right",
     visualPosition: "50% 45%",
   },
   {
@@ -29,7 +29,7 @@ const services = [
     capabilities: ["Mobil", "Web", "Push", "Publisering"],
     href: "/tjenester/app-utvikling",
     image: "/services/tgn-apper-field.webp",
-    visualFormat: "portrait",
+    cubeFace: "back",
     visualPosition: "50% 44%",
   },
   {
@@ -40,7 +40,7 @@ const services = [
     capabilities: ["Automasjon", "Søk", "Assistenter", "Interne verktøy"],
     href: "/tjenester/ai-implementering",
     image: "/services/tgn-ai-knowledge.webp",
-    visualFormat: "landscape",
+    cubeFace: "left",
     visualPosition: "50% 45%",
   },
   {
@@ -51,7 +51,7 @@ const services = [
     capabilities: ["Teknisk SEO", "AI-synlighet", "Lokal synlighet", "Måling"],
     href: "/tjenester/seo-optimalisering",
     image: "/services/tgn-seo-query-map.webp",
-    visualFormat: "portrait",
+    cubeFace: "top",
     visualPosition: "48% 50%",
   },
 ] as const;
@@ -82,20 +82,34 @@ export function WhatWeBuild() {
 
         <div className="what-build__anchor" data-service-anchor>
           <div className="what-build__anchor-copy" aria-hidden="true">
-            <figure className="what-build__visual" aria-hidden="true">
-              {services.map((service, index) => (
-                <img
-                  alt=""
-                  className={`what-build__visual-image what-build__visual-image--${service.visualFormat}`}
-                  data-service-image
-                  data-service-image-active={index === 0 ? "" : undefined}
-                  decoding="async"
-                  key={service.id}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  src={service.image}
-                  style={{ objectPosition: service.visualPosition }}
-                />
-              ))}
+            <figure className="what-build__cube-stage" aria-hidden="true">
+              <div className="what-build__cube" data-service-cube>
+                {services.map((service, index) => (
+                  <div
+                    className="what-build__cube-face"
+                    data-cube-face={service.cubeFace}
+                    data-service-cube-face
+                    data-service-cube-face-active={index === 0 ? "" : undefined}
+                    key={service.id}
+                  >
+                    <img
+                      alt=""
+                      decoding="async"
+                      loading={index === 0 ? "eager" : "lazy"}
+                      src={service.image}
+                      style={{ objectPosition: service.visualPosition }}
+                    />
+                    <span className="what-build__cube-shade" />
+                  </div>
+                ))}
+
+                <div
+                  className="what-build__cube-face what-build__cube-face--quiet"
+                  data-cube-face="bottom"
+                >
+                  <span>TGN / 02</span>
+                </div>
+              </div>
             </figure>
 
             <span className="what-build__count" data-service-index>01 / 05</span>
