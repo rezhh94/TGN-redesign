@@ -8,7 +8,7 @@
   --home-atmosphere-veil-opacity: 0.16;
   --home-atmosphere-vignette-opacity: 1;
   --home-atmosphere-material-opacity: 0.25;
-  --home-atmosphere-grain-opacity: 0.58;
+  --home-atmosphere-grain-opacity: 0.32;
   --atmosphere-light: rgba(181, 201, 194, 0.12);
   --atmosphere-light-soft: rgba(88, 119, 108, 0.08);
   position: relative;
@@ -188,15 +188,15 @@
   background-position: 0 0;
   background-size: 384px 384px;
   mix-blend-mode: screen;
-  opacity: 0.085;
+  opacity: 0.055;
 }
 
 .home-atmosphere__grain--fine {
   background-position: 71px 43px;
   background-size: 192px 192px;
   mix-blend-mode: soft-light;
-  opacity: 0.08;
-  animation: home-atmosphere-grain-shift 1200ms steps(2, end) infinite;
+  opacity: 0.035;
+  animation: home-atmosphere-grain-shift 2800ms steps(2, end) infinite;
   will-change: transform;
 }
 
@@ -227,7 +227,7 @@
     --home-atmosphere-light-opacity: 0.46;
     --home-atmosphere-veil-opacity: 0.2;
     --home-atmosphere-material-opacity: 0.22;
-    --home-atmosphere-grain-opacity: 0.62;
+    --home-atmosphere-grain-opacity: 0.34;
   }
 
   .home-atmosphere__video {
@@ -274,12 +274,12 @@
 
   .home-atmosphere__grain--coarse {
     background-size: 288px 288px;
-    opacity: 0.09;
+    opacity: 0.06;
   }
 
   .home-atmosphere__grain--fine {
     background-size: 156px 156px;
-    opacity: 0.06;
+    opacity: 0.035;
     animation: none;
   }
 }
@@ -304,7 +304,7 @@
   }
 
   .home-atmosphere__grain-stage {
-    opacity: 0.52 !important;
+    opacity: 0.3 !important;
   }
 
   .home-atmosphere__grain--fine {

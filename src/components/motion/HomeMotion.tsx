@@ -412,12 +412,12 @@ function homeAtmosphereStateScene() {
     if (reduced || !state.includes("intro") && !state.includes("services")) return;
 
     const values = state === "intro-focus"
-      ? { details: 1, light: compact ? 0.46 : 0.58, scale: 1.04, x: -2, y: 2, veil: compact ? 0.2 : 0.16, grain: 0.56 }
+      ? { details: 1, light: compact ? 0.46 : 0.58, scale: 1.04, x: -2, y: 2, veil: compact ? 0.2 : 0.16, grain: 0.32 }
       : state === "intro-services-handoff"
-        ? { details: 1, light: compact ? 0.48 : 0.62, scale: 1.03, x: 0, y: 0, veil: compact ? 0.18 : 0.14, grain: 0.6 }
+        ? { details: 1, light: compact ? 0.48 : 0.62, scale: 1.03, x: 0, y: 0, veil: compact ? 0.18 : 0.14, grain: 0.34 }
         : state === "services-focus"
-          ? { details: 1, light: compact ? 0.58 : 0.76, scale: 1.06, x: -4, y: -4, veil: compact ? 0.12 : 0.08, grain: 0.72 }
-          : { details: 1, light: compact ? 0.52 : 0.68, scale: 1.04, x: 1, y: -2, veil: compact ? 0.16 : 0.12, grain: 0.66 };
+          ? { details: 1, light: compact ? 0.58 : 0.76, scale: 1.06, x: -4, y: -4, veil: compact ? 0.12 : 0.08, grain: 0.4 }
+          : { details: 1, light: compact ? 0.52 : 0.68, scale: 1.04, x: 1, y: -2, veil: compact ? 0.16 : 0.12, grain: 0.37 };
 
     clearStateTweens();
     const detailVars: gsap.TweenVars = { autoAlpha: values.details, overwrite: "auto" };
@@ -558,7 +558,7 @@ function effectScene() {
         }, 0.1);
       }
       if (grain && !compact) {
-        atmosphere.to(grain, { autoAlpha: 0.68, duration: 0.3, ease: "none" }, 0.16);
+        atmosphere.to(grain, { autoAlpha: 0.39, duration: 0.3, ease: "none" }, 0.16);
       }
 
       atmosphere
@@ -689,7 +689,7 @@ function effectWorkJourney(compact: boolean) {
       handoff.to(wave, { opacity: 0.3, scale: 1.07, ease: "none" }, 0);
     }
     if (grain && !compact) {
-      handoff.to(grain, { autoAlpha: 0.56, ease: "none" }, 0);
+      handoff.to(grain, { autoAlpha: 0.34, ease: "none" }, 0);
     }
     handoff.to(veil, { autoAlpha: compact ? 0.32 : 0.18, ease: "none" }, 0);
   }, continuum);
