@@ -24,82 +24,215 @@ ScrollTrigger.config({
   limitCallbacks: true,
 });
 
-// 02 / Tjenester — compact NuDot-inspired service mosaic in ordinary flow.
-// A quiet sticky rail anchors the section while five real service links settle
-// through an asymmetric grid. Background playback belongs to the global
-// Intro→Arbeid atmosphere; this owner only animates service content.
+// 02 / Tjenester — Tigon-adaptasjon av Codrops DualWaveAnimation.
+// Original mekanikk: Valentin Descombes/Codrops, MIT, commit 90dfeb2.
+// Én sticky midtakse, fem lokale fokusbilder og komplette lenker i to
+// motgående sinusstrømmer. Ingen ScrollSmoother eller fremmed asset-livssyklus.
 function servicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
-  if (!section) return () => {};
+  const wave = section?.querySelector<HTMLElement>("[data-service-wave]");
+  const anchor = section?.querySelector<HTMLElement>("[data-service-anchor]");
+  const anchorCopy = anchor?.querySelector<HTMLElement>(".what-build__anchor-copy");
+  const serviceIndex = anchorCopy?.querySelector<HTMLElement>("[data-service-index]");
+  if (!section || !wave || !anchorCopy || !serviceIndex) return () => {};
 
-  const modules = gsap.utils.toArray<HTMLElement>("[data-service-module]", section);
+  const rows = gsap.utils.toArray<HTMLElement>("[data-service-row]", wave);
+  const leftLanes = gsap.utils.toArray<HTMLElement>(
+    '[data-service-wave-lane="left"]',
+    wave,
+  );
+  const rightLanes = gsap.utils.toArray<HTMLElement>(
+    '[data-service-wave-lane="right"]',
+    wave,
+  );
+  const leftPanels = gsap.utils.toArray<HTMLElement>(
+    '[data-service-wave-panel="left"]',
+    wave,
+  );
+  const rightPanels = gsap.utils.toArray<HTMLElement>(
+    '[data-service-wave-panel="right"]',
+    wave,
+  );
+  const serviceImages = gsap.utils.toArray<HTMLImageElement>(
+    "[data-service-image]",
+    anchorCopy,
+  );
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!modules.length || reduced) return () => {};
+  if (
+    reduced
+    || rows.length !== 5
+    || leftLanes.length !== rows.length
+    || rightLanes.length !== rows.length
+    || leftPanels.length !== rows.length
+    || rightPanels.length !== rows.length
+    || serviceImages.length !== rows.length
+  ) return () => {};
+
+  const waveNumber = Number.parseFloat(wave.dataset.waveNumber ?? "1.42");
+  const waveSpeed = Number.parseFloat(wave.dataset.waveSpeed ?? "0.92");
   const mm = gsap.matchMedia();
 
   const ctx = gsap.context(() => {
-    mm.add("(min-width: 901px)", () => {
-      modules.forEach((module, index) => {
-        const image = module.querySelector<HTMLElement>("[data-service-visual] img");
-        const distance = [44, 34, 28, 36, 30][index] ?? 32;
+    const createWave = (compact: boolean, mobile = false) => {
+      let leftRange = 0;
+      let rightRange = 0;
+      let activeIndex = -1;
+      let resizeFrame = 0;
+      let scrollTrigger: ReturnType<typeof ScrollTrigger.create> | null = null;
 
-        gsap.fromTo(
-          module,
-          { y: distance, autoAlpha: 0.58 },
-          {
-            y: -Math.round(distance * 0.28),
-            autoAlpha: 1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: module,
-              start: "top 92%",
-              end: "top 34%",
-              scrub: 0.32,
-              invalidateOnRefresh: true,
-            },
-          },
+      const responseDuration = mobile ? 0.2 : compact ? 0.34 : 0.56;
+      const leftSetters = leftPanels.map((panel) =>
+        gsap.quickTo(panel, "x", { duration: responseDuration, ease: "power4.out" })
+      );
+      const rightSetters = rightPanels.map((panel) =>
+        gsap.quickTo(panel, "x", { duration: responseDuration, ease: "power4.out" })
+      );
+      const anchorOpacity = gsap.quickTo(anchorCopy, "opacity", {
+        duration: compact ? 0.28 : 0.42,
+        ease: "power2.out",
+      });
+
+      const calculateRange = (lanes: HTMLElement[], panels: HTMLElement[]) => {
+        if (mobile) return 0;
+        const laneWidth = Math.min(...lanes.map((lane) => lane.clientWidth));
+        const panelWidth = Math.max(
+          ...panels.map((panel) => panel.getBoundingClientRect().width),
         );
+        const measured = Math.max(0, laneWidth - panelWidth);
+        const minimum = compact ? 14 : 18;
+        const maximum = compact ? 38 : 96;
+        return gsap.utils.clamp(minimum, maximum, Math.max(measured, minimum));
+      };
 
-        if (image) {
-          gsap.fromTo(
-            image,
-            { yPercent: -5, scale: 1.025 },
-            {
-              yPercent: 1,
-              scale: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: module,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 0.4,
-                invalidateOnRefresh: true,
-              },
-            },
-          );
-        }
-      });
+      const calculateRanges = () => {
+        leftRange = calculateRange(leftLanes, leftPanels);
+        rightRange = calculateRange(rightLanes, rightPanels);
+      };
 
-      return () => {};
-    });
+      const calculateWavePosition = (
+        index: number,
+        progress: number,
+        range: number,
+      ) => {
+        const phase =
+          (compact ? 1.12 : waveNumber) * index
+          + (compact ? 0.72 : waveSpeed) * progress * Math.PI * 2
+          - Math.PI / 2;
+        return ((Math.sin(phase) + 1) / 2) * range;
+      };
 
-    mm.add("(max-width: 900px)", () => {
-      modules.forEach((module) => {
-        gsap.from(module, {
-          y: 20,
-          autoAlpha: 0,
-          duration: 0.65,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: module,
-            start: "top 90%",
-            once: true,
-          },
+      const setInitialPositions = (
+        panels: HTMLElement[],
+        range: number,
+        multiplier: 1 | -1,
+      ) => {
+        panels.forEach((panel, index) => {
+          const initialX = calculateWavePosition(index, 0, range) * multiplier;
+          gsap.set(panel, { x: initialX });
         });
-      });
+      };
 
-      return () => {};
-    });
+      const setActiveRow = () => {
+        const viewportCenter = window.innerHeight / 2;
+        let closestIndex = 0;
+        let minimumDistance = Number.POSITIVE_INFINITY;
+
+        rows.forEach((row, index) => {
+          const rect = row.getBoundingClientRect();
+          const distance = Math.abs(rect.top + rect.height / 2 - viewportCenter);
+          if (distance < minimumDistance) {
+            minimumDistance = distance;
+            closestIndex = index;
+          }
+        });
+
+        if (closestIndex === activeIndex) return;
+        rows.forEach((row, index) => {
+          if (index === closestIndex) row.setAttribute("data-service-active", "");
+          else row.removeAttribute("data-service-active");
+        });
+        serviceImages.forEach((image, index) => {
+          if (index === closestIndex) image.setAttribute("data-service-image-active", "");
+          else image.removeAttribute("data-service-image-active");
+        });
+        serviceIndex.textContent = `${String(closestIndex + 1).padStart(2, "0")} / 05`;
+        activeIndex = closestIndex;
+      };
+
+      const updateColumn = (
+        setters: Array<(value: number) => gsap.core.Tween>,
+        range: number,
+        progress: number,
+        multiplier: 1 | -1,
+      ) => {
+        setters.forEach((setter, index) => {
+          setter(calculateWavePosition(index, progress, range) * multiplier);
+        });
+      };
+
+      const handleScroll = (self: ReturnType<typeof ScrollTrigger.create>) => {
+        updateColumn(leftSetters, leftRange, self.progress, 1);
+        updateColumn(rightSetters, rightRange, self.progress, -1);
+        setActiveRow();
+
+        const edge = 0.055;
+        const visibility = gsap.utils.clamp(
+          0,
+          1,
+          Math.min(self.progress / edge, (1 - self.progress) / edge),
+        );
+        anchorOpacity(visibility);
+      };
+
+      const recalculate = () => {
+        resizeFrame = 0;
+        calculateRanges();
+        if (scrollTrigger) handleScroll(scrollTrigger);
+      };
+
+      const requestRecalculate = () => {
+        if (!resizeFrame) resizeFrame = window.requestAnimationFrame(recalculate);
+      };
+
+      calculateRanges();
+      setInitialPositions(leftPanels, leftRange, 1);
+      setInitialPositions(rightPanels, rightRange, -1);
+      gsap.set(anchorCopy, { opacity: 0, visibility: "visible" });
+      wave.setAttribute("data-service-wave-ready", "");
+
+      scrollTrigger = ScrollTrigger.create({
+        trigger: section,
+        start: "top bottom",
+        end: "bottom top",
+        invalidateOnRefresh: true,
+        onRefreshInit: calculateRanges,
+        onRefresh: (self) => handleScroll(self),
+        onUpdate: (self) => handleScroll(self),
+      });
+      handleScroll(scrollTrigger);
+
+      window.addEventListener("resize", requestRecalculate, { passive: true });
+
+      return () => {
+        window.cancelAnimationFrame(resizeFrame);
+        window.removeEventListener("resize", requestRecalculate);
+        scrollTrigger?.kill();
+        gsap.killTweensOf([...leftPanels, ...rightPanels, anchorCopy]);
+        gsap.set([...leftPanels, ...rightPanels], { clearProps: "transform" });
+        gsap.set(anchorCopy, { clearProps: "opacity,visibility" });
+        rows.forEach((row) => row.removeAttribute("data-service-active"));
+        serviceImages.forEach((image, index) => {
+          if (index === 0) image.setAttribute("data-service-image-active", "");
+          else image.removeAttribute("data-service-image-active");
+        });
+        serviceIndex.textContent = "01 / 05";
+        wave.removeAttribute("data-service-wave-ready");
+      };
+    };
+
+    mm.add("(min-width: 901px)", () => createWave(false));
+    mm.add("(min-width: 801px) and (max-width: 900px)", () => createWave(true));
+    mm.add("(max-width: 800px)", () => createWave(true, true));
   }, section);
 
   return () => {
@@ -220,12 +353,12 @@ function homeAtmosphereStateScene() {
     if (reduced || !state.includes("intro") && !state.includes("services")) return;
 
     const values = state === "intro-focus"
-      ? { details: 1, light: compact ? 0.38 : 0.62, scale: 1.08, x: -2, y: 2, veil: compact ? 0.38 : 0.22, grain: 0.2 }
+      ? { details: 1, light: compact ? 0.46 : 0.58, scale: 1.04, x: -2, y: 2, veil: compact ? 0.2 : 0.16, grain: 0.56 }
       : state === "intro-services-handoff"
-        ? { details: 1, light: compact ? 0.4 : 0.68, scale: 1.05, x: 0, y: 0, veil: compact ? 0.36 : 0.18, grain: 0.2 }
+        ? { details: 1, light: compact ? 0.48 : 0.62, scale: 1.03, x: 0, y: 0, veil: compact ? 0.18 : 0.14, grain: 0.6 }
         : state === "services-focus"
-          ? { details: 1, light: compact ? 0.42 : 0.74, scale: 1.02, x: 4, y: -3, veil: compact ? 0.34 : 0.14, grain: 0.24 }
-          : { details: 1, light: compact ? 0.4 : 0.66, scale: 1.04, x: 1, y: -2, veil: compact ? 0.36 : 0.24, grain: 0.24 };
+          ? { details: 1, light: compact ? 0.58 : 0.76, scale: 1.06, x: -4, y: -4, veil: compact ? 0.12 : 0.08, grain: 0.72 }
+          : { details: 1, light: compact ? 0.52 : 0.68, scale: 1.04, x: 1, y: -2, veil: compact ? 0.16 : 0.12, grain: 0.66 };
 
     clearStateTweens();
     const detailVars: gsap.TweenVars = { autoAlpha: values.details, overwrite: "auto" };
@@ -243,7 +376,7 @@ function homeAtmosphereStateScene() {
       overwrite: "auto",
     };
     const grainVars: gsap.TweenVars = {
-      autoAlpha: compact ? 0 : values.grain,
+      autoAlpha: values.grain,
       ease: "power2.out",
       overwrite: "auto",
     };
@@ -366,7 +499,7 @@ function effectScene() {
         }, 0.1);
       }
       if (grain && !compact) {
-        atmosphere.to(grain, { autoAlpha: 0.58, duration: 0.3, ease: "none" }, 0.16);
+        atmosphere.to(grain, { autoAlpha: 0.68, duration: 0.3, ease: "none" }, 0.16);
       }
 
       atmosphere
@@ -497,7 +630,7 @@ function effectWorkJourney(compact: boolean) {
       handoff.to(wave, { opacity: 0.3, scale: 1.07, ease: "none" }, 0);
     }
     if (grain && !compact) {
-      handoff.to(grain, { autoAlpha: 0.32, ease: "none" }, 0);
+      handoff.to(grain, { autoAlpha: 0.56, ease: "none" }, 0);
     }
     handoff.to(veil, { autoAlpha: compact ? 0.32 : 0.18, ease: "none" }, 0);
   }, continuum);
@@ -814,7 +947,6 @@ function workProcessJourney(compact: boolean) {
   const continuum = document.querySelector<HTMLElement>("[data-home-atmosphere]");
   const backdrop = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-backdrop]");
   const grain = continuum?.querySelector<HTMLElement>("[data-home-atmosphere-grain]");
-  const grainCanvas = grain?.querySelector<HTMLElement>(".work-film-grain");
   if (!journey || !work || !process || !shade) return () => {};
 
   const ctx = gsap.context(() => {
@@ -842,8 +974,8 @@ function workProcessJourney(compact: boolean) {
         duration: 0.84,
         ease: "power2.in",
       }, 0);
-    if (grainCanvas) {
-      timeline.to(grainCanvas, { autoAlpha: 0, duration: 0.42, ease: "none" }, 0.12);
+    if (grain) {
+      timeline.to(grain, { autoAlpha: 0, duration: 0.42, ease: "none" }, 0.12);
     }
     if (backdrop) {
       timeline.to(backdrop, { autoAlpha: 0, duration: 0.55, ease: "none" }, 0.2);

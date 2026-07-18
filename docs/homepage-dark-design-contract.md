@@ -71,13 +71,15 @@ Intro is a documented exception: its Codrops composition uses local
 - Media uses restrained corners, near-monochrome treatment and a dark raised
   surface when edge definition is needed.
 - Clip and scale reveals are limited to media introduction, not every element.
-- One persistent owner supplies wave, spotlight, vignette and veil from Intro
+- One persistent owner supplies the user-supplied wave/poster, asymmetric
+  spotlight, vignette, dark material, veil and two-scale grain from Intro
   through Arbeid. Sections above it do not mount duplicate backdrops.
-- Restrained grain belongs to the one global desktop atmosphere; sections do
-  not create or tune separate grain layers.
-- Mobile, touch and reduced motion avoid unnecessary video/canvas work and use
-  lightweight or static CSS light.
-- No new external media, shader or canvas without a separate decision.
+- Grain belongs to the one global atmosphere; sections do not create or tune
+  separate grain layers. The former animated viewport canvas is removed.
+- Mobile/touch keep the lightweight 644×360 wave and static grain. Reduced
+  motion/no-JS use the poster and static material.
+- No new external media, shader or canvas without a separate decision. The
+  supplied `wavebg.mp4` is the documented exception for this owner only.
 
 ## Journey
 
@@ -96,9 +98,9 @@ Intro is a documented exception: its Codrops composition uses local
 
 | Owner | Mechanic | Fallback |
 |---|---|---|
-| Global atmosphere | persistent Intro→Arbeid light/media states | one continuous static CSS field |
+| Global atmosphere | persistent Intro→Arbeid wave/material states | poster plus static material |
 | Intro | Flip/scramble term stream with collision clearance | stable foreground and readable handoff |
-| Tjenester | small opposing settles and mild image parallax | normal flow |
+| Tjenester | prelude → active-image axis with desktop dual streams / mobile chapters | first static image and normal-flow ledger |
 | 02→03 | three statements on one typographic stage | complete statement list |
 | Effekt | result/media reveal and atmosphere focus | complete static results |
 | 03→04 | scoped atmosphere handoff | static light and normal flow |

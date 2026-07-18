@@ -21,14 +21,18 @@ atmosphere; the sections retain different content layouts above it.
 ## Global background rule
 
 - `01 / Intro`, `02 / Tjenester`, `03 / Effekt` and `04 / Arbeid` must sit
-  above one persistent wave/spotlight/vignette/veil atmosphere owner.
+  above one persistent wave/poster/spotlight/vignette/material/veil/grain
+  atmosphere owner.
 - A section may change the atmosphere state, but may not restart or replace the
   full background at its boundary.
 - Do not allow stacked exit/intro spacing, a veil reset or an unloaded media
   layer to create an empty black hold between these sections.
 - Local raised/focus surfaces remain valid for media. Full-section backgrounds
   stay transparent after the shared owner is mounted.
-- Mobile, reduced motion and no-JS use one continuous static CSS field.
+- Material and grain stay below every section's text, links, navigation and
+  local media. Background texture may never wash over readable content.
+- Mobile uses the same lightweight global wave and static texture recipe.
+  Reduced motion and no-JS use its poster plus the continuous static material.
 - Section content motion remains scoped; only background lifecycle is global.
 
 ## Brand platform
@@ -56,8 +60,9 @@ Do not change without explicit instruction:
 - Existing uncommitted work in another section.
 
 Do not import legacy project CSS/JS or third-party reference code, fonts,
-media or assets. Intro's scoped Typekit kit `upd0woi` is the one documented
-exception. Do not introduce visible orange.
+media or assets. Intro's scoped Typekit kit `upd0woi` and the user-supplied
+`wavebg.mp4` global-atmosphere source are the two documented exceptions. Do
+not introduce visible orange.
 
 ## Active section decisions
 
@@ -69,18 +74,28 @@ exception. Do not introduce visible orange.
 - Decorative Tigon terms move and scramble behind it.
 - Each decorative term fades before colliding with the foreground copy.
 - No visible card, box, mask or backdrop blur behind the main statement.
-- The global Intro-through-Arbeid owner supplies the wave/spotlight field;
-  mobile/reduced motion disable video.
+- The global Intro-through-Arbeid owner supplies the wave/material field;
+  mobile keeps the lightweight wave while reduced motion/no-JS use its poster.
 
 ### 02 / Tjenester
 
-- Preserve all five services, copy, capability lists, images and hrefs.
-- Keep the active compact asymmetric mosaic and quiet sticky desktop rail.
-- Do not turn the section into a full-screen pin, giant-type sequence, card
-  grid or five-image template.
+- Preserve all five services, copy, capability lists, hrefs and the five local
+  images mapped to the center visual.
+- Keep `Hva vi bygger` as a concise normal-flow prelude. The sticky scene owns
+  only the active image and index; do not rebuild the former center copy stack.
+- Above 800 px, preserve the paired left/right streams. Through 800 px, keep
+  one complete full-width service chapter at a time with zero horizontal wave.
+- Do not turn the section into giant service type, a card grid, a five-image
+  template or an isolated full-screen canvas.
 - Sit above the global wave/spotlight/vignette atmosphere and retain the
   restrained JUST Sans/Caleb Mono hierarchy.
-- Motion remains small settle/parallax; compact/reduced/no-JS use normal flow.
+- `servicesScene` owns one section-scoped dual-wave calculation: measured
+  ranges, sine offsets, opposing lane direction and center focus.
+- Do not add ScrollSmoother, a second scroll transport, a second image trigger,
+  preloader or third-party assets. Reduced-motion/no-JS use one static first
+  image and normal flow.
+- Strengthen Tjenester only through the existing global `services-focus`
+  atmosphere state; never mount a local section backdrop.
 
 ### 02 → 03
 
@@ -140,8 +155,9 @@ exception. Do not introduce visible orange.
 ## Git discipline
 
 - Approved commits: Intro `e4dbba7`; 03/04 `c349ef7`.
-- The active 02/Tjenester checkpoint includes the redesign and supporting
-  current documentation. Later changes should remain scoped polish.
+- The committed `7ef236d` mosaic remains historical rollback context. The
+  active dirty 02/Tjenester worktree is the explicitly requested dual-wave
+  redesign and must move with its supporting documentation.
 - Global Lenis/lifecycle cleanup remains a separate task and must not be folded
   silently into a visual section commit.
 - Never reset or discard the full worktree for a section rollback.

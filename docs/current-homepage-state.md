@@ -14,8 +14,10 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 - `7ef236d` contains the approved compact Tjenester mosaic.
 - `c349ef7` contains the approved 03/04 atmosphere and typography work.
 - `2aaa6ad` is the clean baseline and contains the canonical design handbook.
-- The active 02/Tjenester checkpoint consists of the new mosaic, its
-  `servicesScene` motion owner and current design/status documentation.
+- `b5d1a10` contains the approved one-owner global atmosphere through Arbeid.
+- The active dirty 02/Tjenester worktree replaces the earlier mosaic with the
+  explicitly requested centered dual-wave composition. Its implementation,
+  section contract and current-state documentation move together.
 - Global Lenis removal is not present after the user-requested reset. Lenis and
   dormant homepage initializers remain mounted and must be handled only in a
   separate lifecycle task.
@@ -45,11 +47,18 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   Visible meta has a 10 px minimum.
 - All body sections share `homepage-gutter`, 12/6-column grid logic, dark line
   roles and named section rhythm.
-- `HomeAtmosphere` physically owns one Work wave, spotlight, vignette, veil and
-  restrained desktop grain layer from Intro through Arbeid. All four section
-  roots are transparent; no section boundary restarts the background.
-- Mobile/reduced motion disable video and grain but retain the same continuous
-  static spotlight. No new third-party asset was introduced.
+- `HomeAtmosphere` physically owns one supplied wave, poster, asymmetric
+  spotlight, vignette, dark material, veil and two-scale film-grain field from
+  Intro through Arbeid. All four section roots are transparent; no section
+  boundary restarts the background.
+- Both grain scales are restrained background layers below chapter text and
+  media; the former page-wide overlay above content is explicitly rejected.
+- Desktop and mobile play the same lightweight 644×360 wave. Reduced motion and
+  no-JS use its static poster plus static grain. The former 25 FPS viewport
+  grain canvas has been removed.
+- The user-supplied `wavebg.mp4` is the one documented external-media
+  exception. It was remuxed without audio; no external code, font, image,
+  shader or tracking asset was added.
 - The current clean baseline still mounts global Lenis. The canonical future
   direction remains native scroll, but lifecycle cleanup is outside the active
   02 design scope.
@@ -65,26 +74,37 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   Flip and scramble architecture behind the foreground statement.
 - Collision clearance fades each decorative word before it overlaps the
   foreground copy. The background motion continues above and below the text.
-- Sits above the one global Work wave/spotlight/vignette/grain field. Video and
-  grain are desktop-only; reduced motion and mobile use the static spotlight.
+- Sits above the one global wave/material/vignette/grain field. Mobile retains
+  the lightweight wave and static grain; reduced motion/no-JS use the poster.
 - The handoff `01 → 02 / Én helhet. Fem fag.` remains server-rendered.
 - Full implementation contract: Appendix A in `design.md` and
   `docs/sections/01-approach.md`.
 
 ### 02 / Tjenester
 
-- Five services, descriptions, capability lists, images and established hrefs
-  are unchanged and server-rendered.
+- Five services, descriptions, capability lists and established hrefs are
+  unchanged and server-rendered. Five existing local service images form one
+  small, borderless center visual.
 - Sits transparently above `HomeAtmosphere`; there is no local section canvas,
   duplicate wave or separate grey background.
-- A restrained sticky rail anchors a three-row asymmetric desktop mosaic. The
-  two existing images are media anchors; the other three services are compact
-  text modules.
-- Service hierarchy uses moderate JUST Sans rather than large display type.
-  Repeated chapter borders and the redundant delivery register are removed.
-- Motion is limited to small module settles and mild image parallax. Through
-  900 px the rail is static; mobile/reduced motion keep ordinary flow while the
-  global atmosphere supplies its lightweight fallback.
+- `Hva vi bygger` and its explanation form a concise normal-flow prelude. The
+  sticky scene that follows contains only the active image and `01 / 05`
+  index, removing the former hero-like center stack.
+- Above 800 px, paired service panels move in opposing left/right streams
+  around that image axis. Through 800 px, every active service is one complete
+  full-width chapter below the sticky image; there are no split ghost columns.
+- The service hierarchy remains moderate JUST Sans with Caleb Mono metadata;
+  it does not use full-screen service names, cards or ornamental dividers.
+- One section-scoped `servicesScene` adapts the audited Codrops dual-wave
+  mechanics: measured ranges, sine offsets, opposing directions and
+  closest-to-center focus. That same index switches the local center image;
+  there is no second trigger, preloader or ScrollSmoother.
+- From 801–900 px the dual streams use smaller measured ranges. Through 800 px
+  horizontal travel is zero. Reduced motion and no-JS receive the first static
+  image and a complete normal-flow ledger.
+- `services-focus` strengthens the existing global atmosphere with asymmetric
+  light, higher wave/grain presence and a lower veil. It does not add a local
+  background owner.
 
 ### 02 → 03
 
@@ -98,8 +118,8 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 - Semantic typography and the 10 px meta floor are active.
 - The global atmosphere continues through
   `effect-focus → handoff → work-focus → exit`.
-- Desktop uses the same existing Work wave/grain already visible in Intro and
-  Tjenester; mobile/reduced motion use the continuous static CSS spotlight.
+- Desktop and mobile use the same wave/material already visible in Intro and
+  Tjenester; reduced motion/no-JS use the continuous poster/light/grain field.
 - The asymmetric result content and established 03→04 thesis remain unchanged.
 
 ### 04 / Arbeid
@@ -147,25 +167,36 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 - Header, Hero, footer DOM, NAP, important footer links, SEO metadata, schema,
   sitemap, robots, canonical, URLs and slugs were not changed.
 - 04 capability semantics and six established hrefs were not changed.
-- No visible orange or unapproved third-party code, media, shader, loader or
-  asset was added. Intro deliberately loads Codrops' Typekit kit `upd0woi`;
-  this scoped exception is documented in `design.md` and must not spread.
+- No visible orange or unapproved third-party code, shader, loader or asset was
+  added. The user-supplied wave file and Intro's Codrops Typekit kit `upd0woi`
+  are the two scoped exceptions documented in `design.md`; neither may spread.
 - No old `styles.css`, `signature.css` or `main.js` was imported.
 
 ## Verification
 
 Verification record:
 
-- The global atmosphere worktree passes TypeScript, the optimized production
-  build and `git diff --check`.
-- Desktop QA confirmed one wave video, one sticky backdrop, transparent
-  Intro/Tjenester/Effekt/Arbeid roots, continuous Intro→Tjenester light and no
-  horizontal overflow. Mobile and reduced-motion QA confirmed video/grain are
-  disabled while the static spotlight and all content remain present.
-- The new mosaic was reviewed at 1440, 1024, 900, 768 and 390 px. Reduced
-  motion, 390 px no-JS, all five service hrefs and horizontal overflow were
-  checked directly; all five modules remain visible and video is disabled in
-  compact/reduced states.
+- The global atmosphere/material worktree passes TypeScript, the optimized
+  production build and `git diff --check`.
+- The committed ownership baseline confirmed one wave video, one sticky
+  backdrop, transparent Intro/Tjenester/Effekt/Arbeid roots, continuous
+  Intro→Tjenester light and no horizontal overflow. The active material pass
+  supersedes its mobile/reduced fallback and was revalidated in production.
+- Production QA at 1440, 1024, 900, 768 and 390 px confirmed exactly one
+  atmosphere owner, backdrop, wave and grain stage; named states resolve from
+  Intro through Work and every width has zero horizontal overflow.
+- The wave plays on desktop and mobile. Reduced motion and 390 px no-JS hide
+  the video, keep the poster/material/grain visible and retain all five service
+  links. Fine grain motion is disabled at 768 px, mobile and reduced motion.
+- The matrix exposed only the already documented protected `/kontakt` route
+  prefetch 404 at wider widths; this task did not change that link or route.
+- The revised Tjenester composition was checked at 1440, 900, 800, 768 and 390
+  px, including the exact 800/801 px choreography boundary. Desktop/tablet-wide
+  retain opposing transforms; through 800 px both panels are full-width with
+  zero horizontal transform. All tested widths have zero document overflow.
+- The NuDot-derived center visual and `01 / 05` index map one-to-one with active
+  services. Stronger global `services-focus` light/wave state, all five links,
+  reduced-motion and 390 px no-JS were checked directly, with no console errors.
 - The isolated Intro commit passed TypeScript and production build checks.
 - The isolated 03/04 commit passed TypeScript and a production Webpack build.
 - The earlier integrated dark-homepage pass was checked on 2026-07-17 at 1440,

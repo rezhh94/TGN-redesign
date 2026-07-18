@@ -1,36 +1,104 @@
-# 02 / Tjenester — active contract
+# 02 / Tjenester — dual-wave contract
 
 Last reconciled: 2026-07-18.
 
-Status: approved as the active checkpoint on 2026-07-18. Later visual polish
-may refine spacing or calibration without reopening the composition contract.
+Status: reopened by explicit user direction after the approved compact mosaic
+checkpoint. The rollback point remains `b5d1a10`.
+
+## Composition
 
 - Files: `WhatWeBuild.tsx`, `what-we-build.css`, `servicesScene`.
-- NuDot is the composition reference for restrained scale, asymmetric service
-  placement and media/text balance. No NuDot code, font, image or asset is
-  imported.
-- The section sits transparently above the canonical global
-  Intro-through-Arbeid wave, spotlight, vignette and veil. It must not own a
-  duplicate full-section background after the global atmosphere migration.
-- Desktop uses a quiet sticky information rail and a three-row asymmetric
-  mosaic. It is not a full-viewport pin, card grid or large-title sequence.
-- `Hva vi bygger` and all service names use restrained JUST Sans scale. Caleb
-  Mono owns numbering, capabilities and actions; no `display-xl/2xl` service
-  typography is allowed.
-- Existing Nettsider and Webapper media are the two visual anchors. Apper,
-  AI-systemer and SEO & AI-søk remain compact text modules; do not manufacture
-  filler media to make all five items identical.
-- Every module is one real accessible link with its established href. All five
-  descriptions and complete capability lists remain server-rendered.
-- The former `Hele leveransen` register and repeated card-like chapter framing
-  are removed because they duplicated visible service information.
-- `servicesScene` owns only the small module settle and mild media parallax.
-  Wave playback and background state belong to `HomeAtmosphere`.
-- Through 900 px the rail is no longer sticky; at 640 px the composition is one
-  normal-flow column. Mobile and reduced motion disable the video. No-JS keeps
-  all content and links visible.
-- Preserve the clean release into the existing `OutcomeTensionBridge`.
+- `Hva vi bygger` and its complete explanation form a concise normal-flow
+  prelude. They leave before the service scroll scene takes over; they are not
+  retained as a hero-like sticky center stack.
+- The complete heading statement is:
+  `Fem fagområder. Én sammenhengende leveranse fra første valg til en løsning
+  som kan finnes, forstås og måles.`
+- Above 800 px, five service rows travel around a sticky center-image axis. The
+  left stream carries service number, title and action; the right stream carries
+  the description and complete capability list.
+- Through 800 px, horizontal wave travel resolves to zero. Each service becomes
+  one complete full-width chapter below the sticky image, with title,
+  description, capabilities and action in the same readable column.
+- The two sides of a row belong to one real service link. They are a visual
+  split, never duplicate interactive or accessible content.
+- The section stays transparent above `HomeAtmosphere`. It may tune the named
+  global atmosphere state but may not add or restart a background.
+- `services-focus` uses the existing global owner to increase asymmetric light,
+  wave presence, material/grain and depth while lowering the veil. Mobile uses
+  the same lightweight wave with static grain; reduced motion/no-JS use the
+  poster and static material.
+- A compact, borderless center visual uses the five existing Tigon service
+  images. The crop varies between portrait, square and landscape like the
+  supplied NuDot recording, but the stage keeps stable geometry.
+- Typography stays restrained: JUST Sans for title/body and Caleb Mono for
+  numbering, capabilities and actions. No giant full-screen service titles.
 
-The former Tjenester backdrop/video is removed. The section root is transparent
-and the reduced Intro-exit/Tjenester-intro spacing no longer creates a black
-reset.
+## Reference extraction
+
+The motion reference is Valentin Descombes/Codrops
+`codrops-tutorial-text-animation`, audited at commit
+`90dfeb2eec89dd6879cabf2e76f4e7096e515a8a`.
+
+- `DualWaveAnimation.calculateRanges`, `setInitialPositions`,
+  `calculateWavePosition`, opposing column multipliers, centre-focus selection,
+  quick setters, resize recalculation and `destroy` cleanup are adapted.
+- The reference's imperative `src` swap and image preloader are not copied.
+  Five local images are server-rendered in one stable stage, and the same
+  closest-to-center index exposes the active image. This adds no second trigger
+  or media lifecycle.
+- Reference `ScrollSmoother` and `normalizeScroll` are deliberately omitted.
+  Tjenester owns no global scroll transport.
+- Reference CSS is not imported. Its two-column relationship is rebuilt with
+  Tigon tokens, protected-centre geometry and this section's real content.
+- Preserve the MIT attribution if a substantial source translation remains in
+  the final implementation.
+
+## Motion ownership
+
+- `servicesScene` is the only JavaScript owner for service motion.
+- Desktop uses one section-scoped ScrollTrigger. A sine function moves the two
+  streams in opposing horizontal directions while natural document scroll
+  supplies vertical movement.
+- The service row closest to viewport centre gains focus. Focus is hierarchy,
+  not hidden content: every service remains readable and clickable. The same
+  index activates its corresponding local center image.
+- Range values are derived from measured lane and panel widths and recalculated
+  on real viewport changes. Animation writes only transform/opacity state.
+- No master pin, captured scrolling, duplicate trigger per service, global
+  kill, independent image trigger or second smooth-scroll engine is allowed.
+- Cleanup kills the trigger/tweens, removes listeners and restores all inline
+  transforms and focus attributes.
+
+## Compact, touch and fallback
+
+- Compact/touch through 800 px is a separately authored choreography, not the
+  desktop columns squeezed into a narrow viewport. The sticky image remains in
+  the upper field while one complete service chapter occupies the lower field.
+- Service text may wrap, but no established description, capability or href is
+  removed. Touch has a visible action and does not depend on hover.
+- Reduced motion and no-JS use an ordinary single-column service ledger after
+  the centred heading and retain the first image as a static visual. No
+  important content starts hidden in CSS.
+- Keyboard focus outlines the complete service link and raises the same focus
+  state as scroll/hover without moving focus or trapping the user.
+- The section must have no horizontal document overflow at 1440, 1024, 900,
+  800, 768 or 390 px.
+
+## Handoffs and preservation
+
+- Preserve the approved Intro content and its Flip/scramble/collision owner.
+  Only the final 01→02 spacing/state handoff may be calibrated.
+- Preserve all five service labels, descriptions, complete capability lists
+  and established hrefs.
+- Preserve the clean release into `OutcomeTensionBridge`; do not restyle 03 or
+  04 to support this section.
+- Header/Hero, SEO, URLs, footer, global background ownership and visible-orange
+  prohibition remain unchanged.
+
+## Approval gate
+
+The implementation is not complete until desktop and compact motion, reverse
+scroll, refresh-in-section, resize/orientation, touch, keyboard, reduced motion,
+no-JS, five hrefs, horizontal overflow, TypeScript and production build have
+been checked directly.

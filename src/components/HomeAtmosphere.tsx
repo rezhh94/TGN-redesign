@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { WorkAtmosphereCanvas } from "@/components/WorkAtmosphereCanvas";
 
 export function HomeAtmosphere() {
   const waveRef = useRef<HTMLVideoElement>(null);
@@ -11,25 +10,26 @@ export function HomeAtmosphere() {
     if (!wave) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const compact = window.matchMedia("(max-width: 768px)");
-
     const syncPlayback = () => {
-      if (reduced.matches || compact.matches || document.hidden) {
+      if (reduced.matches || document.hidden) {
         wave.pause();
         return;
       }
       void wave.play().catch(() => {});
     };
+    const guardReducedPlayback = () => {
+      if (reduced.matches) wave.pause();
+    };
 
     reduced.addEventListener("change", syncPlayback);
-    compact.addEventListener("change", syncPlayback);
+    wave.addEventListener("play", guardReducedPlayback);
     document.addEventListener("visibilitychange", syncPlayback);
     syncPlayback();
 
     return () => {
       wave.pause();
       reduced.removeEventListener("change", syncPlayback);
-      compact.removeEventListener("change", syncPlayback);
+      wave.removeEventListener("play", guardReducedPlayback);
       document.removeEventListener("visibilitychange", syncPlayback);
     };
   }, []);
@@ -42,6 +42,7 @@ export function HomeAtmosphere() {
         aria-hidden="true"
       >
         <div className="home-atmosphere__details" data-home-atmosphere-details>
+          <div className="home-atmosphere__poster" />
           <video
             ref={waveRef}
             className="home-atmosphere__video"
@@ -49,16 +50,22 @@ export function HomeAtmosphere() {
             muted
             playsInline
             loop
-            preload="metadata"
+            preload="auto"
+            poster="/video/work-wave-poster.jpg"
+            disablePictureInPicture
             data-home-atmosphere-wave
           >
             <source src="/video/work-wave-loop.mp4" type="video/mp4" />
           </video>
+          <noscript>
+            <style>{`.home-atmosphere__video{display:none!important}`}</style>
+          </noscript>
           <div
             className="home-atmosphere__spotlight"
             data-home-atmosphere-spotlight
           />
           <div className="home-atmosphere__vignette" />
+          <div className="home-atmosphere__material" />
         </div>
 
         <div className="home-atmosphere__veil" data-home-atmosphere-veil />
@@ -69,7 +76,8 @@ export function HomeAtmosphere() {
         data-home-atmosphere-grain
         aria-hidden="true"
       >
-        <WorkAtmosphereCanvas />
+        <span className="home-atmosphere__grain home-atmosphere__grain--coarse" />
+        <span className="home-atmosphere__grain home-atmosphere__grain--fine" />
       </div>
     </>
   );

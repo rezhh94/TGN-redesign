@@ -13,9 +13,10 @@ Last reconciled: 2026-07-18. Approved commit: `e4dbba7`.
   Flip and scramble architecture behind the foreground copy.
 - Each decorative word fades before it intersects the measured foreground
   rectangle. Do not add a visible card, text box, mask or backdrop blur.
-- Sits above the global Intro-through-Arbeid Work
-  wave/spotlight/vignette/grain atmosphere. `HomeAtmosphere` plays the one
-  desktop video; mobile and reduced motion disable video/grain.
+- Sits above the global Intro-through-Arbeid
+  wave/material/spotlight/vignette/grain atmosphere. `HomeAtmosphere` plays
+  the one lightweight wave on desktop and mobile; reduced motion/no-JS use its
+  static poster and static grain.
 - The scoped Typekit kit `upd0woi` is an explicit Intro-only exception.
 - The server-rendered handoff `01 → 02 / Én helhet. Fem fag.` remains.
 - Reduced motion/no-JS keep stable foreground content and readable handoff.

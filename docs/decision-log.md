@@ -22,8 +22,9 @@ working documentation so they cannot steer later tasks.
 - `design.md` is the canonical design entry point; `tokens.css` owns actual
   values and section contracts own local composition.
 - NuDot is a clean-room reference for flow, hierarchy, depth and motion
-  grammar. Its fonts, code, assets, global Lenis, loader, decorative cursor and
-  default-heavy WebGL architecture are not part of the Tigon system.
+  grammar. Its fonts, code, general assets, global Lenis, loader, decorative
+  cursor and default-heavy WebGL architecture are not part of the Tigon
+  system. The user-supplied `wavebg.mp4` is one explicit documented exception.
 - New work prefers semantic `surface-*`, `text-*`, `line-*`, `type-*`, grid and
   rhythm roles. Legacy aliases are retired only inside explicitly opened
   sections, never through an unrelated global rewrite.
@@ -52,13 +53,30 @@ contract; the main body of `design.md` governs the shared homepage language.
 ## 02 / Tjenester
 
 Decision:
-Keep five complete services with their existing copy, imagery, capability lists
-and verified hrefs in normal editorial flow. Motion remains small, local and
-non-essential.
+Keep five complete services with their existing copy, capability lists and
+verified hrefs as server-rendered links. Place a moderate centered
+`Hva vi bygger` prelude in normal flow, then let paired title/detail streams
+move around a sticky image-only axis. Existing service imagery forms one small,
+borderless center visual. Its portrait, square and landscape crops change with
+the service nearest the viewport center, following the supplied NuDot motion
+recording without copying NuDot assets.
+
+Adapt only the audited motion architecture from
+`ValentinDBS/codrops-tutorial-text-animation` commit
+`90dfeb2eec89dd6879cabf2e76f4e7096e515a8a`: measured ranges, opposing
+multipliers, sine offsets, closest-center focus and resize recalculation. Keep
+it section-scoped; do not add ScrollSmoother or external assets. The
+active-index image switch belongs to the same owner and may not create a second
+trigger or media lifecycle. Reduced motion and no-JS use normal flow.
+
+Revision after direct visual review: through 800 px, remove horizontal travel
+and present one full-width service chapter at a time beneath the sticky image.
+The existing global `services-focus` state becomes more asymmetric and vivid;
+no local background is added.
 
 Status:
-Approved and committed as `7ef236d`. Later spacing or atmosphere calibration
-must preserve the compact mosaic composition and established links/content.
+Implemented in the active worktree and awaiting review/commit. `7ef236d` is the
+historical compact-mosaic rollback point, not the active composition.
 
 ## 02 → 03
 
@@ -90,9 +108,20 @@ The global owner changes named focus states without restarting at chapter
 boundaries. Compact/reduced/no-JS use one continuous static light field.
 
 Status:
-Implemented in the current worktree and awaiting user approval/commit.
+Approved and committed as `b5d1a10`.
 `HomeAtmosphere` is the sole background owner; Intro, Tjenester, Effekt and
-Arbeid retain their approved content compositions above transparent roots.
+Arbeid retain their content compositions above transparent roots.
+
+Material revision, 2026-07-18:
+Keep the same sole owner but replace its former generated delivery loop with
+the exact video stream from the user-supplied `wavebg.mp4`, stripped of audio.
+Build the NuDot-like surface from a deep asymmetric vignette, multiply material
+and two restrained tiled grain scales below all text and media. Remove the 25
+FPS viewport canvas. Desktop and mobile play the one lightweight wave; reduced
+motion/no-JS use its poster and static material. No local section background or
+new scroll owner is allowed.
+
+Status: implemented in the active worktree and awaiting review/commit.
 
 ## 05 / Prosess
 

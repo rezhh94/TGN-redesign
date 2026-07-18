@@ -10,8 +10,9 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 
 - Active branch: `codex/work-services-accordion`.
 - Approved Intro commit: `e4dbba7 feat: redesign intro scroll typography`.
-- Approved 02/Tjenester commit: `7ef236d feat: redesign services as compact mosaic`.
+- Historical 02/Tjenester rollback commit: `7ef236d feat: redesign services as compact mosaic`.
 - Approved 03/04 commit: `c349ef7 feat: unify effect and work atmosphere`.
+- Approved global atmosphere commit: `b5d1a10 feat: unify homepage atmosphere through work`.
 - The active instruction, status, decision, section and design documents are
   maintained as tracked project context. This includes
   `docs/project-continuation-context.md`, `docs/remaining-work.md`,
@@ -22,19 +23,20 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 - The earlier broad dirty worktree was discarded at the user's explicit
   request. Do not reconstruct its 05/06 or lifecycle directions from stale
   notes or Git history.
-- The active 02/Tjenester checkpoint is intentionally scoped to the mosaic in
-  `WhatWeBuild.tsx`, `what-we-build.css`, `servicesScene` and the current
-  design/status documentation. The user approved this direction on 2026-07-18;
-  later spacing/calibration changes should be separate polish work.
+- The active dirty 02/Tjenester worktree replaces the committed mosaic by
+  explicit user direction. It is scoped to `WhatWeBuild.tsx`,
+  `what-we-build.css`, `servicesScene` and the synchronized design/status
+  documentation. Do not restore mosaic assumptions while reviewing it.
 - The user made one physical global background from Intro through Arbeid
-  explicit and non-negotiable. The current dirty worktree implements it through
+  explicit and non-negotiable. Commit `b5d1a10` implements it through
   `HomeAtmosphere`, transparent 01→04 section roots and one Work wave/grain
-  lifecycle. Local Intro/Tjenester backdrop copies are removed.
+  lifecycle. Local Intro/Tjenester backdrop copies remain removed.
 - Global Lenis and dormant homepage initializers remain mounted in the clean
   baseline. Cleanup is still open but must stay separate from 02 design work.
-- `videos/tigon-work-atmosphere/` is tracked source material for the active
-  12-second `public/video/work-wave-loop.mp4` and must be retained. It contains
-  the 1920×1080 render source, project metadata and QA snapshots.
+- `videos/tigon-work-atmosphere/` remains tracked historical/reproducible source
+  material for the former generated 12-second wave and must not be removed.
+  The active delivery file is now the documented user-supplied `wavebg.mp4`
+  remux described in `design.md`.
 - The former external-reference image/PDF library had no production references
   or duplicates under `public/` and was removed on 2026-07-18. Its tracked
   files remain recoverable from Git history if an explicit historical audit is
@@ -43,8 +45,8 @@ contracts. Mounted source code wins if documentation and runtime disagree.
   final sprite was verified byte-identical to the installed Snitt pet. The full
   QA/export material was preserved at
   `~/.codex/pets/snitt/source-export/snitt-2026-07-15`.
-- `next-env.d.ts` also has a pre-existing generated diff. Do not fold it into a
-  design commit without first confirming why Next regenerated it.
+- Production builds may regenerate the route-types import in `next-env.d.ts`.
+  Keep that generated-only change outside design commits.
 
 ## Read order in a new chat
 
@@ -82,8 +84,8 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 - Decorative Tigon capability words Flip, scramble and move behind it.
 - Each decorative word fades before it enters the protected foreground text
   rectangle; there is no visible card, box or mask behind the main statement.
-- Reuses the 04 atmosphere recipe with the existing
-  `/video/work-wave-loop.mp4`; mobile/reduced motion disables the video.
+- Reuses the global atmosphere with `/video/work-wave-loop.mp4`; mobile keeps
+  the lightweight wave and reduced motion/no-JS use its static poster.
 - Uses the original Codrops Typekit kit `upd0woi`, scoped to Intro. This is a
   deliberate exception and must not spread to other sections.
 - Full active contract: Appendix A in `design.md` and
@@ -93,15 +95,16 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 
 - One shared `surface-base` atmosphere with named states
   `entry → effect-focus → handoff → work-focus → exit`.
-- Existing wave, spotlight, vignette, veil and grain are calibrated as one
-  journey. Compact/reduced states avoid video/grain.
+- Wave, asymmetric spotlight, vignette, dark material, veil and film grain are
+  calibrated as one journey. Compact keeps the lightweight wave with static
+  texture; reduced motion/no-JS use the poster and static texture.
 - Effekt retains `FUNNET / FORSTÅTT / VALGT / MÅLT` and the 10 px meta floor.
 - Arbeid remains six future-facing capability links, never portfolio or
   customer proof. Desktop uses the sticky archive treatment; through 1000 px,
   touch, reduced motion and no-JS use normal flow.
 - The functional cursor remains limited to the six capability links.
 
-## Committed 02 checkpoint
+## Historical committed 02 checkpoint
 
 - A compact, clean-room NuDot-inspired 02/Tjenester mosaic.
 - Two existing service media anchors, three text-led services and five complete
@@ -109,7 +112,45 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 - Small section-scoped settles and media parallax in `servicesScene`.
 - Approved commit: `7ef236d`.
 
-## Active global atmosphere worktree
+## Active 02 / Tjenester worktree
+
+- Replaces the old mosaic with a concise normal-flow `Hva vi bygger` prelude,
+  followed by a sticky active-image/index axis.
+- Above 800 px, five paired service rows move in opposing left/right streams.
+  Through 800 px, each service is one complete full-width chapter with no
+  horizontal travel or split ghost text.
+- Preserves every service label, description, capability and established href
+  as server-rendered content. Five existing local service images are mounted
+  as one compact, borderless center visual.
+- Adapts the fully audited dual-wave motion architecture from
+  `ValentinDBS/codrops-tutorial-text-animation` at commit
+  `90dfeb2eec89dd6879cabf2e76f4e7096e515a8a`: measured ranges, sine offsets,
+  opposing multipliers, closest-to-center focus and resize recalculation.
+- The same closest-to-center index swaps portrait, square and landscape image
+  crops; it adds no second trigger or preloader.
+- Does not import reference CSS, JS, fonts or assets and does not add
+  ScrollSmoother or captured scrolling.
+- Reduced-motion and no-JS use the first static image and a complete
+  normal-flow ledger.
+- The global `services-focus` state now has stronger asymmetric light, wave and
+  shared material/grain with a lower veil. No local background is mounted.
+- Retains the one global atmosphere from `b5d1a10`; no local background was
+  introduced.
+
+## Active global atmosphere material worktree
+
+- Replaces the former generated delivery loop with the exact user-supplied
+  644×360 `wavebg.mp4` video stream, remuxed without audio and with fast-start.
+- Adds a local poster and deterministic tiled grain asset.
+- Replaces the 25 FPS full-viewport grain canvas with CSS material/grain layers:
+  dark multiply texture, restrained two-scale film texture, asymmetric light
+  and deeper irregular vignette, all below chapter text and media.
+- Keeps `HomeAtmosphere` as the only physical owner; Intro, Tjenester, Effekt
+  and Arbeid remain transparent and no new scroll trigger is introduced.
+- Mobile now retains the lightweight wave and static grain. Reduced motion and
+  no-JS use the poster and static grain.
+
+## Committed global atmosphere
 
 - Adds `HomeAtmosphere` as the one physical Work background owner from Intro
   through Arbeid.
@@ -118,9 +159,12 @@ contracts. Mounted source code wins if documentation and runtime disagree.
   their approved content, typography, links and local choreography.
 - Reduces only the stacked 01→02 transition spacing that created the empty
   black hold.
-- Adds one responsive playback owner: one desktop video/grain field; mobile
-  and reduced motion use the static spotlight.
+- Adds one responsive playback owner. This historical commit disabled its
+  desktop-only video/grain on mobile; the active material worktree supersedes
+  that fallback as documented above.
 - Updates the global state selectors and documentation to the one-owner model.
+
+Approved commit: `b5d1a10`.
 
 No 05/06 content, Header/Hero, footer, SEO, URL, service content/link or global
 Lenis cleanup is part of this worktree scope.
@@ -140,14 +184,31 @@ Lenis cleanup is part of this worktree scope.
 
 ## Verification truth
 
-- The current global atmosphere worktree passes TypeScript, optimized
-  production build and `git diff --check`.
-- Desktop QA confirms one video, one sticky backdrop, transparent 01→04 roots,
-  no horizontal overflow and a continuous Intro→Tjenester handoff. Mobile and
-  reduced-motion QA confirm video/grain are disabled and the static spotlight
-  remains continuous.
-- The 02 visual matrix was checked at 1440, 1024, 900, 768 and 390 px, plus
-  reduced motion, 390 px no-JS, five hrefs and horizontal overflow.
+- The active dual-wave Tjenester plus global material worktree passes
+  TypeScript, optimized production build and `git diff --check`.
+- The committed ownership baseline confirmed one video, one sticky backdrop,
+  transparent 01→04 roots, no horizontal overflow and a continuous
+  Intro→Tjenester handoff. The active material pass changes the compact and
+  reduced fallback and therefore requires the new verification recorded below
+  before approval.
+- The active 02 composition was checked at 1440, 900, 800, 768 and 390 px,
+  including the exact 800/801 px boundary. Above 800 px the paired transforms
+  remain active; through 800 px both service panels are full-width with zero
+  horizontal travel. Reduced motion, 390 px no-JS, five hrefs and overflow were
+  checked directly.
+- The active global material was checked in the production build at 1440,
+  1024, 900, 768 and 390 px. Every width has one atmosphere owner, one
+  backdrop, one video, one grain stage, correct named state changes and zero
+  horizontal overflow. Desktop/mobile play the wave; reduced motion and 390 px
+  no-JS use the poster and static grain. The fine grain animation is absent at
+  768 px, mobile and reduced motion.
+- The only production matrix network failure was the already documented
+  protected `/kontakt` prefetch 404. Header/Hero links and routes were outside
+  this task and remain unchanged.
+- The supplied NuDot recording was sampled at one-second and 50 ms intervals.
+  Its compact borderless active-image behavior was translated with existing
+  Tigon assets and checked for all five active indices at 1440 and 390 px;
+  reduced-motion/no-JS retain the first static image.
 - The isolated Intro commit passed TypeScript and production build checks.
 - The isolated 03/04 commit passed TypeScript and a production Webpack build.
 - A previous full dark-homepage pass was recorded on 2026-07-17, but the Intro
@@ -159,9 +220,9 @@ Lenis cleanup is part of this worktree scope.
 
 ## Safe next-step protocol
 
-The active uncommitted visual task is the implemented global atmosphere across
-Intro, Tjenester, Effekt and Arbeid. Preserve its one-owner architecture while
-reviewing light strength and spacing; do not restore local section backdrops.
+The active uncommitted visual task is the implemented dual-wave Tjenester
+section. Preserve the committed one-owner Intro-through-Arbeid atmosphere and
+do not restore local section backdrops.
 
 When the user opens another section:
 

@@ -55,13 +55,21 @@ Evidence captured from `https://nudot.com.tw/` on 2026-07-18:
 - `SOURCE`: desktop and mobile use materially different choreography.
 - `GUESS`: why a visual choice works and how it should be fitted to Tigon.
 
-No compatible license for NuDot's production code or assets was verified. The
-site states all rights reserved. Therefore:
+No compatible license for NuDot's production code or general asset library was
+verified. The site states all rights reserved. Therefore:
 
 - transfer principles and independently implement useful mechanics;
 - keep Tigon copy, fonts, tokens, links and assets;
-- do not import NuDot CSS, JavaScript, fonts, images, video, models or tracking;
+- do not import NuDot CSS, JavaScript, fonts, images, models or tracking;
 - do not claim a fitted Tigon value is NuDot's original implementation.
+
+Documented asset exception, 2026-07-18: the user explicitly supplied
+`wavebg.mp4` and instructed that this exact wave source be used for the global
+homepage atmosphere. The mounted `/video/work-wave-loop.mp4` is a video-only,
+fast-start remux of that supplied file; its frames, 644×360 geometry and
+approximately 9.97-second duration are preserved. This exception covers only
+that one supplied wave file. It does not authorize any other NuDot asset,
+source code, font or media import.
 
 ### Transfer decisions
 
@@ -76,7 +84,8 @@ site states all rights reserved. Therefore:
 | Global Lenis and captured scroll | `REJECT` | Native scroll remains canonical |
 | WebGL, canvas or video in every chapter | `REJECT` | Add only through a separate performance decision |
 | Global decorative cursor and loader | `REJECT` | Keep the one functional Work cursor only |
-| NuDot fonts, code and assets | `REJECT` | Rights and brand conflict |
+| User-supplied `wavebg.mp4` | `KEEP` | One documented global-atmosphere exception; audio removed |
+| Other NuDot fonts, code and assets | `REJECT` | Rights and brand conflict |
 
 ## Shared design grammar
 
@@ -96,8 +105,9 @@ Use the corresponding `--surface-*`, `--text-*` and `--line-*` variables from
 orange, decorative accent palettes and light SaaS cards are outside the active
 direction.
 
-Atmosphere may use restrained spotlight, vignette, veil, existing media and
-the approved desktop grain layer. From `01 / Intro` through `04 / Arbeid`,
+Atmosphere uses the supplied wave, asymmetric light, deep vignette, dark
+material texture, continuity veil and a two-scale film-grain field. From
+`01 / Intro` through `04 / Arbeid`,
 these are states of one global background owner, not separate section
 backgrounds that happen to use the same recipe.
 
@@ -110,7 +120,7 @@ must not reveal a flat black reset, empty background hold or hard canvas seam
 between them.
 
 - One persistent atmosphere owner spans Intro through Arbeid and owns the
-  shared Work wave, spotlight, vignette, veil and restrained desktop grain.
+  shared wave, poster, spotlight, vignette, material, veil and film grain.
 - Intro, Tjenester, Effekt and Arbeid own content and local choreography. Their
   root section surfaces remain transparent above the global atmosphere.
 - The atmosphere changes through named states such as `intro-focus`,
@@ -129,8 +139,10 @@ between them.
   objects.
 - Global atmosphere state values use shared semantic custom properties or one
   named configuration. Do not create unrelated per-section colour recipes.
-- Desktop may use the existing optimized wave video. Compact, touch, reduced
-  motion and no-JS use one continuous static CSS light field without hiding or
+- Desktop and compact/touch use the same 644×360 supplied wave source. The
+  small source and CSS texture tiles keep this to one inexpensive decoder and
+  no animated canvas. Reduced motion and no-JS use the supplied wave's static
+  poster, the same vignette/light field and static grain without hiding or
   delaying important content.
 - The global owner controls background lifecycle only. Flip, scramble,
   parallax, archive and content reveals remain scoped to their owning section
@@ -150,17 +162,39 @@ styles:
 | light scale/intensity | `--home-atmosphere-light-scale`, `--home-atmosphere-light-opacity` |
 | continuity veil | `--home-atmosphere-veil-opacity` |
 | edge depth | `--home-atmosphere-vignette-opacity` |
-| shared desktop texture | `--home-atmosphere-grain-opacity` |
+| dark material texture | `--home-atmosphere-material-opacity` |
+| shared film grain | `--home-atmosphere-grain-opacity` |
 
 Named atmosphere states set this interface. Individual section styles may
 request a named state, but may not set independent background colours, video
 opacity or spotlight recipes.
 
+### Global atmosphere material contract
+
+The background is a material stack, not a gradient preset:
+
+1. `surface-base` supplies the near-black canvas.
+2. `/video/work-wave-loop.mp4` supplies the slow blue-grey moving light.
+3. The asymmetric spotlight adds only controlled off-axis lift.
+4. The vignette creates deep edges and irregular black pockets.
+5. A multiply-blended texture binds the wave and shadows into one surface.
+6. The veil controls continuity and state handoff without resetting the canvas.
+7. Two restrained tiled grain scales remain inside the background stack and
+   below every chapter's text and media. Content must stay optically clean.
+
+The grain asset is `/atmosphere/film-grain.png`. It is a small deterministic
+local tile, not a viewport-sized JavaScript canvas. Only the fine desktop layer
+shifts with a low-frequency stepped transform; compact and reduced-motion
+states keep both texture scales static. Grain may texture the background light,
+but must never render above text, links, navigation or local media. Do not
+restore the former per-pixel 25 FPS canvas or multiply the effect inside
+individual sections.
+
 Mounted-source status: compliant. `HomeAtmosphere` is the single physical owner
 from Intro through Arbeid. All four section roots are transparent; local Intro
-and Tjenester backdrop/video copies have been removed. Desktop runs one Work
-wave and restrained grain layer, while compact/reduced states use the shared
-static spotlight.
+and Tjenester backdrop/video copies remain removed. Desktop and mobile use one
+wave/material field; reduced motion and no-JS retain its static poster and
+grain material.
 
 ### Typography
 
@@ -296,7 +330,7 @@ journey rather than add an isolated showpiece.
 |---|---|---|
 | Header/Hero | protected source and project rules | establish offer; unchanged |
 | 01 / Intro | `docs/sections/01-approach.md` and Appendix A below | Flip/scramble term stream with stable foreground above the global atmosphere |
-| 02 / Tjenester | `docs/sections/02-services.md` | compact asymmetric service mosaic above the global atmosphere |
+| 02 / Tjenester | `docs/sections/02-services.md` | concise service prelude followed by an active-image axis and responsive service chapters |
 | 02 → 03 | mounted `OutcomeTensionBridge` contract | typographic handoff |
 | 03 / Effekt | `docs/sections/03-effect.md` | measurable result system and focus |
 | 04 / Arbeid | `docs/sections/04-work-proof.md` | future-facing capability archive |
@@ -310,18 +344,37 @@ the narrower section contract before source changes begin.
 
 ### 02 / Tjenester composition contract
 
-The active Tjenester direction is a clean-room NuDot translation: restrained
-typography, asymmetric placement, mixed media/text density and ordinary
-vertical flow. It deliberately rejects a full-screen service title, giant
-service names, a repeated card grid and image-sequence spectacle.
+The active Tjenester direction combines Tigon's restrained NuDot-derived
+language with a clean-room adaptation of the dual-wave motion architecture in
+ValentinDBS' Codrops tutorial. It is a Tigon composition, not an imported demo:
+the title stays moderate, the global atmosphere remains continuous and the
+five real services become the moving material.
 
-- one quiet sticky rail on desktop, never a pinned viewport;
+- one concise normal-flow prelude contains `Hva vi bygger` and the approved
+  explanatory paragraph; it does not remain inside the scroll scene;
+- desktop and 801–900 px place two opposing service streams around a sticky
+  active-image axis, with title/action left and details right;
 - one global Tigon atmosphere physically shared with Intro, Effekt and Arbeid;
-- two existing media anchors and three compact text-led services;
 - JUST Sans service hierarchy, Caleb Mono metadata and no new font family;
-- five complete real links with established content and hrefs;
-- small settle/parallax only; compact, reduced-motion and no-JS use normal
-  flow.
+- five complete server-rendered links with established content and hrefs;
+- one section-scoped ScrollTrigger calculates sine-wave horizontal offsets,
+  opposing lane direction and closest-to-center focus;
+- one compact, borderless center visual maps the five existing Tigon service
+  images to that same closest-to-center index, with varied portrait, square and
+  landscape crops inspired by the supplied NuDot recording;
+- no ScrollSmoother, external assets, separate image trigger or captured
+  scrolling;
+- through 800 px, the horizontal wave resolves to zero and each service becomes
+  one complete full-width chapter beneath the sticky image;
+- the global `services-focus` state supplies stronger asymmetric light, wave,
+  material/grain and reduced veil without creating a local section background;
+- reduced-motion and no-JS use the prelude, first static image and a complete
+  normal-flow ledger.
+
+The reference repository was audited in full at source commit
+`90dfeb2eec89dd6879cabf2e76f4e7096e515a8a`. Its reusable motion principles are
+documented in `docs/sections/02-services.md`; its CSS, JS, fonts and assets are
+not imported.
 
 The exact local geometry and scroll distances belong to
 `docs/sections/02-services.md` and `what-we-build.css`; they are not global
@@ -397,16 +450,18 @@ Intro uses the motion architecture from Codrops `ScrollTextMotion`:
   before collision, without a visible mask;
 - a soft text shadow may improve readability without changing the surface.
 
-### Atmosphere from 04 / Arbeid
+### Global atmosphere
 
 - reuse `/video/work-wave-loop.mp4`;
-- use the approved grayscale, contrast, brightness and video opacity recipe;
-- use the same spotlight gradients and vignette;
+- preserve the supplied blue-grey wave tone and its global contrast/brightness
+  treatment;
+- use the same asymmetric spotlight, deep vignette, material and veil;
 - keep Intro content/motion namespacing while playback and background lifecycle
   belong to the global Intro-through-Arbeid atmosphere owner;
-- disable video on mobile and with reduced motion;
-- use the restrained global desktop grain already owned by `HomeAtmosphere`;
-  Intro does not create or tune its own grain layer.
+- mobile uses the same low-resolution wave with a compact crop;
+- reduced motion and no-JS use the wave poster and static texture layers;
+- use the shared global grain already owned by `HomeAtmosphere`; Intro does not
+  create or tune its own grain layer.
 
 The demo's visible frame line is removed. The main message is visible from the
 first Intro viewport without a separate JS activation point or empty waiting

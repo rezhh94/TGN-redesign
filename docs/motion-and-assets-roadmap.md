@@ -20,12 +20,14 @@ Last reconciled: 2026-07-18.
 
 ### Global Intro → Arbeid atmosphere
 
-- Mounted owner: one persistent Work wave/spotlight/vignette/veil/grain field spanning
-  Intro, Tjenester, Effekt and Arbeid with named focus/handoff states.
+- Mounted owner: one persistent supplied wave/poster, asymmetric spotlight,
+  vignette, dark material, veil and two-scale grain field spanning Intro,
+  Tjenester, Effekt and Arbeid with named focus/handoff states.
 - `HomeAtmosphere` owns playback and responsive fallback. The former Intro and
   Tjenester background instances are removed.
-- Compact/reduced/no-JS use one continuous static CSS light field. Section
-  content timelines remain locally owned.
+- Compact plays the same lightweight wave with static grain. Reduced/no-JS use
+  its poster plus the continuous static material. Section content timelines
+  remain locally owned.
 
 ### 01 / Tilnærming
 
@@ -34,16 +36,28 @@ Last reconciled: 2026-07-18.
   entry/re-entry while the stable `BYGD SAMMEN` foreground never transforms.
 - A measured collision-clearance pass fades each decorative word before it
   intersects the foreground copy, without a visible blocking surface.
-- The global Work wave plays once on desktop; mobile and reduced motion disable
-  video/grain. Collision clearance and Flip/scramble cleanup remain
-  section-scoped.
+- The global wave plays once on desktop and mobile. Reduced motion/no-JS use
+  the static poster/grain field. Collision clearance and Flip/scramble cleanup
+  remain section-scoped.
 
 ### 02 / Tjenester
 
-- `servicesScene` owns only small mosaic settles and mild parallax on the two
-  existing service images. Background playback belongs to `HomeAtmosphere`.
-- The desktop sticky rail is CSS-owned and does not pin the viewport. Compact
-  through 900 px uses one-shot settles; mobile/reduced motion disable video.
+- `servicesScene` owns one section-scoped dual-wave engine. It measures the
+  paired lanes, applies sine-wave horizontal offsets in opposing directions
+  and marks the service closest to the viewport center.
+- The text thesis is a normal-flow prelude. Only the active image/index axis is
+  CSS-sticky; it does not pin or capture the viewport.
+- From 801 px, compact/desktop use measured opposing ranges. Through 800 px,
+  the range resolves to zero and each active service reads as one full-width
+  chapter below the sticky image.
+- Reduced motion and no-JS skip the engine and use the first static image plus
+  a normal-flow service ledger.
+- The closest-to-center index also switches one borderless center visual among
+  five local images. It reuses the existing trigger and adds no preloader.
+- No ScrollSmoother, reference asset or duplicate scroll transport is part of
+  the implementation.
+- `homeAtmosphereStateScene` owns the stronger asymmetric `services-focus`
+  light/wave/grain/veil state. Background ownership remains global.
 
 ### 02 → 03
 
@@ -98,21 +112,24 @@ the Tjenester visual approval or commit.
 
 ## Asset state
 
-- The mounted global Intro-through-Arbeid owner uses
-  `/video/work-wave-loop.mp4`. Intro deliberately imports Codrops' Typekit kit
-  `upd0woi` inside its namespaced stylesheet. This is the only new
-  external-font exception.
-- `videos/tigon-work-atmosphere/` is the retained source project for the active
-  12-second Work/Intro wave loop. Keep its 1920×1080 source and QA snapshots;
-  `public/video/work-wave-loop.mp4` is the optimized website delivery file.
-- Tjenester uses existing files under `public/services/`.
+- The mounted global Intro-through-Arbeid owner uses the explicitly
+  user-supplied wave source as `/video/work-wave-loop.mp4`; its audio track is
+  removed without re-encoding the video frames. Intro deliberately imports
+  Codrops' Typekit kit `upd0woi` inside its namespaced stylesheet.
+- `videos/tigon-work-atmosphere/` remains the retained source project and QA
+  record for the former generated 12-second loop. It is no longer the active
+  delivery source and must not be deleted silently.
+- `/video/work-wave-poster.jpg` is the reduced-motion/no-JS frame and
+  `/atmosphere/film-grain.png` is the deterministic local texture tile.
+- Five existing files under `public/services/` are mounted by the active center
+  visual; no NuDot or Codrops image asset is imported.
 - Work and temporary Effekt surfaces use existing Tigon files under
   `public/work/capability-stage/`.
 - Effekt mockups remain placeholders awaiting final user-supplied assets.
-- Restrained desktop grain is part of the global Work atmosphere through
-  Intro→Arbeid; mobile/reduced motion use one continuous static CSS field.
-- No unapproved third-party code, font, image, video, shader or tracking was
-  added.
+- The two-scale grain is part of the global atmosphere through Intro→Arbeid.
+  Only the fine desktop tile shifts; mobile and reduced motion keep it static.
+- No unapproved third-party code, font, image, shader or tracking was added.
+  The user-supplied wave and Intro Typekit kit are the documented exceptions.
 
 ## Validation gate
 
