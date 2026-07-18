@@ -1,167 +1,160 @@
 # Current Homepage State
 
-Last verified: 2026-07-16
+Last reconciled against mounted source and Git: 2026-07-18.
 
-This is the canonical implementation snapshot for the redesign checkout. Historical audits and section experiments may remain in the repository, but they do not override this file, `AGENTS.md`, `docs/current-project-rules.md` or the current user instruction.
+This is the canonical mounted-state snapshot. Read
+`docs/project-continuation-context.md` first for commit/worktree boundaries,
+`docs/remaining-work.md` for the open backlog and
+`docs/homepage-dark-design-contract.md` for reusable design rules.
 
-## Active brand direction
+## Git boundary
 
-- Canonical definition: `docs/tigon-brand-platform.md`.
-- Brand promise: `BYGD FOR Å BLI VALGT.`
-- Positioning: high-end websites, apps and digital systems where design, technology and visibility are built as one whole.
-- Result system: `FUNNET. FORSTÅTT. VALGT. MÅLT.`
-- Visual concept: selection, focus and distinction.
-- Existing `Uklart` wording belongs to process/implementation context and must not be read as the overall Tigon identity.
+- `e4dbba7` contains the approved ScrollTextMotion Intro.
+- `c349ef7` contains the approved 03/04 atmosphere and typography work.
+- Broader 02/05/06 dark calibration and global Lenis removal are present as
+  existing uncommitted worktree changes. They are mounted locally but must not
+  be discarded or silently included in another commit.
 
 ## Active page journey
 
-The homepage is mounted in this order:
+1. Header / Hero — protected and unchanged.
+2. 01 / Tilnærming — `ApproachStatementBridge`.
+3. 02 / Tjenester — `WhatWeBuild`.
+4. 02 → 03 — `OutcomeTensionBridge`.
+5. 03 / Effekt — `WhatWeImprove`.
+6. 03 → 04 — `EffectWorkBridge`.
+7. 04 / Arbeid — `WorkProof`.
+8. 04 → 05 and 05 / Prosess — shared `work-process-journey` + `ProcessLayers`.
+9. 06 / System — `SystemManifesto`.
+10. Kontakt / footer — `ContactFooter`, protected and unchanged.
 
-1. Header / Hero
-2. 01 / Tilnærming — `ApproachStatementBridge`
-3. 02 / Tjenester — `WhatWeBuild`
-4. 03 / Effekt — `WhatWeImprove`
-5. 03 → 04 / Fra resultat til form — `EffectWorkBridge`
-6. 04 / Arbeid — `WorkProof`
-7. 05 / Prosess — `ProcessLayers`
-8. Manifest — `SystemManifesto`
-9. Kontakt / footer — `ContactFooter`
+## Active design system
 
-## Current section decisions
+- All body sections from Intro/01 through 06/System run in dark mode.
+- Dark mode is not one flat black: `surface-deep`, `surface-base`,
+  `surface-raised` and `surface-focus` create depth and section identity.
+- TGS Perfect remains display, JUST Sans editorial/body and Caleb Mono meta
+  across the Tigon system. Intro alone deliberately scopes Codrops' Typekit kit
+  `upd0woi` for its reference-faithful display/mono treatment.
+- Migrated sections use semantic `display`, `lead`, `body` and `meta` roles.
+  Visible meta has a 10 px minimum.
+- All body sections share `homepage-gutter`, 12/6-column grid logic, dark line
+  roles and named section rhythm.
+- Spotlight, vignette, existing media and the approved 03→04 grain/video layer
+  create the background journey. No new third-party asset was introduced.
+- In the current worktree, global Lenis is removed and native scroll is the one
+  transport; approved GSAP owners keep section-scoped scrub. This lifecycle
+  cleanup is not part of the two approved section commits above.
 
-### Tjenester
+## Section state
 
-- Status: approved and locked on 2026-07-12. Do not redesign or replace this section unless the user explicitly reopens it.
-- Uses a varied editorial sequence in ordinary document flow: one lead chapter, a compact two-up pair, one wide technical chapter and a tighter closing chapter.
-- Every service name, description, capability list and service link is server-rendered and immediately available without JavaScript.
-- Existing Tigon service imagery supports each chapter but never becomes the navigation mechanism.
-- Desktop and mobile use small opposing scroll offsets for copy and media; there is no pin or sticky service header.
-- The previous sticky image-led journey remains rejected because it buried service readability.
+### 01 / Tilnærming
 
-### Tilnærming
+- Uses the approved, section-scoped Codrops `ScrollTextMotion` adaptation.
+- Stable foreground: `BYGD SAMMEN`, the existing integrated-practice paragraph
+  and `TGN / integrated practice`, without a card or visible text box.
+- Decorative Tigon capability words use Codrops' `group`, `el`, `pos-*`, GSAP
+  Flip and scramble architecture behind the foreground statement.
+- Collision clearance fades each decorative word before it overlaps the
+  foreground copy. The background motion continues above and below the text.
+- Reuses 04's existing wave/spotlight/vignette recipe. Video is desktop-only;
+  reduced motion and mobile use the static lightweight atmosphere.
+- The handoff `01 → 02 / Én helhet. Fem fag.` remains server-rendered.
+- Full implementation contract: `design.md`.
 
-- Status: explicitly reopened and reconciled with the connected homepage story on 2026-07-15.
-- Uses the four-line thesis `Hver for seg / blir det lansert. / Bygd sammen / blir det valgt.` followed by the complete supporting explanation.
-- The closing handoff `01 → 02 / Én helhet. Fem fag.` prepares the direct answer `Dette bygger vi` in Tjenester.
-- The former material assembly, repeated three-column explanations and closing restatement are removed.
-- Desktop and mobile remain ordinary document flow. Osmo Masked Text Reveal uses GSAP SplitText on the authored lines: the two `Hver for seg` lines arrive separately, the two `Bygd sammen` lines lock together, and support/handoff copy settles with the conclusion.
-- Reduced-motion and no-JS states show the same complete static content.
+### 02 / Tjenester
 
-### Tjenester → Effekt
+- Five services, descriptions, capability lists, images and established hrefs
+  are unchanged and server-rendered.
+- Uses a dark base/raised gradient, shared line/media recipes and semantic type.
+- Feature chapters use `display-xl`; compact rows use `display-lg`.
+- Small opposing settles and mild image parallax remain; there is no pin or
+  sticky service-image navigation.
 
-- `EffectBridge` is no longer mounted as a separate homepage section.
-- Tjenester now ends with the compact line `Lansert er ikke ferdig.` and an Osmo-adapted pixel transition directly into 03 / Effekt.
-- The handoff copy is server-rendered inside `WhatWeBuild`; the generated transition grid is decorative and section-scoped.
+### 02 → 03
 
-### Effekt
+- `OutcomeTensionBridge` is the mounted handoff.
+- Three complete statements share one sticky typographic stage on enhanced
+  motion: launch → understanding → action.
+- Compact/reduced/no-JS retain readable complete text.
 
-- Status: redesigned, integration-tested and approved through G6 on 2026-07-13. Final mockup assets remain the only open item.
-- Uses one continuous asymmetric editorial result chain in ordinary document flow; the earlier equal 2x2 visual matrix is superseded.
-- Funnet, Forstått, Valgt and Målt remain in semantic order as four large alternating typographic fields rather than being hidden behind a selector or active-card state.
-- Every outcome keeps its description, measurement point and tools in server-rendered HTML.
-- Existing Tigon mockup surfaces currently act as clearly labelled proof placeholders attached to each outcome. They must be replaced by the user's final Effect assets and are not an approved permanent asset choice.
-- Desktop alternates word, proof surface and supporting copy across the grid. Tablet and mobile retain the same authored left/right rhythm while stacking all four outcomes in order.
-- The closing line resolves the chain as `Synlighet inn -> Målbar kontakt ut`.
-- Motion uses the section-scoped Osmo Highlight Marker reveal: dark covers withdraw from FUNNET, FORSTÅTT, VALGT and MÅLT in two visible rows. Copy and proof surfaces stay still; there is no pin, scrubbed Proof Lock, sticky stack, selector or active-state dependency.
-- Desktop uses the full restrained displacement; mobile keeps the same mechanism with smaller travel and higher starting proof opacity. Reduced motion and no-JS show the finished static composition.
+### 03 / Effekt and 03 → 04
 
-### Effekt → Arbeid
+- Semantic typography and the 10 px meta floor are active.
+- The shared atmosphere owns
+  `entry → effect-focus → handoff → work-focus → exit`.
+- Desktop may use existing wave video and scoped grain; mobile/reduced motion
+  use light/static CSS spotlight only.
+- The asymmetric result content and established 03→04 thesis remain unchanged.
 
-- The new unnumbered handoff states `Effekt må bygges inn.` and labels the boundary `03 → 04 / Fra resultat til form`.
-- One continuous `mauve-warm` surface now connects Effekt, the 03→04 bridge and the entire Work catalogue. The former mineral-mauve and white paper cuts are removed.
-- Desktop uses a distinct MWG 053-inspired 3D line flip rather than repeating 02→03. `Effekt må bygges inn.` rotates away around the Y-axis while the single semantic `Dette kan Tigon lage.` title rotates into the shared 03→04→Arbeid sticky stage.
-- Mobile, reduced motion and no-JS remain in ordinary flow with all text, images and links visible. No new asset or external effect code was imported.
+### 04 / Arbeid
 
-### Arbeid
+- Six future-facing capability links remain Webapp, Nettsted, Plattform,
+  E-handel, AI and App. It is capability, never portfolio or customer proof.
+- Sticky archive title and six-row asymmetric wall use the approved clip,
+  scale, parallax and word-exit mechanics on desktop.
+- Tablet/mobile use normal flow; touch gets visible `Utforsk`; reduced motion
+  and no-JS keep all real links readable.
+- Dynamic Text Cursor is still limited to the six fine-pointer capability links.
 
-- Status: simplified and verified on 2026-07-15 after the user removed the card-opening layer.
-- Uses one continuous mauve, asymmetric editorial capability wall adapted from the Anatoly reference without adopting portfolio semantics.
-- The same `Dette kan Tigon lage.` node introduced by the 03→04 flip remains sticky behind all six capability links. It contracts into a restrained central background title as the catalogue enters; no duplicate Work title is rendered.
-- The catalogue is paced as three asymmetric 2–2–2 chapters: Webapp + Nettsted, Plattform + E-handel, then AI + App. Each pair receives roughly one desktop viewport so the centre title can breathe between the two surfaces.
-- Six complete surfaces still use unequal widths, formats and vertical offsets in normal document flow.
-- Webapp, Nettsted, Plattform, E-handel, AI and App remain immediately visible and readable.
-- It is a capability catalogue, not a customer portfolio.
-- Every item describes something Tigon can create for a future project; the section does not refer to previously built websites or use case/archive links as proof.
-- The current `Dette kan Tigon lage.` heading is capability framing. It is not portfolio language and does not replace the global `BYGD FOR Å BLI VALGT.` promise.
-- Every surface is one real accessible link to its established service/guide URL. The entire surface navigates directly; there is no native dialog, bottom sheet, card-opening state or next/previous switcher.
-- Desktop fine-pointer hover uses the approved regular Dynamic Text Cursor with `Utforsk / [capability]`; mobile shows a visible `Utforsk` action.
-- The `Selected systems` pinned/orbital concept was rejected because it distracted from what Tigon delivers and reacted too aggressively to scroll.
-- A later static fan of six tilted capability cards was also rejected and fully rolled back because overlap, cropping and decorative composition obscured the capability argument.
-- Each pair uses one coordinated scrubbed approach from the left and right over the shared background title. The removed `Nettsider, apper og digitale systemer …` interstitial no longer interrupts the sequence. The MWG 051 reference contributes no random placement, infinite loop, Observer or scroll capture; there is still no orbit, parallax stage or hidden active state.
+### 05 / Prosess
 
-### Arbeid → Prosess
+- Retning, Bygg and Live remain one visible three-phase system map in ordinary
+  document flow.
+- Former paper/mineral panels are now dark `raised`, `focus` and `deep`
+  materials. No light panel or section surface remains.
+- One-shot panel settling remains; there is no pin or state-switching stage.
+- The approved 04→05 overlap lands directly in `surface-deep`.
 
-- A shared Work/Process wrapper lets the scoped sticky cover and the real dark Process section occupy the same final viewport.
-- The handoff now keeps only the server-rendered `Slik blir det til.` statement. There is no rotating word, second statement or intermediate output line.
-- The enhanced pass uses an Osmo-inspired Overlapping Parallax architecture: the mauve Work surface moves only 14–22svh and darkens slightly while the real Process section travels over it in normal scroll.
-- Process owns a broad curved leading edge adapted from Curved Wipe. The curve enters before the rectangular section boundary, covers the outgoing statement and continues directly into `Uklart inn. System ut.`
-- The transition provides roughly 140svh of real scroll on desktop and 125svh on mobile, while a softened GSAP scrub controls only the slower outgoing parallax and curve expansion.
-- The earlier horizontal MWG 052 line, six-to-three field scene, three dark panels and black hold remain removed.
-- No Osmo CSS, JavaScript, Barba instance, fonts or media are imported; only the overlapping movement and curved-edge principles are rebuilt with existing structure and GSAP.
-- Reduced motion and no-JS preserve the single handoff statement and complete Process section in readable ordinary flow without overlap or a decorative curve.
+### 06 / System
 
-### Prosess
+- Keeps the Tigon assembly mark, statement and system explanation.
+- Uses the same type, gutter, line and surface contract as the rest of the body.
+- Its quieter radial focus and grid close the journey before the unchanged
+  footer entry. Motion remains one-shot and section-scoped.
 
-- Status: approved as the preserved baseline on 2026-07-13.
-- Uses a visible `TGN / Systemflyt` map from `Uklart behov` to `Målbar kontaktvei`.
-- The three phases are Retning, Bygg and Live, each with materials and an explicit output.
-- It is ordinary document flow on desktop and mobile.
-- The MWG 031-style pinned/receding card sequence and the later scroll-sensitive stage were rejected as repetitive and harder to read.
-- Current motion is one-shot panel settling in phase order 01→02→03; each panel's copy arrives before its oversized numeral. No pin, title decode, line draw or state switching.
-- Accessible copy spacing and the reduced-motion fallback were corrected in commit `651145b`; the authored static card positions now remain intact when motion is reduced.
+## Motion and lifecycle
 
-### Manifest and contact
-
-- Manifest was reviewed on desktop and mobile on 2026-07-13 and intentionally preserved as the quiet system-level conclusion.
-- Kontakt/footer remains intentionally calm. Desktop uses the existing Osmo Footer Parallax wrapper plus a small one-shot wordmark reveal; mobile, reduced motion and no-JS keep the same semantic footer in ordinary flow.
-- No redesign or extra motion is currently planned for either section unless the user explicitly reopens them.
-
-## Motion budget
-
-- Important text and links remain visible in server-rendered HTML.
-- Reduced motion and no-JS states remain readable.
-- No pin is used inside Tjenester, Effekt or the Process system map. The unnumbered 03→04 and 04→05 handoffs use scoped sticky scenes; the Work catalogue itself remains ordinary flow.
-- No numbered content system is hidden behind a JS-driven pin. The former separate Overlevering section is not mounted; Effekt, the Work links and the Process panels remain readable ordinary flow.
-- Continuous motion is limited to transform/opacity work scoped to the relevant section.
-- The only custom-cursor use is the functional Dynamic Text Cursor on clickable Arbeid surfaces; it is disabled for touch and reduced motion.
-- No MadeWithGSAP code, CSS, fonts, images or other assets were imported.
+- `HomeMotion` is the active owner map. `introStoryScene` owns Intro Flip,
+  scramble, collision clearance and lazy wave playback.
+- In the current dirty worktree, dormant content-reveal, generic parallax,
+  shutter and approach-path initializers are no longer mounted.
+- CSS and JS compact geometry are reconciled: Effekt uses compact logic through
+  900 px; Work archive through 1000 px.
+- No master pin, global ScrollTrigger kill or critical animation-dependent
+  content. The current worktree uses no global Lenis.
+- Explicit scroll margins keep `#arbeid`, `#prosess` and heading fragments
+  below the fixed header.
 
 ## Preservation state
 
-- Header and navigation were not changed. They are explicitly deferred for a separate full redesign.
-- Hero remains preserved for now.
-- Tilnærming was simplified and reconnected to the homepage story within its existing `01` scope on 2026-07-15.
-- Tjenester was approved and locked within its existing `02` scope on 2026-07-12.
-- Effekt is the approved asymmetric `03` result chain with a section-scoped Osmo Highlight Marker reveal; its mockup surfaces remain temporary asset placeholders.
-- Arbeid is the capability-led light asymmetric `WorkProof` implementation with six direct accessible links and the narrowly approved Dynamic Text Cursor. The removed detail dialog is not part of the current implementation.
-- Prosess remains the readable three-phase system map, with only fallback/accessibility corrections committed on 2026-07-13.
-- Manifest and Kontakt/footer remain preserved quiet closing sections.
-- SEO metadata, schema, sitemap, robots, canonical, URLs and slugs were not changed.
-- Footer/NAP/important links were not changed.
-- No visible orange was introduced.
+- Header, Hero, footer DOM, NAP, important footer links, SEO metadata, schema,
+  sitemap, robots, canonical, URLs and slugs were not changed.
+- 04 capability semantics and six established hrefs were not changed.
+- No visible orange or unapproved third-party code, media, shader, loader or
+  asset was added. Intro deliberately loads Codrops' Typekit kit `upd0woi`;
+  this scoped exception is documented in `design.md` and must not spread.
 - No old `styles.css`, `signature.css` or `main.js` was imported.
-
-## Repository hygiene
-
-- Active section contracts live under `docs/sections/` and mirror the mounted homepage.
-- Superseded audits, generated review snapshots, rejected drafts, old QA media and the unmounted `WorkShowcase` variant were removed on 2026-07-13.
-- Historical tracked material remains recoverable through git history; `_design-input/` is reference research and does not override active project documents.
-- `outputs/` is an untracked local QA/artifact directory. It is not application source and is excluded from scoped commits unless explicitly requested.
 
 ## Verification
 
-Verified through 2026-07-15:
+Verification record:
 
-- `npm run typecheck`
-- `npm run build`
-- `git diff --check`
-- Desktop browser review at 1440 x 900 and 1440 x 1000
-- Full-page responsive review at 1440, 1024, 768 and 390 px with no horizontal overflow, broken images or browser errors
-- Mobile/touch review at 390 x 844
-- Reduced-motion and no-JS review of Effekt, Arbeid and Prosess
-- Six Work capability anchors, correct established hrefs, no dialog/buttons/nested links and keyboard focus on the real link
-- Server-rendered 03→04 thesis, mauve/light background zones and the real first Webapp match target
-- Desktop review of the direct-link Work wall and the three-row Work→Process shutter
-- Effect refresh-position and section-local motion cleanup
-- Desktop/mobile review of Manifest and the Prosess-to-Manifest transition
-- Homepage remained statically prerendered
+- The isolated Intro commit passed TypeScript and production build checks.
+- The isolated 03/04 commit passed TypeScript and a production Webpack build.
+- The earlier integrated dark-homepage pass was checked on 2026-07-17 at 1440,
+  1024, 900, 768 and 390 px, including reduced motion, touch, no-JS, reverse,
+  anchors and static prerendering.
+- The Intro changed on 2026-07-18. Do not treat the July 17 visual matrix as a
+  visual approval of the new Intro; rerun relevant viewport/lifecycle checks
+  before the next connected-section approval.
+
+## Rollback
+
+Approved commits:
+
+- Intro: `e4dbba7`.
+- 03/04: `c349ef7`.
+
+For rollback, checkpoint newer work and restore only the explicitly named
+section files or approved commit. Never reset the full worktree.

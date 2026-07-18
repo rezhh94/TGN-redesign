@@ -28,7 +28,6 @@ Scope: Forsiden `/` i Tigon-prosjektet. Dette er en bevaringskontrakt, ikke et d
 - `components/sections/AktuelleProsjekterSection.tsx`
 - `data/services.json`
 - `data/projects.json`
-- `docs/tigon-control-log-2026-06.md`
 
 ## H1 og hovedbudskap
 

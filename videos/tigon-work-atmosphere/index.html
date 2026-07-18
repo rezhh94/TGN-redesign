@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Tigon Work Atmosphere</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #050706;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+
+      .clip,
+      .atmosphere {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .atmosphere {
+        background:
+          radial-gradient(ellipse 96% 112% at 0% 54%, rgba(24, 48, 39, 0.62), transparent 66%),
+          radial-gradient(ellipse 72% 90% at 100% 16%, rgba(34, 42, 38, 0.22), transparent 68%),
+          #050706;
+        isolation: isolate;
+      }
+
+      .field,
+      .veil {
+        position: absolute;
+        display: block;
+        border-radius: 50%;
+        will-change: transform, opacity;
+      }
+
+      .field--cool {
+        top: -390px;
+        left: -510px;
+        width: 1540px;
+        height: 1560px;
+        background: radial-gradient(circle, rgba(141, 157, 148, 0.46) 0%, rgba(91, 113, 102, 0.22) 34%, transparent 70%);
+        filter: blur(92px);
+        mix-blend-mode: screen;
+        opacity: 0.74;
+      }
+
+      .field--warm {
+        right: -460px;
+        bottom: -620px;
+        width: 1420px;
+        height: 1380px;
+        background: radial-gradient(circle, rgba(200, 188, 193, 0.33) 0%, rgba(116, 100, 108, 0.14) 38%, transparent 71%);
+        filter: blur(116px);
+        mix-blend-mode: screen;
+        opacity: 0.52;
+      }
+
+      .field--mineral {
+        top: 10px;
+        right: 260px;
+        width: 880px;
+        height: 920px;
+        background: radial-gradient(circle, rgba(111, 130, 120, 0.24) 0%, transparent 68%);
+        filter: blur(76px);
+        mix-blend-mode: screen;
+        opacity: 0.46;
+      }
+
+      .field--shadow {
+        top: -180px;
+        left: 650px;
+        width: 920px;
+        height: 1380px;
+        background: radial-gradient(ellipse, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.32) 46%, transparent 72%);
+        filter: blur(84px);
+        opacity: 0.82;
+      }
+
+      .veil--a {
+        top: 230px;
+        left: -320px;
+        width: 1420px;
+        height: 360px;
+        background: linear-gradient(90deg, transparent, rgba(182, 193, 186, 0.16), transparent);
+        filter: blur(64px);
+        opacity: 0.62;
+        transform: rotate(-13deg);
+      }
+
+      .veil--b {
+        right: -420px;
+        bottom: 150px;
+        width: 1360px;
+        height: 310px;
+        background: linear-gradient(90deg, transparent, rgba(166, 149, 157, 0.12), transparent);
+        filter: blur(72px);
+        opacity: 0.54;
+        transform: rotate(17deg);
+      }
+
+      .edge-bloom {
+        position: absolute;
+        bottom: -310px;
+        left: 120px;
+        width: 970px;
+        height: 620px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(181, 191, 185, 0.2), transparent 70%);
+        filter: blur(78px);
+        mix-blend-mode: screen;
+        opacity: 0.5;
+        will-change: transform, opacity;
+      }
+
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 82% 78% at 47% 48%, transparent 38%, rgba(0, 0, 0, 0.18) 74%, rgba(0, 0, 0, 0.52) 100%),
+          linear-gradient(90deg, rgba(0, 0, 0, 0.08), transparent 22%, transparent 72%, rgba(0, 0, 0, 0.2));
+        pointer-events: none;
+      }
+
+      .grain {
+        position: absolute;
+        inset: -180px;
+        width: calc(100% + 360px);
+        height: calc(100% + 360px);
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.92'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: 220px 220px;
+        mix-blend-mode: soft-light;
+        opacity: 0.16;
+        will-change: transform;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="12"
+      data-width="1920"
+      data-height="1080"
+    >
+      <section
+        id="atmosphere-window"
+        class="clip"
+        data-start="0"
+        data-duration="12"
+        data-track-index="1"
+        aria-label="Abstract dark Tigon atmosphere"
+      >
+        <div class="atmosphere" aria-hidden="true">
+          <i id="cool-field" class="field field--cool" data-layout-allow-overflow></i>
+          <i id="warm-field" class="field field--warm" data-layout-allow-overflow></i>
+          <i id="mineral-field" class="field field--mineral" data-layout-allow-overflow></i>
+          <i id="shadow-field" class="field field--shadow" data-layout-allow-overflow></i>
+          <i id="veil-a" class="veil veil--a" data-layout-allow-overflow></i>
+          <i id="veil-b" class="veil veil--b" data-layout-allow-overflow></i>
+          <i id="edge-bloom" class="edge-bloom" data-layout-allow-overflow></i>
+          <i class="vignette"></i>
+          <i id="grain" class="grain"></i>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      tl.to("#cool-field", {
+        x: 210,
+        y: 66,
+        scale: 1.08,
+        opacity: 0.86,
+        duration: 6,
+        repeat: 1,
+        yoyo: true,
+        ease: "sine.inOut",
+      }, 0);
+
+      tl.to("#warm-field", {
+        x: -188,
+        y: -76,
+        scale: 1.13,
+        opacity: 0.66,
+        duration: 6,
+        repeat: 1,
+        yoyo: true,
+        ease: "sine.inOut",
+      }, 0);
+
+      tl.to("#mineral-field", {
+        x: -116,
+        y: 88,
+        scale: 1.18,
+        opacity: 0.58,
+        duration: 6,
+        repeat: 1,
+        yoyo: true,
+        ease: "power1.inOut",
+      }, 0);
+
+      tl.to("#shadow-field", {
+        x: -92,
+        scale: 1.09,
+        opacity: 0.72,
+        duration: 6,
+        repeat: 1,
+        yoyo: true,
+        ease: "sine.inOut",
+      }, 0);
+
+      tl.to("#veil-a", {
+        x: 220,
+        y: 56,
+        rotation: -8,
+        opacity: 0.76,
+        duration: 6,
+        repeat: 1,
+        yoyo: true,
+        ease: "sine.inOut",
+      }, 0);
+
+      tl.to("#veil-b", {
+        x: -190,
+        y: -48,
+        rotation: 12,
+        opacity: 0.7,
+        duration: 6,
+        repeat: 1,
+        yoyo: true,
+        ease: "sine.inOut",
+      }, 0);
+
+      tl.to("#edge-bloom", {
+        x: 138,
+        y: -54,
+        scale: 1.15,
+        opacity: 0.64,
+        duration: 6,
+        repeat: 1,
+        yoyo: true,
+        ease: "power1.inOut",
+      }, 0);
+
+      tl.to("#grain", {
+        x: 52,
+        y: -38,
+        duration: 6,
+        repeat: 1,
+        yoyo: true,
+        ease: "steps(12)",
+      }, 0);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

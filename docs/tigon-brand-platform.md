@@ -105,7 +105,10 @@ If the answer is no, the idea does not support the active Tigon brand platform.
 
 ## Source-of-truth relationship
 
+- `docs/project-continuation-context.md` records Git/worktree boundaries and
+  the safe starting point for a new chat.
 - `AGENTS.md` and `docs/current-project-rules.md` hold execution boundaries.
 - `docs/current-homepage-state.md` records what is currently mounted.
-- `_design-input/tigon-creative-direction.md` guides art direction.
+- `design.md` owns the approved 01 / Intro implementation.
+- `docs/tigon-design-operating-system.md` guides art direction and execution.
 - This file defines the canonical brand meaning shared across those documents.

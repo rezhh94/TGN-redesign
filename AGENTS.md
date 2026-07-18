@@ -20,6 +20,21 @@ Prefer focused tasks, but multi-section work is allowed when the user asks for a
 
 Use a section contract when helpful, but do not over-plan when the task is clear.
 
+## Continuity — Read First
+
+Before changing a section in a new task, read these in order:
+
+1. `docs/project-continuation-context.md` — current branch, commits, dirty
+   worktree and what may safely be worked on next.
+2. `docs/current-homepage-state.md` — what is actually mounted now.
+3. `docs/current-project-rules.md` — active execution boundaries.
+4. The relevant file under `docs/sections/`.
+5. `docs/remaining-work.md` — open work and recommended continuation order.
+6. `design.md` when the task touches 01 / Intro.
+
+Do not use deleted historical reference material or reconstruct removed
+directions from Git history unless the user explicitly requests a rollback.
+
 ## Brand Direction
 
 The canonical brand platform is `docs/tigon-brand-platform.md`.
@@ -39,7 +54,7 @@ Do not, unless explicitly requested:
 - change Header or Hero
 - change footer/NAP/important links
 - import old `styles.css`, `signature.css` or `main.js`
-- import MadeWithGSAP CSS, JS, fonts or assets directly
+- import third-party reference CSS, JS, fonts or assets directly
 - use visible orange
 - make the design SaaS, card-grid or dashboard-like
 - turn 04 / Arbeid into a portfolio, case list, client list or showcase of previously built websites
@@ -63,11 +78,13 @@ Do not, unless explicitly requested:
 
 Layout and structure may change when the user asks for redesign.
 
-Static-first is preferred, but GSAP/MadeWithGSAP/effects tasks may implement structure and motion together when explicitly requested.
+Static-first is preferred, but explicit effects tasks may implement structure and motion together.
 
 GSAP is allowed when the user explicitly asks for an effect or motion implementation.
 
-External effects are motion architecture only. The visual design must stay Tigon: premium, editorial, typographic and near-monochrome.
+External effects are motion architecture only unless a section contract records
+a specific approved exception. The visual design must stay Tigon: premium,
+editorial, typographic and near-monochrome.
 
 Rejected old directions should not control new work unless the user reopens them.
 
@@ -94,5 +111,5 @@ After changes, report:
 - what scope was touched
 - whether Header/Hero changed
 - whether motion was added
-- whether old CSS/JS/MWG files were imported
+- whether external or legacy CSS/JS/assets were imported
 - whether orange appears

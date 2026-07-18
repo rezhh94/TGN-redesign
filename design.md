@@ -1,9 +1,17 @@
 # Tigon Intro — ScrollTextMotion med Tigon-innhold
 
+Status: aktiv og godkjent Intro-kontrakt, avstemt 2026-07-18.
+
+Implementert i commit `e4dbba7` på `codex/work-services-accordion`.
+Aktive eiere er `ApproachStatementBridge.tsx`,
+`approach-statement-bridge.css` og `introStoryScene` i `HomeMotion.tsx`.
+
 ## Omfang
 
 Kun `01 / Tilnærming`. Header/Hero, `03 / Effekt`, `04 / Arbeid` og øvrige
 seksjoner skal ikke påvirkes.
+
+Prosjektets samlede nå-status ligger i `docs/current-homepage-state.md`.
 
 ## Referansekontrakt
 

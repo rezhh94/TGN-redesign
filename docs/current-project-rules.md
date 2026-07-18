@@ -1,141 +1,136 @@
 # Current Project Rules
 
-## Current Design Direction
+Last reconciled: 2026-07-18.
 
-Tigon should feel like a premium digital studio:
-- editorial
-- restrained
-- typographic
-- confident
-- near-monochrome
-- spacious
-- custom, not template-like
+Read `docs/project-continuation-context.md` for Git/worktree boundaries,
+`docs/current-homepage-state.md` for mounted state and
+`docs/remaining-work.md` before opening another section.
 
-The homepage should feel authored, but there is no fixed formula for what that journey must look like.
+## Design direction
 
-## Canonical Brand Platform
+Tigon is a premium digital studio. The homepage should feel editorial,
+restrained, typographic, confident, near-monochrome, spacious and custom. It
+must not drift into SaaS, dashboard, SEO-portal, generic agency-template or
+effect-demo styling.
 
-The full brand definition is in `docs/tigon-brand-platform.md`.
+The page uses one dark design family with different levels of depth, focus,
+media density and motion. Same system does not mean identical section layouts.
 
-- Brand promise: `BYGD FOR Å BLI VALGT.`
-- Positioning: high-end websites, apps and digital systems where design, technology and visibility are built as one whole.
+## Brand platform
+
+The canonical meaning is in `docs/tigon-brand-platform.md`.
+
+- Promise: `BYGD FOR Å BLI VALGT.`
+- Positioning: high-end websites, apps and digital systems where design,
+  technology and visibility are built as one whole.
 - Result system: `FUNNET. FORSTÅTT. VALGT. MÅLT.`
 - Visual concept: selection, focus and distinction.
-- `Uklart` is allowed as process language, not as the overall brand identity.
-- `Valgt` is not a decorative word to repeat across the page; the design must demonstrate the promise.
+- Demonstrate the promise through clarity and quality; do not repeat `VALGT`
+  as decoration.
 
-## Hard Rules
+## Protected scope
 
-Do not, unless explicitly requested:
-- change SEO metadata, schema, sitemap, robots or canonical
-- change URLs or slugs
-- change Header or Hero
-- change footer/NAP/important links
-- import old `styles.css`, `signature.css` or `main.js`
-- import MadeWithGSAP CSS, JS, fonts or assets directly
-- use visible orange
-- make the design SaaS, card-grid or dashboard-like
-- turn 04 / Arbeid into a portfolio, case list, client list or industry-by-industry history
-- replace, generate or source new imagery for 04 / Arbeid unless the user explicitly opens an asset task
-- commit or push
+Do not change without explicit instruction:
 
-## 04 / Arbeid — Capability Rule
+- SEO metadata, schema, sitemap, robots or canonical.
+- URLs or slugs.
+- Header or Hero.
+- Footer DOM, NAP or important links.
+- Established service/guide hrefs.
+- Approved Intro, 03 or 04 while working on another section.
+- Existing uncommitted work in another section.
 
-04 / Arbeid must communicate what Tigon can create, not catalogue what Tigon has created before.
+Do not import legacy project CSS/JS or third-party reference code, fonts,
+media or assets. Intro's scoped Typekit kit `upd0woi` is the one documented
+exception. Do not introduce visible orange.
 
-- Treat it as a capability showcase, not a portfolio or case-study section.
-- Frame every item as something Tigon can create for a future project, never as evidence that Tigon has built a similar website before.
-- Do not use named previous projects, customer logos, industry lists or a parade of past websites as the concept.
-- Do not use case links, archive links or "see what we made" language inside 04 / Arbeid.
-- Use capability, demonstration, concept, system, prototype or lab language instead of case or portfolio language in the active implementation.
-- Do not imply that a concept surface is a delivered customer project.
-- Do not start an asset concept, image-generation pass, placeholder pass or sourcing exercise unless the user explicitly asks for it.
-- Preserve the current capability mockups until an explicit asset task replaces them.
+## Active section decisions
 
-Current implementation note, 2026-07-15:
-- `WorkProof` is the active component.
-- It is an asymmetric capability wall using six Tigon demonstrations, not a customer portfolio. The one `Dette kan Tigon lage.` node introduced by 03→04 may remain sticky behind three authored pairs of real capability links while they move in ordinary scroll.
-- The demonstrations must remain labelled so they cannot be mistaken for delivered client projects.
-- Every capability surface is one real accessible link to its established service/guide URL. The whole surface is clickable; there is no detail dialog, bottom sheet, card-opening state or next/previous capability switcher.
-- Desktop fine-pointer hover may use `Utforsk / [capability]` in the functional Dynamic Text Cursor. Touch/mobile receives a visible `Utforsk` action.
-- `Dette kan Tigon lage` is the capability framing for 04 / Arbeid. It does not turn the section into proof of past work and does not replace the global brand promise.
-- The rejected `Selected systems` pinned/orbital layout must not be restored unless explicitly reopened.
-- The rejected tilted card fan/collage must not be restored unless explicitly reopened.
+### 01 / Intro
 
-## Active Homepage Map
+- `design.md` is the full contract.
+- Stable `BYGD SAMMEN` foreground with Tigon integrated-practice copy.
+- Decorative Tigon terms move and scramble behind it.
+- Each decorative term fades before colliding with the foreground copy.
+- No visible card, box, mask or backdrop blur behind the main statement.
+- Existing Work wave/spotlight recipe is reused; mobile/reduced motion disables
+  video.
 
-The verified section order and current motion decisions are maintained in `docs/current-homepage-state.md`.
+### 02 / Tjenester
 
-Current non-negotiable motion decisions:
-- Tilnærming uses the four-line `Hver for seg … / Bygd sammen …` thesis and hands directly to `Dette bygger vi`; its section-scoped SplitText reveal does not replace or hide the server-rendered copy.
-- Tjenester uses varied editorial chapters in ordinary flow; no sticky service-image journey.
-- Tjenester hands directly to Effekt through a compact server-rendered line and section-scoped pixel cover; no separate Overlevering scene.
-- Effekt keeps the asymmetric result chain and uses a one-shot Osmo Highlight Marker on the four result words; the former Proof Lock motion is not active.
-- Effekt hands to Arbeid through a two-sided MWG 053-inspired typographic flip: `Effekt må bygges inn.` rotates out line by line while `Dette kan Tigon lage.` rotates in on the same pinned mauve stage. No image participates, and no MWG code, fonts or assets are imported. Mobile/reduced motion remain ordinary flow.
-- Arbeid keeps direct links and the narrowly approved functional Dynamic Text Cursor. The shared 03→04→Arbeid wrapper keeps the final title sticky behind a 2–2–2 sequence of all six links; no duplicate title, random placement, infinite media loop, Observer, scroll capture, white paper cut, dialog or parallax stage is used.
-- Arbeid hands to Prosess through an opaque viewport-height `Slik blir det til.` cover and the three-row Osmo Shutter Scroll Transition. The wrapper clips the sticky title at the boundary so it cannot leak into 05. Reduced motion keeps a clean static section boundary.
-- Prosess is a readable three-phase system map with no pin.
-- Manifest remains a calm system conclusion. Kontakt keeps its existing desktop Osmo Footer Parallax and falls back to ordinary flow on mobile and reduced motion.
+- Preserve all five services, copy, capability lists, images and hrefs.
+- Ordinary editorial flow with small settles and mild image parallax.
+- Existing dark-token worktree changes must be reviewed before new work.
 
-## Creative Freedom
+### 02 → 03
 
-The current design, section structures and reference sites are starting points, not permanent answers.
+- `OutcomeTensionBridge` is the mounted owner.
+- Three complete server-rendered statements share one scoped typographic stage
+  when enhanced and remain readable in fallback states.
 
-Creative decisions may change layout, pacing, hierarchy, typography, visual treatment and motion when the task allows it. Multi-section work is allowed when a connected journey or transition needs it.
+### 03 / Effekt
 
-No reference site defines Tigon. Borrow principles or behaviors, then make an independent decision for the content and brand.
+- Preserve the asymmetric `FUNNET / FORSTÅTT / VALGT / MÅLT` result chain.
+- Preserve explanations, measurement signals, current mockups and 10 px meta
+  floor.
+- Existing proof mockups are temporary; replacement is a separate asset task.
 
-Static-first is useful, but not mandatory. Structure and motion may be developed together when the effect is central to the idea.
+### 04 / Arbeid
 
-Avoid rigid formulas such as a mandatory section count, visible numbering everywhere, a prescribed number of showpieces, fixed animation durations or a required dark/light pattern.
+- Show what Tigon can create, never past customer work.
+- Preserve six real capability links: Webapp, Nettsted, Plattform, E-handel,
+  AI and App.
+- Use capability, demonstration, concept, system, prototype or lab language.
+- Never use portfolio, case-list, client parade or delivered-project framing.
+- Do not imply that a concept surface is delivered customer work.
+- Desktop may use the approved sticky archive. Compact/touch/reduced/no-JS use
+  normal flow with visible `Utforsk` actions.
+- The functional Dynamic Text Cursor is limited to these six links.
 
-## Effects / External References
+### 05 / Prosess
 
-MadeWithGSAP and other external examples are references for behavior and motion architecture.
+- Preserve Retning, Bygg and Live with their explanations and outputs.
+- Dark system map in normal document flow; no state-switching pin.
+- Existing dark-surface worktree changes must be reviewed before new work.
 
-Do not recreate their visual style or import their CSS, JS, fonts or assets. Translate the useful idea into Tigon's own system.
+### 06 / System
 
-Motion must respect reduced motion, mobile/touch behavior and no-JS readability. Important text and links must remain server-rendered and available without JavaScript.
+- Preserve assembly mark, statement and explanation.
+- Keep the quiet dark conclusion into the protected footer.
+- Existing dark-token worktree changes must be reviewed before new work.
 
-## Dynamic Text Cursor — Usage Rule
+## Shared motion rules
 
-The native cursor is the default across Tigon. A dynamic text cursor is a functional interaction cue, not a general visual effect.
+- Important text and links remain server-rendered and readable without JS.
+- Respect reduced motion, touch, mobile and keyboard use.
+- Scope GSAP to the owning section or transition.
+- Avoid master pins, global kills, duplicate triggers and captured scrolling.
+- Native scroll is canonical; do not introduce global smooth-scroll transport.
+- No motion should compensate for weak layout or hide critical content.
 
-- Current approved use: the six clickable capability surfaces in `04 / Arbeid` only.
-- Use it only when a large editorial surface is genuinely clickable and navigates to meaningful detail content.
-- The cursor label must describe both action and target, for example `Utforsk / Webapp`.
-- Never use it on Header/navigation, footer, body copy, ordinary inline links, forms, decorative imagery, non-clickable surfaces or motion-only elements.
-- Do not mix cursor systems. Tigon uses the regular Dynamic Text Cursor; Scramble Text Cursor is not approved.
-- The cursor runs only with a fine pointer and hover support. Touch/mobile must receive a visible on-surface action instead.
-- `prefers-reduced-motion` disables the custom cursor.
-- A real link, keyboard focus, accessible naming and a non-cursor affordance must remain. The cursor can never be the only indication that something is interactive.
-- Do not add the cursor to another section without explicitly reopening this rule and confirming that the new use has the same interaction purpose.
+## Dynamic cursor rule
 
-## Task Language
+- Approved only for the six clickable 04 capability surfaces.
+- Runs only with fine pointer/hover and without reduced motion.
+- Label action and target: `Utforsk / [capability]`.
+- Never use on navigation, footer, body copy, ordinary links, forms,
+  decorative media or non-clickable surfaces.
+- The real link, keyboard focus and visible touch action remain available.
 
-- Redesign means visible layout or structure change is expected.
-- Polish allows smaller improvements.
-- Effect or motion implementation allows GSAP.
-- Audit means inspect and report without implementing.
+## Git discipline
 
-Follow the user's current task over historical experiments or old documentation.
+- Approved commits: Intro `e4dbba7`; 03/04 `c349ef7`.
+- Existing 02/05/06 and lifecycle changes are protected, uncommitted work.
+- Inspect the exact dirty diff before touching one of those areas.
+- Never reset or discard the full worktree for a section rollback.
+- Commit or push only after explicit user instruction.
 
-## Rejected Directions
+## Task language
 
-Rejected old directions should not control new work unless the user explicitly reopens them.
+- Redesign: visible layout or structure change is expected.
+- Polish: smaller visual refinements.
+- Effect/motion implementation: scoped GSAP is allowed.
+- Audit: inspect and report without implementing.
 
-Do not recreate:
-- the old `STRUKTUR / FØR / PYNT + 4 rows` intro
-- Veivalg
-- Før du bygger
-- guide/article/resource modules in the main flow
-- the sticky service prototype where imagery displaced service readability
-- the `Selected systems` pinned/orbital Work concept
-- the tilted Work card fan/collage
-- the MWG 031 pinned/receding Process cards
-- the scroll-sensitive Process stage that changed too quickly
-- repeated pinned-scroll effects across adjacent sections
-
-## Creative Direction Reference
-
-The living creative guidance is in `_design-input/tigon-creative-direction.md`. It is a decision aid, not an implementation contract.
+Follow the user's current scope. Do not reconstruct deleted reference concepts
+from Git history unless the user explicitly requests a rollback.

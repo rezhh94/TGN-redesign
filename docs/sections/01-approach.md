@@ -1,11 +1,19 @@
 # 01 / Tilnærming — active contract
 
-Last reconciled: 2026-07-15.
+Last reconciled: 2026-07-18. Approved commit: `e4dbba7`.
 
-- Active files: `src/components/ApproachStatementBridge.tsx`, `src/styles/approach-statement-bridge.css` and section-scoped motion in `HomeMotion.tsx`.
-- Active framing: `Hver for seg / blir det lansert. / Bygd sammen / blir det valgt.` followed by the complete supporting explanation.
-- The section closes with `01 → 02 / Én helhet. Fem fag.` so `Dette bygger vi` in Tjenester reads as its answer.
-- The former material assembly, three explanatory cards and closing restatement are removed.
-- Desktop and mobile use ordinary document flow. Osmo Masked Text Reveal uses GSAP SplitText line masks: the `Hver for seg` lines arrive independently and the `Bygd sammen` lines land as one conclusion.
-- Reduced motion and no-JS show the finished static composition.
-- Status: content simplified after the user explicitly reopened the section on 2026-07-14; semantic line choreography reconciled on 2026-07-15.
+- Files: `ApproachStatementBridge.tsx`, `approach-statement-bridge.css`,
+  `introStoryScene` in `HomeMotion.tsx`.
+- `design.md` is the detailed implementation and reference contract.
+- Stable foreground: `BYGD SAMMEN`, the integrated-practice paragraph and
+  `TGN / integrated practice`. It never scrambles, flips or scroll-transforms.
+- Decorative Tigon capability words preserve Codrops' `group`, `el`, `pos-*`,
+  Flip and scramble architecture behind the foreground copy.
+- Each decorative word fades before it intersects the measured foreground
+  rectangle. Do not add a visible card, text box, mask or backdrop blur.
+- Reuses the existing 04 wave/spotlight/vignette atmosphere. Desktop may lazy
+  play `/video/work-wave-loop.mp4`; mobile and reduced motion disable video.
+- The scoped Typekit kit `upd0woi` is an explicit Intro-only exception.
+- The server-rendered handoff `01 → 02 / Én helhet. Fem fag.` remains.
+- Reduced motion/no-JS keep stable foreground content and readable handoff.
+- Header and Hero are outside this section's writable scope.

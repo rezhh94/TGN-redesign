@@ -1,231 +1,99 @@
-# Tigon Redesign Decision Log
+# Tigon — active decision register
 
-## 2026-07-01 — Clean rebuild
+Last reconciled: 2026-07-18.
 
-Decision:
-Start from a clean project, not the old prototype.
+This register contains only decisions that still govern the mounted homepage.
+Superseded experiments and external reference audits have been removed from the
+working documentation so they cannot steer later tasks.
 
-Reason:
-The old prototype accumulated too many CSS/JS layers, sections and experiments.
+## Brand and visual system
 
-## 2026-07-01 — Header + Hero first
+- Tigon is a premium, editorial, restrained, typographic and near-monochrome
+  digital studio.
+- Brand promise: `BYGD FOR Å BLI VALGT.`
+- Result system: `FUNNET. FORSTÅTT. VALGT. MÅLT.`
+- The body journey uses one dark design family with `deep`, `base`, `raised`
+  and `focus` roles. Different sections retain distinct compositions.
+- TGS Perfect, JUST Sans and Caleb Mono remain the Tigon font system.
+- No visible orange.
 
-Decision:
-Build Header + Hero as first approved foundation.
+## Protected boundaries
 
-Reason:
-Hero defines brand tone and visual direction.
+- Header/Hero, SEO infrastructure, URLs/slugs and footer/NAP are unchanged
+  unless explicitly reopened.
+- Important copy and links remain server-rendered.
+- Mobile, touch, reduced motion and no-JS receive complete fallbacks.
+- Native scroll is canonical; motion is owned by individual sections.
 
-## 2026-07-01 — No old intro
-
-Decision:
-Do not recreate the old "STRUKTUR / FØR / PYNT + 4 rows" intro.
-
-Reason:
-It felt too much like a premium SEO landing page and too similar to adjacent dark hero sections.
-
-## 2026-07-01 — No visible orange for now
-
-Decision:
-Use black / off-white / gray only for current visible design.
-
-Reason:
-Orange previously created contrast and tone problems and made the design feel less restrained.
-
-## 2026-07-01 — Static first
+## 01 / Intro
 
 Decision:
-Every section is built static first, motion second.
+Use the approved Codrops `ScrollTextMotion` architecture with Tigon content.
+Keep `BYGD SAMMEN`, the integrated-practice paragraph and
+`TGN / integrated practice` stable in the foreground. Decorative Tigon terms
+use Flip/scramble motion behind it and fade before colliding with the foreground
+copy. Reuse the existing Work wave/spotlight recipe without a visible text box.
 
-Reason:
-Motion should enhance a strong layout, not rescue a weak one.
+Status:
+Approved and committed as `e4dbba7`. `design.md` is the detailed contract.
 
-## 2026-07-09 — Tjenester restored to readable accordion
-
-Decision:
-Keep the earlier accordion structure and remove the sticky image-led service journey.
-
-Reason:
-The sticky prototype made the images visible while the actual services became unreliable to discover during normal scrolling. Service comprehension and server-rendered readability take priority.
-
-## 2026-07-09 — Reduce repeated pinned-scroll moments
+## 02 / Tjenester
 
 Decision:
-Do not use the same pinned-scroll pattern across Tjenester, Overlevering, Arbeid and Prosess.
+Keep five complete services with their existing copy, imagery, capability lists
+and verified hrefs in normal editorial flow. Motion remains small, local and
+non-essential.
 
-Reason:
-Repeated pinning made the homepage feel mechanically repetitive and made scroll input feel overly sensitive. Each section now has a different role and pacing.
+Status:
+Mounted. Dark-token/layout calibration exists as protected uncommitted work and
+requires its own review before approval or commit.
 
-## 2026-07-09 — Overlevering becomes a non-pinned handoff
-
-Decision:
-Use a readable foreground statement and image with two oversized background tracks moving in opposing directions.
-
-Reason:
-This keeps the Jack & AI-inspired layered energy without adding another scroll trap. The statement remains readable without JavaScript.
-
-## 2026-07-09 — Reject `Selected systems`
+## 02 → 03
 
 Decision:
-Replace the pinned/orbital `Selected systems` Work prototype with a normal-flow asymmetric editorial index.
+Use `OutcomeTensionBridge` as the only mounted handoff. Three complete
+server-rendered statements share one typographic stage when motion is enabled.
 
-Reason:
-The former concept competed with the explanation of what Tigon delivers, and its images reacted too quickly to scrolling. The new index labels each Tigon demonstration, category and delivery clearly.
-
-## 2026-07-09 — Prosess becomes a visible system map
+## 03 / Effekt and 04 / Arbeid
 
 Decision:
-Replace pinned/receding cards and the later scroll-sensitive stage with a three-phase `TGN / Systemflyt` map: Retning, Bygg and Live.
+Run Effekt and Arbeid on one shared atmosphere with states `entry`,
+`effect-focus`, `handoff`, `work-focus` and `exit`. Calibrate the existing wave,
+spotlight, vignette, veil and grain rather than introducing another system.
 
-Reason:
-The system map explains input, work and output immediately. It is readable in normal flow on desktop, mobile, reduced-motion and no-JS states.
+Effekt preserves its result order, explanations, measurement signals and 10 px
+meta floor. Arbeid remains six future-facing capability links and never becomes
+portfolio or customer proof. Its cursor remains limited to those six links.
 
-## 2026-07-09 — Quiet ending preserved
+Status:
+Approved and committed as `c349ef7`.
 
-Decision:
-Keep Manifest and Kontakt as calm closing sections.
-
-Reason:
-The homepage already has sufficient energy earlier in the journey. The ending should create clarity and conversion, not another showpiece.
-
-## 2026-07-10 — Canonical brand platform
+## 05 / Prosess
 
 Decision:
-Use `BYGD FOR Å BLI VALGT.` as the global brand promise, supported by the positioning around high-end websites, apps and digital systems where design, technology and visibility are built as one whole. Use `FUNNET. FORSTÅTT. VALGT. MÅLT.` as the result system and selection/focus/distinction as the visual concept.
+Keep Retning, Bygg and Live as a readable dark three-phase system map in normal
+document flow. The approved Work exit lands directly into it.
 
-Clarification:
-`Uklart` remains valid process language but is not the overall brand identity. 04 / Arbeid shows what Tigon can create for future projects and must never become a portfolio, previous-project list or «see what we made» section.
+Status:
+Dark-surface calibration exists as protected uncommitted work and requires its
+own review.
 
-Reason:
-The new platform connects design, technology, SEO/visibility, conversion and measurement while giving the visual system more range than the former unclear-to-buildable motif.
-
-## 2026-07-12 — Tjenester approved and locked
-
-Decision:
-Keep the current `02 / Tjenester` implementation: one large lead service, a compact two-up pair, one wide technical chapter and a tighter closing chapter in ordinary document flow. Keep the charcoal `#090A09` background and the mild unpinned scroll response.
-
-Reason:
-The varied hierarchy gives every service sufficient presence without repeating five identical full-size scenes. Service names, descriptions, capabilities and links remain immediately readable on desktop, mobile, reduced-motion and no-JS states. Do not redesign or replace the section unless the user explicitly reopens it.
-
-## 2026-07-12 — Tilnærming approved and locked
+## 06 / System
 
 Decision:
-Keep the `Tre fag. Én helhet.` direction with three responsive material fields in ordinary document flow. Desktop assembles the fields through scroll; mobile uses a milder unpinned response.
+Keep the assembly mark, statement and explanation as the quiet dark conclusion
+before the protected footer.
 
-Reason:
-It explains Design, Teknologi and Synlighet as one system while preserving readable server-rendered copy. The final title hierarchy no longer competes with the following Tjenester heading.
+Status:
+Dark-token calibration exists as protected uncommitted work and requires its
+own review.
 
-## 2026-07-12 — Effekt approved with temporary assets
+## Open decisions
 
-Decision:
-Keep the complete 2x2 result matrix for Funnet, Forstått, Valgt and Målt. The two current mockup strips are layout placeholders and must later be replaced by final user-supplied mockups.
-
-Reason:
-All four outcomes remain visible and measurable without a selector, sticky stack or decorative illustration. The temporary visuals add material weight without pretending to be final assets.
-
-Superseded on 2026-07-13 by the approved asymmetric result chain below. The semantic content and temporary-asset rule remain valid; the equal 2x2 visual arrangement does not.
-
-## 2026-07-13 — Effekt asymmetric result chain and Proof Lock approved
-
-Decision:
-Replace the equal 2x2 visual arrangement with one continuous asymmetric editorial chain for Funnet, Forstått, Valgt and Målt. Keep all four outcomes in server-rendered order and attach each large result word directly to its measurement signal, proof surface, explanation and tools. Use only the section-scoped `Proof Lock` motion, where the visible word, proof surface and description converge into the approved static overlap.
-
-Reason:
-The equal matrix read as four well-made boxes rather than Tigon's connected result system. The approved composition creates one authored reading rhythm without hiding content, adding a rail or introducing another pinned sequence. Desktop, tablet, mobile, reduced-motion, no-JS, keyboard/touch integration and production build all passed the final G6 gate.
-
-Motion superseded on 2026-07-15 by the Highlight Marker decision below. The asymmetric result chain and server-rendered content remain active; Proof Lock does not.
-
-## 2026-07-13 — Reject literal three-colour discipline poster direction
-
-Decision:
-Do not revive the broad white/olive/mauve section coding or the three-column Design/Teknologi/Synlighet poster treatment as Tigon's homepage system.
-
-Reason:
-The direction flattened the page into a strategy presentation, repeated ideas already communicated in copy and made the design more generic rather than more authored. Colour may still create chapter contrast, but it must follow section role and page rhythm rather than label disciplines literally.
-
-## 2026-07-12 — Reject decorative Arbeid card fan
-
-Decision:
-Fully roll back the attempted static fan/collage of six tilted capability cards and preserve the existing `WorkProof` zig-zag catalogue.
-
-Reason:
-The fan created uncontrolled overlap and cropping, made capability labels harder to read and turned a useful capability section into decoration. Arbeid must explain what Tigon can create, not behave like a poster wall or portfolio collage.
-
-## 2026-07-13 — Prosess preserved with fallback fixes
-
-Decision:
-Keep the existing three-phase system map and make only two implementation corrections: accessible spacing in the closing statement and preservation of authored card transforms in reduced-motion mode.
-
-Reason:
-The section was already one of the strongest parts of the page. A redesign would add effect density without improving comprehension; the focused fixes make its fallback behavior match the approved static composition.
-
-## 2026-07-13 — Manifest reviewed and preserved
-
-Decision:
-Keep `SystemManifesto` unchanged as the quiet conclusion after Prosess. Keep Kontakt/footer unchanged as well.
-
-Reason:
-The dark-gray system layer, mark, statement and restrained reveal already create the correct final cadence. Another redesign or showpiece would weaken the transition into conversion.
-
-## 2026-07-13 — Header deferred, Hero preserved
-
-Decision:
-Do not adjust the current Header/navigation during section work. Treat it as a separate future full-redesign task. Keep Hero as-is for now.
-
-Reason:
-The user explicitly separated the upcoming Header redesign from the approved body-section sequence.
-
-## 2026-07-13 — Repository source-of-truth cleanup
-
-Decision:
-Remove superseded reports, old QA output, rejected drafts, the unmounted `WorkShowcase` implementation and assets with no active code references. Replace outdated section contracts with concise contracts that mirror the mounted homepage.
-
-Reason:
-The repository still contained multiple historical descriptions of Tjenester, Effekt, Arbeid and Prosess that contradicted the approved implementation. Git history preserves the removed tracked material; active agents now have one current documentation path instead of competing truths.
-
-## 2026-07-13 — Dynamic Text Cursor is limited to functional Arbeid triggers
-
-Decision:
-Use the regular Dynamic Text Cursor only on the six clickable capability surfaces in `04 / Arbeid`. Keep the native cursor everywhere else. Scramble Text Cursor is not approved.
-
-Reason:
-The cursor gives large image-led surfaces a precise `Les mer / [capability]` affordance without turning the entire site into an effect system. Touch/mobile receives a visible `Les mer` action, reduced motion disables the custom cursor, and real buttons plus keyboard-accessible dialogs remain the underlying interaction.
-
-Superseded on 2026-07-15 by the direct-link decision below. The cursor scope remains valid, but its active label is now `Utforsk / [capability]` and the underlying interaction is a real link rather than a dialog trigger.
-
-## 2026-07-15 — Simplify Intro and remove separate Overlevering
-
-Decision:
-Keep `Tre fag. Én helhet.` but replace the large Intro assembly, repeated discipline cards and closing restatement with one compact Design / Teknologi / Synlighet index. Unmount the separate `EffectBridge` and let Tjenester hand directly to Effekt through `Lansert er ikke ferdig.` and a section-scoped pixel cover adapted from Osmo.
-
-Reason:
-The earlier journey repeated the same Design / Teknologi / Synlighet argument and created another full visual stop between Tjenester and Effekt. The shorter route is more direct while the pixel cover gives the dark-to-mauve handoff an intentional digital transition without adding another content section.
-
-Rollback:
-The complete removed structure, preserved files and selective restore steps are documented in `docs/homepage-simplification-rollback.md`. The full pre-change implementation remains available at commit `c82a3fc871a2206ff795da289a90f06c776826d1`.
-
-Superseded later on 2026-07-15 for the active Intro copy only: the compact discipline index was replaced by the four-line `Hver for seg / blir det lansert. / Bygd sammen / blir det valgt.` thesis, its supporting explanation and `01 → 02 / Én helhet. Fem fag.` handoff. The removal of the large assembly and separate `EffectBridge` remains active.
-
-## 2026-07-15 — Arbeid cards navigate directly
-
-Decision:
-Remove the complete capability detail dialog, bottom sheet, shared-element opening Flip, opening Pixelate and next/previous switcher from `WorkProof`. Make each of the six capability surfaces one accessible direct link to its established service/guide URL. Keep the Dynamic Text Cursor only as a fine-pointer cue with `Utforsk / [capability]`; touch/mobile keeps a visible `Utforsk` action.
-
-Reason:
-The dialog repeated information that belongs on the service pages, introduced an unnecessary interaction step and interrupted the homepage journey. Direct links make the capability wall clearer, faster and more honest while preserving the future-facing `Dette kan Tigon lage` framing. Implemented in commit `859a4d4`.
-
-## 2026-07-15 — Section replies form the active homepage story
-
-Decision:
-Keep the Intro's four-line `Hver for seg / blir det lansert. / Bygd sammen / blir det valgt.` thesis and semantic Osmo Masked Text Reveal, the `Lansert er ikke ferdig.` Pixelated Scroll Transition from 02 to 03, and the `Slik blir det til.` three-row Shutter Scroll Transition from 04 to 05. Use the provided Osmo/GSAP mechanisms as section-scoped motion architecture while keeping all important copy server-rendered.
-
-Reason:
-The effects now connect claims and answers between sections instead of acting as isolated decoration: separate disciplines become one whole, launch becomes measurable effect, and six capabilities become one three-phase method. Mobile, reduced-motion and no-JS retain readable static boundaries.
-
-## 2026-07-15 — Effekt uses Highlight Marker, not Proof Lock
-
-Decision:
-Keep the asymmetric result chain, but replace the non-running Proof Lock selector logic with the provided Osmo Highlight Marker behavior. Reveal FUNNET, FORSTÅTT, VALGT and MÅLT in two visible rows while copy, measurement UI and proof surfaces remain still.
-
-Reason:
-The former implementation queried a proof placeholder that did not exist in the mounted DOM and therefore added no visible behavior. The one-shot marker reveal now runs against real result-word hooks, preserves the approved composition and retains the static reduced-motion/no-JS state. Implemented in commit `a1216e2`.
+- Final Effekt proof assets require an explicit asset task.
+- Several service labels do not yet have exact approved route mappings; see
+  `docs/services-link-contract.md`.
+- The protected Hero link issue requires an explicit link-only task.
+- Existing 02/05/06 and lifecycle worktree changes need separate review and
+  approval before commit.
+- Full cross-section QA must be rerun after remaining section approvals.

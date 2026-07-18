@@ -1,6 +1,6 @@
 # 04 / Arbeid — active contract
 
-Last reconciled: 2026-07-17.
+Last reconciled: 2026-07-18. Approved commit: `c349ef7`.
 
 - Files: `WorkProof.tsx`, `work-proof.css`, `workArchiveScene` and the approved
   functional cursor in `HomeMotion.tsx`.
@@ -14,4 +14,4 @@ Last reconciled: 2026-07-17.
   a visible `Utforsk` action.
 - Dynamic Text Cursor remains fine-pointer/reduced-motion-safe and limited to
   these six links.
-- Do not restore dialogs, portfolio framing, `Selected systems` or card fan.
+- Do not restore removed interaction prototypes or portfolio framing.

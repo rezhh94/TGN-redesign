@@ -1,136 +1,112 @@
 # Tigon Motion and Asset Roadmap
 
-Last reconciled with the implementation: 2026-07-16.
-
-## Purpose
-
-This file records the active motion architecture. It is not a backlog of old effect experiments. See `docs/current-homepage-state.md` for the full section map and `docs/decision-log.md` for rejected directions.
+Last reconciled: 2026-07-18.
 
 ## Global guardrails
 
-- Important text and links stay server-rendered and visible without JavaScript.
-- Respect `prefers-reduced-motion` and mobile/touch behavior.
-- Scope GSAP and ScrollTrigger to their section.
-- Avoid duplicate triggers and global kills.
-- Prefer transform/opacity for continuous movement.
-- Do not add a pin merely to create visual novelty.
-- Do not import MadeWithGSAP CSS, JS, fonts or assets.
-- No visible orange, particles, decorative cursor-follow gimmicks or horizontal scroll.
-- The only approved cursor exception is the functional Dynamic Text Cursor on clickable `04 / Arbeid` capability surfaces, governed by `docs/current-project-rules.md`.
+- Native scroll is canonical. Global Lenis and its dependency are removed in
+  the current protected, uncommitted worktree state.
+- Important text and links remain server-rendered and visible without JS.
+- Respect reduced motion, touch and compact layouts.
+- Motion is section-scoped with one owner and explicit cleanup.
+- No master pin, global kills, horizontal scroll, visible orange or decorative
+  cursor system. The only custom cursor remains the functional Work cursor.
 
-## Active motion map
+## Active owner map
 
 ### Hero
 
-- One-time entrance and existing restrained movement.
-- No pin.
-- Header and Hero are preserved unless explicitly reopened.
+- Existing one-time entrance only. Protected and unchanged.
 
 ### 01 / Tilnærming
 
-- The four-line thesis `Hver for seg / blir det lansert. / Bygd sammen / blir det valgt.` remains in normal document flow with its supporting paragraph and `01 → 02 / Én helhet. Fem fag.` handoff.
-- Osmo Masked Text Reveal uses the original GSAP SplitText line-mask mechanism on the authored intro lines.
-- The two `Hver for seg` lines arrive independently; the two `Bygd sammen` lines land together, followed by the support and handoff copy.
-- The reveal is one-shot and unpinned. Important copy remains complete and server-rendered before JavaScript enhances it.
-- Reduced motion and no-JS show the final static composition.
+- `introStoryScene`: reference-faithful Codrops ScrollTextMotion adaptation.
+  Decorative Tigon terms use Flip between `pos-*` states and ScrambleText on
+  entry/re-entry while the stable `BYGD SAMMEN` foreground never transforms.
+- A measured collision-clearance pass fades each decorative word before it
+  intersects the foreground copy, without a visible blocking surface.
+- The existing Work wave is lazy-loaded only for desktop motion; mobile and
+  reduced motion disable video. Cleanup pauses video, removes clearance state
+  and reverts section-scoped triggers/tweens.
 
 ### 02 / Tjenester
 
-- Five editorial chapters remain in ordinary document flow, with varied scale rather than five repeated full-size scenes.
-- Names, descriptions, capability lists, images and service links remain real server-rendered HTML.
-- Copy and media settle from small opposing offsets while each chapter enters; images use mild section-scoped parallax.
-- Mobile keeps the same complete content order with smaller offsets.
-- Reduced motion and no-JS show the final static layout; there is no pin or sticky service-image sequence.
+- `servicesScene`: small opposing copy/media settle, one-shot register rows and
+  mild desktop image parallax.
+- Compact threshold matches the 900 px CSS composition.
 
-### 02 → 03 / Tjenester → Effekt
+### 02 → 03
 
-- The former separate `EffectBridge`/Overlevering scene is not mounted.
-- Tjenester ends with the server-rendered `Lansert er ikke ferdig.` reply.
-- Osmo Pixelated Scroll Transition generates a responsive decorative grid that covers the dark service surface with the mauve Effect colour.
-- The grid is section-scoped, unpinned and absent in reduced motion; the static handoff remains readable without JavaScript.
+- `outcomeTensionBridge`: three server-rendered statements share one sticky
+  stage when enhanced.
 
 ### 03 / Effekt
 
-- One continuous asymmetric result chain remains visible in ordinary document flow; the equal 2x2 visual arrangement is superseded.
-- Osmo Highlight Marker is the active Effect mechanism: dark covers withdraw from FUNNET, FORSTÅTT, VALGT and MÅLT in two visible rows with a short stagger.
-- Copy, measurement UI and proof surfaces remain stationary. The reveal is one-shot and section-scoped; there is no pin, scrubbed Proof Lock, blur, parallax, selector or active-card state inside Effekt.
-- Reduced motion and no-JS show the final static result chain. Refresh preserves the correct scroll-linked state.
+- `effectScene`: one scoped result stage with marker reveal, media settle and
+  the shared atmosphere state handoff.
+- Compact motion now matches the CSS through 900 px.
 
-### 03 → 04 / Effekt → Arbeid
+### 03 → 04 and 04 / Arbeid
 
-- A server-rendered bridge uses two complete statements on the same mauve surface: `Effekt må bygges inn.` and `Dette kan Tigon lage.`.
-- Desktop uses an MWG 053-inspired pinned 3D line flip so the handoff does not repeat the 02→03 sticky-title rhythm. The first statement rotates out as the second rotates in; no image or colour transition participates.
-- The bridge and Work catalogue share one wrapper and one semantic `Dette kan Tigon lage.` node. That same title contracts and fades into a restrained centre watermark behind three 2–2 capability chapters, then is clipped at the end of the wrapper.
-- Tablet/mobile, reduced motion and no-JS skip the pinned enhancement and preserve ordinary document flow.
+- `atmosphereStateScene`: updates the shared continuum state without a new
+  master timeline.
+- `effectWorkJourney`: scoped wave/spotlight/veil/grain handoff into Work.
+- `workArchiveScene`: sticky title, clip/scale media entrance, six calibrated
+  parallax values and word-wise title exit on desktop.
+- The archive uses compact normal-flow behavior through 1000 px, matching CSS.
+- `setupDynamicTextCursor`: six real capability links only; disabled for touch
+  and reduced motion.
 
-### 04 / Arbeid
+### 04 → 05 and 05 / Prosess
 
-- Continuous mauve introduction and asymmetric capability wall.
-- Six complete, server-rendered capability surfaces remain visible without interaction.
-- MWG 051-inspired foreground-over-message principle across three authored pairs: Webapp/Nettsted, Plattform/E-handel and AI/App. Each pair approaches the centre with small deterministic scrubbed settling over one shared title. No random image loop, Observer, orbit, parallax stage or scroll-jacked progress.
-- Fine-pointer hover uses the approved regular Dynamic Text Cursor with an action-and-target label.
-- Every surface is one real link to its established service/guide URL. There is no dialog, bottom sheet, shared-element Flip, opening Pixelate or next/previous capability switcher.
-- Mobile/touch uses a visible `Utforsk` action. Reduced motion and no-JS preserve the same direct links; the custom cursor is disabled.
+- `workProcessJourney`: outgoing Work shifts and darkens while the real Process
+  section rises in normal scroll.
+- `processScene`: low-intensity one-shot settling in phase order 01→02→03.
+- No light panels, pin or state switching.
 
-### 04 → 05 / Arbeid → Prosess
+### 06 / System
 
-- A shared wrapper places the actual Process section one viewport underneath the scoped mauve cover.
-- `Slik blir det til.` is the only handoff statement and remains still long enough to read.
-- An Overlapping Parallax adaptation moves the outgoing Work surface a short distance upward and applies a restrained dark veil while the real Process section rises over it.
-- A wide elliptical leading edge adapted from Curved Wipe enters ahead of the Process rectangle. The same dark surface continues through the real Process intro and system; there is no separate transition panel or repeated 05 label.
-- The pass provides roughly 140svh of real scroll on desktop and 125svh on mobile. Delayed scrub affects the outgoing parallax, veil and small curve expansion, while the incoming section keeps natural scroll continuity.
-- The earlier MWG 052 line, three dark fields, repeated process panels and long black hold are removed.
-- No external code, CSS, Barba runtime, fonts, media or Lenis instance is imported from the Osmo references.
-- Reduced motion and no-JS preserve the single typographic statement and normal non-overlapping section flow.
+- `manifestoReveal`: masked statement, four assembly pieces, support and grid
+  settle once. The dark CSS composition is complete without motion.
 
-### 05 / Prosess
+### Footer
 
-- Static three-phase system map is the base state.
-- One-shot panel settling runs in phase order 01→02→03; copy/material/output arrives before the oversized numeral in each panel.
-- No pin and no scroll-driven stage switching.
-- Reduced motion preserves the authored static card transforms; critical copy remains correctly spaced for assistive technology.
+- Existing footer parallax and wordmark reveal remain. Footer markup and links
+  are protected and unchanged.
 
-### Manifest and Kontakt
+## Removed lifecycle debt
 
-- Quiet closing sections.
-- Manifest keeps its restrained one-shot assembly reveal.
-- Kontakt uses the existing desktop Osmo Footer Parallax wrapper and one-shot wordmark reveal; mobile, reduced motion and no-JS keep normal document flow.
-- No new showpiece.
+Status note: the following cleanup is present in the current dirty worktree,
+not in the two approved Intro and 03/04 commits.
 
-## Rejected motion experiments
-
-Do not restore unless the user explicitly reopens them:
-
-- sticky image-led Tjenester journey
-- pinned Overlevering ignite
-- `Selected systems` pinned/orbital Work stage
-- fast, scroll-sensitive Work image fly-ins
-- static tilted Work card fan/collage with overlapping capability cards
-- MWG 031 pinned/receding Process cards
-- Process stage whose visual state changed aggressively with scroll
-- repeated pinning across consecutive sections
-- equal 2x2 Effect matrix as the final visual composition
-- generic whole-outcome Effect slide-in
-- literal white/olive/mauve discipline colour coding or a three-column Design/Teknologi/Synlighet poster system
+- Global Lenis init, RAF ticker bridge, dependency and unused helper module.
+- Dormant homepage initialization of generic content reveal, generic parallax,
+  shutter transition and approach-path journey; none had mounted hooks.
+- 769–900 Effekt and 769–1000 Work JS/CSS geometry mismatch.
 
 ## Asset state
 
-- Current service imagery uses `public/services/tgn-*.webp`; Work and temporary Effekt imagery use the active files under `public/work/capability-stage/`.
-- Effekt currently uses existing Tigon mockup surfaces as explicit proof placeholders; replace them with final user-supplied mockups without changing the approved asymmetric result chain.
-- Images are treated near-monochrome.
-- Work items are explicitly presented as Tigon demonstrations/concepts, not delivered customer cases.
-- 04 / Arbeid does not use case or archive links to point at previously built websites; it stays focused on future capabilities.
-- No external MadeWithGSAP assets were imported.
-- Future asset replacement must preserve truthful labelling and existing readability.
+- Intro reuses `/video/work-wave-loop.mp4` and deliberately imports Codrops'
+  Typekit kit `upd0woi` inside its namespaced stylesheet. This is the only new
+  external-font exception.
+- `videos/tigon-work-atmosphere/` is the retained source project for the active
+  12-second Work/Intro wave loop. Keep its 1920×1080 source and QA snapshots;
+  `public/video/work-wave-loop.mp4` is the optimized website delivery file.
+- Tjenester uses existing files under `public/services/`.
+- Work and temporary Effekt surfaces use existing Tigon files under
+  `public/work/capability-stage/`.
+- Effekt mockups remain placeholders awaiting final user-supplied assets.
+- Desktop-only 03→04 wave/grain remains existing scoped media; mobile/reduced
+  motion disables it.
+- No unapproved third-party code, font, image, video, shader or tracking was
+  added.
 
 ## Validation gate
 
-For every motion change:
+For every later motion change:
 
-1. Confirm the static layout and copy remain readable.
-2. Verify reduced-motion and mobile fallbacks.
-3. Run `npm run typecheck`.
-4. Run `npm run build`.
-5. Run `git diff --check`.
-6. Review desktop and mobile rendering before commit.
-7. For cursor-enabled surfaces, verify the visible mobile action, the six real hrefs, keyboard focus, absence of nested links/dialog markup and that the cursor is not the sole affordance.
+1. Confirm static, reduced-motion, touch and no-JS readability.
+2. Test 1440, 1024, 900, 768 and 390 px.
+3. Test refresh/deep-link, resize and reverse scroll.
+4. Confirm six direct Work hrefs and visible touch actions.
+5. Run `npm run typecheck`, `npm run build` and `git diff --check`.
