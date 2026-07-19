@@ -2,7 +2,10 @@
 
 Status: canonical brand direction, approved 2026-07-10.
 
-This document defines the meaning that copy, art direction, section design and motion must support. It does not by itself authorize changes to protected Header/Hero, SEO, URLs, footer/NAP or important links.
+This document defines the meaning that copy, art direction, section design and
+motion must support. All homepage visuals, including Header, Hero and Footer,
+are open to redesign. SEO/URL changes and factual NAP changes remain separate
+non-visual scopes.
 
 ## Brand promise
 
@@ -89,7 +92,7 @@ The current heading `Dette kan Tigon lage.` is capability framing. It does not r
 - **Arbeid:** show future-facing capabilities and the level Tigon can create.
 - **Prosess:** explain how an unclear need becomes a live, measurable system.
 - **Manifest:** state the deeper system philosophy without repeating the slogan.
-- **Kontakt:** close commercially and calmly; preserved contact/NAP information remains factual.
+- **Kontakt:** close commercially and calmly; contact/NAP information remains factual even when the visual composition changes.
 
 ## Decision test
 
@@ -106,10 +109,10 @@ If the answer is no, the idea does not support the active Tigon brand platform.
 ## Source-of-truth relationship
 
 - `docs/project-continuation-context.md` records Git/worktree boundaries and
-  the safe starting point for a new chat.
+  the current starting point for a new chat.
 - `AGENTS.md` and `docs/current-project-rules.md` hold execution boundaries.
 - `docs/current-homepage-state.md` records what is currently mounted.
-- `design.md` owns the shared visual language, token governance and the
-  approved Intro implementation in Appendix A.
+- `design.md` owns the shared visual language and token governance. Mounted
+  section implementations are documented baselines, not protected designs.
 - `docs/tigon-design-operating-system.md` guides art direction and execution.
 - This file defines the canonical brand meaning shared across those documents.

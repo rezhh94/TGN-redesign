@@ -1,6 +1,6 @@
 # 01 / Tilnærming — active contract
 
-Last reconciled: 2026-07-19. Active base commit: `e69d15b`.
+Last reconciled: 2026-07-19. Mounted baseline commit: `af6f28f`.
 
 - Files: `ApproachStatementBridge.tsx`, `approach-statement-bridge.css`, the
   shared statement roles in `tokens.css` and `introFillScene` in
@@ -32,8 +32,9 @@ Last reconciled: 2026-07-19. Active base commit: `e69d15b`.
 - Label and supporting columns use one-shot entrances only when they begin
   below the viewport: label `.8s power2.out` with an 8 px blur/10 px settle;
   support `.8s power2.out`, `.3s` delay and `.12` stagger.
-- The section is never pinned. CSS owns all final layout, line geometry and
-  responsive stacking; GSAP owns only colour, transform and opacity progress.
+- The mounted section is not pinned. CSS currently owns final layout and GSAP
+  owns colour, transform and opacity progress; a redesign may replace this
+  architecture.
 - Above 900 px the label and statement share a row; the statement begins in
   column two with a first-line indent. At 900 px the title and label stack.
   At 640 px the support columns become normal flow and the section may grow
@@ -41,5 +42,5 @@ Last reconciled: 2026-07-19. Active base commit: `e69d15b`.
 - It uses the solid `surface-base` role. No decorative background media,
   canvas, texture or lighting layer exists.
 - Reduced motion and no-JS keep the complete statement, separator, support,
-  action and handoff visible with no transforms. Header and Hero remain outside
-  this section's writable scope.
+  action and handoff visible with no transforms. Header and Hero are also open
+  to redesign when included in the task scope.

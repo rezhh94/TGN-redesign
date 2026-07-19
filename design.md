@@ -18,6 +18,15 @@ display leading, real HTML above optional visual layers and structural mobile
 branches. Its fonts, exact formulas, colour signature, assets, shaders,
 preloader and dense pin architecture are reference identity and are rejected.
 
+Every homepage region is visually redesignable: Header, Hero, all body
+chapters, handoffs, 04 / Arbeid and Footer. Values and compositions documented
+here are shared tools and current calibration, not protected section layouts.
+Individual tasks still remain limited to the scope the user requests.
+
+Visual freedom does not change the permanent meaning of 04 / Arbeid: it shows
+what Tigon can create, never a portfolio, customer parade or list of websites
+Tigon has previously built.
+
 ### KEEP / ADAPT / REJECT
 
 | Decision | Pattern | Tigon rule |

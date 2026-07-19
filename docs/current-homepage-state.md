@@ -3,8 +3,8 @@
 Last reconciled: 2026-07-19.
 
 This file describes what is mounted now. Historical experiments are not design
-authority. The worktree contains active uncommitted Intro, Tjenester, design
-system and documentation changes; preserve unrelated edits.
+authority. The latest implementation baseline is commit `af6f28f`; always
+inspect the live worktree and preserve unrelated edits.
 
 ## Mounted order
 
@@ -65,8 +65,8 @@ flow. The dynamic cursor is limited to those links.
 
 ### Prosess and System
 
-Prosess preserves Retning, Bygg and Live. System is the quiet conclusion into
-the protected Footer. Both keep complete static content without JS.
+Prosess currently presents Retning, Bygg and Live. System currently provides
+the quiet conclusion into Footer. Both keep complete static content without JS.
 
 ## Motion and lifecycle
 
@@ -76,13 +76,17 @@ the protected Footer. Both keep complete static content without JS.
 - Touch, through 768px and reduced motion use native scrolling.
 - Critical content is never hidden behind JavaScript.
 
-## Preservation
+## Redesign status
 
-- Header/Hero structure and content are unchanged by current Intro work.
-- Footer DOM, NAP and important links remain protected.
+- Every visual region, including Header/Hero and Footer, is open to redesign.
+- Mounted structure is current-state evidence, not a preservation target.
 - SEO metadata, schema, sitemap, robots, canonical, routes and slugs remain
-  outside homepage visual work.
-- 04 stays capability-led and must not become cases or client work.
+  outside visual work unless explicitly reopened.
+- Factual NAP and verified href destinations remain correct even if their
+  placement and presentation change.
+- 04 permanently stays capability-led and never becomes a list of websites
+  Tigon has built; its layout, component, interaction and motion are not
+  protected.
 
 ## Verification gate
 

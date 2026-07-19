@@ -1,17 +1,18 @@
-# Tigon homepage — dark design contract
+# Tigon homepage — current dark baseline
 
 Last reconciled: 2026-07-19.
 
-This contract governs Intro through 06/System. Header/Hero and Footer are
-protected boundaries. `design.md` is the canonical authority; this file records
-how its shared roles apply to the dark homepage journey.
+This file records the currently mounted dark body journey. It is not a visual
+preservation contract. Header, Hero, every body chapter and Footer are open to
+redesign. `design.md` remains the canonical token authority.
 
 ## Principle
 
-The body is a sequence of dark editorial chapters connected by typography,
+The mounted body is a sequence of dark editorial chapters connected by typography,
 grid, rhythm, lines and restrained motion. Each root owns a solid semantic
 surface. Variation comes from composition, content density and local media,
-not a page-wide decorative layer.
+not a page-wide decorative layer. A redesign may replace this composition and
+chapter treatment with a new Tigon clean-room interpretation of Trionn.
 
 ## Shared roles
 

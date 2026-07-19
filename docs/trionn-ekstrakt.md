@@ -22,11 +22,11 @@ Tigons brandplattform, eksisterende tokens eller aktive seksjonskontrakter.
 | Trionns fluid-root-formel og breakpoint-resets | **REJECT** | Behold stabile Tigon-clamps og semantiske tokens |
 | Kunstig preloader og lang førstegangsintro | **REJECT** | Ingen tvungen ventetid; LCP og tilgang til innhold prioriteres |
 | Global route wipe som standard | **REJECT** foreløpig | Krever egen navigasjonsoppgave og må bevise nytte |
-| WebGL i Hero, galleri og Footer samtidig | **REJECT** | Hero/Footer er beskyttet; nye canvasscener krever separat ytelses- og innholdsbeslutning |
+| WebGL i Hero, galleri og Footer samtidig | **REJECT som standard** | Alle tre er redesignbare, men hver canvasscene må begrunnes og samlet ytelsesbudsjett må verifiseres |
 | 371-frame bildeanimasjon som standardmønster | **REJECT** | Bruk bare når motivet krever frame-presisjon og budsjettet er dokumentert |
 | Trionns lyse grå/hvite kapittelpalett | **REJECT** | Tigon beholder sin mørke semantiske overflatestige |
 | Orange/røde energilys | **REJECT** | Synlig orange er utenfor Tigon-retningen |
-| Global dekorativ cursor | **REJECT** | Bare den funksjonelle cursoren på seks Work-lenker er godkjent |
+| Global dekorativ cursor | **REJECT som standard** | Pointer-systemet kan redesignes, men må ha funksjon, touch/keyboard-fallback og tydelig scope |
 | ScrollSmoother i tillegg til Lenis | **REJECT** | Aldri to scrollmotorer; bundlet, ubrukt kode er ikke et mønster |
 | Trionn-fontene, assets, shaders, kode og innhold | **REJECT** | Kun prinsipper og kalibrering; alt Tigon-materiale skal være eget |
 

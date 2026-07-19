@@ -21,24 +21,28 @@ not remain as implementation guidance.
   values, assets, shaders, palette and identity-bearing combinations.
 - No visible orange.
 
-## Protected boundaries
+## Redesign boundary
 
-- Header/Hero and Footer content remain protected.
+- Header, Hero, every body section, handoff, Arbeid and Footer are all open to
+  visual and motion redesign. Existing implementations are not safe baselines.
 - SEO metadata, schema, sitemap, robots, canonical, routes and slugs remain
   outside visual homepage work.
+- Factual NAP and verified link destinations remain correct when their visual
+  presentation changes.
 - Do not commit or push without explicit instruction.
 
 ## 01 / Intro
 
-- Approved direction: server-rendered normal-flow editorial statement,
+- Current mounted direction: server-rendered normal-flow editorial statement,
   asymmetric support, one line/plus axis and real Tjenester action.
 - `introFillScene` owns character progress and small one-shot entrances. CSS
-  owns the complete final composition. The section is never pinned.
+  owns the mounted final composition. A redesign may replace this layout and
+  motion architecture, including its current non-pinned behavior.
 
 ## 02 / Tjenester
 
-- Preserve all five services, copy, capability lists, hrefs and local cube-face
-  images.
+- Current content includes five services, capability lists, verified hrefs and
+  local cube-face images. Their visual construction may be replaced.
 - Desktop uses paired streams around the CSS-3D cube. Through 800px, each
   service becomes a complete full-width chapter.
 - `servicesScene` is the sole motion owner and global Lenis remains the sole
@@ -51,21 +55,22 @@ not remain as implementation guidance.
 
 ## 03 / Effekt
 
-- Preserve `FUNNET / FORSTÅTT / VALGT / MÅLT`, explanations and measurement
-  signals.
+- The current brand result system is `FUNNET / FORSTÅTT / VALGT / MÅLT`; its
+  visual composition and motion may be replaced.
 - `effectScene` owns result markers and local media reveals only.
 
 ## 04 / Arbeid
 
 - `WorkProof` shows future Tigon capabilities, never past clients or cases.
-- Preserve the six accessible direct links and the compact/touch normal-flow
-  fallback.
+- The mounted implementation has six accessible direct links and a compact
+  fallback; neither layout nor interaction pattern is protected.
 - Dynamic Text Cursor remains limited to those six links.
 
 ## 05 / Prosess and 06 / System
 
-- Preserve Retning, Bygg and Live, followed by the quiet System conclusion.
-- Both remain readable without JS and release cleanly into the protected Footer.
+- The mounted implementation uses Retning, Bygg and Live followed by System.
+- Prosess, System and Footer may all be redesigned while remaining readable
+  without JS.
 
 ## Open decisions
 

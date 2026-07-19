@@ -1,6 +1,6 @@
 # 03 / Effekt — active contract
 
-Last reconciled: 2026-07-18. Approved commit: `c349ef7`.
+Last reconciled: 2026-07-19. Mounted baseline commit: `af6f28f`.
 
 - Files: `WhatWeImprove.tsx`, `what-we-improve.css` and `effectScene`.
 - Funnet, Forstått, Valgt and Målt remain in semantic order with their
@@ -9,3 +9,4 @@ Last reconciled: 2026-07-18. Approved commit: `c349ef7`.
 - The section uses a solid semantic surface. `effectScene` owns only result
   markers and local content-media reveals.
 - Current proof mockups remain temporary placeholders.
+- Layout, media system, interaction and motion are fully open to redesign.

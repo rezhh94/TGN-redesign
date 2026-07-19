@@ -25,7 +25,7 @@ Use a section contract when helpful, but do not over-plan when the task is clear
 Before changing a section in a new task, read these in order:
 
 1. `docs/project-continuation-context.md` — current branch, commits, dirty
-   worktree and what may safely be worked on next.
+   worktree and the current redesign baseline.
 2. `docs/current-homepage-state.md` — what is actually mounted now.
 3. `docs/current-project-rules.md` — active execution boundaries.
 4. `design.md` — canonical shared design language, token authority and motion
@@ -47,37 +47,51 @@ The canonical brand platform is `docs/tigon-brand-platform.md`.
 - `Uklart` may explain the process, but must not define the overall Tigon brand.
 - Do not repeat `VALGT` as decoration; demonstrate the promise through hierarchy, clarity, visibility and quality.
 
-## Hard Preservation Rules
+## Non-visual boundaries
 
 Do not, unless explicitly requested:
 - change SEO metadata, schema, sitemap, robots or canonical
 - change URLs or slugs
-- change Header or Hero
-- change footer/NAP/important links
+- change factual NAP values or break established important links
 - import old `styles.css`, `signature.css` or `main.js`
 - import third-party reference CSS, JS, fonts or assets directly
 - use visible orange
 - make the design SaaS, card-grid or dashboard-like
-- turn 04 / Arbeid into a portfolio, case list, client list or showcase of previously built websites
 - commit or push
 
 ## 04 / Arbeid — Capability Only
 
 04 / Arbeid must show what Tigon can create, not what Tigon has created before.
+This is a permanent project invariant, not a visual-preservation rule and not
+an option that reopens during redesign.
 
 - Frame every item as a possible Tigon capability or deliverable.
 - Do not use previous websites, customer names, project references, case-study links or archive links as the section's argument.
 - Do not call the active items cases, portfolio work or proof of past experience.
+- Never turn the section into a list of websites Tigon has built.
 - Concept surfaces must never be presented as delivered customer work.
 - Use capability, demonstration, concept, system, prototype or lab language when a label is needed.
-- `WorkProof` is the active implementation and the only content model for 04 / Arbeid.
-- Each capability surface is a direct, accessible link to its established service/guide URL. Do not restore the removed detail dialog, bottom sheet, capability switcher or card-opening interaction unless explicitly requested.
-- The functional Dynamic Text Cursor may label these large links as `Utforsk / [capability]`; touch/mobile keeps a visible on-surface `Utforsk` action.
+- `WorkProof` is the currently mounted implementation, not a protected layout
+  or exclusive future component. It may be redesigned or replaced.
+- Capability surfaces remain accessible and point to verified service/guide
+  URLs unless a separate route/content task changes that contract.
+- Pointer effects must retain a visible touch/mobile action and keyboard access.
 - `Dette kan Tigon lage` is the capability framing. `BYGD FOR Å BLI VALGT` is the global brand promise. Do not confuse either with a past-work portfolio claim.
 
 ## Design Freedom
 
-Layout and structure may change when the user asks for redesign.
+No visual homepage section is protected, safe, frozen or approved as a
+permanent baseline. Header, Hero, every body section, handoffs, 04 / Arbeid and
+Footer may all be redesigned when the user asks. Existing implementations are
+mounted-state evidence, not preservation targets.
+
+The target is to approach Trionn's construction quality, composition, rhythm,
+responsive logic and motion architecture as closely as useful without making
+a visual clone. Use Tigon content, branding, fonts, tokens and original assets;
+never copy Trionn code, assets, shaders or identity-bearing combinations.
+
+Full redesign freedom does not broaden an individual task automatically. Keep
+each implementation scoped to what the user asks in that turn.
 
 Static-first is preferred, but explicit effects tasks may implement structure and motion together.
 

@@ -2,8 +2,8 @@
 
 Last reconciled: 2026-07-19.
 
-Status: reopened by explicit user direction after the approved compact mosaic
-checkpoint. The rollback point remains `b5d1a10`.
+Status: mounted baseline at commit `af6f28f`. The section is fully open to
+visual, structural and motion redesign.
 
 ## Composition
 
@@ -113,16 +113,15 @@ The motion reference is Valentin Descombes/Codrops
 - The section must have no horizontal document overflow at 1440, 1024, 900,
   800, 768 or 390 px.
 
-## Handoffs and preservation
+## Current dependencies and redesign boundary
 
-- Preserve the approved Intro content and its Flip/scramble/collision owner.
-  Only the final 01→02 spacing/state handoff may be calibrated.
-- Preserve all five service labels, descriptions, complete capability lists
-  and established hrefs.
-- Preserve the clean release into `OutcomeTensionBridge`; do not restyle 03 or
-  04 to support this section.
-- Header/Hero, SEO, URLs, footer, global background ownership and visible-orange
-  prohibition remain unchanged.
+- Intro, Tjenester, the handoff, 03 and 04 may all be redesigned when included
+  in the requested journey. No mounted layout or motion owner is protected.
+- The current five service meanings, complete capability information and
+  verified href destinations remain the semantic baseline unless content or
+  routing is explicitly reopened.
+- Header/Hero and Footer are visually open. SEO, URLs, factual NAP and the
+  visible-orange prohibition remain separate boundaries.
 
 ## Approval gate
 

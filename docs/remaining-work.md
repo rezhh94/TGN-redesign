@@ -6,17 +6,18 @@ Last reconciled: 2026-07-19.
 
 - Review active Intro and Tjenester refinements against `design.md`.
 - Confirm the shared typography and button roles at 390, 768, 1024 and 1440px.
-- Verify that Header/Hero and Footer protected content remain intact.
+- Include Header/Hero and Footer in the redesign review; none is visually
+  protected.
 - Run TypeScript, production build and `git diff --check`.
 
 ## Recommended sequence
 
-1. Complete Intro visual verification and token migration.
-2. Review Tjenester desktop/compact readability and cube lifecycle.
-3. Recheck the Outcome tension handoff after upstream geometry settles.
-4. Preserve Effekt and capability-led Arbeid unless reopened.
-5. Review Prosess and System against the canonical token roles.
-6. Perform the full integration and accessibility matrix.
+1. Redesign Header and Hero as the opening Trionn-calibrated system.
+2. Rebuild Intro and Tjenester as the next connected journey.
+3. Recompose the handoff and Effekt after upstream geometry settles.
+4. Redesign capability-led Arbeid without treating the mounted archive as safe.
+5. Redesign Prosess, System and Footer as one closing sequence.
+6. Perform the full integration, performance and accessibility matrix.
 
 ## Open design work
 

@@ -53,7 +53,9 @@ Specific exclusions.
 
 ## Motion plan
 
-No motion in the first build unless explicitly approved.
+Static-first is preferred, but structure and motion may be implemented together
+when the user asks for an effect, a connected journey or a Trionn-calibrated
+scene.
 
 Future motion idea:
 - reveal

@@ -4,10 +4,10 @@ Last reconciled: 2026-07-19.
 
 ## Worktree boundary
 
-The repository is intentionally dirty with active Intro, Tjenester, shared
-token, motion and documentation work. Do not reset, checkout or overwrite the
-worktree. Do not commit or push without explicit instruction. Inspect
-`git status --short` and stage exact files if publishing is later requested.
+The latest implementation baseline is commit `af6f28f`. Always inspect the
+current worktree before acting; do not reset, checkout or overwrite unrelated
+changes. Do not commit or push without explicit instruction, and stage exact
+files if publishing is later requested.
 
 ## Read order
 
@@ -24,8 +24,9 @@ Header → Hero → Intro → Tjenester → Outcome tension → Effekt → Arbei
 Prosess → System → Footer.
 
 Intro and Tjenester currently contain active refinements. Effekt and Arbeid
-retain their approved content architecture. Arbeid is capability-led and never
-a portfolio. Header/Hero and Footer are protected unless reopened explicitly.
+retain their mounted content architecture. Arbeid is capability-led and never
+a false portfolio claim. No visual section is protected: Header, Hero, all
+body chapters, handoffs, Arbeid and Footer may be redesigned.
 
 The page body currently uses solid semantic surfaces only. No decorative
 background-media owner or related scroll state is mounted. A future original
@@ -41,11 +42,12 @@ grid; semantic surfaces/lines; and a unified button recipe.
 The Trionn study supplies generic construction lessons only. Do not import its
 fonts, media, code, shaders, palette or exact identity-bearing combinations.
 
-## Safe next-step protocol
+## Next-step protocol
 
 1. Re-read the mounted component and its section contract.
 2. Confirm which dirty files already belong to the user's work.
 3. Add roles to `tokens.css` before adding section-local values.
 4. Keep important HTML complete without JS and respect reduced motion/touch.
 5. Validate typecheck, build, diff check and the responsive matrix.
-6. Report exact files and protected boundaries; do not publish automatically.
+6. Report exact files, visual scope and non-visual boundaries; do not publish
+   automatically.

@@ -30,11 +30,13 @@ changes require their own explicit scope.
 - Whether algorithmic/social marketing remains a homepage-promoted offer.
 - Whether local visibility should receive a regional link in Tjenester.
 
-Until the user decides, keep the mounted copy and hrefs unchanged.
+Until the user decides, keep verified href destinations unchanged. Visual
+labels, placement and component structure may change in a redesign as long as
+they do not misrepresent the destination.
 
-## Protected Hero link issue
+## Hero link issue
 
 The Hero has historically used `/tjenester/seo-ai-sok/oslo/oslo`, while the
-verified service route is `/tjenester/seo-optimalisering/oslo/oslo`. Hero is a
-protected component, so this must be handled only as a separately approved,
-link-only correction with SEO verification.
+verified service route is `/tjenester/seo-optimalisering/oslo/oslo`. Hero is
+visually open to redesign, but changing the route still requires explicit SEO
+and link scope.

@@ -6,13 +6,19 @@ Last reconciled: 2026-07-19.
 
 - Motion enhances server-rendered final states.
 - One owner per mechanic, scoped cleanup and no global trigger kills.
-- Lenis is the sole desktop scroll transport; compact/touch/reduced motion use
-  native scroll.
+- The mounted build uses Lenis as its sole desktop scroll transport;
+  compact/touch/reduced motion use native scroll. A full motion redesign may
+  replace the transport deliberately, but must not run competing transports.
 - Do not import third-party reference CSS, JS, fonts, media or shaders.
 - Homepage background art is intentionally unassigned. Do not add decorative
   background assets until a new Tigon-owned direction is approved.
 
 ## Owner map
+
+This table records the mounted motion owners. It is not a permanent motion
+architecture: every owner, mechanic and section boundary may be replaced by a
+redesign. The invariant is that the resulting implementation still has one
+clear owner per mechanic, scoped cleanup and accessible static fallbacks.
 
 | Chapter | Owner | Mechanic |
 | --- | --- | --- |

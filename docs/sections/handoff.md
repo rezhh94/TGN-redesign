@@ -4,8 +4,8 @@ Last reconciled: 2026-07-19.
 
 ## Hero → 01 → 02
 
-- Hero remains unchanged. Intro starts in the first viewport with no empty
-  hold; each following chapter keeps a deliberate solid-surface boundary.
+- In the mounted baseline, Hero releases into Intro without an empty hold.
+  Hero, Intro and this handoff may all be redesigned together.
 - Stable `BYGD SAMMEN` foreground copy stays readable while decorative words
   fade before collision. No visible box or mask is allowed behind the copy.
 - As the real handoff line reaches the foreground field, the complete stable
@@ -37,5 +37,6 @@ Last reconciled: 2026-07-19.
 ## 05 → 06 → footer
 
 - Prosess' structured focus falls into System's quieter radial focus and grid.
-- No new wipe, pin or loader. System releases the light before the existing
-  footer entry; footer implementation is unchanged.
+- The mounted System releases into the existing footer entry. System, the
+  handoff and Footer may all be redesigned; avoid a loader that delays access
+  to content without a demonstrated purpose.
