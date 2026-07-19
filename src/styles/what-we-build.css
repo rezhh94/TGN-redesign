@@ -37,7 +37,6 @@
 
 .what-build__label,
 .service-panel__counter,
-.service-panel__capabilities > p,
 .service-panel__action {
   font-family: var(--font-meta);
   font-size: var(--type-meta-md-size);
@@ -133,14 +132,13 @@
   --service-media-surface: var(--tigon-paper);
   --service-image-surface: var(--bone);
   --service-media-line: var(--color-line);
-  --service-text-strong: var(--color-ink);
-  --service-text-medium: var(--on-light-medium);
-  --service-text-quiet: var(--on-light-quiet);
-  --service-text-faint: var(--on-light-faint);
+  --service-text-strong: var(--paper-text-row);
+  --service-text-quiet: var(--paper-text-heading);
+  --service-text-faint: var(--paper-text-label);
   --service-line-subtle: var(--color-line);
   --service-line-default: var(--color-line);
   --service-line-strong: var(--color-line-strong);
-  --service-focus-ring: var(--color-ink);
+  --service-focus-ring: var(--paper-focus-ring);
   position: relative;
   display: flex;
   min-height: 100svh;
@@ -223,23 +221,12 @@
 
 .service-panel__summary h3 {
   margin: 0;
-  color: var(--service-text-strong);
-  font-family: var(--font-display);
-  font-size: var(--type-display-lg-size);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--type-display-lg-track);
-  line-height: var(--type-display-lg-leading);
-  text-transform: uppercase;
   text-wrap: balance;
 }
 
 .service-panel__summary > p {
   max-width: 38ch;
   margin: var(--space-6) 0 0;
-  color: var(--service-text-medium);
-  font-family: var(--font-editorial);
-  font-size: var(--type-body-md-size);
-  line-height: var(--type-body-md-leading);
   text-wrap: pretty;
 }
 
@@ -249,7 +236,6 @@
 
 .service-panel__capabilities > p {
   margin: 0 0 var(--space-5);
-  color: var(--service-text-faint);
 }
 
 .service-panel__capabilities ul {
@@ -261,10 +247,6 @@
 .service-panel__capabilities li {
   position: relative;
   padding: var(--space-3) 0;
-  color: var(--service-text-quiet);
-  font-family: var(--font-editorial);
-  font-size: var(--type-body-sm-size);
-  line-height: var(--type-body-sm-leading);
 }
 
 .service-panel__capability-rule {

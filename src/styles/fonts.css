@@ -1,3 +1,5 @@
+@import url("https://api.fontshare.com/v2/css?f[]=switzer@400&display=swap");
+
 @font-face {
   font-family: "TGS Perfect";
   src: url("/fonts/TGSPerfectCondensed.woff2") format("woff2");

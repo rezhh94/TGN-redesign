@@ -35,9 +35,12 @@ visual direction is a separate task.
 ## Current design-system decision
 
 `design.md` is now the complete design authority, with executable values in
-`src/styles/tokens.css`. The system uses Tigon's own TGS Perfect, JUST Sans and
-Caleb Mono families; optical type roles; 4px spacing primitives; a 12/6-column
-grid; semantic surfaces/lines; and a unified button recipe.
+`src/styles/tokens.css`. The system uses Tigon's TGS Perfect, JUST Sans and
+Caleb Mono core families plus user-approved Switzer Regular as a narrow paper
+information role; optical type roles; 4px spacing primitives; a 12/6-column
+grid; semantic surfaces/lines; a unified button recipe; and a shared
+`type-paper-*` hierarchy. Its paper text colours are centralized as
+`--paper-text-*` roles.
 
 The Trionn study supplies generic construction lessons only. Do not import its
 fonts, media, code, shaders, palette or exact identity-bearing combinations.

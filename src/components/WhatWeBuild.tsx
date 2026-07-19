@@ -146,15 +146,15 @@ export function WhatWeBuild() {
                   </p>
 
                   <div className="service-panel__summary">
-                    <h3>{service.title}</h3>
-                    <p>{service.description}</p>
+                    <h3 className="type-paper-heading">{service.title}</h3>
+                    <p className="type-paper-copy">{service.description}</p>
                   </div>
 
                   <div className="service-panel__capabilities">
-                    <p>Dette leverer vi</p>
+                    <p className="type-paper-label">Dette leverer vi</p>
                     <ul aria-label={`${service.title} inkluderer`}>
                       {service.capabilities.map((capability) => (
-                        <li key={capability}>
+                        <li className="type-paper-row" key={capability}>
                           <span>{capability}</span>
                           <span
                             className="service-panel__capability-rule"

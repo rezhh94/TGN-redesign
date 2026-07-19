@@ -13,9 +13,15 @@ Status: implemented in the current uncommitted worktree.
 - The desktop construction uses five full-viewport 50/50 panels layered in one
   pinned stage. The useful reference principle is the split between a visual
   field and a calm information field, not Trionn's identity or artwork.
-- Every information field stays on Tigon's warm `--tigon-paper`. Only the left
+- Every information field stays on Tigon's pure-white `--tigon-paper`. Only the left
   media field alternates `--tigon-paper` and `--surface-base`, keeping the copy
   surface continuous while still marking each new service.
+- The information hierarchy consumes the global `type-paper-heading`,
+  `type-paper-copy`, `type-paper-label` and `type-paper-row` roles. All four use
+  Switzer Regular as the user-approved paper voice; JUST Sans remains the
+  site-wide editorial font. The shared scale and neutral paper colours are
+  owned by `tokens.css` and `typography.css`, never repeated as section-local
+  values.
 - The former cube, perspective transforms, corner brackets, duplicate labels,
   bottom index, progress hairline and top divider are absent.
 - A quiet vertical seam and the capability rules are the only structural lines.
@@ -81,5 +87,6 @@ Status: implemented in the current uncommitted worktree.
 - Header, Hero, Effekt, Arbeid, Prosess, System and Footer are untouched.
 - Metadata, schema, sitemap, robots, canonical, URLs, slugs, NAP and link
   destinations are unchanged.
-- No external or legacy CSS, JavaScript, font or asset is imported. No visible
-  orange is introduced.
+- No Trionn or legacy CSS, JavaScript, font or asset is imported. The only
+  external type resource is user-approved Switzer Regular from Fontshare's
+  official web-font endpoint. No visible orange is introduced.

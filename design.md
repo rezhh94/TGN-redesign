@@ -18,6 +18,12 @@ display leading, real HTML above optional visual layers and structural mobile
 branches. Its fonts, exact formulas, colour signature, assets, shaders,
 preloader and dense pin architecture are reference identity and are rejected.
 
+One narrow calibration is explicitly approved: light information typography
+uses the neutral `#434343` heading/body and `#272727` row tones verified in the
+reference. They are generic contrast values stored as semantic paper roles;
+the surrounding surface, font families, scale implementation and composition
+remain Tigon's own.
+
 Every homepage region is visually redesignable: Header, Hero, all body
 chapters, handoffs, 04 / Arbeid and Footer. Values and compositions documented
 here are shared tools and current calibration, not protected section layouts.
@@ -44,8 +50,8 @@ Tigon has previously built.
 
 ## Current canvas rule
 
-Homepage chapters use solid semantic surfaces only. Tjenester uses the existing
-warm `--tigon-paper` as one continuous information surface while only the left
+Homepage chapters use solid semantic surfaces only. Tjenester uses the pure
+white `--tigon-paper` as one continuous information surface while only the left
 media field alternates paper and the dark body surface. This is content
 hierarchy, not page-wide background art. No decorative background video,
 poster, texture, grain, canvas, spotlight or vignette is part of the current
@@ -62,10 +68,12 @@ this document.
 | `--font-display` | TGS Perfect | short display titles and monumental words | Condensed weight creates scale without consuming excessive width. |
 | `--font-editorial` / `--font-sans` | JUST Sans | statements, headings and body | Neutral, humane reading voice balances the display face. |
 | `--font-meta` / `--font-mono` | Caleb Mono | labels, metadata and actions | Creates a precise system register distinct from editorial copy. |
+| `--font-paper` | Switzer | titles, explanations, labels and rows on light information fields | A user-approved neutral neo-grotesk with proportions closer to the intended paper hierarchy; it is deliberately not the site-wide editorial voice. |
 
-Use weights `400`, `500`, `600` and `700` only. Do not synthesize hierarchy by
-adding arbitrary weights. Sentence-case editorial text normally uses `400`;
-display uses `700`; Caleb Mono controls use its real `400` face.
+Use weights `400`, `500`, `600` and `700` only. Sentence-case editorial and
+paper information text normally use `400`; display uses `700`; Caleb Mono
+controls use its real `400` face. Never synthesize a weight that is not
+supplied by a real font file.
 
 ### Scale logic
 
@@ -94,6 +102,10 @@ of nearly redundant tokens.
 | Body MD | `clamp(16px, 1.1vw, 18px)` / `1.55` | Default body; never below 16px at standard zoom. | Generic accessibility baseline. |
 | Body SM | `clamp(14px, 1vw, 16px)` / `1.5` | Secondary copy, not dense paragraphs. | Generic. |
 | Body XS | `clamp(12px, .9vw, 14px)` / `1.4` | Captions and legal copy only. | Generic. |
+| Paper heading | `clamp(30px, 2.25vw, 50px)` / `1` / `-.04em` / `400` | Calm sentence-case information title; retains the compact optical scale while using Switzer and a stable clamp. | Shared light-surface role. |
+| Paper copy | `clamp(16px, 1.125vw, 25px)` / `1.22` / normal tracking / `400` | Short explanatory copy on a light information field; never below 16px. | Shared light-surface role. |
+| Paper row | `clamp(16px, 1vw, 28px)` / `1.2` / normal tracking / `400` | Scan-friendly capability or specification rows with a neutral Roman texture. | Shared light-surface role. |
+| Paper label | `clamp(13px, 1.063vw, 22px)` / `1` / `-.02em` / `400` | Uppercase grouping label without switching to a decorative mono register. | Shared light-surface role. |
 | Meta LG | `clamp(14px, 1.1vw, 16px)` / `1.25` | Prominent system label. | Generic. |
 | Meta MD | `clamp(12px, .95vw, 14px)` / `1.3` | Default eyebrow and metadata. | Generic. |
 | Meta SM | `clamp(10px, .8vw, 12px)` / `1.35` | Microcopy only; avoid for important actions. | Generic. |
@@ -102,6 +114,13 @@ The tuple in each row is size / line-height / optional tracking. Display and
 statement tracking are identity-bearing; use them only through tokens. Meta
 tracking is `0.04em` because Caleb Mono remains clearer than the reference's
 strong negative tracking.
+
+The four `type-paper-*` roles are one complete information hierarchy, not a
+Tjenester-only scale. All four use Switzer Regular from Fontshare's official
+web-font endpoint. Switzer is a user-approved Tigon paper voice, not a Trionn
+font or a new site-wide default. The roles are consumed through
+`src/styles/typography.css`; components may control measure and spacing, but
+may not replace their font metrics or colours locally.
 
 ## Spacing and grid
 
@@ -155,7 +174,10 @@ All primary actions require at least `44px` effective hit height.
 | Base surface | `--surface-base` | `#070707` | Default homepage body. |
 | Raised surface | `--surface-raised` | `#0d0f0f` | Local separation without a new hue. |
 | Focus surface | `--surface-focus` | `#171a19` | Highest neutral elevation. |
-| Paper surface | `--tigon-paper` | `#f2f2ef` | Warm light information surface and transition field in Tjenester. |
+| Paper surface | `--tigon-paper` | `#ffffff` | Pure white information surface and transition field in Tjenester. |
+| Paper heading/body | `--paper-text-heading/body` | `#434343` | Shared calm primary tone for titles and short explanations on paper. |
+| Paper rows | `--paper-text-row` | `#272727` | Stronger scan tone for capability or specification rows. |
+| Paper labels | `--paper-text-label` | `rgba(67,67,67,.6)` | Damped grouping level; not suitable for essential long-form copy. |
 | Strong text | `--text-strong` | `#f2f1eb` | Warm high contrast, avoiding optical glare from pure white. |
 | Medium text | `--text-medium` | `rgba(242,241,235,.68)` | Supporting copy. |
 | Quiet text | `--text-quiet` | `rgba(242,241,235,.54)` | Labels and secondary metadata only. |

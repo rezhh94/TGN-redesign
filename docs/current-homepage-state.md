@@ -28,8 +28,12 @@ page-wide decorative background system or related media lifecycle.
 - `src/styles/tokens.css` owns font roles, optical type scales, 4px spacing,
   12/6-column grid, surfaces, lines, buttons, motion and layer bands.
 - TGS Perfect is display; JUST Sans is editorial; Caleb Mono is meta/actions.
+- Light information fields use the shared Switzer Regular `type-paper-*`
+  hierarchy and `--paper-text-*` contrast roles; JUST Sans remains the global
+  editorial voice and sections do not define their own greys.
 - Trionn is construction calibration only. No reference font, code, asset,
-  palette, shader or exact formula is imported.
+  shader, surface palette or exact scaling formula is imported; the approved
+  neutral paper-text values are documented separately in `design.md`.
 - Visible orange is prohibited.
 
 ## Section state
@@ -49,8 +53,8 @@ expose the final composition.
 uses a bounded pinned sequence of five complete 50/50 panels: a landscape image
 on the left and a calm information field with counter, title, short explanation,
 four capability rows and the existing service link on the right. Panels move
-up through one full-viewport stage. The information half remains warm paper
-throughout; only the left media field alternates warm paper and dark. A separate
+up through one full-viewport stage. The information half remains pure white
+throughout; only the left media field alternates white and dark. A separate
 five-band pinned handoff covers the dark prelude and reveals the first service
 already beneath it, which hides the change between the two scroll domains.
 There is no cube, WebGL scene, top divider, bottom index or progress hairline.

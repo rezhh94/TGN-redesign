@@ -16,10 +16,17 @@ or an effects demo.
 token source. Components consume semantic type, spacing, surface, line, button
 and layer roles; section-local design systems are not allowed.
 
+Switzer Regular is the user-approved supplemental `--font-paper` role for
+light information fields. It does not replace JUST Sans globally and does not
+reopen the reference-font boundary.
+
 Trionn is the principal construction reference. Approach its composition,
 rhythm, responsive strategy and motion craft as closely as useful through a
 clean-room Tigon implementation. Do not copy its code, fonts, assets, shaders,
-content or identity-bearing combinations.
+content or identity-bearing combinations. The approved neutral paper-text
+calibration (`#434343` and `#272727`) is the sole direct colour-value exception;
+it lives in semantic `--paper-text-*` tokens and does not reopen the reference
+palette, surfaces or font stack.
 
 ## Full visual redesign freedom
 

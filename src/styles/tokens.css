@@ -56,10 +56,18 @@
   --tigon-canvas: #050606;
   --tigon-canvas-raised: #0b0d0d;
   --tigon-canvas-lifted: #1a1c1c;
-  --tigon-paper: #f2f2ef;
+  --tigon-paper: #ffffff;
   --tigon-mineral: #d3d8d5;
   --tigon-line-dark: rgba(242, 242, 239, 0.16);
   --tigon-line-light: rgba(5, 6, 6, 0.16);
+  /* Light information surfaces use one shared neutral hierarchy. These roles
+     are intentionally independent of section names so future paper chapters
+     do not invent new greys locally. */
+  --paper-text-heading: #434343;
+  --paper-text-body: #434343;
+  --paper-text-row: #272727;
+  --paper-text-label: rgba(67, 67, 67, 0.6);
+  --paper-focus-ring: #272727;
   --tigon-type-display: var(--font-display);
   --tigon-type-editorial: var(--font-sans);
   --tigon-type-meta: var(--font-mono);
@@ -97,6 +105,7 @@
   --font-mono: "Caleb Mono", "SFMono-Regular", Consolas, monospace;
   --font-editorial: var(--font-sans);
   --font-meta: var(--font-mono);
+  --font-paper: "Switzer", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
@@ -306,6 +315,27 @@
   --type-body-sm-leading: 1.5;
   --type-body-xs-size: clamp(12px, 0.9vw, 14px);
   --type-body-xs-leading: 1.4;
+
+  /* Paper information hierarchy. This is the stable Tigon translation of the
+     compact service-detail scale: same optical size/contrast architecture,
+     using user-approved Switzer rather than a reference font or fluid root
+     formula. */
+  --type-paper-heading-size: clamp(30px, 2.25vw, 50px);
+  --type-paper-heading-leading: 1;
+  --type-paper-heading-track: -0.04em;
+  --type-paper-heading-weight: var(--weight-regular);
+  --type-paper-copy-size: clamp(16px, 1.125vw, 25px);
+  --type-paper-copy-leading: 1.22;
+  --type-paper-copy-track: 0;
+  --type-paper-copy-weight: var(--weight-regular);
+  --type-paper-row-size: clamp(16px, 1vw, 28px);
+  --type-paper-row-leading: 1.2;
+  --type-paper-row-track: 0;
+  --type-paper-row-weight: var(--weight-regular);
+  --type-paper-label-size: clamp(13px, 1.063vw, 22px);
+  --type-paper-label-leading: 1;
+  --type-paper-label-track: -0.02em;
+  --type-paper-label-weight: var(--weight-regular);
 
   --type-meta-lg-size: clamp(14px, 1.1vw, 16px);
   --type-meta-md-size: clamp(12px, 0.95vw, 14px);
