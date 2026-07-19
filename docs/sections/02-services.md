@@ -83,11 +83,13 @@ The motion reference is Valentin Descombes/Codrops
   front-on rest before and after a deliberately extended 90-degree turn. The
   centred turn window is `64%` desktop, `68%` compact and `72%` mobile so both
   adjoining image faces remain visible during rotation; no scale pulse is applied.
-- The first four faces advance between Y-axis stops, with a temporary `-45°`
-  X pitch through the middle of each of the first three turns so their depth
-  matches the final transition. The pitch returns to zero at every stop. The
-  fifth top face keeps the verified combined X/Y terminal orientation required
-  to remain both camerafacing and upright.
+- The first four faces advance between Y-axis stops. On wide desktop, the first
+  three turns add temporary X pitch arcs of `-58° / +48° / -58°`, exposing top,
+  bottom and side planes across the journey, plus only `+7° / -6° / +7°` Z roll.
+  Compact/mobile scale those extra angles down. Every arc returns to zero at its
+  stop; no full spin or scale pulse is added. The fifth top face keeps the
+  verified combined X/Y terminal orientation required to remain camerafacing
+  and upright, with only a temporary `-5°` roll during its turn.
 - Inactive rows remain server-rendered real links, but are visually isolated
   during the enhanced scene. Keyboard focus reveals its complete row before
   interaction; no-JS and reduced-motion keep the full ledger visible.

@@ -367,9 +367,12 @@ five real services become the moving material.
 - the cube stage begins at one CSS-pixel scale but is optically hidden at the
   exact pre-scroll rest; it fades in across the first three percent of the
   entrance while cubic size growth and X/Y/Z rotation remain live from zero;
-- the three side-face transitions add a temporary `-45deg` X pitch through the
-  middle of each Y turn, returning to zero at every front-on stop; the final
-  top-face transition keeps its required combined X/Y endpoint;
+- the first three side-face transitions use controlled X pitch arcs
+  (`-58deg / +48deg / -58deg` on wide desktop) so the full journey reveals
+  top, bottom and side planes; a restrained alternating Z roll stays within
+  `5–7deg`, and every added angle returns to zero at each front-on stop;
+- compact/mobile reduce the compound-turn amplitude, while the final top-face
+  transition keeps its required combined X/Y endpoint;
 - the sixth/bottom face reuses an existing local service image so no empty face
   appears during the tumble and no new network asset is introduced;
 - no cube-level counter is mounted; the service panels provide orientation;

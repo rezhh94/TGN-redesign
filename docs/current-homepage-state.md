@@ -111,8 +111,10 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   hidden at the exact pre-scroll rest. It fades in across the first three
   percent while its cubic depth curve and the inner cube's X/Y/Z tumble remain
   live from zero. It settles at full size on `Nettsider`; later 90-degree turns
-  use long centred windows and a temporary X pitch so adjoining image faces
-  remain legible without changing any front-on stop.
+  use long centred windows and controlled compound arcs. Wide desktop alternates
+  X pitch `-58deg / +48deg / -58deg` through the first three turns, adds only
+  `5–7deg` Z roll, and reduces that depth on compact/mobile. This exposes top,
+  bottom and side planes across the journey without changing any front-on stop.
 - The bottom face reuses the already requested first service image, so every
   visible edge carries imagery during the tumble without another asset request.
 - The responsive perspective is exactly five times the face size with a centred

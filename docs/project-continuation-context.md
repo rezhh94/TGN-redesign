@@ -138,10 +138,12 @@ contracts. Mounted source code wins if documentation and runtime disagree.
 - The outer cube stage begins at an adaptive one-CSS-pixel scale, is optically
   hidden at the exact pre-scroll rest, then fades in across the first three
   percent while growing cubically to exact full size at `Nettsider`. The inner
-  cube rotates linearly from `X -360° / Y -540° / Z -42°` from zero, then adds a
-  temporary X pitch through the first three centred Y turns. The final top-face
-  turn and all five front-on stops remain unchanged. The bottom face reuses the
-  first local image; perspective remains `5 ×` face size at every breakpoint.
+  cube rotates linearly from `X -360° / Y -540° / Z -42°` from zero. Later,
+  wide desktop alternates `X -58° / +48° / -58°` transient pitch and restrained
+  `5–7°` Z roll through the first three centred Y turns; compact/mobile reduce
+  this depth. No added angle survives a stop. The final top-face turn and all
+  five front-on stops remain unchanged. The bottom face reuses the first local
+  image; perspective remains `5 ×` face size at every breakpoint.
 - The central `01 / 05` counter is removed at every breakpoint.
 - Each enhanced stop shows only its active service. Inactive rows remain
   server-rendered but visually hidden and pointer-inactive until scroll or

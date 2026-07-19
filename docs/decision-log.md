@@ -92,8 +92,11 @@ stage in across the first three percent while linear
 `X -360° / Y -540° / Z -42°` rotation remains bound from zero and settles
 front-on at `Nettsider`. The bottom face reuses an existing local image rather
 than exposing an empty plane. Later service turns use extended centred windows
-at constant inner scale. The first three add a temporary `-45°` X pitch through
-their Y turn; the final keeps the verified combined X/Y top-face endpoint.
+at constant inner scale. Wide desktop alternates temporary
+`X -58° / +48° / -58°` pitch through the first three Y turns, with restrained
+alternating Z roll capped at `5–7°`; compact/mobile reduce both amplitudes. The
+full journey therefore reveals top, bottom and side planes without adding a
+full spin. The final keeps the verified combined X/Y top-face endpoint.
 Perspective remains exactly five times the face size. The prelude-to-scene
 overlap is tightened without changing row order, and the central `01 / 05`
 counter is removed. Through 800 px, service-copy opacity clears the physical

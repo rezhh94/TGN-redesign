@@ -97,8 +97,10 @@ rollback source but is not mounted. Do not introduce visible orange.
   owner. It begins at exactly one CSS-pixel scale, stays optically hidden at the
   exact pre-scroll rest, then fades in across the first three percent while
   cubic size growth and X/Y/Z rotation remain live from zero. Later service
-  turns use long, centred scroll windows, add a temporary X pitch through each
-  side-face turn, and must not add a scale pulse or alter the front-on stops.
+  turns use long, centred scroll windows and a restrained compound path: the
+  first/third pitch upward, the second pitches downward and Z roll stays within
+  `5–7deg`. Compact/mobile reduce the amplitude. Do not add another full spin,
+  a scale pulse or any change to the front-on stops.
 - Do not restore a cube-level `01 / 05` counter; service metadata already owns
   orientation.
 - Through 800 px, fade the outgoing service before its text enters the sticky

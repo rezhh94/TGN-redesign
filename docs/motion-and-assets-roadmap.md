@@ -59,9 +59,11 @@ Last reconciled: 2026-07-19.
 - The outer cube stage begins at one CSS-pixel scale, is optically hidden at the
   exact pre-scroll rest, and fades in across the first three percent while
   cubic size growth and X/Y/Z rotation remain live from zero. The first three
-  centred service turns add a temporary X pitch through their Y rotation; every
-  stop remains front-on and no scale pulse is used. The bottom plane reuses the
-  first local service image.
+  centred service turns alternate controlled X pitch to expose top and bottom
+  planes, plus no more than `5–7deg` Z roll; compact/mobile use a reduced depth
+  factor. Every extra angle returns to zero, every stop remains front-on and no
+  scale pulse or extra full spin is used. The bottom plane reuses the first
+  local service image.
 - The center axis mounts no numeric counter.
 - CSS perspective remains five times the responsive face size with a centred
   origin at every breakpoint.

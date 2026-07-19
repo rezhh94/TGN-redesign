@@ -82,6 +82,10 @@ function servicesScene() {
     // kameravendt og rettvendt; en ren X-vending viser feil sideflate.
     { rotateX: -90, rotateY: -360 },
   ] as const;
+  // Samlet viser serviceforløpet både topp-, bunn- og sideflater uten å legge
+  // en ekstra full rotasjon mellom hvert lesbare stopp.
+  const serviceTurnPitch = [-58, 48, -58, 0] as const;
+  const serviceTurnRoll = [7, -6, 7, -5] as const;
   const mm = gsap.matchMedia();
 
   const ctx = gsap.context(() => {
@@ -243,12 +247,17 @@ function servicesScene() {
         const easedProgress = smoother(turnProgress);
         const from = cubeStops[fromIndex];
         const to = cubeStops[toIndex];
-        // De tre sideflate-turnene får samme diagonale dybde som den siste
-        // X/Y-turnen, men pitch-buen går tilbake til null ved hvert stopp slik
-        // at alle serviceflater fortsatt lander nøyaktig frontvendt.
-        const transitionPitch = fromIndex < cubeStops.length - 2
-          ? -45 * Math.sin(easedProgress * Math.PI)
-          : 0;
+        // Én rolig sammensatt bue per service: Y eier selve 90°-skiftet, mens
+        // en begrenset X/Z-bue viser flere terningflater. Både pitch og roll er
+        // null i endene, så hvert godkjente service-stopp forblir uendret.
+        const turnArc = Math.sin(easedProgress * Math.PI);
+        const depthFactor = mobile ? 0.8 : compact ? 0.9 : 1;
+        const transitionPitch = (serviceTurnPitch[fromIndex] ?? 0)
+          * turnArc
+          * depthFactor;
+        const transitionRoll = (serviceTurnRoll[fromIndex] ?? 0)
+          * turnArc
+          * depthFactor;
         // NuDot-prinsippet: størrelse akselererer sent, mens rotasjonen går
         // kontinuerlig og lineært helt fra objektet bare er én CSS-piksel.
         const entranceTurn = 1 - entranceProgress;
@@ -261,7 +270,7 @@ function servicesScene() {
           rotateY:
             gsap.utils.interpolate(from.rotateY, to.rotateY, easedProgress)
             - 540 * entranceTurn,
-          rotateZ: -42 * entranceTurn,
+          rotateZ: transitionRoll - 42 * entranceTurn,
           scale: 1,
           transformOrigin: "50% 50%",
         });

@@ -31,7 +31,9 @@ without prescribing old reference sites or rejected visual concepts.
   rotating continuously on three axes and growing cubically to full size at
   `Nettsider`; the prelude-to-scene gap is reduced and the central counter is
   removed. The first three service turns now use the same diagonal X/Y depth as
-  the final turn while preserving all five front-on stops.
+  the final turn, then extend that language into a controlled compound journey:
+  alternating top/bottom pitch and restrained Z roll reveal more cube planes
+  without a full spin, while preserving all five front-on stops.
   Mobile copy clears the sticky cube field before each face transition.
 - Wide Tjenester lanes now sit one column inward with faint focus registers.
   The five original face stops remain, including the verified combined X/Y
