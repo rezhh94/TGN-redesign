@@ -11,7 +11,7 @@ import "@/styles/approach-statement-bridge.css";
 import "@/styles/what-we-build.css";
 import "@/styles/outcome-tension-bridge.css";
 import "@/styles/what-we-improve.css";
-import "@/styles/effect-work-bridge.css";
+import "@/styles/homepage-body.css";
 import "@/styles/work-proof.css";
 import "@/styles/process-layers.css";
 import "@/styles/system-manifesto.css";
@@ -30,6 +30,29 @@ export default function RootLayout({
   return (
     <html lang="nb">
       <body>
+        {/* LCP er tekst i disse tre fontene; preload fjerner font-swap-blinket.
+            React hoister link-elementene til <head>. */}
+        <link
+          rel="preload"
+          href="/fonts/TGSPerfectCondensed.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/JUSTSans-Regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/CSCalebMono-Regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <SiteHeader />
         {children}
       </body>

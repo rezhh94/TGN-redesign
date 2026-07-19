@@ -79,7 +79,7 @@
   --line-subtle: rgba(242, 241, 235, 0.08);
   --line-default: rgba(242, 241, 235, 0.16);
   --line-strong: rgba(242, 241, 235, 0.3);
-  --homepage-gutter: var(--gutter);
+  --homepage-gutter: clamp(24px, 2.78vw, 48px);
   --homepage-section-intro-y: clamp(104px, 13vh, 176px);
   --homepage-section-block-y: clamp(52px, 7vh, 88px);
   --homepage-section-exit-y: clamp(88px, 11vh, 148px);
@@ -95,6 +95,28 @@
   --font-display: "TGS Perfect", "Arial Narrow", "Arial Black", sans-serif;
   --font-sans: "JUST Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "Caleb Mono", "SFMono-Regular", Consolas, monospace;
+  --font-editorial: var(--font-sans);
+  --font-meta: var(--font-mono);
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* 4px primitive scale. Components consume these roles instead of adding
+     one-off values; the larger jumps create the editorial macro rhythm. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
 
   /* Innholdsbredde + horisontal gutter — én kilde for alle seksjoner. Før:
      --gutter (maks 80) kun i Prosess, resten hardkodet maks 150 → ulik
@@ -138,25 +160,45 @@
      bredder. Bruk: display:grid; grid-template-columns: repeat(var(--grid-cols), 1fr);
      column-gap: var(--grid-gutter); innenfor --grid-margin sidemargin. */
   --grid-cols: 12;
-  --grid-gutter: 24px;
+  --grid-gutter: clamp(16px, 1.67vw, 24px);
   --grid-margin: var(--gutter);
 
-  /* CTA-knapp (lamalama-kalibrert) — ÉN delt resept for primær/sekundær side-CTA
-     (hero + kontakt). Lamalama norm.: 50px høy, 10px mono, gap 20, radius 4, tett
-     tracking (−0.02em). Tigon: en hair større (11px / 52px) siden Caleb Mono
-     kjører mindre enn Sometype. Nav- og meny-piller er chrome (--radius-chrome,
-     0.08em) og bruker bevisst IKKE denne resepten. */
-  --cta-height: 52px;
-  --cta-fz: 11px;
-  --cta-gap: 18px;
-  --cta-pad-x: 24px;
-  --cta-tracking: -0.02em;
+  /* Shared action system. Construction is reference-calibrated; colours,
+     family and exact values remain Tigon-specific. */
+  --button-height-sm: 40px;
+  --button-height-md: 48px;
+  --button-height-lg: 56px;
+  --button-label-size: clamp(13px, 0.95vw, 14px);
+  --button-label-leading: 1;
+  --button-label-track: -0.04em;
+  --button-label-weight: var(--weight-regular);
+  --button-gap: 16px;
+  --button-pad-sm: 20px;
+  --button-pad-md: 24px;
+  --button-pad-lg: 28px;
+  --button-radius: 999px;
+  --button-min-width: 176px;
+  --button-primary-bg: var(--color-on-dark);
+  --button-primary-text: var(--color-ink);
+  --button-primary-hover: #ffffff;
+  --button-secondary-bg: transparent;
+  --button-secondary-text: var(--color-on-dark);
+  --button-secondary-border: var(--line-strong);
+  --button-secondary-hover: rgba(242, 241, 235, 0.08);
+  --focus-ring: var(--color-on-dark);
+
+  /* Compatibility aliases for existing consumers. */
+  --cta-height: var(--button-height-md);
+  --cta-fz: var(--button-label-size);
+  --cta-gap: var(--button-gap);
+  --cta-pad-x: var(--button-pad-md);
+  --cta-tracking: var(--button-label-track);
 
   /* Display-tittel-tracking — ÉN kilde for alle kondenserte TGS-caps-titler
      (seksjonstitler + pilar/kort-navn). Var før spredt: 0 / 0.01 / −0.012em på
      visuelt like titler. Snappet til den dominerende 0.01em. Hero-wordmarken
      (bokstavstablet TIGON/STUDIO) er egen sak og bruker ikke denne. */
-  --display-track: 0.01em;
+  --display-track: var(--type-display-xl-track);
 
   /* F: skarp-editorial (lamalama-oversatt). Ett hjørne-token for avrundede
      rektangler + knapper. Piller (999) beholdes kun som flytende nav-chrome,
@@ -212,20 +254,23 @@
   --fz-mono: 11px;
   --fz-mono-s: 10px;
 
-  /* Semantisk typografikontrakt — størrelsesroller, ikke fontbytte.
-     Første forbrukere er 03 / Effekt og 04 / Arbeid. De eksisterende
-     --fz-* tokenene beholdes som bakoverkompatible primitive verdier til
-     resten av siden migreres i egne, eksplisitte pass. */
-  --type-display-hero-size: clamp(108px, 16vw, 300px);
-  --type-display-hero-leading: 0.78;
-  --type-display-2xl-size: clamp(72px, 9.5vw, 170px);
-  --type-display-2xl-leading: 0.82;
-  --type-display-xl-size: clamp(64px, 6.8vw, 122px);
-  --type-display-xl-leading: 0.84;
-  --type-display-lg-size: clamp(38px, 3.4vw, 52px);
-  --type-display-lg-leading: 0.86;
-  --type-display-md-size: clamp(25px, 2.2vw, 42px);
-  --type-display-md-leading: 0.95;
+  /* Role-based optical scale. Display siblings stay close; family and
+     composition carry hierarchy instead of a forced modular ratio. */
+  --type-display-hero-size: clamp(72px, 8.4vw, 144px);
+  --type-display-hero-leading: 0.84;
+  --type-display-hero-track: -0.02em;
+  --type-display-2xl-size: clamp(60px, 6.6vw, 100px);
+  --type-display-2xl-leading: 0.88;
+  --type-display-2xl-track: -0.018em;
+  --type-display-xl-size: clamp(48px, 6.1vw, 88px);
+  --type-display-xl-leading: 0.9;
+  --type-display-xl-track: -0.016em;
+  --type-display-lg-size: clamp(32px, 2.5vw, 40px);
+  --type-display-lg-leading: 0.96;
+  --type-display-lg-track: -0.012em;
+  --type-display-md-size: clamp(24px, 2vw, 32px);
+  --type-display-md-leading: 1;
+  --type-display-md-track: -0.01em;
 
   /* Statement-rolle — stor men LETT: brødfonten (JUST Sans) i sentence case,
      moderat vekt, tett leading. EGEN størrelsesskala — bevisst mye mindre enn
@@ -233,36 +278,46 @@
      og at en hel statement-seksjon får plass i ca. én viewport-høyde.
      Redaksjonelt førstelinje-innrykk er del av rollen (8 % på mobil, media
      under). Første forbruker: 01 / Tilnærming. */
-  --type-statement-size: clamp(28px, 3.4vw, 60px);
-  --type-statement-leading: 1.08;
-  --type-statement-track: -0.02em;
+  --type-statement-size: clamp(36px, 4.45vw, 88px);
+  --type-statement-leading: 1.02;
+  --type-statement-track: -0.035em;
   --type-statement-weight: 400;
-  --type-statement-indent: 18%;
+  --type-statement-indent: clamp(72px, 8.2vw, 168px);
 
-  --type-lead-lg-size: var(--fz-lead-l);
-  --type-lead-lg-leading: 1.45;
-  --type-lead-md-size: var(--fz-lead-m);
+  --type-heading-lg-size: clamp(28px, 2.5vw, 36px);
+  --type-heading-lg-leading: 1.08;
+  --type-heading-md-size: clamp(22px, 1.8vw, 28px);
+  --type-heading-md-leading: 1.12;
+  --type-heading-sm-size: 18px;
+  --type-heading-sm-leading: 1.2;
+
+  --type-lead-lg-size: clamp(18px, 1.35vw, 22px);
+  --type-lead-lg-leading: 1.42;
+  --type-lead-md-size: clamp(17px, 1.2vw, 20px);
   --type-lead-md-leading: 1.45;
-  --type-lead-sm-size: var(--fz-lead-s);
+  --type-lead-sm-size: clamp(15px, 1vw, 17px);
   --type-lead-sm-leading: 1.5;
 
-  --type-body-md-size: var(--fz-body);
+  --type-body-lg-size: clamp(18px, 1.25vw, 20px);
+  --type-body-lg-leading: 1.55;
+  --type-body-md-size: clamp(16px, 1.1vw, 18px);
   --type-body-md-leading: 1.55;
-  --type-body-sm-size: clamp(14px, 1vw, 17px);
-  --type-body-sm-leading: 1.45;
-  --type-body-xs-size: clamp(12px, 0.95vw, 14px);
-  --type-body-xs-leading: 1.36;
+  --type-body-sm-size: clamp(14px, 1vw, 16px);
+  --type-body-sm-leading: 1.5;
+  --type-body-xs-size: clamp(12px, 0.9vw, 14px);
+  --type-body-xs-leading: 1.4;
 
-  --type-meta-lg-size: var(--fz-mono-l);
-  --type-meta-md-size: var(--fz-mono);
-  --type-meta-sm-size: var(--fz-mono-s);
-  --type-meta-leading: 1.4;
+  --type-meta-lg-size: clamp(14px, 1.1vw, 16px);
+  --type-meta-md-size: clamp(12px, 0.95vw, 14px);
+  --type-meta-sm-size: clamp(10px, 0.8vw, 12px);
+  --type-meta-leading: 1.3;
+  --type-meta-track: 0.04em;
 
   /* Mono/eyebrow-tracking — ÉN kilde for alle uppercase Caleb-Mono-labels
      (eyebrows, tags, meta, CTA-piler). Var før spredt: 0,04–0,14em på visuelt
      like labels. Samlet til arbeidshesten 0,08em. CTA-label bruker bevisst
      --cta-tracking (−0,02em, lamalama-kalibrert), ikke denne. */
-  --mono-track: 0.08em;
+  --mono-track: var(--type-meta-track);
 
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -271,13 +326,19 @@
   --motion-fast: 200ms;
   --motion-base: 300ms;
   --motion-medium: 500ms;
+  --z-base: 0;
+  --z-content: 2;
+  --z-local-overlay: 5;
+  --z-chrome: 100;
+  --z-menu: 200;
+  --z-modal: 1000;
 }
 
-/* Grid — mobil: 6 kol + strammere gutter (lamalama-oversatt). */
+/* Grid — mobile keeps the same roles with a six-column composition. */
 @media (max-width: 640px) {
   :root {
     --grid-cols: 6;
-    --grid-gutter: 10px;
+    --grid-gutter: 16px;
   }
 }
 
@@ -286,24 +347,6 @@
     --size-container-ideal: 834;
     --size-container-min: 768px;
     --size-container-max: 991px;
-  }
-}
-
-/* Display-rollene beholder den eksisterende 03-komposisjonen gjennom de
-   etablerte brekkpunktene. 04 arver nå nøyaktig samme xl-nivå. */
-@media screen and (max-width: 1100px) {
-  :root {
-    --type-display-2xl-size: clamp(68px, 12vw, 132px);
-    --type-display-xl-size: clamp(84px, 9.5vw, 104px);
-    --type-display-lg-size: 42px;
-  }
-}
-
-@media screen and (max-width: 900px) {
-  :root {
-    --type-display-2xl-size: clamp(58px, 14vw, 96px);
-    --type-display-xl-size: clamp(82px, 13vw, 104px);
-    --type-display-lg-size: 38px;
   }
 }
 
@@ -325,14 +368,10 @@
 
 @media screen and (max-width: 640px) {
   :root {
-    --homepage-gutter: 20px;
+    --homepage-gutter: 24px;
     --homepage-section-intro-y: 88px;
     --homepage-section-block-y: 48px;
     --homepage-section-exit-y: 88px;
-    --type-display-2xl-size: clamp(52px, 15vw, 76px);
-    --type-display-xl-size: clamp(64px, 17vw, 82px);
-    --type-display-lg-size: clamp(28px, 8.1vw, 34px);
-    --type-display-md-size: clamp(28px, 9vw, 40px);
-    --type-statement-indent: 8%;
+    --type-statement-indent: clamp(32px, 11vw, 56px);
   }
 }

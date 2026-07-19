@@ -1,38 +1,41 @@
 # ADR — homepage scroll transport
 
-Last reconciled: 2026-07-18.
+Last reconciled: 2026-07-19.
 
 ## Decision
 
-The homepage uses native scroll. GSAP/ScrollTrigger may use local `scrub` for
-an approved section or transition, but no global smooth-scroll transport should
-control the full page.
+**The homepage uses global Lenis as its scroll transport.** It is initialized
+once in `HomeMotion` with `lerp: 0.095`, `smoothWheel: true`,
+`wheelMultiplier: 1`, and is coupled to GSAP via
+`lenis.on("scroll", ScrollTrigger.update)`.
+
+Lenis is automatically disabled on touch devices, on viewports ≤ 768px and
+under `prefers-reduced-motion` (see `src/lib/motion.ts`), so mobile and
+reduced-motion users get native scroll.
+
+This supersedes the earlier direction that described native scroll as the
+canonical future; that cleanup was never merged and the decision has been
+reversed. No document in this repo should claim native scroll as the desktop
+baseline.
 
 ## Reason
 
-A global transport changes the feel of protected Hero/footer and every body
-section, complicates refresh and breakpoint verification, and has no single
-section owner. Tigon's current architecture is normal document flow with a few
-scoped motion owners.
-
-## Current implementation status
-
-The current worktree removes the global Lenis initialization from
-`HomeMotion`, deletes the unused helper `src/lib/motion.ts` and removes the
-package/lockfile dependency. No mounted section uses that helper.
-
-This cleanup is protected uncommitted work. Review and commit it separately
-from a visual section change.
+The homepage's scroll-driven scenes (services cube, tension bridge, archive
+exits) read Lenis-smoothed scroll. One shared smoothing layer gives every
+scene the same base feel and lets scene owners keep their own damping short.
 
 ## Consequences
 
-- Desktop, mobile, touch and reduced motion share one base scroll model.
-- ScrollTrigger listens to native scroll directly.
-- Scrub values are calibrated by their section owner.
-- Do not reintroduce global smoothing to repair timing in one section.
+- **One damping layer per movement.** Lenis is the first layer; per-scene
+  quickTo/scrub values are calibrated short on top of it (see the Animation
+  Charter, rule 2). Do not stack a second slow lerp on top of Lenis.
+- Scrub values remain owned per section.
+- Desktop verification must scroll through Lenis (dev builds expose
+  `window.__lenis`); mobile/touch/reduced-motion verification uses native
+  scroll.
 
 ## Rollback
 
-Checkpoint newer work first, then restore only `HomeMotion`,
-`src/lib/motion.ts`, `package.json` and `package-lock.json` from the last known
-state that intentionally used Lenis. Never reset the full worktree.
+Remove the `initLenis` call in `HomeMotion`, the ScrollTrigger coupling and
+`src/lib/motion.ts`, then re-tune per-scene damping (they are calibrated with
+Lenis present).

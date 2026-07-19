@@ -1,32 +1,45 @@
 # 01 / Tilnærming — active contract
 
-Last reconciled: 2026-07-19. Approved base commit: `e4dbba7`.
+Last reconciled: 2026-07-19. Active base commit: `e69d15b`.
 
-- Files: `ApproachStatementBridge.tsx`, `approach-statement-bridge.css`,
-  `introStoryScene` in `HomeMotion.tsx`.
-- Appendix A in `design.md` is the detailed implementation, reference and
-  licence contract. The main body of `design.md` governs the shared homepage
-  language.
-- Stable foreground: `BYGD SAMMEN`, the integrated-practice paragraph and
-  `TGN / integrated practice`. It never scrambles or flips. At the final
-  handoff only, the complete foreground block fades and lifts 12 px before
-  `Hva vi bygger` enters the main reading field; reverse scroll restores it.
-- Decorative Tigon capability words preserve Codrops' `group`, `el`, `pos-*`,
-  Flip and scramble architecture behind the foreground copy.
-- Each decorative word fades before it intersects the measured foreground
-  rectangle. Do not add a visible card, text box, mask or backdrop blur.
-- Sits above the global Intro-through-Arbeid
-  wave/material/spotlight/vignette/grain atmosphere. `HomeAtmosphere` plays
-  the one lightweight wave on desktop and mobile; reduced motion/no-JS use its
-  static poster and static grain.
-- Display and mono roles use local TGS Perfect and Caleb Mono. The former
-  render-blocking Typekit import is removed.
-- The server-rendered handoff `01 → 02 / Én helhet. Fem fag.` remains.
-- Desktop word-group rhythm is shortened from `10vh` to `8.5vh`; through
-  800 px it uses `9vh`. No words or semantic content are removed.
-- Reduced motion/no-JS place the foreground in ordinary flow, keep all stable
-  content and the readable handoff, and avoid a sticky cross-section overlap.
-- Header and Hero are outside this section's writable scope.
-
-The former Intro-local backdrop is removed. Intro keeps only its content and
-Flip/scramble/collision-clearance contract above `HomeAtmosphere`.
+- Files: `ApproachStatementBridge.tsx`, `approach-statement-bridge.css`, the
+  shared statement roles in `tokens.css` and `introFillScene` in
+  `HomeMotion.tsx`.
+- The section is a clean-room Tigon adaptation of the generic construction
+  pattern documented for Trionn About: normal flow, minimum one viewport,
+  asymmetric 12-column statement, lower support split and one line/plus axis.
+  No Trionn code, CSS, font, copy, media, shader or asset is imported.
+- The server-rendered statement is the canonical Tigon positioning:
+  `High-end nettsider, apper og digitale systemer hvor design, teknologi og
+  synlighet bygges som én helhet.`
+- JUST Sans owns the large sentence-case statement. Caleb Mono owns the
+  chapter label, three-part register, handoff and action. The section uses the
+  shared `statement`, `lead`, `meta`, text and line roles.
+- The lower composition keeps `Design / tydelighet`,
+  `Teknologi / kvalitet`, `Synlighet / effekt`, the server-rendered
+  `01 → 02 / Én helhet. Fem fag.` handoff and one explanation. The real CTA
+  points to the existing `#what-build-title` target; no new route is invented.
+- Main statement motion splits only after hydration and interpolates each
+  character from `text-faint` to its CSS final colour. Trigger is the statement,
+  `start: "top 80%"`, `end: "bottom center"`, `scrub: true`,
+  `duration: .45`, `stagger: .03`, `ease: none`.
+- The hairline and plus share one scrubbed timeline. Trigger is the line,
+  `start: "top bottom"`, `end: "top center"`, `scrub: true`, `ease: none`;
+  line `scaleX 0 → 1`, plus `rotate 0 → 360` and `autoAlpha 0 → 1`.
+- After that timeline is complete, fine-pointer movement moves the plus along
+  the line with `.3s power2.out`; pointer leave returns it with
+  `.6s power2.out`. Touch has no pointer-only dependency.
+- Label and supporting columns use one-shot entrances only when they begin
+  below the viewport: label `.8s power2.out` with an 8 px blur/10 px settle;
+  support `.8s power2.out`, `.3s` delay and `.12` stagger.
+- The section is never pinned. CSS owns all final layout, line geometry and
+  responsive stacking; GSAP owns only colour, transform and opacity progress.
+- Above 900 px the label and statement share a row; the statement begins in
+  column two with a first-line indent. At 900 px the title and label stack.
+  At 640 px the support columns become normal flow and the section may grow
+  beyond one viewport rather than compress its copy.
+- It uses the solid `surface-base` role. No decorative background media,
+  canvas, texture or lighting layer exists.
+- Reduced motion and no-JS keep the complete statement, separator, support,
+  action and handoff visible with no transforms. Header and Hero remain outside
+  this section's writable scope.

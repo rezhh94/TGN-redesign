@@ -18,5 +18,4 @@ pnpm-debug.log*
 # Local visual QA and reference capture sequences
 outputs/qa-*/
 /nothin-*.jpeg
-/nudot-*.jpeg
 /trionn-*.jpeg

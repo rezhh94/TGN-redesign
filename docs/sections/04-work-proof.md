@@ -8,9 +8,8 @@ Last reconciled: 2026-07-18. Approved commit: `c349ef7`.
   is never portfolio, customer work or case proof.
 - Webapp, Nettsted, Plattform, E-handel, AI and App are six real, accessible
   direct links with their established hrefs.
-- Desktop sticky archive uses clip/scale entry, calibrated image parallax and
-  word-wise title exit on the work state of the global Intro-through-Arbeid
-  atmosphere.
+- Desktop sticky archive uses clip/scale entry, calibrated local image parallax
+  and word-wise title exit on its solid section surface.
 - Through 1000 px, touch, reduced motion and no-JS use normal flow. Touch keeps
   a visible `Utforsk` action.
 - Dynamic Text Cursor remains fine-pointer/reduced-motion-safe and limited to

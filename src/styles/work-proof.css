@@ -1,14 +1,13 @@
-/* 04 / Arbeid — asymmetrisk capability-vegg på den mørke flaten som vokser
-   frem direkte fra 03. Ingen hvit mellomflate bryter reisen. */
+/* 04 / Arbeid — asymmetrisk capability-vegg på en solid mørk flate. */
 
 .work-process-journey {
   position: relative;
   overflow: clip;
   isolation: isolate;
-  background: transparent;
+  background: var(--surface-base);
 }
 
-.work-process-journey > .effect-work-journey {
+.work-process-journey > .work-proof {
   position: relative;
   z-index: 2;
 }
@@ -16,14 +15,6 @@
 .work-process-journey > .process-journey {
   position: relative;
   z-index: 1;
-}
-
-.work-process-journey[data-work-process-ready] > .effect-work-journey {
-  background: transparent;
-}
-
-.work-process-journey[data-work-process-ready] {
-  background: transparent;
 }
 
 .work-process-journey[data-work-process-ready] > .process-journey {
@@ -40,7 +31,7 @@
   z-index: 1;
   overflow: clip;
   padding-bottom: 0;
-  background: transparent;
+  background: var(--work-canvas);
   color: var(--color-on-dark);
   scroll-margin-top: calc(var(--header-height) + 24px);
 }
@@ -56,15 +47,10 @@
   position: relative;
   z-index: 1;
   padding-top: 0;
-  background: transparent;
+  background: var(--work-canvas);
 }
 
-.effect-work-journey[data-effect-work-ready] .work-proof,
-.effect-work-journey[data-effect-work-ready] .work-proof__catalogue {
-  background: transparent;
-}
-
-/* ── Sticky arkivflate (nudot-inspirert scroll-sandwich) ─────────────────
+/* ── Sticky arkivflate med lagdelt scroll-handoff ─────────────────────────
    Flaten står sticky i første viewport av katalogen; veggen (z-2) ruller
    over den. Tittelordene ligger i overflow-klippede wrappere så entré og
    exit kan maskeres. Uten JS: helt vanlig, synlig tekst. */
@@ -189,7 +175,7 @@
   grid-row: 6;
 }
 
-/* Faste Nudot-proporsjoner. Mockupene beholder lesbarhet via et 140 %
+/* Faste redaksjonelle proporsjoner. Mockupene beholder lesbarhet via et 140 %
    parallaxrom som aldri avdekker kanten. */
 .work-wall .work-tile:nth-child(1) .work-tile__visual,
 .work-wall .work-tile:nth-child(4) .work-tile__visual {
@@ -540,7 +526,7 @@
     margin-left: auto;
   }
 
-  /* Mobil: nudot-lignende kompakte flater i stedet for høye portretter.
+  /* Mobil: kompakte flater i stedet for høye portretter.
      :nth-child(n) matcher alt, men løfter spesificiteten over
      desktop-høydereglene (som ellers vinner inn i mobilbredder). */
   .work-wall .work-tile:nth-child(n) .work-tile__visual {

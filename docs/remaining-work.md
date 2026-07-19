@@ -2,109 +2,35 @@
 
 Last reconciled: 2026-07-19.
 
-This is the canonical backlog for the homepage. It describes what remains
-without prescribing old reference sites or rejected visual concepts.
+## Current review gate
 
-## Approved baseline
+- Review active Intro and Tjenester refinements against `design.md`.
+- Confirm the shared typography and button roles at 390, 768, 1024 and 1440px.
+- Verify that Header/Hero and Footer protected content remain intact.
+- Run TypeScript, production build and `git diff --check`.
 
-- 01 / Intro is approved and committed in `e4dbba7`.
-- 03 / Effekt and 04 / Arbeid are approved and committed in `c349ef7`.
-- Header/Hero, SEO infrastructure and Kontakt/footer remain protected.
-- `design.md` is the canonical design entry point for all remaining sections;
-  `tokens.css` remains the implementation value authority and section
-  contracts own local composition.
+## Recommended sequence
 
-## Current worktree review
+1. Complete Intro visual verification and token migration.
+2. Review Tjenester desktop/compact readability and cube lifecycle.
+3. Recheck the Outcome tension handoff after upstream geometry settles.
+4. Preserve Effekt and capability-led Arbeid unless reopened.
+5. Review Prosess and System against the canonical token roles.
+6. Perform the full integration and accessibility matrix.
 
-- 02 / Tjenester has been reopened by explicit user direction and rebuilt as a
-  concise prelude followed by a scroll-driven cube axis. Desktop/tablet-wide retain
-  paired dual-wave streams; through 800 px, services become complete full-width
-  chapters. It preserves the shared atmosphere, five real links and content.
-- The motion is a source-audited, section-scoped adaptation of the Codrops
-  dual-wave mechanics, with a separately authored mobile choreography,
-  stronger global `services-focus` state and complete reduced-motion/no-JS
-  fallback. It awaits user review and commit.
-- The connected 01→02 calibration is implemented: Intro is approximately seven
-  percent shorter at the 2048×1024 review viewport, its stable block exits
-  before the service prelude occupies the reading field. The cube begins at
-  one-pixel scale but is hidden at the exact pre-scroll rest, then fades in while
-  rotating continuously on three axes and growing cubically to full size at
-  `Nettsider`; the prelude-to-scene gap is reduced and the central counter is
-  removed. The first three service turns now use the same diagonal X/Y depth as
-  the final turn, then extend that language into a controlled compound journey:
-  alternating top/bottom pitch and restrained Z roll reveal more cube planes
-  without a full spin, while preserving all five front-on stops.
-  Mobile copy clears the sticky cube field before each face transition.
-- Wide Tjenester lanes now sit one column inward with faint focus registers.
-  The five original face stops remain, including the verified combined X/Y
-  terminal orientation required for the upright top SEO face.
-- Supporting current-state, motion, design and section documents record this
-  exact active direction; the earlier committed mosaic is rollback history.
-- The earlier broader dirty worktree was discarded at the user's explicit
-  request. Do not reconstruct its 05/06 or lifecycle changes from historical
-  notes.
-- Global Lenis and dormant homepage initializers remain in the mounted clean
-  baseline. Their cleanup is still open and must be a separate technical task.
-- The render-blocking Typekit import, eager cube-face preload and eager
-  atmosphere playback are removed. The remaining approximately 82 KiB
-  HomeMotion/GSAP client chunk is the next performance target and should be
-  split/lazy-initialized in a dedicated lifecycle task.
+## Open design work
 
-## Global atmosphere consolidation and Tigon-owned media
-
-`design.md` now makes one physical background owner from Intro through Arbeid
-non-negotiable, and the mounted worktree now complies. `HomeAtmosphere` owns
-one wave/material/spotlight/vignette/veil/grain field; Intro, Tjenester, Effekt
-and Arbeid are transparent above it. The duplicate Intro/Tjenester wave players
-and their stacked transition gap are removed. Ownership and continuity were
-committed in `b5d1a10`.
-
-The mounted owner now uses the independently authored Tigon focus-field loop,
-its static poster, reduced material/grain and mobile playback. It removes the
-animated viewport grain canvas and keeps both remaining grain scales static.
-The previous user-supplied wave remains available only as rollback material.
-
-## Next section sequence
-
-The user chooses the next section. For each selected section:
-
-1. Inspect its current source and dirty diff.
-2. Read `design.md` and map new styling to its canonical semantic roles.
-3. Take a before screenshot and create a scoped rollback point when requested.
-4. Preserve content, links and neighboring approved sections.
-5. Implement only that section and the minimum transition it owns.
-6. Verify desktop, tablet, mobile, reduced motion, touch and no-JS as relevant.
-7. Show before/after and stop for approval when requested.
-8. Commit only after explicit approval.
-
-Recommended review order if the user has no preference:
-
-1. Review and approve the calibrated Intro→Tjenester journey.
-2. 05 / Prosess — confirm the existing 04 exit lands cleanly.
-3. 06 / System — finish the body journey into the protected footer.
-4. Global lifecycle cleanup — review and commit separately from visual work.
-
-## Content and asset work still open
-
-- Effekt proof mockups are temporary and await a separate, explicit asset task.
-- Retain the tracked `videos/tigon-work-atmosphere/` project as historical
-  source/QA for the former generated loop. Retain the supplied wave remux as a
-  rollback source. The active delivery and reproducible source live under
-  `/video/tigon-focus-field.mp4` and `videos/tigon-focus-field/`.
-- Service/link decisions that are not exact label-to-route matches remain a
-  content decision; see `docs/services-link-contract.md`.
-- The protected Hero contains a known service-link issue documented in the SEO
-  contract. Fix it only through an explicit link-only Hero task.
+- Original Tigon background art direction is intentionally postponed. It has
+  no mounted owner or approved asset recipe.
+- Effekt proof media may receive a dedicated replacement brief.
+- Remaining section-local raw font, spacing and button values should migrate to
+  semantic roles only when that section is actively reviewed.
 
 ## Final integration gate
 
-After the remaining sections are individually approved:
-
-- run the full journey at 1440, 1024, 900, 768 and 390 px;
-- verify reverse scroll, refresh position, resize and deep links;
-- verify touch, keyboard, reduced motion and no-JS;
-- confirm all six Work links and visible touch actions;
-- confirm Header/Hero, SEO, URLs and footer/NAP are unchanged;
-- run typecheck, production build and `git diff --check`;
-- reconcile the active documentation and create one explicit integration
-  commit only if the user requests it.
+- One smooth-scroll transport and no duplicate ScrollTriggers.
+- Complete no-JS/reduced-motion/touch paths.
+- Keyboard-visible controls and real hrefs.
+- No external reference code/assets, visible orange or portfolio framing in
+  04 / Arbeid.
+- Explicit user approval before commit or push.

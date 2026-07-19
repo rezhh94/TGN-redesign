@@ -1,0 +1,6 @@
+/* Solid body canvas. New background art requires a separate Tigon-owned task. */
+.homepage-body {
+  position: relative;
+  background: var(--surface-base);
+  color: var(--text-strong);
+}

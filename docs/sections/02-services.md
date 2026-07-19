@@ -22,12 +22,8 @@ checkpoint. The rollback point remains `b5d1a10`.
   description, capabilities and action in the same readable column.
 - The two sides of a row belong to one real service link. They are a visual
   split, never duplicate interactive or accessible content.
-- The section stays transparent above `HomeAtmosphere`. It may tune the named
-  global atmosphere state but may not add or restart a background.
-- `services-focus` uses the existing global owner to increase asymmetric light,
-  wave presence, material/grain and depth while lowering the veil. Mobile uses
-  the same lightweight wave with static grain; reduced motion/no-JS use the
-  poster and static material.
+- The section uses a solid semantic surface. It owns no decorative background
+  media, canvas, texture or lighting state.
 - A local CSS-3D cube uses the five existing Tigon service images on its front,
   right, back, left and top faces; the bottom reuses the first local image so
   the entrance tumble never exposes an empty face or adds another request.

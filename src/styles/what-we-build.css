@@ -3,7 +3,7 @@
   z-index: 2;
   overflow: clip;
   isolation: isolate;
-  background: transparent;
+  background: var(--surface-base);
   color: var(--text-strong);
 }
 
@@ -90,6 +90,8 @@
   perspective: var(--service-cube-perspective);
   perspective-origin: 50% 50%;
   pointer-events: none;
+  /* Scenen skalerer/fader hver frame under entré — promoter laget. */
+  will-change: transform, opacity;
 }
 
 .what-build__cube {
@@ -119,6 +121,12 @@
   height: 100%;
   object-fit: cover;
   filter: saturate(0.68) contrast(1.07) brightness(0.82);
+  transition: filter 460ms var(--ease-standard);
+}
+
+/* Aktiv flate følger rad-fokuset med et subtilt lys-løft. */
+.what-build__cube-face[data-service-cube-face-active] img {
+  filter: saturate(0.72) contrast(1.07) brightness(0.9);
 }
 
 .what-build__cube-shade {

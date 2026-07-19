@@ -2,7 +2,7 @@
   position: relative;
   z-index: 2;
   overflow: clip;
-  background: transparent;
+  background: var(--surface-base);
   color: var(--color-on-dark);
 }
 
