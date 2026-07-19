@@ -4,7 +4,12 @@ const services = [
     number: "01",
     title: "Nettsider",
     description: "Raske nettsider med tydelig struktur, teknisk SEO og måling.",
-    capabilities: ["Teknisk SEO", "Core Web Vitals", "Innholdsstruktur", "Konvertering"],
+    capabilities: [
+      "Strategi og informasjonsarkitektur",
+      "UX og visuelt design",
+      "Next.js-utvikling",
+      "Teknisk SEO og måling",
+    ],
     href: "/tjenester/webutvikling-nextjs",
     image: "/services/tgn-nettsider-editorial.webp",
     visualPosition: "50% 50%",
@@ -14,7 +19,12 @@ const services = [
     number: "02",
     title: "Webapper",
     description: "Digitale verktøy formet rundt virksomhetens faktiske arbeidsflyt.",
-    capabilities: ["Innlogging", "Roller", "Integrasjoner", "Datamodell"],
+    capabilities: [
+      "Produktdesign og prototyper",
+      "Innlogging og roller",
+      "API-er og integrasjoner",
+      "Datamodell og arbeidsflyt",
+    ],
     href: "/tjenester/custom-software",
     image: "/services/tgn-webapper-workflow.webp",
     visualPosition: "50% 45%",
@@ -24,7 +34,12 @@ const services = [
     number: "03",
     title: "Apper",
     description: "Mobil- og webprodukter for behov som går utover en nettside.",
-    capabilities: ["Mobil", "Web", "Push", "Publisering"],
+    capabilities: [
+      "Produktstrategi og prototyper",
+      "Mobil- og webgrensesnitt",
+      "Integrasjoner og varslinger",
+      "Publisering og videreutvikling",
+    ],
     href: "/tjenester/app-utvikling",
     image: "/services/tgn-apper-field.webp",
     visualPosition: "50% 44%",
@@ -34,7 +49,12 @@ const services = [
     number: "04",
     title: "AI-systemer",
     description: "AI-verktøy koblet til virksomhetens egne data og arbeidsflyter.",
-    capabilities: ["Automasjon", "Søk", "Assistenter", "Interne verktøy"],
+    capabilities: [
+      "Kartlegging av arbeidsflyt",
+      "Automasjon og integrasjoner",
+      "Søk i egne data",
+      "Assistenter og interne verktøy",
+    ],
     href: "/tjenester/ai-implementering",
     image: "/services/tgn-ai-knowledge.webp",
     visualPosition: "50% 45%",
@@ -44,7 +64,12 @@ const services = [
     number: "05",
     title: "SEO & AI-søk",
     description: "Struktur og innhold som gjør løsningen synlig og lettere å velge.",
-    capabilities: ["Teknisk SEO", "AI-synlighet", "Lokal synlighet", "Måling"],
+    capabilities: [
+      "Teknisk SEO",
+      "Synlighet i AI-søk",
+      "Lokal synlighet",
+      "Innholdsstruktur og måling",
+    ],
     href: "/tjenester/seo-optimalisering",
     image: "/services/tgn-seo-query-map.webp",
     visualPosition: "48% 50%",
@@ -73,95 +98,68 @@ export function WhatWeBuild() {
         </div>
       </header>
 
-      <div className="service-journey" data-service-story>
-        <div className="service-journey__stage" data-service-stage>
-          <div className="service-journey__stage-grid">
-            <div className="service-journey__stage-head" aria-hidden="true">
-              <span>Velg fag</span>
-              <span data-service-counter>01 / 05</span>
-            </div>
-
-            <figure className="service-journey__visual" aria-hidden="true">
-              <span className="service-journey__corner service-journey__corner--tl" />
-              <span className="service-journey__corner service-journey__corner--tr" />
-              <span className="service-journey__corner service-journey__corner--bl" />
-              <span className="service-journey__corner service-journey__corner--br" />
-              <div className="service-journey__visual-frame">
-                {services.map((service, index) => (
-                  <img
-                    alt=""
-                    className="service-journey__stage-image"
-                    data-service-stage-image
-                    data-service-stage-image-active={index === 0 ? "" : undefined}
-                    decoding="async"
-                    key={service.id}
-                    loading="lazy"
-                    src={service.image}
-                    style={{ objectPosition: service.visualPosition }}
-                  />
-                ))}
-              </div>
-            </figure>
-
-            <ol className="service-journey__index" aria-hidden="true">
-              {services.map((service) => (
-                <li key={service.id}>
-                  <span>{service.number}</span> {service.title}
-                </li>
-              ))}
-            </ol>
-
-            <div className="service-journey__progress" aria-hidden="true">
-              <span data-service-progress />
-            </div>
-          </div>
-        </div>
-
-        <ol className="service-journey__chapters" data-service-chapters>
+      <div className="service-deck" data-service-story>
+        <ol
+          className="service-deck__panels"
+          aria-label="Tigons tjenester"
+          data-service-stage
+        >
           {services.map((service, index) => (
             <li
-              className="service-chapter"
-              data-service-chapter
+              className="service-panel"
               data-service-active={index === 0 ? "" : undefined}
+              data-service-panel
               key={service.id}
             >
-              <div className="service-chapter__inner">
-                <figure className="service-chapter__mobile-visual" aria-hidden="true">
-                  <img
-                    alt=""
-                    decoding="async"
-                    loading="lazy"
-                    src={service.image}
-                    style={{ objectPosition: service.visualPosition }}
-                  />
+              <article className="service-panel__inner">
+                <figure className="service-panel__media" aria-hidden="true">
+                  <div className="service-panel__image-frame">
+                    <img
+                      alt=""
+                      data-service-panel-image
+                      decoding="async"
+                      loading={index === 0 ? "eager" : "lazy"}
+                      src={service.image}
+                      style={{ objectPosition: service.visualPosition }}
+                    />
+                  </div>
                 </figure>
 
-                <article className="service-chapter__content">
-                  <div className="service-chapter__primary">
-                    <div className="service-chapter__meta">
-                      <span>Service {service.number}</span>
-                      <span>{service.number} / 05</span>
-                    </div>
+                <div className="service-panel__content" data-service-panel-content>
+                  <p className="service-panel__counter">
+                    {service.number} / {String(services.length).padStart(2, "0")}
+                  </p>
+
+                  <div className="service-panel__summary">
                     <h3>{service.title}</h3>
-                    <a
-                      className="service-chapter__action"
-                      data-service-link
-                      href={service.href}
-                    >
-                      Utforsk tjenesten <span aria-hidden="true">↗</span>
-                    </a>
+                    <p>{service.description}</p>
                   </div>
 
-                  <div className="service-chapter__details">
-                    <p>{service.description}</p>
+                  <div className="service-panel__capabilities">
+                    <p>Dette leverer vi</p>
                     <ul aria-label={`${service.title} inkluderer`}>
                       {service.capabilities.map((capability) => (
-                        <li key={capability}>{capability}</li>
+                        <li key={capability}>
+                          <span>{capability}</span>
+                          <span
+                            className="service-panel__capability-rule"
+                            data-service-panel-rule
+                            aria-hidden="true"
+                          />
+                        </li>
                       ))}
                     </ul>
                   </div>
-                </article>
-              </div>
+
+                  <a
+                    className="service-panel__action"
+                    data-service-link
+                    href={service.href}
+                  >
+                    Utforsk tjenesten
+                  </a>
+                </div>
+              </article>
             </li>
           ))}
         </ol>

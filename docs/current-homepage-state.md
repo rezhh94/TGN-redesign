@@ -46,12 +46,14 @@ expose the final composition.
 ### Tjenester
 
 `WhatWeBuild` contains all five service links and local Tigon images. Desktop
-uses the restored flat service selector: one centred image, service title/action
-to the left, explanation and four compact capability labels to the right, and
-a five-part orientation line below. There is no cube or 3D scene. Compact, touch,
-reduced-motion and no-JS present all five complete chapters in normal flow.
-`servicesScene` owns the 01→02 bridge, active service, image crossfade and
-progress within one section-scoped lifecycle.
+uses a bounded pinned sequence of five complete 50/50 panels: a landscape image
+on the left and a calm information field with counter, title, short explanation,
+four capability rows and the existing service link on the right. Panels move
+up through one full-viewport stage; there is no cube, WebGL scene, top divider,
+bottom index or separate progress hairline. Compact, touch, reduced-motion and
+no-JS present the same five complete panels in normal flow. `servicesScene`
+owns the 01→02 bridge and service transitions within one section-scoped
+lifecycle; CSS remains the readable source of truth.
 
 ### Outcome tension
 

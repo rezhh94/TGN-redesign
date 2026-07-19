@@ -470,102 +470,17 @@ function legacyServicesScene() {
   };
 }
 
-// Intro → 02 / Tjenester — one clean-room journey owner. The bridge and
-// desktop service stage share one lifecycle, while CSS keeps the complete
-// content readable before hydration. Desktop uses a sticky stage without a
-// JS pin; compact/touch stays in ordinary flow.
+// Intro → 02 / Tjenester — one clean-room journey owner. CSS keeps all
+// five panels readable in ordinary flow. GSAP upgrades only fine-pointer
+// desktop to one bounded, pinned panel stack.
 function servicesScene() {
   const journey = document.querySelector<HTMLElement>("[data-intro-services-journey]");
   const bridge = journey?.querySelector<HTMLElement>("[data-intro-services-bridge]");
   const section = journey?.querySelector<HTMLElement>("[data-build-section]");
   const prelude = section?.querySelector<HTMLElement>("[data-service-prelude]");
   const story = section?.querySelector<HTMLElement>("[data-service-story]");
-  const rows = gsap.utils.toArray<HTMLElement>("[data-service-chapter]", section);
-  const stageImages = gsap.utils.toArray<HTMLElement>(
-    "[data-service-stage-image]",
-    section,
-  );
-  const capabilityRules = gsap.utils.toArray<HTMLElement>(
-    "[data-service-rule]",
-    section,
-  );
-  const counter = section?.querySelector<HTMLElement>("[data-service-counter]");
-  const progressBar = section?.querySelector<HTMLElement>("[data-service-progress]");
-
-  // The restored dual-stream composition keeps the connected 01→02 bridge,
-  // but delegates service progression to the original section-scoped owner.
-  if (!story) {
-    const waveCleanup = legacyServicesScene();
-    if (!journey || !bridge || !section || !prelude) return waveCleanup;
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return waveCleanup;
-
-    const journeyContext = gsap.context(() => {
-      const axis = bridge.querySelector<HTMLElement>(".intro-services-journey__axis");
-      const bridgeProgress = bridge.querySelector<HTMLElement>("[data-journey-progress]");
-      const bridgeMarker = bridge.querySelector<HTMLElement>("[data-journey-marker]");
-      const fromLabel = bridge.querySelector<HTMLElement>("[data-journey-from]");
-      const toLabel = bridge.querySelector<HTMLElement>("[data-journey-to]");
-
-      if (axis && bridgeProgress && bridgeMarker && fromLabel && toLabel) {
-        journey.setAttribute("data-journey-ready", "");
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: bridge,
-            start: "top 85%",
-            end: "bottom 35%",
-            scrub: 0.45,
-            invalidateOnRefresh: true,
-          },
-          defaults: { ease: "none" },
-        })
-          .fromTo(bridgeProgress, { scaleY: 0 }, { scaleY: 1, duration: 1 }, 0)
-          .fromTo(
-            bridgeMarker,
-            { y: 0, rotate: 0 },
-            {
-              y: () => Math.max(0, axis.offsetHeight - bridgeMarker.offsetHeight),
-              rotate: 180,
-              duration: 1,
-            },
-            0,
-          )
-          .fromTo(fromLabel, { autoAlpha: 1 }, { autoAlpha: 0.34, duration: 0.46 }, 0)
-          .fromTo(toLabel, { autoAlpha: 0.34 }, { autoAlpha: 1, duration: 0.5 }, 0.5);
-      }
-
-      const preludeLines = gsap.utils.toArray<HTMLElement>(
-        "[data-service-prelude-line]",
-        prelude,
-      );
-      const preludeCopy = gsap.utils.toArray<HTMLElement>(
-        "[data-service-prelude-copy]",
-        prelude,
-      );
-      maskedRise(preludeLines, prelude, {
-        yPercent: 108,
-        duration: 0.9,
-        stagger: 0.08,
-        start: "top 80%",
-      });
-      if (prelude.getBoundingClientRect().top > window.innerHeight * 0.86) {
-        gsap.from(preludeCopy, {
-          autoAlpha: 0,
-          y: 14,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: { trigger: prelude, start: "top 74%", once: true },
-        });
-      }
-    }, journey);
-
-    return () => {
-      journeyContext.revert();
-      journey.removeAttribute("data-journey-ready");
-      waveCleanup();
-    };
-  }
+  const stage = section?.querySelector<HTMLElement>("[data-service-stage]");
+  const panels = gsap.utils.toArray<HTMLElement>("[data-service-panel]", section);
 
   if (
     !journey
@@ -573,8 +488,8 @@ function servicesScene() {
     || !section
     || !prelude
     || !story
-    || rows.length !== 5
-    || stageImages.length !== rows.length
+    || !stage
+    || panels.length !== 5
   ) return () => {};
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -640,196 +555,158 @@ function servicesScene() {
       });
     }
 
-    mm.add("(min-width: 901px) and (hover: hover) and (pointer: fine)", () => {
-      let activeIndex = -1;
-      let rowCenters: number[] = [];
-      let resizeFrame = 0;
-      const focusCleanups: Array<() => void> = [];
-      const setProgress = progressBar
-        ? gsap.quickSetter(progressBar, "scaleX")
-        : null;
+    mm.add(
+      "(prefers-reduced-motion: no-preference) and (min-width: 901px) and (hover: hover) and (pointer: fine)",
+      () => {
+        const contents = panels.map((panel) =>
+          panel.querySelector<HTMLElement>("[data-service-panel-content]"));
+        const images = panels.map((panel) =>
+          panel.querySelector<HTMLElement>("[data-service-panel-image]"));
+        const rules = panels.map((panel) =>
+          gsap.utils.toArray<HTMLElement>("[data-service-panel-rule]", panel));
+        const links = panels.map((panel) =>
+          panel.querySelector<HTMLAnchorElement>("[data-service-link]"));
+        let activeIndex = -1;
 
-      const setActive = (nextIndex: number, immediate = false) => {
-        const index = gsap.utils.clamp(0, rows.length - 1, nextIndex);
-        if (index === activeIndex && !immediate) return;
-        const previousIndex = activeIndex;
-        const direction = previousIndex < 0 || index >= previousIndex ? 1 : -1;
-        activeIndex = index;
+        const setActive = (nextIndex: number) => {
+          const index = gsap.utils.clamp(0, panels.length - 1, nextIndex);
+          if (index === activeIndex) return;
+          activeIndex = index;
 
-        rows.forEach((row, rowIndex) => {
-          if (rowIndex === index) row.setAttribute("data-service-active", "");
-          else row.removeAttribute("data-service-active");
-        });
+          panels.forEach((panel, panelIndex) => {
+            const isActive = panelIndex === index;
+            panel.toggleAttribute("data-service-active", isActive);
+            const link = links[panelIndex];
+            if (link) link.tabIndex = isActive ? 0 : -1;
+          });
+        };
 
-        stageImages.forEach((image, imageIndex) => {
-          const isActive = imageIndex === index;
-          if (isActive) image.setAttribute("data-service-stage-image-active", "");
-          else image.removeAttribute("data-service-stage-image-active");
-          const vars = isActive
-            ? { autoAlpha: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)" }
-            : { autoAlpha: 0, scale: 1.025, clipPath: "inset(3% 0% 3% 0%)" };
-          if (immediate) gsap.set(image, vars);
-          else gsap.to(image, {
-            ...vars,
-            duration: isActive ? 0.62 : 0.34,
-            ease: isActive ? "power3.out" : "power2.in",
-            overwrite: "auto",
+        section.setAttribute("data-service-ready", "");
+        gsap.set(panels, { yPercent: 100 });
+        gsap.set(panels[0], { yPercent: 0 });
+        gsap.set(panels, { zIndex: (index) => index + 1 });
+        gsap.set(images.filter(Boolean), { scale: 1 });
+        rules.forEach((panelRules, index) => {
+          gsap.set(panelRules, {
+            scaleX: index === 0 ? 1 : 0,
+            transformOrigin: "left center",
           });
         });
+        setActive(0);
 
-        if (counter) {
-          counter.textContent = `${String(index + 1).padStart(2, "0")} / ${String(rows.length).padStart(2, "0")}`;
-        }
+        const timeline = gsap.timeline({ defaults: { ease: "none" } });
+        timeline.to({}, { duration: 0.35 });
 
-        const activeRow = rows[index];
-        const content = activeRow.querySelector<HTMLElement>(".service-chapter__content");
-        const rules = gsap.utils.toArray<HTMLElement>("[data-service-rule]", activeRow);
-        if (content) {
-          if (immediate) {
-            gsap.set(content, { autoAlpha: 1, y: 0 });
-            if (rules.length) {
-              gsap.set(rules, { scaleX: 1, transformOrigin: "left center" });
-            }
-          } else {
-            gsap.fromTo(
-              content,
-              { autoAlpha: 0, y: 22 * direction },
-              {
-                autoAlpha: 1,
-                y: 0,
-                duration: 0.58,
-                ease: "power3.out",
-                overwrite: "auto",
-              },
+        panels.forEach((panel, index) => {
+          if (index === 0) return;
+
+          const transitionStart = timeline.duration();
+          const previousContent = contents[index - 1];
+          const content = contents[index];
+          const image = images[index];
+          timeline.to(panel, { yPercent: 0, duration: 1 }, transitionStart);
+
+          if (previousContent) {
+            timeline.to(
+              previousContent,
+              { autoAlpha: 0.18, yPercent: -18, duration: 1 },
+              transitionStart,
             );
-            if (rules.length) {
-              gsap.fromTo(
-                rules,
-                { scaleX: 0, transformOrigin: "left center" },
-                {
-                  scaleX: 1,
-                  duration: 0.46,
-                  stagger: 0.08,
-                  ease: "power2.out",
-                  overwrite: "auto",
-                },
-              );
-            }
           }
-        }
-      };
 
-      const measure = () => {
-        rowCenters = rows.map((row) => {
-          const rect = row.getBoundingClientRect();
-          return window.scrollY + rect.top + rect.height / 2;
-        });
-      };
-
-      const update = (self: ReturnType<typeof ScrollTrigger.create>, immediate = false) => {
-        const viewportCenter = window.scrollY + window.innerHeight / 2;
-        let closestIndex = 0;
-        let closestDistance = Number.POSITIVE_INFINITY;
-        rowCenters.forEach((center, index) => {
-          const distance = Math.abs(center - viewportCenter);
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestIndex = index;
+          if (image) {
+            timeline.fromTo(
+              image,
+              { scale: 1.045 },
+              { scale: 1, duration: 1 },
+              transitionStart,
+            );
           }
-        });
-        setActive(closestIndex, immediate);
-        setProgress?.(self.progress);
-      };
 
-      measure();
-      section.setAttribute("data-service-ready", "");
-      if (progressBar) {
-        gsap.set(progressBar, { scaleX: 0, transformOrigin: "left center" });
-      }
-      gsap.set(stageImages, {
-        autoAlpha: 0,
-        scale: 1.025,
-        clipPath: "inset(3% 0% 3% 0%)",
-      });
-      if (capabilityRules.length) {
-        gsap.set(capabilityRules, {
-          scaleX: 0,
-          transformOrigin: "left center",
-        });
-      }
+          if (content) {
+            timeline.fromTo(
+              content,
+              { autoAlpha: 0.72, y: 28 },
+              { autoAlpha: 1, y: 0, duration: 0.76, ease: "power3.out" },
+              transitionStart + 0.18,
+            );
+          }
 
-      const trigger = ScrollTrigger.create({
-        trigger: story,
-        start: "top top",
-        end: "bottom bottom",
-        invalidateOnRefresh: true,
-        onRefreshInit: measure,
-        onRefresh: (self) => update(self, true),
-        onUpdate: (self) => update(self),
-      });
-      update(trigger, true);
+          if (rules[index].length) {
+            timeline.to(
+              rules[index],
+              {
+                scaleX: 1,
+                duration: 0.38,
+                stagger: 0.06,
+                ease: "power2.out",
+              },
+              transitionStart + 0.58,
+            );
+          }
 
-      rows.forEach((row, index) => {
-        const link = row.querySelector<HTMLElement>("[data-service-link]");
-        if (!link) return;
-        const onFocus = () => setActive(index);
-        link.addEventListener("focus", onFocus);
-        focusCleanups.push(() => link.removeEventListener("focus", onFocus));
-      });
+          timeline.to({}, { duration: 0.34 });
+        });
 
-      const requestMeasure = () => {
-        window.cancelAnimationFrame(resizeFrame);
-        resizeFrame = window.requestAnimationFrame(() => {
-          measure();
-          update(trigger, true);
-        });
-      };
-      window.addEventListener("resize", requestMeasure, { passive: true });
+        timeline.to({}, { duration: 0.35 });
 
-      return () => {
-        window.cancelAnimationFrame(resizeFrame);
-        window.removeEventListener("resize", requestMeasure);
-        focusCleanups.forEach((cleanup) => cleanup());
-        trigger.kill();
-        section.removeAttribute("data-service-ready");
-        journey.removeAttribute("data-journey-ready");
-        rows.forEach((row, index) => {
-          if (index === 0) row.setAttribute("data-service-active", "");
-          else row.removeAttribute("data-service-active");
-        });
-        stageImages.forEach((image, index) => {
-          if (index === 0) image.setAttribute("data-service-stage-image-active", "");
-          else image.removeAttribute("data-service-stage-image-active");
-        });
-        gsap.set(stageImages, { clearProps: "all" });
-        if (capabilityRules.length) {
-          gsap.set(capabilityRules, { clearProps: "all" });
-        }
-        rows.forEach((row) => {
-          const content = row.querySelector<HTMLElement>(".service-chapter__content");
-          if (content) gsap.set(content, { clearProps: "all" });
-        });
-        if (progressBar) gsap.set(progressBar, { clearProps: "all" });
-      };
-    });
+        const updateActive = (self: ReturnType<typeof ScrollTrigger.create>) => {
+          const index = Math.min(
+            panels.length - 1,
+            Math.floor(self.progress * panels.length),
+          );
+          setActive(index);
+        };
 
-    mm.add("(max-width: 900px), (hover: none), (pointer: coarse)", () => {
-      rows.forEach((row) => {
-        const targets = [
-          row.querySelector<HTMLElement>(".service-chapter__mobile-visual"),
-          row.querySelector<HTMLElement>(".service-chapter__content"),
-        ].filter((target): target is HTMLElement => Boolean(target));
-        if (!targets.length || row.getBoundingClientRect().top <= window.innerHeight * 0.9) return;
-        gsap.from(targets, {
-          autoAlpha: 0,
-          y: 20,
-          duration: 0.72,
-          stagger: 0.08,
-          ease: "power3.out",
-          scrollTrigger: { trigger: row, start: "top 82%", once: true },
+        const trigger = ScrollTrigger.create({
+          trigger: story,
+          start: "top top",
+          end: () => `+=${Math.round(window.innerHeight * (panels.length - 0.25))}`,
+          animation: timeline,
+          scrub: 0.55,
+          pin: stage,
+          pinSpacing: true,
+          anticipatePin: 0.5,
+          invalidateOnRefresh: true,
+          onRefresh: (self) => updateActive(self),
+          onUpdate: (self) => updateActive(self),
         });
-      });
-    });
+        updateActive(trigger);
+
+        return () => {
+          trigger.kill();
+          timeline.kill();
+          section.removeAttribute("data-service-ready");
+          panels.forEach((panel, index) => {
+            panel.toggleAttribute("data-service-active", index === 0);
+          });
+          links.forEach((link) => link?.removeAttribute("tabindex"));
+        };
+      },
+    );
+
+    mm.add(
+      "(prefers-reduced-motion: no-preference) and ((max-width: 900px), (hover: none), (pointer: coarse))",
+      () => {
+        panels.forEach((panel) => {
+          const targets = [
+            panel.querySelector<HTMLElement>(".service-panel__image-frame"),
+            panel.querySelector<HTMLElement>("[data-service-panel-content]"),
+          ].filter((target): target is HTMLElement => Boolean(target));
+          if (!targets.length || panel.getBoundingClientRect().top <= window.innerHeight * 0.9) {
+            return;
+          }
+          gsap.from(targets, {
+            autoAlpha: 0,
+            y: 20,
+            duration: 0.72,
+            stagger: 0.08,
+            ease: "power3.out",
+            scrollTrigger: { trigger: panel, start: "top 82%", once: true },
+          });
+        });
+      },
+    );
   }, journey);
 
   return () => {
@@ -839,7 +716,6 @@ function servicesScene() {
     section.removeAttribute("data-service-ready");
   };
 }
-
 // 02 → 03 — Osmo Sticky Title Scroll adapted as an unnumbered tension bridge.
 // Desktop and mobile keep one typographic stage sticky while three complete,
 // server-rendered statements replace one another over the same solid dark
