@@ -117,10 +117,8 @@
   background: var(--tigon-paper);
 }
 
-@media (min-width: 901px) and (hover: hover) and (pointer: fine) {
-  .what-build[data-service-handoff-ready] .service-deck {
-    margin-top: -100svh;
-  }
+.what-build[data-service-handoff-ready] .service-deck {
+  margin-top: -100svh;
 }
 
 .service-deck__panels {
@@ -308,7 +306,7 @@
 }
 
 /* The enhanced desktop scene is layered only after GSAP has measured it. */
-@media (min-width: 901px) and (hover: hover) and (pointer: fine) {
+@media (min-width: 768px) {
   .what-build[data-service-ready] .service-deck__panels {
     height: 100svh;
     overflow: hidden;
@@ -332,7 +330,7 @@
   }
 }
 
-@media (max-width: 1100px) and (min-width: 901px) {
+@media (max-width: 1100px) and (min-width: 768px) {
   .service-panel__media {
     padding-right: var(--space-10);
     padding-left: var(--space-10);
@@ -352,8 +350,8 @@
   }
 }
 
-/* Touch and compact layouts keep every service in ordinary document flow. */
-@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+/* Phones keep every service in ordinary document flow. */
+@media (max-width: 767px) {
   .what-build__prelude-grid,
   .service-panel__inner {
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -416,7 +414,7 @@
 
 @media (max-width: 640px) {
   .what-build__prelude {
-    min-height: min(800px, 100svh);
+    min-height: 100svh;
   }
 
   .what-build__prelude-grid {

@@ -54,9 +54,11 @@ throughout; only the left media field alternates warm paper and dark. A separate
 five-band pinned handoff covers the dark prelude and reveals the first service
 already beneath it, which hides the change between the two scroll domains.
 There is no cube, WebGL scene, top divider, bottom index or progress hairline.
-Compact and touch use normal flow. Reduced-motion and no-JS omit the bands and
-present all five panels directly. `servicesScene` owns the complete 01→02
-bridge, handoff and panel sequence; CSS remains the readable source of truth.
+Phones below 768px keep the five service panels in normal flow after a shorter
+touch-calibrated handoff; 768px and wider use the pinned panel sequence.
+Reduced-motion and no-JS omit the bands and present all five panels directly.
+`servicesScene` owns the complete 01→02 bridge, handoff and panel sequence; CSS
+remains the readable source of truth.
 
 ### Outcome tension
 
@@ -82,9 +84,12 @@ the quiet conclusion into Footer. Both keep complete static content without JS.
 ## Motion and lifecycle
 
 - `HomeMotion` initializes scoped scene owners and cleanup.
-- Lenis is the sole desktop smooth-scroll transport and forwards its scroll
-  event to `ScrollTrigger.update`.
-- Touch, through 768px and reduced motion use native scrolling.
+- Lenis is the sole smooth-scroll transport and forwards its scroll event to
+  `ScrollTrigger.update`. Desktop uses `lerp .105`, Apple wheel `.6`, other
+  wheel `.85`, touch uses wheel `.6` and touch multiplier `1.2`, and both use
+  duration `1.05` with GSAP ticker lag smoothing `500/33`.
+- Reduced motion uses native scrolling. Mobile service content remains normal
+  flow below 768px even though the shared scroll transport stays coordinated.
 - Critical content is never hidden behind JavaScript.
 
 ## Redesign status

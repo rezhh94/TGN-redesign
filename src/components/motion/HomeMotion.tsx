@@ -161,7 +161,7 @@ function legacyServicesScene() {
       let lastPosition = -1;
       let scrollTrigger: ReturnType<typeof ScrollTrigger.create> | null = null;
 
-      // Lenis er første dempingslag (lerp 0.095); quickTo her er andre og
+      // Lenis er første dempingslag (lerp 0.105); quickTo her er andre og
       // holdes derfor kort, ellers ligger panelene merkbart bak fingeren.
       const responseDuration = mobile ? 0.2 : compact ? 0.26 : 0.3;
       const smooth = (value: number) => value * value * (3 - 2 * value);
@@ -557,8 +557,42 @@ function servicesScene() {
       });
     }
 
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      section.setAttribute("data-service-handoff-ready", "");
+      gsap.set(bands, {
+        scaleY: 0,
+        transformOrigin: "bottom center",
+      });
+
+      const handoffTimeline = gsap.timeline({ defaults: { ease: "none" } });
+      bands.forEach((band, index) => {
+        const offset = 0.3 * (bands.length - 1 - index) / (bands.length - 1);
+        handoffTimeline.to(band, { scaleY: 1, duration: 0.3 }, offset);
+      });
+      handoffTimeline.to({}, { duration: 0.1 });
+
+      const handoffTrigger = ScrollTrigger.create({
+        id: "services-handoff",
+        trigger: prelude,
+        start: "top top",
+        end: ScrollTrigger.isTouch ? "+=150%" : "+=200%",
+        animation: handoffTimeline,
+        scrub: 0.6,
+        pin: prelude,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      });
+
+      return () => {
+        handoffTrigger.kill();
+        handoffTimeline.kill();
+        section.removeAttribute("data-service-handoff-ready");
+      };
+    });
+
     mm.add(
-      "(prefers-reduced-motion: no-preference) and (min-width: 901px) and (hover: hover) and (pointer: fine)",
+      "(prefers-reduced-motion: no-preference) and (min-width: 768px)",
       () => {
         const contents = panels.map((panel) =>
           panel.querySelector<HTMLElement>("[data-service-panel-content]"));
@@ -581,12 +615,7 @@ function servicesScene() {
           });
         };
 
-        section.setAttribute("data-service-handoff-ready", "");
         section.setAttribute("data-service-ready", "");
-        gsap.set(bands, {
-          scaleY: 0,
-          transformOrigin: "bottom center",
-        });
         gsap.set(panels, { yPercent: 100 });
         gsap.set(panels[0], { yPercent: 0 });
         gsap.set(panels, { zIndex: (index) => index + 1 });
@@ -597,26 +626,6 @@ function servicesScene() {
           });
         });
         setActive(0);
-
-        const handoffTimeline = gsap.timeline({ defaults: { ease: "none" } });
-        bands.forEach((band, index) => {
-          const offset = 0.3 * (bands.length - 1 - index) / (bands.length - 1);
-          handoffTimeline.to(band, { scaleY: 1, duration: 0.3 }, offset);
-        });
-        handoffTimeline.to({}, { duration: 0.1 });
-
-        const handoffTrigger = ScrollTrigger.create({
-          id: "services-handoff",
-          trigger: prelude,
-          start: "top top",
-          end: "+=200%",
-          animation: handoffTimeline,
-          scrub: 0.6,
-          pin: prelude,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        });
 
         const timeline = gsap.timeline({ defaults: { ease: "none" } });
         const leadHold = 0.5;
@@ -691,9 +700,6 @@ function servicesScene() {
         return () => {
           trigger.kill();
           timeline.kill();
-          handoffTrigger.kill();
-          handoffTimeline.kill();
-          section.removeAttribute("data-service-handoff-ready");
           section.removeAttribute("data-service-ready");
           panels.forEach((panel, index) => {
             panel.toggleAttribute("data-service-active", index === 0);
@@ -704,7 +710,7 @@ function servicesScene() {
     );
 
     mm.add(
-      "(prefers-reduced-motion: no-preference) and ((max-width: 900px), (hover: none), (pointer: coarse))",
+      "(prefers-reduced-motion: no-preference) and (max-width: 767px)",
       () => {
         panels.forEach((panel) => {
           const targets = [
@@ -1571,10 +1577,21 @@ export function HomeMotion() {
     const teardownUtilities = setupFooterUtilities();
     const teardownWorkCursor = setupDynamicTextCursor();
     const teardownSectionTheme = sectionThemeScene();
+    const isTouchInput = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    const isApplePlatform = /Mac|iPhone|iPad|iPod/.test(navigator.platform);
     const lenis = initLenis({
-      lerp: 0.095,
+      autoRaf: false,
+      disabledOnMobile: false,
+      disabledOnTouch: false,
+      duration: 1.05,
+      easing: (progress) => 1 - Math.pow(1 - progress, 3),
+      infinite: false,
+      lerp: 0.105,
+      orientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1,
+      syncTouch: true,
+      touchMultiplier: isTouchInput ? 1.2 : 1.1,
+      wheelMultiplier: isTouchInput ? 0.6 : isApplePlatform ? 0.6 : 0.85,
     });
     lenis?.lenis.on("scroll", ScrollTrigger.update);
     // Dev-verktøy: gir konsoll/verifisering tilgang til å styre scroll via

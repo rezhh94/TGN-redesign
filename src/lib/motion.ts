@@ -67,7 +67,7 @@ export function initLenis(options: InitLenisOptions = {}) {
   };
 
   gsap.ticker.add(tick);
-  gsap.ticker.lagSmoothing(0);
+  gsap.ticker.lagSmoothing(500, 33);
 
   const controller: LenisController = {
     lenis,

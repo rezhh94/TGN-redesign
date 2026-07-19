@@ -27,11 +27,12 @@ Status: implemented in the current uncommitted worktree.
 - The dark prelude is a separate `100svh` handoff stage. Five full-width bands
   are rigged in CSS and animated bottom-up with `scaleY: 0→1`, bottom origin,
   reverse offsets over `0.3`, a `0.1` hold and `ease: none`.
-- The handoff uses `start: "top top"`, `end: "+=200%"`, `scrub: 0.6`, pins the
-  prelude with spacing and uses `anticipatePin: 1`. The first service deck is
-  overlapped by `-100svh`, so it is already beneath the final paper bands.
-- Desktop enhancement applies only above 900px with hover, fine pointer and no
-  reduced-motion preference.
+- The handoff uses `start: "top top"`, `end: "+=200%"` on non-touch and
+  `"+=150%"` on touch, `scrub: 0.6`, pins the prelude with spacing and uses
+  `anticipatePin: 1`. The first service deck is overlapped by `-100svh`, so it
+  is already beneath the final paper bands.
+- The pinned service-panel enhancement applies from 768px with no
+  reduced-motion preference, including touch tablets.
 - The service `ScrollTrigger` uses `start: "top top"`, an end of
   `1.2 * innerHeight * 5`, `scrub: 0.6`, `pin: stage`, `pinSpacing: true`,
   `anticipatePin: 0.5` and `invalidateOnRefresh: true`.
@@ -42,13 +43,17 @@ Status: implemented in the current uncommitted worktree.
   scale, and every scroll-driven transform uses `ease: none`.
 - CSS owns the complete readable layout. JavaScript only creates the desktop
   stack, two sequential pins and transitions after successful hydration.
-- Lenis remains the sole desktop scroll transport and already forwards scroll
-  updates to ScrollTrigger through `HomeMotion`.
+- Lenis remains the sole scroll transport and forwards scroll updates
+  to ScrollTrigger through `HomeMotion`. Its effective desktop calibration is
+  `lerp: 0.105`, `duration: 1.05`, cubic-out easing, `wheelMultiplier: 0.6`
+  on Apple platforms and `0.85` elsewhere. GSAP ticker lag smoothing is
+  `500, 33`. Touch uses the same lerp/duration, `wheelMultiplier: 0.6`,
+  `touchMultiplier: 1.2` and `syncTouch: true`.
 
 ## Responsive and fallback
 
-- Above 900px with hover/fine pointer: bounded five-stop pinned sequence.
-- Through 900px or on coarse/touch input: five complete panels in normal flow;
+- From 768px: bounded five-stop pinned sequence, including touch tablets.
+- Below 768px: five complete panels in normal flow after the pinned handoff;
   media stacks above the information field, only the media surface alternates
   and links never depend on hover.
 - Through 640px: spacing and image ratio tighten for a single-column phone

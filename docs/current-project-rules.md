@@ -54,8 +54,8 @@ assets. Do not introduce visible orange. Do not commit or push unless asked.
 - Intro currently uses an editorial statement, character fill and line/plus.
 - Tjenester currently uses five complete service links in a bounded pinned
   desktop panel sequence with a permanent paper information field, alternating
-  media fields, one five-band handoff and normal-flow touch, reduced-motion and
-  no-JS fallbacks.
+  media fields, one five-band handoff, a pinned tablet branch from 768px and
+  normal-flow phone, reduced-motion and no-JS fallbacks.
 - `OutcomeTensionBridge` currently connects Tjenester and Effekt.
 - Effekt currently presents `FUNNET / FORSTÅTT / VALGT / MÅLT`.
 - Arbeid currently uses six future-facing capability links in `WorkProof`.
@@ -73,9 +73,9 @@ be reinterpreted as past-work portfolio framing during redesign.
 - Respect reduced motion, touch, keyboard and mobile use.
 - Scope GSAP to one section or handoff owner; avoid global kills, duplicate
   triggers and captured scrolling.
-- Global Lenis is the sole desktop scroll transport. Touch, through 768px and
-  reduced motion use native scroll unless a later architecture decision
-  explicitly replaces it.
+- Global Lenis is the sole scroll transport on non-reduced desktop and touch.
+  Reduced motion uses native scroll. Tjenester keeps a structural phone branch
+  below 768px even while Lenis and ScrollTrigger share the same clock.
 - Motion never compensates for weak composition or hides critical content.
 
 ## Git discipline
