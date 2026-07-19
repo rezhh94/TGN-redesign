@@ -2,10 +2,7 @@
 
 import { useEffect } from "react";
 import { gsap } from "gsap";
-import { Flip } from "gsap/Flip";
-import ScrambleTextPlugin from "gsap/ScrambleTextPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 import { destroyLenis, initLenis } from "@/lib/motion";
 import {
   initApproachPathJourney,
@@ -15,7 +12,7 @@ import {
   initShutterScrollTransition,
 } from "@/lib/osmo-motion";
 
-gsap.registerPlugin(ScrollTrigger, Flip, ScrambleTextPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
@@ -810,173 +807,83 @@ function heroEntrance(full: boolean) {
     .from(".hero__bar", { autoAlpha: 0, y: 16, duration: 0.5 }, "-=0.34");
 }
 
-// 01 / Tilnærming — direkte seksjonsavgrenset adaptasjon av Codrops
-// ScrollTextMotion: samme posisjonsklasser, Flip-passering og scramble-logikk.
-function introStoryScene() {
+// 01 / Tilnærming — statement-seksjon med scroll-scrubbet tekstfyll.
+// Teksten server-rendres komplett; ord-splitting skjer først her, etter
+// hydrering, så SEO/no-JS/reduced-motion alltid har full tekst. Scrubben er
+// lineær (ease none, jf. retningsregelen), fra dempet on-dark-trinn til
+// elementets egen tekstfarge, og hele fyllet er ferdig ved ~65 % av
+// seksjonens scrollvei så leseren aldri må scrolle forbi dempet tekst.
+function introFillScene() {
   const section = document.querySelector<HTMLElement>("[data-intro-story]");
   if (!section) return () => {};
 
-  const textElements = gsap.utils.toArray<HTMLElement>(".el", section);
-  const logoBlock = section.querySelector<HTMLElement>(".logo__block");
-  const support = section.querySelector<HTMLElement>(".approach-intro__preserved");
-  const handoff = section.querySelector<HTMLElement>("[data-intro-handoff]");
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!textElements.length) return () => {};
+  const targets = gsap.utils.toArray<HTMLElement>("[data-intro-fill]", section);
+  if (!targets.length) return () => {};
 
-  textElements.forEach((element) => {
-    const textTarget = element.querySelector<HTMLElement>(".el__text") ?? element;
-    textTarget.dataset.text = textTarget.textContent ?? "";
-  });
-  const scrambleTweens = new WeakMap<HTMLElement, gsap.core.Tween>();
-  let clearanceFrame = 0;
-  section.setAttribute("data-intro-clearance-ready", "");
-
-  const updateClearance = () => {
-    clearanceFrame = 0;
-    if (!logoBlock) return;
-
-    const block = logoBlock.getBoundingClientRect();
-    const protectedRect = {
-      left: block.left - 30,
-      right: block.right + 30,
-      top: block.top - 24,
-      bottom: block.bottom + 24,
-    };
-    const feather = 72;
-
-    textElements.forEach((element) => {
-      const rect = element.getBoundingClientRect();
-      const horizontalGap = Math.max(
-        protectedRect.left - rect.right,
-        rect.left - protectedRect.right,
-        0,
-      );
-      const verticalGap = Math.max(
-        protectedRect.top - rect.bottom,
-        rect.top - protectedRect.bottom,
-        0,
-      );
-      const distance = Math.hypot(horizontalGap, verticalGap);
-      const clearance = horizontalGap === 0 && verticalGap === 0
-        ? 0
-        : gsap.utils.clamp(0, 1, distance / feather);
-      element.style.setProperty("--intro-clearance", clearance.toFixed(3));
+  const originals = targets.map((element) => element.textContent ?? "");
+  const splitIntoWords = (element: HTMLElement) => {
+    const words = (element.textContent ?? "").trim().split(/\s+/);
+    element.textContent = "";
+    return words.map((word, index) => {
+      if (index) element.append(" ");
+      const span = document.createElement("span");
+      span.className = "intro-fill__word";
+      span.textContent = word;
+      element.append(span);
+      return span;
     });
   };
 
-  const requestClearance = () => {
-    if (!clearanceFrame) clearanceFrame = window.requestAnimationFrame(updateClearance);
-  };
+  // Full styrke leses per element FØR ready-attributtet demper ordene, så
+  // tittel og støttelinjer fyller tilbake til hver sin egen tekstfarge.
+  const wordSets = targets.map((element) => ({
+    words: splitIntoWords(element),
+    color: getComputedStyle(element).color,
+    display: element.dataset.introFill === "display",
+  }));
+  section.setAttribute("data-intro-fill-ready", "");
 
   const ctx = gsap.context(() => {
+    const timeline = gsap.timeline({ paused: true, defaults: { ease: "none" } });
+    wordSets.forEach(({ words, color, display }) => {
+      // Stagger følger størrelse: display-ord 0.1, brødnivå 0.06.
+      timeline.to(words, {
+        color,
+        duration: display ? 0.5 : 0.35,
+        stagger: display ? 0.1 : 0.06,
+      });
+    });
+    // Trailing luft: fyllet utgjør ~65 % av timelinen, resten av scrollveien
+    // står teksten på full styrke.
+    timeline.to({}, { duration: timeline.duration() * 0.55 });
+
+    // Delta-gate (sove-disiplin, som i 02): ingen DOM-skriving når scroll
+    // står stille eller endringen er under terskelen.
+    let lastProgress = -1;
+    const apply = (self: ReturnType<typeof ScrollTrigger.create>) => {
+      if (Math.abs(self.progress - lastProgress) < 0.0005) return;
+      lastProgress = self.progress;
+      timeline.progress(self.progress);
+    };
+    // Start når selve statementet kommer inn (ikke seksjonsboksen — innholdet
+    // er vertikalt sentrert med luft over), slutt før seksjonsbunnen slipper.
     ScrollTrigger.create({
-      trigger: section,
-      start: "top bottom",
-      end: "bottom top",
-      onEnter: requestClearance,
-      onEnterBack: requestClearance,
-      onUpdate: requestClearance,
-      onRefresh: requestClearance,
+      trigger: targets[0],
+      start: "top 85%",
+      endTrigger: section,
+      end: "bottom 92%",
+      invalidateOnRefresh: true,
+      onUpdate: apply,
+      onRefresh: apply,
     });
-
-    textElements.forEach((element) => {
-      if (reduced) return;
-
-      gsap.set(element, { clearProps: "transform,filter" });
-
-      const originalClass = [...element.classList].find((name) => name.startsWith("pos-"));
-      const targetClass = element.dataset.altPos;
-      const flipEase = element.dataset.flipEase || "expo.inOut";
-      if (!originalClass || !targetClass) return;
-
-      element.classList.add(targetClass);
-      element.classList.remove(originalClass);
-      const flipState = Flip.getState(element, { props: "filter,width" });
-      element.classList.add(originalClass);
-      element.classList.remove(targetClass);
-
-      Flip.to(flipState, {
-        ease: flipEase,
-        scrollTrigger: {
-          trigger: element,
-          start: "clamp(bottom bottom-=10%)",
-          end: "clamp(center center)",
-          scrub: true,
-        },
-      });
-
-      Flip.from(flipState, {
-        ease: flipEase,
-        scrollTrigger: {
-          trigger: element,
-          start: "clamp(center center)",
-          end: "clamp(top top)",
-          scrub: true,
-        },
-      });
-
-      const scramble = () => {
-        const textTarget = element.querySelector<HTMLElement>(".el__text") ?? element;
-        const text = textTarget.dataset.text ?? textTarget.textContent ?? "";
-        const duration = textTarget.dataset.scrambleDuration
-          ? Number.parseFloat(textTarget.dataset.scrambleDuration)
-          : 1;
-
-        scrambleTweens.get(textTarget)?.kill();
-        const scrambleTween = gsap.fromTo(
-          textTarget,
-          { scrambleText: { text: "", chars: "" } },
-          {
-            scrambleText: { text, chars: "upperAndLowerCase" },
-            duration,
-          },
-        );
-        scrambleTweens.set(textTarget, scrambleTween);
-      };
-
-      ScrollTrigger.create({
-        trigger: element,
-        start: "top bottom",
-        end: "bottom top",
-        onEnter: scramble,
-        onEnterBack: scramble,
-      });
-    });
-
-    if (!reduced) {
-      if (logoBlock && support) {
-        gsap.fromTo(
-          logoBlock,
-          { autoAlpha: 1, y: 0 },
-          {
-            autoAlpha: 0,
-            y: -12,
-            ease: "none",
-            scrollTrigger: {
-              trigger: support,
-              start: "top 72%",
-              end: "top 50%",
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      }
-
-      const detailTimeline = gsap.timeline({
-        scrollTrigger: { trigger: support ?? section, start: "clamp(top 84%)", once: true },
-        defaults: { ease: "power3.out" },
-      });
-      if (support) detailTimeline.from(support, { autoAlpha: 0, y: 20, duration: 0.6 }, 0);
-      if (handoff) detailTimeline.from(handoff, { autoAlpha: 0, y: 12, duration: 0.5 }, 0.16);
-    }
   }, section);
 
   return () => {
-    window.cancelAnimationFrame(clearanceFrame);
-    section.removeAttribute("data-intro-clearance-ready");
-    textElements.forEach((element) => element.style.removeProperty("--intro-clearance"));
     ctx.revert();
+    section.removeAttribute("data-intro-fill-ready");
+    targets.forEach((element, index) => {
+      element.textContent = originals[index];
+    });
   };
 }
 
@@ -1505,7 +1412,7 @@ export function HomeMotion() {
 
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
-      const teardownIntro = introStoryScene();
+      const teardownIntro = introFillScene();
       const teardownTension = outcomeTensionBridge();
       const teardownEffectWork = effectWorkJourney(false);
       const teardownWorkArchive = workArchiveScene(
@@ -1531,7 +1438,7 @@ export function HomeMotion() {
     // wall itself stays in ordinary document flow with small one-shot reveals.
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
-      const teardownIntro = introStoryScene();
+      const teardownIntro = introFillScene();
       const teardownTension = outcomeTensionBridge();
       const teardownEffectWork = effectWorkJourney(true);
       const teardownWorkArchive = workArchiveScene(true);

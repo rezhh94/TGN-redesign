@@ -227,6 +227,18 @@
   --type-display-md-size: clamp(25px, 2.2vw, 42px);
   --type-display-md-leading: 0.95;
 
+  /* Statement-rolle — stor men LETT: brødfonten (JUST Sans) i sentence case,
+     moderat vekt, tett leading. EGEN størrelsesskala — bevisst mye mindre enn
+     display-XL (den er kalibrert for korte caps-ord): mål ~5–6 ord per linje
+     og at en hel statement-seksjon får plass i ca. én viewport-høyde.
+     Redaksjonelt førstelinje-innrykk er del av rollen (8 % på mobil, media
+     under). Første forbruker: 01 / Tilnærming. */
+  --type-statement-size: clamp(28px, 3.4vw, 60px);
+  --type-statement-leading: 1.08;
+  --type-statement-track: -0.02em;
+  --type-statement-weight: 400;
+  --type-statement-indent: 18%;
+
   --type-lead-lg-size: var(--fz-lead-l);
   --type-lead-lg-leading: 1.45;
   --type-lead-md-size: var(--fz-lead-m);
@@ -321,5 +333,6 @@
     --type-display-xl-size: clamp(64px, 17vw, 82px);
     --type-display-lg-size: clamp(28px, 8.1vw, 34px);
     --type-display-md-size: clamp(28px, 9vw, 40px);
+    --type-statement-indent: 8%;
   }
 }

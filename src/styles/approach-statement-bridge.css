@@ -1,228 +1,136 @@
-.approach-bridge,
-.approach-bridge *,
-.approach-bridge *::after,
-.approach-bridge *::before {
-  box-sizing: border-box;
-}
+/* 01 / Tilnærming — statisk statement-seksjon med scroll-scrubbet tekstfyll.
+   Teksten server-rendres komplett; HomeMotion splitter ord etter hydrering og
+   setter data-intro-fill-ready. Uten JS og med redusert bevegelse står all
+   tekst på full styrke i vanlig flyt.
+   Typografi: statement-rollen (stor men lett — brødfont, sentence case),
+   ikke masthead/display-caps. */
 
-.approach-bridge {
-  --color-text: #fff;
-  --color-link: #fff;
-  --color-link-hover: #fff;
-  --page-padding: 1.5rem;
+.approach-statement {
   position: relative;
-  z-index: 60;
+  z-index: 2;
   overflow: clip;
-  isolation: isolate;
-  color: var(--color-text);
   background: transparent;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  text-transform: uppercase;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-on-dark);
 }
 
-.approach-intro__semantic {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  border: 0;
-  white-space: nowrap;
-}
-
-.approach-bridge .content {
-  position: relative;
-  z-index: 2;
-  padding: 72vh var(--page-padding) 25vh;
-}
-
-.approach-bridge .group {
-  display: flex;
-  flex: 1 1 100px;
-  flex-direction: column;
-  margin-bottom: 8.5vh;
-}
-
-.approach-bridge .el {
-  --intro-word-opacity: 0.6;
-  --intro-clearance: 1;
-  width: max-content;
-  color: var(--color-text);
-  font: inherit;
-  text-transform: uppercase;
-  white-space: nowrap;
-  filter: blur(0);
-  opacity: var(--intro-word-opacity);
-}
-
-.approach-bridge .el__text {
-  opacity: var(--intro-clearance);
-  transition: opacity 90ms linear;
-}
-
-.approach-bridge .pos-1 {
-  margin-left: 5vw;
-}
-
-.approach-bridge .pos-2 {
-  margin-left: 18vw;
-}
-
-.approach-bridge .pos-3 {
-  margin-left: 64vw;
-}
-
-.approach-bridge .pos-4 {
-  margin-left: auto;
-  margin-right: 5vw;
-}
-
-.approach-bridge .pos-5 {
-  margin-top: 200px;
-  margin-left: 10vw;
-  --intro-word-opacity: 1;
-}
-
-.approach-bridge .pos-6 {
-  margin-top: 200px;
-  margin-left: auto;
-  margin-right: 10vw;
-  --intro-word-opacity: 1;
-}
-
-.approach-bridge .pos-7 {
-  margin-top: 200px;
-  margin-left: 8vw;
-  filter: blur(1.2px);
-  --intro-word-opacity: 1;
-}
-
-.approach-bridge .pos-8 {
-  margin-top: 50px;
-  margin-left: 20vw;
-  filter: blur(2px);
-  --intro-word-opacity: 1;
-}
-
-.approach-bridge .pos-9 {
-  margin-top: 250px;
-  margin-left: 22vw;
-}
-
-.approach-bridge .pos-10 {
-  margin-top: 40vh;
-  margin-left: 62vw;
-}
-
-.approach-bridge .logo {
-  color: var(--color-text);
-}
-
-.approach-bridge .fixed {
-  position: sticky;
-  top: 0;
-  z-index: 3;
+.approach-statement__inner {
   display: grid;
-  width: 100%;
-  height: 100vh;
-  margin-bottom: -100vh;
-  place-items: center;
-  pointer-events: none;
-}
-
-.approach-bridge .logo__block {
-  position: relative;
-  z-index: 1;
-  width: min(620px, calc(100% - (2 * var(--page-padding))));
-  text-align: center;
-}
-
-.approach-bridge .logo__title {
-  display: block;
-  color: var(--color-text);
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 10vw, 4rem);
-  font-weight: 400;
-  line-height: 1;
-  text-transform: uppercase;
-  text-shadow: 0 4px 36px rgba(0, 0, 0, 0.92);
-}
-
-.approach-bridge .logo__statement {
-  max-width: 38ch;
-  margin: clamp(24px, 3vh, 36px) auto 0;
-  color: rgba(255, 255, 255, 0.78);
-  font-family: var(--font-sans);
-  font-size: clamp(16px, 1.25vw, 20px);
-  font-weight: 400;
-  line-height: 1.5;
-  text-transform: none;
-  text-shadow:
-    0 2px 18px rgba(0, 0, 0, 0.96),
-    0 0 42px rgba(0, 0, 0, 0.9);
-}
-
-.approach-bridge .logo__meta {
-  display: block;
-  margin-top: clamp(24px, 3vh, 32px);
-  color: rgba(255, 255, 255, 0.42);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-  text-transform: uppercase;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.96);
-}
-
-.approach-intro__preserved {
-  position: relative;
-  z-index: 2;
-  width: min(100%, 1000px);
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  align-content: center;
+  width: min(100%, var(--page-max));
+  min-height: 100svh;
   margin: 0 auto;
-  padding: 5rem var(--page-padding) clamp(24px, 4vh, 48px);
-  color: var(--color-text);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  line-height: 1.4;
+  padding: var(--section-pad-y) var(--homepage-gutter);
 }
 
-.approach-intro__preserved [data-intro-handoff] {
+/* Label i venstre marg, på statementets første baseline (delt grid-rad +
+   baseline-justering mot tittelens første linje). */
+.approach-statement__label {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  align-self: baseline;
   margin: 0;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-quiet);
+  font-family: var(--font-mono);
+  font-size: var(--type-meta-md-size);
+  letter-spacing: var(--mono-track);
+  line-height: var(--type-meta-leading);
   text-transform: uppercase;
+}
+
+.approach-statement__title {
+  grid-column: 3 / 12;
+  grid-row: 1;
+  align-self: baseline;
+  margin: 0;
+  color: var(--on-dark-strong);
+  font-family: var(--font-sans);
+  font-size: var(--type-statement-size);
+  font-weight: var(--type-statement-weight);
+  letter-spacing: var(--type-statement-track);
+  line-height: var(--type-statement-leading);
+  text-align: left;
+  text-indent: var(--type-statement-indent);
+  text-wrap: balance;
+  scroll-margin-top: calc(var(--header-height) + 24px);
+}
+
+/* Støtterad: hairline over, to venstrestilte kolonner — caps/mono-blokk
+   til venstre, kort brødtekst-avsnitt til høyre. Stables på mobil. */
+.approach-statement__support {
+  display: grid;
+  grid-column: 3 / 12;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  column-gap: var(--grid-gutter);
+  row-gap: 20px;
+  margin-top: var(--section-md);
+  padding-top: 26px;
+  border-top: 1px solid var(--line-default);
+}
+
+.approach-statement__support-meta {
+  margin: 0;
+  color: var(--text-quiet);
+  font-family: var(--font-mono);
+  font-size: var(--type-meta-md-size);
+  letter-spacing: var(--mono-track);
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
+.approach-statement__support-copy {
+  max-width: 44ch;
+  margin: 0;
+  color: var(--text-medium);
+  font-family: var(--font-sans);
+  font-size: var(--type-lead-md-size);
+  line-height: var(--type-lead-md-leading);
+}
+
+.approach-statement__handoff {
+  grid-column: 1 / -1;
+  margin: var(--section-lg) 0 0;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: var(--type-meta-md-size);
+  letter-spacing: var(--mono-track);
+  line-height: var(--type-meta-leading);
   text-align: right;
+  text-transform: uppercase;
 }
 
-@media (max-width: 800px) {
-  .approach-bridge .group {
-    margin-bottom: 9vh;
+/* Fyll-tilstand: gjelder kun etter at JS har splittet ordene og scenen
+   kjører. Fra-verdien er et lesbart trinn på on-dark-stigen (aldri usynlig);
+   GSAP scrubber hvert ord tilbake til elementets egen fulle tekstfarge. */
+.approach-statement[data-intro-fill-ready] .intro-fill__word {
+  color: var(--on-dark-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .approach-statement .intro-fill__word {
+    color: inherit !important;
   }
 }
 
-@media (prefers-reduced-motion: reduce), (scripting: none) {
-  .approach-bridge .fixed {
-    position: relative;
-    height: auto;
-    min-height: 100svh;
-    margin-bottom: 0;
+@media (max-width: 900px) {
+  .approach-statement__label {
+    grid-row: auto;
+    margin-bottom: 28px;
   }
 
-  .approach-bridge .content {
-    padding-top: 12vh;
+  .approach-statement__title {
+    grid-column: 1 / -1;
+    grid-row: auto;
   }
 
-  .approach-bridge .group {
-    margin-bottom: 6vh;
+  .approach-statement__support {
+    grid-column: 1 / -1;
   }
+}
 
-  .approach-bridge .el,
-  .approach-bridge .logo__block {
-    transform: none !important;
+@media (max-width: 640px) {
+  .approach-statement__support {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
