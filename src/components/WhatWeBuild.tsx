@@ -95,7 +95,7 @@ export function WhatWeBuild() {
                     <img
                       alt=""
                       decoding="async"
-                      loading={index === 0 ? "eager" : "lazy"}
+                      loading="lazy"
                       src={service.image}
                       style={{ objectPosition: service.visualPosition }}
                     />
@@ -104,15 +104,19 @@ export function WhatWeBuild() {
                 ))}
 
                 <div
-                  className="what-build__cube-face what-build__cube-face--quiet"
+                  className="what-build__cube-face"
                   data-cube-face="bottom"
                 >
-                  <span>TGN / 02</span>
+                  <img
+                    alt=""
+                    decoding="async"
+                    loading="lazy"
+                    src="/services/tgn-nettsider-editorial.webp"
+                  />
+                  <span className="what-build__cube-shade" />
                 </div>
               </div>
             </figure>
-
-            <span className="what-build__count" data-service-index>01 / 05</span>
           </div>
         </div>
 

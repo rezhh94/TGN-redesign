@@ -10,8 +10,12 @@ export function HomeAtmosphere() {
     if (!wave) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let playbackReady = false;
+    let idleId = 0;
+    let delayId: ReturnType<typeof setTimeout> | undefined;
+
     const syncPlayback = () => {
-      if (reduced.matches || document.hidden) {
+      if (!playbackReady || reduced.matches || document.hidden) {
         wave.pause();
         return;
       }
@@ -20,14 +24,30 @@ export function HomeAtmosphere() {
     const guardReducedPlayback = () => {
       if (reduced.matches) wave.pause();
     };
+    const armPlayback = () => {
+      playbackReady = true;
+      syncPlayback();
+    };
+    const schedulePlayback = () => {
+      const requestIdle = window.requestIdleCallback?.bind(window);
+      if (requestIdle) {
+        idleId = requestIdle(armPlayback, { timeout: 1800 });
+      } else {
+        delayId = globalThis.setTimeout(armPlayback, 600);
+      }
+    };
 
     reduced.addEventListener("change", syncPlayback);
     wave.addEventListener("play", guardReducedPlayback);
     document.addEventListener("visibilitychange", syncPlayback);
-    syncPlayback();
+    if (document.readyState === "complete") schedulePlayback();
+    else window.addEventListener("load", schedulePlayback, { once: true });
 
     return () => {
       wave.pause();
+      window.removeEventListener("load", schedulePlayback);
+      if (idleId) window.cancelIdleCallback(idleId);
+      if (delayId) clearTimeout(delayId);
       reduced.removeEventListener("change", syncPlayback);
       wave.removeEventListener("play", guardReducedPlayback);
       document.removeEventListener("visibilitychange", syncPlayback);
@@ -46,11 +66,10 @@ export function HomeAtmosphere() {
           <video
             ref={waveRef}
             className="home-atmosphere__video"
-            autoPlay
             muted
             playsInline
             loop
-            preload="auto"
+            preload="none"
             poster="/video/tigon-focus-field-poster.jpg"
             disablePictureInPicture
             data-home-atmosphere-wave

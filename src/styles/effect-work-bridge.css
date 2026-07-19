@@ -156,7 +156,7 @@
   position: absolute;
   inset: -2%;
   z-index: 4;
-  background-image: url("/atmosphere/film-grain.png");
+  background-image: url("/atmosphere/film-grain.webp");
   background-position: 19px 31px;
   background-repeat: repeat;
   background-size: 384px 384px;
@@ -178,7 +178,7 @@
   position: absolute;
   inset: -12%;
   display: block;
-  background-image: url("/atmosphere/film-grain.png");
+  background-image: url("/atmosphere/film-grain.webp");
   background-repeat: repeat;
   pointer-events: none;
   transform: translateZ(0);

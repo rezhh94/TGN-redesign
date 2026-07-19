@@ -33,8 +33,7 @@ function servicesScene() {
   const wave = section?.querySelector<HTMLElement>("[data-service-wave]");
   const anchor = section?.querySelector<HTMLElement>("[data-service-anchor]");
   const anchorCopy = anchor?.querySelector<HTMLElement>(".what-build__anchor-copy");
-  const serviceIndex = anchorCopy?.querySelector<HTMLElement>("[data-service-index]");
-  if (!section || !wave || !anchorCopy || !serviceIndex) return () => {};
+  if (!section || !wave || !anchorCopy) return () => {};
 
   const rows = gsap.utils.toArray<HTMLElement>("[data-service-row]", wave);
   const leftLanes = gsap.utils.toArray<HTMLElement>(
@@ -53,6 +52,7 @@ function servicesScene() {
     '[data-service-wave-panel="right"]',
     wave,
   );
+  const cubeStage = anchorCopy.querySelector<HTMLElement>(".what-build__cube-stage");
   const cube = anchorCopy?.querySelector<HTMLElement>("[data-service-cube]");
   const cubeFaces = gsap.utils.toArray<HTMLElement>(
     "[data-service-cube-face]",
@@ -66,6 +66,7 @@ function servicesScene() {
     || rightLanes.length !== rows.length
     || leftPanels.length !== rows.length
     || rightPanels.length !== rows.length
+    || !cubeStage
     || !cube
     || cubeFaces.length !== rows.length
   ) return () => {};
@@ -77,6 +78,8 @@ function servicesScene() {
     { rotateX: 0, rotateY: -90 },
     { rotateX: 0, rotateY: -180 },
     { rotateX: 0, rotateY: -270 },
+    // Topplaten krever den kombinerte X/Y-sluttstillingen for å lande
+    // kameravendt og rettvendt; en ren X-vending viser feil sideflate.
     { rotateX: -90, rotateY: -360 },
   ] as const;
   const mm = gsap.matchMedia();
@@ -85,11 +88,17 @@ function servicesScene() {
     const createWave = (compact: boolean, mobile = false) => {
       let leftRange = 0;
       let rightRange = 0;
+      let rowCenters: number[] = [];
+      let minimumCubeScale = 0.003;
       let activeIndex = -1;
       let resizeFrame = 0;
       let scrollTrigger: ReturnType<typeof ScrollTrigger.create> | null = null;
 
       const responseDuration = mobile ? 0.2 : compact ? 0.34 : 0.56;
+      const smooth = (value: number) => value * value * (3 - 2 * value);
+      const smoother = (value: number) => (
+        value * value * value * (value * (value * 6 - 15) + 10)
+      );
       const leftSetters = leftPanels.map((panel) =>
         gsap.quickTo(panel, "x", { duration: responseDuration, ease: "power4.out" })
       );
@@ -113,9 +122,14 @@ function servicesScene() {
         return gsap.utils.clamp(minimum, maximum, Math.max(measured, minimum));
       };
 
-      const calculateRanges = () => {
+      const calculateGeometry = () => {
         leftRange = calculateRange(leftLanes, leftPanels);
         rightRange = calculateRange(rightLanes, rightPanels);
+        rowCenters = rows.map((row) => {
+          const rect = row.getBoundingClientRect();
+          return window.scrollY + rect.top + rect.height / 2;
+        });
+        minimumCubeScale = 1 / Math.max(1, cubeStage.offsetWidth);
       };
 
       const calculateWavePosition = (
@@ -141,18 +155,40 @@ function servicesScene() {
         });
       };
 
-      const setActiveRow = () => {
-        const viewportCenter = window.innerHeight / 2;
-        let closestIndex = 0;
-        let minimumDistance = Number.POSITIVE_INFINITY;
+      const setActiveRow = (position: number) => {
+        const closestIndex = gsap.utils.clamp(
+          0,
+          rows.length - 1,
+          Math.round(position),
+        );
+        const fromIndex = Math.min(Math.floor(position), rows.length - 1);
+        const toIndex = Math.min(fromIndex + 1, rows.length - 1);
+        const localProgress = position - fromIndex;
+        let focusOpacity = 1;
+
+        if (mobile && fromIndex !== toIndex) {
+          if (localProgress < 0.5) {
+            const exitProgress = gsap.utils.clamp(
+              0,
+              1,
+              (localProgress - 0.18) / 0.12,
+            );
+            focusOpacity = 1 - smooth(exitProgress);
+          } else {
+            const enterProgress = gsap.utils.clamp(
+              0,
+              1,
+              (localProgress - 0.5) / 0.16,
+            );
+            focusOpacity = smooth(enterProgress);
+          }
+        }
 
         rows.forEach((row, index) => {
-          const rect = row.getBoundingClientRect();
-          const distance = Math.abs(rect.top + rect.height / 2 - viewportCenter);
-          if (distance < minimumDistance) {
-            minimumDistance = distance;
-            closestIndex = index;
-          }
+          row.style.setProperty(
+            "--service-row-focus-opacity",
+            index === closestIndex ? focusOpacity.toFixed(3) : "0",
+          );
         });
 
         if (closestIndex === activeIndex) return;
@@ -164,24 +200,19 @@ function servicesScene() {
           if (index === closestIndex) face.setAttribute("data-service-cube-face-active", "");
           else face.removeAttribute("data-service-cube-face-active");
         });
-        serviceIndex.textContent = `${String(closestIndex + 1).padStart(2, "0")} / 05`;
         activeIndex = closestIndex;
       };
 
-      const updateCube = () => {
-        const viewportCenter = window.innerHeight / 2;
-        const centers = rows.map((row) => {
-          const rect = row.getBoundingClientRect();
-          return rect.top + rect.height / 2;
-        });
+      const getServicePosition = () => {
+        const viewportCenter = window.scrollY + window.innerHeight / 2;
         let position = 0;
 
-        if (viewportCenter >= centers[centers.length - 1]) {
-          position = centers.length - 1;
-        } else if (viewportCenter > centers[0]) {
-          for (let index = 0; index < centers.length - 1; index += 1) {
-            const start = centers[index];
-            const end = centers[index + 1];
+        if (viewportCenter >= rowCenters[rowCenters.length - 1]) {
+          position = rowCenters.length - 1;
+        } else if (viewportCenter > rowCenters[0]) {
+          for (let index = 0; index < rowCenters.length - 1; index += 1) {
+            const start = rowCenters[index];
+            const end = rowCenters[index + 1];
             if (viewportCenter <= end) {
               position = index + gsap.utils.clamp(
                 0,
@@ -193,26 +224,73 @@ function servicesScene() {
           }
         }
 
+        return position;
+      };
+
+      const updateCube = (position: number, entranceProgress: number) => {
         const fromIndex = Math.min(Math.floor(position), cubeStops.length - 1);
         const toIndex = Math.min(fromIndex + 1, cubeStops.length - 1);
         const localProgress = position - fromIndex;
-        const dwell = mobile ? 0.24 : compact ? 0.22 : 0.18;
+        // Bruk nok scrollavstand til at sideflatene faktisk kan leses under
+        // hver 90°-turn, uten å miste de rolige frontvendte stoppene.
+        const turnWindow = mobile ? 0.72 : compact ? 0.68 : 0.64;
+        const dwell = (1 - turnWindow) / 2;
         const turnProgress = gsap.utils.clamp(
           0,
           1,
-          (localProgress - dwell) / (1 - dwell * 2),
+          (localProgress - dwell) / turnWindow,
         );
-        const easedProgress = turnProgress * turnProgress * (3 - 2 * turnProgress);
+        const easedProgress = smoother(turnProgress);
         const from = cubeStops[fromIndex];
         const to = cubeStops[toIndex];
-        const transitionDepth = mobile ? 0.025 : compact ? 0.035 : 0.045;
+        // De tre sideflate-turnene får samme diagonale dybde som den siste
+        // X/Y-turnen, men pitch-buen går tilbake til null ved hvert stopp slik
+        // at alle serviceflater fortsatt lander nøyaktig frontvendt.
+        const transitionPitch = fromIndex < cubeStops.length - 2
+          ? -45 * Math.sin(easedProgress * Math.PI)
+          : 0;
+        // NuDot-prinsippet: størrelse akselererer sent, mens rotasjonen går
+        // kontinuerlig og lineært helt fra objektet bare er én CSS-piksel.
+        const entranceTurn = 1 - entranceProgress;
 
         gsap.set(cube, {
-          rotateX: gsap.utils.interpolate(from.rotateX, to.rotateX, easedProgress),
-          rotateY: gsap.utils.interpolate(from.rotateY, to.rotateY, easedProgress),
-          scale: 1 - Math.sin(turnProgress * Math.PI) * transitionDepth,
+          rotateX:
+            gsap.utils.interpolate(from.rotateX, to.rotateX, easedProgress)
+            + transitionPitch
+            - 360 * entranceTurn,
+          rotateY:
+            gsap.utils.interpolate(from.rotateY, to.rotateY, easedProgress)
+            - 540 * entranceTurn,
+          rotateZ: -42 * entranceTurn,
+          scale: 1,
           transformOrigin: "50% 50%",
         });
+      };
+
+      const updateCubeEntrance = () => {
+        const firstCenter = rowCenters[0] - window.scrollY;
+        const startLine = window.innerHeight * (mobile ? 1.08 : compact ? 1.12 : 1.14);
+        const endLine = window.innerHeight * 0.5;
+        const progress = gsap.utils.clamp(
+          0,
+          1,
+          (startLine - firstCenter) / Math.max(1, startLine - endLine),
+        );
+        const depthScale = progress * progress * progress;
+        // Ved eksakt inngangsposisjon er ettpiksel-kuben usynlig, så den ikke
+        // leses som et hvitt punktum. Den fades raskt inn idet scrollen starter;
+        // størrelse og rotasjon beregnes fortsatt kontinuerlig fra progress 0.
+        const entranceVisibility = progress <= 0.006
+          ? 0
+          : smoother(gsap.utils.clamp(0, 1, (progress - 0.006) / 0.024));
+
+        gsap.set(cubeStage, {
+          autoAlpha: entranceVisibility,
+          scale: gsap.utils.interpolate(minimumCubeScale, 1, depthScale),
+          transformOrigin: "50% 50%",
+        });
+
+        return progress;
       };
 
       const updateColumn = (
@@ -229,8 +307,10 @@ function servicesScene() {
       const handleScroll = (self: ReturnType<typeof ScrollTrigger.create>) => {
         updateColumn(leftSetters, leftRange, self.progress, 1);
         updateColumn(rightSetters, rightRange, self.progress, -1);
-        updateCube();
-        setActiveRow();
+        const position = getServicePosition();
+        const entranceProgress = updateCubeEntrance();
+        updateCube(position, entranceProgress);
+        setActiveRow(position);
 
         const edge = 0.055;
         const visibility = gsap.utils.clamp(
@@ -243,7 +323,7 @@ function servicesScene() {
 
       const recalculate = () => {
         resizeFrame = 0;
-        calculateRanges();
+        calculateGeometry();
         if (scrollTrigger) handleScroll(scrollTrigger);
       };
 
@@ -251,10 +331,11 @@ function servicesScene() {
         if (!resizeFrame) resizeFrame = window.requestAnimationFrame(recalculate);
       };
 
-      calculateRanges();
+      calculateGeometry();
       setInitialPositions(leftPanels, leftRange, 1);
       setInitialPositions(rightPanels, rightRange, -1);
       gsap.set(anchorCopy, { opacity: 0, visibility: "visible" });
+      gsap.set(cubeStage, { autoAlpha: 0, scale: minimumCubeScale });
       gsap.set(cube, { rotateX: 0, rotateY: 0, scale: 1 });
       wave.setAttribute("data-service-wave-ready", "");
 
@@ -263,7 +344,7 @@ function servicesScene() {
         start: "top bottom",
         end: "bottom top",
         invalidateOnRefresh: true,
-        onRefreshInit: calculateRanges,
+        onRefreshInit: calculateGeometry,
         onRefresh: (self) => handleScroll(self),
         onUpdate: (self) => handleScroll(self),
       });
@@ -275,16 +356,19 @@ function servicesScene() {
         window.cancelAnimationFrame(resizeFrame);
         window.removeEventListener("resize", requestRecalculate);
         scrollTrigger?.kill();
-        gsap.killTweensOf([...leftPanels, ...rightPanels, anchorCopy, cube]);
+        gsap.killTweensOf([...leftPanels, ...rightPanels, anchorCopy, cubeStage, cube]);
         gsap.set([...leftPanels, ...rightPanels], { clearProps: "transform" });
         gsap.set(anchorCopy, { clearProps: "opacity,visibility" });
+        gsap.set(cubeStage, { clearProps: "opacity,visibility,transform,transformOrigin" });
         gsap.set(cube, { clearProps: "transform,transformOrigin" });
-        rows.forEach((row) => row.removeAttribute("data-service-active"));
+        rows.forEach((row) => {
+          row.removeAttribute("data-service-active");
+          row.style.removeProperty("--service-row-focus-opacity");
+        });
         cubeFaces.forEach((face, index) => {
           if (index === 0) face.setAttribute("data-service-cube-face-active", "");
           else face.removeAttribute("data-service-cube-face-active");
         });
-        serviceIndex.textContent = "01 / 05";
         wave.removeAttribute("data-service-wave-ready");
       };
     };
@@ -851,6 +935,25 @@ function introStoryScene() {
     });
 
     if (!reduced) {
+      if (logoBlock && support) {
+        gsap.fromTo(
+          logoBlock,
+          { autoAlpha: 1, y: 0 },
+          {
+            autoAlpha: 0,
+            y: -12,
+            ease: "none",
+            scrollTrigger: {
+              trigger: support,
+              start: "top 72%",
+              end: "top 50%",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+      }
+
       const detailTimeline = gsap.timeline({
         scrollTrigger: { trigger: support ?? section, start: "clamp(top 84%)", once: true },
         defaults: { ease: "power3.out" },

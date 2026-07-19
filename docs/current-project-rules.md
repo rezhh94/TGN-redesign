@@ -1,6 +1,6 @@
 # Current Project Rules
 
-Last reconciled: 2026-07-18.
+Last reconciled: 2026-07-19.
 
 Read `docs/project-continuation-context.md` for Git/worktree boundaries,
 `docs/current-homepage-state.md` for mounted state and
@@ -60,9 +60,8 @@ Do not change without explicit instruction:
 - Existing uncommitted work in another section.
 
 Do not import legacy project CSS/JS or third-party reference code, fonts,
-media or assets. Intro's scoped Typekit kit `upd0woi` and the user-supplied
-`wavebg.mp4` global-atmosphere source are the two documented exceptions. Do
-not introduce visible orange.
+media or assets. The user-supplied `wavebg.mp4` remains a documented retained
+rollback source but is not mounted. Do not introduce visible orange.
 
 ## Active section decisions
 
@@ -71,6 +70,8 @@ not introduce visible orange.
 - Appendix A in `design.md` and `docs/sections/01-approach.md` are the full
   Intro contract.
 - Stable `BYGD SAMMEN` foreground with Tigon integrated-practice copy.
+- Preserve the calibrated final handoff fade of the complete foreground block;
+  do not let it remain underneath `Hva vi bygger` or fade its words separately.
 - Decorative Tigon terms move and scramble behind it.
 - Each decorative term fades before colliding with the foreground copy.
 - No visible card, box, mask or backdrop blur behind the main statement.
@@ -92,6 +93,21 @@ not introduce visible orange.
   restrained JUST Sans/Caleb Mono hierarchy.
 - `servicesScene` owns one section-scoped dual-wave calculation: measured
   ranges, sine offsets, opposing lane direction and center focus.
+- Keep the independent distant-to-full cube-stage entrance inside that same
+  owner. It begins at exactly one CSS-pixel scale, stays optically hidden at the
+  exact pre-scroll rest, then fades in across the first three percent while
+  cubic size growth and X/Y/Z rotation remain live from zero. Later service
+  turns use long, centred scroll windows, add a temporary X pitch through each
+  side-face turn, and must not add a scale pulse or alter the front-on stops.
+- Do not restore a cube-level `01 / 05` counter; service metadata already owns
+  orientation.
+- Through 800 px, fade the outgoing service before its text enters the sticky
+  cube field and reveal the incoming service only after that field clears.
+- Preserve the cube's `5 × face size` perspective ratio and centred perspective
+  origin so turns read as controlled hinges rather than a deep tumble.
+- Wide-screen focus registers may connect the paired content lanes to the cube,
+  but they must remain faint content-layer guides and never become a dashboard
+  grid or local backdrop.
 - Do not add ScrollSmoother, a second scroll transport, a second image trigger,
   preloader or third-party assets. Reduced-motion/no-JS use one static first
   image and normal flow.

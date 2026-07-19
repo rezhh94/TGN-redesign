@@ -1,6 +1,6 @@
 # 02 / Tjenester — dual-wave contract
 
-Last reconciled: 2026-07-18.
+Last reconciled: 2026-07-19.
 
 Status: reopened by explicit user direction after the approved compact mosaic
 checkpoint. The rollback point remains `b5d1a10`.
@@ -28,13 +28,24 @@ checkpoint. The rollback point remains `b5d1a10`.
   wave presence, material/grain and depth while lowering the veil. Mobile uses
   the same lightweight wave with static grain; reduced motion/no-JS use the
   poster and static material.
-- A large local CSS-3D cube uses the five existing Tigon service images on its
-  front, right, back, left and top faces. It keeps stable square geometry while
-  the brighter near-monochrome imagery remains full-bleed and readable. Desktop
-  gives the object the largest scale; compact and mobile retain protected text
-  clearance.
+- A local CSS-3D cube uses the five existing Tigon service images on its front,
+  right, back, left and top faces; the bottom reuses the first local image so
+  the entrance tumble never exposes an empty face or adds another request.
+- The cube begins at an adaptive scale equal to one CSS pixel but is optically
+  hidden at the exact pre-scroll rest. It fades in across the first three
+  percent while its cubic depth curve and linear X/Y/Z rotation remain live
+  from zero. It completes a `-360° / -540° / -42°` tumble and settles on the
+  front-on `Nettsider` face.
+- Perspective stays at exactly five times the responsive face size with a
+  centred perspective origin. The inner cube remains at `scale(1)` throughout
+  every turn.
+- Above 1200 px, faint section-local focus registers extend from the active
+  title/detail panels toward the cube. Above 1500 px the two lanes move one
+  grid column inward. These are content-layer guides, not a new backdrop.
 - Typography stays restrained: JUST Sans for title/body and Caleb Mono for
   numbering, capabilities and actions. No giant full-screen service titles.
+- Through 800 px, the outgoing chapter fades before it enters the sticky cube
+  field; the incoming chapter appears only after that field has cleared.
 
 ## Reference extraction
 
@@ -68,9 +79,15 @@ The motion reference is Valentin Descombes/Codrops
   supplies vertical movement.
 - The service row closest to viewport centre owns the focus stop. At rest only
   that service is visible and pointer-active; the next service appears when
-  scroll transfers focus through the interval. Each cube face holds around its
-  row centre; the middle of the interval owns the 90-degree turn and a shallow
-  scale settle.
+  scroll transfers focus through the interval. Each cube face has a readable
+  front-on rest before and after a deliberately extended 90-degree turn. The
+  centred turn window is `64%` desktop, `68%` compact and `72%` mobile so both
+  adjoining image faces remain visible during rotation; no scale pulse is applied.
+- The first four faces advance between Y-axis stops, with a temporary `-45°`
+  X pitch through the middle of each of the first three turns so their depth
+  matches the final transition. The pitch returns to zero at every stop. The
+  fifth top face keeps the verified combined X/Y terminal orientation required
+  to remain both camerafacing and upright.
 - Inactive rows remain server-rendered real links, but are visually isolated
   during the enhanced scene. Keyboard focus reveals its complete row before
   interaction; no-JS and reduced-motion keep the full ledger visible.
@@ -86,9 +103,8 @@ The motion reference is Valentin Descombes/Codrops
 - Compact/touch through 800 px is a separately authored choreography, not the
   desktop columns squeezed into a narrow viewport. The sticky cube remains in
   the upper field while one complete service chapter occupies the lower field.
-- The cube-level `01 / 05` counter is hidden through 800 px because the visible
-  `SERVICE 01` metadata already provides orientation without colliding with the
-  projected cube face. Desktop retains the cube counter.
+- The cube-level `01 / 05` counter is removed at every width. The visible
+  `SERVICE 01` metadata already provides orientation.
 - Service text may wrap, but no established description, capability or href is
   removed. Touch has a visible action and does not depend on hover.
 - Reduced motion and no-JS use an ordinary single-column service ledger after

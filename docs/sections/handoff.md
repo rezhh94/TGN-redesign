@@ -1,6 +1,6 @@
 # Homepage handoffs — active contract
 
-Last reconciled: 2026-07-18.
+Last reconciled: 2026-07-19.
 
 ## Hero → 01 → 02
 
@@ -10,9 +10,14 @@ Last reconciled: 2026-07-18.
   one lightweight continuous static field.
 - Stable `BYGD SAMMEN` foreground copy stays readable while decorative words
   fade before collision. No visible box or mask is allowed behind the copy.
+- As the real handoff line reaches the foreground field, the complete stable
+  block fades from `1 → 0` and lifts 12 px. It is fully absent before
+  `Hva vi bygger` occupies the main field, and reverse scroll restores it.
 - `01 → 02 / Én helhet. Fem fag.` resolves directly into `Hva vi bygger`
   without restarting video/light, resetting the veil or exposing a flat black
   canvas between the two compositions.
+- Reduced motion/no-JS use ordinary-flow Intro foreground content so the same
+  boundary stays sequential without requiring a scroll animation.
 
 ## 02 → 03
 

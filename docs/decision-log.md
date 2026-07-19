@@ -1,6 +1,6 @@
 # Tigon — active decision register
 
-Last reconciled: 2026-07-18.
+Last reconciled: 2026-07-19.
 
 This register contains only decisions that still govern the mounted homepage.
 Superseded experiments and external reference audits have been removed from the
@@ -46,6 +46,11 @@ Keep `BYGD SAMMEN`, the integrated-practice paragraph and
 use Flip/scramble motion behind it and fade before colliding with the foreground
 copy. Reuse the existing Work wave/spotlight recipe without a visible text box.
 
+Revision after connected-section review: shorten only the decorative group
+rhythm and fade the complete stable block during the measured final handoff.
+Do not remove Intro copy or fade individual foreground lines. Reduced/no-JS
+place the foreground in ordinary flow instead of recreating the overlap.
+
 Status:
 Approved and committed as `e4dbba7`. Appendix A in `design.md` is the detailed
 contract; the main body of `design.md` governs the shared homepage language.
@@ -73,6 +78,36 @@ Revision after direct visual review: through 800 px, remove horizontal travel
 and present one full-width service chapter at a time beneath the sticky cube.
 The existing global `services-focus` state becomes more asymmetric and vivid;
 no local background is added.
+
+Revision after production review: the outer cube stage grows from a responsive
+small state to full size at `Nettsider`, while the inner cube retains the five
+verified face stops. Preserve the combined terminal X/Y orientation because it
+is required for the top SEO face to land upright. Wide screens may use faint
+focus registers and one-column-inward lane placement to activate the negative
+space without adding cards, assets or another motion owner.
+
+Cube-motion correction, 2026-07-19: use an adaptive one-CSS-pixel starting
+scale and cubic size growth. Hide only the exact pre-scroll rest, then fade the
+stage in across the first three percent while linear
+`X -360° / Y -540° / Z -42°` rotation remains bound from zero and settles
+front-on at `Nettsider`. The bottom face reuses an existing local image rather
+than exposing an empty plane. Later service turns use extended centred windows
+at constant inner scale. The first three add a temporary `-45°` X pitch through
+their Y turn; the final keeps the verified combined X/Y top-face endpoint.
+Perspective remains exactly five times the face size. The prelude-to-scene
+overlap is tightened without changing row order, and the central `01 / 05`
+counter is removed. Through 800 px, service-copy opacity clears the physical
+cube field before and after each turn. The five stops and upright terminal
+orientation are unchanged.
+
+Performance correction, 2026-07-19: remove Intro's render-blocking Adobe
+Typekit import, defer the global atmosphere video until after load/idle, mount
+the grain as WebP, lazy-load every below-fold cube face and cache service-row
+centres instead of reading all row geometry on every scroll update. A clean
+throttled production profile improved LCP/FCP from 1,440–1,580 ms to 816–920 ms
+and transfer from 636.3 to 532.7 KiB. The shared HomeMotion/GSAP client chunk
+remains the largest structural CPU item and should be split only in a separate
+lifecycle task.
 
 Status:
 Implemented in the active worktree and awaiting review/commit. `7ef236d` is the

@@ -1,6 +1,6 @@
 # Current Homepage State
 
-Last reconciled against mounted source and Git: 2026-07-18.
+Last reconciled against mounted source and Git: 2026-07-19.
 
 This is the canonical mounted-state snapshot. Read
 `docs/project-continuation-context.md` first for commit/worktree boundaries,
@@ -41,8 +41,8 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 - Dark mode is not one flat black: `surface-deep`, `surface-base`,
   `surface-raised` and `surface-focus` create depth and section identity.
 - TGS Perfect remains display, JUST Sans editorial/body and Caleb Mono meta
-  across the Tigon system. Intro alone deliberately scopes Codrops' Typekit kit
-  `upd0woi` for its reference-faithful display/mono treatment.
+  across the Tigon system. Intro now uses the same local display/mono roles;
+  the former render-blocking Codrops Typekit import is removed.
 - Migrated sections use semantic `display`, `lead`, `body` and `meta` roles.
   Visible meta has a 10 px minimum.
 - All body sections share `homepage-gutter`, 12/6-column grid logic, dark line
@@ -53,9 +53,10 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   boundary restarts the background.
 - Both grain scales are restrained static background layers below chapter text and
   media; the former page-wide overlay above content is explicitly rejected.
-- Desktop and mobile play the same lightweight 644×360 focus-field loop. Reduced motion and
-  no-JS use its static poster plus static grain. The former 25 FPS viewport
-  grain canvas has been removed.
+- Desktop and mobile arm the same lightweight 644×360 focus-field loop only
+  after the load event and an idle/fallback window. Reduced motion and no-JS
+  use its static poster plus static grain. The former 25 FPS viewport grain
+  canvas has been removed.
 - The mounted loop is independently authored for Tigon and reproducible under
   `videos/tigon-focus-field/`. The former user-supplied `wavebg.mp4` remux is
   retained for rollback but is no longer mounted.
@@ -74,6 +75,12 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   Flip and scramble architecture behind the foreground statement.
 - Collision clearance fades each decorative word before it overlaps the
   foreground copy. The background motion continues above and below the text.
+- Decorative group spacing is shortened to `8.5vh` on desktop and `9vh`
+  through 800 px, reducing the 2048×1024 Intro from about 4.52 to 4.21
+  viewports without removing any term or semantic content.
+- During the measured final handoff, the complete stable foreground fades and
+  lifts 12 px before `Hva vi bygger` occupies the main field. Reverse scroll
+  restores it. Reduced motion/no-JS use ordinary-flow foreground content.
 - Sits above the one global wave/material/vignette/grain field. Mobile retains
   the lightweight wave and static grain; reduced motion/no-JS use the poster.
 - The handoff `01 → 02 / Én helhet. Fem fag.` remains server-rendered.
@@ -88,8 +95,8 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 - Sits transparently above `HomeAtmosphere`; there is no local section canvas,
   duplicate wave or separate grey background.
 - `Hva vi bygger` and its explanation form a concise normal-flow prelude. The
-  sticky scene that follows contains only the active cube face and `01 / 05`
-  index, removing the former hero-like center stack.
+  sticky scene that follows contains only the active cube; the former central
+  `01 / 05` index and hero-like center stack are removed.
 - Above 800 px, paired service panels move in opposing left/right streams
   around that cube axis. Through 800 px, every active service is one complete
   full-width chapter below the sticky cube; there are no split ghost columns.
@@ -100,14 +107,29 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
   closest-to-center focus. That same row position holds the active face around
   its service centre, then rotates the local cube through five service faces;
   there is no second trigger, preloader or ScrollSmoother.
+- The outer stage starts at an adaptive one-CSS-pixel scale but is optically
+  hidden at the exact pre-scroll rest. It fades in across the first three
+  percent while its cubic depth curve and the inner cube's X/Y/Z tumble remain
+  live from zero. It settles at full size on `Nettsider`; later 90-degree turns
+  use long centred windows and a temporary X pitch so adjoining image faces
+  remain legible without changing any front-on stop.
+- The bottom face reuses the already requested first service image, so every
+  visible edge carries imagery during the tumble without another asset request.
+- The responsive perspective is exactly five times the face size with a centred
+  origin, matching the verified NuDot cube geometry without importing its code.
+- Above 1200 px, faint focus registers connect the active left/right panels to
+  the cube. Above 1500 px both lanes sit one grid column inward. No local
+  backdrop or additional content is introduced.
 - Each held stop isolates one active service; adjacent rows are visually hidden
   and pointer-inactive until scroll transfers focus. Keyboard focus reveals an
   inactive real link, while reduced-motion/no-JS retain the complete ledger.
   The cube keeps more of its size during each turn.
 - From 801–900 px the dual streams use smaller measured ranges. Through 800 px
-  horizontal travel is zero, the cube-level count is hidden and the visible
-  service metadata owns orientation. Reduced motion and no-JS receive the first
+  horizontal travel is zero and the visible service metadata owns orientation.
+  Reduced motion and no-JS receive the first
   static image and a complete normal-flow ledger.
+- Through 800 px, the outgoing service fades before entering the sticky cube
+  field and the incoming service appears only after that field clears.
 - `services-focus` strengthens the existing global atmosphere with asymmetric
   light, higher wave/grain presence and a lower veil. It does not add a local
   background owner.
@@ -173,9 +195,8 @@ recipes remain in `docs/homepage-dark-design-contract.md`.
 - Header, Hero, footer DOM, NAP, important footer links, SEO metadata, schema,
   sitemap, robots, canonical, URLs and slugs were not changed.
 - 04 capability semantics and six established hrefs were not changed.
-- No visible orange or unapproved third-party code, shader, loader or asset was
-  added. Intro's Codrops Typekit kit `upd0woi` remains the scoped mounted
-  exception documented in `design.md`; it may not spread.
+- No visible orange or unapproved third-party code, font, shader, loader or
+  asset was added. The former Typekit dependency is no longer mounted.
 - No old `styles.css`, `signature.css` or `main.js` was imported.
 
 ## Verification
@@ -191,9 +212,10 @@ Verification record:
 - Production QA at 1440, 1024, 900, 768 and 390 px confirmed exactly one
   atmosphere owner, backdrop, wave and grain stage; named states resolve from
   Intro through Work and every width has zero horizontal overflow.
-- The atmosphere video plays on desktop and mobile. Reduced motion and 390 px no-JS hide
-  the video, keep the poster/material/grain visible and retain all five service
-  links. Both grain scales are static at every width and motion preference.
+- The atmosphere video is deferred until after load/idle on desktop and mobile.
+  Reduced motion and 390 px no-JS hide the video, keep the poster/material/grain
+  visible and retain all five service links. Both grain scales are static at
+  every width and motion preference.
 - The Tigon focus-field source passed HyperFrames lint/runtime/layout/motion
   checks; the mounted source swap passes TypeScript, production build and
   `git diff --check` with the existing 644×360 playback contract unchanged.
@@ -204,17 +226,29 @@ Verification record:
   Desktop/tablet-wide retain opposing transforms; through 800 px both panels
   are full-width with zero horizontal transform. All tested widths have zero
   document overflow and the larger cube clears both text panels.
-- The CSS-3D cube and `01 / 05` index map one-to-one with active services.
-  Its held stop isolates the matching service before the mid-interval turn.
+- The CSS-3D cube maps one-to-one with active services without a central index.
+  Its held stop isolates the matching service before the extended turn.
   Reduced-motion and no-JS retain the large first face as a static visual.
+- The 2026-07-19 connected matrix checked 2048×1024, 1440, 1024, 900,
+  801/800, 768 and 390 px. Intro exit measured `1 → 0.5 → 0`; the corrected
+  cube entry begins at one CSS pixel and uses a cubic scale curve while linear
+  rotation runs from `X -360° / Y -540° / Z -42°` to the first front-on face.
+  Perspective measured `5 ×`
+  at every width. All five stops, upright top SEO face, extended centred
+  turns, reverse, refresh-in-section, responsive resize, reduced motion, no-JS
+  and zero document overflow passed alongside production build and TypeScript.
+- A clean extension-free production profile with Pixel 5 geometry, 4× CPU
+  throttle and constrained network measured LCP/FCP at 816–920 ms after the
+  correction, down from 1,440–1,580 ms. Transfer fell from 636.3 to 532.7 KiB,
+  estimated blocking from 452–805 to 259–370 ms, and CLS stayed at 0–0.025.
+  This is a controlled production profile, not a claimed Lighthouse score.
 - The isolated Intro commit passed TypeScript and production build checks.
 - The isolated 03/04 commit passed TypeScript and a production Webpack build.
 - The earlier integrated dark-homepage pass was checked on 2026-07-17 at 1440,
   1024, 900, 768 and 390 px, including reduced motion, touch, no-JS, reverse,
   anchors and static prerendering.
-- The Intro changed on 2026-07-18. Do not treat the July 17 visual matrix as a
-  visual approval of the new Intro; rerun relevant viewport/lifecycle checks
-  before the next connected-section approval.
+- The connected Intro→Tjenester journey was rechecked on 2026-07-19; later
+  section changes still require their own scoped matrix.
 
 ## Rollback
 

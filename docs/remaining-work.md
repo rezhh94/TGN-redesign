@@ -1,6 +1,6 @@
 # Tigon — remaining work
 
-Last reconciled: 2026-07-18.
+Last reconciled: 2026-07-19.
 
 This is the canonical backlog for the homepage. It describes what remains
 without prescribing old reference sites or rejected visual concepts.
@@ -24,6 +24,18 @@ without prescribing old reference sites or rejected visual concepts.
   dual-wave mechanics, with a separately authored mobile choreography,
   stronger global `services-focus` state and complete reduced-motion/no-JS
   fallback. It awaits user review and commit.
+- The connected 01→02 calibration is implemented: Intro is approximately seven
+  percent shorter at the 2048×1024 review viewport, its stable block exits
+  before the service prelude occupies the reading field. The cube begins at
+  one-pixel scale but is hidden at the exact pre-scroll rest, then fades in while
+  rotating continuously on three axes and growing cubically to full size at
+  `Nettsider`; the prelude-to-scene gap is reduced and the central counter is
+  removed. The first three service turns now use the same diagonal X/Y depth as
+  the final turn while preserving all five front-on stops.
+  Mobile copy clears the sticky cube field before each face transition.
+- Wide Tjenester lanes now sit one column inward with faint focus registers.
+  The five original face stops remain, including the verified combined X/Y
+  terminal orientation required for the upright top SEO face.
 - Supporting current-state, motion, design and section documents record this
   exact active direction; the earlier committed mosaic is rollback history.
 - The earlier broader dirty worktree was discarded at the user's explicit
@@ -31,6 +43,10 @@ without prescribing old reference sites or rejected visual concepts.
   notes.
 - Global Lenis and dormant homepage initializers remain in the mounted clean
   baseline. Their cleanup is still open and must be a separate technical task.
+- The render-blocking Typekit import, eager cube-face preload and eager
+  atmosphere playback are removed. The remaining approximately 82 KiB
+  HomeMotion/GSAP client chunk is the next performance target and should be
+  split/lazy-initialized in a dedicated lifecycle task.
 
 ## Global atmosphere consolidation and Tigon-owned media
 
@@ -61,7 +77,7 @@ The user chooses the next section. For each selected section:
 
 Recommended review order if the user has no preference:
 
-1. Review and optionally calibrate the active dual-wave Tjenester section.
+1. Review and approve the calibrated Intro→Tjenester journey.
 2. 05 / Prosess — confirm the existing 04 exit lands cleanly.
 3. 06 / System — finish the body journey into the protected footer.
 4. Global lifecycle cleanup — review and commit separately from visual work.

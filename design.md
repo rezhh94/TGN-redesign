@@ -182,7 +182,7 @@ The background is a material stack, not a gradient preset:
 7. Two restrained tiled grain scales remain inside the background stack and
    below every chapter's text and media. Content must stay optically clean.
 
-The grain asset is `/atmosphere/film-grain.png`. It is a small deterministic
+The mounted grain asset is `/atmosphere/film-grain.webp`. It is a small deterministic
 local tile, not a viewport-sized JavaScript canvas. Both texture scales are
 static across desktop, compact and reduced-motion states. Grain may texture the background light,
 but must never render above text, links, navigation or local media. Do not
@@ -204,9 +204,9 @@ grain material.
 - Visible `meta-sm` never computes below 10 px.
 
 Scale contrast matters more than copying another site's font sizes. Avoid
-using the same condensed display composition in adjacent sections. Intro's
-scoped Typekit kit `upd0woi` is the sole documented font exception and must not
-spread beyond `.approach-bridge`.
+using the same condensed display composition in adjacent sections. Intro uses
+the same local TGS Perfect and Caleb Mono roles as the rest of the homepage;
+the former render-blocking Typekit import is removed.
 
 ### Grid and rhythm
 
@@ -359,9 +359,22 @@ five real services become the moving material.
 - one section-scoped ScrollTrigger calculates sine-wave horizontal offsets,
   opposing lane direction and closest-to-center focus;
 - one large CSS-3D cube maps the five existing Tigon service images to five
-  faces; each face holds around its service centre before the same
-  closest-to-center calculation rotates forward with a shallow transition-depth
-  pulse inspired by the supplied NuDot recording;
+  faces; each face has a front-on rest around an extended centred 90-degree
+  turn so adjacent image faces remain visible, without an artificial scale pulse;
+- the cube uses a verified `5 × face size` perspective ratio and a centred
+  perspective origin, preserving physical depth without the earlier aggressive
+  tumble;
+- the cube stage begins at one CSS-pixel scale but is optically hidden at the
+  exact pre-scroll rest; it fades in across the first three percent of the
+  entrance while cubic size growth and X/Y/Z rotation remain live from zero;
+- the three side-face transitions add a temporary `-45deg` X pitch through the
+  middle of each Y turn, returning to zero at every front-on stop; the final
+  top-face transition keeps its required combined X/Y endpoint;
+- the sixth/bottom face reuses an existing local service image so no empty face
+  appears during the tumble and no new network asset is introduced;
+- no cube-level counter is mounted; the service panels provide orientation;
+- wide desktop draws faint active-panel focus registers toward the cube and
+  moves both lanes one grid column inward without adding a backdrop or UI grid;
 - no ScrollSmoother, external assets, separate image trigger or captured
   scrolling;
 - through 800 px, the horizontal wave resolves to zero and each service becomes
@@ -431,7 +444,8 @@ Intro uses the motion architecture from Codrops `ScrollTextMotion`:
 
 - the original `logo`, `content`, `group` and `el` structure;
 - short Tigon terms about design, technology, visibility and digital products;
-- the original Typekit kit `upd0woi`;
+- the original reference's display/mono role split, rebuilt with local Tigon
+  fonts; its Typekit kit is not mounted;
 - the original position classes `pos-1` through `pos-10`;
 - the original opacity, blur, spacing and sticky/fixed composition;
 - the same GSAP Flip states, ScrollTrigger start/end, scrub and easing;
@@ -443,7 +457,8 @@ Intro uses the motion architecture from Codrops `ScrollTextMotion`:
 - title: `BYGD SAMMEN`;
 - the existing integrated-practice description, unchanged;
 - `TGN / integrated practice`;
-- no scramble, Flip, fade or scroll transformation on the main message;
+- no scramble or Flip on the main message; only the complete foreground block
+  owns a final scrubbed fade and 12 px lift during the 01→02 handoff;
 - Codrops elements retain their movement and scramble in the background;
 - no frame, background surface, card or backdrop blur;
 - every background word is measured against the foreground rectangle and fades

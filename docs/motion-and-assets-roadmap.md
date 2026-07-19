@@ -1,6 +1,6 @@
 # Tigon Motion and Asset Roadmap
 
-Last reconciled: 2026-07-18.
+Last reconciled: 2026-07-19.
 
 ## Global guardrails
 
@@ -33,7 +33,8 @@ Last reconciled: 2026-07-18.
 
 - `introStoryScene`: reference-faithful Codrops ScrollTextMotion adaptation.
   Decorative Tigon terms use Flip between `pos-*` states and ScrambleText on
-  entry/re-entry while the stable `BYGD SAMMEN` foreground never transforms.
+  entry/re-entry. The stable `BYGD SAMMEN` foreground never Flip/scrambles;
+  only its complete block owns the final scrubbed opacity/12 px handoff exit.
 - A measured collision-clearance pass fades each decorative word before it
   intersects the foreground copy, without a visible blocking surface.
 - The global wave plays once on desktop and mobile. Reduced motion/no-JS use
@@ -53,8 +54,19 @@ Last reconciled: 2026-07-18.
 - Reduced motion and no-JS skip the engine and use the first static cube face plus
   a normal-flow service ledger.
 - Position between row centers holds five local image faces at readable stops,
-  then rotates through the middle of each interval with a shallow scale pulse.
-  It reuses the existing trigger and adds no preloader.
+  then rotates through an extended centred window in each interval at constant
+  inner scale. It reuses the existing trigger and adds no preloader.
+- The outer cube stage begins at one CSS-pixel scale, is optically hidden at the
+  exact pre-scroll rest, and fades in across the first three percent while
+  cubic size growth and X/Y/Z rotation remain live from zero. The first three
+  centred service turns add a temporary X pitch through their Y rotation; every
+  stop remains front-on and no scale pulse is used. The bottom plane reuses the
+  first local service image.
+- The center axis mounts no numeric counter.
+- CSS perspective remains five times the responsive face size with a centred
+  origin at every breakpoint.
+- Wide desktop uses faint active-panel focus registers and inward lane
+  placement; they add no asset, duplicate content or background owner.
 - Each stop visually isolates its active service; scroll transfers visibility
   to the next row, while keyboard focus and static fallbacks preserve access.
 - No ScrollSmoother, reference asset or duplicate scroll transport is part of
@@ -117,13 +129,13 @@ the Tjenester visual approval or commit.
 
 - The mounted global Intro-through-Arbeid owner uses the independently authored
   `/video/tigon-focus-field.mp4`, with reproducible HyperFrames source under
-  `videos/tigon-focus-field/`. Intro deliberately imports
-  Codrops' Typekit kit `upd0woi` inside its namespaced stylesheet.
+  `videos/tigon-focus-field/`. Playback is deferred until after load/idle and
+  Intro uses only local Tigon font files.
 - `videos/tigon-work-atmosphere/` remains the retained source project and QA
   record for the former generated 12-second loop. It is no longer the active
   delivery source and must not be deleted silently.
 - `/video/tigon-focus-field-poster.jpg` is the reduced-motion/no-JS frame and
-  `/atmosphere/film-grain.png` is the deterministic local texture tile.
+  `/atmosphere/film-grain.webp` is the mounted deterministic local texture tile.
 - Five existing files under `public/services/` are mounted by the active center
   visual; no NuDot or Codrops image asset is imported.
 - Work and temporary Effekt surfaces use existing Tigon files under
@@ -132,8 +144,8 @@ the Tjenester visual approval or commit.
 - The two-scale grain is part of the global atmosphere through Intro→Arbeid.
   Both scales remain static across desktop, mobile and reduced motion.
 - No unapproved third-party code, font, image, shader or tracking was added.
-  Intro's scoped Typekit kit remains the mounted documented exception. The
-  supplied wave is retained only for rollback and is no longer active media.
+  The former Typekit import is removed. The supplied wave is retained only for
+  rollback and is no longer active media.
 
 ## Validation gate
 
