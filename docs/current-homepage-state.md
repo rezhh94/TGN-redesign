@@ -3,8 +3,8 @@
 Last reconciled: 2026-07-19.
 
 This file describes what is mounted now. Historical experiments are not design
-authority. The latest implementation baseline is commit `af6f28f`; always
-inspect the live worktree and preserve unrelated edits.
+authority. The latest committed Tjenester baseline is `86b40e6`; always inspect
+the live worktree and preserve unrelated edits.
 
 ## Mounted order
 
@@ -49,11 +49,14 @@ expose the final composition.
 uses a bounded pinned sequence of five complete 50/50 panels: a landscape image
 on the left and a calm information field with counter, title, short explanation,
 four capability rows and the existing service link on the right. Panels move
-up through one full-viewport stage; there is no cube, WebGL scene, top divider,
-bottom index or separate progress hairline. Compact, touch, reduced-motion and
-no-JS present the same five complete panels in normal flow. `servicesScene`
-owns the 01→02 bridge and service transitions within one section-scoped
-lifecycle; CSS remains the readable source of truth.
+up through one full-viewport stage. The information half remains warm paper
+throughout; only the left media field alternates warm paper and dark. A separate
+five-band pinned handoff covers the dark prelude and reveals the first service
+already beneath it, which hides the change between the two scroll domains.
+There is no cube, WebGL scene, top divider, bottom index or progress hairline.
+Compact and touch use normal flow. Reduced-motion and no-JS omit the bands and
+present all five panels directly. `servicesScene` owns the complete 01→02
+bridge, handoff and panel sequence; CSS remains the readable source of truth.
 
 ### Outcome tension
 

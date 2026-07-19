@@ -85,7 +85,11 @@ export function WhatWeBuild() {
       data-theme-section="dark"
       data-bg-section="dark"
     >
-      <header className="what-build__prelude" data-service-prelude>
+      <header
+        className="what-build__prelude"
+        data-service-handoff
+        data-service-prelude
+      >
         <div className="what-build__prelude-grid">
           <p className="what-build__label">02 / Tjenester</p>
           <h2 className="what-build__title" id="what-build-title">
@@ -96,9 +100,20 @@ export function WhatWeBuild() {
             en løsning som kan finnes, forstås og måles.
           </p>
         </div>
+
+        <div className="what-build__handoff-bands" data-service-bands aria-hidden="true">
+          {Array.from({ length: 5 }, (_, index) => (
+            <span data-service-band key={index} />
+          ))}
+        </div>
       </header>
 
-      <div className="service-deck" data-service-story>
+      <div
+        className="service-deck"
+        data-bg-section="light"
+        data-service-story
+        data-theme-section="light"
+      >
         <ol
           className="service-deck__panels"
           aria-label="Tigons tjenester"

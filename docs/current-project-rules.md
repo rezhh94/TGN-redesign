@@ -53,7 +53,9 @@ assets. Do not introduce visible orange. Do not commit or push unless asked.
 
 - Intro currently uses an editorial statement, character fill and line/plus.
 - Tjenester currently uses five complete service links in a bounded pinned
-  desktop panel sequence, with normal-flow touch, reduced-motion and no-JS fallbacks.
+  desktop panel sequence with a permanent paper information field, alternating
+  media fields, one five-band handoff and normal-flow touch, reduced-motion and
+  no-JS fallbacks.
 - `OutcomeTensionBridge` currently connects Tjenester and Effekt.
 - Effekt currently presents `FUNNET / FORSTÅTT / VALGT / MÅLT`.
 - Arbeid currently uses six future-facing capability links in `WorkProof`.

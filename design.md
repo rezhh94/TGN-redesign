@@ -44,11 +44,14 @@ Tigon has previously built.
 
 ## Current canvas rule
 
-Homepage chapters use solid semantic surfaces only. No decorative background
-video, poster, texture, grain, canvas, spotlight, vignette or continuity layer
-is part of the current system. Section roots own their explicit solid surface.
-A future visual field requires a separate, Tigon-authored design task and may
-not be inferred from this document.
+Homepage chapters use solid semantic surfaces only. Tjenester uses the existing
+warm `--tigon-paper` as one continuous information surface while only the left
+media field alternates paper and the dark body surface. This is content
+hierarchy, not page-wide background art. No decorative background video,
+poster, texture, grain, canvas, spotlight or vignette is part of the current
+system. Section roots own their explicit solid surface. A future visual field
+requires a separate, Tigon-authored design task and may not be inferred from
+this document.
 
 ## Typography
 
@@ -152,6 +155,7 @@ All primary actions require at least `44px` effective hit height.
 | Base surface | `--surface-base` | `#070707` | Default homepage body. |
 | Raised surface | `--surface-raised` | `#0d0f0f` | Local separation without a new hue. |
 | Focus surface | `--surface-focus` | `#171a19` | Highest neutral elevation. |
+| Paper surface | `--tigon-paper` | `#f2f2ef` | Warm light information surface and transition field in Tjenester. |
 | Strong text | `--text-strong` | `#f2f1eb` | Warm high contrast, avoiding optical glare from pure white. |
 | Medium text | `--text-medium` | `rgba(242,241,235,.68)` | Supporting copy. |
 | Quiet text | `--text-quiet` | `rgba(242,241,235,.54)` | Labels and secondary metadata only. |

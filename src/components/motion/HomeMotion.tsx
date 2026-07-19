@@ -480,6 +480,7 @@ function servicesScene() {
   const prelude = section?.querySelector<HTMLElement>("[data-service-prelude]");
   const story = section?.querySelector<HTMLElement>("[data-service-story]");
   const stage = section?.querySelector<HTMLElement>("[data-service-stage]");
+  const bands = gsap.utils.toArray<HTMLElement>("[data-service-band]", section);
   const panels = gsap.utils.toArray<HTMLElement>("[data-service-panel]", section);
 
   if (
@@ -489,6 +490,7 @@ function servicesScene() {
     || !prelude
     || !story
     || !stage
+    || bands.length !== 5
     || panels.length !== 5
   ) return () => {};
 
@@ -560,8 +562,6 @@ function servicesScene() {
       () => {
         const contents = panels.map((panel) =>
           panel.querySelector<HTMLElement>("[data-service-panel-content]"));
-        const images = panels.map((panel) =>
-          panel.querySelector<HTMLElement>("[data-service-panel-image]"));
         const rules = panels.map((panel) =>
           gsap.utils.toArray<HTMLElement>("[data-service-panel-rule]", panel));
         const links = panels.map((panel) =>
@@ -581,11 +581,15 @@ function servicesScene() {
           });
         };
 
+        section.setAttribute("data-service-handoff-ready", "");
         section.setAttribute("data-service-ready", "");
+        gsap.set(bands, {
+          scaleY: 0,
+          transformOrigin: "bottom center",
+        });
         gsap.set(panels, { yPercent: 100 });
         gsap.set(panels[0], { yPercent: 0 });
         gsap.set(panels, { zIndex: (index) => index + 1 });
-        gsap.set(images.filter(Boolean), { scale: 1 });
         rules.forEach((panelRules, index) => {
           gsap.set(panelRules, {
             scaleX: index === 0 ? 1 : 0,
@@ -594,41 +598,48 @@ function servicesScene() {
         });
         setActive(0);
 
+        const handoffTimeline = gsap.timeline({ defaults: { ease: "none" } });
+        bands.forEach((band, index) => {
+          const offset = 0.3 * (bands.length - 1 - index) / (bands.length - 1);
+          handoffTimeline.to(band, { scaleY: 1, duration: 0.3 }, offset);
+        });
+        handoffTimeline.to({}, { duration: 0.1 });
+
+        const handoffTrigger = ScrollTrigger.create({
+          id: "services-handoff",
+          trigger: prelude,
+          start: "top top",
+          end: "+=200%",
+          animation: handoffTimeline,
+          scrub: 0.6,
+          pin: prelude,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        });
+
         const timeline = gsap.timeline({ defaults: { ease: "none" } });
-        timeline.to({}, { duration: 0.35 });
+        const leadHold = 0.5;
+        const transitionDuration = 1;
+        const panelHold = 0.5;
+        timeline.to({}, { duration: leadHold });
 
         panels.forEach((panel, index) => {
           if (index === 0) return;
 
           const transitionStart = timeline.duration();
           const previousContent = contents[index - 1];
-          const content = contents[index];
-          const image = images[index];
-          timeline.to(panel, { yPercent: 0, duration: 1 }, transitionStart);
+          timeline.to(
+            panel,
+            { yPercent: 0, duration: transitionDuration },
+            transitionStart,
+          );
 
           if (previousContent) {
             timeline.to(
               previousContent,
-              { autoAlpha: 0.18, yPercent: -18, duration: 1 },
+              { yPercent: -100, duration: transitionDuration },
               transitionStart,
-            );
-          }
-
-          if (image) {
-            timeline.fromTo(
-              image,
-              { scale: 1.045 },
-              { scale: 1, duration: 1 },
-              transitionStart,
-            );
-          }
-
-          if (content) {
-            timeline.fromTo(
-              content,
-              { autoAlpha: 0.72, y: 28 },
-              { autoAlpha: 1, y: 0, duration: 0.76, ease: "power3.out" },
-              transitionStart + 0.18,
             );
           }
 
@@ -637,33 +648,37 @@ function servicesScene() {
               rules[index],
               {
                 scaleX: 1,
-                duration: 0.38,
-                stagger: 0.06,
-                ease: "power2.out",
+                duration: 0.5,
+                stagger: 0.08,
               },
-              transitionStart + 0.58,
+              transitionStart + 0.2,
             );
           }
 
-          timeline.to({}, { duration: 0.34 });
+          timeline.to({}, { duration: panelHold });
         });
 
-        timeline.to({}, { duration: 0.35 });
-
         const updateActive = (self: ReturnType<typeof ScrollTrigger.create>) => {
-          const index = Math.min(
-            panels.length - 1,
-            Math.floor(self.progress * panels.length),
-          );
+          const total = timeline.duration();
+          let index = 0;
+          for (let next = 1; next < panels.length; next += 1) {
+            const midpoint = (
+              leadHold
+              + (next - 1) * (transitionDuration + panelHold)
+              + transitionDuration / 2
+            ) / total;
+            if (self.progress >= midpoint) index = next;
+          }
           setActive(index);
         };
 
         const trigger = ScrollTrigger.create({
+          id: "services-panels",
           trigger: story,
           start: "top top",
-          end: () => `+=${Math.round(window.innerHeight * (panels.length - 0.25))}`,
+          end: () => `+=${Math.round(1.2 * window.innerHeight * panels.length)}`,
           animation: timeline,
-          scrub: 0.55,
+          scrub: 0.6,
           pin: stage,
           pinSpacing: true,
           anticipatePin: 0.5,
@@ -676,6 +691,9 @@ function servicesScene() {
         return () => {
           trigger.kill();
           timeline.kill();
+          handoffTrigger.kill();
+          handoffTimeline.kill();
+          section.removeAttribute("data-service-handoff-ready");
           section.removeAttribute("data-service-ready");
           panels.forEach((panel, index) => {
             panel.toggleAttribute("data-service-active", index === 0);
@@ -713,6 +731,7 @@ function servicesScene() {
     mm.revert();
     ctx.revert();
     journey.removeAttribute("data-journey-ready");
+    section.removeAttribute("data-service-handoff-ready");
     section.removeAttribute("data-service-ready");
   };
 }

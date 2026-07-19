@@ -11,11 +11,11 @@
 
 .what-build__prelude {
   position: relative;
-  min-height: clamp(420px, 58svh, 620px);
+  min-height: 100svh;
+  overflow: hidden;
 }
 
-.what-build__prelude-grid,
-.service-panel__inner {
+.what-build__prelude-grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
@@ -26,6 +26,8 @@
 }
 
 .what-build__prelude-grid {
+  position: relative;
+  z-index: 1;
   grid-template-rows: auto 1fr auto;
   align-items: end;
   min-height: inherit;
@@ -82,9 +84,43 @@
   text-wrap: pretty;
 }
 
+.what-build__handoff-bands {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-local-overlay);
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.what-build__handoff-bands span {
+  flex: 1 1 0;
+  width: 100%;
+  margin-top: -0.5px;
+  padding-bottom: 0.5px;
+  background: var(--tigon-paper);
+  backface-visibility: hidden;
+  transform: scaleY(0);
+  transform-origin: bottom center;
+}
+
+.what-build__handoff-bands span:first-child {
+  margin-top: 0;
+}
+
+.what-build[data-service-handoff-ready] .what-build__handoff-bands span {
+  will-change: transform;
+}
+
 .service-deck {
   position: relative;
-  background: var(--surface-deep);
+  background: var(--tigon-paper);
+}
+
+@media (min-width: 901px) and (hover: hover) and (pointer: fine) {
+  .what-build[data-service-handoff-ready] .service-deck {
+    margin-top: -100svh;
+  }
 }
 
 .service-deck__panels {
@@ -96,41 +132,59 @@
 }
 
 .service-panel {
+  --service-media-surface: var(--tigon-paper);
+  --service-image-surface: var(--bone);
+  --service-media-line: var(--color-line);
+  --service-text-strong: var(--color-ink);
+  --service-text-medium: var(--on-light-medium);
+  --service-text-quiet: var(--on-light-quiet);
+  --service-text-faint: var(--on-light-faint);
+  --service-line-subtle: var(--color-line);
+  --service-line-default: var(--color-line);
+  --service-line-strong: var(--color-line-strong);
+  --service-focus-ring: var(--color-ink);
   position: relative;
   display: flex;
   min-height: 100svh;
   overflow: hidden;
-  background: var(--surface-deep);
-  color: var(--text-strong);
+  background: var(--tigon-paper);
+  color: var(--service-text-strong);
 }
 
 .service-panel:nth-child(even) {
-  background: var(--surface-base);
+  --service-media-surface: var(--surface-base);
+  --service-image-surface: var(--surface-raised);
+  --service-media-line: var(--line-default);
 }
 
 .service-panel__inner {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: min(100%, var(--page-max));
   min-height: 100svh;
+  margin: 0 auto;
   align-items: stretch;
 }
 
 .service-panel__media {
   display: flex;
-  grid-column: 1 / 7;
+  grid-column: 1;
   align-items: center;
   justify-content: center;
   min-width: 0;
   min-height: 100%;
   margin: 0;
   padding: clamp(116px, 13vh, 152px) clamp(40px, 4.45vw, 80px)
-    clamp(72px, 9vh, 104px) 0;
+    clamp(72px, 9vh, 104px);
+  background: var(--service-media-surface);
 }
 
 .service-panel__image-frame {
   width: min(100%, 720px);
   aspect-ratio: 3 / 2;
   overflow: hidden;
-  border: 1px solid var(--line-default);
-  background: var(--surface-raised);
+  border: 1px solid var(--service-media-line);
+  background: var(--service-image-surface);
 }
 
 .service-panel__image-frame img {
@@ -141,21 +195,26 @@
   transform: scale(1.001);
 }
 
+.service-panel:nth-child(odd) .service-panel__image-frame img {
+  filter: saturate(0.74) contrast(1.02) brightness(0.97);
+}
+
 .service-panel__content {
   display: flex;
-  grid-column: 7 / -1;
+  grid-column: 2;
   flex-direction: column;
   justify-content: center;
   min-width: 0;
   min-height: 100%;
-  padding: clamp(116px, 13vh, 152px) 0 clamp(72px, 9vh, 104px)
-    clamp(40px, 5.55vw, 104px);
-  border-left: 1px solid var(--line-subtle);
+  padding: clamp(116px, 13vh, 152px) clamp(40px, 5.55vw, 104px)
+    clamp(72px, 9vh, 104px);
+  border-left: 1px solid var(--service-line-subtle);
+  background: var(--tigon-paper);
 }
 
 .service-panel__counter {
   margin: 0 0 var(--space-16);
-  color: var(--text-faint);
+  color: var(--service-text-faint);
 }
 
 .service-panel__summary,
@@ -166,7 +225,7 @@
 
 .service-panel__summary h3 {
   margin: 0;
-  color: var(--text-strong);
+  color: var(--service-text-strong);
   font-family: var(--font-display);
   font-size: var(--type-display-lg-size);
   font-weight: var(--weight-bold);
@@ -179,7 +238,7 @@
 .service-panel__summary > p {
   max-width: 38ch;
   margin: var(--space-6) 0 0;
-  color: var(--text-medium);
+  color: var(--service-text-medium);
   font-family: var(--font-editorial);
   font-size: var(--type-body-md-size);
   line-height: var(--type-body-md-leading);
@@ -192,7 +251,7 @@
 
 .service-panel__capabilities > p {
   margin: 0 0 var(--space-5);
-  color: var(--text-faint);
+  color: var(--service-text-faint);
 }
 
 .service-panel__capabilities ul {
@@ -204,7 +263,7 @@
 .service-panel__capabilities li {
   position: relative;
   padding: var(--space-3) 0;
-  color: var(--text-quiet);
+  color: var(--service-text-quiet);
   font-family: var(--font-editorial);
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
@@ -216,7 +275,7 @@
   bottom: 0;
   left: 0;
   height: 1px;
-  background: var(--line-default);
+  background: var(--service-line-default);
   transform-origin: left center;
 }
 
@@ -227,8 +286,8 @@
   min-height: 44px;
   margin-top: var(--space-10);
   padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--line-default);
-  color: var(--text-quiet);
+  border-bottom: 1px solid var(--service-line-default);
+  color: var(--service-text-quiet);
   text-decoration: none;
   transition:
     border-color var(--motion-base) var(--ease-standard),
@@ -238,13 +297,13 @@
 
 .service-panel__action:hover,
 .service-panel__action:focus-visible {
-  border-color: var(--line-strong);
-  color: var(--text-strong);
+  border-color: var(--service-line-strong);
+  color: var(--service-text-strong);
   transform: translateX(var(--space-1));
 }
 
 .service-panel__action:focus-visible {
-  outline: 2px solid var(--focus-ring);
+  outline: 2px solid var(--service-focus-ring);
   outline-offset: var(--space-3);
 }
 
@@ -267,19 +326,20 @@
     pointer-events: auto;
   }
 
-  .what-build[data-service-ready] .service-panel__image-frame img,
   .what-build[data-service-ready] .service-panel__content,
   .what-build[data-service-ready] .service-panel__capability-rule {
-    will-change: transform, opacity;
+    will-change: transform;
   }
 }
 
 @media (max-width: 1100px) and (min-width: 901px) {
   .service-panel__media {
     padding-right: var(--space-10);
+    padding-left: var(--space-10);
   }
 
   .service-panel__content {
+    padding-right: var(--space-10);
     padding-left: var(--space-10);
   }
 
@@ -314,18 +374,17 @@
   }
 
   .service-panel {
-    padding: var(--homepage-section-block-y) 0;
+    display: block;
   }
 
   .service-panel__inner {
-    row-gap: var(--space-10);
-    align-items: start;
+    display: block;
+    width: 100%;
   }
 
   .service-panel__media {
-    grid-column: 1 / -1;
     min-height: 0;
-    padding: 0;
+    padding: var(--space-20) var(--homepage-gutter) var(--space-10);
   }
 
   .service-panel__image-frame {
@@ -336,9 +395,8 @@
 
   .service-panel__content {
     display: block;
-    grid-column: 1 / -1;
     min-height: 0;
-    padding: 0;
+    padding: var(--space-10) var(--homepage-gutter) var(--space-20);
     border-left: 0;
   }
 
@@ -372,16 +430,16 @@
     grid-column: 1 / -1;
   }
 
-  .service-panel {
-    padding: var(--space-20) 0;
-  }
-
   .service-panel__image-frame {
     aspect-ratio: 3 / 2;
   }
 }
 
 @media (prefers-reduced-motion: reduce), (scripting: none) {
+  .what-build__handoff-bands {
+    display: none;
+  }
+
   .what-build[data-service-ready] .service-deck__panels,
   .what-build[data-service-ready] .service-panel,
   .service-deck__panels,
@@ -397,10 +455,6 @@
     opacity: 1 !important;
     pointer-events: auto;
     transform: none !important;
-  }
-
-  .service-panel {
-    padding: var(--homepage-section-block-y) 0;
   }
 
   [data-service-prelude-line],

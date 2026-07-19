@@ -4,10 +4,10 @@ Last reconciled: 2026-07-19.
 
 ## Worktree boundary
 
-The latest implementation baseline is commit `af6f28f`. Always inspect the
-current worktree before acting; do not reset, checkout or overwrite unrelated
-changes. Do not commit or push without explicit instruction, and stage exact
-files if publishing is later requested.
+The latest committed Tjenester baseline is `86b40e6`. Always inspect the current
+worktree before acting; do not reset, checkout or overwrite unrelated changes.
+Do not commit or push without explicit instruction, and stage exact files if
+publishing is later requested.
 
 ## Read order
 
