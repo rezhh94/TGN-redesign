@@ -93,7 +93,7 @@ function maskedRise(
 // Original mekanikk: Valentin Descombes/Codrops, MIT, commit 90dfeb2.
 // Én sticky midtakse, fem lokale kubeflater og komplette lenker i to
 // motgående sinusstrømmer. Ingen ScrollSmoother eller fremmed asset-livssyklus.
-function servicesScene() {
+function legacyServicesScene() {
   const section = document.querySelector<HTMLElement>("[data-build-section]");
   const wave = section?.querySelector<HTMLElement>("[data-service-wave]");
   const anchor = section?.querySelector<HTMLElement>("[data-service-anchor]");
@@ -147,10 +147,6 @@ function servicesScene() {
     // kameravendt og rettvendt; en ren X-vending viser feil sideflate.
     { rotateX: -90, rotateY: -360 },
   ] as const;
-  // Samlet viser serviceforløpet både topp-, bunn- og sideflater uten å legge
-  // en ekstra full rotasjon mellom hvert lesbare stopp.
-  const serviceTurnPitch = [-58, 48, -58, 0] as const;
-  const serviceTurnRoll = [7, -6, 7, -5] as const;
   const mm = gsap.matchMedia();
 
   const ctx = gsap.context(() => {
@@ -158,7 +154,7 @@ function servicesScene() {
       let leftRange = 0;
       let rightRange = 0;
       let rowCenters: number[] = [];
-      let minimumCubeScale = 0.003;
+      let minimumCubeScale = 0.96;
       let activeIndex = -1;
       let resizeFrame = 0;
       let lastProgress = -1;
@@ -214,7 +210,7 @@ function servicesScene() {
           const rect = row.getBoundingClientRect();
           return window.scrollY + rect.top + rect.height / 2;
         });
-        minimumCubeScale = 1 / Math.max(1, cubeStage.offsetWidth);
+        minimumCubeScale = compact ? 0.94 : 0.96;
         // Ny geometri → åpne delta-gaten så neste frame skriver friskt.
         lastProgress = -1;
         lastPosition = -1;
@@ -315,7 +311,7 @@ function servicesScene() {
         return position;
       };
 
-      const updateCube = (position: number, entranceProgress: number) => {
+      const updateCube = (position: number) => {
         const fromIndex = Math.min(Math.floor(position), cubeStops.length - 1);
         const toIndex = Math.min(fromIndex + 1, cubeStops.length - 1);
         const localProgress = position - fromIndex;
@@ -331,30 +327,10 @@ function servicesScene() {
         const easedProgress = smoother(turnProgress);
         const from = cubeStops[fromIndex];
         const to = cubeStops[toIndex];
-        // Én rolig sammensatt bue per service: Y eier selve 90°-skiftet, mens
-        // en begrenset X/Z-bue viser flere terningflater. Både pitch og roll er
-        // null i endene, så hvert godkjente service-stopp forblir uendret.
-        const turnArc = Math.sin(easedProgress * Math.PI);
-        const depthFactor = mobile ? 0.8 : compact ? 0.9 : 1;
-        const transitionPitch = (serviceTurnPitch[fromIndex] ?? 0)
-          * turnArc
-          * depthFactor;
-        const transitionRoll = (serviceTurnRoll[fromIndex] ?? 0)
-          * turnArc
-          * depthFactor;
-        // Størrelsen akselererer sent, mens rotasjonen går kontinuerlig og
-        // lineært helt fra objektet bare er én CSS-piksel.
-        const entranceTurn = 1 - entranceProgress;
-
         gsap.set(cube, {
-          rotateX:
-            gsap.utils.interpolate(from.rotateX, to.rotateX, easedProgress)
-            + transitionPitch
-            - 360 * entranceTurn,
-          rotateY:
-            gsap.utils.interpolate(from.rotateY, to.rotateY, easedProgress)
-            - 540 * entranceTurn,
-          rotateZ: transitionRoll - 42 * entranceTurn,
+          rotateX: gsap.utils.interpolate(from.rotateX, to.rotateX, easedProgress),
+          rotateY: gsap.utils.interpolate(from.rotateY, to.rotateY, easedProgress),
+          rotateZ: 0,
           scale: 1,
         });
       };
@@ -368,17 +344,11 @@ function servicesScene() {
           1,
           (startLine - firstCenter) / Math.max(1, startLine - endLine),
         );
-        const depthScale = progress * progress * progress;
-        // Ved eksakt inngangsposisjon er ettpiksel-kuben usynlig, så den ikke
-        // leses som et hvitt punktum. Den fades raskt inn idet scrollen starter;
-        // størrelse og rotasjon beregnes fortsatt kontinuerlig fra progress 0.
-        const entranceVisibility = progress <= 0.006
-          ? 0
-          : smoother(gsap.utils.clamp(0, 1, (progress - 0.006) / 0.024));
+        const entranceVisibility = smoother(progress);
 
         gsap.set(cubeStage, {
           autoAlpha: entranceVisibility,
-          scale: gsap.utils.interpolate(minimumCubeScale, 1, depthScale),
+          scale: gsap.utils.interpolate(minimumCubeScale, 1, smoother(progress)),
         });
 
         return progress;
@@ -409,8 +379,8 @@ function servicesScene() {
 
         updateColumn(leftSetters, leftRange, self.progress, 1);
         updateColumn(rightSetters, rightRange, self.progress, -1);
-        const entranceProgress = updateCubeEntrance();
-        updateCube(position, entranceProgress);
+        updateCubeEntrance();
+        updateCube(position);
         setActiveRow(position);
 
         const edge = 0.055;
@@ -484,14 +454,389 @@ function servicesScene() {
       };
     };
 
-    mm.add("(min-width: 901px)", () => createWave(false));
-    mm.add("(min-width: 801px) and (max-width: 900px)", () => createWave(true));
-    mm.add("(max-width: 800px)", () => createWave(true, true));
+    mm.add(
+      "(min-width: 901px) and (hover: hover) and (pointer: fine)",
+      () => createWave(false),
+    );
+    mm.add(
+      "(min-width: 801px) and (max-width: 900px) and (hover: hover) and (pointer: fine)",
+      () => createWave(true),
+    );
   }, section);
 
   return () => {
     mm.revert();
     ctx.revert();
+  };
+}
+
+// Intro → 02 / Tjenester — one clean-room journey owner. The bridge and
+// desktop service stage share one lifecycle, while CSS keeps the complete
+// content readable before hydration. Desktop uses a sticky stage without a
+// JS pin; compact/touch stays in ordinary flow.
+function servicesScene() {
+  const journey = document.querySelector<HTMLElement>("[data-intro-services-journey]");
+  const bridge = journey?.querySelector<HTMLElement>("[data-intro-services-bridge]");
+  const section = journey?.querySelector<HTMLElement>("[data-build-section]");
+  const prelude = section?.querySelector<HTMLElement>("[data-service-prelude]");
+  const story = section?.querySelector<HTMLElement>("[data-service-story]");
+  const rows = gsap.utils.toArray<HTMLElement>("[data-service-chapter]", section);
+  const stageImages = gsap.utils.toArray<HTMLElement>(
+    "[data-service-stage-image]",
+    section,
+  );
+  const capabilityRules = gsap.utils.toArray<HTMLElement>(
+    "[data-service-rule]",
+    section,
+  );
+  const counter = section?.querySelector<HTMLElement>("[data-service-counter]");
+  const progressBar = section?.querySelector<HTMLElement>("[data-service-progress]");
+
+  // The restored dual-stream composition keeps the connected 01→02 bridge,
+  // but delegates service progression to the original section-scoped owner.
+  if (!story) {
+    const waveCleanup = legacyServicesScene();
+    if (!journey || !bridge || !section || !prelude) return waveCleanup;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return waveCleanup;
+
+    const journeyContext = gsap.context(() => {
+      const axis = bridge.querySelector<HTMLElement>(".intro-services-journey__axis");
+      const bridgeProgress = bridge.querySelector<HTMLElement>("[data-journey-progress]");
+      const bridgeMarker = bridge.querySelector<HTMLElement>("[data-journey-marker]");
+      const fromLabel = bridge.querySelector<HTMLElement>("[data-journey-from]");
+      const toLabel = bridge.querySelector<HTMLElement>("[data-journey-to]");
+
+      if (axis && bridgeProgress && bridgeMarker && fromLabel && toLabel) {
+        journey.setAttribute("data-journey-ready", "");
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: bridge,
+            start: "top 85%",
+            end: "bottom 35%",
+            scrub: 0.45,
+            invalidateOnRefresh: true,
+          },
+          defaults: { ease: "none" },
+        })
+          .fromTo(bridgeProgress, { scaleY: 0 }, { scaleY: 1, duration: 1 }, 0)
+          .fromTo(
+            bridgeMarker,
+            { y: 0, rotate: 0 },
+            {
+              y: () => Math.max(0, axis.offsetHeight - bridgeMarker.offsetHeight),
+              rotate: 180,
+              duration: 1,
+            },
+            0,
+          )
+          .fromTo(fromLabel, { autoAlpha: 1 }, { autoAlpha: 0.34, duration: 0.46 }, 0)
+          .fromTo(toLabel, { autoAlpha: 0.34 }, { autoAlpha: 1, duration: 0.5 }, 0.5);
+      }
+
+      const preludeLines = gsap.utils.toArray<HTMLElement>(
+        "[data-service-prelude-line]",
+        prelude,
+      );
+      const preludeCopy = gsap.utils.toArray<HTMLElement>(
+        "[data-service-prelude-copy]",
+        prelude,
+      );
+      maskedRise(preludeLines, prelude, {
+        yPercent: 108,
+        duration: 0.9,
+        stagger: 0.08,
+        start: "top 80%",
+      });
+      if (prelude.getBoundingClientRect().top > window.innerHeight * 0.86) {
+        gsap.from(preludeCopy, {
+          autoAlpha: 0,
+          y: 14,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: { trigger: prelude, start: "top 74%", once: true },
+        });
+      }
+    }, journey);
+
+    return () => {
+      journeyContext.revert();
+      journey.removeAttribute("data-journey-ready");
+      waveCleanup();
+    };
+  }
+
+  if (
+    !journey
+    || !bridge
+    || !section
+    || !prelude
+    || !story
+    || rows.length !== 5
+    || stageImages.length !== rows.length
+  ) return () => {};
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced) return () => {};
+
+  const mm = gsap.matchMedia();
+  const ctx = gsap.context(() => {
+    const axis = bridge.querySelector<HTMLElement>(".intro-services-journey__axis");
+    const bridgeProgress = bridge.querySelector<HTMLElement>("[data-journey-progress]");
+    const bridgeMarker = bridge.querySelector<HTMLElement>("[data-journey-marker]");
+    const fromLabel = bridge.querySelector<HTMLElement>("[data-journey-from]");
+    const toLabel = bridge.querySelector<HTMLElement>("[data-journey-to]");
+
+    if (axis && bridgeProgress && bridgeMarker && fromLabel && toLabel) {
+      journey.setAttribute("data-journey-ready", "");
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: bridge,
+          start: "top 85%",
+          end: "bottom 35%",
+          scrub: 0.45,
+          invalidateOnRefresh: true,
+        },
+        defaults: { ease: "none" },
+      })
+        .fromTo(bridgeProgress, { scaleY: 0 }, { scaleY: 1, duration: 1 }, 0)
+        .fromTo(
+          bridgeMarker,
+          { y: 0, rotate: 0 },
+          {
+            y: () => Math.max(0, axis.offsetHeight - bridgeMarker.offsetHeight),
+            rotate: 180,
+            duration: 1,
+          },
+          0,
+        )
+        .fromTo(fromLabel, { autoAlpha: 1 }, { autoAlpha: 0.34, duration: 0.46 }, 0)
+        .fromTo(toLabel, { autoAlpha: 0.34 }, { autoAlpha: 1, duration: 0.5 }, 0.5);
+    }
+
+    const preludeLines = gsap.utils.toArray<HTMLElement>(
+      "[data-service-prelude-line]",
+      prelude,
+    );
+    const preludeCopy = gsap.utils.toArray<HTMLElement>(
+      "[data-service-prelude-copy]",
+      prelude,
+    );
+    maskedRise(preludeLines, prelude, {
+      yPercent: 108,
+      duration: 1.05,
+      stagger: 0.1,
+      start: "top 78%",
+    });
+    if (prelude.getBoundingClientRect().top > window.innerHeight * 0.86) {
+      gsap.from(preludeCopy, {
+        autoAlpha: 0,
+        y: 18,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: prelude, start: "top 72%", once: true },
+      });
+    }
+
+    mm.add("(min-width: 901px) and (hover: hover) and (pointer: fine)", () => {
+      let activeIndex = -1;
+      let rowCenters: number[] = [];
+      let resizeFrame = 0;
+      const focusCleanups: Array<() => void> = [];
+      const setProgress = progressBar
+        ? gsap.quickSetter(progressBar, "scaleX")
+        : null;
+
+      const setActive = (nextIndex: number, immediate = false) => {
+        const index = gsap.utils.clamp(0, rows.length - 1, nextIndex);
+        if (index === activeIndex && !immediate) return;
+        const previousIndex = activeIndex;
+        const direction = previousIndex < 0 || index >= previousIndex ? 1 : -1;
+        activeIndex = index;
+
+        rows.forEach((row, rowIndex) => {
+          if (rowIndex === index) row.setAttribute("data-service-active", "");
+          else row.removeAttribute("data-service-active");
+        });
+
+        stageImages.forEach((image, imageIndex) => {
+          const isActive = imageIndex === index;
+          if (isActive) image.setAttribute("data-service-stage-image-active", "");
+          else image.removeAttribute("data-service-stage-image-active");
+          const vars = isActive
+            ? { autoAlpha: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)" }
+            : { autoAlpha: 0, scale: 1.025, clipPath: "inset(3% 0% 3% 0%)" };
+          if (immediate) gsap.set(image, vars);
+          else gsap.to(image, {
+            ...vars,
+            duration: isActive ? 0.62 : 0.34,
+            ease: isActive ? "power3.out" : "power2.in",
+            overwrite: "auto",
+          });
+        });
+
+        if (counter) {
+          counter.textContent = `${String(index + 1).padStart(2, "0")} / ${String(rows.length).padStart(2, "0")}`;
+        }
+
+        const activeRow = rows[index];
+        const content = activeRow.querySelector<HTMLElement>(".service-chapter__content");
+        const rules = gsap.utils.toArray<HTMLElement>("[data-service-rule]", activeRow);
+        if (content) {
+          if (immediate) {
+            gsap.set(content, { autoAlpha: 1, y: 0 });
+            if (rules.length) {
+              gsap.set(rules, { scaleX: 1, transformOrigin: "left center" });
+            }
+          } else {
+            gsap.fromTo(
+              content,
+              { autoAlpha: 0, y: 22 * direction },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.58,
+                ease: "power3.out",
+                overwrite: "auto",
+              },
+            );
+            if (rules.length) {
+              gsap.fromTo(
+                rules,
+                { scaleX: 0, transformOrigin: "left center" },
+                {
+                  scaleX: 1,
+                  duration: 0.46,
+                  stagger: 0.08,
+                  ease: "power2.out",
+                  overwrite: "auto",
+                },
+              );
+            }
+          }
+        }
+      };
+
+      const measure = () => {
+        rowCenters = rows.map((row) => {
+          const rect = row.getBoundingClientRect();
+          return window.scrollY + rect.top + rect.height / 2;
+        });
+      };
+
+      const update = (self: ReturnType<typeof ScrollTrigger.create>, immediate = false) => {
+        const viewportCenter = window.scrollY + window.innerHeight / 2;
+        let closestIndex = 0;
+        let closestDistance = Number.POSITIVE_INFINITY;
+        rowCenters.forEach((center, index) => {
+          const distance = Math.abs(center - viewportCenter);
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = index;
+          }
+        });
+        setActive(closestIndex, immediate);
+        setProgress?.(self.progress);
+      };
+
+      measure();
+      section.setAttribute("data-service-ready", "");
+      if (progressBar) {
+        gsap.set(progressBar, { scaleX: 0, transformOrigin: "left center" });
+      }
+      gsap.set(stageImages, {
+        autoAlpha: 0,
+        scale: 1.025,
+        clipPath: "inset(3% 0% 3% 0%)",
+      });
+      if (capabilityRules.length) {
+        gsap.set(capabilityRules, {
+          scaleX: 0,
+          transformOrigin: "left center",
+        });
+      }
+
+      const trigger = ScrollTrigger.create({
+        trigger: story,
+        start: "top top",
+        end: "bottom bottom",
+        invalidateOnRefresh: true,
+        onRefreshInit: measure,
+        onRefresh: (self) => update(self, true),
+        onUpdate: (self) => update(self),
+      });
+      update(trigger, true);
+
+      rows.forEach((row, index) => {
+        const link = row.querySelector<HTMLElement>("[data-service-link]");
+        if (!link) return;
+        const onFocus = () => setActive(index);
+        link.addEventListener("focus", onFocus);
+        focusCleanups.push(() => link.removeEventListener("focus", onFocus));
+      });
+
+      const requestMeasure = () => {
+        window.cancelAnimationFrame(resizeFrame);
+        resizeFrame = window.requestAnimationFrame(() => {
+          measure();
+          update(trigger, true);
+        });
+      };
+      window.addEventListener("resize", requestMeasure, { passive: true });
+
+      return () => {
+        window.cancelAnimationFrame(resizeFrame);
+        window.removeEventListener("resize", requestMeasure);
+        focusCleanups.forEach((cleanup) => cleanup());
+        trigger.kill();
+        section.removeAttribute("data-service-ready");
+        journey.removeAttribute("data-journey-ready");
+        rows.forEach((row, index) => {
+          if (index === 0) row.setAttribute("data-service-active", "");
+          else row.removeAttribute("data-service-active");
+        });
+        stageImages.forEach((image, index) => {
+          if (index === 0) image.setAttribute("data-service-stage-image-active", "");
+          else image.removeAttribute("data-service-stage-image-active");
+        });
+        gsap.set(stageImages, { clearProps: "all" });
+        if (capabilityRules.length) {
+          gsap.set(capabilityRules, { clearProps: "all" });
+        }
+        rows.forEach((row) => {
+          const content = row.querySelector<HTMLElement>(".service-chapter__content");
+          if (content) gsap.set(content, { clearProps: "all" });
+        });
+        if (progressBar) gsap.set(progressBar, { clearProps: "all" });
+      };
+    });
+
+    mm.add("(max-width: 900px), (hover: none), (pointer: coarse)", () => {
+      rows.forEach((row) => {
+        const targets = [
+          row.querySelector<HTMLElement>(".service-chapter__mobile-visual"),
+          row.querySelector<HTMLElement>(".service-chapter__content"),
+        ].filter((target): target is HTMLElement => Boolean(target));
+        if (!targets.length || row.getBoundingClientRect().top <= window.innerHeight * 0.9) return;
+        gsap.from(targets, {
+          autoAlpha: 0,
+          y: 20,
+          duration: 0.72,
+          stagger: 0.08,
+          ease: "power3.out",
+          scrollTrigger: { trigger: row, start: "top 82%", once: true },
+        });
+      });
+    });
+  }, journey);
+
+  return () => {
+    mm.revert();
+    ctx.revert();
+    journey.removeAttribute("data-journey-ready");
+    section.removeAttribute("data-service-ready");
   };
 }
 

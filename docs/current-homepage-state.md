@@ -38,14 +38,20 @@ page-wide decorative background system or related media lifecycle.
 
 `ApproachStatementBridge` is server-rendered in normal flow. It uses an
 asymmetric 12-column statement, lower support split, real Tjenester action and
-line/plus axis. `introFillScene` enhances it with character colour progress and
-small one-shot entries. Reduced motion/no-JS expose the final composition.
+line/plus axis. `IntroServicesJourney` now carries it through a vertical
+selection axis into Tjenester. `introFillScene` enhances the statement with
+character colour progress and small one-shot entries. Reduced motion/no-JS
+expose the final composition.
 
 ### Tjenester
 
-`WhatWeBuild` contains all five service links and local cube-face images.
-Desktop uses paired streams around a sticky CSS-3D cube; compact/mobile present
-complete chapters. `servicesScene` is the sole motion owner.
+`WhatWeBuild` contains all five service links and local Tigon images. Desktop
+uses the restored flat service selector: one centred image, service title/action
+to the left, explanation and four compact capability labels to the right, and
+a five-part orientation line below. There is no cube or 3D scene. Compact, touch,
+reduced-motion and no-JS present all five complete chapters in normal flow.
+`servicesScene` owns the 01→02 bridge, active service, image crossfade and
+progress within one section-scoped lifecycle.
 
 ### Outcome tension
 

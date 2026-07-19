@@ -6,15 +6,13 @@ Last reconciled: 2026-07-19.
 
 - In the mounted baseline, Hero releases into Intro without an empty hold.
   Hero, Intro and this handoff may all be redesigned together.
-- Stable `BYGD SAMMEN` foreground copy stays readable while decorative words
-  fade before collision. No visible box or mask is allowed behind the copy.
-- As the real handoff line reaches the foreground field, the complete stable
-  block fades from `1 → 0` and lifts 12 px. It is fully absent before
-  `Hva vi bygger` occupies the main field, and reverse scroll restores it.
-- `01 → 02 / Én helhet. Fem fag.` resolves directly into `Hva vi bygger`
-  without an unnecessary empty spacer between the two compositions.
-- Reduced motion/no-JS use ordinary-flow Intro foreground content so the same
-  boundary stays sequential without requiring a scroll animation.
+- `IntroServicesJourney` owns the boundary after Intro without changing Hero.
+- A vertical selection axis transfers emphasis from `01 / Én helhet` to
+  `02 / Fem fag`; trigger is `top 85%` to `bottom 35%`, scrub `.45`, no pin.
+- The axis resolves into the server-rendered Tjenester premise
+  `Hva vi bygger` before the five service chapters begin.
+- Reduced motion/no-JS show the complete axis and both labels in their final
+  state, then continue into the ordinary-flow service ledger.
 
 ## 02 → 03
 

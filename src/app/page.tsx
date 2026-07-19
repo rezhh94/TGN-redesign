@@ -1,12 +1,11 @@
-import { ApproachStatementBridge } from "@/components/ApproachStatementBridge";
 import { HomeMotion } from "@/components/motion/HomeMotion";
 import { ContactFooter } from "@/components/ContactFooter";
 import { Hero } from "@/components/Hero";
+import { IntroServicesJourney } from "@/components/IntroServicesJourney";
 import { OutcomeTensionBridge } from "@/components/OutcomeTensionBridge";
 import { ProcessLayers } from "@/components/ProcessLayers";
 import { SystemManifesto } from "@/components/SystemManifesto";
 import { WorkProof } from "@/components/WorkProof";
-import { WhatWeBuild } from "@/components/WhatWeBuild";
 import { WhatWeImprove } from "@/components/WhatWeImprove";
 
 export default function Home() {
@@ -14,8 +13,7 @@ export default function Home() {
     <main id="main" className="page-shell">
       <Hero />
       <div className="homepage-body">
-        <ApproachStatementBridge />
-        <WhatWeBuild />
+        <IntroServicesJourney />
         <OutcomeTensionBridge />
         <WhatWeImprove />
         <div className="work-process-journey" data-work-process-journey>

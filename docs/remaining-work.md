@@ -4,7 +4,7 @@ Last reconciled: 2026-07-19.
 
 ## Current review gate
 
-- Review active Intro and Tjenester refinements against `design.md`.
+- Review the connected Intro and Tjenester journey against `design.md`.
 - Confirm the shared typography and button roles at 390, 768, 1024 and 1440px.
 - Include Header/Hero and Footer in the redesign review; none is visually
   protected.
@@ -13,7 +13,7 @@ Last reconciled: 2026-07-19.
 ## Recommended sequence
 
 1. Redesign Header and Hero as the opening Trionn-calibrated system.
-2. Rebuild Intro and Tjenester as the next connected journey.
+2. Review and refine the implemented Intro and Tjenester connected journey.
 3. Recompose the handoff and Effekt after upstream geometry settles.
 4. Redesign capability-led Arbeid without treating the mounted archive as safe.
 5. Redesign Prosess, System and Footer as one closing sequence.
