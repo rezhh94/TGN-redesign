@@ -48,6 +48,10 @@ Status: implemented in the current worktree.
   `yPercent: -100` over the same interval. Capability rules draw with `0.08`
   stagger, followed by a `0.5` reading hold. There is no content fade or image
   scale, and every scroll-driven transform uses `ease: none`.
+- The final service-to-Effekt handoff uses five dark shutter bands. They close
+  the final paper service into one complete dark viewport before Effekt starts.
+  The Effekt title is not inside those bands and never follows their movement.
+  Phones use the same five-band shutter over the final viewport.
 - CSS owns the complete readable layout. JavaScript only creates the desktop
   stack, two sequential pins and transitions after successful hydration.
 - Lenis remains the sole scroll transport and forwards scroll updates

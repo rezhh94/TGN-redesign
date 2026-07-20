@@ -15,7 +15,7 @@ Last reconciled: 2026-07-20.
 1. Redesign Header and Hero as the opening Trionn-calibrated system.
 2. Review and refine the implemented Intro and Tjenester connected journey.
 3. Review the connected Tjenester→Effekt→Arbeid transition, including the
-   shutter, opening-copy fade, central image and source-matched desktop/mobile
+   five-band shutter, fixed opening-copy blur, central image and source-matched desktop/mobile
    card traversal.
 4. Redesign capability-led Arbeid without treating the mounted archive as safe.
 5. Redesign Prosess, System and Footer as one closing sequence.

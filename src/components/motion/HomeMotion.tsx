@@ -677,9 +677,9 @@ function servicesScene() {
           timeline.to({}, { duration: panelHold });
         });
 
-        // The last paper service does not hand off to another blank paper
-        // viewport. Five dark bands close directly over it, using the same
-        // shutter grammar as the prelude before the real Effekt canvas follows.
+        // The shutter belongs only to the section handoff. It closes the final
+        // paper service into one complete dark viewport before Effekt starts;
+        // the fixed title is animated separately and never follows the bands.
         const effectHandoffStart = timeline.duration();
         effectBands.forEach((band, index) => {
           const offset = 0.3 * (effectBands.length - 1 - index)
@@ -798,8 +798,8 @@ function servicesScene() {
     section.removeAttribute("data-service-effect-ready");
   };
 }
-// 03 / Effekt — a Tigon-authored focus field takes over from the service
-// shutter before four result cards enter. Wide screens use two opposing
+// 03 / Effekt — a Tigon-authored focus field resolves beneath the outgoing
+// service plane before four result cards enter. Wide screens use two opposing
 // currents and a symmetric 2x2 settle; phones use one shared centred vertical
 // lane, one card at a time. CSS remains the complete readable fallback.
 function effectCardsScene() {
@@ -838,6 +838,10 @@ function effectCardsScene() {
       section.setAttribute("data-effect-ready", "");
       let cleanupDesktopMotion = () => {};
       const ctx = gsap.context(() => {
+        // The service shutter finishes before this pinned scene starts. The
+        // title is therefore already fixed in the viewport when its independent
+        // opacity-and-blur sequence begins; no band can clip or carry it.
+        const introStart = 0;
         const cardStart = 0.56;
         const cardGutter = 40;
         const cardKeyframeCount = 13;
@@ -855,13 +859,13 @@ function effectCardsScene() {
           gsap.set(cards, { width: cardWidth, height: cardHeight });
         };
 
-        gsap.set(rail, { autoAlpha: 0, y: 12 });
+        gsap.set(rail, { autoAlpha: 0, y: 0 });
         gsap.set(prelude, {
-          autoAlpha: 1,
-          y: () => window.innerHeight * 0.22,
-          filter: "blur(0px)",
+          autoAlpha: 0.15,
+          y: 0,
+          filter: "blur(24px)",
         });
-        gsap.set(focus, { autoAlpha: 0, scale: 0.94 });
+        gsap.set(focus, { autoAlpha: 0, scale: 1 });
         gsap.set(footer, { autoAlpha: 0 });
         setDesktopCardGeometry();
         gsap.set(cards, {
@@ -876,16 +880,20 @@ function effectCardsScene() {
           defaults: { ease: "none" },
         });
         introTimeline
-          .to(prelude, { y: 0, duration: 0.36 }, 0.08)
-          .to(rail, { autoAlpha: 1, y: 0, duration: 0.14 }, 0.28)
+          .to(prelude, {
+            autoAlpha: 1,
+            filter: "blur(0px)",
+            duration: 0.32,
+          }, 0)
+          .to(rail, { autoAlpha: 1, y: 0, duration: 0.14 }, 0.18)
+          .to({}, { duration: 0.62 }, 0)
           .to(prelude, {
             autoAlpha: 0,
-            y: -14,
-            filter: "blur(10px)",
-            duration: 0.18,
-          }, 0.52)
-          .to(focus, { autoAlpha: 1, scale: 1, duration: 0.24 }, 0.62)
-          .to({}, { duration: 0.14 });
+            filter: "blur(24px)",
+            duration: 0.16,
+          }, 0.62)
+          .to(focus, { autoAlpha: 1, duration: 0.22 }, 0.76)
+          .to({}, { duration: 0.02 });
 
         const cardsTimeline = gsap.timeline({
           paused: true,
@@ -971,9 +979,17 @@ function effectCardsScene() {
           pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onEnter: () => section.setAttribute("data-effect-front", ""),
+          onEnterBack: () => section.setAttribute("data-effect-front", ""),
+          onLeave: () => section.removeAttribute("data-effect-front"),
+          onLeaveBack: () => section.removeAttribute("data-effect-front"),
           onUpdate: (self) => {
             const sceneProgress = self.progress;
-            introTimeline.progress(Math.min(1, sceneProgress / cardStart));
+            introTimeline.progress(gsap.utils.clamp(
+              0,
+              1,
+              (sceneProgress - introStart) / (cardStart - introStart),
+            ));
             targetCardsProgress = sceneProgress < cardStart
               ? 0
               : Math.min(1, (sceneProgress - cardStart) / (1 - cardStart));
@@ -1034,11 +1050,9 @@ function effectCardsScene() {
       section.setAttribute("data-effect-mobile-ready", "");
       let cleanupMobileMotion = () => {};
       const ctx = gsap.context(() => {
-        // The Effekt section overlaps the final service by one viewport while
-        // the mobile shutter closes. Do not spend the title phase underneath
-        // that shutter: begin the visible intro after the overlap has started
-        // clearing, then give the image its own handoff before cards enter.
-        const introStart = 0.2;
+        // The phone shutter also finishes before this scene pins. The title
+        // remains fixed and receives only the same opacity-and-blur sequence.
+        const introStart = 0;
         const cardStart = 0.66;
         const cardGutter = 24;
         const cardKeyframeCount = 13;
@@ -1052,13 +1066,13 @@ function effectCardsScene() {
           });
         };
 
-        gsap.set(rail, { autoAlpha: 0, y: 10 });
+        gsap.set(rail, { autoAlpha: 0, y: 0 });
         gsap.set(prelude, {
-          autoAlpha: 1,
+          autoAlpha: 0.15,
           y: 0,
-          filter: "blur(0px)",
+          filter: "blur(24px)",
         });
-        gsap.set(focus, { autoAlpha: 0, scale: 0.94 });
+        gsap.set(focus, { autoAlpha: 0, scale: 1 });
         gsap.set(footer, { autoAlpha: 0 });
         setMobileCardGeometry();
         gsap.set(cards, {
@@ -1075,15 +1089,20 @@ function effectCardsScene() {
           defaults: { ease: "none" },
         });
         introTimeline
-          .to(rail, { autoAlpha: 1, y: 0, duration: 0.14 }, 0.08)
-          .to({}, { duration: 0.64 }, 0)
+          .to(prelude, {
+            autoAlpha: 1,
+            filter: "blur(0px)",
+            duration: 0.32,
+          }, 0)
+          .to(rail, { autoAlpha: 1, y: 0, duration: 0.14 }, 0.18)
+          .to({}, { duration: 0.62 }, 0)
           .to(prelude, {
             autoAlpha: 0,
-            y: -12,
-            filter: "blur(10px)",
+            filter: "blur(24px)",
             duration: 0.16,
-          }, 0.64)
-          .to(focus, { autoAlpha: 1, scale: 1, duration: 0.24 }, 0.7);
+          }, 0.62)
+          .to(focus, { autoAlpha: 1, duration: 0.22 }, 0.76)
+          .to({}, { duration: 0.02 });
 
         const cardsTimeline = gsap.timeline({
           paused: true,
@@ -1136,6 +1155,10 @@ function effectCardsScene() {
           pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onEnter: () => section.setAttribute("data-effect-front", ""),
+          onEnterBack: () => section.setAttribute("data-effect-front", ""),
+          onLeave: () => section.removeAttribute("data-effect-front"),
+          onLeaveBack: () => section.removeAttribute("data-effect-front"),
           onUpdate: (self) => {
             const sceneProgress = self.progress;
             introTimeline.progress(gsap.utils.clamp(
@@ -1179,6 +1202,7 @@ function effectCardsScene() {
     section.removeAttribute("data-effect-ready");
     section.removeAttribute("data-effect-mobile-ready");
     section.removeAttribute("data-effect-overlap-ready");
+    section.removeAttribute("data-effect-front");
   };
 }
 

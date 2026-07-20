@@ -18,13 +18,20 @@ Last reconciled: 2026-07-20.
 
 - Tjenester still releases directly into the real Effekt section; no duplicate
   bridge headline or `outcome-effect-journey` wrapper is mounted.
-- A five-band shutter owned by the final Tjenester panel closes over the service
-  surface. Effekt is pulled up by one viewport beneath it, so the shutter opens
-  directly onto the real dark Effekt scene instead of a white spacer.
+- Five dark bands close over the final Tjenester panel and finish as one dark
+  viewport. Effekt is pulled forward by one matching dark viewport so its
+  pinned title phase starts as the shutter completes, without a blank hold.
+- The Effekt title is a separate fixed-centre layer. It appears only after the
+  shutter, animates with opacity and blur only, and never translates, scales or
+  gets clipped by a moving band. At the completed handoff, Effekt becomes the
+  front scene so the outgoing shutter cannot mask part of the title. The same
+  separation applies below 768px.
+- Below 768px there is no section overlap: the mobile shutter consumes the
+  final service viewport and Effekt starts at its natural end boundary.
 - `effectCardsScene` pins at `top top`. The wide end is `4.6 * innerHeight` on
   non-touch and `3.9 * innerHeight` on touch. Card progress uses the
   source-matched `.08` smoothing factor; pin spacing and `anticipatePin: 1`
-  remain enabled. Below 768px, a separate four-viewport pin preserves Trionn's
+  remain enabled. Below 768px, a separate five-viewport pin preserves Trionn's
   single-lane card-over-image logic. Widths 768–900px, reduced motion and no-JS
   remain in normal flow.
 

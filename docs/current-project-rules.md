@@ -63,9 +63,9 @@ assets. Do not introduce visible orange. Do not commit or push unless asked.
   desktop panel sequence with a permanent paper information field, alternating
   media fields, one five-band handoff, a pinned tablet branch from 768px and
   normal-flow phone, reduced-motion and no-JS fallbacks.
-- Effekt currently follows Tjenester with a paper-to-dark reveal, a central
-  result statement and four `FUNNET / FORSTÅTT / VALGT / MÅLT` cards moving in
-  opposing vertical currents before they settle.
+- Effekt currently follows Tjenester through a five-band dark shutter. Its
+  separate fixed central result statement resolves from blur after the shutter before
+  four `FUNNET / FORSTÅTT / VALGT / MÅLT` cards enter opposing vertical currents.
 - Arbeid currently uses six future-facing capability links in `WorkProof`.
 - Prosess currently presents Retning, Bygg and Live.
 - System currently closes into Footer.
