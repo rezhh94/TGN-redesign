@@ -3,7 +3,7 @@
 Last reconciled: 2026-07-20.
 
 This file describes what is mounted now. Historical experiments are not design
-authority. The latest committed Tjenester baseline is `5545f80`; always inspect
+authority. The latest committed responsive Tjenester baseline is `293c552`; always inspect
 the live worktree and preserve unrelated edits.
 
 ## Mounted order
@@ -12,12 +12,11 @@ the live worktree and preserve unrelated edits.
 2. Hero
 3. Intro / Tilnærming
 4. Tjenester
-5. Outcome tension handoff
-6. Effekt
-7. Arbeid
-8. Prosess
-9. System
-10. Footer
+5. Effekt
+6. Arbeid
+7. Prosess
+8. System
+9. Footer
 
 The body from Intro onward sits on solid semantic surfaces. There is no mounted
 page-wide decorative background system or related media lifecycle.
@@ -66,15 +65,16 @@ Reduced-motion and no-JS omit the bands and present all five panels directly.
 `servicesScene` owns the complete 01→02 bridge, handoff and panel sequence; CSS
 remains the readable source of truth.
 
-### Outcome tension
-
-`OutcomeTensionBridge` keeps three complete statements in HTML and enhances
-them as one scoped transition.
-
 ### Effekt
 
-`WhatWeImprove` owns the result chain, explanations, measurement signals and
-local proof media. `effectScene` handles marker and media reveals only.
+`WhatWeImprove` follows Tjenester directly. One stable central headline owns
+the scene while four semantic result cards — FUNNET, FORSTÅTT, VALGT and MÅLT —
+move inward in two diagonal pairs. From 901px, `effectCardsScene` pins only the
+Effekt stage and holds the complete four-card composition before releasing to
+Arbeid. Through 900px the same content uses a two-column or single-column
+normal-flow layout with small one-shot entries. Reduced motion and no-JS expose
+the complete final composition without a pin. No Trionn media, graphics, code
+or assets are mounted.
 
 ### Arbeid
 
@@ -89,7 +89,8 @@ the quiet conclusion into Footer. Both keep complete static content without JS.
 
 ## Motion and lifecycle
 
-- `HomeMotion` initializes scoped scene owners and cleanup.
+- `HomeMotion` initializes scoped scene owners and cleanup. Effekt uses one
+  owner and one ScrollTrigger on wide screens.
 - Lenis is the sole smooth-scroll transport and forwards its scroll event to
   `ScrollTrigger.update`. Desktop uses `lerp .105`, Apple wheel `.6`, other
   wheel `.85`, touch uses wheel `.6` and touch multiplier `1.2`, and both use

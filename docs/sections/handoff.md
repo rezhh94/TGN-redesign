@@ -1,6 +1,6 @@
 # Homepage handoffs — active contract
 
-Last reconciled: 2026-07-19.
+Last reconciled: 2026-07-20.
 
 ## Hero → 01 → 02
 
@@ -16,10 +16,13 @@ Last reconciled: 2026-07-19.
 
 ## 02 → 03
 
-- Mounted owner: `OutcomeTensionBridge`.
-- Three server-rendered statements share one sticky typographic stage on
-  enhanced motion and remain complete in compact/reduced/no-JS states.
-- The stage uses the same semantic surface family as its neighbours.
+- Tjenester releases directly into the solid dark Effekt section. The rejected
+  overlapping band handoff and `outcome-effect-journey` wrapper are not mounted.
+- `effectCardsScene` owns only Effekt. From 901px it pins the Effekt stage at
+  `top top`, then pulls four result cards inward around the stable headline.
+- The end is `3.8 * innerHeight` on non-touch and `3.2 * innerHeight` on touch;
+  scrub is `.55`, pin spacing is enabled and `anticipatePin` is `1`.
+- Through 900px, reduced motion and no-JS, the section remains in normal flow.
 
 ## 03 → 04
 

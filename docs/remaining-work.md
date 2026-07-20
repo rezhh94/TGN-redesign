@@ -1,6 +1,6 @@
 # Tigon — remaining work
 
-Last reconciled: 2026-07-19.
+Last reconciled: 2026-07-20.
 
 ## Current review gate
 
@@ -14,7 +14,8 @@ Last reconciled: 2026-07-19.
 
 1. Redesign Header and Hero as the opening Trionn-calibrated system.
 2. Review and refine the implemented Intro and Tjenester connected journey.
-3. Recompose the handoff and Effekt after upstream geometry settles.
+3. Review the new central-headline/four-card Effekt scene, then accept or refine
+   its composition and scroll pacing.
 4. Redesign capability-led Arbeid without treating the mounted archive as safe.
 5. Redesign Prosess, System and Footer as one closing sequence.
 6. Perform the full integration, performance and accessibility matrix.

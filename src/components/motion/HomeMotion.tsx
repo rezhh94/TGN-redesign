@@ -741,177 +741,116 @@ function servicesScene() {
     section.removeAttribute("data-service-ready");
   };
 }
-// 02 → 03 — Osmo Sticky Title Scroll adapted as an unnumbered tension bridge.
-// Desktop and mobile keep one typographic stage sticky while three complete,
-// server-rendered statements replace one another over the same solid dark
-// surface as 03 and 04. Reduced motion and no-JS remain readable in flow.
-function outcomeTensionBridge() {
-  const section = document.querySelector<HTMLElement>("[data-outcome-tension]");
-  if (!section) return () => {};
-
-  const titles = gsap.utils.toArray<HTMLElement>("[data-outcome-tension-title]", section);
-  const titleList = section.querySelector<HTMLElement>(".outcome-tension__titles");
-  if (titles.length < 3 || !titleList) return () => {};
-
-  const ctx = gsap.context(() => {
-    // Place every statement on the same stage only after GSAP is running.
-    // Without JS the list remains normal, readable document flow.
-    gsap.set(titleList, { position: "relative" });
-    gsap.set(titles, {
-      position: "absolute",
-      inset: 0,
-      display: "grid",
-      placeItems: "center",
-      autoAlpha: 0,
-      yPercent: 14,
-    });
-    gsap.set(titles[0], { autoAlpha: 1, yPercent: 0 });
-    section.setAttribute("data-tension-ready", "");
-
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 0.4,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    timeline
-      .to(titles[0], {
-        autoAlpha: 0,
-        yPercent: -14,
-        duration: 0.34,
-        ease: "power2.in",
-      }, 0.38)
-      .fromTo(titles[1], {
-        autoAlpha: 0,
-        yPercent: 14,
-      }, {
-        autoAlpha: 1,
-        yPercent: 0,
-        duration: 0.4,
-        ease: "power3.out",
-      }, 0.52)
-      .to(titles[1], {
-        autoAlpha: 0,
-        yPercent: -14,
-        duration: 0.34,
-        ease: "power2.in",
-      }, 1.16)
-      .fromTo(titles[2], {
-        autoAlpha: 0,
-        yPercent: 14,
-      }, {
-        autoAlpha: 1,
-        yPercent: 0,
-        duration: 0.4,
-        ease: "power3.out",
-      }, 1.3)
-      .to(titles[2], { autoAlpha: 1, duration: 0.5 }, 1.7);
-  }, section);
-
-  return () => {
-    section.removeAttribute("data-tension-ready");
-    ctx.revert();
-  };
-}
-
-function effectScene() {
+// 03 / Effekt — one stable typographic anchor and four result cards pulled
+// inward by scroll. The construction adapts the reference's single-coordinate
+// principle, but the scene, paths, copy and surfaces are Tigon-authored. CSS
+// owns the complete final composition and the compact normal-flow branch.
+function effectCardsScene() {
   const section = document.querySelector<HTMLElement>("[data-effect-section]");
-  const field = section?.querySelector<HTMLElement>("[data-effect-field]");
-  const visual = section?.querySelector<HTMLElement>("[data-effect-visual]");
-  const image = visual?.querySelector<HTMLElement>("img");
-  if (!section || !field || !visual || !image) {
+  const stage = section?.querySelector<HTMLElement>("[data-effect-stage]");
+  const center = section?.querySelector<HTMLElement>("[data-effect-center]");
+  const footer = section?.querySelector<HTMLElement>(".what-improve__scene-footer");
+  const cards = gsap.utils.toArray<HTMLElement>("[data-effect-card]", section);
+
+  if (!section || !stage || !center || !footer || cards.length !== 4) {
     return () => {};
   }
 
-  const outcomes = gsap.utils.toArray<HTMLElement>("[data-effect-outcome]", section);
-  const markers = gsap.utils.toArray<HTMLElement>("[data-effect-marker]", section);
-  const closing = section.querySelector<HTMLElement>("[data-effect-closing]");
-  if (!markers.length || outcomes.length < 4) return () => {};
+  const mm = gsap.matchMedia();
 
-  const matchMedia = gsap.matchMedia();
+  mm.add(
+    "(prefers-reduced-motion: no-preference) and (min-width: 901px)",
+    () => {
+      section.setAttribute("data-effect-ready", "");
+      const ctx = gsap.context(() => {
+        const starts = [
+          { x: () => -0.42 * window.innerWidth, y: () => 0.5 * window.innerHeight },
+          { x: () => 0.42 * window.innerWidth, y: () => -0.5 * window.innerHeight },
+          { x: () => -0.42 * window.innerWidth, y: () => -0.46 * window.innerHeight },
+          { x: () => 0.42 * window.innerWidth, y: () => 0.46 * window.innerHeight },
+        ];
+        gsap.set(center, { opacity: 0.78, scale: 0.975 });
+        gsap.set(footer, { opacity: 0.42 });
 
-  matchMedia.add("(prefers-reduced-motion: no-preference)", () => {
-    const compact = window.matchMedia("(max-width: 900px)").matches;
-    const ctx = gsap.context(() => {
-      // Samme maske- og zoominngang som 04-flatene.
-      gsap.set(visual, { clipPath: "inset(100% 0% 0% 0%)" });
-      const visualEnter = gsap.timeline({
-        scrollTrigger: {
-          trigger: field,
-          start: "top 86%",
-          toggleActions: "play none none reverse",
-        },
-      });
-      visualEnter
-        .to(visual, {
-          clipPath: "inset(0% 0% 0% 0%)",
-          duration: 0.7,
-          ease: "expo.out",
-        }, 0)
-        .fromTo(image, { scale: 1.3 }, {
-          scale: 1,
-          duration: 1,
-          ease: "power3.out",
-        }, 0);
+        const timeline = gsap.timeline({ defaults: { ease: "none" } });
+        timeline.to(center, { opacity: 1, scale: 1, duration: 0.14 }, 0);
 
-      if (!compact) {
-        gsap.fromTo(image, { yPercent: -10 }, {
-          yPercent: 10,
-          ease: "none",
-          scrollTrigger: {
-            trigger: field,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.2,
-          },
-        });
-      }
-
-      // Resultatordene avdekkes i én kontrollert kjede når sticky-scenen
-      // kommer inn; markøren er fortsatt synlighetsprinsippet fra 03.
-      gsap.set(markers, { scaleX: 1, transformOrigin: "100% 50%" });
-      gsap.to(markers, {
-        scaleX: 0,
-        duration: 0.5,
-        stagger: 0.14,
-        ease: "power3.inOut",
-        scrollTrigger: { trigger: field, start: "top 78%", once: true },
-      });
-
-      if (!compact) {
-        const exitTimeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: field,
-            start: "bottom 72%",
-            end: "bottom 18%",
-            scrub: 1.2,
-          },
-        });
-        exitTimeline
-          .to(outcomes, {
+        // Pair one establishes the diagonal result axis; pair two closes it.
+        [0, 1].forEach((index) => {
+          timeline.fromTo(cards[index], {
             autoAlpha: 0,
-            y: -18,
-            stagger: 0.035,
-            ease: "power2.in",
-          }, 0)
-          .to(closing, { autoAlpha: 0, y: -12, ease: "power2.in" }, 0)
-          .to(visual, {
-            clipPath: "inset(0% 0% 100% 0%)",
-            ease: "power2.inOut",
-          }, 0.08);
-      }
-    }, section);
+            x: starts[index].x,
+            y: starts[index].y,
+          }, {
+            autoAlpha: 1,
+            x: 0,
+            y: 0,
+            duration: 0.42,
+          }, 0.1);
+        });
+        [2, 3].forEach((index) => {
+          timeline.fromTo(cards[index], {
+            autoAlpha: 0,
+            x: starts[index].x,
+            y: starts[index].y,
+          }, {
+            autoAlpha: 1,
+            x: 0,
+            y: 0,
+            duration: 0.42,
+          }, 0.3);
+        });
+        timeline.to(footer, { opacity: 1, duration: 0.18 }, 0.58);
+        timeline.to({}, { duration: 0.28 });
 
-    return () => {
-      ctx.revert();
-    };
-  });
+        ScrollTrigger.create({
+          id: "effect-cards-scene",
+          trigger: section,
+          start: "top top",
+          end: () => `+=${Math.round(window.innerHeight * (ScrollTrigger.isTouch ? 3.2 : 3.8))}`,
+          animation: timeline,
+          scrub: 0.55,
+          pin: stage,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        });
+      }, section);
 
-  return () => matchMedia.revert();
+      return () => {
+        section.removeAttribute("data-effect-ready");
+        ctx.revert();
+      };
+    },
+  );
+
+  mm.add(
+    "(prefers-reduced-motion: no-preference) and (max-width: 900px)",
+    () => {
+      const ctx = gsap.context(() => {
+        cards.forEach((card) => {
+          if (card.getBoundingClientRect().top <= window.innerHeight * 0.88) return;
+          gsap.from(card, {
+            autoAlpha: 0,
+            y: 28,
+            duration: 0.72,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 88%",
+              once: true,
+            },
+          });
+        });
+      }, section);
+      return () => ctx.revert();
+    },
+  );
+
+  return () => {
+    mm.revert();
+    section.removeAttribute("data-effect-ready");
+  };
 }
 
 // One-time opening scene: the editorial masthead assembles once on load.
@@ -1602,7 +1541,7 @@ export function HomeMotion() {
     const teardownOsmoReveal = initContentRevealScroll();
     const teardownOsmoParallax = initGlobalParallax();
     const teardownServices = servicesScene();
-    const teardownEffect = effectScene();
+    const teardownOutcomeEffect = effectCardsScene();
     let teardownShutter = () => {};
     let teardownFooterParallax = () => {};
     let teardownApproachPath = () => {};
@@ -1611,13 +1550,11 @@ export function HomeMotion() {
 
     const mm = gsap.matchMedia();
 
-    // Tension init-es umiddelbart (den omplasserer innhold og påvirker
-    // layout); 01 er nå statisk tekstfyll og lazy-init-es sammen med scenene
-    // fra 03→04 og ned (runWhenNear, 1600px forvarsel).
+    // Effekt init-es over fordi den kan pinne scenen og påvirke layout.
+    // De resterende scenene under fold lazy-init-es med 1600px forvarsel.
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
       const teardownIntro = runWhenNear("[data-intro-story]", introFillScene);
-      const teardownTension = outcomeTensionBridge();
       const teardownWorkArchive = runWhenNear(".work-proof", () =>
         workArchiveScene(window.matchMedia("(max-width: 1000px)").matches));
       const teardownWorkProcess = runWhenNear("[data-work-process-journey]", () =>
@@ -1628,7 +1565,6 @@ export function HomeMotion() {
       const teardownFooter = runWhenNear(".contact-footer", footerReveals);
       return () => {
         teardownIntro();
-        teardownTension();
         teardownWorkArchive();
         teardownWorkProcess();
         teardownProcess();
@@ -1637,12 +1573,11 @@ export function HomeMotion() {
       };
     });
 
-    // Mobile keeps the same 03→04 typographic page turn, while the capability
-    // wall itself stays in ordinary document flow with small one-shot reveals.
+    // Mobile keeps Effekt in ordinary document flow, while the
+    // capability wall continues with its compact one-shot reveals.
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownIntro = runWhenNear("[data-intro-story]", introFillScene);
-      const teardownTension = outcomeTensionBridge();
       const teardownWorkArchive = runWhenNear(".work-proof", () =>
         workArchiveScene(true));
       const teardownWorkProcess = runWhenNear("[data-work-process-journey]", () =>
@@ -1653,7 +1588,6 @@ export function HomeMotion() {
       const teardownFooter = runWhenNear(".contact-footer", footerReveals);
       return () => {
         teardownIntro();
-        teardownTension();
         teardownWorkArchive();
         teardownWorkProcess();
         teardownProcess();
@@ -1684,7 +1618,7 @@ export function HomeMotion() {
       teardownOsmoParallax();
       teardownServices();
       teardownOsmoReveal();
-      teardownEffect();
+      teardownOutcomeEffect();
       teardownShutter();
       teardownApproachPath();
       teardownSectionTheme();

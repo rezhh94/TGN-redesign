@@ -4,7 +4,7 @@ Last reconciled: 2026-07-20.
 
 ## Worktree boundary
 
-The latest committed Tjenester baseline is `5545f80`. Always inspect the current
+The latest committed responsive Tjenester baseline is `293c552`. Always inspect the current
 worktree before acting; do not reset, checkout or overwrite unrelated changes.
 Do not commit or push without explicit instruction, and stage exact files if
 publishing is later requested.
@@ -20,13 +20,15 @@ publishing is later requested.
 
 ## Mounted journey
 
-Header → Hero → Intro → Tjenester → Outcome tension → Effekt → Arbeid →
-Prosess → System → Footer.
+Header → Hero → Intro → Tjenester → Effekt → Arbeid → Prosess → System →
+Footer.
 
-Intro and Tjenester currently contain active refinements. Effekt and Arbeid
-retain their mounted content architecture. Arbeid is capability-led and never
-a false portfolio claim. No visual section is protected: Header, Hero, all
-body chapters, handoffs, Arbeid and Footer may be redesigned.
+Intro and Tjenester contain the committed responsive baseline. The current
+worktree replaces the rejected 02→03 outcome experiment with one uncommitted
+Effekt scene: a stable central headline and four scroll-driven result cards.
+Inspect the diff before assuming it is published. Arbeid is capability-led and
+never a false portfolio claim. No visual section is protected: Header, Hero,
+all body chapters, handoffs, Arbeid and Footer may be redesigned.
 
 The page body currently uses solid semantic surfaces only. No decorative
 background-media owner or related scroll state is mounted. A future original

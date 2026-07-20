@@ -1,6 +1,6 @@
 # Current project rules
 
-Last reconciled: 2026-07-19.
+Last reconciled: 2026-07-20.
 
 Read `docs/project-continuation-context.md`, `docs/current-homepage-state.md`,
 `design.md`, the relevant section contract and `docs/remaining-work.md` before
@@ -63,8 +63,8 @@ assets. Do not introduce visible orange. Do not commit or push unless asked.
   desktop panel sequence with a permanent paper information field, alternating
   media fields, one five-band handoff, a pinned tablet branch from 768px and
   normal-flow phone, reduced-motion and no-JS fallbacks.
-- `OutcomeTensionBridge` currently connects Tjenester and Effekt.
-- Effekt currently presents `FUNNET / FORSTÅTT / VALGT / MÅLT`.
+- Effekt currently follows Tjenester directly with a central result statement
+  and four inward-moving `FUNNET / FORSTÅTT / VALGT / MÅLT` cards.
 - Arbeid currently uses six future-facing capability links in `WorkProof`.
 - Prosess currently presents Retning, Bygg and Live.
 - System currently closes into Footer.
