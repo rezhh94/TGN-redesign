@@ -1,6 +1,6 @@
 # Current homepage state
 
-Last reconciled: 2026-07-20.
+Last reconciled: 2026-07-21.
 
 This file describes what is mounted now. Historical experiments are not design
 authority. The committed Tjenester→Effekt recovery point is `b9b4b5a`, built on the
@@ -32,10 +32,10 @@ page-wide decorative background system or related media lifecycle.
   hierarchy and `--paper-text-*` contrast roles; JUST Sans remains the global
   editorial voice and sections do not define their own sizes or greys. Paper
   sizes use the source-verified responsive basis documented in `design.md`.
-- Trionn is construction calibration only. No reference font, code, asset,
-  shader or surface palette is imported; the approved paper size and neutral
-  contrast calibration is isolated in semantic tokens documented in
-  `design.md`.
+- Trionn is construction calibration. Verified first-party public modules and
+  exact construction values may be adapted when the local evidence identifies
+  their ownership. No reference font, media, logo, content, whole bundle,
+  co-located third-party runtime or identity-bearing combination is imported.
 - Visible orange is prohibited.
 - The active identity assets come from the user's final Tigon export. Header
   uses the official horizontal lockup, Footer the official wordmark, and all
@@ -77,8 +77,9 @@ remains the readable source of truth.
 supporting sentence resolve from a soft blur, hold sharp for reading, then
 remain in the same fixed centre position while four semantic result cards —
 FUNNET, FORSTÅTT, VALGT and MÅLT — pass around or over the title. The title
-blurs out only at the scene exit. No foreground or background image is mounted
-in Effekt. From 901px, the cards use Trionn's source-verified continuous paired
+blurs out only at the scene exit. The result scene itself stays typographic;
+it contains no outgoing image aperture or duplicated Arbeid preview. From
+901px, the cards use Trionn's source-verified continuous paired
 paths instead of a Tigon-authored landing: left cards travel bottom-to-top,
 right cards top-to-bottom, and each bends toward its side lane only during the
 first half. At 901–1511px cards are `42%` of viewport width; from 1512px they
@@ -98,13 +99,26 @@ begins the same opacity-and-blur sequence at `0`; the title is sharp before the
 unchanged `.56` card threshold and remains present through the card phase. Both use
 smoothing factor `.08`. Widths 768–900px use a two-column normal-flow layout. Reduced
 motion and no-JS expose the complete normal-flow composition. No Trionn media,
-graphics, code or assets are mounted.
+graphics, fonts or identity assets are mounted.
 
 ### Arbeid
 
 `WorkProof` is capability-led, not portfolio-led. Six direct accessible links
-remain mounted. Desktop uses the sticky archive; compact/touch/no-JS use normal
-flow. The dynamic cursor is limited to those links.
+remain mounted. The 03→04 handoff is typographic: as Arbeid enters, the two
+parts of `Dette kan Tigon lage.` travel in opposite directions, meet as one
+readable statement and cross away. The title traversal is a separate scrubbed
+trigger, adapted from the verified first-party Trionn module rather than
+combined with its unrelated WebGL orbit. At the pin boundary, the first
+capability panel's real Webapp media is the only opening object: it appears as
+a central slit, expands into its final image-right geometry, then reveals the
+Webapp copy. There is no duplicate bridge image. From 901px the focus stage is
+pinned for six viewport lengths with `top top`, `anticipatePin: 1` and
+`scrub: .6`; one panel is readable at a time in a stable image-right/copy-left
+composition. At 900px and below, the section is a separate normal-flow film
+with a static readable opening and six complete full-height chapters with
+direct actions. Reduced motion and no-JS keep the full readable composition.
+No WebGL, Three.js, TSL, dynamic cursor, portfolio wall or eagerly loaded
+below-fold capability image is mounted.
 
 ### Prosess and System
 
@@ -116,6 +130,10 @@ the quiet conclusion into Footer. Both keep complete static content without JS.
 - `HomeMotion` initializes scoped scene owners and cleanup. Effekt uses one
   owner per active responsive branch; desktop and phone branches each use one
   pinned ScrollTrigger, while 768–900px stays in normal flow.
+- Arbeid owns a separate desktop title traversal and one `work-focus-scene`;
+  mobile/tablet use one-shot local reveals without pinning. The 04→05 handoff transforms the released focus
+  stage instead of its pin ancestor, so the late capability frames stay fixed
+  and readable.
 - Initial hash navigation is corrected once after the shared
   `ScrollTrigger.refresh()`, so anchors such as `#arbeid` use the final measured
   document position after pinned spacing has been created.

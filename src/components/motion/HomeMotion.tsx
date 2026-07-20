@@ -808,7 +808,6 @@ function effectCardsScene() {
   const rail = section?.querySelector<HTMLElement>(".what-improve__rail");
   const center = section?.querySelector<HTMLElement>("[data-effect-center]");
   const prelude = section?.querySelector<HTMLElement>("[data-effect-prelude]");
-  const footer = section?.querySelector<HTMLElement>(".what-improve__scene-footer");
   const cards = gsap.utils.toArray<HTMLElement>("[data-effect-card]", section);
 
   if (
@@ -817,7 +816,6 @@ function effectCardsScene() {
     || !rail
     || !center
     || !prelude
-    || !footer
     || cards.length !== 4
   ) {
     return () => {};
@@ -863,7 +861,6 @@ function effectCardsScene() {
           y: 0,
           filter: "blur(24px)",
         });
-        gsap.set(footer, { autoAlpha: 0 });
         setDesktopCardGeometry();
         gsap.set(cards, {
           autoAlpha: 0,
@@ -992,7 +989,6 @@ function effectCardsScene() {
               });
             }
             gsap.set(rail, { autoAlpha: 1 - outroProgress });
-            gsap.set(footer, { autoAlpha: outroProgress });
           },
           onRefresh: () => {
             setDesktopCardGeometry();
@@ -1068,7 +1064,6 @@ function effectCardsScene() {
           y: 0,
           filter: "blur(24px)",
         });
-        gsap.set(footer, { autoAlpha: 0 });
         setMobileCardGeometry();
         gsap.set(cards, {
           autoAlpha: 0,
@@ -1166,7 +1161,6 @@ function effectCardsScene() {
               });
             }
             gsap.set(rail, { autoAlpha: 1 - outroProgress });
-            gsap.set(footer, { autoAlpha: outroProgress });
           },
           onRefresh: () => {
             setMobileCardGeometry();
@@ -1382,117 +1376,290 @@ function introFillScene() {
   };
 }
 
-// 04 / Arbeid — arkiv-scene i tre lag. En sticky tittelflate med dempet
-// bølgevideo blir liggende mens capability-veggen ruller over og begraver
-// den. Hver flate klippes opp nedenfra og får utakts-parallax; tittelordene
-// maskeres inn én gang og scrubbes ut når veggen nærmer seg slutten.
-// Alt innhold er server-rendret og komplett uten JavaScript.
-function workArchiveScene(compact: boolean) {
+const WORK_FOCUS_SCROLL_LENGTH = 6;
+
+// 04 / Arbeid — én sammenhengende scene. Ordtraverseringen er en egen
+// ScrollTrigger, slik den faktisk er hos Trionn; pinnen eier bare mediet og de
+// seks kapabilitetene. Første panels bilde er både åpning og Webapp-bilde, så
+// ingen duplisert flate kan hoppe ved seksjonsgrensen eller reverse scroll.
+function workFocusScene(compact: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
-  const archive = section?.querySelector<HTMLElement>("[data-work-archive]");
-  if (!section || !archive) return () => {};
+  if (!section) return () => {};
+
+  const stage = section.querySelector<HTMLElement>("[data-work-focus-stage]");
+  const opening = section.querySelector<HTMLElement>("[data-work-opening]");
+  const title = section.querySelector<HTMLElement>(".work-focus__title");
+  const titleTop = section.querySelector<HTMLElement>("[data-work-title-top]");
+  const titleBottom = section.querySelector<HTMLElement>("[data-work-title-bottom]");
+  const openingCopy = section.querySelector<HTMLElement>("[data-work-opening-copy]");
+  const head = section.querySelector<HTMLElement>(".work-focus__head");
+  const foot = section.querySelector<HTMLElement>(".work-focus__foot");
+  const panels = gsap.utils.toArray<HTMLElement>("[data-work-panel]", section);
+  const count = section.querySelector<HTMLElement>("[data-work-active-count]");
+  const activeName = section.querySelector<HTMLElement>("[data-work-active-name]");
+  if (
+    !stage
+    || !opening
+    || !title
+    || !titleTop
+    || !titleBottom
+    || !openingCopy
+    || !head
+    || !foot
+    || panels.length !== 6
+  ) return () => {};
+
+  const names = panels.map((panel) => panel.querySelector("h3")?.textContent?.trim() ?? "");
+  const cleanups: Array<() => void> = [];
+  let activeIndex = -1;
 
   const ctx = gsap.context(() => {
-    const words = gsap.utils.toArray<HTMLElement>("[data-archive-word]", archive);
-    const fades = gsap.utils.toArray<HTMLElement>("[data-archive-fade]", archive);
-    const tiles = gsap.utils.toArray<HTMLElement>("[data-work-tile]", section);
+    if (compact) {
+      section.setAttribute("data-work-mobile-ready", "");
+      const openingAlreadyVisible = opening.getBoundingClientRect().top < window.innerHeight * 0.84;
+      if (!openingAlreadyVisible) {
+        const openingTimeline = gsap.timeline({
+          scrollTrigger: { trigger: opening, start: "top 74%", once: true },
+          defaults: { ease: "power3.out" },
+        });
+        openingTimeline
+          .from([titleTop, titleBottom], {
+            autoAlpha: 0,
+            y: 24,
+            duration: 0.72,
+            stagger: 0.08,
+          }, 0)
+          .from(openingCopy, { autoAlpha: 0, y: 18, duration: 0.6 }, 0.28);
+      }
 
-    // Entré: maskede ord stiger opp én gang når arkivflaten kommer inn.
-    // Ved dyp-lasting midt i seksjonen står alt ferdig uten animasjon.
-    maskedRise(words, archive, { yPercent: 130, duration: 1.2, stagger: 0.08 });
-    const alreadyPast =
-      archive.getBoundingClientRect().top <= window.innerHeight * 0.85;
-    if (fades.length && !alreadyPast) {
-      gsap.from(fades, {
-        autoAlpha: 0,
-        y: 24,
-        duration: 1.1,
-        ease: "power3.out",
-        stagger: 0.12,
-        delay: 0.3,
-        scrollTrigger: { trigger: archive, start: "top 85%", once: true },
+      panels.forEach((panel) => {
+        const media = panel.querySelector<HTMLElement>(".work-focus__media");
+        const copy = panel.querySelector<HTMLElement>(".work-focus__copy");
+        if (!media || !copy || panel.getBoundingClientRect().top < window.innerHeight * 0.9) return;
+        const panelTimeline = gsap.timeline({
+          scrollTrigger: { trigger: panel, start: "top 82%", once: true },
+          defaults: { ease: "power3.out" },
+        });
+        panelTimeline
+          .from(media, {
+            autoAlpha: 0,
+            clipPath: "inset(8% 0% 8% 0%)",
+            y: 28,
+            duration: 0.85,
+          })
+          .from(copy, { autoAlpha: 0, y: 24, duration: 0.65 }, "-=0.45");
       });
+      return;
     }
 
-    // Flatene: klipp-reveal nedenfra + zoom-settle, deretter kontinuerlig
-    // utakts-parallax i bildets 140 %-rom.
-    tiles.forEach((tile, index) => {
-      const visual = tile.querySelector<HTMLElement>(".work-tile__visual");
-      const image = visual?.querySelector<HTMLElement>("img");
-      if (!visual || !image) return;
+    section.setAttribute("data-work-focus-ready", "");
+    const firstPanel = panels[0];
+    const firstMedia = firstPanel?.querySelector<HTMLElement>(".work-focus__media");
+    const firstCopy = firstPanel?.querySelector<HTMLElement>(".work-focus__copy");
+    if (!firstPanel || !firstMedia || !firstCopy) return;
 
-      const tileVisible =
-        tile.getBoundingClientRect().top < window.innerHeight * 0.9;
-      gsap.set(visual, {
-        clipPath: tileVisible ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)",
-      });
-
-      if (!tileVisible) {
-        const enter = gsap.timeline({
-          scrollTrigger: {
-            trigger: tile,
-            start: "top 90%",
-            toggleActions: "play none none reverse",
-          },
-        });
-        enter
-          .to(visual, {
-            clipPath: "inset(0% 0% 0% 0%)",
-            duration: 0.7,
-            ease: "expo.out",
-          }, 0)
-          .fromTo(
-            image,
-            { scale: 1.3 },
-            { scale: 1, duration: 1, ease: "power3.out" },
-            0,
-          );
-      }
-
-      if (!compact) {
-        const speed = [12, 18, 10, 20, 15, 22][index % 6];
-        gsap.fromTo(
-          image,
-          { yPercent: -speed },
-          {
-            yPercent: speed,
-            ease: "none",
-            scrollTrigger: {
-              trigger: tile,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1.2,
-            },
-          },
-        );
-      }
+    gsap.set(panels, { opacity: 0 });
+    gsap.set(firstPanel, { opacity: 1 });
+    gsap.set(firstCopy, { autoAlpha: 0, y: 28 });
+    gsap.set(opening, { opacity: 1 });
+    gsap.set(foot, { autoAlpha: 0 });
+    if (count) gsap.set(count, { autoAlpha: 0 });
+    gsap.set(firstMedia, {
+      autoAlpha: 0,
+      clipPath: "polygon(49% 0%, 51% 0%, 51% 100%, 49% 100%)",
+      scale: 1.025,
+      x: () => {
+        const gutter = Number.parseFloat(window.getComputedStyle(head).left) || 40;
+        return gutter - (stage.clientWidth - firstMedia.offsetWidth) / 2;
+      },
     });
 
-    // Exit: når nest siste flate passerer, scrubbes tittelordene opp og ut
-    // av maskene sine mens label/undertekst faller stille bort. Kun desktop —
-    // på mobil er flaten i vanlig flyt og forlater viewporten selv.
-    if (!compact && words.length && tiles.length >= 2) {
-      const exitTrigger = tiles[tiles.length - 2];
-      const exitTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: exitTrigger,
-          start: "bottom 65%",
-          end: "bottom 5%",
-          scrub: 1.2,
-        },
+    // Source-matched title motion: start outside opposite sides, then traverse
+    // the viewport under a separate scrub-.6 trigger. The local 70% entry
+    // point lets both words meet before this section reaches its pin boundary.
+    gsap.set(title, { yPercent: -50 });
+    gsap.set(titleTop, { x: 0, xPercent: -100 });
+    gsap.set(titleBottom, { x: 0, xPercent: 100 });
+    const titleTimeline = gsap.timeline({ paused: true, defaults: { ease: "none" } });
+    titleTimeline
+      .fromTo(title, { y: "-42vh" }, { y: 0, duration: 0.47 }, 0)
+      .to(titleTop, { x: "100vw", duration: 1 }, 0)
+      .to(titleBottom, { x: "-100vw", duration: 1 }, 0);
+
+    ScrollTrigger.create({
+      id: "work-focus-title-traverse",
+      trigger: section,
+      start: "top 70%",
+      end: () => `+=${Math.round(window.innerHeight * 1.5)}`,
+      scrub: 0.6,
+      invalidateOnRefresh: true,
+      animation: titleTimeline,
+    });
+
+    const select = (nextIndex: number) => {
+      if (nextIndex === activeIndex) return;
+      activeIndex = nextIndex;
+      panels.forEach((panel, index) => {
+        if (index === nextIndex) panel.setAttribute("data-work-active", "");
+        else panel.removeAttribute("data-work-active");
       });
-      exitTl.to(words, {
-        yPercent: -130,
-        ease: "power2.in",
-        stagger: { each: 0.04, from: "start" },
-      }, 0);
-      if (fades.length) {
-        exitTl.to(fades, { autoAlpha: 0, y: -15, ease: "power2.in" }, 0);
+      if (nextIndex >= 0) {
+        if (count) count.textContent = `${String(nextIndex + 1).padStart(2, "0")} / 06`;
+        if (activeName) activeName.textContent = names[nextIndex] ?? "";
+      } else {
+        if (count) count.textContent = "01 / 06";
+        if (activeName) activeName.textContent = names[0] ?? "Webapp";
       }
-    }
+    };
+
+    const showFocusedPanel = (index: number) => {
+      panels.forEach((panel, panelIndex) => {
+        gsap.set(panel, { opacity: panelIndex === index ? 1 : 0 });
+        const media = panel.querySelector<HTMLElement>(".work-focus__media");
+        const copy = panel.querySelector<HTMLElement>(".work-focus__copy");
+        if (media) {
+          gsap.set(media, {
+            autoAlpha: 1,
+            clipPath: "inset(0% 0% 0% 0%)",
+            scale: 1,
+            x: 0,
+          });
+        }
+        if (copy) gsap.set(copy, { autoAlpha: panelIndex === index ? 1 : 0, y: 0 });
+      });
+      gsap.set(opening, { opacity: 0 });
+      gsap.set(foot, { autoAlpha: 1 });
+      if (count) gsap.set(count, { autoAlpha: 1 });
+      select(index);
+    };
+
+    panels.forEach((panel, index) => {
+      const link = panel.querySelector<HTMLElement>(".work-focus__link");
+      if (!link) return;
+      const onFocusIn = () => showFocusedPanel(index);
+      link.addEventListener("focusin", onFocusIn);
+      cleanups.push(() => link.removeEventListener("focusin", onFocusIn));
+    });
+
+    const totalDuration = WORK_FOCUS_SCROLL_LENGTH;
+    const openingDuration = 1;
+    const panelDuration = 5;
+    const panelStep = panelDuration / panels.length;
+    const transitionDuration = 0.45;
+    const transitionOffset = 0.2;
+    const timeline = gsap.timeline({ paused: true, defaults: { ease: "none" } });
+
+    timeline
+      .to(firstMedia, {
+        autoAlpha: 1,
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+        scale: 1,
+        x: 0,
+        duration: 0.9,
+        ease: "power3.inOut",
+      }, 0)
+      .to(opening, {
+        opacity: 0,
+        duration: 0.12,
+      }, 0.64)
+      .to(firstCopy, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.28,
+        ease: "power3.out",
+      }, 0.84)
+      .to([foot, count].filter(Boolean), {
+        autoAlpha: 1,
+        duration: 0.24,
+        ease: "power2.out",
+      }, 0.86);
+
+    panels.forEach((panel, index) => {
+      if (index === 0) return;
+      const media = panel.querySelector<HTMLElement>(".work-focus__media");
+      const copy = panel.querySelector<HTMLElement>(".work-focus__copy");
+      if (!media || !copy) return;
+      const start = openingDuration + index * panelStep - transitionOffset;
+
+      timeline.to(panels[index - 1], {
+        opacity: 0,
+        duration: transitionDuration,
+      }, start);
+
+      timeline
+        .fromTo(panel,
+          { opacity: 0 },
+          { opacity: 1, duration: transitionDuration },
+          start,
+        )
+        .fromTo(media,
+          { clipPath: "inset(8% 10% 8% 10%)", scale: 1.035 },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            scale: 1,
+            duration: transitionDuration,
+            ease: "power3.out",
+          },
+          start,
+        )
+        .fromTo(copy,
+          { autoAlpha: 0, y: 36 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: transitionDuration,
+            ease: "power3.out",
+          },
+          start + 0.08,
+        );
+    });
+
+    timeline.to({}, { duration: Math.max(0, totalDuration - timeline.duration()) });
+
+    const trigger = ScrollTrigger.create({
+      id: "work-focus-scene",
+      trigger: section,
+      start: "top top",
+      end: () => `+=${Math.round(window.innerHeight * totalDuration)}`,
+      pin: stage,
+      pinSpacing: true,
+      anticipatePin: 1,
+      scrub: 0.6,
+      invalidateOnRefresh: true,
+      animation: timeline,
+      onUpdate: (self) => {
+        const sceneTime = self.progress * totalDuration;
+        if (sceneTime < 0.84) {
+          select(-1);
+          return;
+        }
+        if (sceneTime < openingDuration) {
+          select(0);
+          return;
+        }
+        const panelProgress = gsap.utils.clamp(
+          0,
+          0.999999,
+          (sceneTime - openingDuration) / panelDuration,
+        );
+        select(Math.min(panels.length - 1, Math.floor(panelProgress * panels.length)));
+      },
+    });
+
+    // The first frame is the readable server state until this scene owns it.
+    timeline.progress(0);
+    trigger.refresh();
   }, section);
 
-  return () => ctx.revert();
+  return () => {
+    cleanups.forEach((cleanup) => cleanup());
+    ctx.revert();
+    section.removeAttribute("data-work-focus-ready");
+    section.removeAttribute("data-work-mobile-ready");
+    panels.forEach((panel) => panel.removeAttribute("data-work-active"));
+    if (count) count.textContent = "01 / 06";
+    if (activeName) activeName.textContent = names[0] ?? "Webapp";
+  };
 }
 
 // 04 → 05 — Osmo Overlapping Parallax tilpasset én sammenhengende side.
@@ -1501,9 +1668,10 @@ function workArchiveScene(compact: boolean) {
 function workProcessJourney(compact: boolean) {
   const journey = document.querySelector<HTMLElement>("[data-work-process-journey]");
   const work = document.querySelector<HTMLElement>("[data-work-process-transition]");
+  const workStage = work?.querySelector<HTMLElement>("[data-work-focus-stage]");
   const process = journey?.querySelector<HTMLElement>(".process-journey");
   const shade = work?.querySelector<HTMLElement>("[data-work-exit-shade]");
-  if (!journey || !work || !process || !shade) return () => {};
+  if (!journey || !work || !workStage || !process || !shade) return () => {};
 
   const ctx = gsap.context(() => {
     gsap.set(shade, { autoAlpha: 0 });
@@ -1512,7 +1680,9 @@ function workProcessJourney(compact: boolean) {
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: work,
-        start: "bottom bottom",
+        start: compact
+          ? "bottom top"
+          : () => `top+=${Math.round(window.innerHeight * WORK_FOCUS_SCROLL_LENGTH)} top`,
         end: "+=100%",
         scrub: true,
         invalidateOnRefresh: true,
@@ -1520,7 +1690,7 @@ function workProcessJourney(compact: boolean) {
     });
 
     timeline
-      .to(work, {
+      .to(workStage, {
         y: compact ? "-16svh" : "-24svh",
         duration: 1,
         ease: "power3.in",
@@ -1709,82 +1879,6 @@ function sectionThemeScene() {
   };
 }
 
-// Osmo Dynamic Text Cursor, adapted only in styling and lifecycle for Tigon.
-// The original data attributes and GSAP quickTo movement are preserved.
-function setupDynamicTextCursor() {
-  const cursor = document.querySelector<HTMLElement>("[data-cursor]");
-  const cursorTextTarget = document.querySelector<HTMLElement>("[data-cursor-text-target]");
-  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (!cursor || !cursorTextTarget || !finePointer || reducedMotion) return () => {};
-
-  // WorkProof is translated during the 04→05 handoff. A fixed element inside
-  // that transformed section would use the section as its containing block and
-  // be clipped by its overflow. Keep the cursor at the viewport root instead.
-  const cursorParent = cursor.parentNode;
-  const cursorNextSibling = cursor.nextSibling;
-  document.body.appendChild(cursor);
-
-  let mouseX = 0;
-  let mouseY = 0;
-  let hasMouseMoved = false;
-  let frame = 0;
-
-  const xTo = gsap.quickTo(cursor, "x", { duration: 0.4, ease: "power3.out" });
-  const yTo = gsap.quickTo(cursor, "y", { duration: 0.4, ease: "power3.out" });
-
-  const updateCursor = () => {
-    frame = 0;
-    const hoverItem = document
-      .elementFromPoint(mouseX, mouseY)
-      ?.closest<HTMLElement>("[data-cursor-hover]");
-    const text = hoverItem?.getAttribute("data-cursor-text");
-
-    if (text) cursorTextTarget.textContent = text;
-
-    const rect = cursor.getBoundingClientRect();
-    const isHovering = Boolean(hoverItem);
-    const isEdge = rect.right >= window.innerWidth;
-    cursor.setAttribute("data-cursor", isHovering ? (isEdge ? "active-edge" : "active") : "");
-  };
-
-  const queueUpdate = () => {
-    if (frame) return;
-    frame = window.requestAnimationFrame(updateCursor);
-  };
-
-  const onMouseMove = (event: MouseEvent) => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-    hasMouseMoved = true;
-    xTo(mouseX);
-    yTo(mouseY);
-    queueUpdate();
-  };
-
-  const onScroll = () => {
-    if (hasMouseMoved) queueUpdate();
-  };
-
-  window.addEventListener("mousemove", onMouseMove);
-  window.addEventListener("scroll", onScroll, { passive: true });
-
-  return () => {
-    window.cancelAnimationFrame(frame);
-    window.removeEventListener("mousemove", onMouseMove);
-    window.removeEventListener("scroll", onScroll);
-    cursor.setAttribute("data-cursor", "");
-    gsap.killTweensOf(cursor);
-    if (cursorParent) {
-      const nextSibling = cursorNextSibling?.parentNode === cursorParent
-        ? cursorNextSibling
-        : null;
-      cursorParent.insertBefore(cursor, nextSibling);
-    }
-  };
-}
-
 // Utility enhancements — run whenever JS is available (not motion-gated):
 // live Oslo clock in the footer status line and copy-to-clipboard for email.
 function setupFooterUtilities() {
@@ -1861,7 +1955,6 @@ function setupFooterUtilities() {
 export function HomeMotion() {
   useEffect(() => {
     const teardownUtilities = setupFooterUtilities();
-    const teardownWorkCursor = setupDynamicTextCursor();
     const teardownSectionTheme = sectionThemeScene();
     const isTouchInput = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     const isApplePlatform = /Mac|iPhone|iPad|iPod/.test(navigator.platform);
@@ -1904,8 +1997,8 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
       const teardownIntro = runWhenNear("[data-intro-story]", introFillScene);
-      const teardownWorkArchive = runWhenNear(".work-proof", () =>
-        workArchiveScene(window.matchMedia("(max-width: 1000px)").matches));
+      const teardownWorkCapability = runWhenNear(".work-proof", () =>
+        workFocusScene(window.matchMedia("(max-width: 900px)").matches));
       const teardownWorkProcess = runWhenNear("[data-work-process-journey]", () =>
         workProcessJourney(window.matchMedia("(max-width: 1100px)").matches));
       const teardownProcess = runWhenNear("[data-process-stage]", () =>
@@ -1914,7 +2007,7 @@ export function HomeMotion() {
       const teardownFooter = runWhenNear(".contact-footer", footerReveals);
       return () => {
         teardownIntro();
-        teardownWorkArchive();
+        teardownWorkCapability();
         teardownWorkProcess();
         teardownProcess();
         teardownManifesto();
@@ -1927,8 +2020,8 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownIntro = runWhenNear("[data-intro-story]", introFillScene);
-      const teardownWorkArchive = runWhenNear(".work-proof", () =>
-        workArchiveScene(true));
+      const teardownWorkCapability = runWhenNear(".work-proof", () =>
+        workFocusScene(true));
       const teardownWorkProcess = runWhenNear("[data-work-process-journey]", () =>
         workProcessJourney(true));
       const teardownProcess = runWhenNear("[data-process-stage]", () =>
@@ -1937,7 +2030,7 @@ export function HomeMotion() {
       const teardownFooter = runWhenNear(".contact-footer", footerReveals);
       return () => {
         teardownIntro();
-        teardownWorkArchive();
+        teardownWorkCapability();
         teardownWorkProcess();
         teardownProcess();
         teardownManifesto();
@@ -1993,7 +2086,6 @@ export function HomeMotion() {
       teardownShutter();
       teardownApproachPath();
       teardownSectionTheme();
-      teardownWorkCursor();
       teardownUtilities();
     };
   }, []);

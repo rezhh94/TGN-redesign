@@ -24,7 +24,6 @@
 }
 
 .what-improve__rail,
-.what-improve__scene-footer,
 .what-improve__card header,
 .what-improve__card footer,
 .what-improve__eyebrow {
@@ -35,8 +34,7 @@
   text-transform: uppercase;
 }
 
-.what-improve__rail,
-.what-improve__scene-footer {
+.what-improve__rail {
   position: absolute;
   right: var(--homepage-gutter);
   left: var(--homepage-gutter);
@@ -51,20 +49,11 @@
   top: clamp(40px, 5vh, 64px);
 }
 
-.what-improve__scene-footer {
-  bottom: clamp(32px, 4vh, 48px);
-  align-items: end;
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--line-default);
-}
-
-.what-improve__rail p,
-.what-improve__scene-footer p {
+.what-improve__rail p {
   margin: 0;
 }
 
-.what-improve__rail p:last-child,
-.what-improve__scene-footer p:last-child {
+.what-improve__rail p:last-child {
   text-align: right;
 }
 
@@ -208,8 +197,7 @@
 }
 
 .what-improve[data-effect-ready] .what-improve__center,
-.what-improve[data-effect-ready] .what-improve__card,
-.what-improve[data-effect-ready] .what-improve__scene-footer {
+.what-improve[data-effect-ready] .what-improve__card {
   will-change: opacity, transform;
 }
 
@@ -264,8 +252,7 @@
     padding-bottom: clamp(96px, 12vh, 136px);
   }
 
-  .what-improve__rail,
-  .what-improve__scene-footer {
+  .what-improve__rail {
     position: static;
   }
 
@@ -312,9 +299,6 @@
     min-height: 300px;
   }
 
-  .what-improve__scene-footer {
-    margin-top: var(--space-16);
-  }
 }
 
 @media (max-width: 640px) {
@@ -348,9 +332,6 @@
     min-height: 264px;
   }
 
-  .what-improve__scene-footer p:first-child {
-    max-width: 24ch;
-  }
 }
 
 @media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
@@ -369,8 +350,7 @@
     overflow: hidden;
   }
 
-  .what-improve[data-effect-mobile-ready] .what-improve__rail,
-  .what-improve[data-effect-mobile-ready] .what-improve__scene-footer {
+  .what-improve[data-effect-mobile-ready] .what-improve__rail {
     position: absolute;
     right: 20px;
     left: 20px;
@@ -379,11 +359,6 @@
 
   .what-improve[data-effect-mobile-ready] .what-improve__rail {
     top: clamp(88px, 12svh, 120px);
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__scene-footer {
-    bottom: clamp(28px, 4svh, 40px);
-    margin-top: 0;
   }
 
   .what-improve[data-effect-mobile-ready] .what-improve__center {
@@ -478,8 +453,7 @@
     padding-bottom: clamp(96px, 12vh, 136px);
   }
 
-  .what-improve__rail,
-  .what-improve__scene-footer {
+  .what-improve__rail {
     position: static;
   }
 
@@ -517,15 +491,11 @@
     min-height: 300px;
   }
 
-  .what-improve__scene-footer {
-    margin-top: var(--space-16);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .what-improve__center,
-  .what-improve__card,
-  .what-improve__scene-footer {
+  .what-improve__card {
     opacity: 1 !important;
     transform: none !important;
   }

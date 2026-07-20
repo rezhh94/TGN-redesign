@@ -1,13 +1,15 @@
 # Tigon — project continuation context
 
-Last reconciled: 2026-07-20.
+Last reconciled: 2026-07-21.
 
 ## Worktree boundary
 
-The connected Tjenester→Effekt baseline is `b9b4b5a`, built on the responsive
-Tjenester baseline at `293c552`. The current identity and mobile-timing
-checkpoint is built on top of it. Always inspect the current worktree before
-acting; do not reset, checkout or overwrite unrelated changes.
+The current branch is `codex/work-services-accordion` at committed HEAD
+`ce05344`. The connected Tjenester→Effekt baseline is `b9b4b5a`, built on the
+responsive Tjenester baseline at `293c552`. The current Arbeid focus-field
+redesign and governance reconciliation are uncommitted. Always inspect the
+current worktree before acting; do not reset, checkout or overwrite unrelated
+changes.
 Do not commit or push without explicit instruction, and stage exact files if
 publishing is later requested.
 
@@ -35,9 +37,11 @@ capability-led and never a false portfolio claim. No visual section is
 protected: Header, Hero, all body chapters, handoffs, Arbeid and Footer may be
 redesigned.
 
-The page body still uses solid semantic surfaces. Effekt is typographic and
-mounts no foreground or background image; there is no global decorative
-background-media owner or related scroll state.
+The page body still uses solid semantic surfaces. Effekt's result scene remains
+typographic and mounts no outgoing image bridge. Arbeid begins its own title
+traversal while entering the shared dark surface; its first real capability
+media becomes the single opening object only at the Arbeid pin boundary. There
+is no duplicate aperture or global decorative background-media owner.
 
 ## Current design-system decision
 
@@ -50,8 +54,11 @@ grid; semantic surfaces/lines; a unified button recipe; and a shared
 `--paper-text-*` roles, and its responsive role sizes use the isolated,
 source-verified basis documented in `design.md`.
 
-The Trionn study supplies generic construction lessons only. Do not import its
-fonts, media, code, shaders, palette or exact identity-bearing combinations.
+The Trionn study supplies construction evidence. Verified Trionn-authored
+first-party public code, shader logic and exact values may be adapted when they
+fit, but never import whole bundles, co-located third-party/runtime code,
+fonts, media, logos, content, palette signatures or identity-bearing
+combinations.
 
 ## Next-step protocol
 

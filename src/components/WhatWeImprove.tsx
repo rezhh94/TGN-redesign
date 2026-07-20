@@ -81,10 +81,6 @@ export function WhatWeImprove() {
           ))}
         </ol>
 
-        <footer className="what-improve__scene-footer">
-          <p>Funnet / Forstått / Valgt / Målt</p>
-          <p>Neste / Dette kan Tigon lage</p>
-        </footer>
       </div>
     </section>
   );

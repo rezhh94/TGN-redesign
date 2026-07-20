@@ -21,8 +21,11 @@ light information fields. It does not replace JUST Sans globally and does not
 reopen the reference-font boundary.
 
 Trionn is the principal construction reference. Approach its composition,
-rhythm, responsive strategy and motion craft as closely as useful through a
-clean-room Tigon implementation. Do not copy its code, fonts, assets, shaders,
+rhythm, responsive strategy and motion craft as closely as useful. Verified
+Trionn-authored public code, shader logic and exact values may be copied or
+adapted when they materially fit; use only first-party modules identified by
+the local evidence README and never import a whole bundle or its co-located
+third-party/runtime code. Do not copy its fonts, images, video, audio, logos,
 content or identity-bearing combinations. The approved neutral paper-text
 calibration (`#434343` and `#272727`) is the sole direct colour-value exception;
 it lives in semantic `--paper-text-*` tokens and does not reopen the reference
@@ -53,8 +56,10 @@ permanently stays future-facing capability rather than a portfolio or list of
 websites Tigon has built. Its layout, component architecture, interaction and
 motion are nevertheless fully redesignable.
 
-Do not import legacy project CSS/JS, third-party reference code, fonts, media or
-assets. Do not introduce visible orange. Do not commit or push unless asked.
+Do not import legacy project CSS/JS, reference fonts/media/assets or
+third-party/runtime code found inside a reference bundle. The verified
+Trionn-first-party code exception above does not allow Trionn identity assets.
+Do not introduce visible orange. Do not commit or push unless asked.
 
 ## Mounted section state, not preservation targets
 

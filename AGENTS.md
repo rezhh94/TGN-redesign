@@ -54,7 +54,8 @@ Do not, unless explicitly requested:
 - change URLs or slugs
 - change factual NAP values or break established important links
 - import old `styles.css`, `signature.css` or `main.js`
-- import third-party reference CSS, JS, fonts or assets directly
+- import third-party runtime/library code from a reference bundle, or reference
+  fonts, media, logos, audio or identity assets
 - use visible orange
 - make the design SaaS, card-grid or dashboard-like
 - commit or push
@@ -87,8 +88,12 @@ mounted-state evidence, not preservation targets.
 
 The target is to approach Trionn's construction quality, composition, rhythm,
 responsive logic and motion architecture as closely as useful without making
-a visual clone. Use Tigon content, branding, fonts, tokens and original assets;
-never copy Trionn code, assets, shaders or identity-bearing combinations.
+a visual clone. Verified Trionn-authored public code, shaders and exact values
+may be copied or adapted when they materially fit the Tigon construction. Use
+only first-party modules identified in the local evidence README; never import
+whole deployed bundles or co-located third-party/runtime code. Always replace
+Trionn content, branding, fonts, images, video, audio, logos and other
+identity-bearing assets or combinations with Tigon-owned material.
 
 Full redesign freedom does not broaden an individual task automatically. Keep
 each implementation scoped to what the user asks in that turn.

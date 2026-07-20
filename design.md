@@ -12,11 +12,14 @@ Tigon is editorial, restrained, typographic, confident and near-monochrome.
 The hierarchy should feel constructed rather than decorated: strong type,
 precise grids, deliberate negative space and a small number of motion ideas.
 
-The Trionn analysis is used as construction calibration only. Its useful,
-generic principles are role-based typography, 12-column composition, tight
-display leading, real HTML above optional visual layers and structural mobile
-branches. Its fonts, site-wide root scaling, colour signature, assets, shaders,
-preloader and dense pin architecture are reference identity and are rejected.
+The Trionn analysis is used as construction calibration. Its useful principles
+are role-based typography, 12-column composition, tight display leading, real
+HTML above optional visual layers and structural mobile branches. Verified
+Trionn-authored public code, shader logic and exact motion values may be copied
+or adapted from the first-party modules identified in the local evidence
+README when they genuinely fit. Whole bundles, co-located third-party/runtime
+code, fonts, site-wide root scaling, colour signature, media, logos, content
+and identity-bearing combinations remain rejected.
 
 One narrow calibration is explicitly approved: light information typography
 uses the neutral `#434343` heading/body and `#272727` row tones plus the

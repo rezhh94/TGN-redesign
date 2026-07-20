@@ -1,6 +1,6 @@
 # Tigon — remaining work
 
-Last reconciled: 2026-07-20.
+Last reconciled: 2026-07-21.
 
 ## Current review gate
 
@@ -17,7 +17,9 @@ Last reconciled: 2026-07-20.
 3. Review the connected Tjenester→Effekt→Arbeid transition, including the
    five-band shutter, fixed title blur and source-matched desktop/mobile
    card traversal.
-4. Redesign capability-led Arbeid without treating the mounted archive as safe.
+4. Review the implemented capability-led Arbeid title handoff, single-media
+   opening, six-panel desktop sequence and separate mobile document flow; do not
+   reinterpret it as portfolio proof.
 5. Redesign Prosess, System and Footer as one closing sequence.
 6. Perform the full integration, performance and accessibility matrix.
 
@@ -35,6 +37,6 @@ Last reconciled: 2026-07-20.
 - One smooth-scroll transport and no duplicate ScrollTriggers.
 - Complete no-JS/reduced-motion/touch paths.
 - Keyboard-visible controls and real hrefs.
-- No external reference code/assets, visible orange or portfolio framing in
-  04 / Arbeid.
+- No reference fonts/media/identity, unverified bundle/runtime code, visible
+  orange or portfolio framing in 04 / Arbeid.
 - Explicit user approval before commit or push.
