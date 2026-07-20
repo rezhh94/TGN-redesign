@@ -316,23 +316,24 @@
   --type-body-xs-size: clamp(12px, 0.9vw, 14px);
   --type-body-xs-leading: 1.4;
 
-  /* Paper information hierarchy. This is the stable Tigon translation of the
-     compact service-detail scale: same optical size/contrast architecture,
-     using user-approved Switzer rather than a reference font or fluid root
-     formula. */
-  --type-paper-heading-size: clamp(30px, 2.25vw, 50px);
+  /* Paper information hierarchy. The role sizes use an isolated viewport
+     basis verified from the local services snapshot. This reproduces the
+     reference's computed optical scale without changing html font-size or any
+     non-paper typography. Switzer and the line-height choices remain Tigon's. */
+  --type-paper-scale-basis: 320;
+  --type-paper-heading-size: calc(2500vw / var(--type-paper-scale-basis));
   --type-paper-heading-leading: 1;
   --type-paper-heading-track: -0.04em;
   --type-paper-heading-weight: var(--weight-regular);
-  --type-paper-copy-size: clamp(16px, 1.125vw, 25px);
+  --type-paper-copy-size: calc(1250vw / var(--type-paper-scale-basis));
   --type-paper-copy-leading: 1.22;
   --type-paper-copy-track: 0;
   --type-paper-copy-weight: var(--weight-regular);
-  --type-paper-row-size: clamp(16px, 1vw, 28px);
+  --type-paper-row-size: calc(1250vw / var(--type-paper-scale-basis));
   --type-paper-row-leading: 1.2;
   --type-paper-row-track: 0;
   --type-paper-row-weight: var(--weight-regular);
-  --type-paper-label-size: clamp(13px, 1.063vw, 22px);
+  --type-paper-label-size: calc(1125vw / var(--type-paper-scale-basis));
   --type-paper-label-leading: 1;
   --type-paper-label-track: -0.02em;
   --type-paper-label-weight: var(--weight-regular);
@@ -362,6 +363,64 @@
   --z-chrome: 100;
   --z-menu: 200;
   --z-modal: 1000;
+}
+
+/* Paper type is calibrated independently from the document root. These are
+   the verified reference breakpoints and role multipliers, expressed as Tigon
+   tokens so every light information surface receives the same result. */
+@media (min-width: 440px) {
+  :root {
+    --type-paper-scale-basis: 360;
+  }
+}
+
+@media (min-width: 640px) {
+  :root {
+    --type-paper-scale-basis: 480;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --type-paper-scale-basis: 750;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --type-paper-scale-basis: 850;
+    --type-paper-copy-size: calc(1125vw / var(--type-paper-scale-basis));
+    --type-paper-row-size: calc(1125vw / var(--type-paper-scale-basis));
+    --type-paper-label-size: calc(1063vw / var(--type-paper-scale-basis));
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --type-paper-scale-basis: 1000;
+    --type-paper-heading-size: calc(2250vw / var(--type-paper-scale-basis));
+  }
+}
+
+@media (min-width: 1441px) {
+  :root {
+    --type-paper-scale-basis: 1180;
+  }
+}
+
+@media (min-width: 1536px) {
+  :root {
+    --type-paper-scale-basis: 1280;
+    --type-paper-row-size: calc(1250vw / var(--type-paper-scale-basis));
+    --type-paper-label-size: calc(1125vw / var(--type-paper-scale-basis));
+  }
+}
+
+@media (min-width: 2000px) {
+  :root {
+    --type-paper-copy-size: calc(1000vw / var(--type-paper-scale-basis));
+    --type-paper-label-size: calc(1000vw / var(--type-paper-scale-basis));
+  }
 }
 
 /* Grid — mobile keeps the same roles with a six-column composition. */

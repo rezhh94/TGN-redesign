@@ -1,8 +1,8 @@
 # 02 / Tjenester — pinned panel contract
 
-Last reconciled: 2026-07-19.
+Last reconciled: 2026-07-20.
 
-Status: implemented in the current uncommitted worktree.
+Status: implemented in the current worktree.
 
 ## Composition
 
@@ -21,7 +21,8 @@ Status: implemented in the current uncommitted worktree.
   Switzer Regular as the user-approved paper voice; JUST Sans remains the
   site-wide editorial font. The shared scale and neutral paper colours are
   owned by `tokens.css` and `typography.css`, never repeated as section-local
-  values.
+  values. The responsive sizes are computed from verified local-source
+  breakpoints and remain isolated from the document root.
 - The former cube, perspective transforms, corner brackets, duplicate labels,
   bottom index, progress hairline and top divider are absent.
 - A quiet vertical seam and the capability rules are the only structural lines.

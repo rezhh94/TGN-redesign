@@ -1,9 +1,9 @@
 # Current homepage state
 
-Last reconciled: 2026-07-19.
+Last reconciled: 2026-07-20.
 
 This file describes what is mounted now. Historical experiments are not design
-authority. The latest committed Tjenester baseline is `86b40e6`; always inspect
+authority. The latest committed Tjenester baseline is `5545f80`; always inspect
 the live worktree and preserve unrelated edits.
 
 ## Mounted order
@@ -30,10 +30,12 @@ page-wide decorative background system or related media lifecycle.
 - TGS Perfect is display; JUST Sans is editorial; Caleb Mono is meta/actions.
 - Light information fields use the shared Switzer Regular `type-paper-*`
   hierarchy and `--paper-text-*` contrast roles; JUST Sans remains the global
-  editorial voice and sections do not define their own greys.
+  editorial voice and sections do not define their own sizes or greys. Paper
+  sizes use the source-verified responsive basis documented in `design.md`.
 - Trionn is construction calibration only. No reference font, code, asset,
-  shader, surface palette or exact scaling formula is imported; the approved
-  neutral paper-text values are documented separately in `design.md`.
+  shader or surface palette is imported; the approved paper size and neutral
+  contrast calibration is isolated in semantic tokens documented in
+  `design.md`.
 - Visible orange is prohibited.
 
 ## Section state

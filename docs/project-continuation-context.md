@@ -1,10 +1,10 @@
 # Tigon — project continuation context
 
-Last reconciled: 2026-07-19.
+Last reconciled: 2026-07-20.
 
 ## Worktree boundary
 
-The latest committed Tjenester baseline is `86b40e6`. Always inspect the current
+The latest committed Tjenester baseline is `5545f80`. Always inspect the current
 worktree before acting; do not reset, checkout or overwrite unrelated changes.
 Do not commit or push without explicit instruction, and stage exact files if
 publishing is later requested.
@@ -40,7 +40,8 @@ Caleb Mono core families plus user-approved Switzer Regular as a narrow paper
 information role; optical type roles; 4px spacing primitives; a 12/6-column
 grid; semantic surfaces/lines; a unified button recipe; and a shared
 `type-paper-*` hierarchy. Its paper text colours are centralized as
-`--paper-text-*` roles.
+`--paper-text-*` roles, and its responsive role sizes use the isolated,
+source-verified basis documented in `design.md`.
 
 The Trionn study supplies generic construction lessons only. Do not import its
 fonts, media, code, shaders, palette or exact identity-bearing combinations.

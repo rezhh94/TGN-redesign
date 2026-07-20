@@ -15,14 +15,14 @@ precise grids, deliberate negative space and a small number of motion ideas.
 The Trionn analysis is used as construction calibration only. Its useful,
 generic principles are role-based typography, 12-column composition, tight
 display leading, real HTML above optional visual layers and structural mobile
-branches. Its fonts, exact formulas, colour signature, assets, shaders,
+branches. Its fonts, site-wide root scaling, colour signature, assets, shaders,
 preloader and dense pin architecture are reference identity and are rejected.
 
 One narrow calibration is explicitly approved: light information typography
-uses the neutral `#434343` heading/body and `#272727` row tones verified in the
-reference. They are generic contrast values stored as semantic paper roles;
-the surrounding surface, font families, scale implementation and composition
-remain Tigon's own.
+uses the neutral `#434343` heading/body and `#272727` row tones plus the
+computed role sizes verified in the local services snapshot. They are stored
+as isolated semantic paper roles. The document root, surrounding composition,
+font family and content remain Tigon's own.
 
 Every homepage region is visually redesignable: Header, Hero, all body
 chapters, handoffs, 04 / Arbeid and Footer. Values and compositions documented
@@ -44,7 +44,7 @@ Tigon has previously built.
 | ADAPT | Tight, near-equal display levels | Use TGS Perfect with Tigon-specific clamps and less extreme compression. |
 | ADAPT | Mono system labels and buttons | Use Caleb Mono with readable tracking and 13–14px labels. |
 | ADAPT | 24/40px reference gutters | Use a fluid 24–48px Tigon gutter and a 16–24px grid gap. |
-| REJECT | Reference fonts, assets and exact clamp formulas | Never import or reproduce them. |
+| REJECT | Reference fonts, assets and site-wide root scaling | Never import them or let paper calibration alter the rest of Tigon. |
 | REJECT | Orange energy signature and shader language | Tigon remains neutral with pine/green only as a micro-signal. |
 | REJECT | Long preloader and effect density as identity | Motion must serve hierarchy and reading. |
 
@@ -102,10 +102,10 @@ of nearly redundant tokens.
 | Body MD | `clamp(16px, 1.1vw, 18px)` / `1.55` | Default body; never below 16px at standard zoom. | Generic accessibility baseline. |
 | Body SM | `clamp(14px, 1vw, 16px)` / `1.5` | Secondary copy, not dense paragraphs. | Generic. |
 | Body XS | `clamp(12px, .9vw, 14px)` / `1.4` | Captions and legal copy only. | Generic. |
-| Paper heading | `clamp(30px, 2.25vw, 50px)` / `1` / `-.04em` / `400` | Calm sentence-case information title; retains the compact optical scale while using Switzer and a stable clamp. | Shared light-surface role. |
-| Paper copy | `clamp(16px, 1.125vw, 25px)` / `1.22` / normal tracking / `400` | Short explanatory copy on a light information field; never below 16px. | Shared light-surface role. |
-| Paper row | `clamp(16px, 1vw, 28px)` / `1.2` / normal tracking / `400` | Scan-friendly capability or specification rows with a neutral Roman texture. | Shared light-surface role. |
-| Paper label | `clamp(13px, 1.063vw, 22px)` / `1` / `-.02em` / `400` | Uppercase grouping label without switching to a decorative mono register. | Shared light-surface role. |
+| Paper heading | verified paper scale / `1` / `-.04em` / `400` | Calm sentence-case information title, calibrated as a complete role rather than enlarged with a generic heading clamp. | Shared light-surface role. |
+| Paper copy | verified paper scale / `1.22` / normal tracking / `400` | Short explanatory copy on a light information field. | Shared light-surface role. |
+| Paper row | verified paper scale / `1.2` / normal tracking / `400` | Scan-friendly capability or specification rows with a neutral Roman texture. | Shared light-surface role. |
+| Paper label | verified paper scale / `1` / `-.02em` / `400` | Uppercase grouping label without switching to a decorative mono register. | Shared light-surface role. |
 | Meta LG | `clamp(14px, 1.1vw, 16px)` / `1.25` | Prominent system label. | Generic. |
 | Meta MD | `clamp(12px, .95vw, 14px)` / `1.3` | Default eyebrow and metadata. | Generic. |
 | Meta SM | `clamp(10px, .8vw, 12px)` / `1.35` | Microcopy only; avoid for important actions. | Generic. |
@@ -121,6 +121,28 @@ web-font endpoint. Switzer is a user-approved Tigon paper voice, not a Trionn
 font or a new site-wide default. The roles are consumed through
 `src/styles/typography.css`; components may control measure and spacing, but
 may not replace their font metrics or colours locally.
+
+#### Verified paper calibration
+
+The local `2026-07-19` services snapshot was rendered with its real HTML, CSS
+and fonts. The values below are computed CSS pixels, not estimates from a
+screenshot:
+
+| Viewport | Heading | Copy | Label | Row |
+| ---: | ---: | ---: | ---: | ---: |
+| 390 | 30.47 | 15.23 | 13.71 | 15.23 |
+| 768 | 25.60 | 12.80 | 11.52 | 12.80 |
+| 1024 | 30.12 | 13.55 | 12.81 | 13.55 |
+| 1440 | 32.40 | 16.20 | 15.31 | 16.20 |
+| 1536 | 27.00 | 13.50 | 13.50 | 15.00 |
+| 1663 | 29.23 | 14.62 | 14.62 | 16.24 |
+
+The executable `--type-paper-scale-basis` and `--type-paper-*-size` tokens
+reproduce this responsive size logic inside the paper hierarchy only. Do not
+replace them with a section-local `clamp()`, and do not apply the basis to
+`html`, `body` or another type family. Colour remains fixed through
+`--paper-text-*`; family remains Tigon's approved Switzer. This isolation is
+the clean-room boundary.
 
 ## Spacing and grid
 
