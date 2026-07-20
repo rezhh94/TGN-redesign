@@ -481,6 +481,10 @@ function servicesScene() {
   const story = section?.querySelector<HTMLElement>("[data-service-story]");
   const stage = section?.querySelector<HTMLElement>("[data-service-stage]");
   const bands = gsap.utils.toArray<HTMLElement>("[data-service-band]", section);
+  const effectBands = gsap.utils.toArray<HTMLElement>(
+    "[data-service-effect-band]",
+    section,
+  );
   const panels = gsap.utils.toArray<HTMLElement>("[data-service-panel]", section);
 
   if (
@@ -491,6 +495,7 @@ function servicesScene() {
     || !story
     || !stage
     || bands.length !== 5
+    || effectBands.length !== 5
     || panels.length !== 5
   ) return () => {};
 
@@ -616,9 +621,14 @@ function servicesScene() {
         };
 
         section.setAttribute("data-service-ready", "");
+        section.setAttribute("data-service-effect-ready", "");
         gsap.set(panels, { yPercent: 100 });
         gsap.set(panels[0], { yPercent: 0 });
         gsap.set(panels, { zIndex: (index) => index + 1 });
+        gsap.set(effectBands, {
+          scaleY: 0,
+          transformOrigin: "bottom center",
+        });
         rules.forEach((panelRules, index) => {
           gsap.set(panelRules, {
             scaleX: index === 0 ? 1 : 0,
@@ -667,6 +677,21 @@ function servicesScene() {
           timeline.to({}, { duration: panelHold });
         });
 
+        // The last paper service does not hand off to another blank paper
+        // viewport. Five dark bands close directly over it, using the same
+        // shutter grammar as the prelude before the real Effekt canvas follows.
+        const effectHandoffStart = timeline.duration();
+        effectBands.forEach((band, index) => {
+          const offset = 0.3 * (effectBands.length - 1 - index)
+            / (effectBands.length - 1);
+          timeline.to(
+            band,
+            { scaleY: 1, duration: 0.3 },
+            effectHandoffStart + offset,
+          );
+        });
+        timeline.to({}, { duration: 0.14 }, effectHandoffStart + 0.6);
+
         const updateActive = (self: ReturnType<typeof ScrollTrigger.create>) => {
           const total = timeline.duration();
           let index = 0;
@@ -701,6 +726,7 @@ function servicesScene() {
           trigger.kill();
           timeline.kill();
           section.removeAttribute("data-service-ready");
+          section.removeAttribute("data-service-effect-ready");
           panels.forEach((panel, index) => {
             panel.toggleAttribute("data-service-active", index === 0);
           });
@@ -729,6 +755,36 @@ function servicesScene() {
             scrollTrigger: { trigger: panel, start: "top 82%", once: true },
           });
         });
+
+        section.setAttribute("data-service-effect-ready", "");
+        gsap.set(effectBands, {
+          scaleY: 0,
+          transformOrigin: "bottom center",
+        });
+
+        const mobileHandoff = gsap.timeline({ defaults: { ease: "none" } });
+        effectBands.forEach((band, index) => {
+          const offset = 0.3 * (effectBands.length - 1 - index)
+            / (effectBands.length - 1);
+          mobileHandoff.to(band, { scaleY: 1, duration: 0.3 }, offset);
+        });
+        mobileHandoff.to({}, { duration: 0.1 });
+
+        const mobileHandoffTrigger = ScrollTrigger.create({
+          id: "services-effect-handoff-mobile",
+          trigger: panels.at(-1),
+          start: "bottom bottom",
+          end: "bottom top",
+          animation: mobileHandoff,
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+        });
+
+        return () => {
+          mobileHandoffTrigger.kill();
+          mobileHandoff.kill();
+          section.removeAttribute("data-service-effect-ready");
+        };
       },
     );
   }, journey);
@@ -739,85 +795,210 @@ function servicesScene() {
     journey.removeAttribute("data-journey-ready");
     section.removeAttribute("data-service-handoff-ready");
     section.removeAttribute("data-service-ready");
+    section.removeAttribute("data-service-effect-ready");
   };
 }
-// 03 / Effekt — one stable typographic anchor and four result cards pulled
-// inward by scroll. The construction adapts the reference's single-coordinate
-// principle, but the scene, paths, copy and surfaces are Tigon-authored. CSS
-// owns the complete final composition and the compact normal-flow branch.
+// 03 / Effekt — a Tigon-authored focus field takes over from the service
+// shutter before four result cards enter. Wide screens use two opposing
+// currents and a symmetric 2x2 settle; phones use one shared centred vertical
+// lane, one card at a time. CSS remains the complete readable fallback.
 function effectCardsScene() {
   const section = document.querySelector<HTMLElement>("[data-effect-section]");
   const stage = section?.querySelector<HTMLElement>("[data-effect-stage]");
+  const rail = section?.querySelector<HTMLElement>(".what-improve__rail");
   const center = section?.querySelector<HTMLElement>("[data-effect-center]");
+  const prelude = section?.querySelector<HTMLElement>("[data-effect-prelude]");
+  const focus = section?.querySelector<HTMLElement>("[data-effect-focus]");
   const footer = section?.querySelector<HTMLElement>(".what-improve__scene-footer");
   const cards = gsap.utils.toArray<HTMLElement>("[data-effect-card]", section);
 
-  if (!section || !stage || !center || !footer || cards.length !== 4) {
+  if (
+    !section
+    || !stage
+    || !rail
+    || !center
+    || !prelude
+    || !focus
+    || !footer
+    || cards.length !== 4
+  ) {
     return () => {};
   }
 
   const mm = gsap.matchMedia();
 
+  mm.add("(prefers-reduced-motion: no-preference)", () => {
+    section.setAttribute("data-effect-overlap-ready", "");
+    return () => section.removeAttribute("data-effect-overlap-ready");
+  });
+
   mm.add(
     "(prefers-reduced-motion: no-preference) and (min-width: 901px)",
     () => {
       section.setAttribute("data-effect-ready", "");
+      let cleanupDesktopMotion = () => {};
       const ctx = gsap.context(() => {
-        const starts = [
-          { x: () => -0.42 * window.innerWidth, y: () => 0.5 * window.innerHeight },
-          { x: () => 0.42 * window.innerWidth, y: () => -0.5 * window.innerHeight },
-          { x: () => -0.42 * window.innerWidth, y: () => -0.46 * window.innerHeight },
-          { x: () => 0.42 * window.innerWidth, y: () => 0.46 * window.innerHeight },
-        ];
-        gsap.set(center, { opacity: 0.78, scale: 0.975 });
-        gsap.set(footer, { opacity: 0.42 });
+        const cardStart = 0.56;
+        const cardGutter = 40;
+        const cardKeyframeCount = 13;
+        const cardDuration = 0.45;
+        const pairOffset = 0.2;
+        const pairs = [[cards[0], cards[1]], [cards[2], cards[3]]] as const;
+        const setDesktopCardGeometry = () => {
+          const viewportWidth = stage.clientWidth;
+          const viewportHeight = stage.clientHeight;
+          const isMidViewport = viewportWidth >= 768 && viewportWidth < 1512;
+          const cardWidth = Math.round(
+            (isMidViewport ? 0.42 : 0.28) * viewportWidth,
+          );
+          const cardHeight = Math.round(0.32 * viewportHeight);
+          gsap.set(cards, { width: cardWidth, height: cardHeight });
+        };
 
-        const timeline = gsap.timeline({ defaults: { ease: "none" } });
-        timeline.to(center, { opacity: 1, scale: 1, duration: 0.14 }, 0);
-
-        // Pair one establishes the diagonal result axis; pair two closes it.
-        [0, 1].forEach((index) => {
-          timeline.fromTo(cards[index], {
-            autoAlpha: 0,
-            x: starts[index].x,
-            y: starts[index].y,
-          }, {
-            autoAlpha: 1,
-            x: 0,
-            y: 0,
-            duration: 0.42,
-          }, 0.1);
+        gsap.set(rail, { autoAlpha: 0, y: 12 });
+        gsap.set(prelude, {
+          autoAlpha: 1,
+          y: () => window.innerHeight * 0.22,
+          filter: "blur(0px)",
         });
-        [2, 3].forEach((index) => {
-          timeline.fromTo(cards[index], {
-            autoAlpha: 0,
-            x: starts[index].x,
-            y: starts[index].y,
-          }, {
-            autoAlpha: 1,
-            x: 0,
-            y: 0,
-            duration: 0.42,
-          }, 0.3);
+        gsap.set(focus, { autoAlpha: 0, scale: 0.94 });
+        gsap.set(footer, { autoAlpha: 0 });
+        setDesktopCardGeometry();
+        gsap.set(cards, {
+          autoAlpha: 0,
+          x: 0,
+          y: 0,
+          force3D: true,
         });
-        timeline.to(footer, { opacity: 1, duration: 0.18 }, 0.58);
-        timeline.to({}, { duration: 0.28 });
 
-        ScrollTrigger.create({
+        const introTimeline = gsap.timeline({
+          paused: true,
+          defaults: { ease: "none" },
+        });
+        introTimeline
+          .to(prelude, { y: 0, duration: 0.36 }, 0.08)
+          .to(rail, { autoAlpha: 1, y: 0, duration: 0.14 }, 0.28)
+          .to(prelude, {
+            autoAlpha: 0,
+            y: -14,
+            filter: "blur(10px)",
+            duration: 0.18,
+          }, 0.52)
+          .to(focus, { autoAlpha: 1, scale: 1, duration: 0.24 }, 0.62)
+          .to({}, { duration: 0.14 });
+
+        const cardsTimeline = gsap.timeline({
+          paused: true,
+          defaults: { ease: "none" },
+        });
+
+        pairs.forEach(([leftCard, rightCard], pairIndex) => {
+          const leftKeyframes = [];
+          const rightKeyframes = [];
+
+          for (let frame = 0; frame < cardKeyframeCount; frame += 1) {
+            const progress = frame / (cardKeyframeCount - 1);
+            const bend = progress <= 0.5 ? Math.sin(progress * Math.PI) : 1;
+            const opacity = progress < 0.15
+              ? progress / 0.15
+              : progress > 0.85
+                ? 1 - (progress - 0.85) / 0.15
+                : 1;
+
+            leftKeyframes.push({
+              autoAlpha: opacity,
+              x: () => {
+                const viewportWidth = stage.clientWidth;
+                const cardWidth = leftCard.offsetWidth;
+                const isMidViewport = viewportWidth >= 768 && viewportWidth < 1512;
+                const startX = -(0.7 * cardWidth);
+                const laneX = isMidViewport ? cardGutter : 0.1 * viewportWidth;
+                return startX + bend * (laneX - startX);
+              },
+              y: () => (
+                stage.clientHeight
+                + progress * (-leftCard.offsetHeight - stage.clientHeight)
+              ),
+            });
+            rightKeyframes.push({
+              autoAlpha: opacity,
+              x: () => {
+                const viewportWidth = stage.clientWidth;
+                const cardWidth = rightCard.offsetWidth;
+                const isMidViewport = viewportWidth >= 768 && viewportWidth < 1512;
+                const startX = viewportWidth - 0.3 * cardWidth;
+                const laneX = isMidViewport
+                  ? viewportWidth - cardGutter - cardWidth
+                  : 0.9 * viewportWidth - cardWidth;
+                return startX + bend * (laneX - startX);
+              },
+              y: () => (
+                -rightCard.offsetHeight
+                + progress * (stage.clientHeight + rightCard.offsetHeight)
+              ),
+            });
+          }
+
+          cardsTimeline
+            .to(leftCard, {
+              keyframes: leftKeyframes,
+              duration: cardDuration,
+            }, pairOffset * pairIndex)
+            .to(rightCard, {
+              keyframes: rightKeyframes,
+              duration: cardDuration,
+            }, pairOffset * pairIndex);
+        });
+
+        let targetCardsProgress = 0;
+        let renderedCardsProgress = 0;
+        const renderCards = () => {
+          renderedCardsProgress += (targetCardsProgress - renderedCardsProgress) * 0.08;
+          if (Math.abs(targetCardsProgress - renderedCardsProgress) < 0.0001) {
+            renderedCardsProgress = targetCardsProgress;
+          }
+          cardsTimeline.progress(renderedCardsProgress);
+        };
+
+        gsap.ticker.add(renderCards);
+
+        const desktopTrigger = ScrollTrigger.create({
           id: "effect-cards-scene",
           trigger: section,
           start: "top top",
-          end: () => `+=${Math.round(window.innerHeight * (ScrollTrigger.isTouch ? 3.2 : 3.8))}`,
-          animation: timeline,
-          scrub: 0.55,
+          end: () => `+=${Math.round(window.innerHeight * (ScrollTrigger.isTouch ? 3.9 : 4.6))}`,
           pin: stage,
           pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const sceneProgress = self.progress;
+            introTimeline.progress(Math.min(1, sceneProgress / cardStart));
+            targetCardsProgress = sceneProgress < cardStart
+              ? 0
+              : Math.min(1, (sceneProgress - cardStart) / (1 - cardStart));
+
+            const outroProgress = gsap.utils.clamp(0, 1, (sceneProgress - 0.92) / 0.08);
+            gsap.set(rail, { autoAlpha: 1 - outroProgress });
+            gsap.set(footer, { autoAlpha: outroProgress });
+          },
+          onRefresh: () => {
+            setDesktopCardGeometry();
+            introTimeline.invalidate();
+            cardsTimeline.invalidate().progress(renderedCardsProgress);
+          },
         });
+
+        cleanupDesktopMotion = () => {
+          desktopTrigger.kill();
+          gsap.ticker.remove(renderCards);
+          introTimeline.kill();
+          cardsTimeline.kill();
+        };
       }, section);
 
       return () => {
+        cleanupDesktopMotion();
         section.removeAttribute("data-effect-ready");
         ctx.revert();
       };
@@ -825,7 +1006,7 @@ function effectCardsScene() {
   );
 
   mm.add(
-    "(prefers-reduced-motion: no-preference) and (max-width: 900px)",
+    "(prefers-reduced-motion: no-preference) and (min-width: 768px) and (max-width: 900px)",
     () => {
       const ctx = gsap.context(() => {
         cards.forEach((card) => {
@@ -847,9 +1028,148 @@ function effectCardsScene() {
     },
   );
 
+  mm.add(
+    "(prefers-reduced-motion: no-preference) and (max-width: 767px)",
+    () => {
+      section.setAttribute("data-effect-mobile-ready", "");
+      let cleanupMobileMotion = () => {};
+      const ctx = gsap.context(() => {
+        const cardStart = 0.56;
+        const cardGutter = 24;
+        const cardKeyframeCount = 13;
+        const cardDuration = 0.3;
+        const cardOffset = 0.12;
+        const setMobileCardGeometry = () => {
+          const cardWidth = stage.clientWidth - 2 * cardGutter;
+          gsap.set(cards, {
+            width: cardWidth,
+            height: Math.round(0.55 * cardWidth),
+          });
+        };
+
+        gsap.set(rail, { autoAlpha: 0, y: 10 });
+        gsap.set(prelude, {
+          autoAlpha: 1,
+          y: 0,
+          filter: "blur(0px)",
+        });
+        gsap.set(focus, { autoAlpha: 0, scale: 0.94 });
+        gsap.set(footer, { autoAlpha: 0 });
+        setMobileCardGeometry();
+        gsap.set(cards, {
+          autoAlpha: 0,
+          x: (index, card: HTMLElement) => (
+            Math.max(cardGutter, (stage.clientWidth - card.offsetWidth) / 2)
+          ),
+          y: () => stage.clientHeight,
+          force3D: true,
+        });
+
+        const introTimeline = gsap.timeline({
+          paused: true,
+          defaults: { ease: "none" },
+        });
+        introTimeline
+          .to(rail, { autoAlpha: 1, y: 0, duration: 0.14 }, 0.08)
+          .to({}, { duration: 0.64 }, 0)
+          .to(prelude, {
+            autoAlpha: 0,
+            y: -12,
+            filter: "blur(10px)",
+            duration: 0.16,
+          }, 0.64)
+          .to(focus, { autoAlpha: 1, scale: 1, duration: 0.24 }, 0.7);
+
+        const cardsTimeline = gsap.timeline({
+          paused: true,
+          defaults: { ease: "none" },
+        });
+
+        cards.forEach((card, index) => {
+          const keyframes = Array.from({ length: cardKeyframeCount }, (_, frame) => {
+            const progress = frame / (cardKeyframeCount - 1);
+            const opacity = progress < 0.15
+              ? progress / 0.15
+              : progress > 0.85
+                ? 1 - (progress - 0.85) / 0.15
+                : 1;
+
+            return {
+              autoAlpha: opacity,
+              x: () => Math.max(cardGutter, (stage.clientWidth - card.offsetWidth) / 2),
+              y: () => (
+                stage.clientHeight
+                + progress * (-card.offsetHeight - stage.clientHeight)
+              ),
+            };
+          });
+
+          cardsTimeline.to(card, {
+            keyframes,
+            duration: cardDuration,
+          }, cardOffset * index);
+        });
+
+        let targetCardsProgress = 0;
+        let renderedCardsProgress = 0;
+        const renderCards = () => {
+          renderedCardsProgress += (targetCardsProgress - renderedCardsProgress) * 0.08;
+          if (Math.abs(targetCardsProgress - renderedCardsProgress) < 0.0001) {
+            renderedCardsProgress = targetCardsProgress;
+          }
+          cardsTimeline.progress(renderedCardsProgress);
+        };
+
+        gsap.ticker.add(renderCards);
+
+        const mobileTrigger = ScrollTrigger.create({
+          id: "effect-cards-scene-mobile",
+          trigger: section,
+          start: "top top",
+          end: () => `+=${Math.round(window.innerHeight * 4)}`,
+          pin: stage,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const sceneProgress = self.progress;
+            introTimeline.progress(Math.min(1, sceneProgress / cardStart));
+            targetCardsProgress = sceneProgress < cardStart
+              ? 0
+              : Math.min(1, (sceneProgress - cardStart) / (1 - cardStart));
+
+            const outroProgress = gsap.utils.clamp(0, 1, (sceneProgress - 0.92) / 0.08);
+            gsap.set(rail, { autoAlpha: 1 - outroProgress });
+            gsap.set(footer, { autoAlpha: outroProgress });
+          },
+          onRefresh: () => {
+            setMobileCardGeometry();
+            introTimeline.invalidate();
+            cardsTimeline.invalidate().progress(renderedCardsProgress);
+          },
+        });
+
+        cleanupMobileMotion = () => {
+          mobileTrigger.kill();
+          gsap.ticker.remove(renderCards);
+          introTimeline.kill();
+          cardsTimeline.kill();
+        };
+      }, section);
+
+      return () => {
+        cleanupMobileMotion();
+        section.removeAttribute("data-effect-mobile-ready");
+        ctx.revert();
+      };
+    },
+  );
+
   return () => {
     mm.revert();
     section.removeAttribute("data-effect-ready");
+    section.removeAttribute("data-effect-mobile-ready");
+    section.removeAttribute("data-effect-overlap-ready");
   };
 }
 
@@ -1546,7 +1866,9 @@ export function HomeMotion() {
     let teardownFooterParallax = () => {};
     let teardownApproachPath = () => {};
     let footerInitFrame = 0;
+    let hashCorrectionFrame = 0;
     let effectCancelled = false;
+    const initialHash = window.location.hash;
 
     const mm = gsap.matchMedia();
 
@@ -1605,12 +1927,34 @@ export function HomeMotion() {
         teardownFooterParallax = initFooterParallax();
         teardownApproachPath = initApproachPathJourney();
         ScrollTrigger.refresh();
+
+        // Native anchor navigation runs before the pinned scenes have added
+        // their measured spacing. Correct the initial hash once, after the
+        // shared refresh, so deep links land on the real final document point.
+        if (initialHash.length > 1) {
+          const target = document.getElementById(
+            decodeURIComponent(initialHash.slice(1)),
+          );
+          if (target) {
+            hashCorrectionFrame = window.requestAnimationFrame(() => {
+              if (effectCancelled) return;
+              const targetY = target.getBoundingClientRect().top + window.scrollY;
+              if (lenis) {
+                lenis.lenis.scrollTo(targetY, { immediate: true, force: true });
+              } else {
+                window.scrollTo(0, targetY);
+              }
+              ScrollTrigger.update();
+            });
+          }
+        }
       });
     });
 
     return () => {
       effectCancelled = true;
       window.cancelAnimationFrame(footerInitFrame);
+      window.cancelAnimationFrame(hashCorrectionFrame);
       mm.revert();
       lenis?.lenis.off("scroll", ScrollTrigger.update);
       destroyLenis();

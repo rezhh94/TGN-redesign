@@ -5,7 +5,7 @@
   z-index: var(--z-content);
   overflow: clip;
   isolation: isolate;
-  background: var(--surface-base);
+  background: transparent;
   color: var(--text-strong);
 }
 
@@ -13,6 +13,7 @@
   position: relative;
   min-height: 100svh;
   overflow: hidden;
+  background: var(--surface-base);
 }
 
 .what-build__prelude-grid {
@@ -151,6 +152,35 @@
   --service-media-surface: var(--surface-base);
   --service-image-surface: var(--surface-raised);
   --service-media-line: var(--line-default);
+}
+
+.service-panel__effect-shutter {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-local-overlay);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.service-panel__effect-shutter span {
+  flex: 1 1 0;
+  width: 100%;
+  margin-top: -0.5px;
+  padding-bottom: 0.5px;
+  background: var(--surface-base);
+  backface-visibility: hidden;
+  transform: scaleY(0);
+  transform-origin: bottom center;
+}
+
+.service-panel__effect-shutter span:first-child {
+  margin-top: 0;
+}
+
+.what-build[data-service-effect-ready] .service-panel__effect-shutter span {
+  will-change: transform;
 }
 
 .service-panel__inner {
@@ -357,6 +387,11 @@
     display: block;
   }
 
+  .service-panel__effect-shutter {
+    top: auto;
+    height: 100svh;
+  }
+
   .service-panel__inner {
     display: block;
     width: 100%;
@@ -416,7 +451,8 @@
 }
 
 @media (prefers-reduced-motion: reduce), (scripting: none) {
-  .what-build__handoff-bands {
+  .what-build__handoff-bands,
+  .service-panel__effect-shutter {
     display: none;
   }
 

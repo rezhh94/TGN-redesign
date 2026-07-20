@@ -14,8 +14,9 @@ Last reconciled: 2026-07-20.
 
 1. Redesign Header and Hero as the opening Trionn-calibrated system.
 2. Review and refine the implemented Intro and Tjenester connected journey.
-3. Review the new central-headline/four-card Effekt scene, then accept or refine
-   its composition and scroll pacing.
+3. Review the connected Tjenester→Effekt→Arbeid transition, including the
+   shutter, opening-copy fade, central image and source-matched desktop/mobile
+   card traversal.
 4. Redesign capability-led Arbeid without treating the mounted archive as safe.
 5. Redesign Prosess, System and Footer as one closing sequence.
 6. Perform the full integration, performance and accessibility matrix.
@@ -24,7 +25,8 @@ Last reconciled: 2026-07-20.
 
 - Original Tigon background art direction is intentionally postponed. It has
   no mounted owner or approved asset recipe.
-- Effekt proof media may receive a dedicated replacement brief.
+- The current Effekt material image is reviewable and may be swapped for a
+  different Tigon-owned mock-up without changing the motion contract.
 - Remaining section-local raw font, spacing and button values should migrate to
   semantic roles only when that section is actively reviewed.
 

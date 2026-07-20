@@ -16,18 +16,25 @@ Last reconciled: 2026-07-20.
 
 ## 02 → 03
 
-- Tjenester releases directly into the solid dark Effekt section. The rejected
-  overlapping band handoff and `outcome-effect-journey` wrapper are not mounted.
-- `effectCardsScene` owns only Effekt. From 901px it pins the Effekt stage at
-  `top top`, then pulls four result cards inward around the stable headline.
-- The end is `3.8 * innerHeight` on non-touch and `3.2 * innerHeight` on touch;
-  scrub is `.55`, pin spacing is enabled and `anticipatePin` is `1`.
-- Through 900px, reduced motion and no-JS, the section remains in normal flow.
+- Tjenester still releases directly into the real Effekt section; no duplicate
+  bridge headline or `outcome-effect-journey` wrapper is mounted.
+- A five-band shutter owned by the final Tjenester panel closes over the service
+  surface. Effekt is pulled up by one viewport beneath it, so the shutter opens
+  directly onto the real dark Effekt scene instead of a white spacer.
+- `effectCardsScene` pins at `top top`. The wide end is `4.6 * innerHeight` on
+  non-touch and `3.9 * innerHeight` on touch. Card progress uses the
+  source-matched `.08` smoothing factor; pin spacing and `anticipatePin: 1`
+  remain enabled. Below 768px, a separate four-viewport pin preserves Trionn's
+  single-lane card-over-image logic. Widths 768–900px, reduced motion and no-JS
+  remain in normal flow.
 
 ## 03 → 04
 
-- Effekt releases directly into the mounted `WorkProof` section.
-- `Effekt må bygges inn.` hands to the single Work archive title.
+- The four cards traverse the scene continuously and fade at the path edges.
+  The central Tigon image remains on the shared axis until the pin releases;
+  the opening copy has already faded.
+- Effekt then releases directly into the mounted `WorkProof` section, whose
+  existing `Dette kan Tigon lage` title rises on the same central axis.
 
 ## 04 → 05
 

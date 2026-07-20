@@ -4,8 +4,9 @@ Last reconciled: 2026-07-20.
 
 ## Worktree boundary
 
-The latest committed responsive Tjenester baseline is `293c552`. Always inspect the current
-worktree before acting; do not reset, checkout or overwrite unrelated changes.
+The current committed Effekt checkpoint is `91f8580`, built on the responsive
+Tjenester baseline at `293c552`. Always inspect the current worktree before
+acting; do not reset, checkout or overwrite unrelated changes.
 Do not commit or push without explicit instruction, and stage exact files if
 publishing is later requested.
 
@@ -23,16 +24,21 @@ publishing is later requested.
 Header → Hero → Intro → Tjenester → Effekt → Arbeid → Prosess → System →
 Footer.
 
-Intro and Tjenester contain the committed responsive baseline. The current
-worktree replaces the rejected 02→03 outcome experiment with one uncommitted
-Effekt scene: a stable central headline and four scroll-driven result cards.
-Inspect the diff before assuming it is published. Arbeid is capability-led and
-never a false portfolio claim. No visual section is protected: Header, Hero,
-all body chapters, handoffs, Arbeid and Footer may be redesigned.
+Intro and Tjenester contain the committed responsive baseline. `91f8580`
+stores the recovery point for Effekt: a stable central headline and four
+scroll-driven result cards. The current worktree refines only the
+Tjenester→Effekt→Arbeid continuity and card paths on top of that checkpoint.
+Its uncommitted Effekt direction now opens with `Effekt som kan måles.`, swaps
+the repeated central copy for a Tigon-owned material image and gives phones the
+source-verified Trionn single-lane card-over-image geometry.
+Inspect the diff before assuming those refinements are published. Arbeid is
+capability-led and never a false portfolio claim. No visual section is
+protected: Header, Hero, all body chapters, handoffs, Arbeid and Footer may be
+redesigned.
 
-The page body currently uses solid semantic surfaces only. No decorative
-background-media owner or related scroll state is mounted. A future original
-visual direction is a separate task.
+The page body still uses solid semantic surfaces. Effekt mounts one local
+Tigon-owned foreground image; there is no global decorative background-media
+owner or related scroll state.
 
 ## Current design-system decision
 

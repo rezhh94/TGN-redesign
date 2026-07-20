@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const outcomes = [
   {
     key: "funnet",
@@ -41,19 +43,32 @@ export function WhatWeImprove() {
       <div className="what-improve__stage" data-effect-stage>
         <header className="what-improve__rail">
           <p>03 / Effekt</p>
-          <p>Design · Teknologi · Synlighet</p>
+          <p>Funnet / Forstått / Valgt / Målt</p>
         </header>
 
         <div className="what-improve__center" data-effect-center>
-          <p className="what-improve__eyebrow">Fra leveranse til effekt</p>
-          <h2 id="what-improve-title">
-            <span>Effekt som</span>
-            <span>kan måles.</span>
-          </h2>
-          <p className="what-improve__lead">
-            Design, teknologi og synlighet bygget for å bli funnet, forstått,
-            valgt og målt.
-          </p>
+          <div className="what-improve__prelude" data-effect-prelude>
+            <p className="what-improve__eyebrow">Fra tjenester til resultat</p>
+            <h2 id="what-improve-title">
+              <span>Effekt som</span>
+              <span>kan måles.</span>
+            </h2>
+            <p className="what-improve__lead">
+              Design, teknologi og synlighet bygget for å bli funnet,
+              forstått, valgt og målt.
+            </p>
+          </div>
+
+          <figure className="what-improve__focus" data-effect-focus aria-hidden="true">
+            <Image
+              className="what-improve__focus-image"
+              src="/effect/tigon-effect-anchor.png"
+              alt=""
+              fill
+              sizes="(max-width: 767px) 999px, (max-width: 1023px) 133vw, 178vh"
+              priority={false}
+            />
+          </figure>
         </div>
 
         <ol className="what-improve__cards" aria-label="Resultatkjede">
@@ -79,8 +94,8 @@ export function WhatWeImprove() {
         </ol>
 
         <footer className="what-improve__scene-footer">
-          <p>Fire resultater. Ett sammenhengende system.</p>
-          <p aria-hidden="true">01 — 04</p>
+          <p>Funnet / Forstått / Valgt / Målt</p>
+          <p>Neste / Dette kan Tigon lage</p>
         </footer>
       </div>
     </section>

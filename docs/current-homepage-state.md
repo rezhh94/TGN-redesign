@@ -3,8 +3,9 @@
 Last reconciled: 2026-07-20.
 
 This file describes what is mounted now. Historical experiments are not design
-authority. The latest committed responsive Tjenester baseline is `293c552`; always inspect
-the live worktree and preserve unrelated edits.
+authority. The committed Effekt recovery point is `91f8580`, built on the
+responsive Tjenester baseline at `293c552`; always inspect the live worktree
+and preserve unrelated edits.
 
 ## Mounted order
 
@@ -67,14 +68,23 @@ remains the readable source of truth.
 
 ### Effekt
 
-`WhatWeImprove` follows Tjenester directly. One stable central headline owns
-the scene while four semantic result cards — FUNNET, FORSTÅTT, VALGT and MÅLT —
-move inward in two diagonal pairs. From 901px, `effectCardsScene` pins only the
-Effekt stage and holds the complete four-card composition before releasing to
-Arbeid. Through 900px the same content uses a two-column or single-column
-normal-flow layout with small one-shot entries. Reduced motion and no-JS expose
-the complete final composition without a pin. No Trionn media, graphics, code
-or assets are mounted.
+`WhatWeImprove` follows Tjenester directly. `Effekt som kan måles.` and its
+supporting sentence open the scene, fade out and reveal the local Tigon-owned
+`/effect/tigon-effect-anchor.png` as a stable central image. Four semantic
+result cards — FUNNET, FORSTÅTT, VALGT and MÅLT — then pass around or over that
+anchor. From 901px, the cards use Trionn's source-verified continuous paired
+paths instead of a Tigon-authored landing: left cards travel bottom-to-top,
+right cards top-to-bottom, and each bends toward its side lane only during the
+first half. At 901–1511px cards are `42%` of viewport width; from 1512px they
+are `28%`; height is `32%` of viewport height. Each pair uses 13 samples,
+duration `.45` and pair offset `.2`. Below 768px, the image is the same
+`999 × 594px` centred scene used by the reference while the cards move over it
+through one 24px-gutter vertical lane: width `viewport - 48px`, height `55%` of
+card width, 13 samples, duration `.3`, offsets `.12` and edge fades at
+`.15/.85`. Both card phases begin at scene progress `.56` and use smoothing
+factor `.08`. Widths 768–900px use a two-column normal-flow layout. Reduced
+motion and no-JS expose the complete normal-flow composition. No Trionn media,
+graphics, code or assets are mounted.
 
 ### Arbeid
 
@@ -90,7 +100,11 @@ the quiet conclusion into Footer. Both keep complete static content without JS.
 ## Motion and lifecycle
 
 - `HomeMotion` initializes scoped scene owners and cleanup. Effekt uses one
-  owner and one ScrollTrigger on wide screens.
+  owner per active responsive branch; desktop and phone branches each use one
+  pinned ScrollTrigger, while 768–900px stays in normal flow.
+- Initial hash navigation is corrected once after the shared
+  `ScrollTrigger.refresh()`, so anchors such as `#arbeid` use the final measured
+  document position after pinned spacing has been created.
 - Lenis is the sole smooth-scroll transport and forwards its scroll event to
   `ScrollTrigger.update`. Desktop uses `lerp .105`, Apple wheel `.6`, other
   wheel `.85`, touch uses wheel `.6` and touch multiplier `1.2`, and both use

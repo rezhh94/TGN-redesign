@@ -175,6 +175,18 @@ export function WhatWeBuild() {
                   </a>
                 </div>
               </article>
+
+              {index === services.length - 1 ? (
+                <div
+                  className="service-panel__effect-shutter"
+                  data-service-effect-shutter
+                  aria-hidden="true"
+                >
+                  {Array.from({ length: 5 }, (_, bandIndex) => (
+                    <span data-service-effect-band key={bandIndex} />
+                  ))}
+                </div>
+              ) : null}
             </li>
           ))}
         </ol>
