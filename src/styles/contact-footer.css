@@ -289,19 +289,21 @@
 }
 
 .contact-footer__wordmark {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 629.06 / 228.36;
   margin: 0;
   color: var(--color-on-dark);
-  font-family: var(--font-display);
-  font-size: clamp(94px, 18.7vw, 400px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.72;
-  text-transform: uppercase;
-  white-space: nowrap;
+  overflow: hidden;
 }
 
 .contact-footer__wordmark span {
-  display: inline-block;
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: currentColor;
+  -webkit-mask: url("/brand/tigon-wordmark-on-dark.svg") left center / contain no-repeat;
+  mask: url("/brand/tigon-wordmark-on-dark.svg") left center / contain no-repeat;
 }
 
 .contact-footer__link:focus-visible,
@@ -393,13 +395,6 @@
 
   .contact-footer__wordmark {
     margin-bottom: 0;
-    font-size: clamp(72px, 23vw, 108px);
-    line-height: 0.74;
-    white-space: normal;
-  }
-
-  .contact-footer__wordmark span {
-    display: block;
   }
 }
 

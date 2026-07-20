@@ -101,27 +101,17 @@
   display: inline-flex;
   align-items: center;
   justify-self: start;
-  gap: 10px;
   color: inherit;
-  font-family: var(--font-display);
-  font-size: 19px;
-  font-weight: 900;
-  line-height: 1;
-  text-transform: uppercase;
 }
 
-.brand__mark {
-  width: auto;
-  height: 22px;
+.brand__lockup {
+  width: clamp(104px, 8.4vw, 124px);
+  aspect-ratio: 761.98 / 204.24;
   flex: none;
   display: block;
-  fill: currentColor;
-}
-
-.brand__name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  background: currentColor;
+  -webkit-mask: url("/brand/tigon-lockup-ink.svg") center / contain no-repeat;
+  mask: url("/brand/tigon-lockup-ink.svg") center / contain no-repeat;
 }
 
 .site-header__tag {
@@ -499,9 +489,12 @@
   }
 
   .site-header__tag,
-  .site-header__contact,
-  .brand__name {
+  .site-header__contact {
     display: none;
+  }
+
+  .brand__lockup {
+    width: 102px;
   }
 
   .menu-toggle {

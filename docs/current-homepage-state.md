@@ -3,7 +3,7 @@
 Last reconciled: 2026-07-20.
 
 This file describes what is mounted now. Historical experiments are not design
-authority. The committed Effekt recovery point is `91f8580`, built on the
+authority. The committed Tjenester→Effekt recovery point is `b9b4b5a`, built on the
 responsive Tjenester baseline at `293c552`; always inspect the live worktree
 and preserve unrelated edits.
 
@@ -37,6 +37,11 @@ page-wide decorative background system or related media lifecycle.
   contrast calibration is isolated in semantic tokens documented in
   `design.md`.
 - Visible orange is prohibited.
+- The active identity assets come from the user's final Tigon export. Header
+  uses the official horizontal lockup, Footer the official wordmark, and all
+  mark masks plus favicon metadata use the final geometric Tigon mark. Their
+  normalized web copies live under `public/brand/`; obsolete inline logo
+  geometry is not mounted.
 
 ## Section state
 
@@ -70,7 +75,8 @@ remains the readable source of truth.
 
 `WhatWeImprove` follows Tjenester directly. `Effekt som kan måles.` and its
 supporting sentence open the scene, fade out and reveal the local Tigon-owned
-`/effect/tigon-effect-anchor.png` as a stable central image. Four semantic
+`/effect/tigon-effect-anchor.png` as a stable central image. The image remains
+unbranded and carries no overlaid logo. Four semantic
 result cards — FUNNET, FORSTÅTT, VALGT and MÅLT — then pass around or over that
 anchor. From 901px, the cards use Trionn's source-verified continuous paired
 paths instead of a Tigon-authored landing: left cards travel bottom-to-top,
@@ -81,8 +87,11 @@ duration `.45` and pair offset `.2`. Below 768px, the image is the same
 `999 × 594px` centred scene used by the reference while the cards move over it
 through one 24px-gutter vertical lane: width `viewport - 48px`, height `55%` of
 card width, 13 samples, duration `.3`, offsets `.12` and edge fades at
-`.15/.85`. Both card phases begin at scene progress `.56` and use smoothing
-factor `.08`. Widths 768–900px use a two-column normal-flow layout. Reduced
+`.15/.85`. Because the phone section overlaps the closing Tjenester shutter by
+one viewport, its visible intro is remapped from scene progress `.20–.66` so
+the title is not consumed behind that shutter. Phone cards begin at `.66` in a
+five-viewport scene; desktop cards retain their `.56` threshold. Both use
+smoothing factor `.08`. Widths 768–900px use a two-column normal-flow layout. Reduced
 motion and no-JS expose the complete normal-flow composition. No Trionn media,
 graphics, code or assets are mounted.
 

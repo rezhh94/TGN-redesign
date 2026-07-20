@@ -1,7 +1,6 @@
 # 03 / Effekt — active contract
 
-Last reconciled: 2026-07-20. Recovery checkpoint: `91f8580`; transition and
-path refinements are uncommitted.
+Last reconciled: 2026-07-20. Connected recovery checkpoint: `b9b4b5a`.
 
 - Files: `WhatWeImprove.tsx`, `what-we-improve.css` and `effectCardsScene` in
   `HomeMotion.tsx`. `OutcomeTensionBridge` is not mounted.
@@ -11,7 +10,8 @@ path refinements are uncommitted.
   cards in semantic order with explanations and measurement signals.
 - The image source is `/effect/tigon-effect-anchor.png`, copied from the user's
   `Tigon mock ups ferdige/Industriell detalj med matte teksturer.png`. It is a
-  static Tigon asset, not Trionn's stone, frame sequence or media.
+  static, unbranded Tigon asset without a logo overlay, not Trionn's stone,
+  frame sequence or media.
 - From 901px, one bounded pinned timeline reveals the dark scene after the
   five-band Tjenester shutter. It uses Trionn's actual continuous pair paths,
   not a separate settle animation: left cards travel bottom-to-top and right
@@ -30,9 +30,11 @@ path refinements are uncommitted.
   `999 × 594px` centred mobile geometry. Card geometry is a 24px
   gutter, width `viewport - 48px`, height `round(.55 * width)`, 13 keyframes,
   vertical travel from `viewportHeight` to `-cardHeight`, duration `.3`, start
-  offset `.12 * index`, opacity ramps at `.15/.85`, card-phase threshold `.56`
-  and smoothing factor `.08`. With four Tigon cards the reference's timing
-  formula is preserved without inventing two absent cards.
+  offset `.12 * index`, opacity ramps at `.15/.85` and smoothing factor `.08`.
+  Its five-viewport scene reserves `.20–.66` for the visible title-to-image
+  handoff after the overlapping Tjenester shutter has begun clearing; phone
+  cards therefore begin at `.66`. With four Tigon cards the reference's card
+  timing formula is preserved without inventing two absent cards.
 - Widths 768–900px use a two-column normal-flow layout. At every width, reduced
   motion and no-JS use the complete normal-flow composition and omit pinning.
 - No Trionn image, video, frame sequence, audio, shader, DrawSVG, asset, font or

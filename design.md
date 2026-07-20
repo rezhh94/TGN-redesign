@@ -59,6 +59,25 @@ system. Section roots own their explicit solid surface. A future visual field
 requires a separate, Tigon-authored design task and may not be inferred from
 this document.
 
+## Brand assets
+
+The sole logo authority is the user's final export under
+`/Users/reezy/Tigon Logo ferdig/Final FIles`. Web-normalized copies live in
+`public/brand/` with semantic names:
+
+- `tigon-lockup-*` is the official horizontal mark plus TIGON STUDIO lockup;
+- `tigon-wordmark-*` is the official stacked TIGON STUDIO wordmark;
+- `tigon-mark-*` is the final geometric Tigon symbol;
+- `favicon-16.png`, `favicon-32.png` and `favicon-512.png` are the supplied
+  final favicon masters.
+
+Use the horizontal lockup for primary navigation identity, the wordmark for a
+large editorial signature and the standalone mark only where the context
+already names Tigon or where the mark is intentionally symbolic. CSS masks may
+use the ink SVG as shape authority and inherit semantic `currentColor`; do not
+redraw the mark, typeset a substitute lockup or reintroduce the obsolete inline
+symbol.
+
 ## Typography
 
 ### Font roles

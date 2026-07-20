@@ -1034,7 +1034,12 @@ function effectCardsScene() {
       section.setAttribute("data-effect-mobile-ready", "");
       let cleanupMobileMotion = () => {};
       const ctx = gsap.context(() => {
-        const cardStart = 0.56;
+        // The Effekt section overlaps the final service by one viewport while
+        // the mobile shutter closes. Do not spend the title phase underneath
+        // that shutter: begin the visible intro after the overlap has started
+        // clearing, then give the image its own handoff before cards enter.
+        const introStart = 0.2;
+        const cardStart = 0.66;
         const cardGutter = 24;
         const cardKeyframeCount = 13;
         const cardDuration = 0.3;
@@ -1126,14 +1131,18 @@ function effectCardsScene() {
           id: "effect-cards-scene-mobile",
           trigger: section,
           start: "top top",
-          end: () => `+=${Math.round(window.innerHeight * 4)}`,
+          end: () => `+=${Math.round(window.innerHeight * 5)}`,
           pin: stage,
           pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const sceneProgress = self.progress;
-            introTimeline.progress(Math.min(1, sceneProgress / cardStart));
+            introTimeline.progress(gsap.utils.clamp(
+              0,
+              1,
+              (sceneProgress - introStart) / (cardStart - introStart),
+            ));
             targetCardsProgress = sceneProgress < cardStart
               ? 0
               : Math.min(1, (sceneProgress - cardStart) / (1 - cardStart));

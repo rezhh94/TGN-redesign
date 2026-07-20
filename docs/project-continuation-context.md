@@ -4,8 +4,9 @@ Last reconciled: 2026-07-20.
 
 ## Worktree boundary
 
-The current committed Effekt checkpoint is `91f8580`, built on the responsive
-Tjenester baseline at `293c552`. Always inspect the current worktree before
+The connected Tjenester→Effekt baseline is `b9b4b5a`, built on the responsive
+Tjenester baseline at `293c552`. The current identity and mobile-timing
+checkpoint is built on top of it. Always inspect the current worktree before
 acting; do not reset, checkout or overwrite unrelated changes.
 Do not commit or push without explicit instruction, and stage exact files if
 publishing is later requested.
@@ -24,14 +25,12 @@ publishing is later requested.
 Header → Hero → Intro → Tjenester → Effekt → Arbeid → Prosess → System →
 Footer.
 
-Intro and Tjenester contain the committed responsive baseline. `91f8580`
-stores the recovery point for Effekt: a stable central headline and four
-scroll-driven result cards. The current worktree refines only the
-Tjenester→Effekt→Arbeid continuity and card paths on top of that checkpoint.
-Its uncommitted Effekt direction now opens with `Effekt som kan måles.`, swaps
-the repeated central copy for a Tigon-owned material image and gives phones the
-source-verified Trionn single-lane card-over-image geometry.
-Inspect the diff before assuming those refinements are published. Arbeid is
+Intro and Tjenester contain the committed responsive baseline. `b9b4b5a`
+stores the connected Effekt recovery point: `Effekt som kan måles.`, a
+Tigon-owned material image and four scroll-driven result cards with the
+source-verified desktop and phone paths. The mounted identity uses the official
+final Tigon lockup, wordmark, mark and favicons. The Effekt material image
+stays unbranded without a logo overlay. Arbeid is
 capability-led and never a false portfolio claim. No visual section is
 protected: Header, Hero, all body chapters, handoffs, Arbeid and Footer may be
 redesigned.
