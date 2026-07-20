@@ -798,8 +798,8 @@ function servicesScene() {
     section.removeAttribute("data-service-effect-ready");
   };
 }
-// 03 / Effekt — a Tigon-authored focus field resolves beneath the outgoing
-// service plane before four result cards enter. Wide screens use two opposing
+// 03 / Effekt — the fixed result statement resolves beneath the outgoing
+// service plane and remains behind four result cards. Wide screens use two opposing
 // currents and a symmetric 2x2 settle; phones use one shared centred vertical
 // lane, one card at a time. CSS remains the complete readable fallback.
 function effectCardsScene() {
@@ -808,7 +808,6 @@ function effectCardsScene() {
   const rail = section?.querySelector<HTMLElement>(".what-improve__rail");
   const center = section?.querySelector<HTMLElement>("[data-effect-center]");
   const prelude = section?.querySelector<HTMLElement>("[data-effect-prelude]");
-  const focus = section?.querySelector<HTMLElement>("[data-effect-focus]");
   const footer = section?.querySelector<HTMLElement>(".what-improve__scene-footer");
   const cards = gsap.utils.toArray<HTMLElement>("[data-effect-card]", section);
 
@@ -818,7 +817,6 @@ function effectCardsScene() {
     || !rail
     || !center
     || !prelude
-    || !focus
     || !footer
     || cards.length !== 4
   ) {
@@ -865,7 +863,6 @@ function effectCardsScene() {
           y: 0,
           filter: "blur(24px)",
         });
-        gsap.set(focus, { autoAlpha: 0, scale: 1 });
         gsap.set(footer, { autoAlpha: 0 });
         setDesktopCardGeometry();
         gsap.set(cards, {
@@ -886,14 +883,7 @@ function effectCardsScene() {
             duration: 0.32,
           }, 0)
           .to(rail, { autoAlpha: 1, y: 0, duration: 0.14 }, 0.18)
-          .to({}, { duration: 0.62 }, 0)
-          .to(prelude, {
-            autoAlpha: 0,
-            filter: "blur(24px)",
-            duration: 0.16,
-          }, 0.62)
-          .to(focus, { autoAlpha: 1, duration: 0.22 }, 0.76)
-          .to({}, { duration: 0.02 });
+          .to({}, { duration: 1 }, 0);
 
         const cardsTimeline = gsap.timeline({
           paused: true,
@@ -995,6 +985,12 @@ function effectCardsScene() {
               : Math.min(1, (sceneProgress - cardStart) / (1 - cardStart));
 
             const outroProgress = gsap.utils.clamp(0, 1, (sceneProgress - 0.92) / 0.08);
+            if (sceneProgress >= cardStart) {
+              gsap.set(prelude, {
+                autoAlpha: 1 - outroProgress,
+                filter: `blur(${24 * outroProgress}px)`,
+              });
+            }
             gsap.set(rail, { autoAlpha: 1 - outroProgress });
             gsap.set(footer, { autoAlpha: outroProgress });
           },
@@ -1072,7 +1068,6 @@ function effectCardsScene() {
           y: 0,
           filter: "blur(24px)",
         });
-        gsap.set(focus, { autoAlpha: 0, scale: 1 });
         gsap.set(footer, { autoAlpha: 0 });
         setMobileCardGeometry();
         gsap.set(cards, {
@@ -1095,14 +1090,7 @@ function effectCardsScene() {
             duration: 0.32,
           }, 0)
           .to(rail, { autoAlpha: 1, y: 0, duration: 0.14 }, 0.18)
-          .to({}, { duration: 0.62 }, 0)
-          .to(prelude, {
-            autoAlpha: 0,
-            filter: "blur(24px)",
-            duration: 0.16,
-          }, 0.62)
-          .to(focus, { autoAlpha: 1, duration: 0.22 }, 0.76)
-          .to({}, { duration: 0.02 });
+          .to({}, { duration: 1 }, 0);
 
         const cardsTimeline = gsap.timeline({
           paused: true,
@@ -1171,6 +1159,12 @@ function effectCardsScene() {
               : Math.min(1, (sceneProgress - cardStart) / (1 - cardStart));
 
             const outroProgress = gsap.utils.clamp(0, 1, (sceneProgress - 0.92) / 0.08);
+            if (sceneProgress >= cardStart) {
+              gsap.set(prelude, {
+                autoAlpha: 1 - outroProgress,
+                filter: `blur(${24 * outroProgress}px)`,
+              });
+            }
             gsap.set(rail, { autoAlpha: 1 - outroProgress });
             gsap.set(footer, { autoAlpha: outroProgress });
           },

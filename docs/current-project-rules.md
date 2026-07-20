@@ -65,7 +65,8 @@ assets. Do not introduce visible orange. Do not commit or push unless asked.
   normal-flow phone, reduced-motion and no-JS fallbacks.
 - Effekt currently follows Tjenester through a five-band dark shutter. Its
   separate fixed central result statement resolves from blur after the shutter before
-  four `FUNNET / FORSTÅTT / VALGT / MÅLT` cards enter opposing vertical currents.
+  four `FUNNET / FORSTÅTT / VALGT / MÅLT` cards enter opposing vertical currents
+  over the same title. No Effekt background or foreground image is mounted.
 - Arbeid currently uses six future-facing capability links in `WorkProof`.
 - Prosess currently presents Retning, Bygg and Live.
 - System currently closes into Footer.

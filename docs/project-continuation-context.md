@@ -26,18 +26,18 @@ Header → Hero → Intro → Tjenester → Effekt → Arbeid → Prosess → Sy
 Footer.
 
 Intro and Tjenester contain the committed responsive baseline. `b9b4b5a`
-stores the connected Effekt recovery point: `Effekt som kan måles.`, a
-Tigon-owned material image and four scroll-driven result cards with the
+stores the connected Effekt recovery point: `Effekt som kan måles.` as a fixed
+central anchor and four scroll-driven result cards with the
 source-verified desktop and phone paths. The mounted identity uses the official
-final Tigon lockup, wordmark, mark and favicons. The Effekt material image
-stays unbranded without a logo overlay. Arbeid is
+final Tigon lockup, wordmark, mark and favicons. The Effekt material image is
+no longer mounted. Arbeid is
 capability-led and never a false portfolio claim. No visual section is
 protected: Header, Hero, all body chapters, handoffs, Arbeid and Footer may be
 redesigned.
 
-The page body still uses solid semantic surfaces. Effekt mounts one local
-Tigon-owned foreground image; there is no global decorative background-media
-owner or related scroll state.
+The page body still uses solid semantic surfaces. Effekt is typographic and
+mounts no foreground or background image; there is no global decorative
+background-media owner or related scroll state.
 
 ## Current design-system decision
 

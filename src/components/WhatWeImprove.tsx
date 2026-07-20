@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const outcomes = [
   {
     key: "funnet",
@@ -59,16 +57,6 @@ export function WhatWeImprove() {
             </p>
           </div>
 
-          <figure className="what-improve__focus" data-effect-focus aria-hidden="true">
-            <Image
-              className="what-improve__focus-image"
-              src="/effect/tigon-effect-anchor.png"
-              alt=""
-              fill
-              sizes="(max-width: 767px) 999px, (max-width: 1023px) 133vw, 178vh"
-              priority={false}
-            />
-          </figure>
         </div>
 
         <ol className="what-improve__cards" aria-label="Resultatkjede">

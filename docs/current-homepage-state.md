@@ -75,18 +75,17 @@ remains the readable source of truth.
 
 `WhatWeImprove` follows Tjenester directly. `Effekt som kan måles.` and its
 supporting sentence resolve from a soft blur, hold sharp for reading, then
-blur out from the same fixed centre position and reveal the local Tigon-owned
-`/effect/tigon-effect-anchor.png` as a stable central image. The image remains
-unbranded and carries no overlaid logo. Four semantic
-result cards — FUNNET, FORSTÅTT, VALGT and MÅLT — then pass around or over that
-anchor. From 901px, the cards use Trionn's source-verified continuous paired
+remain in the same fixed centre position while four semantic result cards —
+FUNNET, FORSTÅTT, VALGT and MÅLT — pass around or over the title. The title
+blurs out only at the scene exit. No foreground or background image is mounted
+in Effekt. From 901px, the cards use Trionn's source-verified continuous paired
 paths instead of a Tigon-authored landing: left cards travel bottom-to-top,
 right cards top-to-bottom, and each bends toward its side lane only during the
 first half. At 901–1511px cards are `42%` of viewport width; from 1512px they
 are `28%`; height is `32%` of viewport height. Each pair uses 13 samples,
-duration `.45` and pair offset `.2`. Below 768px, the image is the same
-`999 × 594px` centred scene used by the reference while the cards move over it
-through one 24px-gutter vertical lane: width `viewport - 48px`, height `55%` of
+duration `.45` and pair offset `.2`. Below 768px, the title remains centred
+while the cards move over it through one 24px-gutter vertical lane: width
+`viewport - 48px`, height `55%` of
 card width, 13 samples, duration `.3`, offsets `.12` and edge fades at
 `.15/.85`. Five dark bands close the final Tjenester panel into one complete
 dark viewport. The real Effekt scene begins afterward on the matching surface,
@@ -95,8 +94,8 @@ handoff uses the final service viewport and Effekt starts at its natural end
 boundary without overlap. The opacity-and-blur intro begins at scene progress `0`
 and reaches the
 unchanged `.66` card threshold in a five-viewport scene. Desktop likewise
-begins the same opacity-and-blur sequence at `0` and completes the title-to-image handoff by the unchanged
-`.56` card threshold. Both use
+begins the same opacity-and-blur sequence at `0`; the title is sharp before the
+unchanged `.56` card threshold and remains present through the card phase. Both use
 smoothing factor `.08`. Widths 768–900px use a two-column normal-flow layout. Reduced
 motion and no-JS expose the complete normal-flow composition. No Trionn media,
 graphics, code or assets are mounted.
