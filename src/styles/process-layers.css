@@ -31,10 +31,11 @@
   grid-column: 1 / 3;
   align-self: start;
   color: var(--on-dark-quiet);
-  font-family: var(--tigon-type-meta);
-  font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
+  font-family: var(--font-title), sans-serif;
+  font-size: var(--type-title-size);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-title-track);
+  line-height: var(--type-title-leading);
   text-transform: uppercase;
 }
 
@@ -43,10 +44,10 @@
   margin: 0;
   color: var(--color-on-dark);
   font-family: var(--tigon-type-display);
-  font-size: clamp(72px, 9.3vw, 170px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.8;
+  font-size: var(--type-h2-size);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-h2-track);
+  line-height: var(--type-h2-leading);
   text-transform: uppercase;
 }
 
@@ -67,8 +68,8 @@
   max-width: 31ch;
   color: var(--on-dark-strong);
   font-family: var(--tigon-type-editorial);
-  font-size: var(--fz-lead-l);
-  line-height: 1.45;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
 }
 
 .process-journey__intro-copy span {
@@ -76,9 +77,10 @@
   margin-top: 22px;
   color: var(--on-dark-faint);
   font-family: var(--tigon-type-meta);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.4;
+  font-size: var(--type-button-size);
+  font-weight: var(--weight-mono);
+  letter-spacing: var(--type-button-track);
+  line-height: var(--type-button-leading);
   text-transform: uppercase;
 }
 
@@ -94,9 +96,10 @@
   border-bottom: 0;
   color: var(--on-dark-quiet);
   font-family: var(--tigon-type-meta);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.3;
+  font-size: var(--type-button-size);
+  font-weight: var(--weight-mono);
+  letter-spacing: var(--type-button-track);
+  line-height: var(--type-button-leading);
   text-transform: uppercase;
 }
 
@@ -160,9 +163,10 @@
 .process-phase__head,
 .process-phase__output {
   font-family: var(--tigon-type-meta);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.3;
+  font-size: var(--type-button-size);
+  font-weight: var(--weight-mono);
+  letter-spacing: var(--type-button-track);
+  line-height: var(--type-button-leading);
   text-transform: uppercase;
 }
 
@@ -183,7 +187,7 @@
 
 .process-phase__head strong,
 .process-phase__output strong {
-  font-weight: 400;
+  font-weight: var(--weight-mono);
 }
 
 .process-phase--03 .process-phase__head {
@@ -203,11 +207,11 @@
   position: absolute;
   inset: 50% auto auto 50%;
   color: var(--blekk);
-  font-family: var(--tigon-type-display);
-  font-size: clamp(210px, 18vw, 332px);
-  font-weight: 700;
-  letter-spacing: -0.09em;
-  line-height: 0.72;
+  font-family: var(--font-editorial);
+  font-size: var(--type-numbers-size);
+  font-weight: 200;
+  letter-spacing: var(--type-number-track);
+  line-height: var(--type-numbers-leading);
   transform: translate(-52%, -50%);
 }
 
@@ -229,11 +233,11 @@
 .process-phase__copy h3 {
   max-width: 10ch;
   margin: 0 auto;
-  font-family: var(--tigon-type-display);
-  font-size: clamp(43px, 4.4vw, 72px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.82;
+  font-family: var(--font-body);
+  font-size: var(--type-h3-size);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-h3-track);
+  line-height: var(--type-h3-leading);
   text-transform: uppercase;
 }
 
@@ -246,8 +250,8 @@
   margin: clamp(18px, 1.5vw, 24px) auto 0;
   color: var(--on-light-strong);
   font-family: var(--tigon-type-editorial);
-  font-size: var(--fz-lead-s);
-  line-height: 1.48;
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
 }
 
 .process-phase--03 .process-phase__copy p {
@@ -264,9 +268,9 @@
   max-width: 15ch;
   color: var(--blekk);
   font-family: var(--tigon-type-editorial);
-  font-size: var(--fz-lead-s);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  font-size: var(--type-small-size);
+  letter-spacing: normal;
+  line-height: var(--type-small-leading);
   text-align: right;
   text-transform: none;
 }
@@ -291,23 +295,25 @@
 }
 
 /* Overgangstekst mot kontakt — ikke et display-statement. Work-statementet
-   eier den store JUST Sans-kontrasten alene. */
+   eier den store Neue Montreal-kontrasten alene. */
 .process-journey__closer > p {
   max-width: 30ch;
   margin: 0;
   color: var(--on-dark-strong);
   font-family: var(--tigon-type-editorial);
-  font-size: clamp(22px, 1.9vw, 30px);
-  letter-spacing: -0.02em;
-  line-height: 1.3;
+  font-size: var(--type-body-size);
+  letter-spacing: normal;
+  line-height: var(--type-body-leading);
 }
 
 .process-journey__closer a {
   padding-bottom: 6px;
   color: var(--color-on-dark);
   font-family: var(--tigon-type-meta);
-  font-size: var(--fz-mono-l);
-  letter-spacing: var(--mono-track);
+  font-size: var(--type-button-size);
+  font-weight: var(--weight-mono);
+  letter-spacing: var(--type-button-track);
+  line-height: var(--type-button-leading);
   text-decoration: none;
   text-transform: uppercase;
 }
@@ -351,11 +357,6 @@
     border-left: 0;
   }
 
-  .process-phase__copy h3,
-  .process-phase--02 .process-phase__copy h3,
-  .process-phase--03 .process-phase__copy h3 {
-    font-size: clamp(52px, 7vw, 76px);
-  }
 }
 
 @media (max-width: 640px) {
@@ -365,10 +366,6 @@
 
   .process-journey__intro {
     padding: 88px 20px 48px;
-  }
-
-  .process-journey__title {
-    font-size: clamp(58px, 18vw, 86px);
   }
 
   .process-system {
@@ -403,22 +400,8 @@
     grid-row: auto;
   }
 
-  .process-phase__copy h3,
-  .process-phase--02 .process-phase__copy h3,
-  .process-phase--03 .process-phase__copy h3 {
-    font-size: clamp(44px, 13vw, 58px);
-  }
-
-  .process-phase__copy p {
-    font-size: var(--fz-lead-s);
-  }
-
   .process-phase__signal {
     min-height: 310px;
-  }
-
-  .process-phase__numeral {
-    font-size: clamp(210px, 64vw, 276px);
   }
 
   .process-journey__closer {

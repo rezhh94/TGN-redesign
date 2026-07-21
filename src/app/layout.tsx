@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { SiteHeader } from "@/components/SiteHeader";
-import "@/styles/fonts.css";
 import "@/styles/tokens.css";
 import "@/styles/base.css";
 import "@/styles/typography.css";
@@ -17,6 +17,60 @@ import "@/styles/work-proof.css";
 import "@/styles/process-layers.css";
 import "@/styles/system-manifesto.css";
 import "@/styles/contact-footer.css";
+
+const neueMontreal = localFont({
+  src: [
+    {
+      path: "./fonts/PPNeueMontreal-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/PPNeueMontreal-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
+  variable: "--font-display",
+  display: "swap",
+  fallback: ["Arial", "sans-serif"],
+});
+
+const familjenGrotesk = localFont({
+  src: [
+    {
+      path: "./fonts/FamiljenGrotesk-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/FamiljenGrotesk-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
+  variable: "--font-body",
+  display: "swap",
+  fallback: ["Arial", "sans-serif"],
+});
+
+const martianMono = localFont({
+  src: "./fonts/MartianMono-StdLt.woff2",
+  weight: "300",
+  style: "normal",
+  variable: "--font-mono",
+  display: "swap",
+  fallback: ["SFMono-Regular", "Consolas", "monospace"],
+});
+
+const editorialNew = localFont({
+  src: "./fonts/PPEditorialNew-Ultralight.woff2",
+  weight: "200",
+  style: "normal",
+  variable: "--font-editorial",
+  display: "swap",
+  fallback: ["Georgia", "serif"],
+});
 
 export const metadata: Metadata = {
   title: "Tigon Studio | Nettsider og apper som blir funnet",
@@ -38,31 +92,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nb">
+    <html
+      lang="nb"
+      className={`${neueMontreal.variable} ${familjenGrotesk.variable} ${martianMono.variable} ${editorialNew.variable}`}
+    >
       <body>
-        {/* LCP er tekst i disse tre fontene; preload fjerner font-swap-blinket.
-            React hoister link-elementene til <head>. */}
-        <link
-          rel="preload"
-          href="/fonts/TGSPerfectCondensed.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/JUSTSans-Regular.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/CSCalebMono-Regular.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
         <SiteHeader />
         {children}
       </body>

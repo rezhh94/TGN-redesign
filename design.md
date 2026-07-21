@@ -15,11 +15,13 @@ precise grids, deliberate negative space and a small number of motion ideas.
 The Trionn analysis is used as construction calibration. Its useful principles
 are role-based typography, 12-column composition, tight display leading, real
 HTML above optional visual layers and structural mobile branches. Verified
-Trionn-authored public code, shader logic and exact motion values may be copied
+Trionn-authored public code, shader logic and exact values may be copied
 or adapted from the first-party modules identified in the local evidence
 README when they genuinely fit. Whole bundles, co-located third-party/runtime
-code, fonts, site-wide root scaling, colour signature, media, logos, content
-and identity-bearing combinations remain rejected.
+code, reference font binaries, site-wide root scaling, colour signature,
+media, logos, content and identity-bearing combinations remain rejected. The
+source type metrics and responsive root basis are reproduced through isolated
+type tokens; they do not alter `html` or non-type rem layout.
 
 One narrow calibration is explicitly approved: light information typography
 uses the neutral `#434343` heading/body and `#272727` row tones plus the
@@ -44,10 +46,11 @@ Tigon has previously built.
 | KEEP | Semantic HTML remains complete without JS | Motion enhances readable final states. |
 | KEEP | Role-based type instead of a forced modular scale | Size, leading and tracking are calibrated together per role. |
 | KEEP | Structural mobile alternative | Change composition when the interaction model changes. |
-| ADAPT | Tight, near-equal display levels | Use TGS Perfect with Tigon-specific clamps and less extreme compression. |
-| ADAPT | Mono system labels and buttons | Use Caleb Mono with readable tracking and 13–14px labels. |
+| COPY | Source type metrics and responsive basis | Preserve exact size, leading, tracking and breakpoints through isolated type tokens. |
+| COPY / ADAPT | Approved source families | Use exact official Familjen Grotesk and Martian Mono files; map Neue Haas Display to the locally licensed PP Neue Montreal. Never use binaries from the Trionn mirror. |
 | ADAPT | 24/40px reference gutters | Use a fluid 24–48px Tigon gutter and a 16–24px grid gap. |
-| REJECT | Reference fonts, assets and site-wide root scaling | Never import them or let paper calibration alter the rest of Tigon. |
+| COPY | Editorial New Ultralight | Use the locally owned exact face for the source's selected serif-number role. |
+| REJECT | Reference font binaries, assets and global root mutation | Never import them from the mirror or let type calibration alter non-type rem layout. |
 | REJECT | Orange energy signature and shader language | Tigon remains neutral with pine/green only as a micro-signal. |
 | REJECT | Long preloader and effect density as identity | Motion must serve hierarchy and reading. |
 
@@ -87,60 +90,69 @@ symbol.
 
 | Token | Family | Role | Why |
 | --- | --- | --- | --- |
-| `--font-display` | TGS Perfect | short display titles and monumental words | Condensed weight creates scale without consuming excessive width. |
-| `--font-editorial` / `--font-sans` | JUST Sans | statements, headings and body | Neutral, humane reading voice balances the display face. |
-| `--font-meta` / `--font-mono` | Caleb Mono | labels, metadata and actions | Creates a precise system register distinct from editorial copy. |
-| `--font-paper` | Switzer | titles, explanations, labels and rows on light information fields | A user-approved neutral neo-grotesk with proportions closer to the intended paper hierarchy; it is deliberately not the site-wide editorial voice. |
+| `--font-display` | PP Neue Montreal | Trionn's Neue Haas reading-copy role | Regular `400` is the legal local substitute for paragraphs, supporting copy and list rows. The variable name is retained from the approved stack even though the source does not use Neue Haas for its large headings. |
+| `--font-body` | Familjen Grotesk | H1-H4, large display, title labels, menu and marquee | Official Regular `400`; official Medium `500` only for the source's selected-work opening. |
+| `--font-mono` | Martian Mono | button text, text actions and explicitly technical microcopy | The exact static Standard Light `300` face creates the source's narrow action register. |
+| `--font-editorial` | PP Editorial New | selected serif accents and editorial phrases only | Ultralight `200` adds controlled contrast without becoming the site-wide reading face. |
+| `--font-primary` / `--font-sans` / `--font-paper` | PP Neue Montreal aliases | compatibility aliases for reading-copy roles | Existing prose consumers resolve to the legal Neue Haas substitute. |
 
-Use weights `400`, `500`, `600` and `700` only. Sentence-case editorial and
-paper information text normally use `400`; display uses `700`; Caleb Mono
-controls use its real `400` face. Never synthesize a weight that is not
+Use PP Neue Montreal Regular (`400`) for reading copy. Familjen Grotesk uses
+Regular (`400`) for the source's heading/title system and its real Medium
+(`500`) file only for the documented work-opening emphasis. Martian Mono uses
+Standard Light (`300`). PP Editorial New uses Ultralight (`200`) only through
+explicit editorial accent roles. Never synthesize a weight that is not
 supplied by a real font file.
 
 ### Scale logic
 
-This is deliberately not a 1.25 or 1.333 modular scale. Like strong editorial
-sites, it uses optical roles. The fluid display variants sit close together;
-their hierarchy comes from context, family and composition. At maximum size,
-`display-2xl / display-xl = 100 / 88 = 1.136`, while `heading-lg / body-md =
-36 / 18 = 2`. This preserves useful differentiation without creating a ladder
-of nearly redundant tokens.
+The source uses `html { font-size: calc(1000vw / var(--size)) }`. Tigon keeps
+the exact arithmetic but applies it only inside type tokens with
+`calc(Nvw / var(--trionn-type-size))`. This gives the same computed type size
+at every viewport without changing the document root or any spacing expressed
+in `rem`.
 
-| Role | Executable value | Why | Boundary |
-| --- | --- | --- | --- |
-| Display hero | `clamp(72px, 8.4vw, 144px)` / `.84` / `-.02em` | Wide brand statements need stronger scale but a less extreme ceiling than the earlier oversized system. | Tigon identity value; calibrate per composition. |
-| Display 2XL | `clamp(60px, 6.6vw, 100px)` / `.88` / `-.018em` | Covers primary chapter titles in the same visual league as the reference without copying its formula. | Tigon identity value. |
-| Display XL | `clamp(48px, 6.1vw, 88px)` / `.9` / `-.016em` | A near-peer optical variant for secondary monumental titles. | Tigon identity value. |
-| Display LG | `clamp(32px, 2.5vw, 40px)` / `.96` | Compact display for panels and capability names. | Generic role, Tigon calibration. |
-| Display MD | `clamp(24px, 2vw, 32px)` / `1` | Lowest display level before editorial headings take over. | Generic. |
-| Statement | `clamp(36px, 4.45vw, 88px)` / `1.02` / `-.035em` | Long editorial sentences need a larger minimum leading and controlled width; this is not a short display title. | Tigon Intro identity value. |
-| Heading LG | `clamp(28px, 2.5vw, 36px)` / `1.08` | Clear section subhead without competing with display. | Generic. |
-| Heading MD | `clamp(22px, 1.8vw, 28px)` / `1.12` | Stable content-heading role. | Generic. |
-| Heading SM | `18px` / `1.2` | Smallest true heading; below this use meta. | Generic. |
-| Lead LG | `clamp(18px, 1.35vw, 22px)` / `1.42` | Large explanatory copy with comfortable measure. | Generic. |
-| Lead MD | `clamp(17px, 1.2vw, 20px)` / `1.45` | Default section lead. | Generic. |
-| Lead SM | `clamp(15px, 1vw, 17px)` / `1.5` | Compact supporting prose. | Generic. |
-| Body LG | `clamp(18px, 1.25vw, 20px)` / `1.55` | Long-form emphasis. | Generic. |
-| Body MD | `clamp(16px, 1.1vw, 18px)` / `1.55` | Default body; never below 16px at standard zoom. | Generic accessibility baseline. |
-| Body SM | `clamp(14px, 1vw, 16px)` / `1.5` | Secondary copy, not dense paragraphs. | Generic. |
-| Body XS | `clamp(12px, .9vw, 14px)` / `1.4` | Captions and legal copy only. | Generic. |
-| Paper heading | verified paper scale / `1` / `-.04em` / `400` | Calm sentence-case information title, calibrated as a complete role rather than enlarged with a generic heading clamp. | Shared light-surface role. |
-| Paper copy | verified paper scale / `1.22` / normal tracking / `400` | Short explanatory copy on a light information field. | Shared light-surface role. |
-| Paper row | verified paper scale / `1.2` / normal tracking / `400` | Scan-friendly capability or specification rows with a neutral Roman texture. | Shared light-surface role. |
-| Paper label | verified paper scale / `1` / `-.02em` / `400` | Uppercase grouping label without switching to a decorative mono register. | Shared light-surface role. |
-| Meta LG | `clamp(14px, 1.1vw, 16px)` / `1.25` | Prominent system label. | Generic. |
-| Meta MD | `clamp(12px, .95vw, 14px)` / `1.3` | Default eyebrow and metadata. | Generic. |
-| Meta SM | `clamp(10px, .8vw, 12px)` / `1.35` | Microcopy only; avoid for important actions. | Generic. |
+| Minimum viewport | Exact source basis |
+| ---: | ---: |
+| default | `320` |
+| `440px` | `360` |
+| `640px` | `480` |
+| `768px` | `750` |
+| `1024px` | `850` |
+| `1280px` | `1000` |
+| `1441px` | `1180` |
+| `1536px` | `1280` |
 
-The tuple in each row is size / line-height / optional tracking. Display and
-statement tracking are identity-bearing; use them only through tokens. Meta
-tracking is `0.04em` because Caleb Mono remains clearer than the reference's
-strong negative tracking.
+| Source role | Exact size / leading / tracking | Tigon family mapping |
+| --- | --- | --- |
+| H1 | `clamp(3.75rem, 6.614vw, 6.25rem)` / `clamp(3.5rem, 5.952vw, 5.625rem)` / `-.06em` | Familjen Grotesk Regular |
+| H2 | `clamp(2.5rem, 6.283vw, 5.938rem)` / `clamp(2.2rem, 5.952vw, 5.625rem)` / `-.06em` | Familjen Grotesk Regular |
+| H2 big | `clamp(3.5rem, 6.349vw, 6rem)` / `clamp(3.25rem, 5.82vw, 5.5rem)` / `-.06em` | Familjen Grotesk Regular |
+| H3 | `1.75rem`; `2.25rem` from `1280px` / `1` / `-.04em` | Familjen Grotesk Regular |
+| H4 | `1.125rem` / `1.25rem` / `-.02em` | Familjen Grotesk Regular |
+| Document body | `1.25rem`; `1rem` from `1024px` / normal throughout | PP Neue Montreal Regular |
+| Paragraph | `1.25rem`; `1.125rem` from `1024px`; `1.25rem` from `1536px` / normal throughout | PP Neue Montreal Regular |
+| Small | `1.25rem`; `1.125rem` from `1024px`; `1rem` from `2000px` / normal throughout | PP Neue Montreal Regular |
+| Title/meta | `1.125rem`; `1.063rem` from `1024px`; `1.125rem` from `1536px`; `1rem` from `2000px` / `1` throughout / `-.02em` | Familjen Grotesk Regular |
+| Button | `1rem`; `.875rem` from `1024px` / normal throughout / `-.06em` | Martian Mono Standard Light |
+| Menu | `3rem`; `1.25rem` from `768px` / `1.375rem` throughout / `-.04em` | Familjen Grotesk Regular |
+| Number small | `3.5rem` / `3.125rem` / `-.06em` | Familjen Grotesk Regular |
+| Numbers | `5.375rem` / `6.125rem` / `-.06em` | PP Editorial New Ultralight |
+| Marquee | `clamp(5rem, 9.164vw, 10rem)` / `.672` / `-.08em` | Familjen Grotesk Regular |
+| Work opening | `2.5rem`; `3rem` from `768px` / `1.1` / `-.025em` / `500` | Familjen Grotesk Medium |
+
+The legacy `display-*`, `heading-*`, `lead-*`, `body-*`, `meta-*` and `fz-*`
+names remain compatibility aliases only. They resolve to these exact source
+roles and may not regain section-local clamps. Section CSS controls measure,
+alignment and spacing, not font metrics.
+
+The four `type-paper-*` roles continue to express the source's light
+information hierarchy and use the same responsive basis. They are not a
+separate scale.
 
 The four `type-paper-*` roles are one complete information hierarchy, not a
-Tjenester-only scale. All four use Switzer Regular from Fontshare's official
-web-font endpoint. Switzer is a user-approved Tigon paper voice, not a Trionn
-font or a new site-wide default. The roles are consumed through
+Tjenester-only scale. Heading and label use Familjen Grotesk Regular; copy and
+rows use PP Neue Montreal Regular. The
+roles are consumed through
 `src/styles/typography.css`; components may control measure and spacing, but
 may not replace their font metrics or colours locally.
 
@@ -163,7 +175,7 @@ The executable `--type-paper-scale-basis` and `--type-paper-*-size` tokens
 reproduce this responsive size logic inside the paper hierarchy only. Do not
 replace them with a section-local `clamp()`, and do not apply the basis to
 `html`, `body` or another type family. Colour remains fixed through
-`--paper-text-*`; family remains Tigon's approved Switzer. This isolation is
+`--paper-text-*`; families remain the approved body and mono roles. This isolation is
 the clean-room boundary.
 
 ## Spacing and grid
@@ -198,7 +210,7 @@ reference control.
 | Small height | `40px` | Compact navigation or utility action; still a usable target. |
 | Medium height | `48px` | Default control height. |
 | Large height | `56px` | Hero or primary conversion action. |
-| Label | `clamp(13px, .95vw, 14px)`, line `1`, tracking `-.04em`, weight `400` | Uses Caleb Mono's real face and remains more legible than the reference's `-.06em`. |
+| Label | exact Button role: `1rem`, `.875rem` from `1024px`, normal leading, `-.06em`, weight `300` | Uses Martian Mono Standard Light while preserving the source metrics. |
 | Horizontal padding | `20 / 24 / 28px` | Scales with height and supports short Norwegian labels. |
 | Radius | `999px` | Gives one unambiguous action silhouette. |
 | Primary | light fill `#f2f1eb`, dark text `#10100f` | Maximum conversion contrast. |
@@ -276,7 +288,8 @@ with ScrollTrigger, but it is infrastructure rather than visual identity.
 
 1. Add or change a role in `src/styles/tokens.css` first.
 2. Explain identity-bearing changes here.
-3. Consume semantic roles in section CSS; do not paste reference values.
+3. Consume the source-matched semantic roles in section CSS; do not create a
+   second local type scale.
 4. Preserve no-JS reading, reduced motion, keyboard focus and touch targets.
 5. Validate at 390, 768, 1024 and 1440px before accepting a new role.
 6. New background art, fonts or third-party assets require explicit approval.

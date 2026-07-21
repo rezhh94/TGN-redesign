@@ -1,6 +1,6 @@
 # 02 / Tjenester — pinned panel contract
 
-Last reconciled: 2026-07-20.
+Last reconciled: 2026-07-21.
 
 Status: implemented in the current worktree.
 
@@ -18,11 +18,11 @@ Status: implemented in the current worktree.
   surface continuous while still marking each new service.
 - The information hierarchy consumes the global `type-paper-heading`,
   `type-paper-copy`, `type-paper-label` and `type-paper-row` roles. All four use
-  Switzer Regular as the user-approved paper voice; JUST Sans remains the
-  site-wide editorial font. The shared scale and neutral paper colours are
-  owned by `tokens.css` and `typography.css`, never repeated as section-local
-  values. The responsive sizes are computed from verified local-source
-  breakpoints and remain isolated from the document root.
+  Familjen Grotesk Regular for heading and label, and PP Neue Montreal Regular
+  for explanation and capability rows. The shared scale and neutral paper colours are owned
+  by `tokens.css` and `typography.css`, never repeated as section-local values.
+  The responsive sizes are computed from verified local-source breakpoints and
+  remain isolated from the document root.
 - The former cube, perspective transforms, corner brackets, duplicate labels,
   bottom index, progress hairline and top divider are absent.
 - A quiet vertical seam and the capability rules are the only structural lines.
@@ -92,6 +92,6 @@ Status: implemented in the current worktree.
 - Header, Hero, Effekt, Arbeid, Prosess, System and Footer are untouched.
 - Metadata, schema, sitemap, robots, canonical, URLs, slugs, NAP and link
   destinations are unchanged.
-- No Trionn or legacy CSS, JavaScript, font or asset is imported. The only
-  external type resource is user-approved Switzer Regular from Fontshare's
-  official web-font endpoint. No visible orange is introduced.
+- No Trionn or legacy CSS, JavaScript, font or asset is imported. The approved
+  Tigon families load locally through `next/font/local`; there is no external
+  type resource. No visible orange is introduced.

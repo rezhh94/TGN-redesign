@@ -477,7 +477,6 @@ function legacyServicesScene() {
 // desktop to one bounded, pinned panel stack.
 function servicesScene() {
   const journey = document.querySelector<HTMLElement>("[data-intro-services-journey]");
-  const bridge = journey?.querySelector<HTMLElement>("[data-intro-services-bridge]");
   const section = journey?.querySelector<HTMLElement>("[data-build-section]");
   const prelude = section?.querySelector<HTMLElement>("[data-service-prelude]");
   const story = section?.querySelector<HTMLElement>("[data-service-story]");
@@ -491,7 +490,6 @@ function servicesScene() {
 
   if (
     !journey
-    || !bridge
     || !section
     || !prelude
     || !story
@@ -506,39 +504,6 @@ function servicesScene() {
 
   const mm = gsap.matchMedia();
   const ctx = gsap.context(() => {
-    const axis = bridge.querySelector<HTMLElement>(".intro-services-journey__axis");
-    const bridgeProgress = bridge.querySelector<HTMLElement>("[data-journey-progress]");
-    const bridgeMarker = bridge.querySelector<HTMLElement>("[data-journey-marker]");
-    const fromLabel = bridge.querySelector<HTMLElement>("[data-journey-from]");
-    const toLabel = bridge.querySelector<HTMLElement>("[data-journey-to]");
-
-    if (axis && bridgeProgress && bridgeMarker && fromLabel && toLabel) {
-      journey.setAttribute("data-journey-ready", "");
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: bridge,
-          start: "top 85%",
-          end: "bottom 35%",
-          scrub: 0.45,
-          invalidateOnRefresh: true,
-        },
-        defaults: { ease: "none" },
-      })
-        .fromTo(bridgeProgress, { scaleY: 0 }, { scaleY: 1, duration: 1 }, 0)
-        .fromTo(
-          bridgeMarker,
-          { y: 0, rotate: 0 },
-          {
-            y: () => Math.max(0, axis.offsetHeight - bridgeMarker.offsetHeight),
-            rotate: 180,
-            duration: 1,
-          },
-          0,
-        )
-        .fromTo(fromLabel, { autoAlpha: 1 }, { autoAlpha: 0.34, duration: 0.46 }, 0)
-        .fromTo(toLabel, { autoAlpha: 0.34 }, { autoAlpha: 1, duration: 0.5 }, 0.5);
-    }
-
     const preludeLines = gsap.utils.toArray<HTMLElement>(
       "[data-service-prelude-line]",
       prelude,
@@ -582,7 +547,7 @@ function servicesScene() {
         id: "services-handoff",
         trigger: prelude,
         start: "top top",
-        end: ScrollTrigger.isTouch ? "+=150%" : "+=200%",
+        end: ScrollTrigger.isTouch ? "+=80%" : "+=100%",
         animation: handoffTimeline,
         scrub: 0.6,
         pin: prelude,
@@ -794,7 +759,6 @@ function servicesScene() {
   return () => {
     mm.revert();
     ctx.revert();
-    journey.removeAttribute("data-journey-ready");
     section.removeAttribute("data-service-handoff-ready");
     section.removeAttribute("data-service-ready");
     section.removeAttribute("data-service-effect-ready");
@@ -1379,6 +1343,11 @@ function introFillScene() {
 }
 
 const WORK_FOCUS_SCROLL_LENGTH = 6;
+const WORK_MOBILE_SCROLL_LENGTH = 6;
+const WORK_MOBILE_TITLE_END = 0.16;
+const WORK_MOBILE_ORBIT_REVEAL_START = 0.12;
+const WORK_MOBILE_ORBIT_START = 0.2;
+const WORK_MOBILE_ORBIT_END = 0.92;
 
 // 04 / Arbeid — én sammenhengende scene. Ordtraverseringen er en egen
 // ScrollTrigger. Pinnen eier én scrollstyrt Osmo-orbit for de seks komplette
@@ -1387,6 +1356,9 @@ const WORK_FOCUS_SCROLL_LENGTH = 6;
 function workFocusScene(compact: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return () => {};
+  }
 
   const stage = section.querySelector<HTMLElement>("[data-work-focus-stage]");
   const opening = section.querySelector<HTMLElement>("[data-work-opening]");
@@ -1427,8 +1399,9 @@ function workFocusScene(compact: boolean) {
   const ctx = gsap.context(() => {
     if (compact) {
       section.setAttribute("data-work-mobile-ready", "");
+      const mobileOrbit = window.matchMedia("(max-width: 767px)").matches;
       const openingAlreadyVisible = opening.getBoundingClientRect().top < window.innerHeight * 0.84;
-      if (!openingAlreadyVisible) {
+      if (!mobileOrbit && !openingAlreadyVisible) {
         const openingTimeline = gsap.timeline({
           scrollTrigger: { trigger: opening, start: "top 74%", once: true },
           defaults: { ease: "power3.out" },
@@ -1441,6 +1414,258 @@ function workFocusScene(compact: boolean) {
             stagger: 0.08,
           }, 0)
           .from(openingCopy, { autoAlpha: 0, y: 18, duration: 0.6 }, 0.28);
+      }
+
+      if (mobileOrbit) {
+        section.setAttribute("data-work-mobile-orbit-ready", "");
+
+        const media = panels.map((panel) =>
+          panel.querySelector<HTMLElement>(".work-focus__media"));
+        if (media.some((item) => !item)) return;
+
+        const clamp = gsap.utils.clamp;
+        const orbitTarget = { progress: 0 };
+        let orbitProgress = 0;
+        let lastTick = 0;
+        let sceneIsNear = false;
+        let mobileCopyReady = false;
+        let tickerAttached = false;
+        let geometry = {
+          tileWidth: 0,
+          tileHeight: 0,
+          radiusX: 0,
+          radiusY: 0,
+        };
+
+        const measure = () => {
+          const cardAspect = 568 / 812;
+          const tileWidth = Math.min(
+            window.innerWidth * 0.82,
+            window.innerHeight * 0.47 / cardAspect,
+          );
+
+          geometry = {
+            tileWidth,
+            tileHeight: tileWidth * cardAspect,
+            radiusX: Math.max(window.innerWidth * 0.7, tileWidth * 0.92),
+            radiusY: Math.min(window.innerHeight * 0.09, 72),
+          };
+          stage.style.setProperty(
+            "--work-mobile-tile-width",
+            `${geometry.tileWidth.toFixed(3)}px`,
+          );
+          stage.style.setProperty(
+            "--work-mobile-tile-height",
+            `${geometry.tileHeight.toFixed(3)}px`,
+          );
+        };
+
+        const selectMobilePanel = (nextIndex: number) => {
+          if (nextIndex === activeIndex) return;
+          activeIndex = nextIndex;
+          panels.forEach((panel, index) => {
+            const isActive = index === nextIndex;
+            panel.setAttribute(
+              "data-orbit-tiles-item-status",
+              isActive ? "active" : "not-active",
+            );
+            if (isActive) panel.setAttribute("data-work-active", "");
+            else panel.removeAttribute("data-work-active");
+          });
+          if (count) {
+            count.textContent = `${String(nextIndex + 1).padStart(2, "0")} / 06`;
+          }
+          if (activeName) activeName.textContent = names[nextIndex] ?? "";
+        };
+
+        const stopMobileTicker = () => {
+          if (!tickerAttached) return;
+          gsap.ticker.remove(renderMobileOrbit);
+          tickerAttached = false;
+          lastTick = 0;
+        };
+
+        const startMobileTicker = () => {
+          if (tickerAttached) return;
+          gsap.ticker.add(renderMobileOrbit);
+          tickerAttached = true;
+        };
+
+        function renderMobileOrbit(time = gsap.ticker.time) {
+          const delta = lastTick
+            ? Math.min(Math.max(time - lastTick, 0), 0.05)
+            : 1 / 60;
+          lastTick = time;
+          const smoothing = 1 - Math.pow(0.001, delta);
+          orbitProgress += (orbitTarget.progress - orbitProgress) * smoothing;
+          if (Math.abs(orbitTarget.progress - orbitProgress) < 0.0001) {
+            orbitProgress = orbitTarget.progress;
+          }
+
+          const displayProgress = orbitProgress;
+          const sceneProgress = clamp(
+            0,
+            1,
+            (displayProgress - WORK_MOBILE_ORBIT_START)
+              / (WORK_MOBILE_ORBIT_END - WORK_MOBILE_ORBIT_START),
+          );
+          const titleProgress = clamp(
+            0,
+            1,
+            displayProgress / WORK_MOBILE_TITLE_END,
+          );
+          const orbitOpacity = clamp(
+            0,
+            1,
+            (displayProgress - WORK_MOBILE_ORBIT_REVEAL_START)
+              / (WORK_MOBILE_ORBIT_START - WORK_MOBILE_ORBIT_REVEAL_START),
+          );
+          const travel = sceneProgress * (panels.length - 1);
+          const orbitStates = panels.map((_, index) => {
+            const angle = ((index - travel) / panels.length) * Math.PI * 2;
+            const wrappedAngle = Math.atan2(Math.sin(angle), Math.cos(angle));
+            return {
+              angle,
+              distance: Math.abs(wrappedAngle),
+              alignment: (Math.cos(angle) + 1) / 2,
+            };
+          });
+          const active = orbitStates.reduce((closest, state, index) =>
+            state.distance < orbitStates[closest].distance ? index : closest, 0);
+          const nextCopyReady = orbitOpacity > 0.82
+            && orbitStates[active].alignment > 0.9;
+          if (nextCopyReady !== mobileCopyReady) {
+            mobileCopyReady = nextCopyReady;
+            section?.toggleAttribute(
+              "data-work-mobile-copy-ready",
+              mobileCopyReady,
+            );
+          }
+          selectMobilePanel(active);
+
+          gsap.set(titleTop, {
+            x: `${-100 + titleProgress * 200}vw`,
+          });
+          gsap.set(titleBottom, {
+            x: `${100 - titleProgress * 200}vw`,
+          });
+          gsap.set(title, {
+            opacity: titleProgress > 0.82
+              ? 1 - (titleProgress - 0.82) / 0.18
+              : 1,
+          });
+          gsap.set(openingCopy, {
+            opacity: 1 - clamp(0, 1, (orbitProgress - 0.08) / 0.1),
+          });
+          gsap.set(foot, { opacity: orbitOpacity });
+
+          panels.forEach((panel, index) => {
+            const item = media[index];
+            if (!item) return;
+
+            const { angle, alignment } = orbitStates[index];
+            const adjustedDepth = Math.pow(alignment, 1.35);
+            const orbitX = Math.sin(angle) * geometry.radiusX;
+            const orbitY = Math.sin(angle) * geometry.radiusY
+              - (1 - alignment) * geometry.radiusY * 0.85;
+            const selectedScale = index === active ? 1.025 : 1;
+
+            gsap.set(item, {
+              xPercent: -50,
+              yPercent: -50,
+              x: orbitX,
+              y: orbitY,
+              scale: gsap.utils.interpolate(0.48, selectedScale, adjustedDepth),
+              rotationY: Math.sin(angle) * -12,
+              rotationZ: Math.sin(angle) * 1.8,
+              opacity: gsap.utils.interpolate(0.16, 1, adjustedDepth)
+                * orbitOpacity,
+              filter: `blur(${gsap.utils.interpolate(5.5, 0, adjustedDepth)}px) brightness(${gsap.utils.interpolate(0.42, 1, adjustedDepth)})`,
+              zIndex: Math.round(adjustedDepth * 1000),
+            });
+          });
+
+          if (
+            sceneIsNear
+            || Math.abs(orbitTarget.progress - orbitProgress) > 0.0001
+          ) {
+            return;
+          }
+          stopMobileTicker();
+        }
+
+        measure();
+        renderMobileOrbit();
+        cleanups.push(stopMobileTicker);
+
+        const mobileTrigger = ScrollTrigger.create({
+          id: "work-focus-mobile-orbit",
+          trigger: section,
+          start: "top top",
+          end: () =>
+            `+=${Math.round(window.innerHeight * WORK_MOBILE_SCROLL_LENGTH)}`,
+          pin: stage,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onToggle: (self) => {
+            sceneIsNear = self.isActive;
+            orbitTarget.progress = self.progress;
+            startMobileTicker();
+            renderMobileOrbit();
+          },
+          onUpdate: (self) => {
+            orbitTarget.progress = self.progress;
+            startMobileTicker();
+            renderMobileOrbit();
+          },
+          onRefresh: (self) => {
+            measure();
+            orbitTarget.progress = self.progress;
+            orbitProgress = self.progress;
+            renderMobileOrbit();
+          },
+        });
+
+        panels.forEach((panel, index) => {
+          const link = panel.querySelector<HTMLElement>(".work-focus__link");
+          if (!link) return;
+          const onFocusIn = () => {
+            const landingProgress = WORK_MOBILE_ORBIT_START
+              + (index / (panels.length - 1))
+                * (WORK_MOBILE_ORBIT_END - WORK_MOBILE_ORBIT_START);
+            mobileTrigger.scroll(
+              mobileTrigger.start
+                + (mobileTrigger.end - mobileTrigger.start) * landingProgress,
+            );
+            orbitTarget.progress = landingProgress;
+            orbitProgress = landingProgress;
+            renderMobileOrbit();
+          };
+          link.addEventListener("focusin", onFocusIn);
+          cleanups.push(() => link.removeEventListener("focusin", onFocusIn));
+        });
+
+        const refreshFrame = window.requestAnimationFrame(() => {
+          ScrollTrigger.refresh();
+        });
+        cleanups.push(() => window.cancelAnimationFrame(refreshFrame));
+
+        let resizeFrame = 0;
+        const onResize = () => {
+          window.cancelAnimationFrame(resizeFrame);
+          resizeFrame = window.requestAnimationFrame(() => {
+            measure();
+            renderMobileOrbit();
+          });
+        };
+        window.addEventListener("resize", onResize, { passive: true });
+        cleanups.push(() => {
+          window.removeEventListener("resize", onResize);
+          window.cancelAnimationFrame(resizeFrame);
+        });
+
+        return;
       }
 
       panels.forEach((panel) => {
@@ -1668,6 +1893,10 @@ function workFocusScene(compact: boolean) {
     section.removeAttribute("data-work-focus-ready");
     section.removeAttribute("data-work-orbit-ready");
     section.removeAttribute("data-work-mobile-ready");
+    section.removeAttribute("data-work-mobile-orbit-ready");
+    section.removeAttribute("data-work-mobile-copy-ready");
+    stage.style.removeProperty("--work-mobile-tile-width");
+    stage.style.removeProperty("--work-mobile-tile-height");
     panels.forEach((panel) => {
       panel.removeAttribute("data-work-active");
       panel.removeAttribute("data-orbit-tiles-item-status");
@@ -1696,7 +1925,8 @@ function workProcessJourney(compact: boolean) {
       scrollTrigger: {
         trigger: work,
         start: compact
-          ? "bottom top"
+          ? () => ScrollTrigger.getById("work-focus-mobile-orbit")?.end
+            ?? "bottom top"
           : () => `top+=${Math.round(window.innerHeight * WORK_FOCUS_SCROLL_LENGTH)} top`,
         end: "+=100%",
         scrub: true,

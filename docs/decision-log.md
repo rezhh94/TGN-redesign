@@ -1,6 +1,6 @@
 # Tigon — active decision register
 
-Last reconciled: 2026-07-19.
+Last reconciled: 2026-07-21.
 
 This register contains current decisions only. Superseded visual directions do
 not remain as implementation guidance.
@@ -11,14 +11,17 @@ not remain as implementation guidance.
   typographic, confident, near-monochrome and custom.
 - `design.md` is the explanatory authority and `src/styles/tokens.css` the
   executable authority.
-- Use TGS Perfect for display, JUST Sans for editorial text and Caleb Mono for
-  meta/actions.
+- Use Familjen Grotesk for Hero, large display, title labels and menu; use PP
+  Neue Montreal as the legal Neue Haas substitute for reading copy; use
+  Martian Mono Standard Light for button text and technical text; use PP
+  Editorial New Ultralight only for selected serif accents.
 - Use role-based optical type levels, a 4px spacing primitive, 12/6-column
   composition and one shared button system.
 - Use solid semantic section surfaces. Decorative homepage background art has
   no current owner and requires a future Tigon-authored decision.
-- Trionn contributes construction calibration only. Reject its exact fonts,
-  values, assets, shaders, palette and identity-bearing combinations.
+- Trionn contributes verified construction calibration. Copy its documented
+  type values and roles through the approved local families; reject its font
+  binaries, assets, palette and identity-bearing combinations.
 - No visible orange.
 
 ## Redesign boundary

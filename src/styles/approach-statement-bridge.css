@@ -30,9 +30,10 @@
   grid-row: 1;
   align-self: baseline;
   margin: 0;
-  color: var(--text-quiet);
-  font-family: var(--font-meta);
+  color: var(--text-strong);
+  font-family: var(--font-title), sans-serif;
   font-size: var(--type-meta-md-size);
+  font-weight: var(--weight-regular);
   letter-spacing: var(--type-meta-track);
   line-height: var(--type-meta-leading);
   text-transform: uppercase;
@@ -44,7 +45,7 @@
   align-self: baseline;
   margin: 0;
   color: var(--on-dark-strong);
-  font-family: var(--font-editorial);
+  font-family: var(--font-body), sans-serif;
   font-size: var(--type-statement-size);
   font-weight: var(--type-statement-weight);
   letter-spacing: var(--type-statement-track);
@@ -126,19 +127,20 @@
 
 .approach-statement__support-meta {
   margin: 0;
-  color: var(--text-quiet);
-  font-family: var(--font-meta);
+  color: var(--text-strong);
+  font-family: var(--font-title), sans-serif;
   font-size: var(--type-meta-md-size);
-  letter-spacing: var(--mono-track);
-  line-height: 1.7;
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-title-track);
+  line-height: var(--type-title-leading);
   text-transform: uppercase;
 }
 
 .approach-statement__support-copy {
   max-width: 38ch;
   margin: 0;
-  color: var(--text-medium);
-  font-family: var(--font-editorial);
+  color: var(--text-strong);
+  font-family: var(--font-primary);
   font-size: var(--type-lead-md-size);
   line-height: var(--type-lead-md-leading);
 }
@@ -146,8 +148,9 @@
 .approach-statement__handoff {
   margin: clamp(28px, 4vh, 48px) 0 0;
   color: var(--text-faint);
-  font-family: var(--font-meta);
+  font-family: var(--font-title), sans-serif;
   font-size: var(--type-meta-md-size);
+  font-weight: var(--weight-regular);
   letter-spacing: var(--mono-track);
   line-height: var(--type-meta-leading);
   text-transform: uppercase;
@@ -162,7 +165,7 @@
   padding: 0 0 12px;
   border-bottom: 1px solid var(--line-default);
   color: var(--text-quiet);
-  font-family: var(--font-meta);
+  font-family: var(--font-action), monospace;
   font-size: var(--button-label-size);
   font-weight: var(--button-label-weight);
   letter-spacing: var(--button-label-track);

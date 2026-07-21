@@ -37,12 +37,21 @@
 }
 
 .what-build__label,
-.service-panel__counter,
-.service-panel__action {
-  font-family: var(--font-meta);
+.service-panel__counter {
+  font-family: var(--font-title), sans-serif;
   font-size: var(--type-meta-md-size);
+  font-weight: var(--weight-regular);
   letter-spacing: var(--type-meta-track);
   line-height: var(--type-meta-leading);
+  text-transform: uppercase;
+}
+
+.service-panel__action {
+  font-family: var(--font-action), monospace;
+  font-size: var(--type-button-size);
+  font-weight: var(--weight-mono);
+  letter-spacing: var(--type-button-track);
+  line-height: var(--type-button-leading);
   text-transform: uppercase;
 }
 
@@ -60,12 +69,11 @@
   margin: 0;
   overflow: hidden;
   color: var(--text-strong);
-  font-family: var(--font-display);
-  font-size: var(--type-display-xl-size);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--type-display-xl-track);
-  line-height: var(--type-display-xl-leading);
-  text-transform: uppercase;
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--type-h2-size);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-h2-track);
+  line-height: var(--type-h2-leading);
 }
 
 .what-build__title > span {
@@ -78,7 +86,7 @@
   max-width: 42ch;
   margin: 0;
   color: var(--text-medium);
-  font-family: var(--font-editorial);
+  font-family: var(--font-primary);
   font-size: var(--type-lead-md-size);
   line-height: var(--type-lead-md-leading);
   text-wrap: pretty;

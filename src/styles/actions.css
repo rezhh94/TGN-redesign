@@ -8,7 +8,7 @@
   padding: 0 var(--button-pad-md);
   border: 1px solid transparent;
   border-radius: var(--button-radius);
-  font-family: var(--font-meta);
+  font-family: var(--font-action), monospace;
   font-size: var(--button-label-size);
   font-weight: var(--button-label-weight);
   line-height: var(--button-label-leading);

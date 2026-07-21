@@ -1,6 +1,6 @@
 # Trionn-ekstrakt — KEEP / ADAPT / REJECT
 
-Oppdatert 2026-07-19. Teknisk analyse:
+Oppdatert 2026-07-21. Teknisk analyse:
 `TRIONN-HOMEPAGE-ANIMATION-BREAKDOWN.md`. Konstruksjonsanalyse:
 `DESIGN-TRIONN.md`.
 
@@ -18,8 +18,8 @@ Tigons brandplattform, eksisterende tokens eller aktive seksjonskontrakter.
 | CSS rigger geometri, JS eier tid/progress | **KEEP** | Statisk layout fungerer først; GSAP må ikke skape kritisk innhold |
 | Smalt easing-vokabular og størrelsesstyrt stagger | **ADAPT** | Følg Animation Charter; velg Tigon-verdier per rolle |
 | Wipe som lar neste seksjon ligge klar under | **ADAPT** (sjeldent) | Bare en navngitt handoff kan eie overlap; ikke gjenta mellom alle kapitler |
-| Stor kontrast mellom display og liten metadata | **ADAPT** | Bruk TGS Perfect/JUST Sans/Caleb Mono og Tigons type-tokens |
-| Trionns fluid-root-formel og breakpoint-resets | **REJECT** | Behold stabile Tigon-clamps og semantiske tokens |
+| Stor kontrast mellom display og liten metadata | **ADAPT** | Følg kildekoblingen: Familjen for display/title, PP Neue Montreal for Neue Haas-copy, Martian for actions og PP Editorial New for avgrenset serif |
+| Trionns fluid-root-formel og breakpoint-resets | **COPY for type only** | Bruk de eksakte `--size`-verdiene i isolerte typografiformler; ikke sett `html`-størrelsen eller endre rem-basert layout |
 | Kunstig preloader og lang førstegangsintro | **REJECT** | Ingen tvungen ventetid; LCP og tilgang til innhold prioriteres |
 | Global route wipe som standard | **REJECT** foreløpig | Krever egen navigasjonsoppgave og må bevise nytte |
 | WebGL i Hero, galleri og Footer samtidig | **REJECT som standard** | Alle tre er redesignbare, men hver canvasscene må begrunnes og samlet ytelsesbudsjett må verifiseres |
@@ -28,7 +28,8 @@ Tigons brandplattform, eksisterende tokens eller aktive seksjonskontrakter.
 | Orange/røde energilys | **REJECT** | Synlig orange er utenfor Tigon-retningen |
 | Global dekorativ cursor | **REJECT som standard** | Pointer-systemet kan redesignes, men må ha funksjon, touch/keyboard-fallback og tydelig scope |
 | ScrollSmoother i tillegg til Lenis | **REJECT** | Aldri to scrollmotorer; bundlet, ubrukt kode er ikke et mønster |
-| Trionn-fontene, assets, shaders, kode og innhold | **REJECT** | Kun prinsipper og kalibrering; alt Tigon-materiale skal være eget |
+| Trionn-fontene | **COPY fra godkjent kilde, ellers ADAPT** | Bruk eksakt offisiell Familjen Grotesk og Martian Mono, lokal PP Editorial New og PP Neue Montreal som lovlig Neue Haas-erstatning; ingen fontbinær hentes fra speilet |
+| Trionn-assets, identitet og innhold | **REJECT** | Bruk kun Tigon-materiale; ingen fontbinærer eller andre identitetsressurser hentes fra speilet |
 
 ## Praktisk test
 

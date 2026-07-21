@@ -1,6 +1,6 @@
 # 01 / Tilnærming — active contract
 
-Last reconciled: 2026-07-19. Mounted baseline commit: `af6f28f`.
+Last reconciled: 2026-07-21. Mounted baseline commit: `af6f28f`.
 
 - Files: `ApproachStatementBridge.tsx`, `approach-statement-bridge.css`, the
   shared statement roles in `tokens.css` and `introFillScene` in
@@ -12,9 +12,10 @@ Last reconciled: 2026-07-19. Mounted baseline commit: `af6f28f`.
 - The server-rendered statement is the canonical Tigon positioning:
   `High-end nettsider, apper og digitale systemer hvor design, teknologi og
   synlighet bygges som én helhet.`
-- JUST Sans owns the large sentence-case statement. Caleb Mono owns the
-  chapter label, three-part register, handoff and action. The section uses the
-  shared `statement`, `lead`, `meta`, text and line roles.
+- Familjen Grotesk owns the large sentence-case statement, chapter label,
+  three-part register and handoff. PP Neue Montreal owns its supporting copy;
+  Martian Mono Standard Light owns the text action. The section
+  uses the shared `statement`, `lead`, `meta`, text and line roles.
 - The lower composition keeps `Design / tydelighet`,
   `Teknologi / kvalitet`, `Synlighet / effekt`, the server-rendered
   `01 → 02 / Én helhet. Fem fag.` handoff and one explanation. The real CTA

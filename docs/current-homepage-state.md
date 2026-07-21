@@ -25,16 +25,25 @@ page-wide decorative background system or related media lifecycle.
 ## Design system
 
 - `design.md` explains the canonical system and reference boundary.
-- `src/styles/tokens.css` owns font roles, optical type scales, 4px spacing,
+- `src/styles/tokens.css` owns font roles, the exact source-matched Trionn type
+  metrics and responsive type basis, 4px spacing,
   12/6-column grid, surfaces, lines, buttons, motion and layer bands.
-- TGS Perfect is display; JUST Sans is editorial; Caleb Mono is meta/actions.
-- Light information fields use the shared Switzer Regular `type-paper-*`
-  hierarchy and `--paper-text-*` contrast roles; JUST Sans remains the global
-  editorial voice and sections do not define their own sizes or greys. Paper
+- Familjen Grotesk is the source-matched display/title/menu face; PP Neue
+  Montreal is the legal Neue Haas substitute for reading copy; Martian Mono
+  Standard Light is the action/technical face; PP Editorial New Ultralight is
+  reserved for explicit serif accents.
+- Familjen Grotesk and Martian Mono use exact official open-source WOFF2 files.
+  PP Neue Montreal and PP Editorial New use the user's licensed Pangram files.
+  No font binary comes from the Trionn mirror. See
+  `docs/trionn-typography-source-ledger.md`.
+- Light information fields use the shared Familjen/PP Neue Montreal
+  `type-paper-*`
+  hierarchy and `--paper-text-*` contrast roles; sections do not define their
+  own families, sizes or greys. Paper
   sizes use the source-verified responsive basis documented in `design.md`.
 - Trionn is construction calibration. Verified first-party public modules and
   exact construction values may be adapted when the local evidence identifies
-  their ownership. No reference font, media, logo, content, whole bundle,
+  their ownership. No reference-only font binary, media, logo, content, whole bundle,
   co-located third-party runtime or identity-bearing combination is imported.
 - Visible orange is prohibited.
 - The active identity assets come from the user's final Tigon export. Header
@@ -99,7 +108,7 @@ begins the same opacity-and-blur sequence at `0`; the title is sharp before the
 unchanged `.56` card threshold and remains present through the card phase. Both use
 smoothing factor `.08`. Widths 768–900px use a two-column normal-flow layout. Reduced
 motion and no-JS expose the complete normal-flow composition. No Trionn media,
-graphics, fonts or identity assets are mounted.
+graphics, reference font binaries or identity assets are mounted.
 
 ### Arbeid
 
@@ -114,11 +123,17 @@ pinned for six viewport lengths with `top top`, `anticipatePin: 1` and
 static panel replacement: the six complete link surfaces travel through a
 shared flat orbit, interpolate scale, blur and brightness by depth, update one
 active index, and counter-rotate their contents so the landed surface stays
-readable. At 900px and below, the section is a separate normal-flow film with a
-static readable opening and six complete full-height chapters with direct
-actions. Reduced motion and no-JS keep the full readable composition. No
-autonomous loop, WebGL, Three.js, TSL, dynamic cursor, portfolio wall or eagerly
-loaded below-fold capability image is mounted.
+readable. Below 768px, the section uses a separate six-viewport mobile Orbit.
+The title crosses the viewport in opposite directions, then the same six
+Tigon links rotate through one horizontal depth path and land one by one in a
+fixed image focus above a fixed copy field. The active item is derived from
+its actual angular distance to that focus; copy appears only inside the
+landing threshold. ScrollTrigger owns pinning and target progress but has no
+`scrub`; Trionn's verified time-based `1 - .001^dt` interpolation supplies the
+settling. The final App landing holds before Prosess, with no Helix or closing
+grid. Widths 768–900px retain the normal-flow film. Reduced motion and no-JS
+expose all six complete chapters without pinning. No autonomous loop, WebGL,
+Three.js, TSL, dynamic cursor, portfolio wall or reference asset is mounted.
 
 ### Prosess and System
 
@@ -134,9 +149,12 @@ the quiet conclusion into Footer. Both keep complete static content without JS.
   that trigger is also the only Orbit owner. Scroll progress drives the orbit,
   so no animation clock runs while the scene is outside the viewport. Keyboard
   focus moves the same trigger to the focused capability's settled frame.
-  Mobile/tablet use one-shot local reveals without pinning. The 04→05 handoff
-  transforms the released focus stage instead of its pin ancestor, so the late
-  capability frames stay fixed and readable.
+  Below 768px, `work-focus-mobile-orbit` is the only mobile owner. Its ticker
+  is added once, removed on cleanup and only settles while the scene is active
+  or has remaining interpolation. Keyboard focus uses a CSS-visible focused
+  surface and copy while preserving DOM order. The 04→05 handoff starts from
+  the measured mobile trigger end; at 768–900px it continues from the ordinary
+  document boundary.
 - Initial hash navigation is corrected once after the shared
   `ScrollTrigger.refresh()`, so anchors such as `#arbeid` use the final measured
   document position after pinned spacing has been created.

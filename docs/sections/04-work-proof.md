@@ -1,6 +1,7 @@
 # 04 / Arbeid — active contract
 
-Last reconciled: 2026-07-21. Current Orbit implementation is uncommitted.
+Last reconciled: 2026-07-21. Desktop Orbit baseline is committed at `76de5a2`;
+the Trionn-calibrated mobile pilot is uncommitted.
 
 - Mounted files: `WorkProof.tsx`, `work-proof.css` and `workFocusScene` in
   `HomeMotion.tsx`. `WhatWeImprove.tsx` ends as a clean typographic Effekt
@@ -14,9 +15,10 @@ Last reconciled: 2026-07-21. Current Orbit implementation is uncommitted.
 - The 03→04 handoff is typography-led. The two title lines enter from opposite
   sides while Arbeid rises on the same dark surface, meet as a complete
   `Dette kan Tigon lage.`, then cross away.
-- The title traversal is a separate scrubbed trigger adapted from Trionn's
-  verified first-party title module. It is not fused with Trionn's unrelated
-  WebGL orbit or its `6.5` pin duration.
+- On desktop, the title traversal is a separate scrubbed trigger adapted from
+  Trionn's verified first-party title module. The mobile owner maps the same
+  opposing title travel into its own progress domain. Neither branch imports
+  Trionn's WebGL runtime or its desktop `6.5` pin duration.
 - Desktop uses one pinned focus stage after that handoff. The first complete
   Webapp surface is initially clipped to a central slit and opens before its
   copy resolves. The media is not duplicated in Effekt or in a separate bridge
@@ -34,10 +36,24 @@ Last reconciled: 2026-07-21. Current Orbit implementation is uncommitted.
   deterministic path. Keyboard focus moves the pinned trigger to the focused
   link's settled orbit frame. The local pin still uses `start: top top`,
   `anticipatePin: 1`, `scrub: .6` and six viewport lengths.
-- At 900 px and below, the complete title and explanation lead a normal-flow
-  document; each capability is a full-height chapter with its own visible
-  action. Reduced motion and no-JS expose the same full content without
-  pinning or hidden links.
+- Below 768px, `work-focus-mobile-orbit` pins one `100dvh` stage for six
+  viewport heights. After the opposing title traversal, all six image
+  surfaces share a horizontal depth orbit and land one by one at the same
+  image focus. The tile width is bounded by `82vw` and the available block
+  height; the orbit radii scale from viewport and tile size rather than using
+  Trionn's Helix camera/grid geometry.
+- The mobile ScrollTrigger deliberately has no `scrub`. It supplies target
+  progress to a single GSAP-ticker renderer using `1 - .001^dt` smoothing.
+  The title uses the same `+100vw/-100vw` opposing travel. Active index and
+  copy are derived from the card's actual angular distance to the focus, so a
+  description appears only while its own image is at the landing. The final
+  App landing holds before Prosess; no Helix or closing grid remains.
+- Mobile keyboard focus makes the focused image and complete copy visible in
+  place without changing DOM order. Every original link remains direct,
+  focusable and at least 44px actionable.
+- At 768–900px, the complete title and explanation lead the established
+  normal-flow document. Reduced motion and no-JS expose the same full content
+  without pinning or hidden links at every width.
 - Every capability image is decorative, lazy-loaded and paired with visible
   semantic text inside the direct link. Keyboard focus can select an otherwise
   off-screen desktop panel without breaking the six-link tab order.

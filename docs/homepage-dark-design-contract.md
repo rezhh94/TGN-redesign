@@ -1,6 +1,6 @@
 # Tigon homepage — current dark baseline
 
-Last reconciled: 2026-07-19.
+Last reconciled: 2026-07-21.
 
 This file records the currently mounted dark body journey. It is not a visual
 preservation contract. Header, Hero, every body chapter and Footer are open to
@@ -16,9 +16,11 @@ chapter treatment with a new Tigon clean-room interpretation of Trionn.
 
 ## Shared roles
 
-- Display: TGS Perfect for short monumental titles.
-- Editorial: JUST Sans for statements, headings and body.
-- Meta/actions: Caleb Mono for labels, numbering and controls.
+- Display/title: Familjen Grotesk for Hero, large headings, title labels and menu.
+- Reading copy: PP Neue Montreal as the legal Neue Haas substitute.
+- Actions/technical: Martian Mono Standard Light for button text and technical controls.
+- Editorial accents: PP Editorial New Ultralight for explicitly selected serif
+  words and phrases only.
 - Surfaces: `surface-deep`, `surface-base`, `surface-raised`, `surface-focus`.
 - Text: `text-strong`, `text-medium`, `text-quiet`, `text-faint`.
 - Lines: `line-subtle`, `line-default`, `line-strong`.

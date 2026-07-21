@@ -36,10 +36,11 @@
 .system-manifesto__argument > p:last-child,
 .system-manifesto__frame-meta,
 .system-manifesto__seal {
-  font-family: var(--tigon-type-meta);
-  font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.3;
+  font-family: var(--font-title), sans-serif;
+  font-size: var(--type-title-size);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-title-track);
+  line-height: var(--type-title-leading);
   text-transform: uppercase;
 }
 
@@ -121,9 +122,11 @@
   bottom: -18%;
   color: var(--on-dark-quiet);
   font-family: var(--tigon-type-meta);
-  font-size: var(--fz-mono-s);
+  font-size: var(--type-button-size);
   font-style: normal;
-  letter-spacing: var(--mono-track);
+  font-weight: var(--weight-mono);
+  letter-spacing: var(--type-button-track);
+  line-height: var(--type-button-leading);
   text-transform: uppercase;
 }
 
@@ -132,11 +135,11 @@
   align-self: center;
   max-width: 10ch;
   padding: clamp(48px, 7vh, 86px) 0;
-  font-family: var(--font-display);
-  font-size: clamp(54px, 6.1vw, 110px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.8;
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--type-h2-size);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-h2-track);
+  line-height: var(--type-h2-leading);
   text-transform: uppercase;
 }
 
@@ -167,8 +170,8 @@
   max-width: 44ch;
   color: var(--on-dark-medium);
   font-family: var(--tigon-type-editorial);
-  font-size: clamp(17px, 1.3vw, 21px);
-  line-height: 1.5;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
 }
 
 .system-manifesto__argument > p:last-child {
@@ -241,7 +244,7 @@
     order: 4;
     margin-top: 28px;
     padding: 0;
-    font-size: clamp(52px, 16vw, 72px);
+    font-size: var(--type-h2-size);
   }
 
   .system-manifesto__argument {

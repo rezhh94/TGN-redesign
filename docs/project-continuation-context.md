@@ -4,12 +4,14 @@ Last reconciled: 2026-07-21.
 
 ## Worktree boundary
 
-The current branch is `codex/work-services-accordion` at committed HEAD
-`e052049`. The connected Tjenester→Effekt baseline is `b9b4b5a`, built on the
-responsive Tjenester baseline at `293c552`. The current scroll-controlled
-Arbeid orbit redesign and its documentation are uncommitted. Always inspect
-the current worktree before acting; do not reset, checkout or overwrite
-unrelated changes.
+The current branch is `codex/trionn-mobile-parity` at committed HEAD
+`76de5a2`. That commit is the reviewed desktop Arbeid Orbit baseline. The
+Trionn-calibrated Arbeid mobile pilot and its source ledger are uncommitted.
+The rejected phone-deck experiment is preserved outside the repository at
+`/private/tmp/tigon-phone-deck-rejected-2026-07-21.patch` with SHA-256
+`ad244ea2b8095f9e37cb7bd84052f695bb644513749b21a6b8b085f8aee2c7ac`.
+Always inspect the current worktree before acting; do not reset, checkout or
+overwrite unrelated changes.
 Do not commit or push without explicit instruction, and stage exact files if
 publishing is later requested.
 
@@ -42,25 +44,40 @@ typographic and mounts no outgoing image bridge. Arbeid begins its own title
 traversal while entering the shared dark surface; its first real capability
 media becomes the single opening object only at the Arbeid pin boundary. The
 desktop pin then uses one scroll-controlled Orbit Tiles owner for all six
-capability links. There is no autonomous carousel, duplicate aperture or global
-decorative background-media owner.
+capability links. Below 768px a separate six-viewport mobile owner carries the
+same links through one horizontal depth orbit with six real focus landings;
+the description follows the card actually nearest the landing point. There is
+no Helix or closing grid. Widths 768–900px retain normal flow. There is no
+autonomous carousel, duplicate aperture or global decorative background-media
+owner.
 
 ## Current design-system decision
 
 `design.md` is now the complete design authority, with executable values in
-`src/styles/tokens.css`. The system uses Tigon's TGS Perfect, JUST Sans and
-Caleb Mono core families plus user-approved Switzer Regular as a narrow paper
-information role; optical type roles; 4px spacing primitives; a 12/6-column
-grid; semantic surfaces/lines; a unified button recipe; and a shared
-`type-paper-*` hierarchy. Its paper text colours are centralized as
+`src/styles/tokens.css`. The source-matched system uses Familjen Grotesk for
+display/title/menu, PP Neue Montreal as the legal Neue Haas substitute for
+reading copy, Martian Mono Standard Light for action/technical text and PP
+Editorial New Ultralight only for explicit serif accents. The global type roles now reproduce Trionn's exact
+source sizes, leading, tracking and responsive type basis without changing
+`html` font-size or non-type rem spacing. Familjen Grotesk and Martian Mono are
+loaded from their official open-source distributions, while the two PP faces
+come from the user's licensed Pangram library. The system also uses 4px spacing primitives; a
+12/6-column grid; semantic surfaces/lines; a unified button recipe; and a
+shared `type-paper-*` hierarchy. Its paper text colours are centralized as
 `--paper-text-*` roles, and its responsive role sizes use the isolated,
 source-verified basis documented in `design.md`.
 
 The Trionn study supplies construction evidence. Verified Trionn-authored
 first-party public code, shader logic and exact values may be adapted when they
 fit, but never import whole bundles, co-located third-party/runtime code,
-fonts, media, logos, content, palette signatures or identity-bearing
-combinations.
+reference font binaries, media, logos, content, palette signatures or
+identity-bearing combinations. No font binary is loaded from the mirror.
+
+`docs/trionn-typography-source-ledger.md` records the exact font availability,
+source values, formulas and section mapping. `docs/trionn-mobile-source-ledger.md`
+records the active build identity,
+first-party module owners, exact mobile values and COPY/ADAPT/REJECT decisions
+for the staged parity pass.
 
 ## Next-step protocol
 

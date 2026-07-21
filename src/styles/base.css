@@ -15,9 +15,9 @@ body {
   margin: 0;
   background: var(--color-bg);
   color: var(--color-ink);
-  font-family: var(--font-editorial);
-  font-size: var(--type-body-md-size);
-  line-height: var(--type-body-md-leading);
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--type-document-size);
+  line-height: var(--type-document-leading);
 }
 
 body:has(.site-menu:not([hidden])) {
