@@ -43,8 +43,13 @@ export function ServicePrelude() {
             </article>
 
             <article className="service-prelude__card service-prelude__card--delivery" data-service-prelude-card>
-              <h3>Fem leveranser. Ett ansvar.</h3>
-              <p>Fra nettsider og apper til AI-systemer, SEO og AI-søk.</p>
+              <h3>Leveranser samlet</h3>
+              <div className="service-prelude__delivery-stat" aria-hidden="true">
+                <span>5</span>
+                <span className="service-prelude__delivery-arrow" aria-hidden="true">→</span>
+                <span>1</span>
+              </div>
+              <p>Nettsider, apper, AI-systemer, SEO og AI-søk. Ett ansvar.</p>
             </article>
 
             <article className="service-prelude__card service-prelude__card--outcome" data-service-prelude-card>

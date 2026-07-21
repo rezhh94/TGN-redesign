@@ -11,8 +11,13 @@ Last reconciled: 2026-07-21.
 - All meaningful content is server-rendered. The three factual cards summarize
   Tigon's joined disciplines, five mounted delivery categories and the brand's
   canonical `FUNNET. FORSTÅTT. VALGT. MÅLT.` result system.
-- The cards deliberately omit numbers, eyebrows and `01 → 02` labels. Their
-  geometry copies the Key Facts source values directly: mobile width `85vw`,
+- The first and third cards deliberately omit numbers, eyebrows and `01 → 02`
+  labels. The middle delivery card uses a Tigon-owned `5 → 1` information
+  composition: a small top label, a large white circular statistic and a
+  centred delivery explanation at the bottom. It communicates five mounted
+  delivery categories under one responsibility without making an unsupported
+  performance claim. The cards' geometry copies the Key Facts source values
+  directly: mobile width `85vw`,
   `396px` maximum and `50svh` height clamped to `300–440px`; from 768px width
   `380px` and height `488px`; from 1024px width `100%` capped at `396px`;
   `24px` gap, `32px/40px` responsive padding and `8px` radius.

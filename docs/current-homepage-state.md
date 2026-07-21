@@ -66,6 +66,9 @@ Tigon system cards: `Tre fag. Én helhet.`, `Fem leveranser. Ett ansvar.` and
 `perspective: 1400px`, `rotateX: -92`, `scrub: 2`, `duration: 2.65` and `.6`
 stagger reveal for exactly three cards. Card geometry, padding, radius and
 inside type sizes match Trionn Key Facts' responsive source values exactly.
+The middle delivery card expresses `Fem leveranser. Ett ansvar.` as a
+Tigon-owned `5 → 1` information graphic with a circular white statistic field;
+it uses no image or unsupported customer-performance claim.
 Below 768px the facts stage ports Trionn's separate
 pinned horizontal branch: `top top` to `bottom top`, `anticipatePin: 1`,
 `scrub: 2`, with the final card calculated into the viewport centre. The local
