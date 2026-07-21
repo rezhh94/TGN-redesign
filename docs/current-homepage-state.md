@@ -76,8 +76,13 @@ or past work. `servicesScene` preserves the source `550px` card entry curve,
 content thresholds, line drawing and horizontal movement rate. The paper layer
 then moves one viewport left to reveal a visual copy of the real Effekt opening
 behind the final axis. Mobile deliberately ports the same horizontal motor and
-effects with Trionn's `calc(100vw - 3rem)` phone card width. Reduced-motion and
-no-JS show the complete vertical flow without pins or hidden text.
+effects with Trionn's `calc(100vw - 3rem)` visible phone card width plus the
+source spacing of `5rem` before and after each regular card. The final action
+uses its separate source `py-40` rhythm as a `10rem` horizontal entry before a
+centred `viewport - 3rem` content field. Its additional lead is part of the
+paper panel rather than a transparent margin, so Effekt is not exposed before
+the final paper field owns the viewport. Reduced-motion and no-JS show the
+complete vertical flow without pins or hidden text.
 
 ### Effekt
 

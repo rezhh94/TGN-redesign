@@ -48,8 +48,15 @@ Status: implemented in the current worktree.
 ## Responsive and fallback
 
 - Below 768px Tigon deliberately runs the same horizontal x-axis motor and
-  effect thresholds requested for desktop. The opening is full-width; service
-  and final panels retain Trionn's verified `calc(100vw - 3rem)` phone width.
+  effect thresholds requested for desktop. The opening is full-width. Visible
+  service cards retain Trionn's verified `calc(100vw - 3rem)` phone width, while
+  their horizontal panel pitch remaps the source `py-20` flow spacing to `5rem`
+  before and `5rem` after each card.
+- The final action is a separate full-viewport panel. Its `8.5rem` lead plus
+  `1.5rem` inner gutter remaps Trionn's mobile `py-40` to exactly `10rem` before
+  the centred `viewport - 3rem` content field without clipping the handoff.
+  The `8.5rem` lead expands the paper panel itself; it is not a transparent
+  flex margin that can reveal Effekt between the last service and final action.
 - Mobile keeps the `670 / 460` images, vertical separator drawing, `550px` card
   orbit, visible actions and the same leftward Effekt reveal.
 - Reduced motion and no-JS use the same complete vertical document flow with
