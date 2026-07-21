@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { gsap } from "gsap";
+import { CustomEase } from "gsap/CustomEase";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { destroyLenis, initLenis } from "@/lib/motion";
 import {
@@ -12,7 +13,8 @@ import {
   initShutterScrollTransition,
 } from "@/lib/osmo-motion";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(CustomEase, ScrollTrigger);
+CustomEase.create("work-orbit", "M0,0 C0.625,0.05 0,1 1,1");
 
 // Mobile address-bar show/hide fires resize; refreshing mid-pin makes
 // pinned scenes jump. Dimension changes from real rotation still refresh.
@@ -1379,9 +1381,9 @@ function introFillScene() {
 const WORK_FOCUS_SCROLL_LENGTH = 6;
 
 // 04 / Arbeid — én sammenhengende scene. Ordtraverseringen er en egen
-// ScrollTrigger, slik den faktisk er hos Trionn; pinnen eier bare mediet og de
-// seks kapabilitetene. Første panels bilde er både åpning og Webapp-bilde, så
-// ingen duplisert flate kan hoppe ved seksjonsgrensen eller reverse scroll.
+// ScrollTrigger. Pinnen eier én scrollstyrt Osmo-orbit for de seks komplette
+// kapabilitetslenkene; ingen autonom loop eller tidligere panelmotor kjører
+// parallelt. Første Webapp-flate er også åpningen ved pin-grensen.
 function workFocusScene(compact: boolean) {
   const section = document.querySelector<HTMLElement>(".work-proof");
   if (!section) return () => {};
@@ -1394,7 +1396,13 @@ function workFocusScene(compact: boolean) {
   const openingCopy = section.querySelector<HTMLElement>("[data-work-opening-copy]");
   const head = section.querySelector<HTMLElement>(".work-focus__head");
   const foot = section.querySelector<HTMLElement>(".work-focus__foot");
+  const orbitCollection = section.querySelector<HTMLElement>("[data-orbit-tiles-collection]");
+  const orbitList = section.querySelector<HTMLElement>("[data-orbit-tiles-list]");
   const panels = gsap.utils.toArray<HTMLElement>("[data-work-panel]", section);
+  const orbitContents = gsap.utils.toArray<HTMLElement>(
+    "[data-orbit-tiles-content]",
+    section,
+  );
   const count = section.querySelector<HTMLElement>("[data-work-active-count]");
   const activeName = section.querySelector<HTMLElement>("[data-work-active-name]");
   if (
@@ -1406,7 +1414,10 @@ function workFocusScene(compact: boolean) {
     || !openingCopy
     || !head
     || !foot
+    || !orbitCollection
+    || !orbitList
     || panels.length !== 6
+    || orbitContents.length !== panels.length
   ) return () => {};
 
   const names = panels.map((panel) => panel.querySelector("h3")?.textContent?.trim() ?? "");
@@ -1453,26 +1464,91 @@ function workFocusScene(compact: boolean) {
     }
 
     section.setAttribute("data-work-focus-ready", "");
+    section.setAttribute("data-work-orbit-ready", "");
     const firstPanel = panels[0];
     const firstMedia = firstPanel?.querySelector<HTMLElement>(".work-focus__media");
     const firstCopy = firstPanel?.querySelector<HTMLElement>(".work-focus__copy");
     if (!firstPanel || !firstMedia || !firstCopy) return;
 
-    gsap.set(panels, { opacity: 0 });
-    gsap.set(firstPanel, { opacity: 1 });
+    // Osmo source values. Timing is mapped onto scroll instead of an autonomous
+    // clock, while the orbit geometry and depth interpolation stay intact.
+    const radiusXMultiplier = 1;
+    const radiusYMultiplier = 0;
+    const blurMultiplier = 0.04;
+    const minScale = 0.2;
+    const minOpacity = 1;
+    const minDarkness = 0.3;
+    const moveDuration = 2.5;
+    const staggerAmount = moveDuration * 0.03;
+    const linearRotateDuration = 24;
+    const tileStates = panels.map(() => ({ progress: 0 }));
+    const orbitState = { rotation: 0 };
+
+    const select = (nextIndex: number) => {
+      if (nextIndex === activeIndex) return;
+      activeIndex = nextIndex;
+      panels.forEach((panel, index) => {
+        const isActive = index === nextIndex;
+        panel.setAttribute(
+          "data-orbit-tiles-item-status",
+          isActive ? "active" : "not-active",
+        );
+        if (isActive) panel.setAttribute("data-work-active", "");
+        else panel.removeAttribute("data-work-active");
+      });
+      if (nextIndex >= 0) {
+        if (count) count.textContent = `${String(nextIndex + 1).padStart(2, "0")} / 06`;
+        if (activeName) activeName.textContent = names[nextIndex] ?? "";
+      }
+    };
+
+    const getActiveIndex = () => tileStates.reduce((closest, state, index) => {
+      const currentPosition = ((index - state.progress) % panels.length + panels.length)
+        % panels.length;
+      const previousPosition = (
+        (closest - tileStates[closest].progress) % panels.length + panels.length
+      ) % panels.length;
+      const current = Math.min(currentPosition, panels.length - currentPosition);
+      const previous = Math.min(previousPosition, panels.length - previousPosition);
+      return current < previous ? index : closest;
+    }, 0);
+
+    const renderOrbit = () => {
+      const tileWidth = panels[0].offsetWidth;
+      const radiusX = tileWidth * radiusXMultiplier;
+      const radiusY = tileWidth * radiusYMultiplier;
+      const maxBlur = tileWidth * blurMultiplier;
+
+      select(getActiveIndex());
+      gsap.set(orbitList, { rotation: orbitState.rotation });
+      gsap.set(orbitContents, { rotation: -orbitState.rotation });
+
+      panels.forEach((panel, index) => {
+        const angle = ((index - tileStates[index].progress) / panels.length)
+          * Math.PI * 2;
+        const depth = (Math.cos(angle) + 1) / 2;
+        const adjustedDepth = Math.pow(depth, 1.3);
+
+        gsap.set(panel, {
+          x: Math.sin(angle) * radiusX,
+          y: Math.cos(angle) * radiusY,
+          scale: gsap.utils.interpolate(minScale, 1, adjustedDepth),
+          opacity: gsap.utils.interpolate(minOpacity, 1, adjustedDepth),
+          filter: `blur(${gsap.utils.interpolate(maxBlur, 0, adjustedDepth)}px) brightness(${gsap.utils.interpolate(minDarkness, 1, adjustedDepth)})`,
+          zIndex: Math.round(adjustedDepth * 1000),
+        });
+      });
+    };
+
     gsap.set(firstCopy, { autoAlpha: 0, y: 28 });
     gsap.set(opening, { opacity: 1 });
+    gsap.set(orbitCollection, {
+      opacity: 0,
+      clipPath: "polygon(49.6% 0%, 50.4% 0%, 50.4% 100%, 49.6% 100%)",
+    });
     gsap.set(foot, { autoAlpha: 0 });
     if (count) gsap.set(count, { autoAlpha: 0 });
-    gsap.set(firstMedia, {
-      autoAlpha: 0,
-      clipPath: "polygon(49% 0%, 51% 0%, 51% 100%, 49% 100%)",
-      scale: 1.025,
-      x: () => {
-        const gutter = Number.parseFloat(window.getComputedStyle(head).left) || 40;
-        return gutter - (stage.clientWidth - firstMedia.offsetWidth) / 2;
-      },
-    });
+    renderOrbit();
 
     // Source-matched title motion: start outside opposite sides, then traverse
     // the viewport under a separate scrub-.6 trigger. The local 70% entry
@@ -1496,167 +1572,106 @@ function workFocusScene(compact: boolean) {
       animation: titleTimeline,
     });
 
-    const select = (nextIndex: number) => {
-      if (nextIndex === activeIndex) return;
-      activeIndex = nextIndex;
-      panels.forEach((panel, index) => {
-        if (index === nextIndex) panel.setAttribute("data-work-active", "");
-        else panel.removeAttribute("data-work-active");
-      });
-      if (nextIndex >= 0) {
-        if (count) count.textContent = `${String(nextIndex + 1).padStart(2, "0")} / 06`;
-        if (activeName) activeName.textContent = names[nextIndex] ?? "";
-      } else {
-        if (count) count.textContent = "01 / 06";
-        if (activeName) activeName.textContent = names[0] ?? "Webapp";
-      }
-    };
-
-    const showFocusedPanel = (index: number) => {
-      panels.forEach((panel, panelIndex) => {
-        gsap.set(panel, { opacity: panelIndex === index ? 1 : 0 });
-        const media = panel.querySelector<HTMLElement>(".work-focus__media");
-        const copy = panel.querySelector<HTMLElement>(".work-focus__copy");
-        if (media) {
-          gsap.set(media, {
-            autoAlpha: 1,
-            clipPath: "inset(0% 0% 0% 0%)",
-            scale: 1,
-            x: 0,
-          });
-        }
-        if (copy) gsap.set(copy, { autoAlpha: panelIndex === index ? 1 : 0, y: 0 });
-      });
-      gsap.set(opening, { opacity: 0 });
-      gsap.set(foot, { autoAlpha: 1 });
-      if (count) gsap.set(count, { autoAlpha: 1 });
-      select(index);
-    };
-
-    panels.forEach((panel, index) => {
-      const link = panel.querySelector<HTMLElement>(".work-focus__link");
-      if (!link) return;
-      const onFocusIn = () => showFocusedPanel(index);
-      link.addEventListener("focusin", onFocusIn);
-      cleanups.push(() => link.removeEventListener("focusin", onFocusIn));
-    });
-
-    const totalDuration = WORK_FOCUS_SCROLL_LENGTH;
-    const openingDuration = 1;
-    const panelDuration = 5;
-    const panelStep = panelDuration / panels.length;
-    const transitionDuration = 0.45;
-    const transitionOffset = 0.2;
     const timeline = gsap.timeline({ paused: true, defaults: { ease: "none" } });
+    const orbitDuration = moveDuration * panels.length
+      + staggerAmount * (panels.length - 1);
 
     timeline
-      .to(firstMedia, {
-        autoAlpha: 1,
+      .to(orbitCollection, {
+        opacity: 1,
         clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-        scale: 1,
-        x: 0,
-        duration: 0.9,
-        ease: "power3.inOut",
+        duration: moveDuration,
+        ease: "work-orbit",
       }, 0)
       .to(opening, {
         opacity: 0,
-        duration: 0.12,
-      }, 0.64)
+        duration: moveDuration * 0.18,
+      }, moveDuration * 0.58)
       .to(firstCopy, {
         autoAlpha: 1,
         y: 0,
-        duration: 0.28,
+        duration: moveDuration * 0.18,
         ease: "power3.out",
-      }, 0.84)
+      }, moveDuration * 0.76)
       .to([foot, count].filter(Boolean), {
         autoAlpha: 1,
-        duration: 0.24,
+        duration: moveDuration * 0.16,
         ease: "power2.out",
-      }, 0.86);
+      }, moveDuration * 0.82)
+      .to(orbitState, {
+        rotation: (orbitDuration / linearRotateDuration) * 360,
+        duration: orbitDuration,
+        ease: "none",
+        onUpdate: renderOrbit,
+      }, 0);
 
-    panels.forEach((panel, index) => {
-      if (index === 0) return;
-      const media = panel.querySelector<HTMLElement>(".work-focus__media");
-      const copy = panel.querySelector<HTMLElement>(".work-focus__copy");
-      if (!media || !copy) return;
-      const start = openingDuration + index * panelStep - transitionOffset;
+    for (let step = 1; step < panels.length; step += 1) {
+      const start = moveDuration * step;
+      const previousActive = step - 1;
+      const orderedIndexes = panels.map((_, index) => ({
+        index,
+        offset: (index - previousActive + panels.length) % panels.length,
+      })).sort((a, b) => a.offset - b.offset);
 
-      timeline.to(panels[index - 1], {
-        opacity: 0,
-        duration: transitionDuration,
-      }, start);
+      orderedIndexes.forEach(({ index }, order) => {
+        timeline.to(tileStates[index], {
+          progress: step,
+          duration: moveDuration,
+          ease: "work-orbit",
+          onUpdate: renderOrbit,
+        }, start + order * staggerAmount);
+      });
+    }
 
-      timeline
-        .fromTo(panel,
-          { opacity: 0 },
-          { opacity: 1, duration: transitionDuration },
-          start,
-        )
-        .fromTo(media,
-          { clipPath: "inset(8% 10% 8% 10%)", scale: 1.035 },
-          {
-            clipPath: "inset(0% 0% 0% 0%)",
-            scale: 1,
-            duration: transitionDuration,
-            ease: "power3.out",
-          },
-          start,
-        )
-        .fromTo(copy,
-          { autoAlpha: 0, y: 36 },
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: transitionDuration,
-            ease: "power3.out",
-          },
-          start + 0.08,
-        );
-    });
-
-    timeline.to({}, { duration: Math.max(0, totalDuration - timeline.duration()) });
+    timeline.to({}, { duration: Math.max(0, orbitDuration - timeline.duration()) });
 
     const trigger = ScrollTrigger.create({
       id: "work-focus-scene",
       trigger: section,
       start: "top top",
-      end: () => `+=${Math.round(window.innerHeight * totalDuration)}`,
+      end: () => `+=${Math.round(window.innerHeight * WORK_FOCUS_SCROLL_LENGTH)}`,
       pin: stage,
       pinSpacing: true,
       anticipatePin: 1,
       scrub: 0.6,
       invalidateOnRefresh: true,
       animation: timeline,
-      onUpdate: (self) => {
-        const sceneTime = self.progress * totalDuration;
-        if (sceneTime < 0.84) {
-          select(-1);
-          return;
-        }
-        if (sceneTime < openingDuration) {
-          select(0);
-          return;
-        }
-        const panelProgress = gsap.utils.clamp(
-          0,
-          0.999999,
-          (sceneTime - openingDuration) / panelDuration,
-        );
-        select(Math.min(panels.length - 1, Math.floor(panelProgress * panels.length)));
-      },
+      onUpdate: renderOrbit,
     });
 
     // The first frame is the readable server state until this scene owns it.
     timeline.progress(0);
     trigger.refresh();
+
+    // Tab order remains the DOM order. Focusing a capability moves the pinned
+    // scene to that tile's settled frame, so the focused link is also the
+    // visible/active surface instead of sitting blurred outside the viewport.
+    panels.forEach((panel, index) => {
+      const link = panel.querySelector<HTMLElement>(".work-focus__link");
+      if (!link) return;
+      const onFocusIn = () => {
+        const landingProgress = (index + 1) / panels.length;
+        trigger.scroll(
+          trigger.start + (trigger.end - trigger.start) * landingProgress,
+        );
+        timeline.progress(landingProgress);
+        renderOrbit();
+      };
+      link.addEventListener("focusin", onFocusIn);
+      cleanups.push(() => link.removeEventListener("focusin", onFocusIn));
+    });
   }, section);
 
   return () => {
     cleanups.forEach((cleanup) => cleanup());
     ctx.revert();
     section.removeAttribute("data-work-focus-ready");
+    section.removeAttribute("data-work-orbit-ready");
     section.removeAttribute("data-work-mobile-ready");
-    panels.forEach((panel) => panel.removeAttribute("data-work-active"));
+    panels.forEach((panel) => {
+      panel.removeAttribute("data-work-active");
+      panel.removeAttribute("data-orbit-tiles-item-status");
+    });
     if (count) count.textContent = "01 / 06";
     if (activeName) activeName.textContent = names[0] ?? "Webapp";
   };

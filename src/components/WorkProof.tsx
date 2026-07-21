@@ -70,8 +70,17 @@ function CapabilityImage({ capability }: { capability: Capability }) {
 
 function CapabilityPanel({ capability, index }: { capability: Capability; index: number }) {
   return (
-    <li className="work-focus__panel" data-work-panel data-work-index={index}>
-      <a className="work-focus__link" href={capability.href}>
+    <li
+      className="work-focus__panel"
+      data-work-panel
+      data-work-index={index}
+      data-orbit-tiles-item
+    >
+      <a
+        className="work-focus__link"
+        href={capability.href}
+        data-orbit-tiles-content
+      >
         <figure className="work-focus__media" aria-hidden="true">
           <CapabilityImage capability={capability} />
         </figure>
@@ -100,7 +109,11 @@ export function WorkProof() {
       data-bg-section="dark"
       data-work-process-transition
     >
-      <div className="work-focus" data-work-focus-stage>
+      <div
+        className="work-focus"
+        data-work-focus-stage
+        data-orbit-tiles-init
+      >
         <header className="work-focus__head">
           <p>04 / Arbeid</p>
           <p data-work-active-count>01 / 06</p>
@@ -118,11 +131,17 @@ export function WorkProof() {
           </p>
         </div>
 
-        <ol className="work-focus__panels" aria-label="Dette kan Tigon lage">
-          {capabilities.map((capability, index) => (
-            <CapabilityPanel capability={capability} index={index} key={capability.n} />
-          ))}
-        </ol>
+        <div className="work-focus__orbit" data-orbit-tiles-collection>
+          <ol
+            className="work-focus__panels"
+            aria-label="Dette kan Tigon lage"
+            data-orbit-tiles-list
+          >
+            {capabilities.map((capability, index) => (
+              <CapabilityPanel capability={capability} index={index} key={capability.n} />
+            ))}
+          </ol>
+        </div>
 
         <footer className="work-focus__foot">
           <p data-work-active-name>Webapp</p>

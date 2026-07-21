@@ -5,11 +5,11 @@ Last reconciled: 2026-07-21.
 ## Worktree boundary
 
 The current branch is `codex/work-services-accordion` at committed HEAD
-`ce05344`. The connected Tjenester→Effekt baseline is `b9b4b5a`, built on the
-responsive Tjenester baseline at `293c552`. The current Arbeid focus-field
-redesign and governance reconciliation are uncommitted. Always inspect the
-current worktree before acting; do not reset, checkout or overwrite unrelated
-changes.
+`e052049`. The connected Tjenester→Effekt baseline is `b9b4b5a`, built on the
+responsive Tjenester baseline at `293c552`. The current scroll-controlled
+Arbeid orbit redesign and its documentation are uncommitted. Always inspect
+the current worktree before acting; do not reset, checkout or overwrite
+unrelated changes.
 Do not commit or push without explicit instruction, and stage exact files if
 publishing is later requested.
 
@@ -40,8 +40,10 @@ redesigned.
 The page body still uses solid semantic surfaces. Effekt's result scene remains
 typographic and mounts no outgoing image bridge. Arbeid begins its own title
 traversal while entering the shared dark surface; its first real capability
-media becomes the single opening object only at the Arbeid pin boundary. There
-is no duplicate aperture or global decorative background-media owner.
+media becomes the single opening object only at the Arbeid pin boundary. The
+desktop pin then uses one scroll-controlled Orbit Tiles owner for all six
+capability links. There is no autonomous carousel, duplicate aperture or global
+decorative background-media owner.
 
 ## Current design-system decision
 

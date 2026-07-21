@@ -17,9 +17,9 @@ Last reconciled: 2026-07-21.
 3. Review the connected Tjenester→Effekt→Arbeid transition, including the
    five-band shutter, fixed title blur and source-matched desktop/mobile
    card traversal.
-4. Review the implemented capability-led Arbeid title handoff, single-media
-   opening, six-panel desktop sequence and separate mobile document flow; do not
-   reinterpret it as portfolio proof.
+4. Review the implemented capability-led Arbeid title handoff, single-surface
+   opening, scroll-controlled six-link desktop orbit and separate mobile
+   document flow; do not reinterpret it as portfolio proof.
 5. Redesign Prosess, System and Footer as one closing sequence.
 6. Perform the full integration, performance and accessibility matrix.
 

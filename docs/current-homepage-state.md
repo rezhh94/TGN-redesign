@@ -106,19 +106,19 @@ graphics, fonts or identity assets are mounted.
 `WorkProof` is capability-led, not portfolio-led. Six direct accessible links
 remain mounted. The 03→04 handoff is typographic: as Arbeid enters, the two
 parts of `Dette kan Tigon lage.` travel in opposite directions, meet as one
-readable statement and cross away. The title traversal is a separate scrubbed
-trigger, adapted from the verified first-party Trionn module rather than
-combined with its unrelated WebGL orbit. At the pin boundary, the first
-capability panel's real Webapp media is the only opening object: it appears as
-a central slit, expands into its final image-right geometry, then reveals the
-Webapp copy. There is no duplicate bridge image. From 901px the focus stage is
+readable statement and cross away. The title traversal remains a separate
+scrubbed trigger. At the pin boundary, the real Webapp surface opens from one
+central slit; there is no duplicate bridge image. From 901px the focus stage is
 pinned for six viewport lengths with `top top`, `anticipatePin: 1` and
-`scrub: .6`; one panel is readable at a time in a stable image-right/copy-left
-composition. At 900px and below, the section is a separate normal-flow film
-with a static readable opening and six complete full-height chapters with
-direct actions. Reduced motion and no-JS keep the full readable composition.
-No WebGL, Three.js, TSL, dynamic cursor, portfolio wall or eagerly loaded
-below-fold capability image is mounted.
+`scrub: .6`. One scroll-controlled Orbit Tiles owner replaces the former
+static panel replacement: the six complete link surfaces travel through a
+shared flat orbit, interpolate scale, blur and brightness by depth, update one
+active index, and counter-rotate their contents so the landed surface stays
+readable. At 900px and below, the section is a separate normal-flow film with a
+static readable opening and six complete full-height chapters with direct
+actions. Reduced motion and no-JS keep the full readable composition. No
+autonomous loop, WebGL, Three.js, TSL, dynamic cursor, portfolio wall or eagerly
+loaded below-fold capability image is mounted.
 
 ### Prosess and System
 
@@ -131,9 +131,12 @@ the quiet conclusion into Footer. Both keep complete static content without JS.
   owner per active responsive branch; desktop and phone branches each use one
   pinned ScrollTrigger, while 768–900px stays in normal flow.
 - Arbeid owns a separate desktop title traversal and one `work-focus-scene`;
-  mobile/tablet use one-shot local reveals without pinning. The 04→05 handoff transforms the released focus
-  stage instead of its pin ancestor, so the late capability frames stay fixed
-  and readable.
+  that trigger is also the only Orbit owner. Scroll progress drives the orbit,
+  so no animation clock runs while the scene is outside the viewport. Keyboard
+  focus moves the same trigger to the focused capability's settled frame.
+  Mobile/tablet use one-shot local reveals without pinning. The 04→05 handoff
+  transforms the released focus stage instead of its pin ancestor, so the late
+  capability frames stay fixed and readable.
 - Initial hash navigation is corrected once after the shared
   `ScrollTrigger.refresh()`, so anchors such as `#arbeid` use the final measured
   document position after pinned spacing has been created.
