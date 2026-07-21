@@ -83,7 +83,6 @@ export function ServicePrelude() {
         data-rows-mobile="6"
         data-scroll-start="bottom bottom"
         data-scroll-end="bottom top"
-        data-scroll-offset-mobile="[data-service-prelude-facts]"
         aria-hidden="true"
       />
     </section>

@@ -1,14 +1,14 @@
 # Tigon — project continuation context
 
-Last reconciled: 2026-07-21.
+Last reconciled: 2026-07-22.
 
 ## Worktree boundary
 
 The current branch is `codex/trionn-mobile-parity` at committed HEAD
-`33ce111`. The current uncommitted work is the new Intro→Tjenester prelude:
-three server-rendered Tigon system cards with source-exact Trionn Key Facts
-geometry and type sizing, the verified Trionn marquee
-motor, the existing Osmo shutter owner and reconciled active documentation.
+`5749d34`. The current uncommitted work removes a duplicate mobile trigger
+offset from the Intro→Tjenester shutter. GSAP already includes the facts pin
+spacer in the service-prelude section bottom; using that measured bottom makes
+the six mobile shutter rows visible across the real dark-to-paper handoff.
 The rejected phone-deck experiment is preserved outside the repository at
 `/private/tmp/tigon-phone-deck-rejected-2026-07-21.patch` with SHA-256
 `ad244ea2b8095f9e37cb7bd84052f695bb644513749b21a6b8b085f8aee2c7ac`.

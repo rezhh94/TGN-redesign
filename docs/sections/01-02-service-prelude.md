@@ -57,9 +57,9 @@ Last reconciled: 2026-07-21.
   cover the cards before the horizontal sequence completes.
 - Shutter rows are 16 desktop, 10 tablet and 6 mobile. Local CSS lets each set
   fill one `100svh` transition field and uses the real Tjenester paper colour.
-  On mobile its existing bottom-bound start/end positions are offset by the
-  facts stage's `100svh` pin duration, so the shutter begins only after the
-  horizontal deck releases.
+  The trigger uses the section's final measured bottom after GSAP has inserted
+  the mobile facts pin spacing, so the shutter begins only after the horizontal
+  deck and marquee have released.
 - `servicePreludeScene` is lazy-initialized. It owns the marquee ticker,
   IntersectionObserver, ResizeObserver, pause trigger, card timeline and full
   teardown. `initShutterScrollTransition` separately owns only generated rows

@@ -78,7 +78,9 @@ ticker step, zero gap, `.5` pause lerp and `64px` IntersectionObserver wake
 margin, then pauses halfway through the exit. The existing Osmo shutter owner
 generates 16/10/6 paper rows across desktop/tablet/mobile and covers the dark
 chapter from `bottom bottom` to `bottom top`, revealing the real Tjenester
-surface beneath. `introFillScene` still enhances the original statement with
+surface beneath. On mobile the trigger reads the section bottom after the facts
+pin spacer has been measured; it does not add a second viewport offset.
+`introFillScene` still enhances the original statement with
 character colour progress and small one-shot entries. Reduced motion/no-JS
 show all prelude content statically and generate neither marquee clones nor
 shutter rows.
