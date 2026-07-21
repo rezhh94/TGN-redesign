@@ -68,6 +68,11 @@
   --paper-text-row: #272727;
   --paper-text-label: rgba(67, 67, 67, 0.6);
   --paper-focus-ring: #272727;
+  /* Verified Selected Work surface values from Trionn's first-party module.
+     Kept as shared paper roles so the section does not invent local colours. */
+  --paper-track-surface-start: #d2d2d2;
+  --paper-track-surface-end: #ffffff;
+  --paper-track-line: rgba(67, 67, 67, 0.15);
   /* Trionn source roles. The injected variable names are kept for the
      approved font-stack contract, while these semantic aliases follow the
      source CSS: Familjen for display/title roles, Neue Haas -> PP Neue

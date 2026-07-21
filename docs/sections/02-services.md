@@ -1,4 +1,4 @@
-# 02 / Tjenester — pinned panel contract
+# 02 / Tjenester — Selected Work track contract
 
 Last reconciled: 2026-07-21.
 
@@ -6,92 +6,63 @@ Status: implemented in the current worktree.
 
 ## Composition
 
-- Intro leads into a restrained Tjenester prelude before the service journey.
-- Every service is one complete semantic panel: local Tigon image on the left,
-  counter, title, concise explanation, four concrete capability rows and the
-  established service link on the right.
-- The desktop construction uses five full-viewport 50/50 panels layered in one
-  pinned stage. The useful reference principle is the split between a visual
-  field and a calm information field, not Trionn's identity or artwork.
-- Every information field stays on Tigon's pure-white `--tigon-paper`. Only the left
-  media field alternates `--tigon-paper` and `--surface-base`, keeping the copy
-  surface continuous while still marking each new service.
-- The information hierarchy consumes the global `type-paper-heading`,
-  `type-paper-copy`, `type-paper-label` and `type-paper-row` roles. All four use
-  Familjen Grotesk Regular for heading and label, and PP Neue Montreal Regular
-  for explanation and capability rows. The shared scale and neutral paper colours are owned
-  by `tokens.css` and `typography.css`, never repeated as section-local values.
-  The responsive sizes are computed from verified local-source breakpoints and
-  remain isolated from the document root.
-- The former cube, perspective transforms, corner brackets, duplicate labels,
-  bottom index, progress hairline and top divider are absent.
-- A quiet vertical seam and the capability rules are the only structural lines.
-- All titles, descriptions, capabilities and links are server-rendered.
+- `WhatWeBuild` keeps the existing five service destinations and Tigon-owned
+  images, but uses the verified construction from Trionn's public first-party
+  Selected Work module.
+- Desktop is one `100dvh` horizontal track. The opening title, each service and
+  the final all-services action occupy exactly `50%` of the viewport width.
+- Service images use the source ratio `670 / 460`, `0.5rem` radius and `5rem`
+  horizontal panel inset. Cards use `5rem` vertical padding, tightening to
+  `4rem` from 1024px.
+- Each service has one image, H3, concise explanation and the established
+  service link. This is a service catalogue, not a portfolio or case archive.
+- The surface is the verified `#D2D2D2 → #FFFFFF` vertical gradient. Values
+  live in shared `--paper-track-*` tokens; text and hairlines consume the
+  existing `--paper-text-*` roles.
+- Familjen Grotesk Medium owns the opening title. Familjen Grotesk Regular owns
+  service headings, PP Neue Montreal owns descriptions, and Martian Mono
+  Standard Light owns the source-ported word-shift actions.
+- All titles, descriptions, images and links are server-rendered.
 
 ## Motion
 
-- `servicesScene` owns the Intro→Tjenester bridge and the service sequence.
-- The dark prelude is a separate `100svh` handoff stage. Five full-width bands
-  are rigged in CSS and animated bottom-up with `scaleY: 0→1`, bottom origin,
-  reverse offsets over `0.3`, a `0.1` hold and `ease: none`.
-- The handoff uses `start: "top top"`, `end: "+=200%"` on non-touch and
-  `"+=150%"` on touch, `scrub: 0.6`, pins the prelude with spacing and uses
-  `anticipatePin: 1`. The first service deck is overlapped by `-100svh`, so it
-  is already beneath the final paper bands.
-- The pinned service-panel enhancement applies from 768px with no
-  reduced-motion preference, including touch tablets.
-- The service `ScrollTrigger` uses `start: "top top"`, an end of
-  `1.2 * innerHeight * 5`, `scrub: 0.6`, `pin: stage`, `pinSpacing: true`,
-  `anticipatePin: 0.5` and `invalidateOnRefresh: true`.
-- The sequence opens with a `0.5` hold. Each incoming panel travels from
-  `yPercent: 100` to `0` for `1`; the previous information field travels to
-  `yPercent: -100` over the same interval. Capability rules draw with `0.08`
-  stagger, followed by a `0.5` reading hold. There is no content fade or image
-  scale, and every scroll-driven transform uses `ease: none`.
-- The final service-to-Effekt handoff uses five dark shutter bands. They close
-  the final paper service into one complete dark viewport before Effekt starts.
-  The Effekt title is not inside those bands and never follows their movement.
-  Phones use the same five-band shutter over the final viewport.
-- CSS owns the complete readable layout. JavaScript only creates the desktop
-  stack, two sequential pins and transitions after successful hydration.
-- Lenis remains the sole scroll transport and forwards scroll updates
-  to ScrollTrigger through `HomeMotion`. Its effective desktop calibration is
-  `lerp: 0.105`, `duration: 1.05`, cubic-out easing, `wheelMultiplier: 0.6`
-  on Apple platforms and `0.85` elsewhere. GSAP ticker lag smoothing is
-  `500, 33`. Touch uses the same lerp/duration, `wheelMultiplier: 0.6`,
-  `touchMultiplier: 1.2` and `syncTouch: true`.
+- `servicesScene` pins the section root at every motion-capable width and moves the track from
+  `x: 0` to `-(scrollWidth - viewportWidth)`.
+- Trionn's movement rate is preserved: `1.5` viewport widths over `2` viewport
+  heights, or `0.75px` horizontal travel per vertical scroll pixel. Tigon's
+  five services make the horizontal phase longer without making it faster.
+- Every card inner starts at `y: 550`. The source position curve resolves it to
+  zero as the card enters. Content reveals at normalized position `< 1.05`;
+  separators draw at `< 1` over `1.2s`, `power2.out`, delayed by `0.1 * index`.
+- H3, description and action use the source sequence: `.7s`, `.6s` and `.4s`
+  with sine/power easing and overlapping starts.
+- After the last panel settles, the entire paper layer moves one viewport left
+  over `150%` scroll. The final axis draws and its 13px plus rotates while a
+  non-semantic visual copy of the real dark Effekt opening is revealed behind
+  it. The real Effekt scene starts in the identical sharp state when the pin
+  releases, so there is no blank or blurred replacement frame.
+- The section root itself is pinned with spacing. This is required so the pin
+  duration participates in document flow and does not let Effekt initialize
+  over the service track.
 
 ## Responsive and fallback
 
-- From 768px: bounded five-stop pinned sequence, including touch tablets.
-- Below 768px: five complete panels in normal flow after the pinned handoff;
-  media stacks above the information field, only the media surface alternates
-  and links never depend on hover.
-- Through 640px: spacing and image ratio tighten for a single-column phone
-  composition.
-- Reduced motion receives the complete normal-flow layout without pins or
-  animated handoff bands.
-- No-JS receives the same five complete panels because no important content is
-  hidden in the server-rendered markup or base CSS.
-- During the pinned scene only the active service link is tabbable. Focus has a
-  visible two-pixel ring; cleanup restores ordinary link behaviour.
-- The service deck supplies one stable light theme to the floating header.
-
-## Reference and performance boundary
-
-- Local Trionn HTML, CSS and route-specific first-party JS were used only to
-  verify the five-band handoff, full-panel pinning, media-only alternation and
-  responsive split.
-- The separate Trionn orbit/WebGL intro, media, shaders, code, fonts, wording
-  and identity-bearing combinations are not used.
-- Tigon uses five existing responsive raster assets; the first is eager and the
-  remaining four are lazy-loaded. There is no canvas or WebGL lifecycle.
+- Below 768px Tigon deliberately runs the same horizontal x-axis motor and
+  effect thresholds requested for desktop. The opening is full-width; service
+  and final panels retain Trionn's verified `calc(100vw - 3rem)` phone width.
+- Mobile keeps the `670 / 460` images, vertical separator drawing, `550px` card
+  orbit, visible actions and the same leftward Effekt reveal.
+- Reduced motion and no-JS use the same complete vertical document flow with
+  all content visible and no transformed or pinned layers.
+- Links remain real anchors with visible focus treatment; no destination
+  depends on pointer hover or JavaScript.
 
 ## Boundaries
 
-- Header, Hero, Effekt, Arbeid, Prosess, System and Footer are untouched.
-- Metadata, schema, sitemap, robots, canonical, URLs, slugs, NAP and link
+- Section order is unchanged: Intro → Tjenester → Effekt.
+- Header and Hero are unchanged. Effekt content is unchanged; its motion start
+  is now sharp so it matches the visual opening exposed beneath Tjenester.
+- Metadata, schema, sitemap, robots, canonical, URLs, slugs, NAP and service
   destinations are unchanged.
-- No Trionn or legacy CSS, JavaScript, font or asset is imported. The approved
-  Tigon families load locally through `next/font/local`; there is no external
-  type resource. No visible orange is introduced.
+- No Trionn media, logo, wording, font binary, deployed bundle, third-party
+  runtime or legacy stylesheet is imported. No visible orange is introduced.

@@ -5,8 +5,9 @@ Last reconciled: 2026-07-21.
 ## Worktree boundary
 
 The current branch is `codex/trionn-mobile-parity` at committed HEAD
-`76de5a2`. That commit is the reviewed desktop Arbeid Orbit baseline. The
-Trionn-calibrated Arbeid mobile pilot and its source ledger are uncommitted.
+`4a331f3`. The current uncommitted work is the source-ported horizontal
+`02 / Tjenester` track, its shared action component, motion owner, paper tokens
+and reconciled active documentation.
 The rejected phone-deck experiment is preserved outside the repository at
 `/private/tmp/tigon-phone-deck-rejected-2026-07-21.patch` with SHA-256
 `ad244ea2b8095f9e37cb7bd84052f695bb644513749b21a6b8b085f8aee2c7ac`.
@@ -29,10 +30,14 @@ publishing is later requested.
 Header → Hero → Intro → Tjenester → Effekt → Arbeid → Prosess → System →
 Footer.
 
-Intro and Tjenester contain the committed responsive baseline. `b9b4b5a`
-stores the connected Effekt recovery point: `Effekt som kan måles.` as a fixed
-central anchor and four scroll-driven result cards with the
-source-verified desktop and phone paths. The mounted identity uses the official
+Intro remains the committed responsive baseline. Tjenester is currently an
+uncommitted source-port of Trionn's verified Selected Work construction: one
+horizontal half-panel track on desktop and the same horizontal motor over
+source-width mobile cards. It keeps all five real service destinations and
+Tigon-owned media, then exits left over a matching Effekt opening. `b9b4b5a`
+stores the connected Effekt recovery
+point: `Effekt som kan måles.` as a fixed central anchor and four scroll-driven
+result cards with the source-verified desktop and phone paths. The mounted identity uses the official
 final Tigon lockup, wordmark, mark and favicons. The Effekt material image is
 no longer mounted. Arbeid is
 capability-led and never a false portfolio claim. No visual section is

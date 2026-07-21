@@ -339,7 +339,7 @@
 
 @media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
   .what-improve[data-effect-overlap-ready] {
-    margin-top: 0;
+    margin-top: -100svh;
   }
 
   .what-improve[data-effect-mobile-ready] {

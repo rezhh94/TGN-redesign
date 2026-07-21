@@ -472,31 +472,29 @@ function legacyServicesScene() {
   };
 }
 
-// Intro → 02 / Tjenester — one clean-room journey owner. CSS keeps all
-// five panels readable in ordinary flow. GSAP upgrades only fine-pointer
-// desktop to one bounded, pinned panel stack.
+// 02 / Tjenester — source-port of Trionn's verified Selected Work motor.
+// The deployed Trionn phone branch stacks vertically. Tigon deliberately keeps
+// the verified x-axis motor, thresholds and 550px orbit on touch too, while
+// retaining Trionn's own mobile card width (viewport minus 3rem).
 function servicesScene() {
-  const journey = document.querySelector<HTMLElement>("[data-intro-services-journey]");
-  const section = journey?.querySelector<HTMLElement>("[data-build-section]");
-  const prelude = section?.querySelector<HTMLElement>("[data-service-prelude]");
-  const story = section?.querySelector<HTMLElement>("[data-service-story]");
-  const stage = section?.querySelector<HTMLElement>("[data-service-stage]");
-  const bands = gsap.utils.toArray<HTMLElement>("[data-service-band]", section);
-  const effectBands = gsap.utils.toArray<HTMLElement>(
-    "[data-service-effect-band]",
-    section,
-  );
-  const panels = gsap.utils.toArray<HTMLElement>("[data-service-panel]", section);
+  const section = document.querySelector<HTMLElement>("[data-build-section]");
+  const viewport = section?.querySelector<HTMLElement>("[data-service-viewport]");
+  const layer = section?.querySelector<HTMLElement>("[data-service-layer]");
+  const track = section?.querySelector<HTMLElement>("[data-service-track]");
+  const underlay = section?.querySelector<HTMLElement>("[data-service-underlay]");
+  const cards = gsap.utils.toArray<HTMLElement>("[data-service-card]", section);
+  const endLine = section?.querySelector<HTMLElement>("[data-service-end-line]");
+  const endPlus = section?.querySelector<SVGElement>("[data-service-end-plus]");
 
   if (
-    !journey
-    || !section
-    || !prelude
-    || !story
-    || !stage
-    || bands.length !== 5
-    || effectBands.length !== 5
-    || panels.length !== 5
+    !section
+    || !viewport
+    || !layer
+    || !track
+    || !underlay
+    || cards.length !== 6
+    || !endLine
+    || !endPlus
   ) return () => {};
 
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -504,264 +502,174 @@ function servicesScene() {
 
   const mm = gsap.matchMedia();
   const ctx = gsap.context(() => {
-    const preludeLines = gsap.utils.toArray<HTMLElement>(
-      "[data-service-prelude-line]",
-      prelude,
-    );
-    const preludeCopy = gsap.utils.toArray<HTMLElement>(
-      "[data-service-prelude-copy]",
-      prelude,
-    );
-    maskedRise(preludeLines, prelude, {
-      yPercent: 108,
-      duration: 1.05,
-      stagger: 0.1,
-      start: "top 78%",
-    });
-    if (prelude.getBoundingClientRect().top > window.innerHeight * 0.86) {
-      gsap.from(preludeCopy, {
-        autoAlpha: 0,
-        y: 18,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power3.out",
-        scrollTrigger: { trigger: prelude, start: "top 72%", once: true },
-      });
-    }
-
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      section.setAttribute("data-service-handoff-ready", "");
-      gsap.set(bands, {
-        scaleY: 0,
-        transformOrigin: "bottom center",
+      section.setAttribute("data-service-ready", "");
+      const revealedCards = new Set<number>();
+      const drawnLines = new Set<number>();
+      const revealTimelines = cards.map((card) => {
+        const title = card.querySelector<HTMLElement>("[data-service-card-title]");
+        const copy = card.querySelector<HTMLElement>("[data-service-card-copy]");
+        const action = card.querySelector<HTMLElement>("[data-service-card-action]");
+        const targets = [title, copy, action].filter(
+          (target): target is HTMLElement => Boolean(target),
+        );
+        gsap.set(targets, { autoAlpha: 0 });
+
+        const timeline = gsap.timeline({
+          paused: true,
+          defaults: { ease: "power3.out" },
+        });
+        if (title) timeline.to(title, { autoAlpha: 1, ease: "sine", duration: 0.7 }, 0);
+        if (copy) timeline.to(copy, { autoAlpha: 1, ease: "sine", duration: 0.6 }, "<");
+        if (action) timeline.to(action, { autoAlpha: 1, duration: 0.4 }, "<50%");
+        return timeline;
       });
 
-      const handoffTimeline = gsap.timeline({ defaults: { ease: "none" } });
-      bands.forEach((band, index) => {
-        const offset = 0.3 * (bands.length - 1 - index) / (bands.length - 1);
-        handoffTimeline.to(band, { scaleY: 1, duration: 0.3 }, offset);
+      cards.forEach((card) => {
+        const inner = card.querySelector<HTMLElement>("[data-service-card-inner]");
+        const lines = gsap.utils.toArray<HTMLElement>("[data-service-card-line]", card);
+        if (inner) gsap.set(inner, { y: 550, opacity: 1, force3D: true });
+        gsap.set(lines, { scaleY: 0, transformOrigin: "top", force3D: true });
       });
-      handoffTimeline.to({}, { duration: 0.1 });
+      gsap.set(track, { x: 0, y: 0, force3D: true });
+      gsap.set(layer, { x: 0, y: 0, force3D: true });
+      gsap.set(endLine, { scaleY: 0, transformOrigin: "center center" });
+      gsap.set(endPlus, {
+        rotation: 0,
+        xPercent: -50,
+        yPercent: -50,
+        autoAlpha: 0,
+      });
 
-      const handoffTrigger = ScrollTrigger.create({
-        id: "services-handoff",
-        trigger: prelude,
+      let horizontalTravel = 0;
+      let horizontalScroll = 0;
+      let handoffScroll = 0;
+      let totalScroll = 0;
+      const measure = () => {
+        horizontalTravel = Math.max(0, track.scrollWidth - viewport.clientWidth);
+        // Trionn moves 1.5 viewports over 2 viewport-heights (0.75 px/px).
+        horizontalScroll = horizontalTravel / 0.75;
+        handoffScroll = 1.5 * window.innerHeight;
+        totalScroll = horizontalScroll + handoffScroll;
+      };
+      measure();
+
+      const render = (progress: number) => {
+        const consumedScroll = progress * totalScroll;
+        const horizontalProgress = gsap.utils.clamp(
+          0,
+          1,
+          horizontalScroll > 0 ? consumedScroll / horizontalScroll : 1,
+        );
+        const handoffProgress = gsap.utils.clamp(
+          0,
+          1,
+          handoffScroll > 0 ? (consumedScroll - horizontalScroll) / handoffScroll : 0,
+        );
+        const distance = horizontalTravel * horizontalProgress;
+
+        gsap.set(track, { x: -distance, y: 0, force3D: true });
+        gsap.set(layer, {
+          x: -window.innerWidth * handoffProgress,
+          y: 0,
+          force3D: true,
+        });
+
+        cards.forEach((card, index) => {
+          const inner = card.querySelector<HTMLElement>("[data-service-card-inner]");
+          const normalizedPosition = (
+            card.offsetLeft + card.offsetWidth / 2 - distance
+          ) / window.innerWidth;
+          const y = normalizedPosition > 1.2
+            ? 550
+            : normalizedPosition > 0.5
+              ? 550 * (1 - (1 - Math.pow(1 - (1.2 - normalizedPosition) / 0.7, 3)))
+              : 0;
+
+          if (inner) gsap.set(inner, { y, force3D: true });
+          if (normalizedPosition < 1.05 && !revealedCards.has(index)) {
+            revealedCards.add(index);
+            revealTimelines[index]?.play();
+          }
+          if (normalizedPosition < 1 && !drawnLines.has(index)) {
+            drawnLines.add(index);
+            const lines = gsap.utils.toArray<HTMLElement>(
+              "[data-service-card-line]",
+              card,
+            );
+            gsap.to(lines, {
+              scaleY: 1,
+              duration: 1.2,
+              ease: "power2.out",
+              delay: 0.1 * index,
+            });
+          }
+        });
+
+        gsap.set(endLine, {
+          scaleY: handoffProgress,
+          transformOrigin: "center center",
+        });
+        gsap.set(endPlus, {
+          rotation: 360 * handoffProgress,
+          autoAlpha: handoffProgress > 0.01 && handoffProgress < 1 ? 1 : 0,
+        });
+
+        const darkSurfaceVisible = handoffProgress >= 0.52;
+        section.dataset.themeSection = darkSurfaceVisible ? "dark" : "light";
+        section.dataset.bgSection = darkSurfaceVisible ? "dark" : "light";
+      };
+
+      const trigger = ScrollTrigger.create({
+        id: "services-selected-work-track",
+        trigger: section,
         start: "top top",
-        end: ScrollTrigger.isTouch ? "+=80%" : "+=100%",
-        animation: handoffTimeline,
-        scrub: 0.6,
-        pin: prelude,
+        end: () => {
+          measure();
+          return `+=${Math.round(totalScroll)}`;
+        },
+        pin: section,
         pinSpacing: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        onRefresh: (self) => {
+          measure();
+          render(self.progress);
+        },
+        onUpdate: (self) => render(self.progress),
       });
+      render(trigger.progress);
 
       return () => {
-        handoffTrigger.kill();
-        handoffTimeline.kill();
-        section.removeAttribute("data-service-handoff-ready");
+        trigger.kill();
+        revealTimelines.forEach((timeline) => timeline.kill());
+        gsap.killTweensOf(cards.flatMap((card) => (
+          gsap.utils.toArray<HTMLElement>("[data-service-card-line]", card)
+        )));
+        gsap.set([track, layer], { clearProps: "transform" });
+        cards.forEach((card) => {
+          const inner = card.querySelector<HTMLElement>("[data-service-card-inner]");
+          const revealTargets = gsap.utils.toArray<HTMLElement>(
+            "[data-service-card-title], [data-service-card-copy], [data-service-card-action]",
+            card,
+          );
+          if (inner) gsap.set(inner, { clearProps: "transform,opacity" });
+          gsap.set(revealTargets, { clearProps: "opacity,visibility" });
+        });
+        gsap.set([endLine, endPlus], { clearProps: "transform,opacity,visibility" });
+        section.dataset.themeSection = "light";
+        section.dataset.bgSection = "light";
+        section.removeAttribute("data-service-ready");
       };
     });
-
-    mm.add(
-      "(prefers-reduced-motion: no-preference) and (min-width: 768px)",
-      () => {
-        const contents = panels.map((panel) =>
-          panel.querySelector<HTMLElement>("[data-service-panel-content]"));
-        const rules = panels.map((panel) =>
-          gsap.utils.toArray<HTMLElement>("[data-service-panel-rule]", panel));
-        const links = panels.map((panel) =>
-          panel.querySelector<HTMLAnchorElement>("[data-service-link]"));
-        let activeIndex = -1;
-
-        const setActive = (nextIndex: number) => {
-          const index = gsap.utils.clamp(0, panels.length - 1, nextIndex);
-          if (index === activeIndex) return;
-          activeIndex = index;
-
-          panels.forEach((panel, panelIndex) => {
-            const isActive = panelIndex === index;
-            panel.toggleAttribute("data-service-active", isActive);
-            const link = links[panelIndex];
-            if (link) link.tabIndex = isActive ? 0 : -1;
-          });
-        };
-
-        section.setAttribute("data-service-ready", "");
-        section.setAttribute("data-service-effect-ready", "");
-        gsap.set(panels, { yPercent: 100 });
-        gsap.set(panels[0], { yPercent: 0 });
-        gsap.set(panels, { zIndex: (index) => index + 1 });
-        gsap.set(effectBands, {
-          scaleY: 0,
-          transformOrigin: "bottom center",
-        });
-        rules.forEach((panelRules, index) => {
-          gsap.set(panelRules, {
-            scaleX: index === 0 ? 1 : 0,
-            transformOrigin: "left center",
-          });
-        });
-        setActive(0);
-
-        const timeline = gsap.timeline({ defaults: { ease: "none" } });
-        const leadHold = 0.5;
-        const transitionDuration = 1;
-        const panelHold = 0.5;
-        timeline.to({}, { duration: leadHold });
-
-        panels.forEach((panel, index) => {
-          if (index === 0) return;
-
-          const transitionStart = timeline.duration();
-          const previousContent = contents[index - 1];
-          timeline.to(
-            panel,
-            { yPercent: 0, duration: transitionDuration },
-            transitionStart,
-          );
-
-          if (previousContent) {
-            timeline.to(
-              previousContent,
-              { yPercent: -100, duration: transitionDuration },
-              transitionStart,
-            );
-          }
-
-          if (rules[index].length) {
-            timeline.to(
-              rules[index],
-              {
-                scaleX: 1,
-                duration: 0.5,
-                stagger: 0.08,
-              },
-              transitionStart + 0.2,
-            );
-          }
-
-          timeline.to({}, { duration: panelHold });
-        });
-
-        // The shutter belongs only to the section handoff. It closes the final
-        // paper service into one complete dark viewport before Effekt starts;
-        // the fixed title is animated separately and never follows the bands.
-        const effectHandoffStart = timeline.duration();
-        effectBands.forEach((band, index) => {
-          const offset = 0.3 * (effectBands.length - 1 - index)
-            / (effectBands.length - 1);
-          timeline.to(
-            band,
-            { scaleY: 1, duration: 0.3 },
-            effectHandoffStart + offset,
-          );
-        });
-        timeline.to({}, { duration: 0.14 }, effectHandoffStart + 0.6);
-
-        const updateActive = (self: ReturnType<typeof ScrollTrigger.create>) => {
-          const total = timeline.duration();
-          let index = 0;
-          for (let next = 1; next < panels.length; next += 1) {
-            const midpoint = (
-              leadHold
-              + (next - 1) * (transitionDuration + panelHold)
-              + transitionDuration / 2
-            ) / total;
-            if (self.progress >= midpoint) index = next;
-          }
-          setActive(index);
-        };
-
-        const trigger = ScrollTrigger.create({
-          id: "services-panels",
-          trigger: story,
-          start: "top top",
-          end: () => `+=${Math.round(1.2 * window.innerHeight * panels.length)}`,
-          animation: timeline,
-          scrub: 0.6,
-          pin: stage,
-          pinSpacing: true,
-          anticipatePin: 0.5,
-          invalidateOnRefresh: true,
-          onRefresh: (self) => updateActive(self),
-          onUpdate: (self) => updateActive(self),
-        });
-        updateActive(trigger);
-
-        return () => {
-          trigger.kill();
-          timeline.kill();
-          section.removeAttribute("data-service-ready");
-          section.removeAttribute("data-service-effect-ready");
-          panels.forEach((panel, index) => {
-            panel.toggleAttribute("data-service-active", index === 0);
-          });
-          links.forEach((link) => link?.removeAttribute("tabindex"));
-        };
-      },
-    );
-
-    mm.add(
-      "(prefers-reduced-motion: no-preference) and (max-width: 767px)",
-      () => {
-        panels.forEach((panel) => {
-          const targets = [
-            panel.querySelector<HTMLElement>(".service-panel__image-frame"),
-            panel.querySelector<HTMLElement>("[data-service-panel-content]"),
-          ].filter((target): target is HTMLElement => Boolean(target));
-          if (!targets.length || panel.getBoundingClientRect().top <= window.innerHeight * 0.9) {
-            return;
-          }
-          gsap.from(targets, {
-            autoAlpha: 0,
-            y: 20,
-            duration: 0.72,
-            stagger: 0.08,
-            ease: "power3.out",
-            scrollTrigger: { trigger: panel, start: "top 82%", once: true },
-          });
-        });
-
-        section.setAttribute("data-service-effect-ready", "");
-        gsap.set(effectBands, {
-          scaleY: 0,
-          transformOrigin: "bottom center",
-        });
-
-        const mobileHandoff = gsap.timeline({ defaults: { ease: "none" } });
-        effectBands.forEach((band, index) => {
-          const offset = 0.3 * (effectBands.length - 1 - index)
-            / (effectBands.length - 1);
-          mobileHandoff.to(band, { scaleY: 1, duration: 0.3 }, offset);
-        });
-        mobileHandoff.to({}, { duration: 0.1 });
-
-        const mobileHandoffTrigger = ScrollTrigger.create({
-          id: "services-effect-handoff-mobile",
-          trigger: panels.at(-1),
-          start: "bottom bottom",
-          end: "bottom top",
-          animation: mobileHandoff,
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-        });
-
-        return () => {
-          mobileHandoffTrigger.kill();
-          mobileHandoff.kill();
-          section.removeAttribute("data-service-effect-ready");
-        };
-      },
-    );
-  }, journey);
+  }, section);
 
   return () => {
     mm.revert();
     ctx.revert();
-    section.removeAttribute("data-service-handoff-ready");
+    section.dataset.themeSection = "light";
+    section.dataset.bgSection = "light";
     section.removeAttribute("data-service-ready");
-    section.removeAttribute("data-service-effect-ready");
   };
 }
 // 03 / Effekt — the fixed result statement resolves beneath the outgoing
@@ -789,6 +697,10 @@ function effectCardsScene() {
 
   const mm = gsap.matchMedia();
 
+  // The next dark chapter sits one viewport behind the outgoing paper plane.
+  // With the services section itself pinned, this removes the otherwise blank
+  // release viewport and lets the verified leftward handoff resolve directly
+  // into 03 / Effekt.
   mm.add("(prefers-reduced-motion: no-preference)", () => {
     section.setAttribute("data-effect-overlap-ready", "");
     return () => section.removeAttribute("data-effect-overlap-ready");
@@ -800,9 +712,9 @@ function effectCardsScene() {
       section.setAttribute("data-effect-ready", "");
       let cleanupDesktopMotion = () => {};
       const ctx = gsap.context(() => {
-        // The service shutter finishes before this pinned scene starts. The
-        // title is therefore already fixed in the viewport when its independent
-        // opacity-and-blur sequence begins; no band can clip or carry it.
+        // The outgoing service plane exposes the matching sharp title first.
+        // This scene therefore starts at the same visible state and only owns
+        // the later cards/outro; no replacement frame flashes at pin release.
         const introStart = 0;
         const cardStart = 0.56;
         const cardGutter = 40;
@@ -821,11 +733,11 @@ function effectCardsScene() {
           gsap.set(cards, { width: cardWidth, height: cardHeight });
         };
 
-        gsap.set(rail, { autoAlpha: 0, y: 0 });
+        gsap.set(rail, { autoAlpha: 1, y: 0 });
         gsap.set(prelude, {
-          autoAlpha: 0.15,
+          autoAlpha: 1,
           y: 0,
-          filter: "blur(24px)",
+          filter: "blur(0px)",
         });
         setDesktopCardGeometry();
         gsap.set(cards, {
@@ -1008,8 +920,7 @@ function effectCardsScene() {
       section.setAttribute("data-effect-mobile-ready", "");
       let cleanupMobileMotion = () => {};
       const ctx = gsap.context(() => {
-        // The phone shutter also finishes before this scene pins. The title
-        // remains fixed and receives only the same opacity-and-blur sequence.
+        // Phone uses the same continuous sharp underlay-to-scene handoff.
         const introStart = 0;
         const cardStart = 0.66;
         const cardGutter = 24;
@@ -1024,11 +935,11 @@ function effectCardsScene() {
           });
         };
 
-        gsap.set(rail, { autoAlpha: 0, y: 0 });
+        gsap.set(rail, { autoAlpha: 1, y: 0 });
         gsap.set(prelude, {
-          autoAlpha: 0.15,
+          autoAlpha: 1,
           y: 0,
-          filter: "blur(24px)",
+          filter: "blur(0px)",
         });
         setMobileCardGeometry();
         gsap.set(cards, {

@@ -6,7 +6,7 @@ Last reconciled: 2026-07-21.
 
 - Review the uncommitted Arbeid mobile pilot at 390px before opening the Header
   package. Its source register is `docs/trionn-mobile-source-ledger.md`.
-- Review the connected Intro and Tjenester journey against `design.md`.
+- Review the source-ported horizontal Tjenester track against `design.md`.
 - Visually confirm the source-matched typography and button roles at 390, 768,
   1024 and 1440px; the code values are recorded in
   `docs/trionn-typography-source-ledger.md`.
@@ -19,10 +19,10 @@ Last reconciled: 2026-07-21.
 1. Approve or adjust the completed six-landing Arbeid mobile Orbit without
    changing its verified desktop branch.
 2. Redesign Header and Hero as separate Trionn-calibrated packages.
-3. Review and refine the implemented Intro and Tjenester connected journey.
+3. Review and refine the implemented Intro and horizontal Tjenester journey.
 4. Review the connected Tjenester→Effekt→Arbeid transition, including the
-   five-band shutter, fixed title blur and source-matched desktop/mobile
-   card traversal.
+   leftward paper exit, continuous sharp Effekt opening and source-matched card
+   traversal.
 5. Review the implemented capability-led Arbeid title handoff, single-surface
    opening, scroll-controlled six-link desktop orbit and separate six-landing
    mobile Orbit; do not reinterpret it as portfolio proof.

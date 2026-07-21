@@ -66,24 +66,23 @@ expose the final composition.
 ### Tjenester
 
 `WhatWeBuild` contains all five service links and local Tigon images. Desktop
-uses a bounded pinned sequence of five complete 50/50 panels: a landscape image
-on the left and a calm information field with counter, title, short explanation,
-four capability rows and the existing service link on the right. Panels move
-up through one full-viewport stage. The information half remains pure white
-throughout; only the left media field alternates white and dark. A separate
-five-band pinned handoff covers the dark prelude and reveals the first service
-already beneath it, which hides the change between the two scroll domains.
-There is no cube, WebGL scene, top divider, bottom index or progress hairline.
-Phones below 768px keep the five service panels in normal flow after a shorter
-touch-calibrated handoff; 768px and wider use the pinned panel sequence.
-Reduced-motion and no-JS omit the bands and present all five panels directly.
-`servicesScene` owns the complete 01→02 bridge, handoff and panel sequence; CSS
-remains the readable source of truth.
+uses the verified Trionn Selected Work construction: an opening half-panel,
+five half-width service cards and one final all-services half-panel travel in a
+single horizontal `100dvh` track. Images use the exact `670 / 460` ratio,
+`0.5rem` radius and source spacing. The gradient, paper text hierarchy and
+Familjen/PP Neue/Martian roles are centralized in the shared design tokens.
+Cards retain the real service destinations and are not presented as projects
+or past work. `servicesScene` preserves the source `550px` card entry curve,
+content thresholds, line drawing and horizontal movement rate. The paper layer
+then moves one viewport left to reveal a visual copy of the real Effekt opening
+behind the final axis. Mobile deliberately ports the same horizontal motor and
+effects with Trionn's `calc(100vw - 3rem)` phone card width. Reduced-motion and
+no-JS show the complete vertical flow without pins or hidden text.
 
 ### Effekt
 
 `WhatWeImprove` follows Tjenester directly. `Effekt som kan måles.` and its
-supporting sentence resolve from a soft blur, hold sharp for reading, then
+supporting sentence start sharp to match the exposed underlay, then
 remain in the same fixed centre position while four semantic result cards —
 FUNNET, FORSTÅTT, VALGT and MÅLT — pass around or over the title. The title
 blurs out only at the scene exit. The result scene itself stays typographic;
@@ -97,14 +96,12 @@ duration `.45` and pair offset `.2`. Below 768px, the title remains centred
 while the cards move over it through one 24px-gutter vertical lane: width
 `viewport - 48px`, height `55%` of
 card width, 13 samples, duration `.3`, offsets `.12` and edge fades at
-`.15/.85`. Five dark bands close the final Tjenester panel into one complete
-dark viewport. The real Effekt scene begins afterward on the matching surface,
-so the bands never cross or clip its title. On phones the same five-band
-handoff uses the final service viewport and Effekt starts at its natural end
-boundary without overlap. The opacity-and-blur intro begins at scene progress `0`
-and reaches the
-unchanged `.66` card threshold in a five-viewport scene. Desktop likewise
-begins the same opacity-and-blur sequence at `0`; the title is sharp before the
+`.15/.85`. At every width the final Tjenester paper plane moves left and reveals
+the matching Effekt opening; its accessible heading remains owned by the real
+Effect section and does not move with the outgoing layer. The real Effekt scene
+starts in the same sharp state when the Tjenester pin releases, preventing a
+visible opacity/blur jump. The phone card sequence reaches the unchanged `.66`
+card threshold in a five-viewport scene. The title remains sharp before the
 unchanged `.56` card threshold and remains present through the card phase. Both use
 smoothing factor `.08`. Widths 768–900px use a two-column normal-flow layout. Reduced
 motion and no-JS expose the complete normal-flow composition. No Trionn media,
