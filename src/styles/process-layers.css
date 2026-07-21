@@ -1,17 +1,17 @@
-/* 05 / Prosess — one continuous editorial system surface.
-   The references inform the poster grid and progression, while typography,
-   material, contrast and the final lock-up stay inside Tigon's own system. */
+/* 05 / Prosess — a compact three-part production journey.
+   Desktop keeps the full sequence in one quiet frame. Mobile uses the same
+   semantic list as a smaller horizontal composition with native scroll-snap
+   as its no-JS and reduced-motion baseline. */
 
 .process-journey {
   position: relative;
-  overflow: hidden;
-  padding-bottom: clamp(96px, 11vh, 148px);
+  overflow: clip;
+  padding-bottom: clamp(60px, 7vh, 88px);
   background: var(--tigon-canvas);
   color: var(--color-on-dark);
 }
 
-.process-journey__intro,
-.process-system,
+.process-journey__stage,
 .process-journey__closer {
   position: relative;
   z-index: 1;
@@ -21,293 +21,107 @@
 }
 
 .process-journey__intro {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
-  column-gap: var(--grid-gutter);
-  padding: clamp(104px, 12vh, 156px) var(--gutter) clamp(56px, 7vh, 88px);
-}
-
-.process-journey__label {
-  grid-column: 1 / 3;
-  align-self: start;
-  color: var(--on-dark-quiet);
-  font-family: var(--font-title), sans-serif;
-  font-size: var(--type-title-size);
-  font-weight: var(--weight-regular);
-  letter-spacing: var(--type-title-track);
-  line-height: var(--type-title-leading);
-  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  padding: clamp(72px, 8vh, 104px) var(--gutter) clamp(32px, 4vh, 48px);
+  text-align: center;
 }
 
 .process-journey__title {
-  grid-column: 3 / 10;
   margin: 0;
   color: var(--color-on-dark);
   font-family: var(--tigon-type-display);
-  font-size: var(--type-h2-size);
+  font-size: clamp(3.5rem, 6vw, 6.75rem);
   font-weight: var(--weight-regular);
   letter-spacing: var(--type-h2-track);
-  line-height: var(--type-h2-leading);
-  text-transform: uppercase;
-}
-
-.process-journey__title span {
-  display: block;
-}
-
-.process-journey__title span:first-child {
-  color: rgba(242, 241, 235, 0.28);
+  line-height: 0.9;
 }
 
 .process-journey__intro-copy {
-  grid-column: 10 / -1;
-  align-self: end;
-}
-
-.process-journey__intro-copy p {
-  max-width: 31ch;
-  color: var(--on-dark-strong);
+  margin: 0;
+  color: var(--on-dark-medium);
   font-family: var(--tigon-type-editorial);
-  font-size: var(--type-body-size);
-  line-height: var(--type-body-leading);
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
 }
 
-.process-journey__intro-copy span {
-  display: block;
-  margin-top: 22px;
-  color: var(--on-dark-faint);
-  font-family: var(--tigon-type-meta);
-  font-size: var(--type-button-size);
-  font-weight: var(--weight-mono);
-  letter-spacing: var(--type-button-track);
-  line-height: var(--type-button-leading);
-  text-transform: uppercase;
-}
-
-.process-system {
+.process-deck {
+  position: relative;
   padding: 0 var(--gutter);
+  perspective: 1400px;
 }
 
-.process-system__rail {
+.process-deck__viewport {
+  position: relative;
+  outline: none;
+}
+
+.process-deck__viewport:focus-visible {
+  outline: 1px solid var(--pine-tint);
+  outline-offset: 8px;
+}
+
+.process-deck__track {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  min-height: 64px;
-  border: 1px solid var(--tigon-line-dark);
-  border-bottom: 0;
-  color: var(--on-dark-quiet);
-  font-family: var(--tigon-type-meta);
-  font-size: var(--type-button-size);
-  font-weight: var(--weight-mono);
-  letter-spacing: var(--type-button-track);
-  line-height: var(--type-button-leading);
-  text-transform: uppercase;
-}
-
-.process-system__rail p {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin: 0;
-  padding: 18px 22px;
-}
-
-.process-system__rail p + p {
-  border-left: 1px solid var(--tigon-line-dark);
-}
-
-.process-system__rail p:last-child {
-  justify-content: flex-end;
-}
-
-.process-system__rail p:last-child span {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--pine-tint);
-}
-
-.process-system__sequence {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 0;
+  grid-template-columns: repeat(3, minmax(0, 300px));
+  gap: clamp(12px, 1.35vw, 20px);
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
   padding: 0;
-  border: 1px solid var(--tigon-line-dark);
-  color: var(--blekk);
   list-style: none;
+  transform-style: preserve-3d;
 }
 
 .process-phase {
   position: relative;
-  display: grid;
-  grid-template-rows: auto minmax(360px, 1fr) auto auto;
   min-width: 0;
-  min-height: clamp(720px, 56vw, 940px);
-  padding: clamp(22px, 2.1vw, 40px);
+  height: clamp(280px, 22vw, 320px);
+  padding: clamp(22px, 2vw, 28px);
   overflow: hidden;
-  background: var(--tigon-paper);
-}
-
-.process-phase + .process-phase {
-  border-left: 1px solid var(--tigon-line-light);
-}
-
-.process-phase--02 {
-  background: var(--tigon-mineral);
-}
-
-.process-phase--03 {
+  border-radius: 4px;
   background: var(--tigon-canvas-raised);
   color: var(--color-on-dark);
-}
-
-.process-phase__head,
-.process-phase__output {
-  font-family: var(--tigon-type-meta);
-  font-size: var(--type-button-size);
-  font-weight: var(--weight-mono);
-  letter-spacing: var(--type-button-track);
-  line-height: var(--type-button-leading);
-  text-transform: uppercase;
-}
-
-.process-phase__head,
-.process-phase__output {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: baseline;
-}
-
-.process-phase__head {
-  position: relative;
-  z-index: 2;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--tigon-line-light);
-}
-
-.process-phase__head strong,
-.process-phase__output strong {
-  font-weight: var(--weight-mono);
-}
-
-.process-phase--03 .process-phase__head {
-  border-color: var(--tigon-line-dark);
-  color: var(--on-dark-medium);
-}
-
-.process-phase__signal {
-  position: relative;
-  display: grid;
-  min-height: clamp(360px, 31vw, 540px);
-  place-items: center;
-  isolation: isolate;
-}
-
-.process-phase__numeral {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  color: var(--blekk);
-  font-family: var(--font-editorial);
-  font-size: var(--type-numbers-size);
-  font-weight: 200;
-  letter-spacing: var(--type-number-track);
-  line-height: var(--type-numbers-leading);
-  transform: translate(-52%, -50%);
-}
-
-.process-phase--02 .process-phase__numeral {
-  color: var(--on-light-strong);
-}
-
-.process-phase--03 .process-phase__numeral {
-  color: var(--color-on-dark);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
 }
 
 .process-phase__copy {
-  position: relative;
-  z-index: 2;
-  padding: clamp(20px, 2vw, 34px) 0 clamp(28px, 2.8vw, 46px);
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .process-phase__copy h3 {
-  max-width: 10ch;
-  margin: 0 auto;
+  margin: 0;
   font-family: var(--font-body);
-  font-size: var(--type-h3-size);
+  font-size: clamp(1.65rem, 2.1vw, 2.2rem);
   font-weight: var(--weight-regular);
   letter-spacing: var(--type-h3-track);
-  line-height: var(--type-h3-leading);
-  text-transform: uppercase;
-}
-
-.process-phase--03 .process-phase__copy h3 {
-  max-width: 10ch;
+  line-height: 1;
 }
 
 .process-phase__copy p {
-  max-width: 35ch;
-  margin: clamp(18px, 1.5vw, 24px) auto 0;
-  color: var(--on-light-strong);
-  font-family: var(--tigon-type-editorial);
-  font-size: var(--type-small-size);
-  line-height: var(--type-small-leading);
-}
-
-.process-phase--03 .process-phase__copy p {
+  max-width: 27ch;
+  margin: 0;
   color: var(--on-dark-medium);
-}
-
-.process-phase__output {
-  padding-top: 14px;
-  border-top: 1px solid rgba(5, 6, 6, 0.3);
-  color: var(--on-light-faint);
-}
-
-.process-phase__output strong {
-  max-width: 15ch;
-  color: var(--blekk);
   font-family: var(--tigon-type-editorial);
   font-size: var(--type-small-size);
-  letter-spacing: normal;
   line-height: var(--type-small-leading);
-  text-align: right;
-  text-transform: none;
-}
-
-.process-phase--03 .process-phase__output {
-  border-color: rgba(242, 242, 239, 0.3);
-  color: var(--on-dark-faint);
-}
-
-.process-phase--03 .process-phase__output strong {
-  color: var(--color-on-dark);
 }
 
 .process-journey__closer {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 32px;
-  align-items: end;
-  margin-top: clamp(64px, 8vh, 100px);
-  padding: clamp(48px, 6vh, 72px) var(--gutter) 0;
-  border-top: 1px solid var(--tigon-line-dark);
-}
-
-/* Overgangstekst mot kontakt — ikke et display-statement. Work-statementet
-   eier den store Neue Montreal-kontrasten alene. */
-.process-journey__closer > p {
-  max-width: 30ch;
-  margin: 0;
-  color: var(--on-dark-strong);
-  font-family: var(--tigon-type-editorial);
-  font-size: var(--type-body-size);
-  letter-spacing: normal;
-  line-height: var(--type-body-leading);
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(32px, 4vh, 46px);
+  padding: 0 var(--gutter);
 }
 
 .process-journey__closer a {
-  padding-bottom: 6px;
   color: var(--color-on-dark);
   font-family: var(--tigon-type-meta);
   font-size: var(--type-button-size);
@@ -318,112 +132,143 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 1100px) {
+.process-journey__closer a:focus-visible {
+  outline: 2px solid var(--pine-tint);
+  outline-offset: 8px;
+}
+
+@media (max-width: 767px) {
+  .process-journey {
+    padding-bottom: 56px;
+  }
+
+  .process-journey__stage[data-process-motion="mobile"] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
+    background: var(--tigon-canvas);
+    isolation: isolate;
+  }
+
   .process-journey__intro {
-    grid-template-columns: 1fr;
-    gap: 34px;
+    gap: 12px;
+    padding: 44px 20px 26px;
   }
 
-  .process-journey__label,
-  .process-journey__title,
+  .process-journey__title {
+    font-size: clamp(3rem, 13vw, 4rem);
+    line-height: 0.92;
+  }
+
   .process-journey__intro-copy {
-    grid-column: auto;
+    font-size: var(--type-small-size);
   }
 
-  .process-journey__intro-copy {
-    max-width: 44ch;
+  .process-deck {
+    padding: 0;
+    perspective: none;
   }
 
-  .process-system__rail {
-    grid-template-columns: 1fr 1fr;
+  .process-deck__viewport {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    scroll-padding-inline: 14vw;
+    scroll-snap-type: x mandatory;
   }
 
-  .process-system__rail p:nth-child(2) {
+  .process-deck__viewport::-webkit-scrollbar {
     display: none;
   }
 
-  .process-system__sequence {
-    grid-template-columns: 1fr;
+  .process-journey__stage[data-process-motion="mobile"] .process-deck__viewport {
+    overflow: hidden;
+    scroll-snap-type: none;
+  }
+
+  .process-deck__track {
+    display: flex;
+    width: max-content;
+    max-width: none;
+    gap: 12px;
+    justify-content: flex-start;
+    padding: 0 14vw;
+    transform-style: flat;
   }
 
   .process-phase {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(420px, 1fr) auto auto;
-    min-height: 780px;
+    flex: 0 0 min(72vw, 280px);
+    height: clamp(240px, 36svh, 290px);
+    padding: 22px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition: opacity 220ms ease, transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: auto;
   }
 
-  .process-phase + .process-phase {
-    border-top: 1px solid var(--tigon-line-light);
-    border-left: 0;
+  .process-journey__stage[data-process-motion="mobile"] .process-phase {
+    opacity: 0.42;
+    transform: scale(0.97);
   }
 
-}
-
-@media (max-width: 640px) {
-  .process-journey {
-    padding-bottom: 88px;
+  .process-journey__stage[data-process-motion="mobile"] .process-phase[data-process-active] {
+    opacity: 1;
+    transform: scale(1);
   }
 
-  .process-journey__intro {
-    padding: 88px 20px 48px;
+  .process-phase__copy h3 {
+    font-size: clamp(1.7rem, 7.2vw, 2rem);
   }
 
-  .process-system {
-    padding: 0 20px;
-  }
-
-  .process-system__rail {
-    min-height: 54px;
-  }
-
-  .process-system__rail p {
-    padding: 14px;
-  }
-
-  .process-system__rail p:last-child {
-    text-align: right;
-  }
-
-  .process-phase {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(310px, 1fr) auto auto;
-    min-height: 680px;
-    padding: 20px;
-  }
-
-  .process-phase__head,
-  .process-phase__signal,
-  .process-phase__copy,
-  .process-phase__output {
-    grid-column: auto;
-    grid-row: auto;
-  }
-
-  .process-phase__signal {
-    min-height: 310px;
+  .process-phase__copy p {
+    max-width: 25ch;
+    font-size: clamp(0.82rem, 3.5vw, var(--type-small-size));
   }
 
   .process-journey__closer {
-    grid-template-columns: 1fr;
-    gap: 26px;
-    margin-top: 68px;
-    padding: 46px 20px 0;
+    margin-top: 30px;
+    padding: 0 20px;
+  }
+}
+
+@media (max-height: 520px) and (min-width: 641px) {
+  .process-journey__intro {
+    padding-top: 96px;
+    padding-bottom: 24px;
+  }
+
+  .process-journey__title {
+    font-size: clamp(3rem, 8vw, 4.6rem);
+  }
+
+  .process-phase {
+    height: 240px;
+  }
+
+  .process-journey__closer {
+    margin-top: 26px;
+  }
+}
+
+@media (max-width: 360px) {
+  .process-journey__intro {
+    padding-top: 38px;
+  }
+
+  .process-phase {
+    flex-basis: 74vw;
+    height: 236px;
+    padding: 20px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .process-phase__head,
-  .process-phase__copy,
-  .process-phase__output {
+  .process-deck__track,
+  .process-phase,
+  .process-phase__copy {
     opacity: 1 !important;
     transform: none !important;
-  }
-
-  /* Numeralen sentreres med prosent-transform i CSS — tving kun synlighet,
-     aldri transform. */
-  .process-phase__numeral {
-    opacity: 1 !important;
-    visibility: visible !important;
+    transition: none !important;
   }
 }

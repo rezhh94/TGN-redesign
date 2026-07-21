@@ -2001,63 +2001,115 @@ function manifestoReveal() {
   }
 }
 
-// 05 / Prosess — panelene settler én gang i beslutningsrekkefølge 01→02→03;
-// kjempenumret ankommer sist og låser hvert panel. FROM-tweens med clearProps,
-// så numeralens prosent-sentrering i CSS overlever resize. Ferdig uten JS.
+// 05 / Prosess — one compact semantic list, two deliberate compositions.
+// Desktop adapts Trionn Key Facts' verified top-hinged fold in ordinary flow.
+// Mobile pins the smaller deck and maps vertical progress to a measured
+// horizontal journey. Without this enhancement the same list remains a native
+// touch/keyboard scroll-snap deck.
 function processScene(compact: boolean) {
-  const section = document.querySelector<HTMLElement>("[data-process-stage]");
-  if (!section) return () => {};
+  const stage = document.querySelector<HTMLElement>("[data-process-stage]");
+  if (!stage) return () => {};
 
-  const panels = gsap.utils.toArray<HTMLElement>("[data-process-surface]", section);
-  if (!panels.length) return () => {};
+  const track = stage.querySelector<HTMLElement>("[data-process-track]");
+  const viewport = stage.querySelector<HTMLElement>("[data-process-viewport]");
+  const panels = gsap.utils.toArray<HTMLElement>("[data-process-surface]", stage);
+  if (!track || !viewport || panels.length !== 3) return () => {};
+
+  let activeIndex = -1;
+  const setActive = (nextIndex: number) => {
+    const index = Math.max(0, Math.min(panels.length - 1, nextIndex));
+    if (index === activeIndex) return;
+    activeIndex = index;
+    panels.forEach((panel, panelIndex) => {
+      panel.toggleAttribute("data-process-active", panelIndex === index);
+    });
+  };
 
   const ctx = gsap.context(() => {
-    const settlePanel = (
-      panel: HTMLElement,
-      tl: gsap.core.Timeline,
-      position: number,
-    ) => {
-      const parts = panel.querySelectorAll(
-        ".process-phase__head, .process-phase__copy, .process-phase__output",
-      );
-      const numeral = panel.querySelector<HTMLElement>(".process-phase__numeral");
-
-      tl.from(parts, {
-        y: 20,
-        autoAlpha: 0,
-        duration: 0.55,
-        stagger: 0.07,
-        ease: "power3.out",
-        clearProps: "transform,opacity,visibility",
-      }, position);
-
-      if (numeral) {
-        tl.from(numeral, {
-          y: 56,
-          autoAlpha: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          clearProps: "transform,opacity,visibility",
-        }, position + 0.28);
-      }
-    };
-
     if (compact) {
-      panels.forEach((panel) => {
-        const tl = gsap.timeline({
-          scrollTrigger: { trigger: panel, start: "top 82%", once: true },
-        });
-        settlePanel(panel, tl, 0);
-      });
-    } else {
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: section, start: "top 72%", once: true },
-      });
-      panels.forEach((panel, index) => settlePanel(panel, tl, index * 0.16));
-    }
-  }, section);
+      // A pinned horizontal stage is too cramped in short landscape viewports.
+      // Those keep the native scroll-snap baseline instead.
+      if (window.matchMedia("(max-height: 559px)").matches) return;
 
-  return () => ctx.revert();
+      stage.setAttribute("data-process-motion", "mobile");
+      setActive(0);
+      gsap.set(track, { x: 0, willChange: "transform" });
+
+      const travelToLastPanel = () => {
+        const lastPanel = panels.at(-1);
+        if (!lastPanel) return 0;
+        const lastCenter = lastPanel.offsetLeft + lastPanel.offsetWidth / 2;
+        const desired = lastCenter - viewport.clientWidth / 2;
+        const maximum = Math.max(0, track.scrollWidth - viewport.clientWidth);
+        return -Math.min(maximum, Math.max(0, desired));
+      };
+
+      let timeline: gsap.core.Timeline;
+      timeline = gsap.timeline({
+        onUpdate: () => {
+          const viewportRect = viewport.getBoundingClientRect();
+          const viewportCenter = viewportRect.left + viewportRect.width / 2;
+          const nearest = panels.reduce((closestIndex, panel, panelIndex) => {
+            const closestRect = panels[closestIndex].getBoundingClientRect();
+            const panelRect = panel.getBoundingClientRect();
+            const closestDistance = Math.abs(closestRect.left + closestRect.width / 2 - viewportCenter);
+            const panelDistance = Math.abs(panelRect.left + panelRect.width / 2 - viewportCenter);
+            return panelDistance < closestDistance ? panelIndex : closestIndex;
+          }, 0);
+          setActive(nearest);
+        },
+        scrollTrigger: {
+          id: "process-deck-mobile",
+          trigger: stage,
+          start: "top top",
+          end: () => `+=${Math.round(window.innerHeight * 0.68)}`,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          scrub: 1.2,
+          invalidateOnRefresh: true,
+        },
+      });
+      timeline.to(track, {
+        x: travelToLastPanel,
+        duration: 1,
+        ease: "none",
+      });
+      return;
+    }
+
+    stage.setAttribute("data-process-motion", "desktop");
+    const shortLandscape = window.matchMedia("(max-height: 520px)").matches;
+    gsap.timeline({
+      scrollTrigger: {
+        id: "process-deck-desktop",
+        trigger: stage,
+        start: "top center",
+        end: "top top",
+        scrub: shortLandscape ? 0.65 : 2,
+        invalidateOnRefresh: true,
+      },
+    }).fromTo(panels, {
+      autoAlpha: 0,
+      rotateX: shortLandscape ? -34 : -92,
+      transformOrigin: "center top",
+      transformPerspective: 1400,
+      force3D: true,
+    }, {
+      autoAlpha: 1,
+      rotateX: 0,
+      duration: shortLandscape ? 1 : 2.65,
+      stagger: { each: shortLandscape ? 0.1 : 0.6, from: "start" },
+      ease: "none",
+      force3D: true,
+    });
+  }, stage);
+
+  return () => {
+    ctx.revert();
+    stage.removeAttribute("data-process-motion");
+    panels.forEach((panel) => panel.removeAttribute("data-process-active"));
+  };
 }
 
 function footerReveals() {
@@ -2232,29 +2284,33 @@ export function HomeMotion() {
     let teardownApproachPath = () => {};
     let footerInitFrame = 0;
     let hashCorrectionFrame = 0;
+    let hashCorrectionTimer = 0;
     let effectCancelled = false;
     const initialHash = window.location.hash;
+    const eagerProcessLanding = initialHash === "#prosess";
 
     const mm = gsap.matchMedia();
+    const processMM = gsap.matchMedia();
 
     // Effekt init-es over fordi den kan pinne scenen og påvirke layout.
     // De resterende scenene under fold lazy-init-es med 1600px forvarsel.
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
       const teardownIntro = runWhenNear("[data-intro-story]", introFillScene);
-      const teardownWorkCapability = runWhenNear(".work-proof", () =>
-        workFocusScene(window.matchMedia("(max-width: 900px)").matches));
-      const teardownWorkProcess = runWhenNear("[data-work-process-journey]", () =>
-        workProcessJourney(window.matchMedia("(max-width: 1100px)").matches));
-      const teardownProcess = runWhenNear("[data-process-stage]", () =>
-        processScene(false));
+      const teardownWorkCapability = eagerProcessLanding
+        ? workFocusScene(window.matchMedia("(max-width: 900px)").matches)
+        : runWhenNear(".work-proof", () =>
+          workFocusScene(window.matchMedia("(max-width: 900px)").matches));
+      const teardownWorkProcess = eagerProcessLanding
+        ? workProcessJourney(window.matchMedia("(max-width: 1100px)").matches)
+        : runWhenNear("[data-work-process-journey]", () =>
+          workProcessJourney(window.matchMedia("(max-width: 1100px)").matches));
       const teardownManifesto = runWhenNear(".system-manifesto", manifestoReveal);
       const teardownFooter = runWhenNear(".contact-footer", footerReveals);
       return () => {
         teardownIntro();
         teardownWorkCapability();
         teardownWorkProcess();
-        teardownProcess();
         teardownManifesto();
         teardownFooter();
       };
@@ -2265,23 +2321,37 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownIntro = runWhenNear("[data-intro-story]", introFillScene);
-      const teardownWorkCapability = runWhenNear(".work-proof", () =>
-        workFocusScene(true));
-      const teardownWorkProcess = runWhenNear("[data-work-process-journey]", () =>
-        workProcessJourney(true));
-      const teardownProcess = runWhenNear("[data-process-stage]", () =>
-        processScene(true));
+      const teardownWorkCapability = eagerProcessLanding
+        ? workFocusScene(true)
+        : runWhenNear(".work-proof", () => workFocusScene(true));
+      const teardownWorkProcess = eagerProcessLanding
+        ? workProcessJourney(true)
+        : runWhenNear("[data-work-process-journey]", () => workProcessJourney(true));
       const teardownManifesto = runWhenNear(".system-manifesto", manifestoReveal);
       const teardownFooter = runWhenNear(".contact-footer", footerReveals);
       return () => {
         teardownIntro();
         teardownWorkCapability();
         teardownWorkProcess();
-        teardownProcess();
         teardownManifesto();
         teardownFooter();
       };
     });
+
+    // Prosess owns its exact 767/768 construction boundary independently of
+    // the older homepage-wide mobile branch. This prevents a one-pixel mixed
+    // state where desktop CSS and mobile pinning could otherwise overlap.
+    const initProcessMotion = (compact: boolean) => eagerProcessLanding
+      ? processScene(compact)
+      : runWhenNear("[data-process-stage]", () => processScene(compact));
+    processMM.add(
+      "(prefers-reduced-motion: no-preference) and (min-width: 768px)",
+      () => initProcessMotion(false),
+    );
+    processMM.add(
+      "(prefers-reduced-motion: no-preference) and (max-width: 767px)",
+      () => initProcessMotion(true),
+    );
 
     const layoutReady = document.fonts?.ready ?? Promise.resolve();
     layoutReady.then(() => {
@@ -2301,15 +2371,27 @@ export function HomeMotion() {
             decodeURIComponent(initialHash.slice(1)),
           );
           if (target) {
-            hashCorrectionFrame = window.requestAnimationFrame(() => {
-              if (effectCancelled) return;
+            const correctInitialHash = () => {
               const targetY = target.getBoundingClientRect().top + window.scrollY;
               if (lenis) {
+                lenis.lenis.resize();
                 lenis.lenis.scrollTo(targetY, { immediate: true, force: true });
               } else {
                 window.scrollTo(0, targetY);
               }
               ScrollTrigger.update();
+            };
+            hashCorrectionFrame = window.requestAnimationFrame(() => {
+              if (effectCancelled) return;
+              correctInitialHash();
+              // Lazy assets and pin spacers may settle one frame later than
+              // document.fonts. A final local refresh keeps deep links exact
+              // without changing ordinary navigation or scroll ownership.
+              hashCorrectionTimer = window.setTimeout(() => {
+                if (effectCancelled) return;
+                ScrollTrigger.refresh();
+                correctInitialHash();
+              }, 240);
             });
           }
         }
@@ -2320,6 +2402,8 @@ export function HomeMotion() {
       effectCancelled = true;
       window.cancelAnimationFrame(footerInitFrame);
       window.cancelAnimationFrame(hashCorrectionFrame);
+      window.clearTimeout(hashCorrectionTimer);
+      processMM.revert();
       mm.revert();
       lenis?.lenis.off("scroll", ScrollTrigger.update);
       destroyLenis();
