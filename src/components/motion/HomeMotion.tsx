@@ -1913,9 +1913,22 @@ function workProcessJourney(compact: boolean) {
   const journey = document.querySelector<HTMLElement>("[data-work-process-journey]");
   const work = document.querySelector<HTMLElement>("[data-work-process-transition]");
   const workStage = work?.querySelector<HTMLElement>("[data-work-focus-stage]");
+  const workLayers = workStage
+    ? gsap.utils.toArray<HTMLElement>(
+      ".work-focus__head, .work-focus__opening, .work-focus__orbit, .work-focus__foot",
+      workStage,
+    )
+    : [];
   const process = journey?.querySelector<HTMLElement>(".process-journey");
   const shade = work?.querySelector<HTMLElement>("[data-work-exit-shade]");
-  if (!journey || !work || !workStage || !process || !shade) return () => {};
+  if (
+    !journey
+    || !work
+    || !workStage
+    || workLayers.length !== 4
+    || !process
+    || !shade
+  ) return () => {};
 
   const ctx = gsap.context(() => {
     gsap.set(shade, { autoAlpha: 0 });
@@ -1924,18 +1937,23 @@ function workProcessJourney(compact: boolean) {
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: work,
-        start: compact
-          ? () => ScrollTrigger.getById("work-focus-mobile-orbit")?.end
-            ?? "bottom top"
-          : () => `top+=${Math.round(window.innerHeight * WORK_FOCUS_SCROLL_LENGTH)} top`,
+        start: () => ScrollTrigger.getById("work-focus-mobile-orbit")?.end
+          ?? ScrollTrigger.getById("work-focus-scene")?.end
+          ?? "bottom top",
         end: "+=100%",
         scrub: true,
         invalidateOnRefresh: true,
+        onLeaveBack: () => {
+          gsap.set(workLayers, { y: 0 });
+          gsap.set(shade, { autoAlpha: 0 });
+        },
       },
     });
 
     timeline
-      .to(workStage, {
+      // ScrollTrigger exclusively owns the pinned stage transform. Moving its
+      // inner layers prevents the pin's end-offset from surviving enter-back.
+      .to(workLayers, {
         y: compact ? "-16svh" : "-24svh",
         duration: 1,
         ease: "power3.in",

@@ -301,7 +301,6 @@
   .work-proof[data-work-focus-ready] .work-focus__intro-copy {
     right: var(--homepage-gutter);
     bottom: clamp(80px, 11vh, 128px);
-    opacity: 0;
   }
 
   .work-proof[data-work-orbit-ready] .work-focus__orbit {
