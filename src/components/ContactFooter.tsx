@@ -181,9 +181,9 @@ export function ContactFooter() {
               <p>© 2026 Tigon Studio AS</p>
             </div>
 
-            <p className="contact-footer__wordmark" aria-hidden="true">
-              <span>TIGON</span> <span>STUDIO</span>
-            </p>
+            <div className="contact-footer__wordmark" aria-hidden="true">
+              <span />
+            </div>
           </div>
         </div>
       </footer>

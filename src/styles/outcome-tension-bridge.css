@@ -2,12 +2,7 @@
   position: relative;
   z-index: 2;
   overflow: clip;
-  background: linear-gradient(
-    to bottom,
-    var(--ink-surface) 0%,
-    var(--ink-surface) 42%,
-    var(--mauve-warm) 100%
-  );
+  background: transparent;
   color: var(--color-on-dark);
 }
 
@@ -28,9 +23,10 @@
   margin: 0;
   color: inherit;
   font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.4;
+  font-size: var(--type-button-size);
+  font-weight: var(--weight-mono);
+  letter-spacing: var(--type-button-track);
+  line-height: var(--type-button-leading);
   text-transform: uppercase;
 }
 
@@ -53,25 +49,21 @@
   color: inherit;
 }
 
-.outcome-tension__titles li:nth-child(3) {
-  color: var(--blekk);
-}
-
 .outcome-tension__titles p {
   max-width: 14ch;
   margin: 0 auto;
-  font-family: var(--font-display);
-  font-size: clamp(58px, 7.8vw, 142px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.82;
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--type-h2-size);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-h2-track);
+  line-height: var(--type-h2-leading);
   text-align: center;
   text-transform: uppercase;
 }
 
 .outcome-tension[data-tension-ready] {
   height: 320svh;
-  background: var(--ink-surface);
+  background: transparent;
 }
 
 .outcome-tension[data-tension-ready] .outcome-tension__stage {
@@ -107,7 +99,7 @@
 
   .outcome-tension__titles p {
     max-width: 11ch;
-    font-size: clamp(48px, 13.5vw, 78px);
+    font-size: var(--type-h2-size);
   }
 }
 

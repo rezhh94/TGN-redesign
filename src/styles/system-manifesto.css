@@ -1,271 +1,169 @@
+/* 06 / System — one quiet typographic conclusion.
+   The composition is complete in HTML; motion only settles its three lines. */
+
 .system-manifesto {
   position: relative;
   z-index: 1;
-  overflow: hidden;
-  background: var(--tigon-canvas-lifted);
+  overflow: clip;
+  background: var(--tigon-canvas);
   color: var(--color-on-dark);
 }
 
 .system-manifesto__inner {
   position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gutter);
+  align-items: center;
   width: min(100%, var(--page-max));
-  min-height: 100svh;
+  min-height: clamp(640px, 82svh, 940px);
   margin: 0 auto;
-  padding: clamp(112px, 15vh, 196px) var(--gutter) clamp(104px, 14vh, 184px);
-  isolation: isolate;
+  padding: clamp(96px, 12vh, 144px) var(--gutter) clamp(88px, 10vh, 128px);
 }
 
-.system-manifesto__grid {
-  position: absolute;
-  inset: 0 var(--gutter);
-  z-index: -1;
+.system-manifesto__composition {
+  position: relative;
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--grid-gutter);
-  pointer-events: none;
-}
-
-.system-manifesto__grid span {
-  border-right: 1px solid rgba(242, 242, 239, 0.035);
-  border-left: 1px solid rgba(242, 242, 239, 0.035);
-  background: rgba(242, 242, 239, 0.012);
-}
-
-.system-manifesto__head,
-.system-manifesto__kicker,
-.system-manifesto__argument > p:last-child,
-.system-manifesto__frame-meta,
-.system-manifesto__seal {
-  font-family: var(--tigon-type-meta);
-  font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.3;
-  text-transform: uppercase;
-}
-
-.system-manifesto__head {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--tigon-line-dark);
-  color: var(--on-dark-quiet);
-}
-
-.system-manifesto__frame {
-  position: relative;
-  min-height: min(72svh, 780px);
-  margin-top: clamp(58px, 8vh, 96px);
-  padding: clamp(34px, 4vw, 68px);
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: auto 1fr auto;
-  gap: var(--grid-gutter);
-  border: 1px solid var(--tigon-line-dark);
-  background: rgba(5, 6, 6, 0.18);
-}
-
-.system-manifesto__kicker {
-  grid-column: 6 / -1;
-  color: var(--on-dark-quiet);
-}
-
-.system-manifesto__mark {
-  position: relative;
-  grid-column: 1 / 6;
-  grid-row: 2 / 4;
-  align-self: center;
-  justify-self: center;
-  width: min(72%, 420px);
-  aspect-ratio: 0.832;
-  color: var(--color-on-dark);
-}
-
-.system-manifesto__mark::before,
-.system-manifesto__mark::after {
-  position: absolute;
-  content: "";
-  pointer-events: none;
-}
-
-.system-manifesto__mark::before {
-  inset: -12%;
-  border: 1px solid rgba(242, 242, 239, 0.12);
-}
-
-.system-manifesto__mark::after {
-  top: 50%;
-  right: -18%;
-  left: -18%;
-  height: 1px;
-  background: rgba(242, 242, 239, 0.12);
-}
-
-.system-manifesto__mark > span {
-  position: absolute;
-  inset: 0;
-  background: currentColor;
-  -webkit-mask: url("/brand/tigon-mark.svg") center / contain no-repeat;
-  mask: url("/brand/tigon-mark.svg") center / contain no-repeat;
-  will-change: transform, opacity;
-}
-
-.system-manifesto__mark > span:nth-child(1) { clip-path: inset(0 50% 50% 0); }
-.system-manifesto__mark > span:nth-child(2) { clip-path: inset(0 0 50% 50%); }
-.system-manifesto__mark > span:nth-child(3) { clip-path: inset(50% 50% 0 0); }
-.system-manifesto__mark > span:nth-child(4) { clip-path: inset(50% 0 0 50%); }
-
-.system-manifesto__mark > i {
-  position: absolute;
-  right: -12%;
-  bottom: -18%;
-  color: var(--on-dark-quiet);
-  font-family: var(--tigon-type-meta);
-  font-size: var(--fz-mono-s);
-  font-style: normal;
-  letter-spacing: var(--mono-track);
-  text-transform: uppercase;
+  align-items: end;
 }
 
 .system-manifesto__statement {
-  grid-column: 6 / -1;
-  align-self: center;
-  max-width: 10ch;
-  padding: clamp(48px, 7vh, 86px) 0;
-  font-family: var(--font-display);
-  font-size: clamp(54px, 6.1vw, 110px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.8;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0.1em var(--grid-gutter);
+  margin: 0;
+  color: var(--color-on-dark);
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--type-marquee-size);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-marquee-track);
+  line-height: var(--type-marquee-leading);
   text-transform: uppercase;
 }
 
-.system-manifesto__statement > span {
+.system-manifesto__line {
   display: block;
+  margin-block: -0.12em -0.18em;
+  padding-block: 0.12em 0.18em;
   overflow: hidden;
+}
+
+.system-manifesto__line--one {
+  grid-column: 2 / -1;
+  grid-row: 1;
+}
+
+.system-manifesto__line--two {
+  grid-column: 4 / -1;
+  grid-row: 2;
+}
+
+.system-manifesto__line--three {
+  grid-column: 7 / -1;
+  grid-row: 3;
 }
 
 .system-manifesto__line-inner {
   display: block;
-}
-
-.system-manifesto__statement > span:nth-child(2),
-.system-manifesto__statement > span:nth-child(4) {
-  color: var(--on-dark-quiet);
-}
-
-.system-manifesto__argument {
-  grid-column: 6 / -1;
-  align-self: end;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 36px;
-  align-items: end;
+  width: max-content;
+  max-width: 100%;
+  white-space: nowrap;
+  will-change: transform;
 }
 
 .system-manifesto__support {
-  max-width: 44ch;
+  z-index: 1;
+  grid-column: 4 / 7;
+  grid-row: 1;
+  align-self: end;
+  max-width: 24ch;
+  margin: 0;
+  padding-bottom: 0.3em;
   color: var(--on-dark-medium);
   font-family: var(--tigon-type-editorial);
-  font-size: clamp(17px, 1.3vw, 21px);
-  line-height: 1.5;
+  font-size: var(--type-small-size);
+  line-height: var(--type-small-leading);
 }
 
-.system-manifesto__argument > p:last-child {
-  max-width: 18ch;
-  color: var(--on-dark-quiet);
-  text-align: right;
-}
-
-.system-manifesto__frame-meta {
-  position: absolute;
-  top: clamp(34px, 4vw, 68px);
-  right: clamp(34px, 4vw, 68px);
-  display: grid;
-  gap: 8px;
-  color: var(--on-dark-faint);
-  text-align: right;
-}
-
-.system-manifesto__seal {
-  margin-top: 26px;
-  color: var(--on-dark-quiet);
-  text-align: right;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .system-manifesto__inner {
-    min-height: auto;
-    padding: 100px 20px 112px;
+    min-height: 76svh;
+    padding-top: 96px;
+    padding-bottom: 96px;
   }
 
-  .system-manifesto__grid {
-    inset: 0 20px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .system-manifesto__line--one {
+    grid-column: 1 / -1;
   }
 
-  .system-manifesto__grid span:nth-child(n + 5) {
-    display: none;
+  .system-manifesto__line--two {
+    grid-column: 3 / -1;
   }
 
-  .system-manifesto__head > p:last-child {
-    max-width: 14ch;
-    text-align: right;
+  .system-manifesto__line--three {
+    grid-column: 6 / -1;
   }
 
-  .system-manifesto__frame {
-    min-height: 720px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
+  .system-manifesto__support {
+    grid-column: 3 / 6;
+    padding-bottom: 0.5em;
+  }
+}
+
+@media (max-width: 640px) {
+  .system-manifesto__inner {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    min-height: 72svh;
+    padding: 80px 20px 72px;
   }
 
-  .system-manifesto__frame-meta {
-    position: static;
-    order: 1;
-    text-align: left;
-  }
-
-  .system-manifesto__mark {
-    order: 2;
-    width: min(56vw, 210px);
-    margin: 68px auto 54px;
-  }
-
-  .system-manifesto__kicker {
-    order: 3;
-    margin-top: 0;
+  .system-manifesto__composition,
+  .system-manifesto__statement {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   .system-manifesto__statement {
-    order: 4;
-    margin-top: 28px;
-    padding: 0;
-    font-size: clamp(52px, 16vw, 72px);
+    grid-row: 1;
+    row-gap: 0.14em;
+    font-size: var(--type-h2-big-size);
+    letter-spacing: var(--type-h2-big-track);
+    line-height: var(--type-h2-big-leading);
   }
 
-  .system-manifesto__argument {
-    order: 5;
-    margin-top: auto;
-    display: block;
+  .system-manifesto__line--one {
+    grid-column: 1 / -1;
+    grid-row: 1;
   }
 
-  .system-manifesto__argument > p:last-child {
+  .system-manifesto__line--two {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: center;
+  }
+
+  .system-manifesto__line--three {
+    grid-column: 2 / -1;
+    grid-row: 3;
+    justify-self: end;
+  }
+
+  .system-manifesto__support {
+    grid-column: 1 / 5;
+    grid-row: 2;
     margin-top: 32px;
-    text-align: left;
+    padding: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .system-manifesto__line-inner,
-  .system-manifesto__support,
-  .system-manifesto__grid span {
-    transform: none !important;
+  .system-manifesto__support {
     opacity: 1 !important;
-  }
-
-  .system-manifesto__mark > span {
     transform: none !important;
-    opacity: 1 !important;
   }
 }

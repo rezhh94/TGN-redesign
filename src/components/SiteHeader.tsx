@@ -14,19 +14,6 @@ const navItems: { href: string; label: string }[] = [
 
 const TAGLINE = "BYGD FOR Å BLI VALGT";
 
-function BrandMark({ className = "brand__mark" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="747.1 284.03 425.8 511.94"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <polygon points="1172.9 284.03 999.42 284.03 999.39 284.06 999.39 375.03 873.54 284.06 873.54 284.03 747.1 284.03 747.1 409.91 999.08 409.91 936.48 455.19 873.54 500.66 873.54 750.47 936.48 795.97 999.39 750.47 999.39 409.91 1172.9 409.91 1172.9 284.03" />
-    </svg>
-  );
-}
-
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -101,8 +88,7 @@ export function SiteHeader() {
 
             <div className="site-header__top">
               <Link className="brand" href="/" aria-label="Tigon Studio" onClick={closeMenu}>
-                <BrandMark />
-                <span className="brand__name">TIGON STUDIO</span>
+                <span className="brand__lockup" aria-hidden="true" />
               </Link>
 
               <span className="site-header__tag" aria-hidden="true">

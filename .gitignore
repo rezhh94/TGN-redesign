@@ -18,18 +18,4 @@ pnpm-debug.log*
 # Local visual QA and reference capture sequences
 outputs/qa-*/
 /nothin-*.jpeg
-/nudot-*.jpeg
 /trionn-*.jpeg
-
-# Local agent tooling, design material and generated review output
-.agents/
-outputs/
-skills-lock.json
-/docs/
-/_design-input/
-
-# Unused local concept media retained outside the deployable project
-/public/video/
-/public/services/tgn-ai-knowledge.webp
-/public/services/tgn-apper-field.webp
-/public/services/tgn-seo-query-map.webp

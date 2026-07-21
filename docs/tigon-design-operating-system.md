@@ -7,6 +7,16 @@ This document defines how Tigon Studio redesign work should be approached.
 It is not a rigid template.
 It is a set of principles for building a premium digital studio website without repeating the old chaos.
 
+For current implementation and Git status, read
+`docs/project-continuation-context.md` before applying these principles.
+`design.md` is now the canonical visual-language and token-governance entry
+point. This operating system remains supporting method and does not override
+`design.md` or the current `docs/sections/*.md` contracts. Those contracts
+describe mounted baselines and acceptance criteria, not visually protected
+solutions.
+
+The canonical brand meaning is defined in `docs/tigon-brand-platform.md`: `BYGD FOR Å BLI VALGT` is the promise, `FUNNET. FORSTÅTT. VALGT. MÅLT.` is the result system, and selection/focus/distinction is the visual concept. This operating system must support that platform without turning the slogan into repeated decoration.
+
 ## Core idea
 
 Awwwards feeling is not "more effects".
@@ -64,7 +74,8 @@ Default direction:
 - muted gray
 
 Orange is not part of the current visible design direction.
-It may exist as a token, but should not be visible unless explicitly approved.
+The `--color-signal` orange token was removed 2026-07-07 (unused). If a signal
+colour is ever needed, use `--pine`, or re-introduce a token only after explicit approval.
 
 ## Typography
 
@@ -73,8 +84,9 @@ Use:
 - JUSTSans for large editorial statements and body
 - CalebMono for labels, numbering and metadata
 
-Avoid using TGSPerfect for every big statement.
-Hero already owns the condensed display type.
+Avoid using TGSPerfect for every big statement by default. The mounted Hero
+currently uses condensed display type, but Hero and the page-wide type
+distribution may both be redesigned.
 
 If every section uses the same big condensed type, the page becomes repetitive.
 
@@ -126,7 +138,7 @@ Use:
 - row highlight
 - hover microinteractions
 
-Avoid:
+Avoid by default:
 - random cursor effects
 - particles
 - 3D tunnel
@@ -134,8 +146,10 @@ Avoid:
 - unnecessary WebGL
 - heavy pinned sections everywhere
 
-Pinned/scrubbed moments should be rare.
-At most one or two true showpieces on the whole page.
+Pinned/scrubbed moments need clear narrative ownership, measured scroll budgets
+and fallbacks. A connected full-page redesign may contain several showpieces
+when they are coordinated as one system and pass performance/accessibility;
+there is no fixed one-or-two-section cap.
 
 ## SEO and accessibility
 
@@ -147,6 +161,6 @@ Do not damage Core Web Vitals for visual tricks.
 
 ## Build rule
 
-Every section starts with a section contract.
-
-No contract = no coding.
+Use or update a section contract when it improves coordination. A clear user
+task may proceed directly; documentation must be reconciled with the mounted
+result afterward.

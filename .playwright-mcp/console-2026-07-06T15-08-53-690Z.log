@@ -1,3 +1,0 @@
-[     533ms] [WARNING] [.WebGL-0x104004bc800] GL_INVALID_OPERATION: glDrawArrays: Feedback loop formed between Framebuffer and active Texture. @ https://lamalama.com/:0
-[     533ms] [WARNING] [.WebGL-0x104004bc800] GL_INVALID_OPERATION: glDrawArrays: Feedback loop formed between Framebuffer and active Texture. @ https://lamalama.com/:0
-[     533ms] [WARNING] [.WebGL-0x104004bc800] GL_INVALID_OPERATION: glDrawArrays: Feedback loop formed between Framebuffer and active Texture. @ https://lamalama.com/:0

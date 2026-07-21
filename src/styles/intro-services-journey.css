@@ -1,0 +1,11 @@
+/* 01 → 02-reisen: én mørk flate som binder Tilnærming og Tjenester sammen.
+   Kapitlene følger direkte på hverandre i normal flyt (Trionn-grammatikk);
+   artikulasjonen ligger i seksjonenes egne linjer og stripe-handoffen i 02. */
+.intro-services-journey {
+  position: relative;
+  z-index: var(--z-content);
+  overflow: clip;
+  isolation: isolate;
+  background: var(--surface-base);
+  color: var(--text-strong);
+}

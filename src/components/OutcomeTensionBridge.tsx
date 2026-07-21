@@ -10,6 +10,8 @@ export function OutcomeTensionBridge() {
       className="outcome-tension"
       aria-label="Overgang fra tjenester til effekt"
       data-outcome-tension
+      data-theme-section="dark"
+      data-bg-section="dark"
     >
       <div className="outcome-tension__stage" data-outcome-tension-stage>
         <p className="outcome-tension__index">02 → 03 / Fra leveranse til effekt</p>

@@ -1,150 +1,256 @@
-.approach-bridge {
+/* 01 / Tilnærming — Tigon-clean-room av den redaksjonelle About-arkitekturen
+   i Trionn-studien: ekte HTML, normal flyt, stor setning, asymmetrisk støtterad
+   og én hairline/plus-akse. Ingen referanse-CSS, font, media eller shader.
+   Uten JS og med redusert bevegelse står alt på full styrke i vanlig flyt. */
+
+.approach-statement {
   position: relative;
   z-index: 2;
   overflow: clip;
-  background: #030303;
+  background: var(--surface-base);
   color: var(--color-on-dark);
 }
 
-.approach-intro {
+.approach-statement__inner {
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
+  align-content: center;
   width: min(100%, var(--page-max));
-  margin-right: auto;
-  margin-left: auto;
-  padding: clamp(112px, 14vh, 184px) var(--gutter) clamp(96px, 12vh, 160px);
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: clamp(120px, 15vh, 204px) var(--homepage-gutter)
+    clamp(96px, 12vh, 172px);
 }
 
-.approach-intro__label {
-  grid-column: 1 / 3;
-  align-self: start;
-  color: var(--on-dark-quiet);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono);
-  letter-spacing: var(--mono-track);
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.approach-intro__statement {
-  grid-column: 3 / -1;
+/* Label i venstre marg, på statementets første baseline (delt grid-rad +
+   baseline-justering mot tittelens første linje). */
+.approach-statement__label {
+  grid-column: 1 / 2;
+  grid-row: 1;
+  align-self: baseline;
   margin: 0;
-  color: var(--color-on-dark);
-  font-family: var(--font-display);
-  font-size: clamp(60px, 7.4vw, 138px);
-  font-weight: 700;
-  letter-spacing: var(--display-track);
-  line-height: 0.82;
+  color: var(--text-strong);
+  font-family: var(--font-title), sans-serif;
+  font-size: var(--type-meta-md-size);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-meta-track);
+  line-height: var(--type-meta-leading);
   text-transform: uppercase;
 }
 
-/* Osmo Highlight Text on Scroll splitter tegn klientside. Uten JS står
-   autorlinjene som vanlige blokker med samme typografiske komposisjon. */
-.approach-intro__line {
-  display: block;
+.approach-statement__title {
+  grid-column: 2 / -1;
+  grid-row: 1;
+  align-self: baseline;
+  margin: 0;
+  color: var(--on-dark-strong);
+  font-family: var(--font-body), sans-serif;
+  font-size: var(--type-statement-size);
+  font-weight: var(--type-statement-weight);
+  letter-spacing: var(--type-statement-track);
+  line-height: var(--type-statement-leading);
+  text-align: left;
+  text-indent: var(--type-statement-indent);
+  text-wrap: pretty;
+  scroll-margin-top: calc(var(--header-height) + 24px);
 }
 
-/* Utsagnet driver diagonalt mot resolusjonen; tonen løftes der argumentet
-   snur (lansert -> valgt). */
-.approach-intro__line--quiet {
-  color: rgba(242, 241, 235, 0.28);
+/* Separat leserytmeakse. CSS rigger geometri og sluttilstand; GSAP eier kun
+   scaleX/rotasjon og, på fin peker, markørens x-posisjon etter reveal. */
+.approach-statement__rule {
+  position: relative;
+  grid-column: 2 / 10;
+  height: 17px;
+  margin-top: clamp(72px, 10vh, 132px);
 }
 
-.approach-intro__line:nth-child(2) {
-  margin-left: 0.55em;
+.approach-statement__rule-line {
+  position: absolute;
+  top: 8px;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--line-default);
+  transform-origin: left center;
 }
 
-.approach-intro__line:nth-child(3) {
-  margin-left: 1.35em;
+.approach-statement__rule-marker {
+  position: absolute;
+  top: 0;
+  left: 78%;
+  width: 17px;
+  height: 17px;
+  color: var(--text-quiet);
+  transform-origin: center;
 }
 
-.approach-intro__line:nth-child(4) {
-  margin-left: 1.9em;
+.approach-statement__rule-marker span {
+  position: absolute;
+  top: 8px;
+  left: 3px;
+  width: 11px;
+  height: 1px;
+  background: currentColor;
 }
 
-.approach-intro__support {
-  grid-column: 7 / 11;
-  margin-top: clamp(56px, 8vh, 104px);
+.approach-statement__rule-marker span:last-child {
+  transform: rotate(90deg);
 }
 
-.approach-intro__support p {
+.approach-statement[data-intro-rule-ready] .approach-statement__rule-line,
+.approach-statement[data-intro-rule-ready] .approach-statement__rule-marker {
+  will-change: transform;
+}
+
+/* Støtterad: liten systemtese langt til venstre, forklaring og handling langt
+   til høyre. Avstanden er en del av komposisjonen, ikke et kort-grid. */
+.approach-statement__support {
+  display: grid;
+  grid-column: 2 / 12;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+  row-gap: 28px;
+  margin-top: clamp(44px, 6vh, 78px);
+}
+
+.approach-statement__support-register {
+  grid-column: 1 / 4;
+}
+
+.approach-statement__support-aside {
+  display: flex;
+  grid-column: 8 / -1;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.approach-statement__support-meta {
+  margin: 0;
+  color: var(--text-strong);
+  font-family: var(--font-title), sans-serif;
+  font-size: var(--type-meta-md-size);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--type-title-track);
+  line-height: var(--type-title-leading);
+  text-transform: uppercase;
+}
+
+.approach-statement__support-copy {
   max-width: 38ch;
-  color: var(--on-dark-medium);
-  font-family: var(--font-sans);
-  font-size: clamp(17px, 1.3vw, 21px);
-  line-height: 1.5;
+  margin: 0;
+  color: var(--text-strong);
+  font-family: var(--font-primary);
+  font-size: var(--type-lead-md-size);
+  line-height: var(--type-lead-md-leading);
 }
 
-.approach-intro__support span {
-  display: block;
-  margin-top: 28px;
-  color: var(--on-dark-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.4;
+.approach-statement__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: clamp(38px, 5vh, 64px);
+  padding: 0 0 12px;
+  border-bottom: 1px solid var(--line-default);
+  color: var(--text-quiet);
+  font-family: var(--font-action), monospace;
+  font-size: var(--button-label-size);
+  font-weight: var(--button-label-weight);
+  letter-spacing: var(--button-label-track);
+  line-height: var(--button-label-leading);
+  text-decoration: none;
   text-transform: uppercase;
+  transition: color 0.3s ease-out, border-color 0.3s ease-out;
 }
 
-/* Replikk til 02: stille mono-linje som lukker tesen mot svaret. */
-.approach-intro__handoff {
-  grid-column: 7 / -1;
-  margin-top: clamp(48px, 7vh, 88px);
+.approach-statement__link:hover,
+.approach-statement__link:focus-visible {
+  border-color: var(--line-strong);
+  color: var(--text-strong);
+}
+
+.approach-statement__link:focus-visible {
+  outline: 1px solid var(--line-strong);
+  outline-offset: 6px;
+}
+
+/* Fyll-tilstand: gjelder kun etter at JS har splittet ordene og scenen
+   kjører. Fra-verdien er et lesbart trinn på on-dark-stigen (aldri usynlig);
+   GSAP scrubber hvert ord tilbake til elementets egen fulle tekstfarge. */
+.approach-statement[data-intro-fill-ready] .intro-fill__char {
   color: var(--on-dark-faint);
-  font-family: var(--font-mono);
-  font-size: var(--fz-mono-s);
-  letter-spacing: var(--mono-track);
-  line-height: 1.4;
-  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .approach-statement .intro-fill__char {
+    color: inherit !important;
+  }
+
+  .approach-statement__rule-line,
+  .approach-statement__rule-marker,
+  .approach-statement__support [data-intro-support] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 @media (max-width: 900px) {
-  .approach-intro {
-    grid-template-columns: 1fr;
-    padding-top: 96px;
+  .approach-statement__label {
+    grid-row: auto;
+    margin-bottom: 28px;
   }
 
-  .approach-intro__label,
-  .approach-intro__statement,
-  .approach-intro__support,
-  .approach-intro__handoff {
-    grid-column: auto;
+  .approach-statement__title {
+    grid-column: 1 / -1;
+    grid-row: auto;
   }
 
-  .approach-intro__statement {
-    margin-top: 44px;
-    font-size: clamp(46px, 12.5vw, 88px);
+  .approach-statement__rule,
+  .approach-statement__support {
+    grid-column: 1 / -1;
   }
 
-  .approach-intro__line:nth-child(2) {
-    margin-left: 0.4em;
+  .approach-statement__support {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
-  .approach-intro__line:nth-child(3) {
-    margin-left: 0.8em;
+  .approach-statement__support-register {
+    grid-column: 1 / 3;
   }
 
-  .approach-intro__line:nth-child(4) {
-    margin-left: 1.2em;
-  }
-
-  .approach-intro__support {
-    margin-top: 48px;
+  .approach-statement__support-aside {
+    grid-column: 4 / -1;
   }
 }
 
 @media (max-width: 640px) {
-  .approach-intro {
-    padding-right: 20px;
-    padding-left: 20px;
+  .approach-statement__inner {
+    min-height: auto;
+    padding-top: clamp(104px, 16vh, 144px);
+    padding-bottom: clamp(88px, 13vh, 120px);
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .approach-intro > *,
-  .approach-intro__line .char {
-    opacity: 1 !important;
-    transform: none !important;
+  .approach-statement__rule {
+    margin-top: clamp(56px, 10vh, 84px);
+  }
+
+  .approach-statement__rule-marker {
+    left: 72%;
+  }
+
+  .approach-statement__support {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: clamp(48px, 9vh, 72px);
+  }
+
+  .approach-statement__support-register,
+  .approach-statement__support-aside {
+    grid-column: 1;
+  }
+
+  .approach-statement__support-aside {
+    width: min(100%, 34rem);
+    margin-left: auto;
   }
 }

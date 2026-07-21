@@ -56,13 +56,50 @@
   --tigon-canvas: #050606;
   --tigon-canvas-raised: #0b0d0d;
   --tigon-canvas-lifted: #1a1c1c;
-  --tigon-paper: #f2f2ef;
+  --tigon-paper: #ffffff;
   --tigon-mineral: #d3d8d5;
   --tigon-line-dark: rgba(242, 242, 239, 0.16);
   --tigon-line-light: rgba(5, 6, 6, 0.16);
-  --tigon-type-display: var(--font-display);
-  --tigon-type-editorial: var(--font-sans);
+  /* Light information surfaces use one shared neutral hierarchy. These roles
+     are intentionally independent of section names so future paper chapters
+     do not invent new greys locally. */
+  --paper-text-heading: #434343;
+  --paper-text-body: #434343;
+  --paper-text-row: #272727;
+  --paper-text-label: rgba(67, 67, 67, 0.6);
+  --paper-focus-ring: #272727;
+  /* Verified Selected Work surface values from Trionn's first-party module.
+     Kept as shared paper roles so the section does not invent local colours. */
+  --paper-track-surface-start: #d2d2d2;
+  --paper-track-surface-end: #ffffff;
+  --paper-track-line: rgba(67, 67, 67, 0.15);
+  /* Trionn source roles. The injected variable names are kept for the
+     approved font-stack contract, while these semantic aliases follow the
+     source CSS: Familjen for display/title roles, Neue Haas -> PP Neue
+     Montreal for reading copy, and Martian only for button-text. */
+  --tigon-type-display: var(--font-body);
+  --tigon-type-editorial: var(--font-display);
   --tigon-type-meta: var(--font-mono);
+
+  /* Dark homepage contract. These semantic roles are the canonical surface,
+     line and layout vocabulary from Intro/01 through 06/System. Header/Hero
+     and footer keep their existing tokens and therefore do not change when
+     this body system is calibrated. */
+  --surface-deep: #030303;
+  --surface-base: #070707;
+  --surface-raised: #0d0f0f;
+  --surface-focus: #171a19;
+  --text-strong: var(--color-on-dark);
+  --text-medium: var(--on-dark-medium);
+  --text-quiet: var(--on-dark-quiet);
+  --text-faint: var(--on-dark-faint);
+  --line-subtle: rgba(242, 241, 235, 0.08);
+  --line-default: rgba(242, 241, 235, 0.16);
+  --line-strong: rgba(242, 241, 235, 0.3);
+  --homepage-gutter: clamp(24px, 2.78vw, 48px);
+  --homepage-section-intro-y: clamp(104px, 13vh, 176px);
+  --homepage-section-block-y: clamp(52px, 7vh, 88px);
+  --homepage-section-exit-y: clamp(88px, 11vh, 148px);
   /* Varm Osmo-oversettelse — dempet mineral/oliven for utvalgte store
      redaksjonelle flater. Brukes som et bevisst kapittel, ikke som generell
      aksent eller dekor. */
@@ -72,9 +109,35 @@
   --sand-warm: #e1d5bd;
   --plum-deep: #261e24;
 
-  --font-display: "TGS Perfect", "Arial Narrow", "Arial Black", sans-serif;
-  --font-sans: "JUST Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "Caleb Mono", "SFMono-Regular", Consolas, monospace;
+  /* The four canonical family variables are injected by next/font/local on
+     <html>. These aliases keep established semantic roles stable. */
+  --font-primary: var(--font-display);
+  --font-sans: var(--font-display);
+  --font-title: var(--font-body);
+  --font-meta: var(--font-mono);
+  --font-action: var(--font-mono);
+  --font-paper: var(--font-display);
+  --weight-regular: 400;
+  --weight-mono: 300;
+  --weight-medium: 500;
+  --weight-semibold: 500;
+  --weight-bold: 500;
+
+  /* 4px primitive scale. Components consume these roles instead of adding
+     one-off values; the larger jumps create the editorial macro rhythm. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
 
   /* Innholdsbredde + horisontal gutter — én kilde for alle seksjoner. Før:
      --gutter (maks 80) kun i Prosess, resten hardkodet maks 150 → ulik
@@ -118,25 +181,45 @@
      bredder. Bruk: display:grid; grid-template-columns: repeat(var(--grid-cols), 1fr);
      column-gap: var(--grid-gutter); innenfor --grid-margin sidemargin. */
   --grid-cols: 12;
-  --grid-gutter: 24px;
+  --grid-gutter: clamp(16px, 1.67vw, 24px);
   --grid-margin: var(--gutter);
 
-  /* CTA-knapp (lamalama-kalibrert) — ÉN delt resept for primær/sekundær side-CTA
-     (hero + kontakt). Lamalama norm.: 50px høy, 10px mono, gap 20, radius 4, tett
-     tracking (−0.02em). Tigon: en hair større (11px / 52px) siden Caleb Mono
-     kjører mindre enn Sometype. Nav- og meny-piller er chrome (--radius-chrome,
-     0.08em) og bruker bevisst IKKE denne resepten. */
-  --cta-height: 52px;
-  --cta-fz: 11px;
-  --cta-gap: 18px;
-  --cta-pad-x: 24px;
-  --cta-tracking: -0.02em;
+  /* Shared action system. Typography mirrors Trionn's verified button role;
+     geometry and colours remain Tigon-specific. */
+  --button-height-sm: 40px;
+  --button-height-md: 48px;
+  --button-height-lg: 56px;
+  --button-label-size: var(--type-button-size);
+  --button-label-leading: var(--type-button-leading);
+  --button-label-track: var(--type-button-track);
+  --button-label-weight: var(--weight-mono);
+  --button-gap: 16px;
+  --button-pad-sm: 20px;
+  --button-pad-md: 24px;
+  --button-pad-lg: 28px;
+  --button-radius: 999px;
+  --button-min-width: 176px;
+  --button-primary-bg: var(--color-on-dark);
+  --button-primary-text: var(--color-ink);
+  --button-primary-hover: #ffffff;
+  --button-secondary-bg: transparent;
+  --button-secondary-text: var(--color-on-dark);
+  --button-secondary-border: var(--line-strong);
+  --button-secondary-hover: rgba(242, 241, 235, 0.08);
+  --focus-ring: var(--color-on-dark);
+
+  /* Compatibility aliases for existing consumers. */
+  --cta-height: var(--button-height-md);
+  --cta-fz: var(--button-label-size);
+  --cta-gap: var(--button-gap);
+  --cta-pad-x: var(--button-pad-md);
+  --cta-tracking: var(--button-label-track);
 
   /* Display-tittel-tracking — ÉN kilde for alle kondenserte TGS-caps-titler
      (seksjonstitler + pilar/kort-navn). Var før spredt: 0 / 0.01 / −0.012em på
      visuelt like titler. Snappet til den dominerende 0.01em. Hero-wordmarken
      (bokstavstablet TIGON/STUDIO) er egen sak og bruker ikke denne. */
-  --display-track: 0.01em;
+  --display-track: var(--type-display-xl-track);
 
   /* F: skarp-editorial (lamalama-oversatt). Ett hjørne-token for avrundede
      rektangler + knapper. Piller (999) beholdes kun som flytende nav-chrome,
@@ -169,34 +252,166 @@
   --glass-border-light: rgba(246, 245, 241, 0.45);
   --glass-shadow: inset 0 1px 0 rgba(242, 241, 235, 0.06), 0 16px 46px -26px rgba(0, 0, 0, 0.9);
 
-  --fz-hero: clamp(54px, 9vw, 156px);
-  --fz-section: clamp(38px, 7vw, 124px);
-  --fz-lead: clamp(16px, 1.2vw, 18px);
-  /* Lead-skala i tre trinn — rydder de ad hoc ledetekst-størrelsene.
-     Primær opasitet ~.80, sekundær ~.58 (settes per flate). */
-  --fz-lead-l: clamp(19px, 1.4vw, 23px);
-  --fz-lead-m: clamp(17px, 1.2vw, 19px);
-  --fz-lead-s: clamp(14px, 1vw, 16px);
-  --fz-body: 16px;
-  --fz-small: 13px;
+  /* Exact Trionn typography source values from the local 2026-07-19 mirror.
+     The source sets html to calc(1000vw / --size). Tigon keeps that basis
+     isolated in these formulas so non-type rem spacing does not drift. */
+  --trionn-type-size: 320;
+  --type-h1-size: clamp(
+    calc(3750vw / var(--trionn-type-size)),
+    6.614vw,
+    calc(6250vw / var(--trionn-type-size))
+  );
+  --type-h1-leading: clamp(
+    calc(3500vw / var(--trionn-type-size)),
+    5.952vw,
+    calc(5625vw / var(--trionn-type-size))
+  );
+  --type-h1-track: -0.06em;
+  --type-h2-size: clamp(
+    calc(2500vw / var(--trionn-type-size)),
+    6.283vw,
+    calc(5938vw / var(--trionn-type-size))
+  );
+  --type-h2-leading: clamp(
+    calc(2200vw / var(--trionn-type-size)),
+    5.952vw,
+    calc(5625vw / var(--trionn-type-size))
+  );
+  --type-h2-track: -0.06em;
+  --type-h2-big-size: clamp(
+    calc(3500vw / var(--trionn-type-size)),
+    6.349vw,
+    calc(6000vw / var(--trionn-type-size))
+  );
+  --type-h2-big-leading: clamp(
+    calc(3250vw / var(--trionn-type-size)),
+    5.82vw,
+    calc(5500vw / var(--trionn-type-size))
+  );
+  --type-h2-big-track: -0.06em;
+  --type-h3-size: calc(1750vw / var(--trionn-type-size));
+  --type-h3-leading: 1;
+  --type-h3-track: -0.04em;
+  --type-h4-size: calc(1125vw / var(--trionn-type-size));
+  --type-h4-leading: calc(1250vw / var(--trionn-type-size));
+  --type-h4-track: -0.02em;
+  --type-document-size: calc(1250vw / var(--trionn-type-size));
+  --type-document-leading: normal;
+  --type-body-size: calc(1250vw / var(--trionn-type-size));
+  --type-body-leading: normal;
+  --type-small-size: calc(1250vw / var(--trionn-type-size));
+  --type-small-leading: normal;
+  --type-title-size: calc(1125vw / var(--trionn-type-size));
+  --type-title-leading: 1;
+  --type-title-track: -0.02em;
+  --type-button-size: calc(1000vw / var(--trionn-type-size));
+  --type-button-leading: normal;
+  --type-button-track: -0.06em;
+  --type-menu-size: calc(3000vw / var(--trionn-type-size));
+  --type-menu-leading: calc(1375vw / var(--trionn-type-size));
+  --type-menu-track: -0.04em;
+  --type-number-small-size: calc(3500vw / var(--trionn-type-size));
+  --type-number-small-leading: calc(3125vw / var(--trionn-type-size));
+  --type-number-track: -0.06em;
+  --type-numbers-size: calc(5375vw / var(--trionn-type-size));
+  --type-numbers-leading: calc(6125vw / var(--trionn-type-size));
+  --type-marquee-size: clamp(
+    calc(5000vw / var(--trionn-type-size)),
+    9.164vw,
+    calc(10000vw / var(--trionn-type-size))
+  );
+  --type-marquee-leading: 0.672;
+  --type-marquee-track: -0.08em;
+  --type-work-heading-size: calc(2500vw / var(--trionn-type-size));
+  --type-work-heading-leading: 1.1;
+  --type-work-heading-track: -0.025em;
+  --type-work-heading-weight: 500;
 
-  /* Mono-stige — samler de spredte små mono-størrelsene (var 10.5–13px) til
-     tre faste trinn. Eyebrow-tracking er standardisert til 0.03em, uppercase-
-     meta til 0.08em.
-       l  — knapp/CTA-etikett (13)
-       m  — eyebrow / label / meta workhorse (12)
-       s  — mikro-mono: noter, signal, tiny meta (11) */
-  /* Tilpasset lamalama (2026-07-05): mono ned ~1px mot deres 10px, men en hair
-     større siden Tigons fonter/leads kjører større. */
-  --fz-mono-l: 12px;
-  --fz-mono: 11px;
-  --fz-mono-s: 10px;
+  /* Established semantic aliases now resolve to the exact source roles. */
+  --fz-hero: var(--type-h1-size);
+  --fz-section: var(--type-h2-size);
+  --fz-lead: var(--type-body-size);
+  --fz-lead-l: var(--type-body-size);
+  --fz-lead-m: var(--type-body-size);
+  --fz-lead-s: var(--type-small-size);
+  --fz-body: var(--type-body-size);
+  --fz-small: var(--type-small-size);
+  --fz-mono-l: var(--type-button-size);
+  --fz-mono: var(--type-title-size);
+  --fz-mono-s: var(--type-button-size);
 
-  /* Mono/eyebrow-tracking — ÉN kilde for alle uppercase Caleb-Mono-labels
-     (eyebrows, tags, meta, CTA-piler). Var før spredt: 0,04–0,14em på visuelt
-     like labels. Samlet til arbeidshesten 0,08em. CTA-label bruker bevisst
-     --cta-tracking (−0,02em, lamalama-kalibrert), ikke denne. */
-  --mono-track: 0.08em;
+  --type-display-hero-size: var(--type-h1-size);
+  --type-display-hero-leading: var(--type-h1-leading);
+  --type-display-hero-track: var(--type-h1-track);
+  --type-display-2xl-size: var(--type-h2-size);
+  --type-display-2xl-leading: var(--type-h2-leading);
+  --type-display-2xl-track: var(--type-h2-track);
+  --type-display-xl-size: var(--type-h2-size);
+  --type-display-xl-leading: var(--type-h2-leading);
+  --type-display-xl-track: var(--type-h2-track);
+  --type-display-lg-size: var(--type-h3-size);
+  --type-display-lg-leading: var(--type-h3-leading);
+  --type-display-lg-track: var(--type-h3-track);
+  --type-display-md-size: var(--type-h4-size);
+  --type-display-md-leading: var(--type-h4-leading);
+  --type-display-md-track: var(--type-h4-track);
+
+  --type-statement-size: var(--type-h2-size);
+  --type-statement-leading: var(--type-h2-leading);
+  --type-statement-track: var(--type-h2-track);
+  --type-statement-weight: 400;
+  --type-statement-indent: clamp(72px, 8.2vw, 168px);
+
+  --type-heading-lg-size: var(--type-h3-size);
+  --type-heading-lg-leading: var(--type-h3-leading);
+  --type-heading-md-size: var(--type-h4-size);
+  --type-heading-md-leading: var(--type-h4-leading);
+  --type-heading-sm-size: var(--type-h4-size);
+  --type-heading-sm-leading: var(--type-h4-leading);
+
+  --type-lead-lg-size: var(--type-body-size);
+  --type-lead-lg-leading: var(--type-body-leading);
+  --type-lead-md-size: var(--type-body-size);
+  --type-lead-md-leading: var(--type-body-leading);
+  --type-lead-sm-size: var(--type-small-size);
+  --type-lead-sm-leading: var(--type-small-leading);
+
+  --type-body-lg-size: var(--type-body-size);
+  --type-body-lg-leading: var(--type-body-leading);
+  --type-body-md-size: var(--type-body-size);
+  --type-body-md-leading: var(--type-body-leading);
+  --type-body-sm-size: var(--type-small-size);
+  --type-body-sm-leading: var(--type-small-leading);
+  --type-body-xs-size: var(--type-button-size);
+  --type-body-xs-leading: var(--type-button-leading);
+
+  /* Exact typography from the live Trionn services panel. Only the root basis
+     is isolated so these values cannot alter non-type rem layout. */
+  --type-paper-scale-basis: var(--trionn-type-size);
+  --type-paper-heading-size: calc(2500vw / var(--type-paper-scale-basis));
+  --type-paper-heading-leading: 1;
+  --type-paper-heading-track: -0.04em;
+  --type-paper-heading-weight: var(--weight-regular);
+  --type-paper-copy-size: calc(1250vw / var(--type-paper-scale-basis));
+  --type-paper-copy-leading: normal;
+  --type-paper-copy-track: 0;
+  --type-paper-copy-weight: var(--weight-regular);
+  --type-paper-row-size: calc(1250vw / var(--type-paper-scale-basis));
+  --type-paper-row-leading: normal;
+  --type-paper-row-track: 0;
+  --type-paper-row-weight: var(--weight-regular);
+  --type-paper-label-size: calc(1125vw / var(--type-paper-scale-basis));
+  --type-paper-label-leading: 1;
+  --type-paper-label-track: -0.02em;
+  --type-paper-label-weight: var(--weight-regular);
+
+  --type-meta-lg-size: var(--type-title-size);
+  --type-meta-md-size: var(--type-title-size);
+  --type-meta-sm-size: var(--type-button-size);
+  --type-meta-leading: var(--type-title-leading);
+  --type-meta-track: var(--type-title-track);
+
+  --mono-track: var(--type-meta-track);
 
   --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -205,13 +420,88 @@
   --motion-fast: 200ms;
   --motion-base: 300ms;
   --motion-medium: 500ms;
+  --z-base: 0;
+  --z-content: 2;
+  --z-local-overlay: 5;
+  --z-chrome: 100;
+  --z-menu: 200;
+  --z-modal: 1000;
 }
 
-/* Grid — mobil: 6 kol + strammere gutter (lamalama-oversatt). */
+/* Exact source breakpoints for Trionn's typography basis. */
+@media (min-width: 440px) {
+  :root {
+    --trionn-type-size: 360;
+  }
+}
+
+@media (min-width: 640px) {
+  :root {
+    --trionn-type-size: 480;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --trionn-type-size: 750;
+    --type-menu-size: calc(1250vw / var(--trionn-type-size));
+    --type-work-heading-size: calc(3000vw / var(--trionn-type-size));
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --trionn-type-size: 850;
+    --type-document-size: calc(1000vw / var(--trionn-type-size));
+    --type-body-size: calc(1125vw / var(--trionn-type-size));
+    --type-small-size: calc(1125vw / var(--trionn-type-size));
+    --type-title-size: calc(1063vw / var(--trionn-type-size));
+    --type-button-size: calc(875vw / var(--trionn-type-size));
+    --type-paper-copy-size: calc(1125vw / var(--type-paper-scale-basis));
+    --type-paper-row-size: calc(1125vw / var(--type-paper-scale-basis));
+    --type-paper-label-size: calc(1063vw / var(--type-paper-scale-basis));
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --trionn-type-size: 1000;
+    --type-h3-size: calc(2250vw / var(--trionn-type-size));
+    --type-paper-heading-size: calc(2250vw / var(--type-paper-scale-basis));
+  }
+}
+
+@media (min-width: 1441px) {
+  :root {
+    --trionn-type-size: 1180;
+  }
+}
+
+@media (min-width: 1536px) {
+  :root {
+    --trionn-type-size: 1280;
+    --type-body-size: calc(1250vw / var(--trionn-type-size));
+    --type-small-size: calc(1125vw / var(--trionn-type-size));
+    --type-title-size: calc(1125vw / var(--trionn-type-size));
+    --type-paper-row-size: calc(1250vw / var(--type-paper-scale-basis));
+    --type-paper-label-size: calc(1125vw / var(--type-paper-scale-basis));
+  }
+}
+
+@media (min-width: 2000px) {
+  :root {
+    --type-small-size: calc(1000vw / var(--trionn-type-size));
+    --type-title-size: calc(1000vw / var(--trionn-type-size));
+    --type-paper-copy-size: calc(1000vw / var(--type-paper-scale-basis));
+    --type-paper-label-size: calc(1000vw / var(--type-paper-scale-basis));
+  }
+}
+
+/* Grid — mobile keeps the same roles with a six-column composition. */
 @media (max-width: 640px) {
   :root {
     --grid-cols: 6;
-    --grid-gutter: 10px;
+    --grid-gutter: 16px;
   }
 }
 
@@ -236,5 +526,15 @@
     --size-container-ideal: 390;
     --size-container-min: 320px;
     --size-container-max: 479px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  :root {
+    --homepage-gutter: 24px;
+    --homepage-section-intro-y: 88px;
+    --homepage-section-block-y: 48px;
+    --homepage-section-exit-y: 88px;
+    --type-statement-indent: clamp(32px, 11vw, 56px);
   }
 }
