@@ -1953,52 +1953,47 @@ function workProcessJourney(compact: boolean) {
   };
 }
 
-// 06 / System — manifesto lines rise out of their masks once; support and
-// corner marks settle after. The page's quietest reveal.
-function manifestoReveal() {
+// 06 / System — one local, one-shot text entrance. The complete composition
+// is the server/no-JS state; GSAP only settles the three visible lines and the
+// short support sentence when the section is approached in ordinary flow.
+function manifestoReveal(): () => void {
   const section = document.querySelector<HTMLElement>(".system-manifesto");
-  if (!section) return;
+  if (!section) return () => {};
   // Allerede-synlig-garde: ved dyp-lasting forbi seksjonen beholdes server-
   // tilstanden (sluttilstand) — from-tweens skal ikke spille entré på nytt.
-  if (section.getBoundingClientRect().top <= window.innerHeight * 0.64) return;
+  if (section.getBoundingClientRect().top <= window.innerHeight * 0.72) return () => {};
 
-  const lines = gsap.utils.toArray<HTMLElement>(
-    ".system-manifesto__line-inner",
-    section
-  );
-  const support = section.querySelector("[data-manifesto-support]");
-  const gridColumns = section.querySelectorAll(".system-manifesto__grid span");
-  const pieces = gsap.utils.toArray<HTMLElement>("[data-system-piece]", section);
+  const lines = gsap.utils.toArray<HTMLElement>("[data-system-line]", section);
+  const support = section.querySelector<HTMLElement>("[data-manifesto-support]");
+  if (!lines.length) return () => {};
 
-  maskedRise(lines, section, {
-    yPercent: 108,
-    duration: 0.8,
-    stagger: 0.12,
-    start: "top 64%",
-  });
+  const ctx = gsap.context(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        id: "system-manifesto-reveal",
+        trigger: section,
+        start: "top 72%",
+        once: true,
+      },
+      defaults: { ease: "power4.out" },
+    });
 
-  const tl = gsap.timeline({
-    scrollTrigger: { trigger: section, start: "top 64%", once: true },
-    defaults: { ease: "power3.out" },
-  });
+    tl.from(lines, {
+      yPercent: 160,
+      duration: 1,
+      stagger: 0.13,
+    });
 
-  if (pieces.length) {
-    tl.from(pieces, {
-      x: (index) => [-90, 86, -62, 70][index] ?? 0,
-      y: (index) => [-56, -72, 70, 58][index] ?? 0,
-      rotation: (index) => [-8, 7, 5, -6][index] ?? 0,
-      autoAlpha: 0,
-      duration: 0.95,
-      stagger: 0.08,
-      ease: "power3.inOut",
-    }, 0.1);
-  }
-  if (support) {
-    tl.from(support, { autoAlpha: 0, y: 16, duration: 0.55 }, "-=0.35");
-  }
-  if (gridColumns.length) {
-    tl.from(gridColumns, { autoAlpha: 0, yPercent: 10, duration: 0.6, stagger: 0.025 }, "-=0.4");
-  }
+    if (support) {
+      tl.from(support, {
+        autoAlpha: 0,
+        y: 14,
+        duration: 0.5,
+      }, "-=0.42");
+    }
+  }, section);
+
+  return () => ctx.revert();
 }
 
 // 05 / Prosess — one compact semantic list, two deliberate compositions.
