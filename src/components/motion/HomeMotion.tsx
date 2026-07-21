@@ -472,6 +472,232 @@ function legacyServicesScene() {
   };
 }
 
+// Intro → 02 / Tjenester — source-port of Trionn's verified marquee motor and
+// responsive Key Facts card scene. The marquee keeps the source's measured
+// clone count, .8 px ticker step, wrap logic, 64 px IO wake margin and .5 stop
+// lerp. Below 768px the source's pinned horizontal deck is preserved.
+function servicePreludeScene() {
+  const section = document.querySelector<HTMLElement>("[data-service-prelude]");
+  const facts = section?.querySelector<HTMLElement>("[data-service-prelude-facts]");
+  const cardList = section?.querySelector<HTMLElement>("[data-service-prelude-cards]");
+  const cards = gsap.utils.toArray<HTMLElement>("[data-service-prelude-card]", section);
+  const marquee = section?.querySelector<HTMLElement>("[data-source-marquee]");
+  const track = marquee?.querySelector<HTMLElement>("[data-source-marquee-track]");
+  const originalGroup = track?.querySelector<HTMLElement>("[data-source-marquee-group]");
+
+  if (
+    !section
+    || !facts
+    || !cardList
+    || cards.length !== 3
+    || !marquee
+    || !track
+    || !originalGroup
+  ) return () => {};
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return () => {};
+  }
+
+  const speed = Number.parseFloat(marquee.dataset.sourceMarqueeSpeed ?? "") || 0.8;
+  const gap = Number.parseFloat(marquee.dataset.sourceMarqueeGap ?? "") || 0;
+  const stopSpeed = 0.5;
+  const clones: HTMLElement[] = [];
+  let cycleWidth = 0;
+  let position = 0;
+  let currentSpeed = 1;
+  let paused = false;
+  let inView = false;
+  let resizeFrame = 0;
+
+  const removeClones = () => {
+    clones.splice(0).forEach((clone) => clone.remove());
+  };
+
+  const buildTrack = () => {
+    removeClones();
+    originalGroup.style.marginRight = `${gap}px`;
+    cycleWidth = originalGroup.offsetWidth + gap;
+    position = 0;
+    gsap.set(track, { x: 0 });
+    if (cycleWidth <= 0) return;
+
+    const cloneCount = Math.ceil(marquee.offsetWidth / cycleWidth) + 2;
+    for (let index = 0; index < cloneCount; index += 1) {
+      const clone = originalGroup.cloneNode(true) as HTMLElement;
+      clone.removeAttribute("data-source-marquee-group");
+      clone.style.marginRight = `${gap}px`;
+      track.appendChild(clone);
+      clones.push(clone);
+    }
+  };
+
+  const wrapPosition = () => {
+    if (cycleWidth <= 0) return;
+    if (position <= -cycleWidth) position += cycleWidth;
+    else if (position >= 0) position -= cycleWidth;
+  };
+
+  const renderMarquee = () => {
+    if (!inView || cycleWidth <= 0) return;
+    const targetSpeed = paused ? 0 : 1;
+    currentSpeed += (targetSpeed - currentSpeed) * stopSpeed;
+    if (Math.abs(currentSpeed) <= 0.001) return;
+    position += speed * -1 * currentSpeed;
+    wrapPosition();
+    gsap.set(track, { x: position });
+  };
+
+  buildTrack();
+  gsap.ticker.add(renderMarquee);
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      inView = entry.isIntersecting;
+    },
+    { root: null, threshold: 0, rootMargin: "64px 0px" },
+  );
+  observer.observe(marquee);
+
+  const pauseTrigger = ScrollTrigger.create({
+    id: "service-prelude-marquee-pause",
+    trigger: section,
+    start: "bottom bottom",
+    end: "bottom top",
+    onUpdate: (self) => {
+      paused = self.progress >= 0.5;
+    },
+  });
+
+  const resizeObserver = new ResizeObserver(() => {
+    window.cancelAnimationFrame(resizeFrame);
+    resizeFrame = window.requestAnimationFrame(buildTrack);
+  });
+  resizeObserver.observe(marquee);
+  resizeObserver.observe(originalGroup);
+
+  const mm = gsap.matchMedia();
+  mm.add("(min-width: 768px)", () => {
+    if (section.getBoundingClientRect().top <= window.innerHeight * 0.5) return;
+
+    gsap.set(cards, {
+      autoAlpha: 0,
+      rotateX: -92,
+      transformOrigin: "center top",
+      force3D: true,
+    });
+
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        id: "service-prelude-cards-desktop",
+        trigger: section,
+        start: "top center",
+        end: "top top",
+        scrub: 2,
+      },
+    });
+
+    timeline.to(cards, {
+      rotateX: 0,
+      autoAlpha: 1,
+      stagger: { each: 0.6, from: "start" },
+      ease: "none",
+      force3D: true,
+      duration: 2.65,
+      overwrite: true,
+    });
+
+    return () => {
+      timeline.scrollTrigger?.kill();
+      timeline.kill();
+      gsap.set(cards, { clearProps: "opacity,visibility,transform,transformOrigin" });
+    };
+  });
+
+  mm.add("(max-width: 767px)", () => {
+    section.setAttribute("data-service-prelude-mobile-pin", "");
+    gsap.set(cardList, { x: 0 });
+    gsap.set(cards, {
+      rotateX: 0,
+      autoAlpha: 1,
+      force3D: true,
+    });
+
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        id: "service-prelude-cards-mobile-pin",
+        trigger: facts,
+        pin: true,
+        pinSpacing: true,
+        start: "top top",
+        end: "bottom top",
+        anticipatePin: 1,
+        refreshPriority: 2,
+        scrub: 2,
+      },
+    });
+
+    timeline.to(cards[0], {
+      autoAlpha: 1,
+      ease: "power2.out",
+      force3D: true,
+      duration: 0.15,
+    }, 0);
+
+    timeline.to(cardList, {
+      x: () => {
+        const finalCard = cards[cards.length - 1];
+        if (!finalCard) return 0;
+        const listRect = cardList.getBoundingClientRect();
+        const cardRect = finalCard.getBoundingClientRect();
+        const finalCenter = cardRect.left - listRect.left + cardRect.width / 2;
+        const sourceOffset = 0.04 * window.innerWidth;
+        return -(finalCenter - window.innerWidth / 2 + sourceOffset);
+      },
+      ease: "none",
+    }, 0);
+
+    cards.forEach((card, index) => {
+      const position = cards.length > 1 ? index / (cards.length - 1) : 0;
+      if (index > 0) {
+        timeline.to(card, {
+          autoAlpha: 1,
+          ease: "power2.out",
+          force3D: true,
+          duration: 0.15,
+        }, Math.max(0, position - 0.075));
+      }
+    });
+
+    // The local pin spacer extends the prelude before its later shutter trigger.
+    // Refresh once after GSAP has mounted the spacer so that the shutter keeps
+    // its own bottom-bound handoff instead of starting during the card deck.
+    const refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
+
+    return () => {
+      window.cancelAnimationFrame(refreshFrame);
+      timeline.scrollTrigger?.kill();
+      timeline.kill();
+      section.removeAttribute("data-service-prelude-mobile-pin");
+      gsap.set(cardList, { clearProps: "transform" });
+      gsap.set(cards, { clearProps: "opacity,visibility,transform,transformOrigin" });
+    };
+  });
+
+  return () => {
+    mm.revert();
+    pauseTrigger.kill();
+    observer.disconnect();
+    resizeObserver.disconnect();
+    window.cancelAnimationFrame(resizeFrame);
+    gsap.ticker.remove(renderMarquee);
+    gsap.killTweensOf(track);
+    removeClones();
+    originalGroup.style.removeProperty("margin-right");
+    gsap.set(track, { clearProps: "transform" });
+  };
+}
+
 // 02 / Tjenester — source-port of Trionn's verified Selected Work motor.
 // The deployed Trionn phone branch stacks vertically. Tigon deliberately keeps
 // the verified x-axis motor, thresholds and 550px orbit on touch too, while
@@ -2201,6 +2427,10 @@ export function HomeMotion() {
     }
     const teardownOsmoReveal = initContentRevealScroll();
     const teardownOsmoParallax = initGlobalParallax();
+    const teardownServicePrelude = runWhenNear(
+      "[data-service-prelude]",
+      servicePreludeScene,
+    );
     const teardownServices = servicesScene();
     const teardownOutcomeEffect = effectCardsScene();
     let teardownShutter = () => {};
@@ -2333,6 +2563,7 @@ export function HomeMotion() {
       destroyLenis();
       teardownFooterParallax();
       teardownOsmoParallax();
+      teardownServicePrelude();
       teardownServices();
       teardownOsmoReveal();
       teardownOutcomeEffect();

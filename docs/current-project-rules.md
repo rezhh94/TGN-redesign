@@ -75,7 +75,11 @@ Do not introduce visible orange. Do not commit or push unless asked.
 
 ## Mounted section state, not preservation targets
 
-- Intro currently uses an editorial statement, character fill and line/plus.
+- Intro currently uses an editorial statement, character fill and line/plus,
+  followed by a three-card Key Facts-calibrated system prelude, continuous Tigon-word
+  marquee and responsive paper shutter into Tjenester. The prelude adds no
+  transition labels. Its mobile card row uses Trionn's verified pinned,
+  vertical-scroll-driven horizontal branch.
 - Tjenester currently uses five complete service links in a bounded pinned
   desktop panel sequence with a permanent paper information field, alternating
   media fields, one five-band handoff, a pinned tablet branch from 768px and

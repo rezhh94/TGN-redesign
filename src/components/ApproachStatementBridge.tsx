@@ -37,9 +37,6 @@ export function ApproachStatementBridge() {
               <br />
               Synlighet / effekt
             </p>
-            <p className="approach-statement__handoff">
-              01 → 02 / Én helhet. Fem fag.
-            </p>
           </div>
 
           <div className="approach-statement__support-aside" data-intro-support>

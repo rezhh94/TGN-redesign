@@ -12,12 +12,13 @@ and preserve unrelated edits.
 1. Header
 2. Hero
 3. Intro / Tilnærming
-4. Tjenester
-5. Effekt
-6. Arbeid
-7. Prosess
-8. System
-9. Footer
+4. Service prelude
+5. Tjenester
+6. Effekt
+7. Arbeid
+8. Prosess
+9. System
+10. Footer
 
 The body from Intro onward sits on solid semantic surfaces. There is no mounted
 page-wide decorative background system or related media lifecycle.
@@ -58,10 +59,29 @@ page-wide decorative background system or related media lifecycle.
 
 `ApproachStatementBridge` is server-rendered in normal flow. It uses an
 asymmetric 12-column statement, lower support split, real Tjenester action and
-line/plus axis. `IntroServicesJourney` now carries it through a vertical
-selection axis into Tjenester. `introFillScene` enhances the statement with
+line/plus axis. `IntroServicesJourney` then mounts `ServicePrelude` before
+Tjenester. The prelude is a second normal-flow dark chapter with three
+Tigon system cards: `Tre fag. Én helhet.`, `Fem leveranser. Ett ansvar.` and
+`Fire utfall. Samme mål.` Desktop ports Trionn Key Facts' verified
+`perspective: 1400px`, `rotateX: -92`, `scrub: 2`, `duration: 2.65` and `.6`
+stagger reveal for exactly three cards. Card geometry, padding, radius and
+inside type sizes match Trionn Key Facts' responsive source values exactly.
+Below 768px the facts stage ports Trionn's separate
+pinned horizontal branch: `top top` to `bottom top`, `anticipatePin: 1`,
+`scrub: 2`, with the final card calculated into the viewport centre. The local
+pin excludes the following marquee and shutter so their sequence cannot overlap
+the cards.
+
+The prelude closes with `TYDELIGHET / KVALITET / SYNLIGHET / EFFEKT` in a
+source-ported Trionn marquee. It preserves the measured clone count, `.8`
+ticker step, zero gap, `.5` pause lerp and `64px` IntersectionObserver wake
+margin, then pauses halfway through the exit. The existing Osmo shutter owner
+generates 16/10/6 paper rows across desktop/tablet/mobile and covers the dark
+chapter from `bottom bottom` to `bottom top`, revealing the real Tjenester
+surface beneath. `introFillScene` still enhances the original statement with
 character colour progress and small one-shot entries. Reduced motion/no-JS
-expose the final composition.
+show all prelude content statically and generate neither marquee clones nor
+shutter rows.
 
 ### Tjenester
 
@@ -144,6 +164,11 @@ the quiet conclusion into Footer. Both keep complete static content without JS.
 
 ## Motion and lifecycle
 
+- `servicePreludeScene` is one lazy local owner for the three-card desktop
+  reveal, the separate mobile pin/translation branch, measured marquee clones,
+  ticker, wake observer, resize measurement and exit pause.
+  `initShutterScrollTransition` remains the separate existing Osmo owner for
+  generated shutter rows and breakpoint cleanup.
 - `HomeMotion` initializes scoped scene owners and cleanup. Effekt uses one
   owner per active responsive branch; desktop and phone branches each use one
   pinned ScrollTrigger, while 768–900px stays in normal flow.

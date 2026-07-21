@@ -7,6 +7,9 @@ Last reconciled: 2026-07-21.
 - Review the uncommitted Arbeid mobile pilot at 390px before opening the Header
   package. Its source register is `docs/trionn-mobile-source-ledger.md`.
 - Review the source-ported horizontal Tjenester track against `design.md`.
+- Review the new Intro→Tjenester prelude at 390, 768, 1024 and 1440px: three
+  source-sized desktop cards, source-ported pinned mobile card row, marquee cadence,
+  16/10/6-row shutter and the clean release into the existing service track.
 - Visually confirm the source-matched typography and button roles at 390, 768,
   1024 and 1440px; the code values are recorded in
   `docs/trionn-typography-source-ledger.md`.

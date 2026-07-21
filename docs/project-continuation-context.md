@@ -5,9 +5,10 @@ Last reconciled: 2026-07-21.
 ## Worktree boundary
 
 The current branch is `codex/trionn-mobile-parity` at committed HEAD
-`4a331f3`. The current uncommitted work is the source-ported horizontal
-`02 / Tjenester` track, its shared action component, motion owner, paper tokens
-and reconciled active documentation.
+`33ce111`. The current uncommitted work is the new Intro→Tjenester prelude:
+three server-rendered Tigon system cards with source-exact Trionn Key Facts
+geometry and type sizing, the verified Trionn marquee
+motor, the existing Osmo shutter owner and reconciled active documentation.
 The rejected phone-deck experiment is preserved outside the repository at
 `/private/tmp/tigon-phone-deck-rejected-2026-07-21.patch` with SHA-256
 `ad244ea2b8095f9e37cb7bd84052f695bb644513749b21a6b8b085f8aee2c7ac`.
@@ -27,11 +28,14 @@ publishing is later requested.
 
 ## Mounted journey
 
-Header → Hero → Intro → Tjenester → Effekt → Arbeid → Prosess → System →
-Footer.
+Header → Hero → Intro → Service prelude → Tjenester → Effekt → Arbeid →
+Prosess → System → Footer.
 
-Intro remains the committed responsive baseline. Tjenester is currently an
-uncommitted source-port of Trionn's verified Selected Work construction: one
+Intro keeps its committed responsive statement, followed by a new normal-flow
+prelude before Tjenester. The prelude contains three factual Tigon system
+cards, a source-ported continuous marquee and a responsive paper shutter.
+Decorative `01 → 02` handoff labels are not mounted. Tjenester
+remains the committed source-port of Trionn's verified Selected Work construction: one
 horizontal half-panel track on desktop and the same horizontal motor over
 source-width mobile cards. It keeps all five real service destinations and
 Tigon-owned media, then exits left over a matching Effekt opening. `b9b4b5a`

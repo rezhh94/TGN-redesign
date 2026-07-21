@@ -568,6 +568,18 @@ export function initShutterScrollTransition(root: ParentNode = document) {
   const buildInstance = (wrapper: HTMLElement): ShutterInstance => {
     const mode = getMode(wrapper);
     const section = wrapper.closest("section") ?? wrapper.parentElement ?? wrapper;
+    const getScrollPosition = (position: string) => {
+      const offsetSelector = wrapper.dataset.scrollOffsetMobile;
+      if (!offsetSelector || !window.matchMedia(breakpoints.landscape).matches) {
+        return position;
+      }
+      const offsetTarget = section.querySelector<HTMLElement>(offsetSelector);
+      const offset = offsetTarget?.offsetHeight ?? 0;
+      if (!offset) return position;
+      const [triggerPoint, ...scrollerPoint] = position.trim().split(/\s+/);
+      if (!triggerPoint || !scrollerPoint.length) return position;
+      return `${triggerPoint}+=${offset} ${scrollerPoint.join(" ")}`;
+    };
     const panel = document.createElement("div");
     panel.classList.add(panelClass);
     panel.setAttribute("data-shutter-scroll-panel", "");
@@ -592,8 +604,12 @@ export function initShutterScrollTransition(root: ParentNode = document) {
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: wrapper.dataset.scrollStart || defaultScrollStart[mode],
-        end: wrapper.dataset.scrollEnd || defaultScrollEnd[mode],
+        start: () => getScrollPosition(
+          wrapper.dataset.scrollStart || defaultScrollStart[mode],
+        ),
+        end: () => getScrollPosition(
+          wrapper.dataset.scrollEnd || defaultScrollEnd[mode],
+        ),
         scrub: defaultScrub,
         invalidateOnRefresh: true,
       },

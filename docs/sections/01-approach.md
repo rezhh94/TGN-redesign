@@ -12,13 +12,13 @@ Last reconciled: 2026-07-21. Mounted baseline commit: `af6f28f`.
 - The server-rendered statement is the canonical Tigon positioning:
   `High-end nettsider, apper og digitale systemer hvor design, teknologi og
   synlighet bygges som én helhet.`
-- Familjen Grotesk owns the large sentence-case statement, chapter label,
-  three-part register and handoff. PP Neue Montreal owns its supporting copy;
+- Familjen Grotesk owns the large sentence-case statement, chapter label and
+  three-part register. PP Neue Montreal owns its supporting copy;
   Martian Mono Standard Light owns the text action. The section
   uses the shared `statement`, `lead`, `meta`, text and line roles.
 - The lower composition keeps `Design / tydelighet`,
-  `Teknologi / kvalitet`, `Synlighet / effekt`, the server-rendered
-  `01 → 02 / Én helhet. Fem fag.` handoff and one explanation. The real CTA
+  `Teknologi / kvalitet`, `Synlighet / effekt` and one explanation. Decorative
+  `01 → 02` handoff copy is intentionally absent. The real CTA
   points to the existing `#what-build-title` target; no new route is invented.
 - Main statement motion splits only after hydration and interpolates each
   character from `text-faint` to its CSS final colour. Trigger is the statement,
@@ -42,6 +42,9 @@ Last reconciled: 2026-07-21. Mounted baseline commit: `af6f28f`.
   beyond one viewport rather than compress its copy.
 - It uses the solid `surface-base` role. No decorative background media,
   canvas, texture or lighting layer exists.
-- Reduced motion and no-JS keep the complete statement, separator, support,
-  action and handoff visible with no transforms. Header and Hero are also open
+- Reduced motion and no-JS keep the complete statement, separator, support and
+  action visible with no transforms. Header and Hero are also open
   to redesign when included in the task scope.
+- `ApproachStatementBridge` now hands off to the separate, documented
+  `ServicePrelude` chapter before `WhatWeBuild`; its own markup, copy and motion
+  remain unchanged by that addition. See `docs/sections/01-02-service-prelude.md`.

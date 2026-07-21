@@ -66,7 +66,10 @@ Status: implemented in the current worktree.
 
 ## Boundaries
 
-- Section order is unchanged: Intro → Tjenester → Effekt.
+- Section order is now Intro → ServicePrelude → Tjenester → Effekt.
+- The incoming paper shutter belongs to `ServicePrelude`; the existing
+  horizontal Tjenester motor still begins on the real `WhatWeBuild` root and
+  retains its own complete measurement and cleanup.
 - Header and Hero are unchanged. Effekt content is unchanged; its motion start
   is now sharp so it matches the visual opening exposed beneath Tjenester.
 - Metadata, schema, sitemap, robots, canonical, URLs, slugs, NAP and service

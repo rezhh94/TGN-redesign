@@ -145,17 +145,6 @@
   line-height: var(--type-lead-md-leading);
 }
 
-.approach-statement__handoff {
-  margin: clamp(28px, 4vh, 48px) 0 0;
-  color: var(--text-faint);
-  font-family: var(--font-title), sans-serif;
-  font-size: var(--type-meta-md-size);
-  font-weight: var(--weight-regular);
-  letter-spacing: var(--mono-track);
-  line-height: var(--type-meta-leading);
-  text-transform: uppercase;
-}
-
 .approach-statement__link {
   display: flex;
   align-items: center;
