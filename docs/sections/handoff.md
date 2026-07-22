@@ -1,6 +1,6 @@
 # Homepage handoffs — active contract
 
-Last reconciled: 2026-07-20.
+Last reconciled: 2026-07-22.
 
 ## Hero → 01 → 02
 
@@ -19,32 +19,30 @@ Last reconciled: 2026-07-20.
 
 ## 02 → 03
 
-- Tjenester still releases directly into the real Effekt section; no duplicate
-  bridge headline or `outcome-effect-journey` wrapper is mounted.
-- Five dark bands close over the final Tjenester panel and finish as one dark
-  viewport. Effekt is pulled forward by one matching dark viewport so its
-  pinned title phase starts as the shutter completes, without a blank hold.
-- The Effekt title is a separate fixed-centre layer. It appears only after the
-  shutter, animates with opacity and blur only, and never translates, scales or
-  gets clipped by a moving band. At the completed handoff, Effekt becomes the
-  front scene so the outgoing shutter cannot mask part of the title. The same
-  separation applies below 768px.
-- Below 768px there is no section overlap: the mobile shutter consumes the
-  final service viewport and Effekt starts at its natural end boundary.
-- `effectCardsScene` pins at `top top`. The wide end is `4.6 * innerHeight` on
-  non-touch and `3.9 * innerHeight` on touch. Card progress uses the
-  source-matched `.08` smoothing factor; pin spacing and `anticipatePin: 1`
-  remain enabled. Below 768px, a separate five-viewport pin preserves Trionn's
-  single-lane card-over-image logic. Widths 768–900px, reduced motion and no-JS
-  remain in normal flow.
+- Tjenester still releases directly into the real Effekt section; no separate
+  `outcome-effect-journey` wrapper is mounted.
+- The final Tjenester plane moves left to expose a complete white Effekt intro
+  beneath it. It follows Trionn's verified embedded-next-scene construction:
+  the outgoing Selected Work layer is `z-2`; the next full-viewport typography
+  scene is `z-1`, with a top label, four large centred lines and bottom copy.
+- Tigon's intro reads `DESIGN / TEKNOLOGI / SYNLIGHET / ÉN HELHET`, framed by
+  `FRA TJENESTER TIL RESULTAT` and `ULIKE FAG. ÉN SAMLET RETNING.` Once it owns
+  the viewport, the real Paperfold Effekt section rises from below and covers
+  it with `03 / Effekt` and `Effekt som kan måles.`. The result-chain words are
+  reserved for the cards, and the section number appears only once.
+- `effectCardsScene` then owns only the verified Paperfold reveals and desktop
+  heading pin. It does not pin the complete section or create a fixed multi-
+  viewport card theatre.
+- Reduced motion and no-JS skip the overlap and continue through both sections
+  in ordinary document flow.
 
 ## 03 → 04
 
-- The four cards traverse the scene continuously and fade at the path edges.
-  The central Tigon image remains on the shared axis until the pin releases;
-  the opening copy has already faded.
-- Effekt then releases directly into the mounted `WorkProof` section, whose
-  existing `Dette kan Tigon lage` title rises on the same central axis.
+- The four Paperfold cards and closing tagline finish in the light section's
+  normal document flow. The real dark `WorkProof` opening follows directly;
+  there is no generated wipe, duplicate title, preview image or empty white
+  hold.
+- Reduced motion and no-JS keep the same ordinary light-to-dark boundary.
 
 ## 04 → 05
 

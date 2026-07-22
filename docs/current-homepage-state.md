@@ -1,6 +1,6 @@
 # Current homepage state
 
-Last reconciled: 2026-07-21.
+Last reconciled: 2026-07-22.
 
 This file describes what is mounted now. Historical experiments are not design
 authority. The committed Tjenester→Effekt recovery point is `b9b4b5a`, built on the
@@ -111,31 +111,36 @@ complete vertical flow without pins or hidden text.
 
 ### Effekt
 
-`WhatWeImprove` follows Tjenester directly. `Effekt som kan måles.` and its
-supporting sentence start sharp to match the exposed underlay, then
-remain in the same fixed centre position while four semantic result cards —
-FUNNET, FORSTÅTT, VALGT and MÅLT — pass around or over the title. The title
-blurs out only at the scene exit. The result scene itself stays typographic;
-it contains no outgoing image aperture or duplicated Arbeid preview. From
-901px, the cards use Trionn's source-verified continuous paired
-paths instead of a Tigon-authored landing: left cards travel bottom-to-top,
-right cards top-to-bottom, and each bends toward its side lane only during the
-first half. At 901–1511px cards are `42%` of viewport width; from 1512px they
-are `28%`; height is `32%` of viewport height. Each pair uses 13 samples,
-duration `.45` and pair offset `.2`. Below 768px, the title remains centred
-while the cards move over it through one 24px-gutter vertical lane: width
-`viewport - 48px`, height `55%` of
-card width, 13 samples, duration `.3`, offsets `.12` and edge fades at
-`.15/.85`. At every width the final Tjenester paper plane moves left and reveals
-the matching Effekt opening; its accessible heading remains owned by the real
-Effect section and does not move with the outgoing layer. The real Effekt scene
-starts in the same sharp state when the Tjenester pin releases, preventing a
-visible opacity/blur jump. The phone card sequence reaches the unchanged `.66`
-card threshold in a five-viewport scene. The title remains sharp before the
-unchanged `.56` card threshold and remains present through the card phase. Both use
-smoothing factor `.08`. Widths 768–900px use a two-column normal-flow layout. Reduced
-motion and no-JS expose the complete normal-flow composition. No Trionn media,
-graphics, reference font binaries or identity assets are mounted.
+`WhatWeImprove` follows Tjenester as a light editorial Paperfold field adapted
+from Trionn `/about`'s live `Our values` component. Before it enters, the final
+Tjenester plane exposes a complete white Effekt intro beneath it. The verified
+Trionn layer model is retained: outgoing Selected Work at `z-2`, embedded next
+scene at `z-1`. Tigon replaces Trionn's service words with the result stack
+`DESIGN / TEKNOLOGI / SYNLIGHET / ÉN HELHET`, framed by `FRA TJENESTER TIL
+RESULTAT` and `ULIKE FAG. ÉN SAMLET RETNING.` The four result words remain
+reserved for the Paperfold cards. The real section then rises from below and
+covers the intro with the only `03 / Effekt` label and the single semantic
+`Effekt som kan måles.` heading.
+
+The semantic `Effekt som kan måles.` H2 sits in a 12-column opening beside the
+supporting sentence. Four complete HTML cards — FUNNET, FORSTÅTT, VALGT and
+MÅLT — sit in an eight-column stack. The construction keeps Trionn's verified
+24px grid gap, 24/40px gutters, 80/150px section padding, 32px card padding,
+2px stack gap, 4px radius and 2500px perspective.
+
+Each card starts at `rotateX: -90` with a top-centre origin. Cards enter at
+`.5 * index`; the fold uses `.6 / power2.out`, inner content begins at `+.09`
+for `.36 / power1.in`, and the `.08` fold shadow clears from `+.18` over `.42 /
+power1.out`. Scroll starts at `top 65%`, `top 70%` or `top 80%` across
+phone/tablet/desktop and allocates respectively `180`, `200` or `150px` per
+card. From 1024px the heading pins without added spacing until the stack and
+tagline have passed. The title uses the verified 12px-blur character reveal;
+support copy uses the verified 20px, .8-second fade.
+
+There is no mounted animal, image, video, canvas, Three.js, particle field,
+SVG icon drawing or stripe wipe. Reduced motion and no-JS expose the complete
+normal-flow composition. Trionn code is rebuilt against local APIs; no Trionn
+bundle, media, font, content or identity asset is imported.
 
 ### Arbeid
 

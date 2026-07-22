@@ -1,32 +1,89 @@
+/* 03 / Effekt — Tigon adaptation of Trionn /about's verified Paperfold section.
+   Source values retained where they define the construction: 12-column grid,
+   24px gaps, 80/150px section rhythm, 32px cards and 2500px perspective. */
 .what-improve {
   position: relative;
+  z-index: var(--z-content);
+  width: 100%;
   overflow: clip;
-  background: var(--surface-deep);
-  color: var(--text-strong);
-  isolation: isolate;
+  background: linear-gradient(
+    0deg,
+    var(--paper-track-surface-start) 0%,
+    var(--paper-track-surface-end) 100%
+  );
+  color: var(--paper-text-heading);
 }
 
-.what-improve[data-effect-overlap-ready] {
-  margin-top: -100svh;
-}
-
-.what-improve[data-effect-front] {
-  z-index: var(--z-local-overlay);
-}
-
-.what-improve__stage {
-  position: relative;
+.what-improve__container {
   width: min(100%, var(--page-max));
-  min-height: max(760px, 100svh);
-  margin: 0 auto;
-  padding: clamp(40px, 5vh, 64px) var(--homepage-gutter)
-    clamp(32px, 4vh, 48px);
+  margin-inline: auto;
+  padding-inline: 24px;
 }
 
-.what-improve__rail,
-.what-improve__card header,
-.what-improve__card footer,
-.what-improve__eyebrow {
+.what-improve__rule {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+  align-items: center;
+  height: 13px;
+}
+
+.what-improve__rule span {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--paper-track-line);
+  transform: translateY(-50%);
+}
+
+.what-improve__rule svg {
+  position: relative;
+  grid-column: 7;
+  width: 13px;
+  height: 13px;
+  justify-self: center;
+  color: var(--paper-text-heading);
+}
+
+.what-improve__rule path {
+  stroke: currentColor;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.what-improve__value-block {
+  display: flex;
+  flex-direction: column;
+  padding-block: 80px;
+}
+
+.what-improve__intro,
+.what-improve__content-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+}
+
+.what-improve__intro {
+  margin-bottom: 64px;
+}
+
+.what-improve__heading,
+.what-improve__summary,
+.what-improve__stack-wrap {
+  grid-column: 1 / -1;
+}
+
+.what-improve__heading {
+  align-self: start;
+}
+
+.what-improve__eyebrow,
+.what-improve__tagline {
+  margin: 0;
   font-family: var(--font-meta);
   font-size: var(--type-meta-sm-size);
   font-weight: var(--weight-mono);
@@ -35,474 +92,191 @@
   text-transform: uppercase;
 }
 
-.what-improve__rail {
-  position: absolute;
-  right: var(--homepage-gutter);
-  left: var(--homepage-gutter);
-  z-index: 4;
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-6);
-  color: var(--text-quiet);
+.what-improve__eyebrow {
+  margin-bottom: var(--space-6);
+  color: var(--paper-text-label);
 }
 
-.what-improve__rail {
-  top: clamp(40px, 5vh, 64px);
-}
-
-.what-improve__rail p {
+.what-improve__title {
   margin: 0;
-}
-
-.what-improve__rail p:last-child {
-  text-align: right;
-}
-
-.what-improve__center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 3;
-  display: grid;
-  width: min(38vw, 580px);
-  text-align: center;
-  transform: translate(-50%, -50%);
-  transform-origin: center;
-}
-
-.what-improve__prelude {
-  display: flex;
-  align-self: center;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: min(38vw, 580px);
-  margin: 0;
-  justify-self: center;
-}
-
-.what-improve__prelude h2 {
-  margin: 0;
+  max-width: 8ch;
+  color: var(--paper-text-heading);
   font-family: var(--font-body), sans-serif;
   font-size: var(--type-display-2xl-size);
   font-weight: var(--weight-regular);
   letter-spacing: var(--type-display-2xl-track);
   line-height: var(--type-display-2xl-leading);
-  text-transform: uppercase;
+  text-wrap: balance;
 }
 
-.what-improve__prelude h2 span {
-  display: block;
+.what-improve__title-word {
+  display: inline-block;
+  white-space: nowrap;
 }
 
-.what-improve__eyebrow {
-  margin: 0 0 var(--space-6);
-  color: var(--text-quiet);
-  font-family: var(--font-title), sans-serif;
-  font-weight: var(--weight-regular);
+.what-improve__title-word:not(:last-child) {
+  margin-right: 0.22em;
 }
 
-.what-improve__lead {
-  max-width: 42ch;
-  margin: var(--space-6) auto 0;
-  color: var(--text-medium);
+.what-improve__title-char {
+  display: inline-block;
+}
+
+.what-improve__summary {
+  align-self: end;
+  max-width: 400px;
+  margin: var(--space-8) 0 0;
+  color: var(--paper-text-body);
   font-family: var(--font-primary);
   font-size: var(--type-body-md-size);
   line-height: var(--type-body-md-leading);
 }
 
-.what-improve__cards {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
+.what-improve__stack-wrap {
+  min-width: 0;
+}
+
+.what-improve__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   margin: 0;
   padding: 0;
+  perspective: 2500px;
   list-style: none;
-  pointer-events: none;
 }
 
 .what-improve__card {
-  position: absolute;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--tigon-paper);
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.what-improve__card-inner {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  width: min(27vw, 420px);
-  min-height: clamp(220px, 27vh, 292px);
-  padding: var(--space-6);
-  border: 1px solid var(--line-default);
-  background: color-mix(in srgb, var(--surface-raised) 88%, transparent);
-  box-shadow: 0 24px 80px rgb(0 0 0 / 0.18);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  padding: 32px;
 }
 
-.what-improve__card--funnet {
-  top: 11%;
-  left: var(--homepage-gutter);
-}
-
-.what-improve__card--forstatt {
-  top: 11%;
-  right: var(--homepage-gutter);
-}
-
-.what-improve__card--valgt {
-  bottom: 9%;
-  left: var(--homepage-gutter);
-}
-
-.what-improve__card--malt {
-  right: var(--homepage-gutter);
-  bottom: 9%;
-}
-
-.what-improve__card header,
-.what-improve__card footer {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-4);
-  color: var(--text-quiet);
-}
-
-.what-improve__card header span:last-child,
-.what-improve__card footer span:last-child {
-  text-align: right;
+.what-improve__card h3,
+.what-improve__card p {
+  grid-column: 1 / -1;
+  align-self: center;
+  margin: 0;
 }
 
 .what-improve__card h3 {
-  margin: var(--space-8) 0 var(--space-6);
-  font-family: var(--font-body), sans-serif;
+  color: var(--paper-text-heading);
+  font-family: var(--font-title), sans-serif;
   font-size: var(--type-display-lg-size);
   font-weight: var(--weight-regular);
   letter-spacing: var(--type-display-lg-track);
-  line-height: var(--type-display-lg-leading);
+  line-height: 1;
 }
 
-.what-improve__card > p {
-  max-width: 34ch;
-  margin: 0;
-  color: var(--text-medium);
+.what-improve__card p {
+  color: var(--paper-text-body);
   font-family: var(--font-primary);
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-leading);
 }
 
-.what-improve__card footer {
-  align-items: end;
-  margin-top: var(--space-8);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--line-default);
+.what-improve__card-shadow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgb(0 0 0 / 0.8);
+  opacity: 0;
+  pointer-events: none;
 }
 
-.what-improve[data-effect-ready] .what-improve__stage {
-  height: 100svh;
-  min-height: 0;
-  overflow: hidden;
+.what-improve__tagline {
+  padding-top: 40px;
+  color: var(--paper-text-heading);
 }
 
-.what-improve[data-effect-ready] .what-improve__center,
-.what-improve[data-effect-ready] .what-improve__card {
-  will-change: opacity, transform;
-}
-
-.what-improve[data-effect-ready] .what-improve__prelude,
-.what-improve[data-effect-mobile-ready] .what-improve__prelude {
-  grid-area: 1 / 1;
-}
-
-.what-improve[data-effect-ready] .what-improve__center {
-  width: min(38vw, 580px);
-}
-
-.what-improve[data-effect-ready] .what-improve__card,
-.what-improve[data-effect-ready] .what-improve__card--funnet,
-.what-improve[data-effect-ready] .what-improve__card--forstatt,
-.what-improve[data-effect-ready] .what-improve__card--valgt,
-.what-improve[data-effect-ready] .what-improve__card--malt {
-  inset: 0 auto auto 0;
-}
-
-@media (max-width: 1100px) and (min-width: 901px) {
-  .what-improve__center {
-    width: 33vw;
+@media (min-width: 768px) {
+  .what-improve__container {
+    padding-inline: 40px;
   }
 
-  .what-improve__prelude {
-    width: 100%;
+  .what-improve__intro,
+  .what-improve__content-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
-  .what-improve__card {
-    width: 29vw;
-    min-height: 220px;
-    padding: var(--space-5);
+  .what-improve__heading {
+    grid-column: 2 / span 5;
   }
 
-  .what-improve__card h3 {
-    margin-top: var(--space-6);
-    margin-bottom: var(--space-4);
-    font-size: var(--type-display-md-size);
-    line-height: var(--type-display-md-leading);
+  .what-improve__summary {
+    grid-column: 7 / span 5;
+    margin-top: 0;
+  }
+
+  .what-improve__stack-wrap {
+    grid-column: 2 / span 10;
+  }
+
+  .what-improve__card-inner {
+    gap: 24px;
+  }
+
+  .what-improve__card h3,
+  .what-improve__card p {
+    grid-column: span 6;
   }
 }
 
-@media (max-width: 900px) {
-  .what-improve {
-    overflow: visible;
+@media (min-width: 1024px) {
+  .what-improve__value-block {
+    padding-block: 150px;
   }
 
-  .what-improve__stage {
-    min-height: 0;
-    padding-top: clamp(104px, 13vh, 144px);
-    padding-bottom: clamp(96px, 12vh, 136px);
+  .what-improve__intro {
+    margin-bottom: 80px;
   }
 
-  .what-improve__rail {
-    position: static;
+  .what-improve__heading {
+    grid-column: 2 / span 4;
   }
 
-  .what-improve__center {
-    position: static;
-    width: min(100%, 620px);
-    margin-top: var(--space-24);
-    text-align: left;
-    transform: none;
+  .what-improve__summary {
+    grid-column: 6 / span 6;
   }
 
-  .what-improve__prelude {
-    align-items: flex-start;
-    text-align: left;
+  .what-improve__stack-wrap {
+    grid-column: 5 / span 8;
   }
-
-  .what-improve__eyebrow {
-    margin-bottom: var(--space-5);
-  }
-
-  .what-improve__lead {
-    max-width: 38ch;
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  .what-improve__cards {
-    position: static;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--grid-gutter);
-    margin-top: var(--space-20);
-    pointer-events: auto;
-  }
-
-  .what-improve__card,
-  .what-improve__card--funnet,
-  .what-improve__card--forstatt,
-  .what-improve__card--valgt,
-  .what-improve__card--malt {
-    position: relative;
-    inset: auto;
-    width: auto;
-    min-height: 300px;
-  }
-
 }
 
-@media (max-width: 640px) {
-  .what-improve__stage {
-    padding-right: 20px;
-    padding-left: 20px;
+@media (max-width: 767px) {
+  .what-improve__title {
+    max-width: 9ch;
   }
 
-  .what-improve__rail p:last-child {
-    max-width: 18ch;
-  }
-
-  .what-improve__center {
-    margin-top: var(--space-20);
-  }
-
-  .what-improve__prelude h2 {
-    font-size: var(--type-h2-size);
-  }
-
-  .what-improve__cards {
-    grid-template-columns: 1fr;
-    margin-top: var(--space-16);
-  }
-
-  .what-improve__card,
-  .what-improve__card--funnet,
-  .what-improve__card--forstatt,
-  .what-improve__card--valgt,
-  .what-improve__card--malt {
-    min-height: 264px;
-  }
-
-}
-
-@media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
-  .what-improve[data-effect-overlap-ready] {
-    margin-top: -100svh;
-  }
-
-  .what-improve[data-effect-mobile-ready] {
-    overflow: clip;
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__stage {
-    height: 100svh;
-    min-height: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__rail {
-    position: absolute;
-    right: 20px;
-    left: 20px;
-    z-index: var(--z-local-overlay);
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__rail {
-    top: clamp(88px, 12svh, 120px);
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 3;
-    display: grid;
-    width: calc(100vw - 48px);
-    height: auto;
-    max-width: none;
-    margin: 0;
-    text-align: center;
-    transform: translate(-50%, -50%);
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__prelude {
-    grid-area: 1 / 1;
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__prelude {
-    position: relative;
-    z-index: 2;
-    align-items: center;
-    width: 100%;
-    text-align: center;
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__prelude h2 {
-    font-size: var(--type-h2-size);
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__lead {
+  .what-improve__summary {
     max-width: 30ch;
-    margin-right: auto;
-    margin-left: auto;
   }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__cards {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    display: block;
-    margin: 0;
-    pointer-events: none;
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__card,
-  .what-improve[data-effect-mobile-ready] .what-improve__card--funnet,
-  .what-improve[data-effect-mobile-ready] .what-improve__card--forstatt,
-  .what-improve[data-effect-mobile-ready] .what-improve__card--valgt,
-  .what-improve[data-effect-mobile-ready] .what-improve__card--malt {
-    position: absolute;
-    inset: 0 auto auto 0;
-    width: calc(100% - 48px);
-    height: calc((100vw - 48px) * 0.55);
-    min-height: 0;
-    padding: 12px;
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__card h3 {
-    margin: 8px 0 6px;
-    font-size: var(--type-h3-size);
-    letter-spacing: var(--type-h3-track);
-    line-height: var(--type-h3-leading);
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__card header,
-  .what-improve[data-effect-mobile-ready] .what-improve__card footer {
-    font-size: var(--type-button-size);
-    letter-spacing: var(--type-button-track);
-    line-height: var(--type-button-leading);
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__card > p {
-    font-size: var(--type-small-size);
-    line-height: var(--type-small-leading);
-  }
-
-  .what-improve[data-effect-mobile-ready] .what-improve__card footer {
-    margin-top: 8px;
-    padding-top: 7px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) and (min-width: 901px),
-  (scripting: none) and (min-width: 901px) {
-  .what-improve {
-    overflow: visible;
-  }
-
-  .what-improve__stage {
-    min-height: 0;
-    padding-top: clamp(104px, 13vh, 144px);
-    padding-bottom: clamp(96px, 12vh, 136px);
-  }
-
-  .what-improve__rail {
-    position: static;
-  }
-
-  .what-improve__center {
-    position: static;
-    width: min(100%, 620px);
-    margin-top: var(--space-24);
-    text-align: left;
-    transform: none;
-  }
-
-  .what-improve__lead {
-    max-width: 38ch;
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  .what-improve__cards {
-    position: static;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--grid-gutter);
-    margin-top: var(--space-20);
-    pointer-events: auto;
-  }
-
-  .what-improve__card,
-  .what-improve__card--funnet,
-  .what-improve__card--forstatt,
-  .what-improve__card--valgt,
-  .what-improve__card--malt {
-    position: relative;
-    inset: auto;
-    width: auto;
-    min-height: 300px;
-  }
-
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .what-improve__center,
-  .what-improve__card {
+  .what-improve__card,
+  .what-improve__card-inner,
+  .what-improve__title,
+  .what-improve__title-char,
+  .what-improve__summary,
+  .what-improve__tagline {
     opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
     transform: none !important;
   }
 }

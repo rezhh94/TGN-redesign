@@ -5,10 +5,17 @@ Last reconciled: 2026-07-22.
 ## Worktree boundary
 
 The current branch is `codex/trionn-mobile-parity` at committed HEAD
-`5749d34`. The current uncommitted work removes a duplicate mobile trigger
-offset from the Intro→Tjenester shutter. GSAP already includes the facts pin
-spacer in the service-prelude section bottom; using that measured bottom makes
-the six mobile shutter rows visible across the real dark-to-paper handoff.
+`5749d34`. The current uncommitted work redesigns `03 / Effekt`: a user-supplied
+video/particle trial was stopped and removed from the mounted direction. The
+replacement adapts Trionn `/about`'s live, first-party `Our values` Paperfold
+construction to the real `Effekt som kan måles.` heading and four Tigon result
+cards. The section is now a light editorial field with source-verified 3D fold,
+responsive scroll distances and desktop heading pin values; it has no mounted
+media object, particles, DrawSVG symbols or stripe wipe. The same work also
+removes a duplicate
+mobile trigger offset from the Intro→Tjenester shutter. GSAP already includes
+the facts pin spacer in the service-prelude section bottom; using that measured
+bottom makes the six mobile shutter rows visible across the real dark-to-paper handoff.
 The rejected phone-deck experiment is preserved outside the repository at
 `/private/tmp/tigon-phone-deck-rejected-2026-07-21.patch` with SHA-256
 `ad244ea2b8095f9e37cb7bd84052f695bb644513749b21a6b8b085f8aee2c7ac`.
@@ -38,18 +45,17 @@ Decorative `01 → 02` handoff labels are not mounted. Tjenester
 remains the committed source-port of Trionn's verified Selected Work construction: one
 horizontal half-panel track on desktop and the same horizontal motor over
 source-width mobile cards. It keeps all five real service destinations and
-Tigon-owned media, then exits left over a matching Effekt opening. `b9b4b5a`
-stores the connected Effekt recovery
-point: `Effekt som kan måles.` as a fixed central anchor and four scroll-driven
-result cards with the source-verified desktop and phone paths. The mounted identity uses the official
+Tigon-owned media, then exits left over a matching light Paperfold Effekt
+opening. `b9b4b5a` remains a historical recovery point for the replaced dark
+card-current direction, not the active baseline. The mounted identity uses the official
 final Tigon lockup, wordmark, mark and favicons. The Effekt material image is
 no longer mounted. Arbeid is
 capability-led and never a false portfolio claim. No visual section is
 protected: Header, Hero, all body chapters, handoffs, Arbeid and Footer may be
 redesigned.
 
-The page body still uses solid semantic surfaces. Effekt's result scene remains
-typographic and mounts no outgoing image bridge. Arbeid begins its own title
+The page body still uses solid semantic surfaces. Effekt is now a media-free
+light Paperfold field and mounts no outgoing image bridge. Arbeid begins its own title
 traversal while entering the shared dark surface; its first real capability
 media becomes the single opening object only at the Arbeid pin boundary. The
 desktop pin then uses one scroll-controlled Orbit Tiles owner for all six

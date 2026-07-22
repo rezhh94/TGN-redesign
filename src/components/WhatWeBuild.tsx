@@ -43,6 +43,13 @@ const services = [
   },
 ] as const;
 
+const effectIntroWords = [
+  "DESIGN",
+  "TEKNOLOGI",
+  "SYNLIGHET",
+  "ÉN HELHET",
+] as const;
+
 export function WhatWeBuild() {
   return (
     <section
@@ -59,24 +66,19 @@ export function WhatWeBuild() {
           data-service-underlay
           aria-hidden="true"
         >
-          <div className="service-work__effect-stage">
-            <div className="service-work__effect-rail">
-              <p>03 / Effekt</p>
-              <p>Funnet / Forstått / Valgt / Målt</p>
+          <div className="service-work__effect-intro">
+            <p className="service-work__effect-intro-label">
+              Fra tjenester til resultat
+            </p>
+
+            <div className="service-work__effect-intro-words">
+              {effectIntroWords.map((word) => (
+                <span key={word}>{word}</span>
+              ))}
             </div>
 
-            <div className="service-work__effect-center">
-              <p className="service-work__effect-eyebrow">
-                Fra tjenester til resultat
-              </p>
-              <div className="service-work__effect-title">
-                <span>Effekt som</span>
-                <span>kan måles.</span>
-              </div>
-              <p className="service-work__effect-lead">
-                Design, teknologi og synlighet bygget for å bli funnet,
-                forstått, valgt og målt.
-              </p>
+            <div className="service-work__effect-intro-footer">
+              <span>✦ Ulike fag. Én samlet retning.</span>
             </div>
           </div>
         </div>

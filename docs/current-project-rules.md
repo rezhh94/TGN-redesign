@@ -1,6 +1,6 @@
 # Current project rules
 
-Last reconciled: 2026-07-21.
+Last reconciled: 2026-07-22.
 
 Read `docs/project-continuation-context.md`, `docs/current-homepage-state.md`,
 `design.md`, the relevant section contract and `docs/remaining-work.md` before
@@ -84,10 +84,11 @@ Do not introduce visible orange. Do not commit or push unless asked.
   desktop panel sequence with a permanent paper information field, alternating
   media fields, one five-band handoff, a pinned tablet branch from 768px and
   normal-flow phone, reduced-motion and no-JS fallbacks.
-- Effekt currently follows Tjenester through a five-band dark shutter. Its
-  separate fixed central result statement resolves from blur after the shutter before
-  four `FUNNET / FORSTÅTT / VALGT / MÅLT` cards enter opposing vertical currents
-  over the same title. No Effekt background or foreground image is mounted.
+- Effekt currently follows Tjenester through the connected paper-plane exit.
+  It adapts Trionn `/about`'s verified `Our values` Paperfold construction to
+  Tigon's result system. The light editorial field holds the semantic heading
+  and four folding cards for `FUNNET`, `FORSTÅTT`, `VALGT` and `MÅLT`. It uses
+  no image, video, particles, Three.js, icon drawing or decorative object.
 - Arbeid currently uses six future-facing capability links in `WorkProof`.
 - Prosess currently presents Retning, Bygg and Live.
 - System currently closes into Footer.

@@ -1,12 +1,16 @@
 # Tigon — remaining work
 
-Last reconciled: 2026-07-21.
+Last reconciled: 2026-07-22.
 
 ## Current review gate
 
 - Review the uncommitted Arbeid mobile pilot at 390px before opening the Header
   package. Its source register is `docs/trionn-mobile-source-ledger.md`.
 - Review the source-ported horizontal Tjenester track against `design.md`.
+- Review the new Paperfold Effekt sequence at 390, 768, 1024 and 1440px:
+  continuous light Tjenester handoff, readable title reveal, four folding result
+  cards, desktop heading pin, reverse scroll and the direct light-to-dark Arbeid
+  boundary.
 - Review the new Intro→Tjenester prelude at 390, 768, 1024 and 1440px: three
   source-sized desktop cards, source-ported pinned mobile card row, marquee cadence,
   16/10/6-row shutter and the clean release into the existing service track.
@@ -34,10 +38,10 @@ Last reconciled: 2026-07-21.
 
 ## Open design work
 
-- Original Tigon background art direction is intentionally postponed. It has
-  no mounted owner or approved asset recipe.
+- The stopped Effekt video/object trial is not mounted. Its processed local
+  derivatives were removed from the repository before review.
 - The former Effekt material image remains available as an unused local asset,
-  but the mounted scene is currently typographic only.
+  but the mounted scene is typographic and surface-led only.
 - Remaining section-local spacing values should migrate to semantic roles only
   when that section is actively reviewed. Mounted font sizes, leading and
   tracking now resolve through the source-matched shared type roles.

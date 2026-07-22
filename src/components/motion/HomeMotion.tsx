@@ -841,9 +841,8 @@ function servicesScene() {
           autoAlpha: handoffProgress > 0.01 && handoffProgress < 1 ? 1 : 0,
         });
 
-        const darkSurfaceVisible = handoffProgress >= 0.52;
-        section.dataset.themeSection = darkSurfaceVisible ? "dark" : "light";
-        section.dataset.bgSection = darkSurfaceVisible ? "dark" : "light";
+        section.dataset.themeSection = "light";
+        section.dataset.bgSection = "light";
       };
 
       const trigger = ScrollTrigger.create({
@@ -898,402 +897,220 @@ function servicesScene() {
     section.removeAttribute("data-service-ready");
   };
 }
-// 03 / Effekt — the fixed result statement resolves beneath the outgoing
-// service plane and remains behind four result cards. Wide screens use two opposing
-// currents and a symmetric 2x2 settle; phones use one shared centred vertical
-// lane, one card at a time. CSS remains the complete readable fallback.
+// 03 / Effekt — source-led adaptation of Trionn /about's Paperfold section.
+// The verified values are preserved here: -90deg cards, 2500px CSS perspective,
+// responsive 65/70/80% starts, 180/200/150px per-card scroll distances and the
+// 0.5-unit card offsets with .6/.36/.42 fold, content and shadow durations.
 function effectCardsScene() {
   const section = document.querySelector<HTMLElement>("[data-effect-section]");
-  const stage = section?.querySelector<HTMLElement>("[data-effect-stage]");
-  const rail = section?.querySelector<HTMLElement>(".what-improve__rail");
-  const center = section?.querySelector<HTMLElement>("[data-effect-center]");
-  const prelude = section?.querySelector<HTMLElement>("[data-effect-prelude]");
-  const cards = gsap.utils.toArray<HTMLElement>("[data-effect-card]", section);
+  const valueBlock = section?.querySelector<HTMLElement>("[data-effect-value-block]");
+  const heading = section?.querySelector<HTMLElement>("[data-effect-heading-pin]");
+  const title = section?.querySelector<HTMLElement>("[data-effect-title]");
+  const titleChars = gsap.utils.toArray<HTMLElement>(
+    ".what-improve__title-char",
+    title,
+  );
+  const summary = section?.querySelector<HTMLElement>("[data-effect-summary]");
+  const stack = section?.querySelector<HTMLElement>("[data-effect-stack]");
+  const cards = gsap.utils.toArray<HTMLElement>("[data-effect-fold-card]", section);
+  const cardInners = gsap.utils.toArray<HTMLElement>("[data-effect-fold-inner]", section);
+  const shadows = gsap.utils.toArray<HTMLElement>("[data-effect-fold-shadow]", section);
+  const tagline = section?.querySelector<HTMLElement>("[data-effect-tagline]");
 
   if (
     !section
-    || !stage
-    || !rail
-    || !center
-    || !prelude
+    || !valueBlock
+    || !heading
+    || !title
+    || !summary
+    || !stack
+    || !tagline
+    || titleChars.length === 0
     || cards.length !== 4
-  ) {
-    return () => {};
-  }
+    || cardInners.length !== cards.length
+    || shadows.length !== cards.length
+  ) return () => {};
 
   const mm = gsap.matchMedia();
+  const ctx = gsap.context(() => {
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      section.setAttribute("data-effect-overlap-ready", "");
+      section.setAttribute("data-effect-fold-ready", "");
 
-  // The next dark chapter sits one viewport behind the outgoing paper plane.
-  // With the services section itself pinned, this removes the otherwise blank
-  // release viewport and lets the verified leftward handoff resolve directly
-  // into 03 / Effekt.
-  mm.add("(prefers-reduced-motion: no-preference)", () => {
-    section.setAttribute("data-effect-overlap-ready", "");
-    return () => section.removeAttribute("data-effect-overlap-ready");
-  });
+      gsap.set(cards, {
+        rotateX: -90,
+        transformOrigin: "top center",
+        autoAlpha: 0,
+      });
+      gsap.set(cardInners, { opacity: 0 });
+      gsap.set(shadows, { opacity: 0 });
 
-  mm.add(
-    "(prefers-reduced-motion: no-preference) and (min-width: 901px)",
-    () => {
-      section.setAttribute("data-effect-ready", "");
-      let cleanupDesktopMotion = () => {};
-      const ctx = gsap.context(() => {
-        // The outgoing service plane exposes the matching sharp title first.
-        // This scene therefore starts at the same visible state and only owns
-        // the later cards/outro; no replacement frame flashes at pin release.
-        const introStart = 0;
-        const cardStart = 0.56;
-        const cardGutter = 40;
-        const cardKeyframeCount = 13;
-        const cardDuration = 0.45;
-        const pairOffset = 0.2;
-        const pairs = [[cards[0], cards[1]], [cards[2], cards[3]]] as const;
-        const setDesktopCardGeometry = () => {
-          const viewportWidth = stage.clientWidth;
-          const viewportHeight = stage.clientHeight;
-          const isMidViewport = viewportWidth >= 768 && viewportWidth < 1512;
-          const cardWidth = Math.round(
-            (isMidViewport ? 0.42 : 0.28) * viewportWidth,
-          );
-          const cardHeight = Math.round(0.32 * viewportHeight);
-          gsap.set(cards, { width: cardWidth, height: cardHeight });
-        };
-
-        gsap.set(rail, { autoAlpha: 1, y: 0 });
-        gsap.set(prelude, {
-          autoAlpha: 1,
-          y: 0,
-          filter: "blur(0px)",
-        });
-        setDesktopCardGeometry();
-        gsap.set(cards, {
-          autoAlpha: 0,
-          x: 0,
-          y: 0,
-          force3D: true,
-        });
-
-        const introTimeline = gsap.timeline({
-          paused: true,
-          defaults: { ease: "none" },
-        });
-        introTimeline
-          .to(prelude, {
-            autoAlpha: 1,
-            filter: "blur(0px)",
-            duration: 0.32,
-          }, 0)
-          .to(rail, { autoAlpha: 1, y: 0, duration: 0.14 }, 0.18)
-          .to({}, { duration: 1 }, 0);
-
-        const cardsTimeline = gsap.timeline({
-          paused: true,
-          defaults: { ease: "none" },
-        });
-
-        pairs.forEach(([leftCard, rightCard], pairIndex) => {
-          const leftKeyframes = [];
-          const rightKeyframes = [];
-
-          for (let frame = 0; frame < cardKeyframeCount; frame += 1) {
-            const progress = frame / (cardKeyframeCount - 1);
-            const bend = progress <= 0.5 ? Math.sin(progress * Math.PI) : 1;
-            const opacity = progress < 0.15
-              ? progress / 0.15
-              : progress > 0.85
-                ? 1 - (progress - 0.85) / 0.15
-                : 1;
-
-            leftKeyframes.push({
-              autoAlpha: opacity,
-              x: () => {
-                const viewportWidth = stage.clientWidth;
-                const cardWidth = leftCard.offsetWidth;
-                const isMidViewport = viewportWidth >= 768 && viewportWidth < 1512;
-                const startX = -(0.7 * cardWidth);
-                const laneX = isMidViewport ? cardGutter : 0.1 * viewportWidth;
-                return startX + bend * (laneX - startX);
-              },
-              y: () => (
-                stage.clientHeight
-                + progress * (-leftCard.offsetHeight - stage.clientHeight)
-              ),
-            });
-            rightKeyframes.push({
-              autoAlpha: opacity,
-              x: () => {
-                const viewportWidth = stage.clientWidth;
-                const cardWidth = rightCard.offsetWidth;
-                const isMidViewport = viewportWidth >= 768 && viewportWidth < 1512;
-                const startX = viewportWidth - 0.3 * cardWidth;
-                const laneX = isMidViewport
-                  ? viewportWidth - cardGutter - cardWidth
-                  : 0.9 * viewportWidth - cardWidth;
-                return startX + bend * (laneX - startX);
-              },
-              y: () => (
-                -rightCard.offsetHeight
-                + progress * (stage.clientHeight + rightCard.offsetHeight)
-              ),
-            });
-          }
-
-          cardsTimeline
-            .to(leftCard, {
-              keyframes: leftKeyframes,
-              duration: cardDuration,
-            }, pairOffset * pairIndex)
-            .to(rightCard, {
-              keyframes: rightKeyframes,
-              duration: cardDuration,
-            }, pairOffset * pairIndex);
-        });
-
-        let targetCardsProgress = 0;
-        let renderedCardsProgress = 0;
-        const renderCards = () => {
-          renderedCardsProgress += (targetCardsProgress - renderedCardsProgress) * 0.08;
-          if (Math.abs(targetCardsProgress - renderedCardsProgress) < 0.0001) {
-            renderedCardsProgress = targetCardsProgress;
-          }
-          cardsTimeline.progress(renderedCardsProgress);
-        };
-
-        gsap.ticker.add(renderCards);
-
-        const desktopTrigger = ScrollTrigger.create({
-          id: "effect-cards-scene",
-          trigger: section,
-          start: "top top",
-          end: () => `+=${Math.round(window.innerHeight * (ScrollTrigger.isTouch ? 3.9 : 4.6))}`,
-          pin: stage,
-          pinSpacing: true,
-          anticipatePin: 1,
+      const foldTimeline = gsap.timeline({
+        scrollTrigger: {
+          id: "effect-paperfold-stack",
+          trigger: stack,
+          start: () => {
+            if (window.innerWidth <= 767) return "top 65%";
+            if (window.innerWidth <= 1024) return "top 70%";
+            return "top 80%";
+          },
+          end: () => {
+            const perCard = window.innerWidth <= 767
+              ? 180
+              : window.innerWidth <= 1024
+                ? 200
+                : 150;
+            return `+=${perCard * cards.length}`;
+          },
+          scrub: true,
           invalidateOnRefresh: true,
-          onEnter: () => section.setAttribute("data-effect-front", ""),
-          onEnterBack: () => section.setAttribute("data-effect-front", ""),
-          onLeave: () => section.removeAttribute("data-effect-front"),
-          onLeaveBack: () => section.removeAttribute("data-effect-front"),
-          onUpdate: (self) => {
-            const sceneProgress = self.progress;
-            introTimeline.progress(gsap.utils.clamp(
-              0,
-              1,
-              (sceneProgress - introStart) / (cardStart - introStart),
-            ));
-            targetCardsProgress = sceneProgress < cardStart
-              ? 0
-              : Math.min(1, (sceneProgress - cardStart) / (1 - cardStart));
+        },
+      });
 
-            const outroProgress = gsap.utils.clamp(0, 1, (sceneProgress - 0.92) / 0.08);
-            if (sceneProgress >= cardStart) {
-              gsap.set(prelude, {
-                autoAlpha: 1 - outroProgress,
-                filter: `blur(${24 * outroProgress}px)`,
-              });
-            }
-            gsap.set(rail, { autoAlpha: 1 - outroProgress });
-          },
-          onRefresh: () => {
-            setDesktopCardGeometry();
-            introTimeline.invalidate();
-            cardsTimeline.invalidate().progress(renderedCardsProgress);
-          },
-        });
+      cards.forEach((card, index) => {
+        const offset = 0.5 * index;
+        foldTimeline
+          .set(card, { autoAlpha: 1 }, offset)
+          .to(card, {
+            rotateX: 0,
+            duration: 0.6,
+            ease: "power2.out",
+          }, offset)
+          .fromTo(cardInners[index], {
+            opacity: 0,
+          }, {
+            opacity: 1,
+            duration: 0.36,
+            ease: "power1.in",
+          }, offset + 0.09)
+          .fromTo(shadows[index], {
+            opacity: 0.08,
+          }, {
+            opacity: 0,
+            duration: 0.42,
+            ease: "power1.out",
+          }, offset + 0.18);
+      });
 
-        cleanupDesktopMotion = () => {
-          desktopTrigger.kill();
-          gsap.ticker.remove(renderCards);
-          introTimeline.kill();
-          cardsTimeline.kill();
-        };
-      }, section);
+      gsap.set([title, ...titleChars], {
+        autoAlpha: 0,
+        filter: "blur(12px)",
+        force3D: true,
+        willChange: "filter, opacity",
+      });
+      const titleTimeline = gsap.timeline({
+        scrollTrigger: {
+          id: "effect-paperfold-title",
+          trigger: title,
+          start: "top 90%",
+          end: "bottom 10%",
+          once: true,
+          invalidateOnRefresh: true,
+        },
+      });
+      titleTimeline
+        .to(title, {
+          autoAlpha: 1,
+          filter: "blur(0px)",
+          duration: 0.5,
+          ease: "power2.out",
+        }, 0)
+        .to(titleChars, {
+          autoAlpha: 1,
+          filter: "blur(0px)",
+          duration: 0.8,
+          stagger: { each: 0.05, from: "random" },
+          ease: "power2.out",
+        }, 0);
+
+      const summaryTween = gsap.fromTo(summary, {
+        opacity: 0,
+        y: 20,
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        delay: 0.3,
+        ease: "power2.out",
+        force3D: true,
+        scrollTrigger: {
+          id: "effect-paperfold-summary",
+          trigger: summary,
+          start: "top 90%",
+          once: true,
+        },
+      });
+
+      const taglineTween = gsap.fromTo(tagline, {
+        opacity: 0,
+        y: 20,
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        force3D: true,
+        scrollTrigger: {
+          id: "effect-paperfold-tagline",
+          trigger: tagline,
+          start: "top 90%",
+          once: true,
+        },
+      });
+
+      const refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
 
       return () => {
-        cleanupDesktopMotion();
-        section.removeAttribute("data-effect-ready");
-        ctx.revert();
+        window.cancelAnimationFrame(refreshFrame);
+        foldTimeline.scrollTrigger?.kill();
+        foldTimeline.kill();
+        titleTimeline.scrollTrigger?.kill();
+        titleTimeline.kill();
+        summaryTween.scrollTrigger?.kill();
+        summaryTween.kill();
+        taglineTween.scrollTrigger?.kill();
+        taglineTween.kill();
+        gsap.set(cards, { clearProps: "opacity,visibility,transform,transformOrigin" });
+        gsap.set(cardInners, { clearProps: "opacity" });
+        gsap.set(shadows, { clearProps: "opacity" });
+        gsap.set([title, ...titleChars, summary, tagline], {
+          clearProps: "opacity,visibility,transform,filter,willChange",
+        });
+        section.removeAttribute("data-effect-overlap-ready");
+        section.removeAttribute("data-effect-fold-ready");
       };
-    },
-  );
+    });
 
-  mm.add(
-    "(prefers-reduced-motion: no-preference) and (min-width: 768px) and (max-width: 900px)",
-    () => {
-      const ctx = gsap.context(() => {
-        cards.forEach((card) => {
-          if (card.getBoundingClientRect().top <= window.innerHeight * 0.88) return;
-          gsap.from(card, {
-            autoAlpha: 0,
-            y: 28,
-            duration: 0.72,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 88%",
-              once: true,
-            },
-          });
-        });
-      }, section);
-      return () => ctx.revert();
-    },
-  );
-
-  mm.add(
-    "(prefers-reduced-motion: no-preference) and (max-width: 767px)",
-    () => {
-      section.setAttribute("data-effect-mobile-ready", "");
-      let cleanupMobileMotion = () => {};
-      const ctx = gsap.context(() => {
-        // Phone uses the same continuous sharp underlay-to-scene handoff.
-        const introStart = 0;
-        const cardStart = 0.66;
-        const cardGutter = 24;
-        const cardKeyframeCount = 13;
-        const cardDuration = 0.3;
-        const cardOffset = 0.12;
-        const setMobileCardGeometry = () => {
-          const cardWidth = stage.clientWidth - 2 * cardGutter;
-          gsap.set(cards, {
-            width: cardWidth,
-            height: Math.round(0.55 * cardWidth),
-          });
-        };
-
-        gsap.set(rail, { autoAlpha: 1, y: 0 });
-        gsap.set(prelude, {
-          autoAlpha: 1,
-          y: 0,
-          filter: "blur(0px)",
-        });
-        setMobileCardGeometry();
-        gsap.set(cards, {
-          autoAlpha: 0,
-          x: (index, card: HTMLElement) => (
-            Math.max(cardGutter, (stage.clientWidth - card.offsetWidth) / 2)
-          ),
-          y: () => stage.clientHeight,
-          force3D: true,
-        });
-
-        const introTimeline = gsap.timeline({
-          paused: true,
-          defaults: { ease: "none" },
-        });
-        introTimeline
-          .to(prelude, {
-            autoAlpha: 1,
-            filter: "blur(0px)",
-            duration: 0.32,
-          }, 0)
-          .to(rail, { autoAlpha: 1, y: 0, duration: 0.14 }, 0.18)
-          .to({}, { duration: 1 }, 0);
-
-        const cardsTimeline = gsap.timeline({
-          paused: true,
-          defaults: { ease: "none" },
-        });
-
-        cards.forEach((card, index) => {
-          const keyframes = Array.from({ length: cardKeyframeCount }, (_, frame) => {
-            const progress = frame / (cardKeyframeCount - 1);
-            const opacity = progress < 0.15
-              ? progress / 0.15
-              : progress > 0.85
-                ? 1 - (progress - 0.85) / 0.15
-                : 1;
-
-            return {
-              autoAlpha: opacity,
-              x: () => Math.max(cardGutter, (stage.clientWidth - card.offsetWidth) / 2),
-              y: () => (
-                stage.clientHeight
-                + progress * (-card.offsetHeight - stage.clientHeight)
-              ),
-            };
-          });
-
-          cardsTimeline.to(card, {
-            keyframes,
-            duration: cardDuration,
-          }, cardOffset * index);
-        });
-
-        let targetCardsProgress = 0;
-        let renderedCardsProgress = 0;
-        const renderCards = () => {
-          renderedCardsProgress += (targetCardsProgress - renderedCardsProgress) * 0.08;
-          if (Math.abs(targetCardsProgress - renderedCardsProgress) < 0.0001) {
-            renderedCardsProgress = targetCardsProgress;
-          }
-          cardsTimeline.progress(renderedCardsProgress);
-        };
-
-        gsap.ticker.add(renderCards);
-
-        const mobileTrigger = ScrollTrigger.create({
-          id: "effect-cards-scene-mobile",
+    mm.add(
+      "(prefers-reduced-motion: no-preference) and (min-width: 1024px)",
+      () => {
+        const pinTrigger = ScrollTrigger.create({
+          id: "effect-paperfold-heading-pin",
           trigger: section,
           start: "top top",
-          end: () => `+=${Math.round(window.innerHeight * 5)}`,
-          pin: stage,
-          pinSpacing: true,
-          anticipatePin: 1,
+          end: () => {
+            const paddingBottom = Number.parseFloat(
+              window.getComputedStyle(valueBlock).paddingBottom,
+            );
+            const headerHeight = document.querySelector<HTMLElement>(".site-header")
+              ?.clientHeight ?? 100;
+            return `bottom ${headerHeight + tagline.clientHeight + 2 * paddingBottom}px`;
+          },
+          pin: heading,
+          pinSpacing: false,
           invalidateOnRefresh: true,
-          onEnter: () => section.setAttribute("data-effect-front", ""),
-          onEnterBack: () => section.setAttribute("data-effect-front", ""),
-          onLeave: () => section.removeAttribute("data-effect-front"),
-          onLeaveBack: () => section.removeAttribute("data-effect-front"),
-          onUpdate: (self) => {
-            const sceneProgress = self.progress;
-            introTimeline.progress(gsap.utils.clamp(
-              0,
-              1,
-              (sceneProgress - introStart) / (cardStart - introStart),
-            ));
-            targetCardsProgress = sceneProgress < cardStart
-              ? 0
-              : Math.min(1, (sceneProgress - cardStart) / (1 - cardStart));
-
-            const outroProgress = gsap.utils.clamp(0, 1, (sceneProgress - 0.92) / 0.08);
-            if (sceneProgress >= cardStart) {
-              gsap.set(prelude, {
-                autoAlpha: 1 - outroProgress,
-                filter: `blur(${24 * outroProgress}px)`,
-              });
-            }
-            gsap.set(rail, { autoAlpha: 1 - outroProgress });
-          },
-          onRefresh: () => {
-            setMobileCardGeometry();
-            introTimeline.invalidate();
-            cardsTimeline.invalidate().progress(renderedCardsProgress);
-          },
         });
 
-        cleanupMobileMotion = () => {
-          mobileTrigger.kill();
-          gsap.ticker.remove(renderCards);
-          introTimeline.kill();
-          cardsTimeline.kill();
-        };
-      }, section);
-
-      return () => {
-        cleanupMobileMotion();
-        section.removeAttribute("data-effect-mobile-ready");
-        ctx.revert();
-      };
-    },
-  );
+        return () => pinTrigger.kill();
+      },
+    );
+  }, section);
 
   return () => {
     mm.revert();
-    section.removeAttribute("data-effect-ready");
-    section.removeAttribute("data-effect-mobile-ready");
+    ctx.revert();
     section.removeAttribute("data-effect-overlap-ready");
-    section.removeAttribute("data-effect-front");
+    section.removeAttribute("data-effect-fold-ready");
   };
 }
 

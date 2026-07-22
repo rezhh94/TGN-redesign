@@ -1,33 +1,82 @@
 const outcomes = [
   {
     key: "funnet",
-    number: "01",
     title: "FUNNET",
-    signal: "Synlighet / søk + AI-søk",
-    description: "Struktur og innhold som gjør siden lettere å finne i Google og AI-søk.",
+    description:
+      "Struktur og innhold som gjør løsningen lettere å finne i Google og AI-søk.",
   },
   {
     key: "forstatt",
-    number: "02",
     title: "FORSTÅTT",
-    signal: "Klarhet / budskap",
-    description: "Tydelig posisjonering, budskap og innhold som gjør tilbudet enklere å forstå.",
+    description:
+      "Tydelig posisjonering, budskap og innhold som gjør tilbudet enklere å forstå.",
   },
   {
     key: "valgt",
-    number: "03",
     title: "VALGT",
-    signal: "Konvertering / neste steg",
-    description: "CTA-er, flyt og kontaktpunkter som gjør neste steg tydelig.",
+    description:
+      "CTA-er, flyt og kontaktpunkter som gjør neste steg tydelig og enklere å ta.",
   },
   {
     key: "malt",
-    number: "04",
     title: "MÅLT",
-    signal: "Sporing / hendelser",
-    description: "Skjema, telefon, e-post og hendelser som kan spores fra start.",
+    description:
+      "Skjema, telefon, e-post og viktige hendelser som kan spores fra start.",
   },
 ] as const;
+
+const headingWords = ["Effekt", "som", "kan", "måles."] as const;
+
+function EffectRule() {
+  return (
+    <div className="what-improve__rule" aria-hidden="true">
+      <span />
+      <svg viewBox="0 0 13 13" fill="none">
+        <path d="M6.5 0v13M0 6.5h13" />
+      </svg>
+    </div>
+  );
+}
+
+function EffectOpening() {
+  const title = (
+    <>
+      {headingWords.map((word) => (
+        <span className="what-improve__title-word" aria-hidden="true" key={word}>
+          {Array.from(word).map((character, index) => (
+            <span className="what-improve__title-char" key={`${word}-${index}`}>
+              {character}
+            </span>
+          ))}
+        </span>
+      ))}
+    </>
+  );
+
+  return (
+    <header className="what-improve__intro">
+      <div
+        className="what-improve__heading"
+        data-effect-heading-pin
+      >
+        <p className="what-improve__eyebrow">03 / Effekt</p>
+        <h2
+          className="what-improve__title"
+          id="what-improve-title"
+          aria-label="Effekt som kan måles."
+          data-effect-title
+        >
+          {title}
+        </h2>
+      </div>
+
+      <p className="what-improve__summary" data-effect-summary>
+        Design, teknologi og synlighet bygget for å bli funnet, forstått, valgt
+        og målt.
+      </p>
+    </header>
+  );
+}
 
 export function WhatWeImprove() {
   return (
@@ -35,52 +84,39 @@ export function WhatWeImprove() {
       className="what-improve"
       aria-labelledby="what-improve-title"
       data-effect-section
-      data-theme-section="dark"
-      data-bg-section="dark"
+      data-theme-section="light"
+      data-bg-section="light"
     >
-      <div className="what-improve__stage" data-effect-stage>
-        <header className="what-improve__rail">
-          <p>03 / Effekt</p>
-          <p>Funnet / Forstått / Valgt / Målt</p>
-        </header>
+      <div className="what-improve__container">
+        <EffectRule />
 
-        <div className="what-improve__center" data-effect-center>
-          <div className="what-improve__prelude" data-effect-prelude>
-            <p className="what-improve__eyebrow">Fra tjenester til resultat</p>
-            <h2 id="what-improve-title">
-              <span>Effekt som</span>
-              <span>kan måles.</span>
-            </h2>
-            <p className="what-improve__lead">
-              Design, teknologi og synlighet bygget for å bli funnet,
-              forstått, valgt og målt.
-            </p>
+        <div className="what-improve__value-block" data-effect-value-block>
+          <EffectOpening />
+
+          <div className="what-improve__content-grid">
+            <div className="what-improve__stack-wrap">
+              <ol className="what-improve__stack" data-effect-stack>
+                {outcomes.map((outcome) => (
+                  <li
+                    className="what-improve__card"
+                    data-effect-fold-card
+                    key={outcome.key}
+                  >
+                    <div className="what-improve__card-inner" data-effect-fold-inner>
+                      <h3>{outcome.title}</h3>
+                      <p>{outcome.description}</p>
+                    </div>
+                    <span className="what-improve__card-shadow" data-effect-fold-shadow />
+                  </li>
+                ))}
+              </ol>
+
+              <p className="what-improve__tagline" data-effect-tagline>
+                ✦ Resultatet skal kunne sees – og måles.
+              </p>
+            </div>
           </div>
-
         </div>
-
-        <ol className="what-improve__cards" aria-label="Resultatkjede">
-          {outcomes.map((outcome) => (
-            <li
-              className={`what-improve__card what-improve__card--${outcome.key}`}
-              data-effect-card
-              data-effect-card-key={outcome.key}
-              key={outcome.key}
-            >
-              <header>
-                <span>{outcome.number} / 04</span>
-                <span>Resultat</span>
-              </header>
-              <h3>{outcome.title}</h3>
-              <p>{outcome.description}</p>
-              <footer>
-                <span>Målepunkt</span>
-                <span>{outcome.signal}</span>
-              </footer>
-            </li>
-          ))}
-        </ol>
-
       </div>
     </section>
   );

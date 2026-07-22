@@ -56,14 +56,22 @@ Tigon has previously built.
 
 ## Current canvas rule
 
-Homepage chapters use solid semantic surfaces only. Tjenester uses the pure
+Homepage chapters use solid semantic surfaces. Tjenester uses the pure
 white `--tigon-paper` as one continuous information surface while only the left
 media field alternates paper and the dark body surface. This is content
 hierarchy, not page-wide background art. No decorative background video,
 poster, texture, grain, canvas, spotlight or vignette is part of the current
-system. Section roots own their explicit solid surface. A future visual field
-requires a separate, Tigon-authored design task and may not be inferred from
-this document.
+system outside explicit section work. Section roots own their explicit solid
+surface. Effekt is a light Paperfold information field built from Tigon's paper
+gradient, type, grid and result copy. It deliberately has no image, video,
+canvas, WebGL, Three.js, particle field or decorative object. Its visual force
+comes from hierarchy, pinned typography and the four folding result surfaces.
+Its Tjenester handoff adds one full-viewport white typography intro beneath the
+outgoing plane: `DESIGN / TEKNOLOGI / SYNLIGHET / ÉN HELHET` expresses the
+integrated delivery model, then the real Paperfold surface rises over it. The
+result-chain vocabulary is reserved for the four cards. This transition layer
+is not a background-art exception and contains no media.
+Any future visual field still requires a separate, Tigon-authored design task.
 
 ## Brand assets
 

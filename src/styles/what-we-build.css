@@ -26,22 +26,25 @@
   display: none;
   height: 100dvh;
   overflow: hidden;
-  background: var(--surface-deep);
-  color: var(--text-strong);
+  background: var(--paper-track-surface-end);
+  color: var(--paper-text-heading);
   pointer-events: none;
 }
 
-.service-work__effect-stage {
-  position: relative;
+.service-work__effect-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: min(100%, var(--page-max));
   height: 100%;
-  margin: 0 auto;
-  padding: clamp(40px, 5vh, 64px) var(--homepage-gutter)
-    clamp(32px, 4vh, 48px);
+  margin-inline: auto;
+  padding: clamp(7.5rem, 14vh, 10rem) 24px 5rem;
+  color: var(--paper-text-heading);
 }
 
-.service-work__effect-rail,
-.service-work__effect-eyebrow {
+.service-work__effect-intro-label,
+.service-work__effect-intro-footer {
+  margin: 0;
   font-family: var(--font-meta);
   font-size: var(--type-meta-sm-size);
   font-weight: var(--weight-mono);
@@ -50,66 +53,37 @@
   text-transform: uppercase;
 }
 
-.service-work__effect-rail {
-  position: absolute;
-  top: clamp(40px, 5vh, 64px);
-  right: var(--homepage-gutter);
-  left: var(--homepage-gutter);
+.service-work__effect-intro-label {
+  text-align: center;
+}
+
+.service-work__effect-intro-words {
   display: flex;
-  justify-content: space-between;
-  gap: var(--space-6);
-  color: var(--text-quiet);
-}
-
-.service-work__effect-rail p,
-.service-work__effect-eyebrow,
-.service-work__effect-lead {
-  margin: 0;
-}
-
-.service-work__effect-rail p:last-child {
-  text-align: right;
-}
-
-.service-work__effect-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
-  width: min(38vw, 580px);
-  text-align: center;
-  transform: translate(-50%, -50%);
-}
-
-.service-work__effect-eyebrow {
-  margin-bottom: var(--space-6);
-  color: var(--text-quiet);
-  font-family: var(--font-title), sans-serif;
-  font-weight: var(--weight-regular);
-}
-
-.service-work__effect-title {
+  justify-content: center;
+  margin-block: 2rem;
   font-family: var(--font-body), sans-serif;
-  font-size: var(--type-display-2xl-size);
+  font-size: clamp(3.25rem, 7.4vw, 8rem);
   font-weight: var(--weight-regular);
-  letter-spacing: var(--type-display-2xl-track);
-  line-height: var(--type-display-2xl-leading);
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  text-align: center;
   text-transform: uppercase;
 }
 
-.service-work__effect-title span {
+.service-work__effect-intro-words span {
   display: block;
+  white-space: nowrap;
 }
 
-.service-work__effect-lead {
-  max-width: 42ch;
-  margin-top: var(--space-6);
-  color: var(--text-medium);
-  font-family: var(--font-primary);
-  font-size: var(--type-body-md-size);
-  line-height: var(--type-body-md-leading);
+.service-work__effect-intro-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-8);
+  text-align: center;
 }
 
 .service-work__layer {
@@ -422,6 +396,26 @@
   }
 }
 
+@media (min-width: 768px) {
+  .service-work__effect-intro {
+    padding-inline: 40px;
+  }
+}
+
+@media (max-width: 639px) {
+  .service-work__effect-intro {
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+  }
+
+  .service-work__effect-intro-footer {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    text-align: center;
+  }
+}
+
 /* JS-enhanced source-port. The same pinned x-axis scene runs at every width.
    On mobile the visible card remains calc(100vw - 3rem), while the panel pitch
    remaps Trionn's py-20 flow spacing to 5rem before and after each card. */
@@ -691,34 +685,6 @@
   .service-work__end-axis line {
     stroke: var(--paper-text-heading);
     stroke-width: 1;
-  }
-}
-
-@media (max-width: 767px) {
-  .service-work__effect-stage {
-    padding: 0;
-  }
-
-  .service-work__effect-rail {
-    top: clamp(88px, 12svh, 120px);
-    right: 20px;
-    left: 20px;
-  }
-
-  .service-work__effect-rail p:last-child {
-    max-width: 18ch;
-  }
-
-  .service-work__effect-center {
-    width: calc(100vw - 48px);
-  }
-
-  .service-work__effect-title {
-    font-size: var(--type-h2-size);
-  }
-
-  .service-work__effect-lead {
-    max-width: 30ch;
   }
 }
 
