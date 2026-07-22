@@ -46,13 +46,27 @@ Last reconciled: 2026-07-22.
 
 ## 04 → 05
 
-- `workProcessJourney` darkens and shifts the outgoing Work surface while the
-  real Process section rises over it.
-- Reduced motion/no-JS use a clean static section boundary.
+- Arbeid finishes its capability-led Orbit and releases directly into the real
+  dark Process section. No extra wipe, generated scene or duplicate title is
+  mounted at this boundary.
+- The existing `work-process-journey` wrapper only establishes foreground
+  stacking for the later Process→System overlap; WorkProof's composition and
+  triggers are unchanged.
+- Reduced motion and no-JS use the same clean static section boundary.
 
 ## 05 → 06 → footer
 
-- Prosess' structured focus falls into System's quieter radial focus and grid.
-- The mounted System releases into the existing footer entry. System, the
-  handoff and Footer may all be redesigned; avoid a loader that delays access
-  to content without a demonstrated purpose.
+- Prosess→System uses Trionn `/about`'s verified dark, zero-stripe `HowWork`
+  handoff from first-party module `24498`. Process pins without spacer for
+  `250%` on desktop and `150%` on mobile while the complete System section is
+  raised by `-100dvh` behind it. Tigon's one-viewport System panel is offset
+  inside a transparent canvas extended by that same pin distance. The real dark
+  panel becomes a scrubbed single-sheet cover during the final `.45` of the pin
+  and is fully open on release. Foreground ownership therefore changes
+  continuously and reversibly instead of through an `onLeave` z-index switch.
+  Footer remains one viewport below.
+- `processScene` owns both the Process entrance and this overlap. System has no
+  competing reveal trigger. Reduced motion, no-JS and mobile viewports at or
+  below `699px` high keep both sections in ordinary flow.
+- System then releases directly into the existing ContactFooter. Footer markup,
+  styles, factual content and its existing parallax owner are unchanged.

@@ -793,12 +793,35 @@ function servicesScene() {
         );
         const distance = horizontalTravel * horizontalProgress;
 
-        gsap.set(track, { x: -distance, y: 0, force3D: true });
-        gsap.set(layer, {
-          x: -window.innerWidth * handoffProgress,
-          y: 0,
-          force3D: true,
-        });
+        // Trionn's first-party Selected Work motor deliberately gives the
+        // desktop track a short GSAP tail instead of writing every scroll
+        // position directly. That tail masks the otherwise binary moment in
+        // which ScrollTrigger attaches and releases the pinned scene. Touch
+        // keeps the source's duration: 0 path so finger tracking stays exact.
+        if (window.innerWidth < 768) {
+          gsap.to(track, {
+            x: -distance,
+            y: 0,
+            duration: 0,
+            ease: "none",
+            overwrite: true,
+            force3D: true,
+          });
+          gsap.to(layer, {
+            x: -window.innerWidth * handoffProgress,
+            y: 0,
+            duration: 0,
+            ease: "none",
+            overwrite: true,
+            force3D: true,
+          });
+        } else {
+          gsap.to(track, { x: -distance, y: 0 });
+          gsap.to(layer, {
+            x: -window.innerWidth * handoffProgress,
+            y: 0,
+          });
+        }
 
         cards.forEach((card, index) => {
           const inner = card.querySelector<HTMLElement>("[data-service-card-inner]");
@@ -867,6 +890,7 @@ function servicesScene() {
       return () => {
         trigger.kill();
         revealTimelines.forEach((timeline) => timeline.kill());
+        gsap.killTweensOf([track, layer]);
         gsap.killTweensOf(cards.flatMap((card) => (
           gsap.utils.toArray<HTMLElement>("[data-service-card-line]", card)
         )));
@@ -1097,6 +1121,7 @@ function effectCardsScene() {
           },
           pin: heading,
           pinSpacing: false,
+          anticipatePin: 1,
           invalidateOnRefresh: true,
         });
 
@@ -1294,157 +1319,186 @@ function introFillScene() {
     });
   };
 }
-// 06 / System — one local, one-shot text entrance. The complete composition
-// is the server/no-JS state; GSAP only settles the three visible lines and the
-// short support sentence when the section is approached in ordinary flow.
-function manifestoReveal(): () => void {
-  const section = document.querySelector<HTMLElement>(".system-manifesto");
-  if (!section) return () => {};
-  // Allerede-synlig-garde: ved dyp-lasting forbi seksjonen beholdes server-
-  // tilstanden (sluttilstand) — from-tweens skal ikke spille entré på nytt.
-  if (section.getBoundingClientRect().top <= window.innerHeight * 0.72) return () => {};
-
-  const lines = gsap.utils.toArray<HTMLElement>("[data-system-line]", section);
-  const support = section.querySelector<HTMLElement>("[data-manifesto-support]");
-  if (!lines.length) return () => {};
-
-  const ctx = gsap.context(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        id: "system-manifesto-reveal",
-        trigger: section,
-        start: "top 72%",
-        once: true,
-      },
-      defaults: { ease: "power4.out" },
-    });
-
-    tl.from(lines, {
-      yPercent: 160,
-      duration: 1,
-      stagger: 0.13,
-    });
-
-    if (support) {
-      tl.from(support, {
-        autoAlpha: 0,
-        y: 14,
-        duration: 0.5,
-      }, "-=0.42");
-    }
-  }, section);
-
-  return () => ctx.revert();
-}
-
-// 05 / Prosess — one compact semantic list, two deliberate compositions.
-// Desktop adapts Trionn Key Facts' verified top-hinged fold in ordinary flow.
-// Mobile pins the smaller deck and maps vertical progress to a measured
-// horizontal journey. Without this enhancement the same list remains a native
-// touch/keyboard scroll-snap deck.
+// 05 / Prosess → 06 / System — Tigon content inside Trionn's verified
+// first-party HowWork motion architecture (module 24498, /about variant).
+// No stripes are ported: the process stage pins without spacer while the next
+// dark section is raised by one viewport. The complete HTML remains visible
+// when JS, motion or a safe mobile viewport does not opt into this enhancement.
 function processScene(compact: boolean) {
+  const section = document.querySelector<HTMLElement>("[data-process-section]");
   const stage = document.querySelector<HTMLElement>("[data-process-stage]");
-  if (!stage) return () => {};
+  const system = document.querySelector<HTMLElement>(".system-manifesto");
+  const systemInner = system?.querySelector<HTMLElement>(".system-manifesto__inner");
+  if (!section || !stage || !system || !systemInner) return () => {};
 
-  const track = stage.querySelector<HTMLElement>("[data-process-track]");
-  const viewport = stage.querySelector<HTMLElement>("[data-process-viewport]");
-  const panels = gsap.utils.toArray<HTMLElement>("[data-process-surface]", stage);
-  if (!track || !viewport || panels.length !== 3) return () => {};
+  const phases = gsap.utils.toArray<HTMLElement>("[data-process-phase]", stage);
+  if (phases.length !== 3) return () => {};
 
-  let activeIndex = -1;
-  const setActive = (nextIndex: number) => {
-    const index = Math.max(0, Math.min(panels.length - 1, nextIndex));
-    if (index === activeIndex) return;
-    activeIndex = index;
-    panels.forEach((panel, panelIndex) => {
-      panel.toggleAttribute("data-process-active", panelIndex === index);
-    });
-  };
+  // The source's 100dvh pin is not safe when three semantic mobile rows cannot
+  // fit inside the viewport. Short landscape screens keep ordinary flow.
+  if (compact && window.matchMedia("(max-height: 699px)").matches) return () => {};
 
   const ctx = gsap.context(() => {
+    stage.setAttribute("data-process-motion", compact ? "mobile" : "desktop");
+    // Trionn's next /about scene supplies its own long scroll construction.
+    // Tigon's System is one static viewport, so its dark canvas must carry the
+    // same distance as this pin; the inner panel then arrives exactly on release.
+    // Keep the long System canvas transparent above Process and let its real
+    // 100svh inner panel become the moving cover. The panel enters during the
+    // final viewport of the pin, so foreground ownership changes continuously
+    // instead of through an onLeave z-index callback.
+    gsap.set(system, {
+      marginTop: "-100dvh",
+      minHeight: compact ? "250svh" : "350svh",
+      zIndex: 4,
+      backgroundColor: "transparent",
+      pointerEvents: "none",
+    });
+    gsap.set(systemInner, {
+      y: compact ? "150svh" : "250svh",
+      backgroundColor: "var(--tigon-canvas)",
+      clipPath: "inset(100% 0 0)",
+    });
+
     if (compact) {
-      // A pinned horizontal stage is too cramped in short landscape viewports.
-      // Those keep the native scroll-snap baseline instead.
-      if (window.matchMedia("(max-height: 559px)").matches) return;
+      phases.forEach((phase) => {
+        const step = phase.querySelector("[data-process-step]");
+        const title = phase.querySelector("[data-process-title]");
+        const content = phase.querySelector("[data-process-content]");
+        gsap.set([step, title, content], { autoAlpha: 0, y: 30 });
+      });
 
-      stage.setAttribute("data-process-motion", "mobile");
-      setActive(0);
-      gsap.set(track, { x: 0, willChange: "transform" });
+      const dividers = gsap.utils.toArray<HTMLElement>("[data-process-divider]", stage);
+      gsap.set(dividers, {
+        autoAlpha: 0,
+        scaleX: 0,
+        transformOrigin: "left",
+      });
 
-      const travelToLastPanel = () => {
-        const lastPanel = panels.at(-1);
-        if (!lastPanel) return 0;
-        const lastCenter = lastPanel.offsetLeft + lastPanel.offsetWidth / 2;
-        const desired = lastCenter - viewport.clientWidth / 2;
-        const maximum = Math.max(0, track.scrollWidth - viewport.clientWidth);
-        return -Math.min(maximum, Math.max(0, desired));
-      };
-
-      let timeline: gsap.core.Timeline;
-      timeline = gsap.timeline({
-        onUpdate: () => {
-          const viewportRect = viewport.getBoundingClientRect();
-          const viewportCenter = viewportRect.left + viewportRect.width / 2;
-          const nearest = panels.reduce((closestIndex, panel, panelIndex) => {
-            const closestRect = panels[closestIndex].getBoundingClientRect();
-            const panelRect = panel.getBoundingClientRect();
-            const closestDistance = Math.abs(closestRect.left + closestRect.width / 2 - viewportCenter);
-            const panelDistance = Math.abs(panelRect.left + panelRect.width / 2 - viewportCenter);
-            return panelDistance < closestDistance ? panelIndex : closestIndex;
-          }, 0);
-          setActive(nearest);
-        },
+      const entrance = gsap.timeline({
         scrollTrigger: {
-          id: "process-deck-mobile",
+          id: "process-how-work-entrance-mobile",
+          trigger: stage,
+          start: "top center",
+          end: "top top",
+          scrub: true,
+        },
+      });
+
+      phases.forEach((phase, index) => {
+        const step = phase.querySelector("[data-process-step]");
+        const title = phase.querySelector("[data-process-title]");
+        const content = phase.querySelector("[data-process-content]");
+        const divider = dividers[index];
+        const at = 0.3 * index;
+
+        entrance
+          .to(step, { autoAlpha: 1, y: 0, duration: 0.4 }, at)
+          .to(title, { autoAlpha: 1, y: 0, duration: 0.4 }, at + 0.05)
+          .to(content, { autoAlpha: 0.6, y: 0, duration: 0.4 }, at + 0.1);
+
+        if (divider) {
+          entrance
+            .set(divider, { autoAlpha: 1 }, at)
+            .to(divider, { scaleX: 1, duration: 0.5 }, at);
+        }
+      });
+
+      gsap.timeline({
+        scrollTrigger: {
+          id: "process-how-work-pin-mobile",
           trigger: stage,
           start: "top top",
-          end: () => `+=${Math.round(window.innerHeight * 0.68)}`,
+          end: "+=150%",
           pin: true,
-          pinSpacing: true,
+          pinSpacing: false,
           anticipatePin: 1,
-          scrub: 1.2,
+          scrub: true,
           invalidateOnRefresh: true,
         },
-      });
-      timeline.to(track, {
-        x: travelToLastPanel,
-        duration: 1,
-        ease: "none",
-      });
+        defaults: { ease: "none" },
+      })
+        .to({}, { duration: 1 }, 0)
+        .to(systemInner, {
+          clipPath: "inset(0% 0 0)",
+          duration: 0.45,
+        }, 0.55);
       return;
     }
 
-    stage.setAttribute("data-process-motion", "desktop");
-    const shortLandscape = window.matchMedia("(max-height: 520px)").matches;
-    gsap.timeline({
+    phases.forEach((phase, index) => {
+      const step = phase.querySelector("[data-process-step]");
+      const title = phase.querySelector("[data-process-title]");
+      const content = phase.querySelector("[data-process-content]");
+      const line = phase.querySelector("[data-process-line]");
+      const plus = phase.querySelector(".process-phase__plus");
+      const follow = phase.querySelector(".process-phase__plus-follow");
+
+      gsap.set([step, title, content], { autoAlpha: 0, y: 20 });
+      gsap.set([plus, follow], { autoAlpha: 0 });
+      gsap.set(plus, { autoAlpha: Number(index === 0) });
+      gsap.set(line, { scaleX: 0, transformOrigin: "left" });
+    });
+
+    const entrance = gsap.timeline({
       scrollTrigger: {
-        id: "process-deck-desktop",
+        id: "process-how-work-entrance-desktop",
         trigger: stage,
-        start: "top center",
-        end: "top top",
-        scrub: shortLandscape ? 0.65 : 2,
+        start: "top 25%",
+        end: "top -125%",
+        scrub: true,
         invalidateOnRefresh: true,
       },
-    }).fromTo(panels, {
-      autoAlpha: 0,
-      rotateX: shortLandscape ? -34 : -92,
-      transformOrigin: "center top",
-      transformPerspective: 1400,
-      force3D: true,
-    }, {
-      autoAlpha: 1,
-      rotateX: 0,
-      duration: shortLandscape ? 1 : 2.65,
-      stagger: { each: shortLandscape ? 0.1 : 0.6, from: "start" },
-      ease: "none",
-      force3D: true,
+      defaults: { ease: "none" },
     });
+
+    phases.forEach((phase, index) => {
+      const step = phase.querySelector("[data-process-step]");
+      const title = phase.querySelector("[data-process-title]");
+      const content = phase.querySelector("[data-process-content]");
+      const line = phase.querySelector("[data-process-line]");
+      const follow = phase.querySelector(".process-phase__plus-follow");
+      const label = `phase_${index}_start`;
+
+      entrance.addLabel(label, 0.5 * index);
+      entrance.set(follow, { autoAlpha: 1 }, `${label}+=${index === 0 ? 0.01 : 0}`);
+      entrance
+        .fromTo(follow, { rotation: 0 }, { rotation: 720, right: -6, duration: 0.4 }, label)
+        .fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 0.4 }, label)
+        .fromTo(step, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.2 }, label)
+        .fromTo(title, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.2 }, `${label}+=0.1`)
+        .fromTo(content, { autoAlpha: 0, y: 20 }, { autoAlpha: 0.6, y: 0, duration: 0.25 }, `${label}+=0.15`);
+
+      const nextPlus = phases[index + 1]?.querySelector(".process-phase__plus");
+      if (nextPlus) {
+        entrance.to(nextPlus, { autoAlpha: 1, duration: 0.05 }, `${label}+=0.4`);
+      }
+    });
+
+    gsap.timeline({
+      scrollTrigger: {
+        id: "process-how-work-pin-desktop",
+        trigger: stage,
+        start: "top top",
+        end: "+=250%",
+        pin: true,
+        pinSpacing: false,
+        anticipatePin: 1,
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+      },
+      defaults: { ease: "none" },
+    })
+      .to({}, { duration: 1 }, 0)
+      .to(systemInner, {
+        clipPath: "inset(0% 0 0)",
+        duration: 0.45,
+      }, 0.55);
   }, stage);
 
   return () => {
     ctx.revert();
     stage.removeAttribute("data-process-motion");
-    panels.forEach((panel) => panel.removeAttribute("data-process-active"));
   };
 }
 
@@ -1638,11 +1692,9 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 769px)", () => {
       heroEntrance(true);
       const teardownIntro = runWhenNear("[data-intro-story]", introFillScene);
-      const teardownManifesto = runWhenNear(".system-manifesto", manifestoReveal);
       const teardownFooter = runWhenNear(".contact-footer", footerReveals);
       return () => {
         teardownIntro();
-        teardownManifesto();
         teardownFooter();
       };
     });
@@ -1652,11 +1704,9 @@ export function HomeMotion() {
     mm.add("(prefers-reduced-motion: no-preference) and (max-width: 768px)", () => {
       heroEntrance(false);
       const teardownIntro = runWhenNear("[data-intro-story]", introFillScene);
-      const teardownManifesto = runWhenNear(".system-manifesto", manifestoReveal);
       const teardownFooter = runWhenNear(".contact-footer", footerReveals);
       return () => {
         teardownIntro();
-        teardownManifesto();
         teardownFooter();
       };
     });

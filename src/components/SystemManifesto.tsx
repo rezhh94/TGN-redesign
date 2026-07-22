@@ -10,17 +10,17 @@ export function SystemManifesto() {
         <div className="system-manifesto__composition">
           <h2 className="system-manifesto__statement" id="system-manifesto-title">
             <span className="system-manifesto__line system-manifesto__line--one">
-              <span className="system-manifesto__line-inner" data-system-line>Det du ser.</span>
+              <span className="system-manifesto__line-inner">Det du ser.</span>
             </span>
             <span className="system-manifesto__line system-manifesto__line--two">
-              <span className="system-manifesto__line-inner" data-system-line>Det som virker.</span>
+              <span className="system-manifesto__line-inner">Det som virker.</span>
             </span>
             <span className="system-manifesto__line system-manifesto__line--three">
-              <span className="system-manifesto__line-inner" data-system-line>Én helhet.</span>
+              <span className="system-manifesto__line-inner">Ett system.</span>
             </span>
           </h2>
 
-          <p className="system-manifesto__support" data-manifesto-support>
+          <p className="system-manifesto__support">
             Bygges sammen fra start.
           </p>
         </div>

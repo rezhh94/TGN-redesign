@@ -1,5 +1,5 @@
-/* 06 / System — one quiet typographic conclusion.
-   The composition is complete in HTML; motion only settles its three lines. */
+/* 06 / System — the typographic release after the pinned process ledger.
+   It is complete in HTML and has no independent reveal timeline. */
 
 .system-manifesto {
   position: relative;
@@ -16,9 +16,10 @@
   gap: var(--grid-gutter);
   align-items: center;
   width: min(100%, var(--page-max));
-  min-height: clamp(640px, 82svh, 940px);
+  min-height: 100svh;
   margin: 0 auto;
-  padding: clamp(96px, 12vh, 144px) var(--gutter) clamp(88px, 10vh, 128px);
+  padding: clamp(104px, 12vh, 144px) var(--homepage-gutter)
+    clamp(72px, 8vh, 96px);
 }
 
 .system-manifesto__composition {
@@ -73,7 +74,6 @@
   width: max-content;
   max-width: 100%;
   white-space: nowrap;
-  will-change: transform;
 }
 
 .system-manifesto__support {
@@ -92,9 +92,9 @@
 
 @media (max-width: 900px) {
   .system-manifesto__inner {
-    min-height: 76svh;
+    min-height: 100svh;
     padding-top: 96px;
-    padding-bottom: 96px;
+    padding-bottom: 80px;
   }
 
   .system-manifesto__line--one {
@@ -118,8 +118,8 @@
 @media (max-width: 640px) {
   .system-manifesto__inner {
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    min-height: 72svh;
-    padding: 80px 20px 72px;
+    min-height: 100svh;
+    padding: 80px var(--homepage-gutter) 64px;
   }
 
   .system-manifesto__composition,

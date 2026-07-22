@@ -98,11 +98,15 @@ single horizontal `100dvh` track. Images use the exact `670 / 460` ratio,
 Familjen/PP Neue/Martian roles are centralized in the shared design tokens.
 Cards retain the real service destinations and are not presented as projects
 or past work. `servicesScene` preserves the source `550px` card entry curve,
-content thresholds, line drawing and horizontal movement rate. The paper layer
-then moves one viewport left to reveal a visual copy of the real Effekt opening
-behind the final axis. Mobile deliberately ports the same horizontal motor and
-effects with Trionn's `calc(100vw - 3rem)` visible phone card width plus the
-source spacing of `5rem` before and after each regular card. The final action
+content thresholds, line drawing and horizontal movement rate. On desktop its
+track and outgoing paper layer also retain Trionn's source-authored short GSAP
+tween tail on each progress update; this damps the visible landing and release
+without adding another scroll engine. Touch keeps the source's `duration: 0`
+path for direct finger tracking. The paper layer then moves one viewport left
+to reveal a visual copy of the real Effekt opening behind the final axis.
+Mobile deliberately ports the same horizontal motor and effects with Trionn's
+`calc(100vw - 3rem)` visible phone card width plus the source spacing of `5rem`
+before and after each regular card. The final action
 uses its separate source `py-40` rhythm as a `10rem` horizontal entry before a
 centred `viewport - 3rem` content field. Its additional lead is part of the
 paper panel rather than a transparent margin, so Effekt is not exposed before
@@ -134,7 +138,8 @@ for `.36 / power1.in`, and the `.08` fold shadow clears from `+.18` over `.42 /
 power1.out`. Scroll starts at `top 65%`, `top 70%` or `top 80%` across
 phone/tablet/desktop and allocates respectively `180`, `200` or `150px` per
 card. From 1024px the heading pins without added spacing until the stack and
-tagline have passed. The title uses the verified 12px-blur character reveal;
+tagline have passed; its pin uses `anticipatePin: 1`, matching the reference
+pin lifecycle. The title uses the verified 12px-blur character reveal;
 support copy uses the verified 20px, .8-second fade.
 
 There is no mounted animal, image, video, canvas, Three.js, particle field,
@@ -169,8 +174,12 @@ Three.js, TSL, dynamic cursor, portfolio wall or reference asset is mounted.
 
 ### Prosess and System
 
-Prosess currently presents Retning, Bygg and Live. System currently provides
-the quiet conclusion into Footer. Both keep complete static content without JS.
+Prosess presents Retning, Bygg and Live in an open source-led `HowWork` ledger:
+12-column header and three-column line sequence on desktop, vertical 3/9 rows
+on mobile. It ports the verified Trionn `/about` module `24498` timing without
+its content, identity, assets, fonts, runtime bundle or stripes. System follows
+with `Det du ser.`, `Det som virker.`, `Ett system.` and `Bygges sammen fra
+start.` Both keep complete static content without JS.
 
 ## Motion and lifecycle
 
@@ -182,6 +191,14 @@ the quiet conclusion into Footer. Both keep complete static content without JS.
 - `HomeMotion` initializes scoped scene owners and cleanup. Effekt uses one
   owner per active responsive branch; desktop and phone branches each use one
   pinned ScrollTrigger, while 768–900px stays in normal flow.
+- `processScene` is the single Prosess→System owner. It uses the verified
+  `150vh` desktop entrance and `250%` zero-stripe pin, or the separate mobile
+  row entrance and `150%` pin. System is raised by `-100dvh` behind the pinned
+  stage; its transparent canvas and inner offset carry the same active pin
+  distance. The real dark inner panel reveals as a single scrubbed sheet from
+  `.55` to `1`, replacing the former binary release-time z-index toggle. It has
+  no independent reveal trigger. Mobile viewports at or below `699px` high,
+  reduced motion and no-JS remain in ordinary flow.
 - Arbeid owns a separate desktop title traversal and one `work-focus-scene`;
   that trigger is also the only Orbit owner. Scroll progress drives the orbit,
   so no animation clock runs while the scene is outside the viewport. Keyboard
@@ -199,6 +216,10 @@ the quiet conclusion into Footer. Both keep complete static content without JS.
   `ScrollTrigger.update`. Desktop uses `lerp .105`, Apple wheel `.6`, other
   wheel `.85`, touch uses wheel `.6` and touch multiplier `1.2`, and both use
   duration `1.05` with GSAP ticker lag smoothing `500/33`.
+- Pin attachment itself remains binary inside ScrollTrigger. Perceived softness
+  is handled locally with `anticipatePin: 1`, Trionn's desktop progress-tween
+  tail in Tjenester and continuous section covers at handoff boundaries; no
+  second smooth-scroll runtime or global pin easing is mounted.
 - Reduced motion uses native scrolling. Mobile service content remains normal
   flow below 768px even though the shared scroll transport stays coordinated.
 - Critical content is never hidden behind JavaScript.

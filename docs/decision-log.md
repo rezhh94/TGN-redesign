@@ -1,6 +1,6 @@
 # Tigon — active decision register
 
-Last reconciled: 2026-07-21.
+Last reconciled: 2026-07-22.
 
 This register contains current decisions only. Superseded visual directions do
 not remain as implementation guidance.
@@ -74,6 +74,23 @@ not remain as implementation guidance.
 - The mounted implementation uses Retning, Bygg and Live followed by System.
 - Prosess, System and Footer may all be redesigned while remaining readable
   without JS.
+
+## Pin and scroll lifecycle
+
+- ScrollTrigger pin attachment is binary. `scrub` smooths animation progress,
+  not the moment an element becomes or stops being pinned.
+- Before changing the global Lenis transport, compare the local scene with the
+  verified Trionn first-party owner. Keep one scroll transport; do not add
+  ScrollSmoother or a second global easing layer to hide a section-local issue.
+- Preserve Trionn's desktop progress-tween tail where its source module uses
+  `gsap.to()` updates. Touch paths keep direct `duration: 0` tracking.
+- Relevant pins use `anticipatePin: 1` unless source evidence or a measured
+  layout constraint requires otherwise.
+- Do not expose a binary `onLeave`/`onEnterBack` z-index switch at a visible
+  section boundary. Transfer foreground ownership with continuous geometry,
+  clipping or another reversible source-led cover.
+- Validate entry, release and reverse scroll on desktop and mobile, plus
+  reduced-motion and no-JS fallbacks, before treating a pin refinement as done.
 
 ## Open decisions
 

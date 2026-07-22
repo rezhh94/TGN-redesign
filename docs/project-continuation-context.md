@@ -5,20 +5,19 @@ Last reconciled: 2026-07-22.
 ## Worktree boundary
 
 The current branch is `codex/trionn-mobile-parity` at committed HEAD
-`5749d34`. The current uncommitted work redesigns `03 / Effekt`: a user-supplied
-video/particle trial was stopped and removed from the mounted direction. The
-replacement adapts Trionn `/about`'s live, first-party `Our values` Paperfold
-construction to the real `Effekt som kan måles.` heading and four Tigon result
-cards. The section is now a light editorial field with source-verified 3D fold,
-responsive scroll distances and desktop heading pin values; it has no mounted
-media object, particles, DrawSVG symbols or stripe wipe. The same work also
-removes a duplicate
-mobile trigger offset from the Intro→Tjenester shutter. GSAP already includes
-the facts pin spacer in the service-prelude section bottom; using that measured
-bottom makes the six mobile shutter rows visible across the real dark-to-paper handoff.
-The rejected phone-deck experiment is preserved outside the repository at
-`/private/tmp/tigon-phone-deck-rejected-2026-07-21.patch` with SHA-256
-`ad244ea2b8095f9e37cb7bd84052f695bb644513749b21a6b8b085f8aee2c7ac`.
+`7585d11ef580d7397f0b56d5a004a1590f12601d`. The current uncommitted work
+rebuilds `05 / Prosess`, `06 / System` and their handoff, and includes a narrow
+pin-lifecycle refinement in the already-mounted Tjenester and Effekt owners.
+Prosess now uses
+a Tigon-owned reconstruction of Trionn `/about`'s verified first-party
+`HowWork` module `24498`: open desktop ledger, separate vertical mobile rows,
+source timings and the zero-stripe embedded-next-section release. System keeps
+its typographic conclusion, replaces the repeated `Én helhet.` with `Ett
+system.` and has no competing reveal owner. The release is now a reversible
+scrubbed single-sheet cover rather than a binary release callback. Tjenester
+ports the reference desktop track tween tail while retaining direct touch
+tracking, and Effekt's heading pin now uses `anticipatePin: 1`. ContactFooter,
+markup and all earlier visual compositions remain unchanged.
 Always inspect the current worktree before acting; do not reset, checkout or
 overwrite unrelated changes.
 Do not commit or push without explicit instruction, and stage exact files if
