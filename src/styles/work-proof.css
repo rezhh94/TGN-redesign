@@ -75,6 +75,26 @@
   line-height: var(--type-h1-leading);
 }
 
+.work-route__header-copy {
+  max-width: 38ch;
+  margin: clamp(20px, 2.4vh, 28px) 0 0;
+  color: var(--text-medium);
+  font-family: var(--font-primary);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-leading);
+  text-wrap: balance;
+}
+
+.work-route__origin {
+  display: block;
+  width: clamp(56px, 4.8vw, 82px);
+  aspect-ratio: 621.15 / 571.71;
+  margin-top: clamp(26px, 3.5vh, 38px);
+  background: rgba(48, 54, 64, 0.72);
+  -webkit-mask: url("/brand/tigon-mark.svg") center / contain no-repeat;
+  mask: url("/brand/tigon-mark.svg") center / contain no-repeat;
+}
+
 .work-route__lines {
   position: fixed;
   z-index: 2;
@@ -306,6 +326,16 @@
 
   .work-route__header-content h2 {
     max-width: 8ch;
+  }
+
+  .work-route__header-copy {
+    max-width: 29ch;
+    margin-top: 1.25rem;
+  }
+
+  .work-route__origin {
+    width: 3.5rem;
+    margin-top: 1.5rem;
   }
 
   .work-route__gallery {

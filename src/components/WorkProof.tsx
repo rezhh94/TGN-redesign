@@ -86,6 +86,15 @@ export function WorkProof() {
 
             <div className="work-route__header-content">
               <h2 id="work-proof-title">Dette kan Tigon lage</h2>
+              <p className="work-route__header-copy">
+                Konsepter, prototyper og digitale systemer utviklet for nye behov,
+                mål og markeder.
+              </p>
+              <span
+                className="work-route__origin"
+                data-work-route-origin
+                aria-hidden="true"
+              />
             </div>
           </div>
         </div>

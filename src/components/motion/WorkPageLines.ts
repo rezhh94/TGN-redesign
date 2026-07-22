@@ -101,13 +101,16 @@ export function initWorkPageLines(): () => void {
   const section = document.querySelector<HTMLElement>(".work-proof");
   const route = section?.querySelector<HTMLElement>("[data-work-route]");
   const header = route?.querySelector<HTMLElement>("[data-work-route-header]");
+  const origin = route?.querySelector<HTMLElement>("[data-work-route-origin]");
   const canvas = route?.querySelector<HTMLCanvasElement>("[data-work-route-lines]");
   const contact = route?.querySelector<HTMLElement>("[data-work-route-contact]");
   const cards = route
     ? Array.from(route.querySelectorAll<HTMLElement>("[data-work-route-card]"))
     : [];
 
-  if (!route || !header || !canvas || !contact || cards.length === 0) return () => {};
+  if (!route || !header || !origin || !canvas || !contact || cards.length === 0) {
+    return () => {};
+  }
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return () => {};
 
   const context = canvas.getContext("2d");
@@ -120,7 +123,9 @@ export function initWorkPageLines(): () => void {
   let anchors: CardAnchor[] = [];
   let pathStops: number[] = [];
   let lineStart = 0;
+  let lineStartX = 0;
   let lineEnd = 1;
+  let restingProgress = 0;
   let progress = 0;
   let elapsed = 0;
   let lastTime = performance.now();
@@ -165,14 +170,13 @@ export function initWorkPageLines(): () => void {
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
     const scrollY = window.scrollY;
-    const headerRect = header.getBoundingClientRect();
-    const headerBottom = headerRect.top + scrollY + header.offsetHeight;
+    const originRect = origin.getBoundingClientRect();
 
-    // Trionn starts the paths in the viewport centre as its pinned intro
-    // releases. The floating-image intro was deliberately removed here, so
-    // the same visible handoff happens half a viewport before the ordinary
-    // title header ends; the title has already cleared and is never pinned.
-    lineStart = headerBottom;
+    // The three routes now have a visible Tigon-owned junction. Using the
+    // rendered mark as the coordinate authority keeps the resting stems and
+    // the growing paths connected through resize, mobile and reverse scroll.
+    lineStartX = originRect.left + originRect.width / 2;
+    lineStart = originRect.bottom + scrollY - 1;
 
     anchors = cards.map((element) => {
       const media = element.querySelector<HTMLElement>(".work-route__media") ?? element;
@@ -191,9 +195,9 @@ export function initWorkPageLines(): () => void {
     lineEnd = contactRect.top + scrollY + contactRect.height / 2;
 
     const routePoints: ControlPoint[][] = [
-      [{ x: width / 2, y: lineStart }],
-      [{ x: width / 2, y: lineStart }],
-      [{ x: width / 2, y: lineStart }],
+      [{ x: lineStartX, y: lineStart }],
+      [{ x: lineStartX, y: lineStart }],
+      [{ x: lineStartX, y: lineStart }],
     ];
     let previousY = lineStart;
     const spread = randomBetween(0.15, 0.28);
@@ -243,6 +247,7 @@ export function initWorkPageLines(): () => void {
 
     paths = routePoints.map(smoothPath);
     const pathRange = Math.max(1, lineEnd - lineStart);
+    restingProgress = clamp((width < 768 ? 64 : 96) / pathRange);
     const checkpointYs = anchors.map((anchor) => anchor.y).concat(lineEnd);
     const checkpoints = [{ y: lineStart, t: 0 }];
     checkpointYs.forEach((y) => {
@@ -272,8 +277,13 @@ export function initWorkPageLines(): () => void {
     };
   };
 
-  const drawPath = (path: PathPoint[], lane: number, scrollY: number) => {
-    if (progress <= 0) return null;
+  const drawPath = (
+    path: PathPoint[],
+    lane: number,
+    scrollY: number,
+    visibleProgress: number,
+  ) => {
+    if (visibleProgress <= 0) return null;
     context.save();
     context.strokeStyle = "rgba(48, 54, 64, 1)";
     context.lineWidth = 1;
@@ -285,7 +295,7 @@ export function initWorkPageLines(): () => void {
     let started = false;
     let head: ControlPoint | null = null;
     for (const point of path) {
-      if (point.t > progress) break;
+      if (point.t > visibleProgress) break;
       const waved = wavePoint(point, lane);
       head = waved;
       const screenY = waved.y - scrollY;
@@ -312,7 +322,7 @@ export function initWorkPageLines(): () => void {
     lastTime = time;
     elapsed += delta;
     const scrollY = window.scrollY;
-    const progressStart = Math.max(0, lineStart - height * 0.5);
+    const progressStart = Math.max(0, lineStart - height * 0.72);
     const progressEnd = Math.max(progressStart + 1, lineEnd - height * 0.5);
     const target = clamp((scrollY - progressStart) / (progressEnd - progressStart));
     progress += (target - progress) * 0.14;
@@ -323,9 +333,15 @@ export function initWorkPageLines(): () => void {
     context.beginPath();
     context.rect(0, 0, width, height);
     context.clip();
-    const heads = paths.map((path, index) => drawPath(path, [1, 2.3, 3.7][index], scrollY));
+    const visibleProgress = Math.max(restingProgress, progress);
+    const heads = paths.map((path, index) => (
+      drawPath(path, [1, 2.3, 3.7][index], scrollY, visibleProgress)
+    ));
+
+    const reachedY = Math.max(lineStart, ...heads.map((head) => head?.y ?? lineStart));
 
     anchors.forEach((anchor) => {
+      if (reachedY < anchor.y && anchor.opacity <= 0.001) return;
       const screenY = anchor.y - scrollY;
       if (screenY < -20 || screenY > height + 20) return;
       context.save();
@@ -337,23 +353,8 @@ export function initWorkPageLines(): () => void {
       context.restore();
     });
 
-    if (progress > 0.005) {
-      heads.forEach((head) => {
-        if (!head) return;
-        const screenY = head.y - scrollY;
-        if (head.x < 0 || head.x > width || screenY < -10 || screenY > height + 10) return;
-        context.save();
-        context.fillStyle = "rgba(200, 200, 200, 1)";
-        context.globalAlpha = 0.85;
-        context.beginPath();
-        context.arc(head.x, screenY, 1.5, 0, Math.PI * 2);
-        context.fill();
-        context.restore();
-      });
-    }
     context.restore();
 
-    const reachedY = Math.max(lineStart, ...heads.map((head) => head?.y ?? lineStart));
     let hasVisibleCard = false;
     anchors.forEach((anchor) => {
       const reached = reachedY >= anchor.y;
@@ -393,7 +394,9 @@ export function initWorkPageLines(): () => void {
   };
   const observer = "IntersectionObserver" in window
     ? new IntersectionObserver(([entry]) => {
-      visible = Boolean(entry?.isIntersecting);
+      const nextVisible = Boolean(entry?.isIntersecting);
+      if (nextVisible && !visible) buildPaths();
+      visible = nextVisible;
       route.toggleAttribute("data-work-lines-visible", visible);
       if (visible) requestRender();
       else if (frame) {
