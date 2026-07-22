@@ -1,3 +1,6 @@
+import { WordShiftLink } from "@/components/WordShiftLink";
+import { WorkFlagWaveGate } from "@/components/WorkFlagWaveGate";
+
 const capabilities = [
   {
     n: "01",
@@ -6,6 +9,8 @@ const capabilities = [
     src: "/work/capability-stage/tgn-product-os-laptop.webp",
     href: "/tjenester/custom-software",
     linkLabel: "Se tjenesten",
+    position: "left",
+    size: "large",
     muted: false,
   },
   {
@@ -15,6 +20,8 @@ const capabilities = [
     src: "/work/capability-stage/laptop-chair.png",
     href: "/tjenester/webutvikling-nextjs",
     linkLabel: "Se tjenesten",
+    position: "right",
+    size: "medium",
     muted: false,
   },
   {
@@ -24,6 +31,8 @@ const capabilities = [
     src: "/work/capability-stage/ipad-hand.png",
     href: "/hva-koster-digital-plattform",
     linkLabel: "Se plattformguiden",
+    position: "left",
+    size: "large",
     muted: false,
   },
   {
@@ -33,6 +42,8 @@ const capabilities = [
     src: "/work/capability-stage/tgn-ehandel-ipad.webp",
     href: "/tjenester/e-handel-losninger",
     linkLabel: "Se tjenesten",
+    position: "center",
+    size: "xlarge",
     muted: false,
   },
   {
@@ -42,6 +53,8 @@ const capabilities = [
     src: "/work/capability-stage/laptop-rocks.png",
     href: "/tjenester/ai-implementering",
     linkLabel: "Se tjenesten",
+    position: "right",
+    size: "large",
     muted: true,
   },
   {
@@ -51,53 +64,11 @@ const capabilities = [
     src: "/work/capability-stage/tgn-brand-phone.webp",
     href: "/tjenester/app-utvikling",
     linkLabel: "Se tjenesten",
+    position: "left",
+    size: "medium",
     muted: false,
   },
 ] as const;
-
-type Capability = (typeof capabilities)[number];
-
-function CapabilityImage({ capability }: { capability: Capability }) {
-  return (
-    <img
-      className={capability.muted ? "work-focus__image--muted" : undefined}
-      src={capability.src}
-      alt=""
-      loading="lazy"
-    />
-  );
-}
-
-function CapabilityPanel({ capability, index }: { capability: Capability; index: number }) {
-  return (
-    <li
-      className="work-focus__panel"
-      data-work-panel
-      data-work-index={index}
-      data-orbit-tiles-item
-    >
-      <a
-        className="work-focus__link"
-        href={capability.href}
-        data-orbit-tiles-content
-      >
-        <figure className="work-focus__media" aria-hidden="true">
-          <CapabilityImage capability={capability} />
-        </figure>
-
-        <div className="work-focus__copy">
-          <span className="work-focus__number">{capability.n} / 06</span>
-          <h3>{capability.name}</h3>
-          <p>{capability.blurb}</p>
-          <span className="work-focus__action">
-            {capability.linkLabel}
-            <span aria-hidden="true">↗</span>
-          </span>
-        </div>
-      </a>
-    </li>
-  );
-}
 
 export function WorkProof() {
   return (
@@ -107,49 +78,68 @@ export function WorkProof() {
       aria-labelledby="work-proof-title"
       data-theme-section="dark"
       data-bg-section="dark"
-      data-work-process-transition
     >
-      <div
-        className="work-focus"
-        data-work-focus-stage
-        data-orbit-tiles-init
-      >
-        <header className="work-focus__head">
-          <p>04 / Arbeid</p>
-          <p data-work-active-count>01 / 06</p>
-        </header>
+      <div className="work-route" data-work-route>
+        <div className="work-route__header" data-work-route-header>
+          <div className="work-route__header-pin" data-work-route-pin>
+            <p className="work-route__section-label">04 / Arbeid</p>
 
-        <div className="work-focus__opening" data-work-opening>
-          <h2 id="work-proof-title" className="work-focus__title">
-            <span data-work-title-top>Dette kan</span>
-            <span data-work-title-bottom>Tigon lage.</span>
-          </h2>
-
-          <p className="work-focus__intro-copy" data-work-opening-copy>
-            Seks mulige leveranser — vist som konsepter, systemer,
-            prototyper og demonstrasjoner.
-          </p>
+            <div className="work-route__header-content">
+              <h2 id="work-proof-title">Dette kan Tigon lage</h2>
+            </div>
+          </div>
         </div>
 
-        <div className="work-focus__orbit" data-orbit-tiles-collection>
-          <ol
-            className="work-focus__panels"
-            aria-label="Dette kan Tigon lage"
-            data-orbit-tiles-list
-          >
-            {capabilities.map((capability, index) => (
-              <CapabilityPanel capability={capability} index={index} key={capability.n} />
-            ))}
-          </ol>
-        </div>
+        <canvas className="work-route__lines" data-work-route-lines aria-hidden="true" />
 
-        <footer className="work-focus__foot">
-          <p data-work-active-name>Webapp</p>
-          <p>Muligheter for nye prosjekter</p>
+        <ol className="work-route__gallery" data-work-route-gallery>
+          {capabilities.map((capability) => (
+            <li
+              className="work-route__card"
+              data-work-route-card
+              data-position={capability.position}
+              data-size={capability.size}
+              key={capability.n}
+            >
+              <article>
+                <a
+                  className="work-route__media"
+                  data-work-wave-thumb
+                  href={capability.href}
+                  aria-label={`${capability.name} — ${capability.linkLabel}`}
+                >
+                  <img
+                    className={capability.muted ? "work-route__image--muted" : undefined}
+                    src={capability.src}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+
+                <div className="work-route__card-info">
+                  <div className="work-route__card-title">
+                    <h3>{capability.name}</h3>
+                  </div>
+                  <div className="work-route__card-meta">
+                    <p>{capability.blurb}</p>
+                    <WordShiftLink href={capability.href} text={capability.linkLabel} />
+                  </div>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ol>
+
+        <WorkFlagWaveGate />
+
+        <footer className="work-route__closing" data-work-route-closing>
+          <p>Konsepter, systemer, prototyper og mulige leveranser.</p>
+          <a href="/kontakt?ref=arbeid" data-work-route-contact>
+            Start et prosjekt <span aria-hidden="true">↗</span>
+          </a>
         </footer>
       </div>
-
-      <div className="work-proof__exit-shade" data-work-exit-shade aria-hidden="true" />
     </section>
   );
 }
