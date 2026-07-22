@@ -297,7 +297,7 @@
   text-transform: uppercase;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .work-route__card[data-position="left"] {
     margin-right: auto;
     margin-left: 4%;
@@ -319,7 +319,7 @@
   .work-route__card[data-size="xlarge"] { width: 46%; }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .work-route__section-label {
     top: 5.5rem;
   }
